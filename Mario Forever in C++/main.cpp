@@ -57,7 +57,7 @@ int main() {
 			EditText("mario: " + std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y), "_MARIOXY");
 			EditText("view: " + std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY), "_VIEWXY");
 			EditText("Xvelocity: " + std::to_string(Xvelo), "_CODX");
-			EditText("CurrentFall: " + fall, "_FALL");
+			EditText("CurrFallBool: " + fall, "_FALL");
 		}
 		EditText("FPS: " + std::to_string((int)fps), "_FPS");
 		EditText("Coin x " + std::to_string(CoinCount), "_COIN");
