@@ -10,7 +10,7 @@
 #include "../headers/Scroll.hpp"
 #include "../headers/AnimationManager.hpp"
 
-//define
+//define here
 AnimationManager MarioAnimation;
 Mario player;
 float Xvelo = 0.0f;
