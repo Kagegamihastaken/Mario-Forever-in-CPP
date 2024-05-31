@@ -7,7 +7,7 @@
 
 class Obstacles {
 public:
-	int id;
+	int id = 0;
 	sf::Sprite property;
 	sf::FloatRect hitbox;
 	void setHitbox(const sf::FloatRect& Sethitbox) {

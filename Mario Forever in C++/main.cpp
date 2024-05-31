@@ -6,6 +6,7 @@
 #include "headers/Text.hpp"
 #include "headers/Scroll.hpp"
 #include "headers/Coin.hpp"
+#include "headers/Brick.hpp"
 
 #include <iostream>
 #include <string>
@@ -13,12 +14,15 @@
 
 int main() {
 	//Init things
-	for (int i = 0; i <= 20; ++i) {
-		for (int j = 0; j <= 12; ++j) {
-			addCoin(320.0f - 5 * 32.0f + 32.0f * i, 0.0f + 32.0f * j);
+	for (int i = 0; i <= 10; ++i) {
+		for (int j = 0; j <= 6; ++j) {
+			addCoin(320.0f - 5 * 32.0f + 32.0f * i, 128.0f + 2 * 32.0f + 32.0f * j);
 		}
 	}
+	AddBrick(480.0f, 256.0f);
+	//Init window
 	ViewInit();
+	//set level data
 	std::ifstream Level("levels/lvl1.txt");
 	ReadData(Level);
 	//For program
@@ -35,6 +39,7 @@ int main() {
 	}
 	//build a level
 	building();
+	// set position of mario
 	player.property.setPosition({ 100.0f, 200.0f });
 	std::pair<bool, bool> Test;
 	std::string fir, se, fall;
@@ -64,7 +69,7 @@ int main() {
 		KeyboardMovement();
 		MarioVertXUpdate();
 		MarioVertYUpdate();
-		//Check event coin
+		//Check bonus event
 		CoinOnTouch();
 		// set current view of mario
 		setView();
@@ -79,6 +84,7 @@ int main() {
 		updateView();
 		MarioDraw();
 		CoinUpdate();
+		BrickUpdate();
 		ObstaclesUpdate();
 		DrawText();
 		//display
