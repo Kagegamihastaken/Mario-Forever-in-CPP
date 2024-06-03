@@ -181,6 +181,8 @@ void KeyboardMovement() {
 			Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
 			player.property.move(Xvelo * deltaTime, 0.0f);
 		}
+		//init speed
+		if (Xvelo < 1.0f && MarioDirection) Xvelo = 1.0f;
 		if (!isPlayerCollideLeft2(ObstaclesList) && !isPlayerCollideLeft2(Bricks)) {
 			if (MarioDirection) {
 				Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
@@ -194,6 +196,8 @@ void KeyboardMovement() {
 			Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
 			player.property.move((0 - Xvelo) * deltaTime, 0.0f);
 		}
+		//init speed
+		if (Xvelo < 1.0f && !MarioDirection) Xvelo = 1.0f;
 		if (!isPlayerCollideRight2(ObstaclesList) && !isPlayerCollideRight2(Bricks)) {
 			if (!MarioDirection) {
 				//Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
