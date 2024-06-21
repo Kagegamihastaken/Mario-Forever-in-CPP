@@ -60,5 +60,6 @@ extern void MarioVertYUpdate();
 extern void MarioVertXUpdate();
 extern std::pair<bool, bool> CheckTest();
 extern void CheckForDeath();
+extern int PowerState;
 
 #endif //MARIO_HPP

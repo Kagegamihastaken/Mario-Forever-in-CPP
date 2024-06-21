@@ -135,4 +135,6 @@ public:
 	static void setAnimationEndingIndex(std::string animation, sf::Vector2i index);
 
 	static void resetAnimationIndex(std::string animation);
+	static bool isReachedEnd(std::string animation);
+	static bool isBegin(std::string animation);
 };

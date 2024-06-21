@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "../headers/Brick.hpp"
 #include "../headers/Obstacles.hpp"
 #include "../headers/WindowFrame.hpp"
@@ -8,11 +9,17 @@
 
 std::vector<Obstacles> Bricks;
 
+sf::SoundBuffer BrickSoundBuffer;
+sf::Sound BrickSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
 	if (!BrickTexture.loadFromFile("data/resources/brick.png")) {
 		std::cout << "Failed to load brick.png" << std::endl;
 	}
+	if (!BrickSoundBuffer.loadFromFile("data/sounds/coin.wav")) {
+		std::cout << "Cannot load data/sounds/coin.wav" << "\n";
+	}
+	BrickSound.setBuffer(BrickSoundBuffer);
 	return 6;
 }
 int BrickInit = LoadBricks();
@@ -24,5 +31,13 @@ void AddBrick(float x, float y) {
 void BrickUpdate() {
 	for (auto& i : Bricks) {
 		window.draw(i.property);
+	}
+}
+void HitEvent(float x, float y) {
+	for (const auto& i : Bricks) {
+		if (i.property.getPosition().x == x && i.property.getPosition().y == y) {
+			BrickSound.play();
+			break;
+		}
 	}
 }

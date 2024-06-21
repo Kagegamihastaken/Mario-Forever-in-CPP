@@ -17,12 +17,14 @@ AnimationManager MarioAnimation;
 Mario player;
 float Xvelo = 0.0f;
 float Yvelo = 0.0f;
+int PowerState = 0;
 bool MarioDirection;
 bool MarioCanJump = false;
 bool MarioCurrentFalling = false;
 bool PreJump = false;
 bool Holding;
 float player_speed;
+int MarioState = 0;
 // 0 for right; 1 for left
 //texture loading
 sf::Texture SmallMario;
@@ -127,7 +129,17 @@ bool isPlayerCollideTop(std::vector<Obstacles>& OL) {
 		if (player.isCollideTop(hitbox_loop)) return true;
 	}
 	return false;
-}std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(std::vector<Obstacles>& OL) {
+}
+std::vector<std::pair<float, float>> isPlayerCollideTopDetailed(std::vector<Obstacles>& OL) {
+	std::vector<std::pair<float, float>> result;
+	sf::FloatRect hitbox_loop;
+	for (const auto& i : OL) {
+		hitbox_loop = i.getGlobalHitbox();
+		if (player.isCollideTop(hitbox_loop)) result.push_back({ hitbox_loop.getPosition().x, hitbox_loop.getPosition().y });
+	}
+	return result;
+}
+std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(std::vector<Obstacles>& OL) {
 	bool isCollideTopBool = false, isCollideRight = false, isCollideLeft = false;
 	sf::FloatRect hitbox_loop;
 	for (const auto& i : OL) {
@@ -353,6 +365,7 @@ void MarioVertYUpdate() {
 	// top update
 	ObstacleCheck = isPlayerCollideTop(ObstaclesList);
 	BrickCheck = isPlayerCollideTop(Bricks);
+	std::vector<std::pair<float, float>> BrickPos;
 	if ((ObstacleCheck || BrickCheck) && Yvelo < 0.0f) {
 		Yvelo = 0.0f;
 		UpTimeCounter = 0;
@@ -376,6 +389,10 @@ void MarioVertYUpdate() {
 			else break;
 		}
 		// Start event Brick
+		BrickPos = isPlayerCollideTopDetailed(Bricks);
+		for (const auto& i : BrickPos) {
+			HitEvent(i.first, i.second);
+		}
 	}
 }
 void UpdateAnimation() {
@@ -387,25 +404,44 @@ void UpdateAnimation() {
 	player.setHitboxRight({ 21.0f + 5.0f, 2.0f + 2.0f, 2.0f, 20.0f });
 	player.setHitboxLeft({ 0.0f + 5.0f, 2.0f + 2.0f, 2.0f, 20.0f });
 	//animation update
+
+	//mariostate:
+	// 0: idle, 1: run, 2: jump
 	if (!MarioDirection) {
 		if (Yvelo == 0.0f && !MarioCurrentFalling) {
-			if (Xvelo == 0.0f) MarioAnimation.update("IdleLeft", player.property);
+			if (Xvelo == 0.0f) {
+				MarioAnimation.update("IdleLeft", player.property);
+				MarioAnimation.resetAnimationIndex("RunLeft");
+				MarioState = 0;
+			}
 			else {
 				MarioAnimation.setAnimationFrequency("RunLeft", std::max(12.0f, std::min(Xvelo * 8.0f, 60.0f)));
 				MarioAnimation.update("RunLeft", player.property);
+				MarioState = 1;
 			}
 		}
-		else MarioAnimation.update("JumpLeft", player.property);
+		else {
+			MarioAnimation.update("JumpLeft", player.property);
+			MarioState = 2;
+		}
 	}
 	else {
 		if (Yvelo == 0.0f && !MarioCurrentFalling) {
-			if (Xvelo == 0.0f) MarioAnimation.update("IdleRight", player.property);
+			if (Xvelo == 0.0f) {
+				MarioAnimation.resetAnimationIndex("RunRight");
+				MarioAnimation.update("IdleRight", player.property);
+				MarioState = 0;
+			}
 			else {
 				MarioAnimation.setAnimationFrequency("RunRight", std::max(12.0f, std::min(Xvelo * 8.0f, 60.0f)));
 				MarioAnimation.update("RunRight", player.property);
+				MarioState = 1;
 			}
 		}
-		else MarioAnimation.update("JumpRight", player.property);
+		else {
+			MarioAnimation.update("JumpRight", player.property);
+			MarioState = 2;
+		}
 	}
 }
 void CheckForDeath() {

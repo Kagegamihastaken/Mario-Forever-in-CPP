@@ -27,6 +27,9 @@ void AnimationManager::update(std::string animation, sf::Sprite& sprite) {
 		sf::IntRect rect(m_indicies[animation].x * m_spriteSizes[animation].x,
 			m_indicies[animation].y * m_spriteSizes[animation].y,
 			m_spriteSizes[animation].x, m_spriteSizes[animation].y);
+
+		sprite.setTexture(m_textures[animation]);
+		sprite.setTextureRect(rect);
 		// Now we want to update the indicies based on the format of our sheet
 		// If we are not at the bottom of a column, we just move down one in y
 		if (m_frequencies[animation] != 0 && m_timeRun[animation].getElapsedTime().asMilliseconds() >= 3000.0f / m_frequencies[animation]) {
@@ -45,8 +48,6 @@ void AnimationManager::update(std::string animation, sf::Sprite& sprite) {
 
 			// Now we update the texture on our sprite reference
 		}
-		sprite.setTexture(m_textures[animation]);
-		sprite.setTextureRect(rect);
 	}
 	else {
 		// If we didn't find an entry
@@ -185,4 +186,21 @@ void AnimationManager::setAnimationStartingIndex(std::string animation, sf::Vect
 void AnimationManager::setAnimationEndingIndex(std::string animation, sf::Vector2i index) {
 	m_endingIndicies[animation].x = index.x;
 	m_endingIndicies[animation].y = index.y;
+}
+
+bool AnimationManager::isReachedEnd(std::string animation) {
+	if (m_indicies[animation].x == m_endingIndicies[animation].x - 1) {
+		if (m_indicies[animation].y == m_endingIndicies[animation].y) {
+			return true;
+		}
+	}
+	return false;
+}
+bool AnimationManager::isBegin(std::string animation) {
+	if (m_indicies[animation].x == m_startingIndicies[animation].x) {
+		if (m_indicies[animation].y == m_startingIndicies[animation].y) {
+			return true;
+		}
+	}
+	return false;
 }

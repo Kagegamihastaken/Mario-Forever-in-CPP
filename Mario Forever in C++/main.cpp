@@ -20,6 +20,7 @@ int main() {
 		}
 	}
 	AddBrick(480.0f, 256.0f);
+	AddBrick(480.0f + 32.0f, 256.0f);
 	//Init window
 	ViewInit();
 	//set level data
