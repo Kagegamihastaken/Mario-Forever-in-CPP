@@ -19,8 +19,10 @@ int main() {
 			addCoin(320.0f - 5 * 32.0f + 32.0f * i, 128.0f + 2 * 32.0f + 32.0f * j);
 		}
 	}
-	AddBrick(480.0f, 256.0f);
+	addCoin(480.0f + 32.0f, 256.0f - 32.0f);
 	AddBrick(480.0f + 32.0f, 256.0f);
+	AddBrick(480.0f + 64.0f, 256.0f);
+	AddBrick(480.0f + 96.0f, 256.0f);
 	//Init window
 	ViewInit();
 	//set level data
