@@ -137,6 +137,7 @@
     <ClCompile Include="sources\AnimationManager.cpp" />
     <ClCompile Include="sources\Brick.cpp" />
     <ClCompile Include="sources\Coin.cpp" />
+    <ClCompile Include="sources\CoinEffect.cpp" />
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\Level.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="headers\AnimationManager.hpp" />
     <ClInclude Include="headers\Brick.hpp" />
     <ClInclude Include="headers\Coin.hpp" />
+    <ClInclude Include="headers\CoinEffect.hpp" />
     <ClInclude Include="headers\Font.hpp" />
     <ClInclude Include="headers\Level.hpp" />
     <ClInclude Include="headers\Mario.hpp" />

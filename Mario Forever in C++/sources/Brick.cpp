@@ -3,6 +3,8 @@
 #include "../headers/Brick.hpp"
 #include "../headers/Obstacles.hpp"
 #include "../headers/WindowFrame.hpp"
+#include "../headers/Coin.hpp"
+#include "../headers/Scroll.hpp"
 
 #include <vector>
 #include <iostream>
@@ -62,13 +64,24 @@ void BrickUpdate() {
 				}
 			}
 		}
-
-		window.draw(Bricks[i].property);
+		if (!isOutScreen(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, 32, 32)) {
+			window.draw(Bricks[i].property);
+		}
 	}
 }
 void HitEvent(float x, float y) {
+	sf::FloatRect BrickLoop;
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y && !BrickState[i]) {
+			BrickLoop = Bricks[i].getGlobalHitbox();
+			BrickLoop.top -= 32.0f;
+			for (auto& i : CoinList) {
+				if (i.isCollide(BrickLoop)) {
+					DeleteCoin(i.property.getPosition().x, i.property.getPosition().y);
+					CoinSound.play();
+					++CoinCount;
+				}
+			}
 			BrickState[i] = true;
 			UpDown[i] = false;
 			BrickStateCount[i] = 0;

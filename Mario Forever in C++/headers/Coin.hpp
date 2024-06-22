@@ -4,6 +4,7 @@
 #define Coin_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class Coin {
 public:
@@ -21,6 +22,7 @@ public:
 };
 extern int CoinCount;
 extern std::vector<Coin> CoinList;
+extern sf::Sound CoinSound;
 extern void addCoin(float x, float y);
 extern void CoinUpdate();
 extern void CoinOnTouch();

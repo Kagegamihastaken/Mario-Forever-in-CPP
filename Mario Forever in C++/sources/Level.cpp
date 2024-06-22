@@ -1,5 +1,7 @@
 #include "../headers/Obstacles.hpp"
 #include "../headers/Level.hpp"
+#include "../headers/Coin.hpp"
+#include "../headers/Brick.hpp"
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -58,6 +60,27 @@ void ReadData(std::ifstream& foi) {
 				}
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
 				LevelData.push_back(temp);
+				if (foi.eof()) break;
+			}
+		}
+		if (DataStructure == "--Bonus Data--") {
+			while (true) {
+				getline(foi, DataStructure);
+				if (DataStructure == "") continue;
+				temp.clear();
+				numLoop = "";
+				//if said Enemies Data break it
+				if (DataStructure == "--Enemies Data--") break;
+				for (const auto& i : DataStructure) {
+					if (i != ' ') numLoop += i;
+					else {
+						if (numLoop != "") temp.push_back(std::stof(numLoop));
+						numLoop = "";
+					}
+				}
+				if (numLoop != "") temp.push_back(std::stof(numLoop));
+				if (temp[0] == 1) addCoin(temp[1], temp[2]);
+				else if (temp[0] == 2) AddBrick(temp[1], temp[2]);
 				if (foi.eof()) break;
 			}
 		}
