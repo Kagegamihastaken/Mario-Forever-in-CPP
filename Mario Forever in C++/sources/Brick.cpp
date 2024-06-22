@@ -41,8 +41,8 @@ void BrickUpdate() {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {
 				if (BrickStateCount[i] < 11.0f) {
-					Bricks[i].property.move(0, -2.5f * deltaTime);
-					BrickStateCount[i] += 2.5f * deltaTime;
+					Bricks[i].property.move(0, 0 - (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime);
+					BrickStateCount[i] += (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
 				}
 				else {
 					BrickStateCount[i] = 11.0f;
@@ -51,8 +51,8 @@ void BrickUpdate() {
 			}
 			else {
 				if (BrickStateCount[i] > 0.0f) {
-					Bricks[i].property.move(0, 2.5f * deltaTime);
-					BrickStateCount[i] -= 2.5f * deltaTime;
+					Bricks[i].property.move(0, (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime);
+					BrickStateCount[i] -= (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 				}
 				else {
 					Bricks[i].property.setPosition(BrickSaveList[i].first, BrickSaveList[i].second);
