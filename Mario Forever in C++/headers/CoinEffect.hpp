@@ -6,6 +6,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "../headers/LocalAnimationManager.hpp"
+#include "../headers/enum.hpp"
 
 class CoinEffect {
 public:
@@ -16,7 +17,8 @@ public:
 
 extern sf::Texture CoinEffectTexture;
 extern std::vector<CoinEffect> CoinEffectList;
-extern void AddCoinEffect(float x, float y);
+extern std::vector<CoinID> CoinEffectIDList;
+extern void AddCoinEffect(CoinID ID, float x, float y);
 extern void CoinEffectUpdate();
 extern void DeleteCoinEffect(float x, float y);
 extern void CoinEffectStatusUpdate();

@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "../headers/enum.hpp"
+
 class Coin {
 public:
 	sf::Sprite property;
@@ -20,10 +22,11 @@ public:
 		return getGlobalHitbox().intersects(other);
 	}
 };
+extern std::vector<CoinID> CoinIDList;
 extern int CoinCount;
 extern std::vector<Coin> CoinList;
 extern sf::Sound CoinSound;
-extern void addCoin(float x, float y);
+extern void addCoin(CoinID ID, float x, float y);
 extern void CoinUpdate();
 extern void CoinOnTouch();
 extern void DeleteCoin(float x, float y);

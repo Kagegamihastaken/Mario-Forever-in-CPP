@@ -6,6 +6,7 @@
 #include "../headers/Coin.hpp"
 #include "../headers/Scroll.hpp"
 #include "../headers/CoinEffect.hpp"
+#include "../headers/enum.hpp"
 
 #include <vector>
 #include <iostream>
@@ -15,13 +16,14 @@ std::vector<bool> BrickState;
 std::vector<float> BrickStateCount;
 std::vector<bool> UpDown;
 std::vector<std::pair<float, float>> BrickSaveList;
+std::vector<BrickID> BrickIDList;
 
 sf::SoundBuffer BrickSoundBuffer;
 sf::Sound BrickSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
 	if (!BrickTexture.loadFromFile("data/resources/brick.png")) {
-		std::cout << "Failed to load brick.png" << std::endl;
+		std::cout << "Failed to load brick.png" << "\n";
 	}
 	if (!BrickSoundBuffer.loadFromFile("data/sounds/bump.wav")) {
 		std::cout << "Cannot load data/sounds/bump.wav" << "\n";
@@ -30,8 +32,10 @@ int LoadBricks() {
 	return 6;
 }
 int BrickInit = LoadBricks();
-void AddBrick(float x, float y) {
-	Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(0, 0, 32, 32)) });
+void AddBrick(BrickID ID, float x, float y) {
+	if (ID == BRICK_GRAY) Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(32, 0, 32, 32)) });
+	else if (ID == BRICK_NORMAL) Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(0, 0, 32, 32)) });
+	BrickIDList.push_back(ID);
 	BrickState.push_back(false);
 	BrickStateCount.push_back(0);
 	BrickSaveList.push_back({ x, y });
@@ -76,10 +80,10 @@ void HitEvent(float x, float y) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y && !BrickState[i]) {
 			BrickLoop = Bricks[i].getGlobalHitbox();
 			BrickLoop.top -= 32.0f;
-			for (auto& i : CoinList) {
-				if (i.isCollide(BrickLoop)) {
-					AddCoinEffect(i.property.getPosition().x - 3, i.property.getPosition().y);
-					DeleteCoin(i.property.getPosition().x, i.property.getPosition().y);
+			for (int j = 0; j < CoinList.size(); ++j) {
+				if (CoinList[j].isCollide(BrickLoop)) {
+					AddCoinEffect(CoinIDList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
+					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					CoinSound.play();
 					++CoinCount;
 				}
@@ -88,6 +92,19 @@ void HitEvent(float x, float y) {
 			UpDown[i] = false;
 			BrickStateCount[i] = 0;
 			BrickSound.play();
+			break;
+		}
+	}
+}
+void deleteBrick(float x, float y) {
+	for (int i = 0; i < Bricks.size(); i++) {
+		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
+			Bricks.erase(Bricks.begin() + i);
+			BrickIDList.erase(BrickIDList.begin() + i);
+			BrickState.erase(BrickState.begin() + i);
+			BrickStateCount.erase(BrickStateCount.begin() + i);
+			BrickSaveList.erase(BrickSaveList.begin() + i);
+			UpDown.erase(UpDown.begin() + i);
 			break;
 		}
 	}

@@ -151,6 +151,7 @@
     <ClInclude Include="headers\Brick.hpp" />
     <ClInclude Include="headers\Coin.hpp" />
     <ClInclude Include="headers\CoinEffect.hpp" />
+    <ClInclude Include="headers\enum.hpp" />
     <ClInclude Include="headers\Font.hpp" />
     <ClInclude Include="headers\Level.hpp" />
     <ClInclude Include="headers\LocalAnimationManager.hpp" />
