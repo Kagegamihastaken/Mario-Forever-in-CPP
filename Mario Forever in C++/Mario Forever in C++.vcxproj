@@ -140,7 +140,6 @@
     <ClCompile Include="sources\CoinEffect.cpp" />
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\Level.cpp" />
-    <ClCompile Include="sources\LocalAnimationManager.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
     <ClCompile Include="sources\Obstacles.cpp" />
     <ClCompile Include="sources\Scroll.cpp" />

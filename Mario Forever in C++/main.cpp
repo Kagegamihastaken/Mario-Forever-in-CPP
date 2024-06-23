@@ -38,7 +38,6 @@ int main() {
 	std::pair<bool, bool> Test;
 	std::string fir, se, fall;
 	//looping frame
-	float test = 0;
 	while (window.isOpen()) {
 		// process events
 		sf::Event event;
@@ -59,10 +58,8 @@ int main() {
 			EditText("Xvelocity: " + std::to_string(Xvelo), "_CODX");
 			EditText("CurrFallBool: " + fall, "_FALL");
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			AddCoinEffect(100.0f + test, 100.0f);
-			test += 37.0f;
-		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) DeleteCoinEffect(200.0f, 300.0f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) AddCoinEffect(200.0f, 300.0f);
 		EditText("FPS: " + std::to_string((int)fps), "_FPS");
 		EditText("Coin x " + std::to_string(CoinCount), "_COIN");
 		KeyboardMovement();
@@ -70,6 +67,7 @@ int main() {
 		MarioVertYUpdate();
 		//Check bonus event
 		CoinOnTouch();
+		CoinEffectStatusUpdate();
 		// set current view of mario
 		setView();
 		//Window close

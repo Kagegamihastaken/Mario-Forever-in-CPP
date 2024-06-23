@@ -5,6 +5,7 @@
 #include "../headers/WindowFrame.hpp"
 #include "../headers/Coin.hpp"
 #include "../headers/Scroll.hpp"
+#include "../headers/CoinEffect.hpp"
 
 #include <vector>
 #include <iostream>
@@ -77,6 +78,7 @@ void HitEvent(float x, float y) {
 			BrickLoop.top -= 32.0f;
 			for (auto& i : CoinList) {
 				if (i.isCollide(BrickLoop)) {
+					AddCoinEffect(i.property.getPosition().x - 3, i.property.getPosition().y);
 					DeleteCoin(i.property.getPosition().x, i.property.getPosition().y);
 					CoinSound.play();
 					++CoinCount;
