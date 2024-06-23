@@ -89,6 +89,7 @@ void AnimationManager::addAnimation(std::string animation, sf::Texture texture,
 	sf::Vector2i startingIndex, sf::Vector2i endingIndex) {
 	// First, we want to make an entry in the texture map
 	m_timeRun[animation] = sf::Clock();
+	m_timeRun[animation].restart().asMilliseconds();
 	m_textures[animation] = texture;
 	// Next, we make sheet size entry
 	m_sheetSizes[animation].x = sheetSize.x;
@@ -174,6 +175,7 @@ void AnimationManager::setAnimationTexture(std::string animation, sf::Texture te
 }
 
 void AnimationManager::resetAnimationIndex(std::string animation) {
+	m_timeRun[animation].restart().asMilliseconds();
 	m_indicies[animation].x = m_startingIndicies[animation].x;
 	m_indicies[animation].y = m_startingIndicies[animation].y;
 }

@@ -6,6 +6,7 @@
 #include "headers/Text.hpp"
 #include "headers/Scroll.hpp"
 #include "headers/Coin.hpp"
+#include "headers/CoinEffect.hpp"
 #include "headers/Brick.hpp"
 
 #include <iostream>
@@ -37,6 +38,7 @@ int main() {
 	std::pair<bool, bool> Test;
 	std::string fir, se, fall;
 	//looping frame
+	float test = 0;
 	while (window.isOpen()) {
 		// process events
 		sf::Event event;
@@ -57,6 +59,10 @@ int main() {
 			EditText("Xvelocity: " + std::to_string(Xvelo), "_CODX");
 			EditText("CurrFallBool: " + fall, "_FALL");
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			AddCoinEffect(100.0f + test, 100.0f);
+			test += 37.0f;
+		}
 		EditText("FPS: " + std::to_string((int)fps), "_FPS");
 		EditText("Coin x " + std::to_string(CoinCount), "_COIN");
 		KeyboardMovement();
@@ -71,12 +77,13 @@ int main() {
 		UpdatePositionCharacter();
 		UpdateAnimation();
 		//core code
-		window.clear(sf::Color::Black);
+		window.clear(sf::Color::White);
 		updateFrame();
 		//draw
 		updateView();
 		MarioDraw();
 		CoinUpdate();
+		CoinEffectUpdate();
 		BrickUpdate();
 		ObstaclesUpdate();
 		DrawText();

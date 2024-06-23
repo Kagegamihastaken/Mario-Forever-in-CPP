@@ -410,12 +410,14 @@ void UpdateAnimation() {
 	if (!MarioDirection) {
 		if (Yvelo == 0.0f && !MarioCurrentFalling) {
 			if (Xvelo == 0.0f) {
+				MarioAnimation.resetAnimationIndex("RunRight");
 				MarioAnimation.update("IdleLeft", player.property);
 				MarioAnimation.resetAnimationIndex("RunLeft");
 				MarioState = 0;
 			}
 			else {
-				MarioAnimation.setAnimationFrequency("RunLeft", std::max(12.0f, std::min(Xvelo * 8.0f, 60.0f)));
+				MarioAnimation.resetAnimationIndex("RunRight");
+				MarioAnimation.setAnimationFrequency("RunLeft", std::max(24.0f, std::min(Xvelo * 8.0f, 75.0f)));
 				MarioAnimation.update("RunLeft", player.property);
 				MarioState = 1;
 			}
@@ -428,17 +430,21 @@ void UpdateAnimation() {
 	else {
 		if (Yvelo == 0.0f && !MarioCurrentFalling) {
 			if (Xvelo == 0.0f) {
+				MarioAnimation.resetAnimationIndex("RunLeft");
 				MarioAnimation.resetAnimationIndex("RunRight");
 				MarioAnimation.update("IdleRight", player.property);
 				MarioState = 0;
 			}
 			else {
-				MarioAnimation.setAnimationFrequency("RunRight", std::max(12.0f, std::min(Xvelo * 8.0f, 60.0f)));
+				MarioAnimation.resetAnimationIndex("RunLeft");
+				MarioAnimation.setAnimationFrequency("RunRight", std::max(24.0f, std::min(Xvelo * 8.0f, 75.0f)));
 				MarioAnimation.update("RunRight", player.property);
 				MarioState = 1;
 			}
 		}
 		else {
+			MarioAnimation.resetAnimationIndex("RunRight");
+			MarioAnimation.resetAnimationIndex("RunLeft");
 			MarioAnimation.update("JumpRight", player.property);
 			MarioState = 2;
 		}

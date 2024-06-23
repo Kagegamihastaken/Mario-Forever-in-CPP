@@ -21,7 +21,7 @@ int CoinInit() {
 	if (!CoinTexture.loadFromFile("data/resources/Coin.png")) {
 		std::cout << "Cannot load data/resources/Coin.png" << "\n";
 	}
-	CoinAnimation.addAnimation("Idle", CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
+	CoinAnimation.addAnimation("IdleCoin", CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
 
 	if (!CoinSoundBuffer.loadFromFile("data/sounds/coin.wav")) {
 		std::cout << "Cannot load data/sounds/coin.wav" << "\n";
@@ -59,7 +59,7 @@ void CoinOnTouch() {
 void CoinUpdate() {
 	for (auto& i : CoinList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			CoinAnimation.update("Idle", i.property);
+			CoinAnimation.update("IdleCoin", i.property);
 			window.draw(i.property);
 		}
 	}
