@@ -68,6 +68,7 @@ int main() {
 		CoinOnTouch();
 		CoinEffectStatusUpdate();
 		LuckyAnimationUpdate();
+		BrickStatusUpdate();
 		// set current view of mario
 		setView();
 		//Window close

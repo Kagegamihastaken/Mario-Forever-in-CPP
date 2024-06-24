@@ -18,6 +18,10 @@ std::vector<bool> UpDown;
 std::vector<std::pair<float, float>> BrickSaveList;
 std::vector<BrickID> BrickIDList;
 std::vector<BrickAtt> BrickAttList;
+//multicoin attribute
+std::vector<sf::Clock> BrickClock;
+std::vector<bool> BrickHitted;
+std::vector<bool> DisabledBrick;
 
 sf::SoundBuffer BrickSoundBuffer;
 sf::Sound BrickSound;
@@ -44,6 +48,18 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	UpDown.push_back(false);
 	Bricks[Bricks.size() - 1].property.setPosition({ x, y });
 	Bricks[Bricks.size() - 1].setHitbox({ 0.f, 0.f, 32.f, 32.f });
+	//multicoin attribute
+	BrickClock.push_back(sf::Clock());
+	BrickHitted.push_back(false);
+	DisabledBrick.push_back(false);
+}
+void BrickStatusUpdate() {
+	for (int i = 0; i < Bricks.size(); ++i) {
+		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
+			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTextureRect(sf::IntRect(32, 32, 32, 32));
+			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTextureRect(sf::IntRect(0, 32, 32, 32));
+		}
+	}
 }
 void BrickUpdate() {
 	for (int i = 0; i < Bricks.size(); i++) {
@@ -90,11 +106,30 @@ void HitEvent(float x, float y) {
 					++CoinCount;
 				}
 			}
-			BrickState[i] = true;
-			UpDown[i] = false;
-			BrickStateCount[i] = 0;
-			BrickSound.play();
-			break;
+			if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {
+				if (!BrickHitted[i]) {
+					BrickHitted[i] = true;
+					BrickClock[i].restart().asSeconds();
+				}
+				else {
+					if (BrickClock[i].getElapsedTime().asSeconds() > 6.0f && BrickAttList[i] == MULTICOIN) {
+						DisabledBrick[i] = true;
+						BrickState[i] = true;
+						UpDown[i] = false;
+						BrickStateCount[i] = 0;
+					}
+				}
+				CoinSound.play();
+				AddCoinEffect(COIN_NORMAL, ONE_COIN, BrickLoop.getPosition().x - 3, BrickLoop.getPosition().y);
+				++CoinCount;
+			}
+			if (BrickAttList[i] == NORMAL || (BrickAttList[i] == MULTICOIN && !DisabledBrick[i])) {
+				BrickState[i] = true;
+				UpDown[i] = false;
+				BrickStateCount[i] = 0;
+				if (BrickAttList[i] != MULTICOIN) BrickSound.play();
+				break;
+			}
 		}
 	}
 }
