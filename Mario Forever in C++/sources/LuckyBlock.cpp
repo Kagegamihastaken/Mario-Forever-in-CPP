@@ -14,6 +14,7 @@
 
 std::vector<Obstacles> LuckyBlock;
 std::vector<LuckyBlockID> LuckyBlockIDList;
+std::vector<LuckyBlockAtt> LuckyBlockAttList;
 std::vector<bool> LuckyBlockState;
 std::vector<float> LuckyBlockStateCount;
 std::vector<bool> LuckyUpDown;
@@ -30,9 +31,10 @@ int LoadLuckyBlock() {
 	return 6;
 }
 int LuckyBlockInit = LoadLuckyBlock();
-void AddLuckyBlock(LuckyBlockID ID, float x, float y) {
+void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	if (ID == LUCKY_COIN) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(LuckyBlockTexture, sf::IntRect(0, 0, 32, 32)) });
 	else if (ID == TREE_LUCKY_COIN) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(LuckyBlockTexture, sf::IntRect(64, 32, 32, 32)) });
+	LuckyBlockAttList.push_back(Att);
 	LuckyBlockIDList.push_back(ID);
 	LuckyBlockState.push_back(false);
 	LuckyBlockStateCount.push_back(0);
@@ -96,15 +98,17 @@ void LuckyHitEvent(float x, float y) {
 			LuckyLoop.top -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (CoinList[j].isCollide(LuckyLoop)) {
-					AddCoinEffect(CoinIDList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
+					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					CoinSound.play();
 					++CoinCount;
 				}
 			}
-			CoinSound.play();
-			AddCoinEffect(COIN_NORMAL, LuckyLoop.getPosition().x - 3, LuckyLoop.getPosition().y);
-			++CoinCount;
+			if (LuckyBlockAttList[i] == COIN) {
+				CoinSound.play();
+				AddCoinEffect(COIN_NORMAL, ONE_COIN, LuckyLoop.getPosition().x - 3, LuckyLoop.getPosition().y);
+				++CoinCount;
+			}
 			LuckyBlockState[i] = true;
 			LuckyUpDown[i] = false;
 			LuckyBlockStateCount[i] = 0;
@@ -117,6 +121,7 @@ void deleteLuckyBlock(float x, float y) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y) {
 			LuckyBlock.erase(LuckyBlock.begin() + i);
+			LuckyBlockAttList.erase(LuckyBlockAttList.begin() + i);
 			LuckyBlockIDList.erase(LuckyBlockIDList.begin() + i);
 			LuckyBlockState.erase(LuckyBlockState.begin() + i);
 			LuckyBlockStateCount.erase(LuckyBlockStateCount.begin() + i);

@@ -81,9 +81,9 @@ void ReadData(std::ifstream& foi) {
 					}
 				}
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				if (temp[0] == 1) addCoin(static_cast<CoinID>(static_cast<int>(temp[1])), temp[2], temp[3]);
-				else if (temp[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(temp[1])), temp[2], temp[3]);
-				else if (temp[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(temp[1])), temp[2], temp[3]);
+				if (temp[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(temp[1])), static_cast<CoinAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
+				else if (temp[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(temp[1])), static_cast<BrickAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
+				else if (temp[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(temp[1])), static_cast<LuckyBlockAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
 				if (foi.eof()) break;
 			}
 		}

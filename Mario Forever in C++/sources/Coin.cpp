@@ -11,6 +11,7 @@
 #include <utility>
 std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
+std::vector<CoinAtt> CoinAttList;
 sf::Texture CoinTexture;
 sf::SoundBuffer CoinSoundBuffer;
 sf::Sound CoinSound;
@@ -31,19 +32,21 @@ int CoinInit() {
 	return 6;
 }
 int CoinIni = CoinInit();
-void addCoin(CoinID ID, float x, float y) {
+void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
 	Coin operate;
 	operate.setHitbox({ 6, 2, 19, 28 });
 	operate.property.setTexture(CoinTexture);
 	operate.property.setPosition(x, y);
 	CoinList.push_back(operate);
 	CoinIDList.push_back(ID);
+	CoinAttList.push_back(att);
 }
 void DeleteCoin(float x, float y) {
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (CoinList[i].property.getPosition().x == x && CoinList[i].property.getPosition().y == y) {
 			CoinList.erase(CoinList.begin() + i);
 			CoinIDList.erase(CoinIDList.begin() + i);
+			CoinAttList.erase(CoinAttList.begin() + i);
 			break;
 		}
 	}

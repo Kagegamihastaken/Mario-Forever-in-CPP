@@ -11,7 +11,7 @@ extern std::vector<Obstacles> LuckyBlock;
 extern std::vector<LuckyBlockID> LuckyBlockIDList;
 extern sf::Texture LuckyBlockTexture;
 extern std::vector<std::pair<float, float>> LuckyBlockSaveList;
-extern void AddLuckyBlock(LuckyBlockID ID, float x, float y);
+extern void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y);
 extern void LuckyBlockUpdate();
 extern void LuckyAnimationUpdate();
 void LuckyHitEvent(float x, float y);

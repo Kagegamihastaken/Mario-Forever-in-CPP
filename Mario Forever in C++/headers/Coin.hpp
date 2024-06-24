@@ -23,10 +23,11 @@ public:
 	}
 };
 extern std::vector<CoinID> CoinIDList;
+extern std::vector<CoinAtt> CoinAttList;
 extern int CoinCount;
 extern std::vector<Coin> CoinList;
 extern sf::Sound CoinSound;
-extern void addCoin(CoinID ID, float x, float y);
+extern void AddCoin(CoinID ID, CoinAtt att, float x, float y);
 extern void CoinUpdate();
 extern void CoinOnTouch();
 extern void DeleteCoin(float x, float y);

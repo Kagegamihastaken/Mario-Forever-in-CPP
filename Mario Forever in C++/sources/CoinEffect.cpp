@@ -8,6 +8,7 @@
 std::vector<CoinEffect> CoinEffectList;
 sf::Texture CoinEffectTexture;
 std::vector<CoinID> CoinEffectIDList;
+std::vector<CoinAtt> CoinEffectAttList;
 
 int CoinEffectInit() {
 	if (!CoinEffectTexture.loadFromFile("data/resources/CoinEffect.png")) {
@@ -16,19 +17,21 @@ int CoinEffectInit() {
 	return 6;
 }
 int iniCoinEffect = CoinEffectInit();
-void AddCoinEffect(CoinID ID, float x, float y) {
+void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation({ 37,32 }, { 0,0 }, { 21,0 }, 95);
 	Init.property.setTexture(CoinEffectTexture);
 	Init.property.setPosition(x, y);
 	CoinEffectList.push_back(Init);
 	CoinEffectIDList.push_back(ID);
+	CoinEffectAttList.push_back(att);
 }
 void DeleteCoinEffect(float x, float y) {
 	for (int i = 0; i < CoinEffectList.size(); ++i) {
 		if (CoinEffectList[i].property.getPosition().x == x && CoinEffectList[i].property.getPosition().y == y) {
 			CoinEffectList.erase(CoinEffectList.begin() + i);
 			CoinEffectIDList.erase(CoinEffectIDList.begin() + i);
+			CoinEffectAttList.erase(CoinEffectAttList.begin() + i);
 			break;
 		}
 	}

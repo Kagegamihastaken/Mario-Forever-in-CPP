@@ -17,6 +17,7 @@ std::vector<float> BrickStateCount;
 std::vector<bool> UpDown;
 std::vector<std::pair<float, float>> BrickSaveList;
 std::vector<BrickID> BrickIDList;
+std::vector<BrickAtt> BrickAttList;
 
 sf::SoundBuffer BrickSoundBuffer;
 sf::Sound BrickSound;
@@ -32,9 +33,10 @@ int LoadBricks() {
 	return 6;
 }
 int BrickInit = LoadBricks();
-void AddBrick(BrickID ID, float x, float y) {
+void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	if (ID == BRICK_GRAY) Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(32, 0, 32, 32)) });
 	else if (ID == BRICK_NORMAL) Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(0, 0, 32, 32)) });
+	BrickAttList.push_back(att);
 	BrickIDList.push_back(ID);
 	BrickState.push_back(false);
 	BrickStateCount.push_back(0);
@@ -82,7 +84,7 @@ void HitEvent(float x, float y) {
 			BrickLoop.top -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (CoinList[j].isCollide(BrickLoop)) {
-					AddCoinEffect(CoinIDList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
+					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					CoinSound.play();
 					++CoinCount;
@@ -100,6 +102,7 @@ void deleteBrick(float x, float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			Bricks.erase(Bricks.begin() + i);
+			BrickAttList.erase(BrickAttList.begin() + i);
 			BrickIDList.erase(BrickIDList.begin() + i);
 			BrickState.erase(BrickState.begin() + i);
 			BrickStateCount.erase(BrickStateCount.begin() + i);
