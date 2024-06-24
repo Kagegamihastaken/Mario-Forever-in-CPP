@@ -8,6 +8,7 @@
 #include "headers/Coin.hpp"
 #include "headers/CoinEffect.hpp"
 #include "headers/Brick.hpp"
+#include "headers/LuckyBlock.hpp"
 
 #include <iostream>
 #include <string>
@@ -66,11 +67,13 @@ int main() {
 		//Check bonus event
 		CoinOnTouch();
 		CoinEffectStatusUpdate();
+		LuckyAnimationUpdate();
 		// set current view of mario
 		setView();
 		//Window close
 		//update text position
 		UpdatePositionCharacter();
+		//Update mario animation
 		UpdateAnimation();
 		//core code
 		window.clear(sf::Color::White);
@@ -81,6 +84,7 @@ int main() {
 		CoinUpdate();
 		CoinEffectUpdate();
 		BrickUpdate();
+		LuckyBlockUpdate();
 		ObstaclesUpdate();
 		DrawText();
 		//display

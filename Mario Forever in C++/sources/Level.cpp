@@ -2,6 +2,7 @@
 #include "../headers/Level.hpp"
 #include "../headers/Coin.hpp"
 #include "../headers/Brick.hpp"
+#include "../headers/LuckyBlock.hpp"
 #include "../headers/enum.hpp"
 #include <vector>
 #include <iostream>
@@ -82,6 +83,7 @@ void ReadData(std::ifstream& foi) {
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
 				if (temp[0] == 1) addCoin(static_cast<CoinID>(static_cast<int>(temp[1])), temp[2], temp[3]);
 				else if (temp[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(temp[1])), temp[2], temp[3]);
+				else if (temp[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(temp[1])), temp[2], temp[3]);
 				if (foi.eof()) break;
 			}
 		}

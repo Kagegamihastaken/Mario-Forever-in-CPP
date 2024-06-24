@@ -11,6 +11,7 @@
 #include "../headers/WindowFrame.hpp"
 #include "../headers/Scroll.hpp"
 #include "../headers/AnimationManager.hpp"
+#include "../headers/LuckyBlock.hpp"
 
 //define here
 AnimationManager MarioAnimation;
@@ -33,38 +34,54 @@ sf::SoundBuffer jumpSoundBuffer;
 sf::Sound SoundJump;
 //Function For Checking Collision
 //X
-bool isPlayerCollideLeft2(std::vector<Obstacles>& OL) {
+bool isPlayerCollideLeft2(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
 	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) {
+			hitbox_loop.top = SaveList[i].second;
+			hitbox_loop.left = SaveList[i].first;
+		}
 		if (player.isCollideLeft2(hitbox_loop)) return true;
 	}
 	return false;
 }
-bool isPlayerCollideRight2(std::vector<Obstacles>& OL) {
+bool isPlayerCollideRight2(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
 	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) {
+			hitbox_loop.top = SaveList[i].second;
+			hitbox_loop.left = SaveList[i].first;
+		}
 		if (player.isCollideRight2(hitbox_loop)) return true;
 	}
 	return false;
 }
-std::pair<bool, bool> isPlayerOrCollideSide(std::vector<Obstacles>& OL) {
+std::pair<bool, bool> isPlayerOrCollideSide(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
 	sf::FloatRect hitbox_loop;
 	bool isLeft = false, isRight = false;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) {
+			hitbox_loop.top = SaveList[i].second;
+			hitbox_loop.left = SaveList[i].first;
+		}
 		if (player.isCollideRight2(hitbox_loop)) isRight = true;
 		if (player.isCollideLeft2(hitbox_loop)) isLeft = true;
 		if (isRight && isLeft) break;
 	}
 	return { isRight, isLeft };
 }
-std::pair<bool, bool> isPlayerAccurateCollideSide(std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int& CollideAddCounter, std::set<std::pair<int, int>>& AllCollideList) {
+std::pair<bool, bool> isPlayerAccurateCollideSide(std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int& CollideAddCounter, std::set<std::pair<int, int>>& AllCollideList, std::vector<std::pair<float, float>> SaveList = {}) {
 	bool isCollideLeftBool = false, isCollideRightBool = false;
 	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) {
+			hitbox_loop.top = SaveList[i].second;
+			hitbox_loop.left = SaveList[i].first;
+		}
 		// Check if collide
 		if (player.isCollideLeft(hitbox_loop)) {
 			isCollideLeftBool = true;
@@ -122,28 +139,31 @@ std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideBot(std::vector<Ob
 	}
 	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
 }
-bool isPlayerCollideTop(std::vector<Obstacles>& OL) {
+bool isPlayerCollideTop(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
 	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) hitbox_loop.top = SaveList[i].second;
 		if (player.isCollideTop(hitbox_loop)) return true;
 	}
 	return false;
 }
-std::vector<std::pair<float, float>> isPlayerCollideTopDetailed(std::vector<Obstacles>& OL) {
+std::vector<std::pair<float, float>> isPlayerCollideTopDetailed(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
 	std::vector<std::pair<float, float>> result;
 	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) hitbox_loop.top = SaveList[i].second;
 		if (player.isCollideTop(hitbox_loop)) result.push_back({ hitbox_loop.getPosition().x, hitbox_loop.getPosition().y });
 	}
 	return result;
 }
-std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(std::vector<Obstacles>& OL) {
+std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
 	bool isCollideTopBool = false, isCollideRight = false, isCollideLeft = false;
 	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = OL[i].getGlobalHitbox();
+		if (SaveList.size() > 0) hitbox_loop.top = SaveList[i].second;
 		if (player.isCollideTop(hitbox_loop)) {
 			isCollideTopBool = true;
 		}
@@ -195,7 +215,7 @@ void KeyboardMovement() {
 		}
 		//init speed
 		if (Xvelo < 1.0f && MarioDirection) Xvelo = 1.0f;
-		if (!isPlayerCollideLeft2(ObstaclesList) && !isPlayerCollideLeft2(Bricks)) {
+		if (!isPlayerCollideLeft2(ObstaclesList) && !isPlayerCollideLeft2(Bricks, BrickSaveList) && !isPlayerCollideLeft2(LuckyBlock, LuckyBlockSaveList)) {
 			if (MarioDirection) {
 				Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
 				player.property.move((0 - Xvelo) * deltaTime, 0.0f);
@@ -210,7 +230,7 @@ void KeyboardMovement() {
 		}
 		//init speed
 		if (Xvelo < 1.0f && !MarioDirection) Xvelo = 1.0f;
-		if (!isPlayerCollideRight2(ObstaclesList) && !isPlayerCollideRight2(Bricks)) {
+		if (!isPlayerCollideRight2(ObstaclesList) && !isPlayerCollideRight2(Bricks, BrickSaveList) && !isPlayerCollideRight2(LuckyBlock, LuckyBlockSaveList)) {
 			if (!MarioDirection) {
 				//Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
 				Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
@@ -256,9 +276,10 @@ void MarioVertXUpdate() {
 	bool isCollideLeftBool, isCollideRightBool;
 	// Check if Mario collide with left or right
 	std::pair<bool, bool> ObstacleCheck = isPlayerOrCollideSide(ObstaclesList);
-	std::pair<bool, bool> BrickCheck = isPlayerOrCollideSide(Bricks);
+	std::pair<bool, bool> BrickCheck = isPlayerOrCollideSide(Bricks, BrickSaveList);
+	std::pair<bool, bool> LuckyCheck = isPlayerOrCollideSide(LuckyBlock, LuckyBlockSaveList);
 	bool isTrueCollide = false;
-	if (ObstacleCheck.first || ObstacleCheck.second || BrickCheck.first || BrickCheck.second) {
+	if (ObstacleCheck.first || ObstacleCheck.second || BrickCheck.first || BrickCheck.second || LuckyCheck.first || LuckyCheck.second) {
 		// Stop on wall
 		if (ObstacleCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (ObstacleCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
 			Xvelo = 0.0f;
@@ -272,6 +293,12 @@ void MarioVertXUpdate() {
 		else if ((BrickCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || !MarioDirection)) || (BrickCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || MarioDirection))) {
 			Xvelo = 0.0f;
 		}
+		if (LuckyCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (LuckyCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+			Xvelo = 0.0f;
+		}
+		else if ((LuckyCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || !MarioDirection)) || (LuckyCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || MarioDirection))) {
+			Xvelo = 0.0f;
+		}
 		std::set<std::pair<int, int>> AllCollideList;
 		// Count if size AllCollideList equal to CollideAddCounter
 		int CollideAddCounter = 0;
@@ -279,13 +306,14 @@ void MarioVertXUpdate() {
 		bool isCollideSide = false;
 		// 0 for right; 1 for left
 		bool NoAdd = false;
-		std::pair<bool, bool> ObstacleCollide, BrickCollide;
+		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 		while (true) {
 			isCollideLeftBool = false;
 			isCollideRightBool = false;
 			// Loop through obstacles
 			ObstacleCollide = isPlayerAccurateCollideSide(ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, CollideAddCounter, AllCollideList);
-			BrickCollide = isPlayerAccurateCollideSide(ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, CollideAddCounter, AllCollideList);
+			BrickCollide = isPlayerAccurateCollideSide(Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, CollideAddCounter, AllCollideList, BrickSaveList);
+			LuckyCollide = isPlayerAccurateCollideSide(LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, CollideAddCounter, AllCollideList, LuckyBlockSaveList);
 			// Break if size AllCollideList is not equal to CollideAddCounter
 			if (AllCollideList.size() != CollideAddCounter) break;
 			// Adjust Position if collide
@@ -293,8 +321,10 @@ void MarioVertXUpdate() {
 			if (ObstacleCollide.second) player.property.move(-1.0f * deltaTime, 0.0f);
 			if (BrickCollide.first) player.property.move(1.0f * deltaTime, 0.0f);
 			if (BrickCollide.second) player.property.move(-1.0f * deltaTime, 0.0f);
+			if (LuckyCollide.first) player.property.move(1.0f * deltaTime, 0.0f);
+			if (LuckyCollide.second) player.property.move(-1.0f * deltaTime, 0.0f);
 
-			if (!ObstacleCollide.first && !ObstacleCollide.second && !BrickCollide.first && !BrickCollide.second) break;
+			if (!ObstacleCollide.first && !ObstacleCollide.second && !BrickCollide.first && !BrickCollide.second && !LuckyCollide.first && !LuckyCollide.second) break;
 			// Break if no collide
 		}
 	}
@@ -317,14 +347,15 @@ std::pair<bool, bool> CheckTest() {
 	return { isLeftCollide, isRightCollide };
 }
 void MarioVertYUpdate() {
-	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide;
+	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide, LuckyCollide;
 	int UpTimeCounter = 0;
 	// bottom update
-	bool ObstacleCheck, BrickCheck;
+	bool ObstacleCheck, BrickCheck, LuckyCheck;
 	ObstacleCheck = isPlayerCollideBot(ObstaclesList);
 	BrickCheck = isPlayerCollideBot(Bricks);
+	LuckyCheck = isPlayerCollideBot(LuckyBlock);
 	if (Yvelo >= 0.0f && MarioCanJump) MarioCanJump = false;
-	if ((!ObstacleCheck && !BrickCheck) || MarioCanJump) {
+	if ((!ObstacleCheck && !BrickCheck && !LuckyCheck) || MarioCanJump) {
 		MarioCurrentFalling = true;
 		UpTimeCounter = 0;
 		Yvelo += (Yvelo >= 10.0f ? 0.0f : 1.0f * deltaTime);
@@ -332,8 +363,9 @@ void MarioVertYUpdate() {
 	}
 	ObstacleCheck = isPlayerCollideBot(ObstaclesList);
 	BrickCheck = isPlayerCollideBot(Bricks);
+	LuckyCheck = isPlayerCollideBot(LuckyBlock);
 	//recolide
-	if (ObstacleCheck || BrickCheck) {
+	if (ObstacleCheck || BrickCheck || LuckyCheck) {
 		MarioCurrentFalling = false;
 		bool isLanding;
 		UpTimeCounter = 0;
@@ -345,17 +377,18 @@ void MarioVertYUpdate() {
 		while (true) {
 			ObstacleCollide = isPlayerAccurateCollideBot(ObstaclesList);
 			BrickCollide = isPlayerAccurateCollideBot(Bricks);
-			if ((ObstacleCollide.first || BrickCollide.first) && isLanding) {
-				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second) {
+			LuckyCollide = isPlayerAccurateCollideBot(LuckyBlock);
+			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) && isLanding) {
+				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
 					++UpTimeCounter;
 					player.property.move(0.0f, -1.0f * deltaTime);
 				}
-				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second) {
+				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second && !LuckyCollide.second.first && !LuckyCollide.second.second) {
 					++UpTimeCounter;
 					player.property.move(0.0f, -1.0f * deltaTime);
 				}
 			}
-			else if ((!ObstacleCollide.first && !BrickCollide.first)) {
+			else if (!ObstacleCollide.first && !BrickCollide.first && !LuckyCollide.first) {
 				if (UpTimeCounter != 0) player.property.move(0.0f, 1.0f * deltaTime);
 				break;
 			}
@@ -364,25 +397,27 @@ void MarioVertYUpdate() {
 	}
 	// top update
 	ObstacleCheck = isPlayerCollideTop(ObstaclesList);
-	BrickCheck = isPlayerCollideTop(Bricks);
-	std::vector<std::pair<float, float>> BrickPos;
-	if ((ObstacleCheck || BrickCheck) && Yvelo < 0.0f) {
+	BrickCheck = isPlayerCollideTop(Bricks, BrickSaveList);
+	LuckyCheck = isPlayerCollideTop(LuckyBlock, LuckyBlockSaveList);
+	std::vector<std::pair<float, float>> BrickPos, LuckyPos;
+	if ((ObstacleCheck || BrickCheck || LuckyCheck) && Yvelo < 0.0f) {
 		Yvelo = 0.0f;
 		UpTimeCounter = 0;
 		while (true) {
 			ObstacleCollide = isPlayerAccurateCollideTop(ObstaclesList);
-			BrickCollide = isPlayerAccurateCollideTop(Bricks);
-			if ((ObstacleCollide.first || BrickCollide.first)) {
-				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second) {
+			BrickCollide = isPlayerAccurateCollideTop(Bricks, BrickSaveList);
+			LuckyCollide = isPlayerAccurateCollideTop(LuckyBlock, LuckyBlockSaveList);
+			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first)) {
+				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
 					++UpTimeCounter;
 					player.property.move(0.0f, 1.0f * deltaTime);
 				}
-				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second) {
+				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second && !LuckyCollide.second.first && !LuckyCollide.second.second) {
 					++UpTimeCounter;
 					player.property.move(0.0f, 1.0f * deltaTime);
 				}
 			}
-			else if ((!ObstacleCollide.first && !BrickCollide.first)) {
+			else if (!ObstacleCollide.first && !BrickCollide.first && !LuckyCollide.first) {
 				if (UpTimeCounter != 0) player.property.move(0.0f, -1.0f * deltaTime);
 				break;
 			}
@@ -390,8 +425,12 @@ void MarioVertYUpdate() {
 		}
 		// Start event Brick
 		BrickPos = isPlayerCollideTopDetailed(Bricks);
+		LuckyPos = isPlayerCollideTopDetailed(LuckyBlock);
 		for (const auto& i : BrickPos) {
 			HitEvent(i.first, i.second);
+		}
+		for (const auto& i : LuckyPos) {
+			LuckyHitEvent(i.first, i.second);
 		}
 	}
 }
