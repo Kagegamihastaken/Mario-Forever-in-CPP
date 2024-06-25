@@ -26,7 +26,7 @@ sf::Texture LuckyBlockTexture;
 AnimationManager LuckyBlockAnimationManager;
 int LoadLuckyBlock() {
 	if (!LuckyBlockTexture.loadFromFile("data/resources/luckyblock.png")) {
-		std::cout << "Failed to load brick.png" << "\n";
+		std::cout << "Failed to load luckyblock.png" << "\n";
 	}
 	return 6;
 }

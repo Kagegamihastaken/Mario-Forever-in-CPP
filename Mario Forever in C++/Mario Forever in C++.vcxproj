@@ -143,6 +143,7 @@
     <ClCompile Include="sources\LuckyBlock.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
     <ClCompile Include="sources\Obstacles.cpp" />
+    <ClCompile Include="sources\ScoreEffect.cpp" />
     <ClCompile Include="sources\Scroll.cpp" />
     <ClCompile Include="sources\Text.cpp" />
     <ClCompile Include="sources\WindowFrame.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="headers\LuckyBlock.hpp" />
     <ClInclude Include="headers\Mario.hpp" />
     <ClInclude Include="headers\Obstacles.hpp" />
+    <ClInclude Include="headers\ScoreEffect.hpp" />
     <ClInclude Include="headers\Scroll.hpp" />
     <ClInclude Include="headers\Text.hpp" />
     <ClInclude Include="headers\WindowFrame.hpp" />

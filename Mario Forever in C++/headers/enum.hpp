@@ -9,6 +9,9 @@ enum BrickAtt { NORMAL, MULTICOIN };
 enum CoinAtt { ONE_COIN, THREE_COIN };
 enum LuckyBlockAtt { COIN };
 
+// IMPORTANT enum
+enum ScoreID { SCORE_100, SCORE_200, SCORE_500, SCORE_1000, SCORE_2000, SCORE_5000, SCORE_10000, SCORE_1UP };
+
 #ifndef ENUM_HPP
 #define ENUM_HPP
 

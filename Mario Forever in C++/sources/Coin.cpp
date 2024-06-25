@@ -55,6 +55,7 @@ inline void CoinOnTouch() {
 	auto playerHitbox = player.getGlobalHitboxMain();
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (CoinList[i].isCollide(playerHitbox)) {
+			Score += 200;
 			DeleteCoin(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y);
 			CoinSound.play();
 			++CoinCount;
@@ -63,6 +64,7 @@ inline void CoinOnTouch() {
 	}
 }
 inline void CoinUpdate() {
+	if (CoinCount > 99) CoinCount = 0;
 	for (auto& i : CoinList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			CoinAnimation.update("IdleCoin", i.property);

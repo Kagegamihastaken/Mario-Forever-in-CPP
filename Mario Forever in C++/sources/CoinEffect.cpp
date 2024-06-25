@@ -2,6 +2,7 @@
 #include "../headers/AnimationManager.hpp"
 #include "../headers/Scroll.hpp"
 #include "../headers/WindowFrame.hpp"
+#include "../headers/ScoreEffect.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -32,6 +33,7 @@ void DeleteCoinEffect(float x, float y) {
 			CoinEffectList.erase(CoinEffectList.begin() + i);
 			CoinEffectIDList.erase(CoinEffectIDList.begin() + i);
 			CoinEffectAttList.erase(CoinEffectAttList.begin() + i);
+			AddScoreEffect(SCORE_200, x + 4, y);
 			break;
 		}
 	}

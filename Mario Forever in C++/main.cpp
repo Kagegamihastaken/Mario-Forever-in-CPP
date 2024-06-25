@@ -9,6 +9,7 @@
 #include "headers/CoinEffect.hpp"
 #include "headers/Brick.hpp"
 #include "headers/LuckyBlock.hpp"
+#include "headers/ScoreEffect.hpp"
 
 #include <iostream>
 #include <string>
@@ -21,8 +22,9 @@ int main() {
 	std::ifstream Level("levels/lvl1.txt");
 	ReadData(Level);
 	//For program
-	AddText((isDebug ? "DEBUG" : "RELEASE"), 0.0f, 0.0f, "_DEBUG");
-	AddText(0, 448.0f + 16.0f, "_COIN");
+	AddText((isDebug ? "DEBUG" : "RELEASE"), 0.0f, 464.0f, "_DEBUG");
+	AddText(287.0f, 15.0f, "_COIN");
+	AddText(0, 448.0f, "_SCORE");
 	AddText(0, 16.0f, "_FPS");
 	if (isDebug) {
 		AddText(0, 32.0f, "_DELTA");
@@ -57,7 +59,10 @@ int main() {
 			EditText("CurrFallBool: " + fall, "_FALL");
 		}
 		EditText("FPS: " + std::to_string((int)fps), "_FPS");
-		EditText("Coin x " + std::to_string(CoinCount), "_COIN");
+		EditText(std::to_string(CoinCount), "_COIN");
+		if (CoinCount > 9) EditPosition(272.0f, 15.0f, "_COIN");
+		else EditPosition(287.0f, 15.0f, "_COIN");
+		EditText(std::to_string(Score), "_SCORE");
 		KeyboardMovement();
 		MarioVertXUpdate();
 		MarioVertYUpdate();
@@ -66,6 +71,7 @@ int main() {
 		CoinEffectStatusUpdate();
 		LuckyAnimationUpdate();
 		BrickStatusUpdate();
+		ScoreEffectStatusUpdate();
 		// set current view of mario
 		setView();
 		//Window close
@@ -79,6 +85,7 @@ int main() {
 		//draw
 		updateView();
 		MarioDraw();
+		ScoreEffectUpdate();
 		CoinUpdate();
 		CoinEffectUpdate();
 		BrickUpdate();

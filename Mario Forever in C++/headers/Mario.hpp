@@ -53,6 +53,7 @@ extern float Xvelo;
 extern float Yvelo;
 extern bool MarioDirection;
 extern bool MarioCurrentFalling;
+extern long long int Score;
 extern void KeyboardMovement();
 extern inline void MarioDraw();
 extern void MarioSetSmall();

@@ -26,6 +26,7 @@ bool PreJump = false;
 bool Holding;
 float player_speed;
 int MarioState = 0;
+long long int Score = 0;
 // 0 for right; 1 for left
 //texture loading
 sf::Texture SmallMario;
