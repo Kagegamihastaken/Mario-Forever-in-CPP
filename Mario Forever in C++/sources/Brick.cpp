@@ -27,12 +27,8 @@ sf::SoundBuffer BrickSoundBuffer;
 sf::Sound BrickSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
-	if (!BrickTexture.loadFromFile("data/resources/brick.png")) {
-		std::cout << "Failed to load brick.png" << "\n";
-	}
-	if (!BrickSoundBuffer.loadFromFile("data/sounds/bump.wav")) {
-		std::cout << "Cannot load data/sounds/bump.wav" << "\n";
-	}
+	BrickTexture.loadFromFile("data/resources/brick.png");
+	BrickSoundBuffer.loadFromFile("data/sounds/bump.wav");
 	BrickSound.setBuffer(BrickSoundBuffer);
 	return 6;
 }

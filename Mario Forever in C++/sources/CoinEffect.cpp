@@ -12,9 +12,7 @@ std::vector<CoinID> CoinEffectIDList;
 std::vector<CoinAtt> CoinEffectAttList;
 
 int CoinEffectInit() {
-	if (!CoinEffectTexture.loadFromFile("data/resources/CoinEffect.png")) {
-		std::cout << "Cannot load data/resources/CoinEffect.png" << "\n";
-	}
+	CoinEffectTexture.loadFromFile("data/resources/CoinEffect.png");
 	return 6;
 }
 int iniCoinEffect = CoinEffectInit();

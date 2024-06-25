@@ -177,14 +177,10 @@ std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(const std::vec
 //back to normal
 int loadMarioRes() {
 	// Resources Loader;
-	if (!SmallMario.loadFromFile("data/resources/SmallMario.png")) {
-		std::cout << "Cannot load data/resources/SmallMario.png" << "\n";
-	}
+	SmallMario.loadFromFile("data/resources/SmallMario.png");
 
 	// Sound Loader
-	if (!jumpSoundBuffer.loadFromFile("data/sounds/jump.wav")) {
-		std::cout << "Cannot load data/sounds/jump.wav" << "\n";
-	}
+	jumpSoundBuffer.loadFromFile("data/sounds/jump.wav");
 
 	//set Texture
 	//left

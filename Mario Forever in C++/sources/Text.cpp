@@ -11,9 +11,7 @@
 std::vector<Text> TextList;
 
 int loadFontRes() {
-	if (!FontTexture.loadFromFile("data/resources/font.png")) {
-		std::cout << "Cannot load data/resources/font.png" << "\n";
-	}
+	FontTexture.loadFromFile("data/resources/font.png");
 	SetFontSize(15, 16);
 	return 6;
 }

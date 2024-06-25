@@ -20,14 +20,10 @@ int CoinCount = 0;
 bool firstUpdate = true;
 
 int CoinInit() {
-	if (!CoinTexture.loadFromFile("data/resources/Coin.png")) {
-		std::cout << "Cannot load data/resources/Coin.png" << "\n";
-	}
+	CoinTexture.loadFromFile("data/resources/Coin.png");
 	CoinAnimation.addAnimation("IdleCoin", &CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
 
-	if (!CoinSoundBuffer.loadFromFile("data/sounds/coin.wav")) {
-		std::cout << "Cannot load data/sounds/coin.wav" << "\n";
-	}
+	CoinSoundBuffer.loadFromFile("data/sounds/coin.wav");
 	CoinSound.setBuffer(CoinSoundBuffer);
 	return 6;
 }

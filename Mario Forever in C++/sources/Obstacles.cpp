@@ -22,9 +22,7 @@ std::vector<std::vector<int>> ID_list{
 //texture loading
 
 int loadObstacleRes() {
-	if (!ObstaclesTexture.loadFromFile("data/resources/tileset.png")) {
-		std::cout << "Cannot load data/resources/tileset.png" << "\n";
-	}
+	ObstaclesTexture.loadFromFile("data/resources/tileset.png");
 	return 6;
 }
 const int ObstacleInit = loadObstacleRes();

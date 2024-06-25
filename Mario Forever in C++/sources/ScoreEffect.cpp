@@ -15,9 +15,7 @@ std::vector<float> ScoreEffectVelocity;
 std::vector<float> ScoreEffectAlpha;
 
 int ScoreEffectInit() {
-	if (!ScoreEffectTexture.loadFromFile("data/resources/score.png")) {
-		std::cout << "Cannot load data/resources/score.png" << "\n";
-	}
+	ScoreEffectTexture.loadFromFile("data/resources/score.png");
 	return 6;
 }
 int IniScore = ScoreEffectInit();

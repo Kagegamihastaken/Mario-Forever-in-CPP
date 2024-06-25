@@ -25,9 +25,7 @@ std::vector<bool> LuckyBlockHitted;
 sf::Texture LuckyBlockTexture;
 AnimationManager LuckyBlockAnimationManager;
 int LoadLuckyBlock() {
-	if (!LuckyBlockTexture.loadFromFile("data/resources/luckyblock.png")) {
-		std::cout << "Failed to load luckyblock.png" << "\n";
-	}
+	LuckyBlockTexture.loadFromFile("data/resources/luckyblock.png");
 	return 6;
 }
 int LuckyBlockInit = LoadLuckyBlock();
