@@ -47,9 +47,6 @@ int main() {
 				window.close();
 		}
 		//update: Mario
-		Test = CheckTest();
-		fir = (Test.first ? "TRUE" : "FALSE");
-		se = (Test.second ? "TRUE" : "FALSE");
 		fall = (MarioCurrentFalling ? "TRUE" : "FALSE");
 		if (isDebug) {
 			EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");

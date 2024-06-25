@@ -34,7 +34,7 @@ sf::SoundBuffer jumpSoundBuffer;
 sf::Sound SoundJump;
 //Function For Checking Collision
 //X
-bool isPlayerCollideLeft2(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
+bool isPlayerCollideLeft2(const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
 		hitbox_loop = OL[i].getGlobalHitbox();
@@ -46,7 +46,7 @@ bool isPlayerCollideLeft2(std::vector<Obstacles>& OL, std::vector<std::pair<floa
 	}
 	return false;
 }
-bool isPlayerCollideRight2(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
+bool isPlayerCollideRight2(const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
 		hitbox_loop = OL[i].getGlobalHitbox();
@@ -58,7 +58,7 @@ bool isPlayerCollideRight2(std::vector<Obstacles>& OL, std::vector<std::pair<flo
 	}
 	return false;
 }
-std::pair<bool, bool> isPlayerOrCollideSide(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
+std::pair<bool, bool> isPlayerOrCollideSide(const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	sf::FloatRect hitbox_loop;
 	bool isLeft = false, isRight = false;
 	for (int i = 0; i < OL.size(); ++i) {
@@ -73,7 +73,7 @@ std::pair<bool, bool> isPlayerOrCollideSide(std::vector<Obstacles>& OL, std::vec
 	}
 	return { isRight, isLeft };
 }
-std::pair<bool, bool> isPlayerAccurateCollideSide(std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int& CollideAddCounter, std::set<std::pair<int, int>>& AllCollideList, std::vector<std::pair<float, float>> SaveList = {}) {
+std::pair<bool, bool> isPlayerAccurateCollideSide(const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int& CollideAddCounter, std::set<std::pair<int, int>>& AllCollideList, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	bool isCollideLeftBool = false, isCollideRightBool = false;
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
@@ -117,7 +117,7 @@ std::pair<bool, bool> isPlayerAccurateCollideSide(std::vector<Obstacles>& OL, fl
 	return { isCollideLeftBool, isCollideRightBool };
 }
 //Y
-bool isPlayerCollideBot(std::vector<Obstacles>& OL) {
+bool isPlayerCollideBot(const std::vector<Obstacles>& OL) {
 	sf::FloatRect hitbox_loop;
 	for (const auto& i : OL) {
 		hitbox_loop = i.getGlobalHitbox();
@@ -125,7 +125,7 @@ bool isPlayerCollideBot(std::vector<Obstacles>& OL) {
 	}
 	return false;
 }
-std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideBot(std::vector<Obstacles>& OL) {
+std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideBot(const std::vector<Obstacles>& OL) {
 	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
 	sf::FloatRect hitbox_loop;
 	for (const auto& i : OL) {
@@ -139,7 +139,7 @@ std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideBot(std::vector<Ob
 	}
 	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
 }
-bool isPlayerCollideTop(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
+bool isPlayerCollideTop(const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
 		hitbox_loop = OL[i].getGlobalHitbox();
@@ -148,7 +148,7 @@ bool isPlayerCollideTop(std::vector<Obstacles>& OL, std::vector<std::pair<float,
 	}
 	return false;
 }
-std::vector<std::pair<float, float>> isPlayerCollideTopDetailed(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
+std::vector<std::pair<float, float>> isPlayerCollideTopDetailed(const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	std::vector<std::pair<float, float>> result;
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
@@ -158,7 +158,7 @@ std::vector<std::pair<float, float>> isPlayerCollideTopDetailed(std::vector<Obst
 	}
 	return result;
 }
-std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(std::vector<Obstacles>& OL, std::vector<std::pair<float, float>> SaveList = {}) {
+std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	bool isCollideTopBool = false, isCollideRight = false, isCollideLeft = false;
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
@@ -187,14 +187,14 @@ int loadMarioRes() {
 
 	//set Texture
 	//left
-	MarioAnimation.addAnimation("RunLeft", SmallMario, { 4,1 }, { 31,31 }, { 0,0 }, 0, { 0,0 }, { 3,0 });
-	MarioAnimation.addAnimation("IdleLeft", SmallMario, { 4,1 }, { 31,31 }, { 2,0 }, 0, { 2,0 }, { 3,0 });
-	MarioAnimation.addAnimation("JumpLeft", SmallMario, { 4,1 }, { 31,31 }, { 3,0 }, 0, { 3,0 }, { 4,0 });
+	MarioAnimation.addAnimation("RunLeft", &SmallMario, { 4,1 }, { 31,31 }, { 0,0 }, 0, { 0,0 }, { 3,0 });
+	MarioAnimation.addAnimation("IdleLeft", &SmallMario, { 4,1 }, { 31,31 }, { 2,0 }, 0, { 2,0 }, { 3,0 });
+	MarioAnimation.addAnimation("JumpLeft", &SmallMario, { 4,1 }, { 31,31 }, { 3,0 }, 0, { 3,0 }, { 4,0 });
 
 	//right
-	MarioAnimation.addAnimation("RunRight", SmallMario, { 4,1 }, { 31,31 }, { 0,1 }, 0, { 0,1 }, { 3,1 });
-	MarioAnimation.addAnimation("IdleRight", SmallMario, { 4,1 }, { 31,31 }, { 2,1 }, 0, { 2,1 }, { 3,1 });
-	MarioAnimation.addAnimation("JumpRight", SmallMario, { 4,1 }, { 31,31 }, { 3,1 }, 0, { 3,1 }, { 4,1 });
+	MarioAnimation.addAnimation("RunRight", &SmallMario, { 4,1 }, { 31,31 }, { 0,1 }, 0, { 0,1 }, { 3,1 });
+	MarioAnimation.addAnimation("IdleRight", &SmallMario, { 4,1 }, { 31,31 }, { 2,1 }, 0, { 2,1 }, { 3,1 });
+	MarioAnimation.addAnimation("JumpRight", &SmallMario, { 4,1 }, { 31,31 }, { 3,1 }, 0, { 3,1 }, { 4,1 });
 
 	//set sound
 	SoundJump.setBuffer(jumpSoundBuffer);
@@ -329,22 +329,6 @@ void MarioVertXUpdate() {
 		}
 	}
 	if (Xvelo > player_speed) Xvelo -= 0.125f * deltaTime;
-}
-std::pair<bool, bool> CheckTest() {
-	bool isLeftCollide = false;
-	bool isRightCollide = false;
-	sf::FloatRect hitbox_loop;
-	for (const auto& i : ObstaclesList) {
-		hitbox_loop = i.getGlobalHitbox();
-		if (player.isCollideLeft2(hitbox_loop)) {
-			isLeftCollide = true;
-		}
-		if (player.isCollideRight2(hitbox_loop)) {
-			isRightCollide = true;
-		}
-		if (isLeftCollide && isRightCollide) break;
-	}
-	return { isLeftCollide, isRightCollide };
 }
 void MarioVertYUpdate() {
 	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide, LuckyCollide;
@@ -497,6 +481,6 @@ void CheckForDeath() {
 void MarioSetSmall() {
 	player.property.setTexture(SmallMario);
 }
-void MarioDraw() {
+inline void MarioDraw() {
 	window.draw(player.property);
 }

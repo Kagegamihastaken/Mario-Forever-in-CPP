@@ -46,7 +46,7 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	LuckyIdle.push_back(LocalAnimationManager());
 	LuckyIdle[LuckyIdle.size() - 1].setAnimation({ 32,32 }, { 0,0 }, { 3,0 }, 9);
 }
-void LuckyBlockUpdate() {
+inline void LuckyBlockUpdate() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockState[i]) {
 			if (!LuckyUpDown[i]) {
@@ -77,7 +77,7 @@ void LuckyBlockUpdate() {
 		}
 	}
 }
-void LuckyAnimationUpdate() {
+inline void LuckyAnimationUpdate() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockIDList[i] == LUCKY_COIN) {
 			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property, LuckyBlockTexture);

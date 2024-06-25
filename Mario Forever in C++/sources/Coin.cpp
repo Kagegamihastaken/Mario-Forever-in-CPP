@@ -23,7 +23,7 @@ int CoinInit() {
 	if (!CoinTexture.loadFromFile("data/resources/Coin.png")) {
 		std::cout << "Cannot load data/resources/Coin.png" << "\n";
 	}
-	CoinAnimation.addAnimation("IdleCoin", CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
+	CoinAnimation.addAnimation("IdleCoin", &CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
 
 	if (!CoinSoundBuffer.loadFromFile("data/sounds/coin.wav")) {
 		std::cout << "Cannot load data/sounds/coin.wav" << "\n";
@@ -51,7 +51,7 @@ void DeleteCoin(float x, float y) {
 		}
 	}
 }
-void CoinOnTouch() {
+inline void CoinOnTouch() {
 	auto playerHitbox = player.getGlobalHitboxMain();
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (CoinList[i].isCollide(playerHitbox)) {
@@ -62,7 +62,7 @@ void CoinOnTouch() {
 		}
 	}
 }
-void CoinUpdate() {
+inline void CoinUpdate() {
 	for (auto& i : CoinList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			CoinAnimation.update("IdleCoin", i.property);

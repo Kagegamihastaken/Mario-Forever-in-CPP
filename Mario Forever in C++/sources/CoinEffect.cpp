@@ -36,7 +36,7 @@ void DeleteCoinEffect(float x, float y) {
 		}
 	}
 }
-void CoinEffectStatusUpdate() {
+inline void CoinEffectStatusUpdate() {
 	for (auto& i : CoinEffectList) {
 		i.property.move(0.0f, i.velocity * deltaTime);
 		if (i.velocity < 0.0f) i.velocity += 0.125f * deltaTime;
@@ -45,7 +45,7 @@ void CoinEffectStatusUpdate() {
 		if (i.coinEffectAnimation.isAtTheEnd()) DeleteCoinEffect(i.property.getPosition().x, i.property.getPosition().y);
 	}
 }
-void CoinEffectUpdate() {
+inline void CoinEffectUpdate() {
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			i.coinEffectAnimation.update(i.property, CoinEffectTexture);

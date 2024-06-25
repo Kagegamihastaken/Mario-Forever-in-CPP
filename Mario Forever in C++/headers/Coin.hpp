@@ -28,7 +28,7 @@ extern int CoinCount;
 extern std::vector<Coin> CoinList;
 extern sf::Sound CoinSound;
 extern void AddCoin(CoinID ID, CoinAtt att, float x, float y);
-extern void CoinUpdate();
-extern void CoinOnTouch();
+extern inline void CoinUpdate();
+extern inline void CoinOnTouch();
 extern void DeleteCoin(float x, float y);
 #endif // Coin_HPP

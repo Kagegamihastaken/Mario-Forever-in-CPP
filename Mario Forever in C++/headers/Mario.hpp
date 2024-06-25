@@ -54,11 +54,10 @@ extern float Yvelo;
 extern bool MarioDirection;
 extern bool MarioCurrentFalling;
 extern void KeyboardMovement();
-extern void MarioDraw();
+extern inline void MarioDraw();
 extern void MarioSetSmall();
 extern void MarioVertYUpdate();
 extern void MarioVertXUpdate();
-extern std::pair<bool, bool> CheckTest();
 extern void CheckForDeath();
 extern int PowerState;
 

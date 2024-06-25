@@ -58,7 +58,7 @@ void AddText(std::string text, float x, float y, std::string id) {
 	}
 	else std::cout << "Cannot add text ID " << id << " (Duplicated ID)" << "\n";
 }
-void EditText(std::string NewText, std::string id) {
+inline void EditText(std::string NewText, std::string id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {
@@ -83,7 +83,7 @@ void EditText(std::string NewText, std::string id) {
 	}
 	else std::cout << "Cannot edit text ID " << id << " (Not existed ID)" << "\n";
 }
-void EditPosition(float NewX, float NewY, std::string id) {
+inline void EditPosition(float NewX, float NewY, std::string id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {
@@ -99,7 +99,7 @@ void EditPosition(float NewX, float NewY, std::string id) {
 	}
 	else std::cout << "Cannot edit position ID " << id << " (Not existed ID)" << "\n";
 }
-void UpdatePositionCharacter() {
+inline void UpdatePositionCharacter() {
 	int iTextSize;
 	for (auto& i : TextList) {
 		iTextSize = i.text.size();
@@ -108,14 +108,14 @@ void UpdatePositionCharacter() {
 		}
 	}
 }
-void DrawText() {
+inline void DrawText() {
 	for (const auto& i : TextList) {
 		for (const auto& j : i.text) {
 			window.draw(j);
 		}
 	}
 }
-int getSizeText(std::string id) {
+inline int getSizeText(std::string id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {

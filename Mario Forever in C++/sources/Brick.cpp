@@ -53,7 +53,7 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	BrickHitted.push_back(false);
 	DisabledBrick.push_back(false);
 }
-void BrickStatusUpdate() {
+inline void BrickStatusUpdate() {
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
 			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTextureRect(sf::IntRect(32, 32, 32, 32));
@@ -61,7 +61,7 @@ void BrickStatusUpdate() {
 		}
 	}
 }
-void BrickUpdate() {
+inline void BrickUpdate() {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {

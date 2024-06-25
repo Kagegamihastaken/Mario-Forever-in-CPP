@@ -19,8 +19,8 @@ extern sf::Texture CoinEffectTexture;
 extern std::vector<CoinEffect> CoinEffectList;
 extern std::vector<CoinID> CoinEffectIDList;
 extern void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y);
-extern void CoinEffectUpdate();
+extern inline void CoinEffectUpdate();
 extern void DeleteCoinEffect(float x, float y);
-extern void CoinEffectStatusUpdate();
+extern inline void CoinEffectStatusUpdate();
 
 #endif

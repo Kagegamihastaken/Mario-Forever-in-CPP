@@ -12,9 +12,9 @@ extern std::vector<BrickID> BrickIDList;
 extern sf::Texture BrickTexture;
 extern std::vector<std::pair<float, float>> BrickSaveList;
 extern void AddBrick(BrickID ID, BrickAtt att, float x, float y);
-extern void BrickUpdate();
+extern inline void BrickUpdate();
 extern void HitEvent(float x, float y);
 extern void deleteBrick(float x, float y);
-extern void BrickStatusUpdate();
+extern inline void BrickStatusUpdate();
 
 #endif // BRICK_HPP

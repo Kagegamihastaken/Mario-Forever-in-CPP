@@ -2,7 +2,7 @@
 
 // Map definitions
 std::map<std::string, sf::Clock> AnimationManager::m_timeRun;
-std::map<std::string, sf::Texture> AnimationManager::m_textures;
+std::map<std::string, sf::Texture*> AnimationManager::m_textures;
 std::map<std::string, sf::Vector2i> AnimationManager::m_indicies;
 std::map<std::string, sf::Vector2i> AnimationManager::m_startingIndicies;
 std::map<std::string, sf::Vector2i> AnimationManager::m_endingIndicies;
@@ -28,7 +28,7 @@ void AnimationManager::update(std::string animation, sf::Sprite& sprite) {
 			m_indicies[animation].y * m_spriteSizes[animation].y,
 			m_spriteSizes[animation].x, m_spriteSizes[animation].y);
 
-		sprite.setTexture(m_textures[animation]);
+		sprite.setTexture(*m_textures[animation]);
 		sprite.setTextureRect(rect);
 		// Now we want to update the indicies based on the format of our sheet
 		// If we are not at the bottom of a column, we just move down one in y
@@ -84,7 +84,7 @@ texture - The spritesheet that will be associated with our animation
 sheetSize - The vector containing the number of animation frames in our image
   - NOTE: all sheets must be rectangular
 */
-void AnimationManager::addAnimation(std::string animation, sf::Texture texture,
+void AnimationManager::addAnimation(std::string animation, sf::Texture* texture,
 	sf::Vector2i sheetSize, sf::Vector2i spriteSize, sf::Vector2i index, int frequency,
 	sf::Vector2i startingIndex, sf::Vector2i endingIndex) {
 	// First, we want to make an entry in the texture map
@@ -170,7 +170,7 @@ void AnimationManager::setAnimationSpriteSize(std::string animation, sf::Vector2
 	m_spriteSizes[animation].y = size.y;
 }
 
-void AnimationManager::setAnimationTexture(std::string animation, sf::Texture texture) {
+void AnimationManager::setAnimationTexture(std::string animation, sf::Texture* texture) {
 	m_textures[animation] = texture;
 }
 

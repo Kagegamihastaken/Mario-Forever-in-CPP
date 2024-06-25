@@ -66,7 +66,7 @@ private:
 	Since we don't know exactly what actions will be animated with this class, we
 	will allow the user to define their own identifiable sprite sheets
 	*/
-	static std::map<std::string, sf::Texture> m_textures;
+	static std::map<std::string, sf::Texture*> m_textures;
 	/*
 	We will want to keep track of where we are in the spritesheet, again for each
 	user-defined sheet
@@ -120,7 +120,7 @@ public:
 	create the entry at the same time, while the second will require supplementation
 	by the setter methods below, otherwise they will maintain default values
 	*/
-	static void addAnimation(std::string animation, sf::Texture texture, sf::Vector2i sheetSize,
+	static void addAnimation(std::string animation, sf::Texture* texture, sf::Vector2i sheetSize,
 		sf::Vector2i spriteSize, sf::Vector2i index = sf::Vector2i(0, 0), int frequency = 0,
 		sf::Vector2i startingIndex = sf::Vector2i(0, 0), sf::Vector2i endingIndex = sf::Vector2i(0, 0));
 
@@ -130,7 +130,7 @@ public:
 	static void setAnimationSpriteSize(std::string animation, sf::Vector2i size);
 	static void setAnimationSheetSize(std::string animation, sf::Vector2i size);
 	static void setAnimationIndex(std::string animation, sf::Vector2i index);
-	static void setAnimationTexture(std::string animation, sf::Texture texture);
+	static void setAnimationTexture(std::string animation, sf::Texture* texture);
 	static void setAnimationStartingIndex(std::string animation, sf::Vector2i index);
 	static void setAnimationEndingIndex(std::string animation, sf::Vector2i index);
 
