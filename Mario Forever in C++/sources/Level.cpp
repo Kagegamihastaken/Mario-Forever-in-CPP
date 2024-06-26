@@ -28,6 +28,7 @@ void ReadData(int IDLevel) {
 	// Read the file
 	while (true) {
 		tm = ReadStrLine(lvldat, DataStructure, tm);
+		if (tm == -1) break;
 		if (DataStructure == "--Level Data--") {
 			while (true) {
 				tm = ReadStrLine(lvldat, DataStructure, tm);
@@ -67,9 +68,9 @@ void ReadData(int IDLevel) {
 						numLoop = "";
 					}
 				}
+				if (tm == -1) break;
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
 				LevelData.push_back(temp);
-				if (tm == -1) break;
 			}
 		}
 		if (DataStructure == "--Bonus Data--") {
@@ -87,14 +88,13 @@ void ReadData(int IDLevel) {
 						numLoop = "";
 					}
 				}
+				if (tm == -1) break;
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
 				if (temp[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(temp[1])), static_cast<CoinAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
 				else if (temp[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(temp[1])), static_cast<BrickAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
 				else if (temp[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(temp[1])), static_cast<LuckyBlockAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
-				if (tm == -1) break;
 			}
 		}
-		if (tm == -1) break;
 	}
 }
 void building() {
