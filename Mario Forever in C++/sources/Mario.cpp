@@ -12,6 +12,9 @@
 #include "../headers/Scroll.hpp"
 #include "../headers/AnimationManager.hpp"
 #include "../headers/LuckyBlock.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
 
 //define here
 AnimationManager MarioAnimation;
@@ -177,10 +180,10 @@ std::pair<bool, std::pair<bool, bool>> isPlayerAccurateCollideTop(const std::vec
 //back to normal
 int loadMarioRes() {
 	// Resources Loader;
-	SmallMario.loadFromFile("data/resources/SmallMario.png");
+	LoadTexture(SmallMario, SMALLMARIO_TEXTURE, IMAGEFILE);
 
 	// Sound Loader
-	jumpSoundBuffer.loadFromFile("data/sounds/jump.wav");
+	LoadAudio(jumpSoundBuffer, JUMP_SOUND, SOUNDFILE);
 
 	//set Texture
 	//left

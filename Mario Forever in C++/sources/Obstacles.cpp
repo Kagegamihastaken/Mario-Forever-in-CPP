@@ -2,6 +2,10 @@
 #include "../headers/Obstacles.hpp"
 #include "../headers/WindowFrame.hpp"
 #include "../headers/Scroll.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -22,7 +26,7 @@ std::vector<std::vector<int>> ID_list{
 //texture loading
 
 int loadObstacleRes() {
-	ObstaclesTexture.loadFromFile("data/resources/tileset.png");
+	LoadTexture(ObstaclesTexture, TILESET_TEXTURE, IMAGEFILE);
 	return 6;
 }
 const int ObstacleInit = loadObstacleRes();

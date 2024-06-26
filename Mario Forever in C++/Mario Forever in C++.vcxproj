@@ -133,13 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="sources\AnimationManager.cpp" />
     <ClCompile Include="sources\Brick.cpp" />
     <ClCompile Include="sources\Coin.cpp" />
     <ClCompile Include="sources\CoinEffect.cpp" />
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\Level.cpp" />
+    <ClCompile Include="sources\Loading.cpp" />
     <ClCompile Include="sources\LuckyBlock.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
     <ClCompile Include="sources\Obstacles.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="headers\enum.hpp" />
     <ClInclude Include="headers\Font.hpp" />
     <ClInclude Include="headers\Level.hpp" />
+    <ClInclude Include="headers\Loading.hpp" />
     <ClInclude Include="headers\LocalAnimationManager.hpp" />
     <ClInclude Include="headers\LuckyBlock.hpp" />
     <ClInclude Include="headers\Mario.hpp" />
@@ -164,14 +166,13 @@
     <ClInclude Include="headers\Scroll.hpp" />
     <ClInclude Include="headers\Text.hpp" />
     <ClInclude Include="headers\WindowFrame.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="data\resources\font.png" />
-    <Image Include="data\resources\SmallMario.png" />
-    <Image Include="data\resources\tileset.png" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels\lvl1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Mario Forever in C++.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,10 @@
 #include "../headers/Brick.hpp"
 #include "../headers/LuckyBlock.hpp"
 #include "../headers/enum.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
+
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -12,18 +16,21 @@
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::vector<float>> LevelData;
-void ReadData(std::ifstream& foi) {
+void ReadData(int IDLevel) {
+	std::string lvldat;
+	LoadLvl(lvldat, IDLevel, LVLFILE);
+	//std::cout << lvldat;
 	float value;
 	std::string DataStructure;
 	std::vector<float> temp;
-
+	int tm = 0;
 	std::string numLoop;
 	// Read the file
 	while (true) {
-		getline(foi, DataStructure);
+		tm = ReadStrLine(lvldat, DataStructure, tm);
 		if (DataStructure == "--Level Data--") {
 			while (true) {
-				getline(foi, DataStructure);
+				tm = ReadStrLine(lvldat, DataStructure, tm);
 				if (DataStructure == "") continue;
 				int C = 0;
 				numLoop = "";
@@ -47,7 +54,7 @@ void ReadData(std::ifstream& foi) {
 		}
 		if (DataStructure == "--Tile Data--") {
 			while (true) {
-				getline(foi, DataStructure);
+				tm = ReadStrLine(lvldat, DataStructure, tm);
 				if (DataStructure == "") continue;
 				temp.clear();
 				numLoop = "";
@@ -62,12 +69,12 @@ void ReadData(std::ifstream& foi) {
 				}
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
 				LevelData.push_back(temp);
-				if (foi.eof()) break;
+				if (tm == -1) break;
 			}
 		}
 		if (DataStructure == "--Bonus Data--") {
 			while (true) {
-				getline(foi, DataStructure);
+				tm = ReadStrLine(lvldat, DataStructure, tm);
 				if (DataStructure == "") continue;
 				temp.clear();
 				numLoop = "";
@@ -84,10 +91,10 @@ void ReadData(std::ifstream& foi) {
 				if (temp[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(temp[1])), static_cast<CoinAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
 				else if (temp[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(temp[1])), static_cast<BrickAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
 				else if (temp[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(temp[1])), static_cast<LuckyBlockAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
-				if (foi.eof()) break;
+				if (tm == -1) break;
 			}
 		}
-		if (foi.eof()) break;
+		if (tm == -1) break;
 	}
 }
 void building() {

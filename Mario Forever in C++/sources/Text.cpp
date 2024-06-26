@@ -3,6 +3,9 @@
 #include "../headers/Text.hpp"
 #include "../headers/Scroll.hpp"
 #include "../headers/WindowFrame.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
 
 #include <vector>
 #include <iostream>
@@ -11,7 +14,7 @@
 std::vector<Text> TextList;
 
 int loadFontRes() {
-	FontTexture.loadFromFile("data/resources/font.png");
+	LoadTexture(FontTexture, FONT_TEXTURE, IMAGEFILE);
 	SetFontSize(15, 16);
 	return 6;
 }
@@ -106,7 +109,7 @@ inline void UpdatePositionCharacter() {
 		}
 	}
 }
-inline void DrawText() {
+inline void UpdateText() {
 	for (const auto& i : TextList) {
 		for (const auto& j : i.text) {
 			window.draw(j);

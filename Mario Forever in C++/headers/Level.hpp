@@ -5,7 +5,7 @@
 
 extern std::vector<std::vector<float>> LevelData;
 extern void building();
-extern void ReadData(std::ifstream& foi);
+extern void ReadData(int IDLevel);
 extern float LevelWidth, LevelHeight;
 
 #endif // !LEVEL_HPP

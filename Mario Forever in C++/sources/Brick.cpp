@@ -7,7 +7,12 @@
 #include "../headers/Scroll.hpp"
 #include "../headers/CoinEffect.hpp"
 #include "../headers/enum.hpp"
+#include "../headers/Loading.hpp"
 
+#include "../resource.h"
+
+#include <fstream>
+#include <streambuf>
 #include <vector>
 #include <iostream>
 
@@ -27,8 +32,8 @@ sf::SoundBuffer BrickSoundBuffer;
 sf::Sound BrickSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
-	BrickTexture.loadFromFile("data/resources/brick.png");
-	BrickSoundBuffer.loadFromFile("data/sounds/bump.wav");
+	LoadTexture(BrickTexture, BRICK_TEXTURE, IMAGEFILE);
+	LoadAudio(BrickSoundBuffer, BUMP_SOUND, SOUNDFILE);
 	BrickSound.setBuffer(BrickSoundBuffer);
 	return 6;
 }

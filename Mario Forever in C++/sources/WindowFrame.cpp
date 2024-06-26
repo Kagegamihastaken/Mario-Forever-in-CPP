@@ -3,6 +3,10 @@
 #include "../headers/AnimationManager.hpp"
 #include "../headers/Scroll.hpp"
 #include "../headers/Mario.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
+
 #if defined _DEBUG
 bool isDebug = true;
 #else
@@ -23,10 +27,7 @@ sf::Sprite CoinHUD;
 sf::Texture CoinHUDTexture;
 AnimationManager CoinHUDAnim;
 int windowInit() {
-	if (!CoinHUDTexture.loadFromFile("data/resources/CoinHUD.png")) {
-		std::cout << "Cannot load data/resources/CoinHUD.png" << "\n";
-	}
-
+	LoadTexture(CoinHUDTexture, COINHUD_TEXTURE, IMAGEFILE);
 	CoinHUDAnim.addAnimation("IdleCoinHUD", &CoinHUDTexture, { 3,0 }, { 28,16 }, { 0,0 }, 16, { 0,0 }, { 3,0 });
 	return 6;
 }

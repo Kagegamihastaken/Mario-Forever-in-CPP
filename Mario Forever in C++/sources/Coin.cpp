@@ -5,6 +5,9 @@
 #include "../headers/Mario.hpp"
 #include "../headers/Scroll.hpp"
 #include "../headers/AnimationManager.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
 
 #include <vector>
 #include <iostream>
@@ -20,10 +23,9 @@ int CoinCount = 0;
 bool firstUpdate = true;
 
 int CoinInit() {
-	CoinTexture.loadFromFile("data/resources/Coin.png");
+	LoadTexture(CoinTexture, COIN_TEXTURE, IMAGEFILE);
 	CoinAnimation.addAnimation("IdleCoin", &CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
-
-	CoinSoundBuffer.loadFromFile("data/sounds/coin.wav");
+	LoadAudio(CoinSoundBuffer, COIN_SOUND, SOUNDFILE);
 	CoinSound.setBuffer(CoinSoundBuffer);
 	return 6;
 }

@@ -3,6 +3,11 @@
 #include "../headers/Scroll.hpp"
 #include "../headers/WindowFrame.hpp"
 #include "../headers/ScoreEffect.hpp"
+#include "../headers/CoinEffect.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -12,7 +17,7 @@ std::vector<CoinID> CoinEffectIDList;
 std::vector<CoinAtt> CoinEffectAttList;
 
 int CoinEffectInit() {
-	CoinEffectTexture.loadFromFile("data/resources/CoinEffect.png");
+	LoadTexture(CoinEffectTexture, COINEFFECT_TEXTURE, IMAGEFILE);
 	return 6;
 }
 int iniCoinEffect = CoinEffectInit();

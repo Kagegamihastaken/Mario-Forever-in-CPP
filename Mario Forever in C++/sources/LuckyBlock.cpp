@@ -8,6 +8,9 @@
 #include "../headers/CoinEffect.hpp"
 #include "../headers/enum.hpp"
 #include "../headers/AnimationManager.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
 
 #include <vector>
 #include <iostream>
@@ -25,7 +28,7 @@ std::vector<bool> LuckyBlockHitted;
 sf::Texture LuckyBlockTexture;
 AnimationManager LuckyBlockAnimationManager;
 int LoadLuckyBlock() {
-	LuckyBlockTexture.loadFromFile("data/resources/luckyblock.png");
+	LoadTexture(LuckyBlockTexture, LUCKYBLOCK_TEXTURE, IMAGEFILE);
 	return 6;
 }
 int LuckyBlockInit = LoadLuckyBlock();

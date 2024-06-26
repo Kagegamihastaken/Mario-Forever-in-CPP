@@ -11,6 +11,8 @@
 #include "headers/LuckyBlock.hpp"
 #include "headers/ScoreEffect.hpp"
 
+#include "resource.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -19,8 +21,7 @@ int main() {
 	//Init window
 	ViewInit();
 	//set level data
-	std::ifstream Level("levels/lvl1.txt");
-	ReadData(Level);
+	ReadData(LVL1);
 	//For program
 	AddText((isDebug ? "DEBUG" : "RELEASE"), 0.0f, 464.0f, "_DEBUG");
 	AddText(287.0f, 15.0f, "_COIN");
@@ -91,7 +92,7 @@ int main() {
 		BrickUpdate();
 		LuckyBlockUpdate();
 		ObstaclesUpdate();
-		DrawText();
+		UpdateText();
 		//display
 		CheckForDeath();
 		window.display();

@@ -6,6 +6,9 @@
 #include "../headers/ScoreEffect.hpp"
 #include "../headers/WindowFrame.hpp"
 #include "../headers/Mario.hpp"
+#include "../headers/Loading.hpp"
+
+#include "../resource.h"
 
 //define
 std::vector<sf::Sprite> ScoreEffectList;
@@ -15,7 +18,7 @@ std::vector<float> ScoreEffectVelocity;
 std::vector<float> ScoreEffectAlpha;
 
 int ScoreEffectInit() {
-	ScoreEffectTexture.loadFromFile("data/resources/score.png");
+	LoadTexture(ScoreEffectTexture, SCOREEFFECT_TEXTURE, IMAGEFILE);
 	return 6;
 }
 int IniScore = ScoreEffectInit();
