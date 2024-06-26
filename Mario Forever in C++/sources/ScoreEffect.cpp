@@ -65,7 +65,7 @@ void DeleteScoreEffect(float x, float y) {
 		if (ScoreEffectList[i].getPosition().x == x && ScoreEffectList[i].getPosition().y == y) {
 			if (ScoreEffectAlpha[i] > 0) {
 				ScoreEffectAlpha[i] -= 7.5f * deltaTime;
-				ScoreEffectList[i].setColor(sf::Color(255, 255, 255, static_cast<int>(ScoreEffectAlpha[i])));
+				ScoreEffectList[i].setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(ScoreEffectAlpha[i]))));
 			}
 			else {
 				ScoreEffectList.erase(ScoreEffectList.begin() + i);

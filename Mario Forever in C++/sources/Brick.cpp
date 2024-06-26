@@ -8,6 +8,7 @@
 #include "../headers/CoinEffect.hpp"
 #include "../headers/enum.hpp"
 #include "../headers/Loading.hpp"
+#include "../headers/Mario.hpp"
 
 #include "../resource.h"
 
@@ -29,12 +30,16 @@ std::vector<bool> BrickHitted;
 std::vector<bool> DisabledBrick;
 
 sf::SoundBuffer BrickSoundBuffer;
+sf::SoundBuffer BirckBreakSoundBuffer;
 sf::Sound BrickSound;
+sf::Sound BrickBreakSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
 	LoadTexture(BrickTexture, BRICK_TEXTURE, IMAGEFILE);
 	LoadAudio(BrickSoundBuffer, BUMP_SOUND, SOUNDFILE);
 	BrickSound.setBuffer(BrickSoundBuffer);
+	LoadAudio(BirckBreakSoundBuffer, BREAK_SOUND, SOUNDFILE);
+	BrickBreakSound.setBuffer(BirckBreakSoundBuffer);
 	return 6;
 }
 int BrickInit = LoadBricks();
@@ -124,12 +129,16 @@ void HitEvent(float x, float y) {
 				AddCoinEffect(COIN_NORMAL, ONE_COIN, BrickLoop.getPosition().x - 3, BrickLoop.getPosition().y);
 				++CoinCount;
 			}
-			if (BrickAttList[i] == NORMAL || (BrickAttList[i] == MULTICOIN && !DisabledBrick[i])) {
+			if ((BrickAttList[i] == NORMAL && PowerState == 0) || (BrickAttList[i] == MULTICOIN && !DisabledBrick[i])) {
 				BrickState[i] = true;
 				UpDown[i] = false;
 				BrickStateCount[i] = 0;
 				if (BrickAttList[i] != MULTICOIN) BrickSound.play();
 				break;
+			}
+			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
+				BrickBreakSound.play();
+				deleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
 			}
 		}
 	}

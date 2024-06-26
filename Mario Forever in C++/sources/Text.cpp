@@ -4,6 +4,7 @@
 #include "../headers/Scroll.hpp"
 #include "../headers/WindowFrame.hpp"
 #include "../headers/Loading.hpp"
+#include "../headers/enum.hpp"
 
 #include "../resource.h"
 
@@ -12,6 +13,7 @@
 #include <string>
 
 std::vector<Text> TextList;
+std::vector<TextMarginID> TextMarginList;
 
 int loadFontRes() {
 	LoadTexture(FontTexture, FONT_TEXTURE, IMAGEFILE);
@@ -19,20 +21,7 @@ int loadFontRes() {
 	return 6;
 }
 int FontInit = loadFontRes();
-
-void AddText(std::string id) {
-	Text Init;
-	Init.id = id;
-	TextList.push_back(Init);
-}
-void AddText(float x, float y, std::string id) {
-	Text Init;
-	Init.id = id;
-	Init.x = x;
-	Init.y = y;
-	TextList.push_back(Init);
-}
-void AddText(std::string text, float x, float y, std::string id) {
+void AddText(std::string id, std::string text, TextMarginID margin, float x, float y) {
 	//search for duplicates ID
 	bool isDuplicate = false;
 	for (const auto& i : TextList) {
@@ -56,6 +45,7 @@ void AddText(std::string text, float x, float y, std::string id) {
 			++Counter;
 		}
 		TextList.push_back(Init);
+		TextMarginList.push_back(margin);
 	}
 	else std::cout << "Cannot add text ID " << id << " (Duplicated ID)" << "\n";
 }
@@ -102,10 +92,11 @@ inline void EditPosition(float NewX, float NewY, std::string id) {
 }
 inline void UpdatePositionCharacter() {
 	int iTextSize;
-	for (auto& i : TextList) {
-		iTextSize = i.text.size();
+	for (int i = 0; i < TextList.size(); ++i) {
+		iTextSize = TextList[i].text.size();
 		for (int j = 0; j < iTextSize; ++j) {
-			i.text[j].setPosition(i.x + FontSizeX * j + view.getCenter().x - (Width / 2.0f), i.y + view.getCenter().y - (Height / 2.0f));
+			if (TextMarginList[i] == LEFT_MARGIN) TextList[i].text[j].setPosition(TextList[i].x + FontSizeX * j + view.getCenter().x - (Width / 2.0f), TextList[i].y + view.getCenter().y - (Height / 2.0f));
+			else if (TextMarginList[i] == RIGHT_MARGIN) TextList[i].text[j].setPosition(TextList[i].x + view.getCenter().x - (Width / 2.0f) - (TextList[i].text.size() - 1 - j) * FontSizeX, TextList[i].y + view.getCenter().y - (Height / 2.0f));
 		}
 	}
 }

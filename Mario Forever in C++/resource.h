@@ -18,6 +18,7 @@
 #define BUMP_SOUND 766
 #define COIN_SOUND 765
 #define JUMP_SOUND 764
+#define BREAK_SOUND 763
 // texture
 #define IMAGEFILE 511
 
@@ -30,6 +31,7 @@
 #define SCOREEFFECT_TEXTURE 504
 #define FONT_TEXTURE 503
 #define COINHUD_TEXTURE 502
+#define BIGMARIO_TEXTURE 501
 // text
 #define LVLFILE 255
 
