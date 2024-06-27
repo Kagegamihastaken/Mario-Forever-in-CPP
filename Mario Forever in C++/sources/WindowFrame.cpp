@@ -36,12 +36,18 @@ void updateFrame() {
 	MouseX = mouse.getPosition(window).x * (Width / window.getSize().x);
 	MouseY = mouse.getPosition(window).y * (Height / window.getSize().y);
 	if (!optionSmoothness) window.setFramerateLimit(50);
-	else window.setFramerateLimit(10000); //300
+	else window.setFramerateLimit(300); //300
 	deltaTime = delta.restart().asSeconds() * 50.0f;
 	float fpsUpdate = 1.0f / fpsClock.restart().asSeconds();
 	if (GameClock.getElapsedTime().asSeconds() >= 0.5f) {
-		fps = fpsUpdate;
-		GameClock.restart().asSeconds();
+		if (deltaTime >= 1.0f) {
+			fps = fpsUpdate;
+			GameClock.restart().asSeconds();
+		}
+		else {
+			fps = (1.0f / deltaTime) * 50.0f;
+			GameClock.restart().asSeconds();
+		}
 	}
 	if (deltaTime >= 1.0f) {
 		deltaTime = 1.0f;

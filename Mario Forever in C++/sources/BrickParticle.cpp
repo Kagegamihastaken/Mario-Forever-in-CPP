@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include <array>
 
 #include "../headers/enum.hpp"
 #include "../headers/BrickParticle.hpp"
@@ -10,9 +11,10 @@
 
 #include "../resource.h"
 
-std::vector<std::vector<sf::Sprite>> BrickParticleList;
+std::vector<std::array<sf::Sprite, 4>> BrickParticleList;
+std::vector<std::array<bool, 4>> BrickParticleDisabledList;
 std::vector<BrickID> BrickParticleID;
-std::vector<std::vector<std::pair<float, float>>> BrickParticleVelo;
+std::vector<std::array<std::pair<float, float>, 4>> BrickParticleVelo;
 std::vector<sf::Clock> BrickParticleClock;
 sf::Texture BrickParticleTexture;
 
@@ -22,8 +24,9 @@ int BrickParticleInit() {
 }
 int iniBrickParticle = BrickParticleInit();
 void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
-	std::vector<sf::Sprite> it;
-	std::vector<std::pair<float, float>> veloIt;
+	std::array<sf::Sprite, 4> it;
+	std::array<bool, 4> itn;
+	std::array<std::pair<float, float>, 4> veloIt;
 	sf::Sprite Init;
 	for (int i = 0; i < 4; ++i) {
 		Init.setTexture(BrickParticleTexture);
@@ -34,12 +37,14 @@ void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 		else if (i == 1) Init.setPosition(ori_x + 8.0f + 16.0f, ori_y + 8.0f);
 		else if (i == 2) Init.setPosition(ori_x + 8.0f, ori_y + 8.0f + 16.0f);
 		else if (i == 3) Init.setPosition(ori_x + 8.0f + 16.0f, ori_y + 8.0f + 16.0f);
-		it.push_back(Init);
-		if (i == 0) veloIt.push_back(std::make_pair(-2, -8));
-		else if (i == 1) veloIt.push_back(std::make_pair(2, -8));
-		else if (i == 2) veloIt.push_back(std::make_pair(-4, -7));
-		else if (i == 3) veloIt.push_back(std::make_pair(4, -7));
+		it[i] = Init;
+		itn[i] = false;
+		if (i == 0) veloIt[i] = std::make_pair(-2, -8);
+		else if (i == 1) veloIt[i] = std::make_pair(2, -8);
+		else if (i == 2) veloIt[i] = std::make_pair(-4, -7);
+		else if (i == 3) veloIt[i] = std::make_pair(4, -7);
 	}
+	BrickParticleDisabledList.push_back(itn);
 	BrickParticleList.push_back(it);
 	BrickParticleVelo.push_back(veloIt);
 	BrickParticleID.push_back(id);
@@ -50,9 +55,8 @@ void DeleteSubBrickParticle(float x, float y) {
 	bool Itbreak = false;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			if (BrickParticleList[i][j].getPosition().x == x && BrickParticleList[i][j].getPosition().y == y) {
-				BrickParticleList[i].erase(BrickParticleList[i].begin() + j);
-				BrickParticleVelo[i].erase(BrickParticleVelo[i].begin() + j);
+			if (BrickParticleList[i][j].getPosition().x == x && BrickParticleList[i][j].getPosition().y == y && !BrickParticleDisabledList[i][j]) {
+				BrickParticleDisabledList[i][j] = true;
 				Itbreak = true;
 				break;
 			}
@@ -61,11 +65,11 @@ void DeleteSubBrickParticle(float x, float y) {
 	}
 }
 void BrickParticleStatusUpdate() {
-	bool reUpdate = false, canDelete;
+	bool reUpdate = false, canDelete, AllTrue;
 	//std::cout << BrickParticleTimer.getElapsedTime().asMilliseconds() << "\n";
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			if (BrickParticleList[i].size() > 0) {
+			if (!BrickParticleDisabledList[i][j]) {
 				BrickParticleList[i][j].move(BrickParticleVelo[i][j].first * deltaTime, BrickParticleVelo[i][j].second * deltaTime);
 				if (BrickParticleVelo[i][j].first > 0) BrickParticleList[i][j].rotate(10.0f * deltaTime);
 				else if (BrickParticleVelo[i][j].first < 0) BrickParticleList[i][j].rotate(-10.0f * deltaTime);
@@ -78,7 +82,7 @@ void BrickParticleStatusUpdate() {
 		while (true) {
 			canDelete = false;
 			for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-				if (isOutScreen(BrickParticleList[i][j].getPosition().x, BrickParticleList[i][j].getPosition().y, 32 + 8, 32 + 8)) {
+				if (isOutScreen(BrickParticleList[i][j].getPosition().x, BrickParticleList[i][j].getPosition().y, 32 + 8, 32 + 8) && !BrickParticleDisabledList[i][j]) {
 					DeleteSubBrickParticle(BrickParticleList[i][j].getPosition().x, BrickParticleList[i][j].getPosition().y);
 					canDelete = true;
 					break;
@@ -94,9 +98,17 @@ void BrickParticleStatusUpdate() {
 	while (true) {
 		canDelete = false;
 		for (int i = 0; i < BrickParticleList.size(); ++i) {
-			if (BrickParticleList[i].size() == 0) {
+			AllTrue = true;
+			for (int j = 0; j < BrickParticleList[i].size(); ++j) {
+				if (!BrickParticleDisabledList[i][j]) {
+					AllTrue = false;
+					break;
+				}
+			}
+			if (AllTrue) {
 				BrickParticleList.erase(BrickParticleList.begin() + i);
 				BrickParticleVelo.erase(BrickParticleVelo.begin() + i);
+				BrickParticleDisabledList.erase(BrickParticleDisabledList.begin() + i);
 				BrickParticleID.erase(BrickParticleID.begin() + i);
 				BrickParticleClock.erase(BrickParticleClock.begin() + i);
 				canDelete = true;
@@ -109,7 +121,7 @@ void BrickParticleStatusUpdate() {
 void BrickParticleUpdate() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			window.draw(BrickParticleList[i][j]);
+			if (!BrickParticleDisabledList[i][j]) window.draw(BrickParticleList[i][j]);
 		}
 	}
 }

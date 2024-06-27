@@ -140,6 +140,7 @@
     <ClCompile Include="sources\Coin.cpp" />
     <ClCompile Include="sources\CoinEffect.cpp" />
     <ClCompile Include="sources\Font.cpp" />
+    <ClCompile Include="sources\GoombaAI.cpp" />
     <ClCompile Include="sources\Level.cpp" />
     <ClCompile Include="sources\Loading.cpp" />
     <ClCompile Include="sources\LuckyBlock.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="headers\CoinEffect.hpp" />
     <ClInclude Include="headers\enum.hpp" />
     <ClInclude Include="headers\Font.hpp" />
+    <ClInclude Include="headers\GoombaAI.hpp" />
     <ClInclude Include="headers\Level.hpp" />
     <ClInclude Include="headers\Loading.hpp" />
     <ClInclude Include="headers\LocalAnimationManager.hpp" />

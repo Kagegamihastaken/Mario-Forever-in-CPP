@@ -66,6 +66,9 @@
     <ClCompile Include="sources\BrickParticle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\GoombaAI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Level.hpp">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\BrickParticle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GoombaAI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
