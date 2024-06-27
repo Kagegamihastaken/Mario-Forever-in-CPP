@@ -139,10 +139,7 @@ void HitEvent(float x, float y) {
 			}
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
 				BrickBreakSound.play();
-				AddBrickParticle(BrickIDList[i], LEFT, Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, -2.0f, -8.0f);
-				AddBrickParticle(BrickIDList[i], RIGHT, Bricks[i].property.getPosition().x + 16.0f, Bricks[i].property.getPosition().y, 2.0f, -8.0f);
-				AddBrickParticle(BrickIDList[i], LEFT, Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y + 16.0f, -4.0f, -7.0f);
-				AddBrickParticle(BrickIDList[i], RIGHT, Bricks[i].property.getPosition().x + 16.0f, Bricks[i].property.getPosition().y + 16.0f, 4.0f, -7.0f);
+				AddBrickParticle(BrickIDList[i], Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
 				deleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
 				Score += 50;
 			}
