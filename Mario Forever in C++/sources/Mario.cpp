@@ -464,22 +464,22 @@ void UpdateAnimation() {
 	//	player.setHitboxLeft({ 0.0f + 5.0f, 2.0f + 2.0f, 2.0f, 20.0f });
 	//}
 	if (PowerState > 0 && !MarioCrouchDown) {
-		player.setHitboxMain({ 0.0f + 2.0f, 0.0f + PowerOffset[PowerState], 27.0f, 52.0f });
-		player.setHitboxTop({ 1.0f + 2.0f, 0.0f + PowerOffset[PowerState], 26.0f, 2.0f });
-		player.setHitboxBot({ 1.0f + 2.0f, 50.0f + PowerOffset[PowerState], 26.0f, 2.0f });
-		player.setHitboxRight2({ 25.0f + 2.0f, 2.0f + PowerOffset[PowerState], 3.0f, 43.0f });
-		player.setHitboxLeft2({ -1.0f + 2.0f, 2.0f + PowerOffset[PowerState], 3.0f, 43.0f });
-		player.setHitboxRight({ 25.0f + 2.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
-		player.setHitboxLeft({ 0.0f + 2.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
+		player.setHitboxMain({ 0.0f + 4.0f, 0.0f + PowerOffset[PowerState], 23.0f, 52.0f });
+		player.setHitboxTop({ 1.0f + 4.0f, 0.0f + PowerOffset[PowerState], 22.0f, 2.0f });
+		player.setHitboxBot({ 1.0f + 4.0f, 50.0f + PowerOffset[PowerState], 22.0f, 2.0f });
+		player.setHitboxRight2({ 21.0f + 4.0f, 2.0f + PowerOffset[PowerState], 3.0f, 43.0f });
+		player.setHitboxLeft2({ -1.0f + 4.0f, 2.0f + PowerOffset[PowerState], 3.0f, 43.0f });
+		player.setHitboxRight({ 21.0f + 4.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
+		player.setHitboxLeft({ 0.0f + 4.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
 	}
 	else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown)) {
-		player.setHitboxMain({ 0.0f + 5.0f, 0.0f + 30.0f, 23.0f, 29.0f });
-		player.setHitboxTop({ 1.0f + 5.0f, 0.0f + 30.0f, 22.0f, 2.0f });
-		player.setHitboxBot({ 1.0f + 5.0f, 27.0f + 30.0f, 22.0f, 2.0f });
-		player.setHitboxRight2({ 21.0f + 5.0f, 2.0f + 30.0f, 3.0f, 20.0f });
-		player.setHitboxLeft2({ -1.0f + 5.0f, 2.0f + 30.0f, 3.0f, 20.0f });
-		player.setHitboxRight({ 21.0f + 5.0f, 2.0f + 30.0f, 2.0f, 20.0f });
-		player.setHitboxLeft({ 0.0f + 5.0f, 2.0f + 30.0f, 2.0f, 20.0f });
+		player.setHitboxMain({ 0.0f + 4.0f, 0.0f + 30.0f, 23.0f, 29.0f });
+		player.setHitboxTop({ 1.0f + 4.0f, 0.0f + 30.0f, 22.0f, 2.0f });
+		player.setHitboxBot({ 1.0f + 4.0f, 27.0f + 30.0f, 22.0f, 2.0f });
+		player.setHitboxRight2({ 21.0f + 4.0f, 2.0f + 30.0f, 3.0f, 20.0f });
+		player.setHitboxLeft2({ -1.0f + 4.0f, 2.0f + 30.0f, 3.0f, 20.0f });
+		player.setHitboxRight({ 21.0f + 4.0f, 2.0f + 30.0f, 2.0f, 20.0f });
+		player.setHitboxLeft({ 0.0f + 4.0f, 2.0f + 30.0f, 2.0f, 20.0f });
 	}
 	//animation update
 

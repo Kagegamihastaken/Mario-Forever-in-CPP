@@ -9,6 +9,7 @@
 #include "../headers/enum.hpp"
 #include "../headers/Loading.hpp"
 #include "../headers/Mario.hpp"
+#include "../headers/BrickParticle.hpp"
 
 #include "../resource.h"
 
@@ -138,7 +139,12 @@ void HitEvent(float x, float y) {
 			}
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
 				BrickBreakSound.play();
+				AddBrickParticle(BrickIDList[i], LEFT, Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, -2.0f, -8.0f);
+				AddBrickParticle(BrickIDList[i], RIGHT, Bricks[i].property.getPosition().x + 16.0f, Bricks[i].property.getPosition().y, 2.0f, -8.0f);
+				AddBrickParticle(BrickIDList[i], LEFT, Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y + 16.0f, -4.0f, -7.0f);
+				AddBrickParticle(BrickIDList[i], RIGHT, Bricks[i].property.getPosition().x + 16.0f, Bricks[i].property.getPosition().y + 16.0f, 4.0f, -7.0f);
 				deleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
+				Score += 50;
 			}
 		}
 	}

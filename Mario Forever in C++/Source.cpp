@@ -10,6 +10,7 @@
 #include "headers/Brick.hpp"
 #include "headers/LuckyBlock.hpp"
 #include "headers/ScoreEffect.hpp"
+#include "headers/BrickParticle.hpp"
 #include "headers/enum.hpp"
 
 #include "resource.h"
@@ -77,6 +78,7 @@ int main() {
 		LuckyAnimationUpdate();
 		BrickStatusUpdate();
 		ScoreEffectStatusUpdate();
+		BrickParticleStatusUpdate();
 		// set current view of mario
 		setView();
 		//Window close
@@ -90,12 +92,13 @@ int main() {
 		//draw
 		updateView();
 		MarioDraw();
+		ObstaclesUpdate();
 		ScoreEffectUpdate();
 		CoinUpdate();
 		CoinEffectUpdate();
 		BrickUpdate();
 		LuckyBlockUpdate();
-		ObstaclesUpdate();
+		BrickParticleUpdate();
 		UpdateText();
 		//display
 		CheckForDeath();

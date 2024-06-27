@@ -23,6 +23,10 @@ void setRotate(int degree) {
 	view.setRotation(degree);
 }
 void updateView() {
+	float vx = window.getSize().x / Width;
+	float vy = window.getSize().y / Height;
+	float min = std::min(vx, vy);
+	view.setViewport(sf::FloatRect(((window.getSize().x - (Width * min)) / window.getSize().x) * 0.5f, ((window.getSize().y - (Height * min)) / window.getSize().y) * 0.5f, (Width * min) / window.getSize().x, (Height * min) / window.getSize().y));
 	ViewX = view.getCenter().x - Width / 2.0f;
 	ViewY = view.getCenter().y - Height / 2.0f;
 	window.setView(view);

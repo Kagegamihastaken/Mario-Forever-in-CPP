@@ -13,6 +13,8 @@ enum LuckyBlockAtt { COIN };
 enum ScoreID { SCORE_100, SCORE_200, SCORE_500, SCORE_1000, SCORE_2000, SCORE_5000, SCORE_10000, SCORE_1UP };
 enum TextMarginID { LEFT_MARGIN, RIGHT_MARGIN };
 
+enum BrickParticleDirection { LEFT, RIGHT };
+
 #ifndef ENUM_HPP
 #define ENUM_HPP
 
