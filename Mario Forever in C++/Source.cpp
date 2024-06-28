@@ -11,6 +11,7 @@
 #include "headers/LuckyBlock.hpp"
 #include "headers/ScoreEffect.hpp"
 #include "headers/BrickParticle.hpp"
+#include "headers/GoombaAI.hpp"
 #include "headers/enum.hpp"
 
 #include "resource.h"
@@ -24,6 +25,8 @@ int main() {
 	ViewInit();
 	//set level data
 	ReadData(LVL1);
+	//AddGoombaAI(GOOMBA, 480.0f, 128.0f);
+	AddGoombaAI(GOOMBA, 544.0f, 224.0f);
 	//For program
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
@@ -37,6 +40,7 @@ int main() {
 		AddText("_CODX", "", LEFT_MARGIN, 0, 96.0f);
 		AddText("_FALL", "", LEFT_MARGIN, 0, 112.0f);
 		AddText("_APPE", "", LEFT_MARGIN, 0, 128.0f);
+		AddText("_FALLING", "", LEFT_MARGIN, 0, 144.0f);
 	}
 	//build a level
 	building();
@@ -58,11 +62,12 @@ int main() {
 		if (isDebug) {
 			EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
 			EditText("mouse: " + std::to_string((int)MouseX) + "/" + std::to_string((int)MouseY), "_MOUSEXY");
-			EditText("mario: " + std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y), "_MARIOXY");
+			EditText("mario: " + std::to_string((float)player.property.getPosition().x) + "/" + std::to_string((float)player.property.getPosition().y), "_MARIOXY");
 			EditText("view: " + std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY), "_VIEWXY");
 			EditText("Xvelocity: " + std::to_string(Xvelo), "_CODX");
 			EditText("Crouch Down: " + fall, "_FALL");
 			EditText("Appear: " + appe, "_APPE");
+			EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) PowerState = 0;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) PowerState = 1;
@@ -79,6 +84,11 @@ int main() {
 		BrickStatusUpdate();
 		ScoreEffectStatusUpdate();
 		BrickParticleStatusUpdate();
+		//Update movement other than mario
+		GoombaAIVertXUpdate();
+		GoombaAIVertYUpdate();
+
+		GoombaAICheckCollide();
 		// set current view of mario
 		setView();
 		//Window close
@@ -92,6 +102,7 @@ int main() {
 		//draw
 		updateView();
 		MarioDraw();
+		GoombaAIUpdate();
 		ObstaclesUpdate();
 		ScoreEffectUpdate();
 		CoinUpdate();
