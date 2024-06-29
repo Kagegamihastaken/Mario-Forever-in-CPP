@@ -10,6 +10,8 @@
 #include "../headers/Loading.hpp"
 #include "../headers/Mario.hpp"
 #include "../headers/BrickParticle.hpp"
+#include "../headers/GoombaAI.hpp"
+#include "../headers/ScoreEffect.hpp"
 
 #include "../resource.h"
 
@@ -111,6 +113,13 @@ void HitEvent(float x, float y) {
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					CoinSound.play();
 					++CoinCount;
+				}
+			}
+			for (int j = 0; j < GoombaAIList.size(); ++j) {
+				if (GoombaAIList[j].isCollideMain(BrickLoop)) {
+					if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[0].second);
+					DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+					Kick2Sound.play();
 				}
 			}
 			if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {

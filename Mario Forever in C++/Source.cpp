@@ -84,6 +84,7 @@ int main() {
 		BrickStatusUpdate();
 		ScoreEffectStatusUpdate();
 		BrickParticleStatusUpdate();
+		GoombaStatusUpdate();
 		//Update movement other than mario
 		GoombaAIVertXUpdate();
 		GoombaAIVertYUpdate();

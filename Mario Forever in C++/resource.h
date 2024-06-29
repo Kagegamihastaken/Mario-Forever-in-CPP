@@ -19,6 +19,8 @@
 #define COIN_SOUND 765
 #define JUMP_SOUND 764
 #define BREAK_SOUND 763
+#define STOMP_SOUND 762
+#define KICK2_SOUND 761
 // texture
 #define IMAGEFILE 511
 

@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "../headers/WindowFrame.hpp"
 #include "../headers/AnimationManager.hpp"
 #include "../headers/Scroll.hpp"
@@ -25,10 +26,18 @@ sf::Mouse mouse;
 
 sf::Sprite CoinHUD;
 sf::Texture CoinHUDTexture;
+
+sf::SoundBuffer Kick2SoundBuffer;
+
+sf::Sound Kick2Sound;
+
 AnimationManager CoinHUDAnim;
 int windowInit() {
 	LoadTexture(CoinHUDTexture, COINHUD_TEXTURE, IMAGEFILE);
 	CoinHUDAnim.addAnimation("IdleCoinHUD", &CoinHUDTexture, { 3,0 }, { 28,16 }, { 0,0 }, 16, { 0,0 }, { 3,0 });
+
+	LoadAudio(Kick2SoundBuffer, KICK2_SOUND, SOUNDFILE);
+	Kick2Sound.setBuffer(Kick2SoundBuffer);
 	return 6;
 }
 int initWin = windowInit();

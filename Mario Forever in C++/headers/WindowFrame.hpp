@@ -3,8 +3,11 @@
 #ifndef WINDOWFRAME_HPP
 #define WINDOWFRAME_HPP
 
+#include <SFML/Audio.hpp>
+
 extern bool isDebug;
 extern sf::RenderWindow window;
+extern sf::Sound Kick2Sound;
 extern sf::View view;
 extern sf::Clock delta;
 extern sf::Clock fpsClock;
