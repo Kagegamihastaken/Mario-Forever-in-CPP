@@ -139,6 +139,7 @@
     <ClCompile Include="sources\BrickParticle.cpp" />
     <ClCompile Include="sources\Coin.cpp" />
     <ClCompile Include="sources\CoinEffect.cpp" />
+    <ClCompile Include="sources\Collide.cpp" />
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\GoombaAI.cpp" />
     <ClCompile Include="sources\Level.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="headers\BrickParticle.hpp" />
     <ClInclude Include="headers\Coin.hpp" />
     <ClInclude Include="headers\CoinEffect.hpp" />
+    <ClInclude Include="headers\Collide.hpp" />
     <ClInclude Include="headers\enum.hpp" />
     <ClInclude Include="headers\Font.hpp" />
     <ClInclude Include="headers\GoombaAI.hpp" />

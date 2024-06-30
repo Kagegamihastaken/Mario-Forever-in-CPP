@@ -11,6 +11,7 @@
 #include "../headers/Loading.hpp"
 #include "../headers/GoombaAI.hpp"
 #include "../headers/ScoreEffect.hpp"
+#include "../headers/Collide.hpp"
 
 #include "../resource.h"
 
@@ -45,7 +46,7 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	LuckyBlockHitted.push_back(false);
 	LuckyUpDown.push_back(false);
 	LuckyBlock[LuckyBlock.size() - 1].property.setPosition({ x, y });
-	LuckyBlock[LuckyBlock.size() - 1].setHitbox({ 0.f, 0.f, 32.f, 32.f });
+	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
 	LuckyIdle.push_back(LocalAnimationManager());
 	LuckyIdle[LuckyIdle.size() - 1].setAnimation({ 32,32 }, { 0,0 }, { 3,0 }, 9);
 }
@@ -97,10 +98,10 @@ void LuckyHitEvent(float x, float y) {
 	sf::FloatRect LuckyLoop;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
-			LuckyLoop = LuckyBlock[i].getGlobalHitbox();
+			LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].property);
 			LuckyLoop.top -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
-				if (CoinList[j].isCollide(LuckyLoop)) {
+				if (isCollide(CoinList[j].hitbox, CoinList[j].property, LuckyLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					CoinSound.play();
@@ -108,7 +109,7 @@ void LuckyHitEvent(float x, float y) {
 				}
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (GoombaAIList[j].isCollideMain(LuckyLoop)) {
+				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, LuckyLoop)) {
 					if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[0].second);
 					DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 					Kick2Sound.play();

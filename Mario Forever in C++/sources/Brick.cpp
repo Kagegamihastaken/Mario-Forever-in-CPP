@@ -12,6 +12,7 @@
 #include "../headers/BrickParticle.hpp"
 #include "../headers/GoombaAI.hpp"
 #include "../headers/ScoreEffect.hpp"
+#include "../headers/Collide.hpp"
 
 #include "../resource.h"
 
@@ -56,7 +57,7 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	BrickSaveList.push_back({ x, y });
 	UpDown.push_back(false);
 	Bricks[Bricks.size() - 1].property.setPosition({ x, y });
-	Bricks[Bricks.size() - 1].setHitbox({ 0.f, 0.f, 32.f, 32.f });
+	setHitbox(Bricks[Bricks.size() - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
 	//multicoin attribute
 	BrickClock.push_back(sf::Clock());
 	BrickHitted.push_back(false);
@@ -105,10 +106,10 @@ void HitEvent(float x, float y) {
 	sf::FloatRect BrickLoop;
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y && !BrickState[i]) {
-			BrickLoop = Bricks[i].getGlobalHitbox();
+			BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
 			BrickLoop.top -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
-				if (CoinList[j].isCollide(BrickLoop)) {
+				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					CoinSound.play();
@@ -116,7 +117,7 @@ void HitEvent(float x, float y) {
 				}
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (GoombaAIList[j].isCollideMain(BrickLoop)) {
+				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, BrickLoop)) {
 					if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[0].second);
 					DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 					Kick2Sound.play();

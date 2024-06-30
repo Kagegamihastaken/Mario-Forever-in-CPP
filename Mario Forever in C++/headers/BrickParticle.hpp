@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef BRICKPARTICLE_HPP
 #define BRICKPARTICLE_HPP
 

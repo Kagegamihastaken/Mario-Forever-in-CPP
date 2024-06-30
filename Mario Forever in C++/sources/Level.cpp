@@ -5,6 +5,7 @@
 #include "../headers/LuckyBlock.hpp"
 #include "../headers/enum.hpp"
 #include "../headers/Loading.hpp"
+#include "../headers/Collide.hpp"
 
 #include "../resource.h"
 
@@ -105,6 +106,6 @@ void building() {
 		// Then use the index of tile id property to add it to the list
 		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(ObstaclesTexture, sf::IntRect(ID_list[posTextureIndex][1], ID_list[posTextureIndex][2], 32, 32)) });
 		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ i[1], i[2] });
-		ObstaclesList[int(ObstaclesList.size()) - 1].setHitbox({ 0.f, 0.f, 32.f, 32.f });
+		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
 	}
 }

@@ -27,6 +27,7 @@ int main() {
 	ReadData(LVL1);
 	//AddGoombaAI(GOOMBA, 480.0f, 128.0f);
 	AddGoombaAI(GOOMBA, 544.0f, 224.0f);
+	AddGoombaAI(GOOMBA, 544.0f, 224.0f);
 	//For program
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);

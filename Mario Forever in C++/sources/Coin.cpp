@@ -6,6 +6,7 @@
 #include "../headers/Scroll.hpp"
 #include "../headers/AnimationManager.hpp"
 #include "../headers/Loading.hpp"
+#include "../headers/Collide.hpp"
 
 #include "../resource.h"
 
@@ -32,7 +33,7 @@ int CoinInit() {
 int CoinIni = CoinInit();
 void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
 	Coin operate;
-	operate.setHitbox({ 6, 2, 19, 28 });
+	setHitbox(operate.hitbox, { 6, 2, 19, 28 });
 	operate.property.setTexture(CoinTexture);
 	operate.property.setPosition(x, y);
 	CoinList.push_back(operate);
@@ -50,9 +51,9 @@ void DeleteCoin(float x, float y) {
 	}
 }
 inline void CoinOnTouch() {
-	auto playerHitbox = player.getGlobalHitboxMain();
+	auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < CoinList.size(); i++) {
-		if (CoinList[i].isCollide(playerHitbox)) {
+		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
 			Score += 200;
 			DeleteCoin(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y);
 			CoinSound.play();

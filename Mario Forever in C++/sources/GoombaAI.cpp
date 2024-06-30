@@ -13,11 +13,12 @@
 #include "../headers/WindowFrame.hpp"
 #include "../headers/LocalAnimationManager.hpp"
 #include "../headers/ScoreEffect.hpp"
+#include "../headers/Collide.hpp"
 //include "../headers/Mario.hpp"
 
 #include "../resource.h"
 
-std::vector<GoombaAI> GoombaAIList;
+std::vector<MovableObject> GoombaAIList;
 std::vector<GoombaAIType> GoombaAITypeList;
 std::array<sf::Texture, 1> GoombaAITexture; //
 std::vector<std::pair<float, float>> GoombaAIHitboxList{ {31, 32} }; //
@@ -28,151 +29,13 @@ std::vector<bool> GoombaAIDisabledList;
 std::vector<GoombaAIHittable> GoombaAIHittableList;
 std::vector<std::array<float, 4>> GoombaAIDefinationList;
 std::vector<LocalAnimationManager> GoombaAIAnimationList;
+std::vector<sf::Clock> GoombaAIClock;
 
 sf::SoundBuffer StompSoundBuffer;
 sf::Sound StompSound;
 
 //Function For Checking Collision
 //X
-bool isGoombaAICollideLeft2(const int& index, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) {
-			hitbox_loop.top = SaveList[i].second;
-			hitbox_loop.left = SaveList[i].first;
-		}
-		if (GoombaAIList[index].isCollideLeft2(hitbox_loop)) return true;
-	}
-	return false;
-}
-bool isGoombaAICollideRight2(const int& index, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) {
-			hitbox_loop.top = SaveList[i].second;
-			hitbox_loop.left = SaveList[i].first;
-		}
-		if (GoombaAIList[index].isCollideRight2(hitbox_loop)) return true;
-	}
-	return false;
-}
-std::pair<bool, bool> isGoombaAIOrCollideSide(const int& index, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	sf::FloatRect hitbox_loop;
-	bool isLeft = false, isRight = false;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) {
-			hitbox_loop.top = SaveList[i].second;
-			hitbox_loop.left = SaveList[i].first;
-		}
-		if (GoombaAIList[index].isCollideRight2(hitbox_loop)) isRight = true;
-		if (GoombaAIList[index].isCollideLeft2(hitbox_loop)) isLeft = true;
-		if (isRight && isLeft) break;
-	}
-	return { isRight, isLeft };
-}
-std::pair<bool, bool> isGoombaAIAccurateCollideSide(const int& index, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	bool isCollideLeftBool = false, isCollideRightBool = false;
-	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) {
-			hitbox_loop.top = SaveList[i].second;
-			hitbox_loop.left = SaveList[i].first;
-		}
-		// Check if collide
-		if (GoombaAIList[index].isCollideLeft(hitbox_loop)) {
-			isCollideLeftBool = true;
-			if (CurrPosXCollide != hitbox_loop.getPosition().x || CurrPosYCollide != hitbox_loop.getPosition().y) {
-				if (!NoAdd) {
-					CurrPosXCollide = hitbox_loop.getPosition().x;
-					CurrPosYCollide = hitbox_loop.getPosition().y;
-					NoAdd = true;
-				}
-			}
-			break;
-		}
-		if (GoombaAIList[index].isCollideRight(hitbox_loop)) {
-			isCollideRightBool = true;
-			if (CurrPosXCollide != hitbox_loop.getPosition().x || CurrPosYCollide != hitbox_loop.getPosition().y) {
-				if (!NoAdd) {
-					CurrPosXCollide = hitbox_loop.getPosition().x;
-					CurrPosYCollide = hitbox_loop.getPosition().y;
-					NoAdd = true;
-				}
-			}
-			break;
-		}
-	}
-	return { isCollideLeftBool, isCollideRightBool };
-}
-//Y
-bool isGoombaAICollideBot(const int& index, const std::vector<Obstacles>& OL) {
-	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
-		if (GoombaAIList[index].isCollideBot(hitbox_loop)) return true;
-	}
-	return false;
-}
-std::pair<bool, std::pair<bool, bool>> isGoombaAIAccurateCollideBot(const int& index, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd) {
-	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
-	sf::FloatRect hitbox_loop;
-	for (const auto& i : OL) {
-		hitbox_loop = i.getGlobalHitbox();
-		if (GoombaAIList[index].isCollideBot(hitbox_loop)) {
-			isCollideBotBool = true;
-			if (!NoAdd) {
-				CurrPosYCollide = hitbox_loop.getPosition().y;
-				NoAdd = true;
-			}
-		}
-		if (GoombaAIList[index].isCollideRight(hitbox_loop)) isCollideRight = true;
-		if (GoombaAIList[index].isCollideLeft(hitbox_loop)) isCollideLeft = true;
-		if (isCollideBotBool && isCollideRight && isCollideLeft) break;
-	}
-	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
-}
-bool isGoombaAICollideTop(const int& index, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) hitbox_loop.top = SaveList[i].second;
-		if (GoombaAIList[index].isCollideTop(hitbox_loop)) return true;
-	}
-	return false;
-}
-std::vector<std::pair<float, float>> isGoombaAICollideTopDetailed(const int& index, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	std::vector<std::pair<float, float>> result;
-	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) hitbox_loop.top = SaveList[i].second;
-		if (GoombaAIList[index].isCollideTop(hitbox_loop)) result.push_back({ hitbox_loop.getPosition().x, hitbox_loop.getPosition().y });
-	}
-	return result;
-}
-std::pair<bool, std::pair<bool, bool>> isGoombaAIAccurateCollideTop(const int& index, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	bool isCollideTopBool = false, isCollideRight = false, isCollideLeft = false;
-	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
-		hitbox_loop = OL[i].getGlobalHitbox();
-		if (SaveList.size() > 0) hitbox_loop.top = SaveList[i].second;
-		if (GoombaAIList[index].isCollideTop(hitbox_loop)) {
-			isCollideTopBool = true;
-			if (!NoAdd) {
-				CurrPosYCollide = hitbox_loop.getPosition().y;
-				NoAdd = true;
-			}
-		}
-		if (GoombaAIList[index].isCollideRight(hitbox_loop)) isCollideRight = true;
-		if (GoombaAIList[index].isCollideLeft(hitbox_loop)) isCollideLeft = true;
-		if (isCollideTopBool && isCollideRight && isCollideLeft) break;
-	}
-	return { isCollideTopBool, { isCollideRight, isCollideLeft } };
-}
 //back to normal
 int GoombaAILoadRes() {
 	/*
@@ -187,7 +50,7 @@ int GoombaAILoadRes() {
 }
 int iniGoombaAI = GoombaAILoadRes();
 void AddGoombaAI(GoombaAIType type, float x, float y) {
-	GoombaAI Init;
+	MovableObject Init;
 	LocalAnimationManager in;
 	if (type == GOOMBA) {
 		Init.property.setOrigin(16, 31);
@@ -198,15 +61,17 @@ void AddGoombaAI(GoombaAIType type, float x, float y) {
 		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 		in.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
 	}
-	Init.setHitboxMain({ 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first, GoombaAIHitboxList[type].second });
-	Init.setHitboxTop({ 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first - 2.0f, 2.0f });
-	Init.setHitboxBot({ 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], GoombaAIHitboxList[type].second - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first - 2.0f, 2.0f });
-	Init.setHitboxRight2({ GoombaAIHitboxList[type].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[type].second - 9.0f });
-	Init.setHitboxLeft2({ -1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[type].second - 9.0f });
-	Init.setHitboxRight({ GoombaAIHitboxList[type].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[type].second - 9.0f });
-	Init.setHitboxLeft({ 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[type].second - 9.0f });
+	setHitbox(Init.hitboxMain, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first, GoombaAIHitboxList[type].second });
+	setHitbox(Init.hitboxTop, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first - 2.0f, 2.0f });
+	setHitbox(Init.hitboxBot, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], GoombaAIHitboxList[type].second - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first - 2.0f, 2.0f });
+	setHitbox(Init.hitboxRight2, { GoombaAIHitboxList[type].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[type].second - 9.0f });
+	setHitbox(Init.hitboxLeft2, { -1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[type].second - 9.0f });
+	setHitbox(Init.hitboxRight, { GoombaAIHitboxList[type].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[type].second - 9.0f });
+	setHitbox(Init.hitboxLeft, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[type].second - 9.0f });
 	Init.property.setPosition(x, y);
 	GoombaAIAnimationList.push_back(in);
+	GoombaAIClock.push_back(sf::Clock());
+	GoombaAIClock[GoombaAIClock.size() - 1].restart().asMilliseconds();
 	GoombaAIList.push_back(Init);
 	GoombaAIDirectionList.push_back(LEFT);
 	GoombaAITypeList.push_back(type);
@@ -222,6 +87,7 @@ void DeleteGoombaAI(GoombaAIType type, float x, float y) {
 			GoombaAIYveloList.erase(GoombaAIYveloList.begin() + i);
 			GoombaAIXveloList.erase(GoombaAIXveloList.begin() + i);
 			GoombaAIDisabledList.erase(GoombaAIDisabledList.begin() + i);
+			GoombaAIClock.erase(GoombaAIClock.begin() + i);
 			GoombaAIAnimationList.erase(GoombaAIAnimationList.begin() + i);
 			GoombaAIHittableList.erase(GoombaAIHittableList.begin() + i);
 			GoombaAIDefinationList.erase(GoombaAIDefinationList.begin() + i);
@@ -235,10 +101,10 @@ void GoombaStatusUpdate() {
 	}
 }
 void GoombaAICheckCollide() {
-	sf::FloatRect hitbox_mario = player.getGlobalHitboxMain();
+	sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i]) continue;
-		if (GoombaAIList[i].isCollideMain(hitbox_mario)) {
+		if (isCollide(GoombaAIList[i].hitboxMain, GoombaAIList[i].property, hitbox_mario)) {
 			if (GoombaAIHittableList[i] == YES) {
 				if (((GoombaAIList[i].property.getPosition().y - 16.0f) > player.property.getPosition().y) && Yvelo > 0.0f) {
 					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) Yvelo = -8.0f;
@@ -246,10 +112,12 @@ void GoombaAICheckCollide() {
 					StompSound.play();
 					if (GoombaAITypeList[i] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 15.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 					DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
+					break;
 				}
 			}
 			if ((GoombaAIList[i].property.getPosition().y - 16.0f) < player.property.getPosition().y) {
 				window.close();
+				break;
 			}
 		}
 	}
@@ -264,9 +132,9 @@ void GoombaAIVertXUpdate() {
 		if (GoombaAIDirectionList[i] == LEFT) GoombaAIList[i].property.move(-GoombaAIXveloList[i] * deltaTime, 0.0f);
 		else GoombaAIList[i].property.move(GoombaAIXveloList[i] * deltaTime, 0.0f);
 		//check collide
-		std::pair<bool, bool> ObstacleCheck = isGoombaAIOrCollideSide(i, ObstaclesList);
-		std::pair<bool, bool> BrickCheck = isGoombaAIOrCollideSide(i, Bricks, BrickSaveList);
-		std::pair<bool, bool> LuckyCheck = isGoombaAIOrCollideSide(i, LuckyBlock, LuckyBlockSaveList);
+		std::pair<bool, bool> ObstacleCheck = isOrCollideSide(GoombaAIList[i], ObstaclesList, {});
+		std::pair<bool, bool> BrickCheck = isOrCollideSide(GoombaAIList[i], Bricks, BrickSaveList);
+		std::pair<bool, bool> LuckyCheck = isOrCollideSide(GoombaAIList[i], LuckyBlock, LuckyBlockSaveList);
 		bool isTrueCollide = false;
 		if (ObstacleCheck.first || ObstacleCheck.second || BrickCheck.first || BrickCheck.second || LuckyCheck.first || LuckyCheck.second) {
 			// Stop on wall
@@ -291,9 +159,9 @@ void GoombaAIVertXUpdate() {
 			isCollideLeftBool = false;
 			isCollideRightBool = false;
 			// Loop through obstacles
-			ObstacleCollide = isGoombaAIAccurateCollideSide(i, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd);
-			BrickCollide = isGoombaAIAccurateCollideSide(i, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, BrickSaveList);
-			LuckyCollide = isGoombaAIAccurateCollideSide(i, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+			ObstacleCollide = isAccurateCollideSide(GoombaAIList[i], ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, {});
+			BrickCollide = isAccurateCollideSide(GoombaAIList[i], Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, BrickSaveList);
+			LuckyCollide = isAccurateCollideSide(GoombaAIList[i], LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
 			// Break if size AllCollideList is not equal to CollideAddCounter
 			//if (AllCollideList.size() != CollideAddCounter) break;
 			// Adjust Position if collide
@@ -317,16 +185,16 @@ void GoombaAIVertYUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i]) continue;
 		// bottom update
-		ObstacleCheck = isGoombaAICollideBot(i, ObstaclesList);
-		BrickCheck = isGoombaAICollideBot(i, Bricks);
-		LuckyCheck = isGoombaAICollideBot(i, LuckyBlock);
+		ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
+		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
+		LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
 		if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
 			GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 1.0f * deltaTime);
 			GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
 		}
-		ObstacleCheck = isGoombaAICollideBot(i, ObstaclesList);
-		BrickCheck = isGoombaAICollideBot(i, Bricks);
-		LuckyCheck = isGoombaAICollideBot(i, LuckyBlock);
+		ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
+		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
+		LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
 		//recolide
 		if (ObstacleCheck || BrickCheck || LuckyCheck) {
 			NoAdd = false;
@@ -338,9 +206,9 @@ void GoombaAIVertYUpdate() {
 				GoombaAIYveloList[i] = 0.0f;
 				isLanding = false;
 			}
-			ObstacleCollide = isGoombaAIAccurateCollideBot(i, ObstaclesList, CurrPosYCollide, NoAdd);
-			BrickCollide = isGoombaAIAccurateCollideBot(i, Bricks, CurrPosYCollide, NoAdd);
-			LuckyCollide = isGoombaAIAccurateCollideBot(i, LuckyBlock, CurrPosYCollide, NoAdd);
+			ObstacleCollide = isAccurateCollideBot(GoombaAIList[i], ObstaclesList, CurrPosYCollide, NoAdd);
+			BrickCollide = isAccurateCollideBot(GoombaAIList[i], Bricks, CurrPosYCollide, NoAdd);
+			LuckyCollide = isAccurateCollideBot(GoombaAIList[i], LuckyBlock, CurrPosYCollide, NoAdd);
 			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) && isLanding) {
 				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
 					GoombaAIList[i].property.setPosition(GoombaAIList[i].property.getPosition().x, CurrPosYCollide - (GoombaAIDefinationList[i][1] - GoombaAIList[i].property.getOrigin().y + GoombaAIDefinationList[i][3]));
@@ -351,14 +219,14 @@ void GoombaAIVertYUpdate() {
 			}
 		}
 		// top update
-		ObstacleCheck = isGoombaAICollideTop(i, ObstaclesList);
-		BrickCheck = isGoombaAICollideTop(i, Bricks, BrickSaveList);
-		LuckyCheck = isGoombaAICollideTop(i, LuckyBlock, LuckyBlockSaveList);
+		ObstacleCheck = isCollideTop(GoombaAIList[i], ObstaclesList, {});
+		BrickCheck = isCollideTop(GoombaAIList[i], Bricks, BrickSaveList);
+		LuckyCheck = isCollideTop(GoombaAIList[i], LuckyBlock, LuckyBlockSaveList);
 		if ((ObstacleCheck || BrickCheck || LuckyCheck) && GoombaAIYveloList[i] < 0.0f) {
 			GoombaAIYveloList[i] = 0.0f;
-			ObstacleCollide = isGoombaAIAccurateCollideTop(i, ObstaclesList, CurrPosYCollide, NoAdd);
-			BrickCollide = isGoombaAIAccurateCollideTop(i, Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
-			LuckyCollide = isGoombaAIAccurateCollideTop(i, LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+			ObstacleCollide = isAccurateCollideTop(GoombaAIList[i], ObstaclesList, CurrPosYCollide, NoAdd, {});
+			BrickCollide = isAccurateCollideTop(GoombaAIList[i], Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
+			LuckyCollide = isAccurateCollideTop(GoombaAIList[i], LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
 			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first)) {
 				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
 					GoombaAIList[i].property.setPosition(GoombaAIList[i].property.getPosition().x, CurrPosYCollide + (31.0f + GoombaAIList[i].property.getOrigin().y - GoombaAIDefinationList[i][3]));
