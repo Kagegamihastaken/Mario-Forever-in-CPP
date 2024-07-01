@@ -48,11 +48,11 @@ std::array<float, 2> PowerOffset = { 30.0f, 7.0f };
 int loadMarioRes() {
 	AppearingTimer.restart().asMilliseconds();
 	// Resources Loader;
-	LoadTexture(SmallMario, SMALLMARIO_TEXTURE, IMAGEFILE);
-	LoadTexture(BigMario, BIGMARIO_TEXTURE, IMAGEFILE);
+	LoadTexture(SmallMario, SMALLMARIO_TEXTURE);
+	LoadTexture(BigMario, BIGMARIO_TEXTURE);
 
 	// Sound Loader
-	LoadAudio(jumpSoundBuffer, JUMP_SOUND, SOUNDFILE);
+	LoadAudio(jumpSoundBuffer, JUMP_SOUND);
 
 	//set Texture
 	//left (small)

@@ -33,10 +33,10 @@ sf::Sound Kick2Sound;
 
 AnimationManager CoinHUDAnim;
 int windowInit() {
-	LoadTexture(CoinHUDTexture, COINHUD_TEXTURE, IMAGEFILE);
+	LoadTexture(CoinHUDTexture, COINHUD_TEXTURE);
 	CoinHUDAnim.addAnimation("IdleCoinHUD", &CoinHUDTexture, { 3,0 }, { 28,16 }, { 0,0 }, 16, { 0,0 }, { 3,0 });
 
-	LoadAudio(Kick2SoundBuffer, KICK2_SOUND, SOUNDFILE);
+	LoadAudio(Kick2SoundBuffer, KICK2_SOUND);
 	Kick2Sound.setBuffer(Kick2SoundBuffer);
 	return 6;
 }

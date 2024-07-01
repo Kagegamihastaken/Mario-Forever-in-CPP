@@ -31,7 +31,7 @@ std::vector<bool> LuckyBlockHitted;
 sf::Texture LuckyBlockTexture;
 AnimationManager LuckyBlockAnimationManager;
 int LoadLuckyBlock() {
-	LoadTexture(LuckyBlockTexture, LUCKYBLOCK_TEXTURE, IMAGEFILE);
+	LoadTexture(LuckyBlockTexture, LUCKYBLOCK_TEXTURE);
 	return 6;
 }
 int LuckyBlockInit = LoadLuckyBlock();

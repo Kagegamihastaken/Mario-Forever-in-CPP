@@ -17,7 +17,7 @@ std::vector<CoinID> CoinEffectIDList;
 std::vector<CoinAtt> CoinEffectAttList;
 
 int CoinEffectInit() {
-	LoadTexture(CoinEffectTexture, COINEFFECT_TEXTURE, IMAGEFILE);
+	LoadTexture(CoinEffectTexture, COINEFFECT_TEXTURE);
 	return 6;
 }
 int iniCoinEffect = CoinEffectInit();

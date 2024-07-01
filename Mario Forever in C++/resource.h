@@ -12,6 +12,11 @@
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
+// musicogg
+#define OGGFILE 1279
+// musicmod
+#define MODFILE 1023
+#define TEST_MUSIC 1022
 // audio
 #define SOUNDFILE 767
 

@@ -16,6 +16,18 @@
     <Filter Include="Level">
       <UniqueIdentifier>{8b35e122-b3ba-4578-92b6-10941986cddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{ef110503-ddbe-43ab-b2ce-1467d2b400f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\sfMod">
+      <UniqueIdentifier>{f343c325-1b9c-44eb-90ab-fd0bceb82ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{fdcebf43-b910-4266-b1cd-10e3d90a5eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\sfMod">
+      <UniqueIdentifier>{6a1a0d07-592b-4d85-b4a2-1de99a77ae9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -31,9 +43,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\WindowFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\AnimationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sources\Font.cpp">
@@ -72,6 +81,15 @@
     <ClCompile Include="sources\Collide.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\GoombaAIEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\sfMod.cpp">
+      <Filter>Source Files\Core\sfMod</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\AnimationManager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Level.hpp">
@@ -84,9 +102,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\WindowFrame.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\AnimationManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\Font.hpp">
@@ -133,6 +148,18 @@
     </ClInclude>
     <ClInclude Include="headers\Collide.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GoombaAIEffect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\sfMod.hpp">
+      <Filter>Header Files\Core\sfMod</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\sfMod\Error.hpp">
+      <Filter>Header Files\Core\sfMod</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\AnimationManager.hpp">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ std::vector<sf::Clock> BrickParticleClock;
 sf::Texture BrickParticleTexture;
 
 int BrickParticleInit() {
-	LoadTexture(BrickParticleTexture, BRICKPARTICLE_TEXTURE, IMAGEFILE);
+	LoadTexture(BrickParticleTexture, BRICKPARTICLE_TEXTURE);
 	return 6;
 }
 int iniBrickParticle = BrickParticleInit();

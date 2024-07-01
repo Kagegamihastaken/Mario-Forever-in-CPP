@@ -16,7 +16,7 @@ std::vector<Text> TextList;
 std::vector<TextMarginID> TextMarginList;
 
 int loadFontRes() {
-	LoadTexture(FontTexture, FONT_TEXTURE, IMAGEFILE);
+	LoadTexture(FontTexture, FONT_TEXTURE);
 	SetFontSize(15, 16);
 	return 6;
 }

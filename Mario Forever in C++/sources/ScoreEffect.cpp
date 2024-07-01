@@ -18,7 +18,7 @@ std::vector<float> ScoreEffectVelocity;
 std::vector<float> ScoreEffectAlpha;
 
 int ScoreEffectInit() {
-	LoadTexture(ScoreEffectTexture, SCOREEFFECT_TEXTURE, IMAGEFILE);
+	LoadTexture(ScoreEffectTexture, SCOREEFFECT_TEXTURE);
 	return 6;
 }
 int IniScore = ScoreEffectInit();

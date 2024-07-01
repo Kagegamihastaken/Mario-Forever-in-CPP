@@ -1,0 +1,6 @@
+#pragma once
+
+#ifndef GOOMBAAIEFFECT_HPP
+#define GOOMBAAIEFFECT_HPP
+
+#endif // !GOOMBAAIEFFECT_HPP

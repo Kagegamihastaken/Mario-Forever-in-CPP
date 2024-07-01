@@ -14,13 +14,23 @@
 #include "headers/GoombaAI.hpp"
 #include "headers/enum.hpp"
 
+#include "headers/sfMod.hpp"
 #include "resource.h"
+#include "headers/Loading.hpp"
+
+#include <modplug.h>
+
+#include <SFML/Audio/SoundStream.hpp>
 
 #include <iostream>
 #include <string>
 #include <fstream>
-
 int main() {
+	//Init music
+	sfmod::Mod test;
+	LoadMOD(test, TEST_MUSIC, 14, 44100);
+	test.setLoop(true);
+	test.play();
 	//Init window
 	ViewInit();
 	//set level data

@@ -39,10 +39,10 @@ sf::Sound BrickSound;
 sf::Sound BrickBreakSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
-	LoadTexture(BrickTexture, BRICK_TEXTURE, IMAGEFILE);
-	LoadAudio(BrickSoundBuffer, BUMP_SOUND, SOUNDFILE);
+	LoadTexture(BrickTexture, BRICK_TEXTURE);
+	LoadAudio(BrickSoundBuffer, BUMP_SOUND);
 	BrickSound.setBuffer(BrickSoundBuffer);
-	LoadAudio(BirckBreakSoundBuffer, BREAK_SOUND, SOUNDFILE);
+	LoadAudio(BirckBreakSoundBuffer, BREAK_SOUND);
 	BrickBreakSound.setBuffer(BirckBreakSoundBuffer);
 	return 6;
 }

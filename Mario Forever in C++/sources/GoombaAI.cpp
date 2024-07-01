@@ -41,9 +41,9 @@ int GoombaAILoadRes() {
 	/*
 		0: Goomba
 	*/
-	LoadTexture(GoombaAITexture[0], GOOMBA_TEXTURE, IMAGEFILE);
+	LoadTexture(GoombaAITexture[0], GOOMBA_TEXTURE);
 
-	LoadAudio(StompSoundBuffer, STOMP_SOUND, SOUNDFILE);
+	LoadAudio(StompSoundBuffer, STOMP_SOUND);
 	StompSound.setBuffer(StompSoundBuffer);
 
 	return 6;
@@ -189,8 +189,11 @@ void GoombaAIVertYUpdate() {
 		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
 		LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
 		if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
-			GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 1.0f * deltaTime);
-			GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
+			if (GoombaAIClock[i].getElapsedTime().asMilliseconds() >= 12.5f * deltaTime) {
+				GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 1.0f * deltaTime);
+				GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
+				GoombaAIClock[i].restart().asMilliseconds();
+			}
 		}
 		ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
 		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);

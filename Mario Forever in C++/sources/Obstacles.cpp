@@ -26,7 +26,7 @@ std::vector<std::vector<int>> ID_list{
 //texture loading
 
 int loadObstacleRes() {
-	LoadTexture(ObstaclesTexture, TILESET_TEXTURE, IMAGEFILE);
+	LoadTexture(ObstaclesTexture, TILESET_TEXTURE);
 	return 6;
 }
 const int ObstacleInit = loadObstacleRes();

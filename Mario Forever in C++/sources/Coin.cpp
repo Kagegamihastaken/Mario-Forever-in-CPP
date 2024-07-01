@@ -24,9 +24,9 @@ int CoinCount = 0;
 bool firstUpdate = true;
 
 int CoinInit() {
-	LoadTexture(CoinTexture, COIN_TEXTURE, IMAGEFILE);
+	LoadTexture(CoinTexture, COIN_TEXTURE);
 	CoinAnimation.addAnimation("IdleCoin", &CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
-	LoadAudio(CoinSoundBuffer, COIN_SOUND, SOUNDFILE);
+	LoadAudio(CoinSoundBuffer, COIN_SOUND);
 	CoinSound.setBuffer(CoinSoundBuffer);
 	return 6;
 }

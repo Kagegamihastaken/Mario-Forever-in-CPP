@@ -19,7 +19,7 @@ float LevelWidth, LevelHeight;
 std::vector<std::vector<float>> LevelData;
 void ReadData(int IDLevel) {
 	std::string lvldat;
-	LoadLvl(lvldat, IDLevel, LVLFILE);
+	LoadLvl(lvldat, IDLevel);
 	//std::cout << lvldat;
 	float value;
 	std::string DataStructure;
