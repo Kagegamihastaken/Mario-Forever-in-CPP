@@ -12,6 +12,7 @@
 #include "headers/ScoreEffect.hpp"
 #include "headers/BrickParticle.hpp"
 #include "headers/GoombaAI.hpp"
+#include "headers/GoombaAIEffect.hpp"
 #include "headers/enum.hpp"
 
 #include "headers/sfMod.hpp"
@@ -35,9 +36,9 @@ int main() {
 	ViewInit();
 	//set level data
 	ReadData(LVL1);
-	//AddGoombaAI(GOOMBA, 480.0f, 128.0f);
+	//AddGoombaAI(GOOMBA, 480.0f, 128.0f)
 	AddGoombaAI(GOOMBA, 544.0f, 224.0f);
-	AddGoombaAI(GOOMBA, 544.0f, 224.0f);
+	AddGoombaAI(GOOMBA, 256.0f, 95.0f);
 	//For program
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
@@ -88,7 +89,12 @@ int main() {
 		KeyboardMovement();
 		MarioVertXUpdate();
 		MarioVertYUpdate();
-		//Check bonus event
+		//Update movement other than mario
+		GoombaAIVertXUpdate();
+		GoombaAIVertYUpdate();
+		GoombaAICheckCollide();
+		GoombaAIEffectVertYUpdate();
+		//Check other event
 		CoinOnTouch();
 		CoinEffectStatusUpdate();
 		LuckyAnimationUpdate();
@@ -96,14 +102,9 @@ int main() {
 		ScoreEffectStatusUpdate();
 		BrickParticleStatusUpdate();
 		GoombaStatusUpdate();
-		//Update movement other than mario
-		GoombaAIVertXUpdate();
-		GoombaAIVertYUpdate();
-
-		GoombaAICheckCollide();
-		// set current view of mario
+		GoombaAIEffectStatusUpdate();
+		//set view
 		setView();
-		//Window close
 		//update text position
 		UpdatePositionCharacter();
 		//Update mario animation
@@ -122,6 +123,7 @@ int main() {
 		BrickUpdate();
 		LuckyBlockUpdate();
 		BrickParticleUpdate();
+		GoombaAIEffectUpdate();
 		UpdateText();
 		//display
 		CheckForDeath();

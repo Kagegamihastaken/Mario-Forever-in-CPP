@@ -14,14 +14,15 @@
 #include "../headers/LocalAnimationManager.hpp"
 #include "../headers/ScoreEffect.hpp"
 #include "../headers/Collide.hpp"
-//include "../headers/Mario.hpp"
+#include "../headers/GoombaAIEffect.hpp"
+#include "../headers/Mario.hpp"
 
 #include "../resource.h"
 
 std::vector<MovableObject> GoombaAIList;
 std::vector<GoombaAIType> GoombaAITypeList;
 std::array<sf::Texture, 1> GoombaAITexture; //
-std::vector<std::pair<float, float>> GoombaAIHitboxList{ {31, 32} }; //
+std::vector<std::pair<float, float>> GoombaAIHitboxList; //
 std::vector<GoombaAIDirection> GoombaAIDirectionList;
 std::vector<float> GoombaAIYveloList;
 std::vector<float> GoombaAIXveloList;
@@ -59,15 +60,16 @@ void AddGoombaAI(GoombaAIType type, float x, float y) {
 		GoombaAIXveloList.push_back(1.0f);
 		GoombaAIHittableList.push_back(YES);
 		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
+		GoombaAIHitboxList.push_back({ 31, 32 });
 		in.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
 	}
-	setHitbox(Init.hitboxMain, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first, GoombaAIHitboxList[type].second });
-	setHitbox(Init.hitboxTop, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first - 2.0f, 2.0f });
-	setHitbox(Init.hitboxBot, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], GoombaAIHitboxList[type].second - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[type].first - 2.0f, 2.0f });
-	setHitbox(Init.hitboxRight2, { GoombaAIHitboxList[type].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[type].second - 9.0f });
-	setHitbox(Init.hitboxLeft2, { -1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[type].second - 9.0f });
-	setHitbox(Init.hitboxRight, { GoombaAIHitboxList[type].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[type].second - 9.0f });
-	setHitbox(Init.hitboxLeft, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[type].second - 9.0f });
+	setHitbox(Init.hitboxMain, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second });
+	setHitbox(Init.hitboxTop, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first - 2.0f, 2.0f });
+	setHitbox(Init.hitboxBot, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first - 2.0f, 2.0f });
+	setHitbox(Init.hitboxRight2, { GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 9.0f });
+	setHitbox(Init.hitboxLeft2, { -1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 3.0f, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 9.0f });
+	setHitbox(Init.hitboxRight, { GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 9.0f });
+	setHitbox(Init.hitboxLeft, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 9.0f });
 	Init.property.setPosition(x, y);
 	GoombaAIAnimationList.push_back(in);
 	GoombaAIClock.push_back(sf::Clock());
@@ -91,6 +93,7 @@ void DeleteGoombaAI(GoombaAIType type, float x, float y) {
 			GoombaAIAnimationList.erase(GoombaAIAnimationList.begin() + i);
 			GoombaAIHittableList.erase(GoombaAIHittableList.begin() + i);
 			GoombaAIDefinationList.erase(GoombaAIDefinationList.begin() + i);
+			GoombaAIHitboxList.erase(GoombaAIHitboxList.begin() + i);
 			break;
 		}
 	}
@@ -110,6 +113,7 @@ void GoombaAICheckCollide() {
 					if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) Yvelo = -8.0f;
 					else Yvelo = -13.0f;
 					StompSound.play();
+					AddGoombaAIEffect(GoombaAITypeList[i], COLLIDE, GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 					if (GoombaAITypeList[i] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 15.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 					DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 					break;
@@ -189,11 +193,11 @@ void GoombaAIVertYUpdate() {
 		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
 		LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
 		if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
-			if (GoombaAIClock[i].getElapsedTime().asMilliseconds() >= 12.5f * deltaTime) {
+			if (GoombaAIClock[i].getElapsedTime().asMilliseconds() >= 25.0f * deltaTime) {
 				GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 1.0f * deltaTime);
-				GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
 				GoombaAIClock[i].restart().asMilliseconds();
 			}
+			GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
 		}
 		ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
 		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);

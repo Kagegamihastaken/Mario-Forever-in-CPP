@@ -54,7 +54,7 @@ void AddScoreEffect(ScoreID id, float x, float y) {
 		Init.setTextureRect(sf::IntRect(0, 96, 42, 16));
 	}
 	else if (id == SCORE_1UP) Init.setTextureRect(sf::IntRect(0, 112, 32, 16));
-	Init.setPosition(x, y);
+	Init.setPosition(static_cast<int>(round(x)), y);
 	ScoreEffectList.push_back(Init);
 	ScoreEffectIDList.push_back(id);
 	ScoreEffectVelocity.push_back(-1.5f);

@@ -17,6 +17,8 @@ enum GoombaAIType { GOOMBA };
 enum GoombaAIDirection { LEFT, RIGHT };
 enum GoombaAIHittable { YES, NO, FULL };
 
+enum GoombaAIEffectID { NONE, COLLIDE };
+
 #ifndef ENUM_HPP
 #define ENUM_HPP
 

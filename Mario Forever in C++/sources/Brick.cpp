@@ -13,6 +13,7 @@
 #include "../headers/GoombaAI.hpp"
 #include "../headers/ScoreEffect.hpp"
 #include "../headers/Collide.hpp"
+#include "../headers/GoombaAIEffect.hpp"
 
 #include "../resource.h"
 
@@ -119,6 +120,7 @@ void HitEvent(float x, float y) {
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, BrickLoop)) {
 					if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[0].second);
+					AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 					DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 					Kick2Sound.play();
 				}

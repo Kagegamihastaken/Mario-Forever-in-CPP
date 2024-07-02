@@ -25,7 +25,7 @@ void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation({ 37,32 }, { 0,0 }, { 21,0 }, 95);
 	Init.property.setTexture(CoinEffectTexture);
-	Init.property.setPosition(x, y);
+	Init.property.setPosition(static_cast<float>(round(x)), y);
 	CoinEffectList.push_back(Init);
 	CoinEffectIDList.push_back(ID);
 	CoinEffectAttList.push_back(att);
