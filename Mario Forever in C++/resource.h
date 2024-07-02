@@ -26,6 +26,8 @@
 #define BREAK_SOUND 763
 #define STOMP_SOUND 762
 #define KICK2_SOUND 761
+#define POWERUP_SOUND 760
+#define VINE_SOUND 759
 // texture
 #define IMAGEFILE 511
 
@@ -42,6 +44,7 @@
 #define BRICKPARTICLE_TEXTURE 500
 #define GOOMBA_TEXTURE 499
 #define DEAD_GOOMBA_TEXTURE 498
+#define MUSHROOM_TEXTURE 497
 // text
 #define LVLFILE 255
 

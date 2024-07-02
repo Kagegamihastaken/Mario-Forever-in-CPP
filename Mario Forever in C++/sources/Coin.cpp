@@ -7,6 +7,7 @@
 #include "../headers/AnimationManager.hpp"
 #include "../headers/Loading.hpp"
 #include "../headers/Collide.hpp"
+#include "../headers/Sound.hpp"
 
 #include "../resource.h"
 
@@ -17,8 +18,6 @@ std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
 std::vector<CoinAtt> CoinAttList;
 sf::Texture CoinTexture;
-sf::SoundBuffer CoinSoundBuffer;
-sf::Sound CoinSound;
 AnimationManager CoinAnimation;
 int CoinCount = 0;
 bool firstUpdate = true;
@@ -26,8 +25,6 @@ bool firstUpdate = true;
 int CoinInit() {
 	LoadTexture(CoinTexture, COIN_TEXTURE);
 	CoinAnimation.addAnimation("IdleCoin", &CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
-	LoadAudio(CoinSoundBuffer, COIN_SOUND);
-	CoinSound.setBuffer(CoinSoundBuffer);
 	return 6;
 }
 int CoinIni = CoinInit();

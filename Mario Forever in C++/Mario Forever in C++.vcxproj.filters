@@ -90,6 +90,9 @@
     <ClCompile Include="sources\AnimationManager.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Sound.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Level.hpp">
@@ -159,6 +162,9 @@
       <Filter>Header Files\Core\sfMod</Filter>
     </ClInclude>
     <ClInclude Include="headers\AnimationManager.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Sound.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

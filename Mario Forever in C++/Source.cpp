@@ -37,7 +37,7 @@ int main() {
 	//set level data
 	ReadData(LVL1);
 	//AddGoombaAI(GOOMBA, 480.0f, 128.0f)
-	AddGoombaAI(GOOMBA, 544.0f, 224.0f);
+	AddGoombaAI(GOOMBA, 544.0f, 288.0f);
 	AddGoombaAI(GOOMBA, 256.0f, 95.0f);
 	//For program
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
@@ -81,8 +81,6 @@ int main() {
 			EditText("Appear: " + appe, "_APPE");
 			EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) PowerState = 0;
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) PowerState = 1;
 		EditText("FPS: " + std::to_string((int)fps), "_FPS");
 		EditText(std::to_string(CoinCount), "_COIN");
 		EditText(std::to_string(Score), "_SCORE");
@@ -117,10 +115,10 @@ int main() {
 		MarioDraw();
 		GoombaAIUpdate();
 		ObstaclesUpdate();
-		ScoreEffectUpdate();
 		CoinUpdate();
-		CoinEffectUpdate();
 		BrickUpdate();
+		CoinEffectUpdate();
+		ScoreEffectUpdate();
 		LuckyBlockUpdate();
 		BrickParticleUpdate();
 		GoombaAIEffectUpdate();

@@ -152,6 +152,7 @@
     <ClCompile Include="sources\ScoreEffect.cpp" />
     <ClCompile Include="sources\Scroll.cpp" />
     <ClCompile Include="sources\sfMod.cpp" />
+    <ClCompile Include="sources\Sound.cpp" />
     <ClCompile Include="sources\Text.cpp" />
     <ClCompile Include="sources\WindowFrame.cpp" />
   </ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="headers\Scroll.hpp" />
     <ClInclude Include="headers\sfMod.hpp" />
     <ClInclude Include="headers\sfMod\Error.hpp" />
+    <ClInclude Include="headers\Sound.hpp" />
     <ClInclude Include="headers\Text.hpp" />
     <ClInclude Include="headers\WindowFrame.hpp" />
     <ClInclude Include="resource.h" />

@@ -4,7 +4,9 @@
 #define LOADING_HPP
 
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "sfMod.hpp"
+
 extern void LoadTexture(sf::Texture& texture, int resID);
 extern void LoadAudio(sf::SoundBuffer& soundBuffer, int resID);
 extern void LoadLvl(std::string& lvl, int resID);

@@ -13,6 +13,7 @@
 #include "../headers/GoombaAI.hpp"
 #include "../headers/ScoreEffect.hpp"
 #include "../headers/Collide.hpp"
+#include "../headers/Sound.hpp"
 #include "../headers/GoombaAIEffect.hpp"
 
 #include "../resource.h"
@@ -34,17 +35,9 @@ std::vector<sf::Clock> BrickClock;
 std::vector<bool> BrickHitted;
 std::vector<bool> DisabledBrick;
 
-sf::SoundBuffer BrickSoundBuffer;
-sf::SoundBuffer BirckBreakSoundBuffer;
-sf::Sound BrickSound;
-sf::Sound BrickBreakSound;
 sf::Texture BrickTexture;
 int LoadBricks() {
 	LoadTexture(BrickTexture, BRICK_TEXTURE);
-	LoadAudio(BrickSoundBuffer, BUMP_SOUND);
-	BrickSound.setBuffer(BrickSoundBuffer);
-	LoadAudio(BirckBreakSoundBuffer, BREAK_SOUND);
-	BrickBreakSound.setBuffer(BirckBreakSoundBuffer);
 	return 6;
 }
 int BrickInit = LoadBricks();
@@ -119,10 +112,12 @@ void HitEvent(float x, float y) {
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, BrickLoop)) {
-					if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[0].second);
-					AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-					DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-					Kick2Sound.play();
+					if (GoombaAITypeList[j] != MUSHROOM) {
+						if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						Kick2Sound.play();
+					}
 				}
 			}
 			if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {

@@ -15,6 +15,7 @@
 #include "../headers/LuckyBlock.hpp"
 #include "../headers/Loading.hpp"
 #include "../headers/Collide.hpp"
+#include "../headers/Sound.hpp"
 
 #include "../resource.h"
 
@@ -31,8 +32,10 @@ bool Holding;
 bool MarioCrouchDown = false;
 float player_speed;
 int MarioState = 0;
-int PowerState = 1;
-int lastPowerState = 1;
+
+int PowerState = 0;
+int lastPowerState = 0;
+
 bool OverSpeed = false;
 long long int Score = 0;
 sf::Clock AppearingTimer;
@@ -41,18 +44,12 @@ bool MarioAppearing = false;
 //texture loading
 sf::Texture SmallMario;
 sf::Texture BigMario;
-sf::SoundBuffer jumpSoundBuffer;
-//Sound specific
-sf::Sound SoundJump;
 std::array<float, 2> PowerOffset = { 30.0f, 7.0f };
 int loadMarioRes() {
 	AppearingTimer.restart().asMilliseconds();
 	// Resources Loader;
 	LoadTexture(SmallMario, SMALLMARIO_TEXTURE);
 	LoadTexture(BigMario, BIGMARIO_TEXTURE);
-
-	// Sound Loader
-	LoadAudio(jumpSoundBuffer, JUMP_SOUND);
 
 	//set Texture
 	//left (small)
@@ -80,9 +77,6 @@ int loadMarioRes() {
 	MarioAnimation.addAnimation("JumpBigRight", &BigMario, { 6,2 }, { 31,59 }, { 3,1 }, 0, { 3,1 }, { 4,1 });
 	MarioAnimation.addAnimation("DownBigRight", &BigMario, { 6,2 }, { 31,59 }, { 4,1 }, 0, { 4,1 }, { 5,1 });
 	MarioAnimation.addAnimation("AppearBigRight", &BigMario, { 6,2 }, { 31,59 }, { 3,2 }, 91, { 3,2 }, { 6,2 });
-
-	//set sound
-	SoundJump.setBuffer(jumpSoundBuffer);
 
 	//set property of Mario
 	return 6;
@@ -438,7 +432,7 @@ void MarioSetSmall() {
 }
 inline void MarioDraw() {
 	// check power state here
-	if (AppearingTimer.getElapsedTime().asMilliseconds() > 329.67032967032964f) MarioAppearing = false;
+	if (AppearingTimer.getElapsedTime().asMilliseconds() > (3000.0f / 91.0f) * 15.0f) MarioAppearing = false;
 	if (PowerState != lastPowerState) {
 		MarioAppearing = true;
 		AppearingTimer.restart().asMilliseconds();

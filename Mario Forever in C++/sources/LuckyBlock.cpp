@@ -13,6 +13,7 @@
 #include "../headers/ScoreEffect.hpp"
 #include "../headers/Collide.hpp"
 #include "../headers/GoombaAIEffect.hpp"
+#include "../headers/Sound.hpp"
 
 #include "../resource.h"
 
@@ -31,14 +32,15 @@ std::vector<bool> LuckyBlockHitted;
 
 sf::Texture LuckyBlockTexture;
 AnimationManager LuckyBlockAnimationManager;
+
 int LoadLuckyBlock() {
 	LoadTexture(LuckyBlockTexture, LUCKYBLOCK_TEXTURE);
 	return 6;
 }
 int LuckyBlockInit = LoadLuckyBlock();
 void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
-	if (ID == LUCKY_COIN) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(LuckyBlockTexture, sf::IntRect(0, 0, 32, 32)) });
-	else if (ID == TREE_LUCKY_COIN) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(LuckyBlockTexture, sf::IntRect(64, 32, 32, 32)) });
+	if (ID == LUCKY_BLOCK) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(LuckyBlockTexture, sf::IntRect(0, 0, 32, 32)) });
+	else if (ID == TREE_LUCKY_BLOCK) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(LuckyBlockTexture, sf::IntRect(64, 32, 32, 32)) });
 	LuckyBlockAttList.push_back(Att);
 	LuckyBlockIDList.push_back(ID);
 	LuckyBlockState.push_back(false);
@@ -54,26 +56,52 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 inline void LuckyBlockUpdate() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockState[i]) {
-			if (!LuckyUpDown[i]) {
-				if (LuckyBlockStateCount[i] < 11.0f) {
-					LuckyBlock[i].property.move(0, 0 - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime);
-					LuckyBlockStateCount[i] += (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
+			if (LuckyBlockAttList[i] == LUCKY_COIN) {
+				if (!LuckyUpDown[i]) {
+					if (LuckyBlockStateCount[i] < 11.0f) {
+						LuckyBlock[i].property.move(0, 0 - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime);
+						LuckyBlockStateCount[i] += (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
+					}
+					else {
+						LuckyBlockStateCount[i] = 11.0f;
+						LuckyUpDown[i] = true;
+					}
 				}
 				else {
-					LuckyBlockStateCount[i] = 11.0f;
-					LuckyUpDown[i] = true;
+					if (LuckyBlockStateCount[i] > 0.0f) {
+						LuckyBlock[i].property.move(0, (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime);
+						LuckyBlockStateCount[i] -= (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
+					}
+					else {
+						LuckyBlock[i].property.setPosition(LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second);
+						LuckyBlockStateCount[i] = 0.0f;
+						LuckyUpDown[i] = false;
+						LuckyBlockState[i] = false;
+					}
 				}
 			}
 			else {
-				if (LuckyBlockStateCount[i] > 0.0f) {
-					LuckyBlock[i].property.move(0, (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime);
-					LuckyBlockStateCount[i] -= (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
+				if (!LuckyUpDown[i]) {
+					if (LuckyBlockStateCount[i] < 4.0f) {
+						LuckyBlock[i].property.move(0, -1.0f * deltaTime);
+						LuckyBlockStateCount[i] += 1.0f * deltaTime;
+					}
+					else {
+						LuckyBlockStateCount[i] = 4.0f;
+						LuckyUpDown[i] = true;
+					}
 				}
 				else {
-					LuckyBlock[i].property.setPosition(LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second);
-					LuckyBlockStateCount[i] = 0.0f;
-					LuckyUpDown[i] = false;
-					LuckyBlockState[i] = false;
+					if (LuckyBlockStateCount[i] > 0.0f) {
+						LuckyBlock[i].property.move(0, 1.0f * deltaTime);
+						LuckyBlockStateCount[i] -= 1.0f * deltaTime;
+					}
+					else {
+						LuckyBlock[i].property.setPosition(LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second);
+						LuckyBlockStateCount[i] = 0.0f;
+						LuckyUpDown[i] = false;
+						LuckyBlockState[i] = false;
+					}
 				}
 			}
 		}
@@ -84,13 +112,13 @@ inline void LuckyBlockUpdate() {
 }
 inline void LuckyAnimationUpdate() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlockIDList[i] == LUCKY_COIN) {
+		if (LuckyBlockIDList[i] == LUCKY_BLOCK) {
 			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property, LuckyBlockTexture);
 			else {
 				LuckyBlock[i].property.setTextureRect(sf::IntRect(96, 0, 32, 32));
 			}
 		}
-		else if (LuckyBlockIDList[i] == TREE_LUCKY_COIN) {
+		else if (LuckyBlockIDList[i] == TREE_LUCKY_BLOCK) {
 			if (LuckyBlockHitted[i]) LuckyBlock[i].property.setTextureRect(sf::IntRect(96, 32, 32, 32));
 		}
 	}
@@ -111,16 +139,22 @@ void LuckyHitEvent(float x, float y) {
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, LuckyLoop)) {
-					if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[0].second);
-					AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-					DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-					Kick2Sound.play();
+					if (GoombaAITypeList[j] != MUSHROOM) {
+						if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						Kick2Sound.play();
+					}
 				}
 			}
-			if (LuckyBlockAttList[i] == COIN) {
+			if (LuckyBlockAttList[i] == LUCKY_COIN) {
 				CoinSound.play();
 				AddCoinEffect(COIN_NORMAL, ONE_COIN, LuckyLoop.getPosition().x - 3, LuckyLoop.getPosition().y);
 				++CoinCount;
+			}
+			else if (LuckyBlockAttList[i] == LUCKY_MUSHROOM) {
+				VineSound.play();
+				AddGoombaAI(MUSHROOM, LuckyLoop.getPosition().x + 16.0f, LuckyLoop.getPosition().y + 63.0f);
 			}
 			LuckyBlockState[i] = true;
 			LuckyUpDown[i] = false;
@@ -139,6 +173,7 @@ void deleteLuckyBlock(float x, float y) {
 			LuckyBlockState.erase(LuckyBlockState.begin() + i);
 			LuckyBlockStateCount.erase(LuckyBlockStateCount.begin() + i);
 			LuckyBlockSaveList.erase(LuckyBlockSaveList.begin() + i);
+			LuckyBlockHitted.erase(LuckyBlockHitted.begin() + i);
 			LuckyUpDown.erase(LuckyUpDown.begin() + i);
 			break;
 		}
