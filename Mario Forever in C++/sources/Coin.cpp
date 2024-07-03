@@ -47,6 +47,11 @@ void DeleteCoin(float x, float y) {
 		}
 	}
 }
+void DeleteAllCoin() {
+	CoinList.clear();
+	CoinIDList.clear();
+	CoinAttList.clear();
+}
 inline void CoinOnTouch() {
 	auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < CoinList.size(); i++) {

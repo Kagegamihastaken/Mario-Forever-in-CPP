@@ -29,10 +29,11 @@ extern bool MarioAppearing;
 extern long long int Score;
 extern void KeyboardMovement();
 extern inline void MarioDraw();
-extern void MarioSetSmall();
+extern void PowerDown();
 extern void MarioVertYUpdate();
 extern void MarioVertXUpdate();
 extern void CheckForDeath();
+extern void Death();
 extern int PowerState;
 
 #endif //MARIO_HPP

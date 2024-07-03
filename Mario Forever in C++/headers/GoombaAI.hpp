@@ -18,5 +18,6 @@ extern void GoombaAIVertYUpdate();
 extern void GoombaAIVertXUpdate();
 extern void GoombaAICheckCollide();
 extern void GoombaAIUpdate();
+extern void DeleteAllGoombaAI();
 
 #endif // GOOMBAAI_HPP

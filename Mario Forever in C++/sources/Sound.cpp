@@ -13,7 +13,9 @@ sf::SoundBuffer StompSoundBuffer;
 sf::SoundBuffer PowerupSoundBuffer;
 sf::SoundBuffer VineSoundBuffer;
 sf::SoundBuffer Kick2SoundBuffer;
+sf::SoundBuffer PipeSoundBuffer;
 
+sf::Sound PipeSound;
 sf::Sound Kick2Sound;
 sf::Sound VineSound;
 sf::Sound CoinSound;
@@ -40,6 +42,8 @@ int SoundInit() {
 	VineSound.setBuffer(VineSoundBuffer);
 	LoadAudio(Kick2SoundBuffer, KICK2_SOUND);
 	Kick2Sound.setBuffer(Kick2SoundBuffer);
+	LoadAudio(PipeSoundBuffer, PIPE_SOUND);
+	PipeSound.setBuffer(PipeSoundBuffer);
 	return 6;
 }
 int iniSound = SoundInit();

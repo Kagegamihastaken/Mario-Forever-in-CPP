@@ -36,9 +36,6 @@ int main() {
 	ViewInit();
 	//set level data
 	ReadData(LVL1);
-	//AddGoombaAI(GOOMBA, 480.0f, 128.0f)
-	AddGoombaAI(GOOMBA, 544.0f, 288.0f);
-	AddGoombaAI(GOOMBA, 256.0f, 95.0f);
 	//For program
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
@@ -55,9 +52,8 @@ int main() {
 		AddText("_FALLING", "", LEFT_MARGIN, 0, 144.0f);
 	}
 	//build a level
-	building();
-	// set position of mario
-	player.property.setPosition({ 100.0f, 200.0f });
+	Obstaclebuilding();
+	Objectbuilding();
 	std::pair<bool, bool> Test;
 	std::string fall, appe;
 	//looping frame

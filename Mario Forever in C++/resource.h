@@ -28,6 +28,7 @@
 #define KICK2_SOUND 761
 #define POWERUP_SOUND 760
 #define VINE_SOUND 759
+#define PIPE_SOUND 758
 // texture
 #define IMAGEFILE 511
 

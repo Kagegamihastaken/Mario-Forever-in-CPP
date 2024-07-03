@@ -10,5 +10,6 @@ extern sf::Sound BrickBreakSound;
 extern sf::Sound SoundJump;
 extern sf::Sound StompSound;
 extern sf::Sound Powerup;
+extern sf::Sound PipeSound;
 
 #endif

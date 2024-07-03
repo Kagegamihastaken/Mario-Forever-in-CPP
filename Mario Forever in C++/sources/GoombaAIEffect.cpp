@@ -78,6 +78,16 @@ void DeleteGoombaAIEffect(float x, float y) {
 		}
 	}
 }
+void DeleteAllGoombaAIEffect() {
+	GoombaAIEffectList.clear();
+	GoombaAIEffectDefinationList.clear();
+	GoombaAIEffectHitboxList.clear();
+	GoombaAIEffectTypeList.clear();
+	GoombaAIEffectYveloList.clear();
+	GoombaAIEffectClock.clear();
+	GoombaATEffectFadeOutList.clear();
+	GoombaAIEffectAlphaList.clear();
+}
 void GoombaAIEffectStatusUpdate() {
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
 		if (GoombaAIEffectTypeList[i] == NONE) {

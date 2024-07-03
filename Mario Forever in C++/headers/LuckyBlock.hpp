@@ -14,6 +14,7 @@ extern std::vector<std::pair<float, float>> LuckyBlockSaveList;
 extern void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y);
 extern inline void LuckyBlockUpdate();
 extern inline void LuckyAnimationUpdate();
+extern void DeleteAllLuckyBlock();
 void LuckyHitEvent(float x, float y);
 
 #endif // LUCKYBLOCK_HPP

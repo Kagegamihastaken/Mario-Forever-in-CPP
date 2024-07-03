@@ -41,6 +41,11 @@ void DeleteCoinEffect(float x, float y) {
 		}
 	}
 }
+void DeleteAllCoinEffect() {
+	CoinEffectList.clear();
+	CoinEffectIDList.clear();
+	CoinEffectAttList.clear();
+}
 inline void CoinEffectStatusUpdate() {
 	for (auto& i : CoinEffectList) {
 		i.property.move(0.0f, i.velocity * deltaTime);

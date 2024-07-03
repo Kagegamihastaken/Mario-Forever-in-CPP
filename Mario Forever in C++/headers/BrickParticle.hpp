@@ -8,5 +8,6 @@ extern void AddBrickParticle(BrickID id, float ori_x, float ori_y);
 extern void DeleteSubBrickParticle(float x, float y);
 extern void BrickParticleStatusUpdate();
 extern void BrickParticleUpdate();
+extern void DeleteAllBrickParticle();
 
 #endif // BRICKPARTICLE_HPP

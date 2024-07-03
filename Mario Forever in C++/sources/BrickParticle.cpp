@@ -118,6 +118,13 @@ void BrickParticleStatusUpdate() {
 		if (!canDelete) break;
 	}
 }
+void DeleteAllBrickParticle() {
+	BrickParticleList.clear();
+	BrickParticleVelo.clear();
+	BrickParticleDisabledList.clear();
+	BrickParticleID.clear();
+	BrickParticleClock.clear();
+}
 void BrickParticleUpdate() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {

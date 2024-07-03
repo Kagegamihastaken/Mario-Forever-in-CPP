@@ -58,5 +58,6 @@ int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 		}
 		else ou += lvldata[i];
 	}
+	out = ou.substr(0, ou.size());
 	return -1;
 }

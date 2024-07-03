@@ -6,6 +6,11 @@
 #include "../headers/enum.hpp"
 #include "../headers/Loading.hpp"
 #include "../headers/Collide.hpp"
+#include "../headers/GoombaAI.hpp"
+#include "../headers/BrickParticle.hpp"
+#include "../headers/CoinEffect.hpp"
+#include "../headers/GoombaAIEffect.hpp"
+#include "../headers/ScoreEffect.hpp"
 
 #include "../resource.h"
 
@@ -14,13 +19,16 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
+#include <array>
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::vector<float>> LevelData;
+std::vector<std::array<float, 5>> BonusData;
+std::vector<std::array<float, 3>> EnemyData;
+std::array<float, 2> PlayerData;
 void ReadData(int IDLevel) {
 	std::string lvldat;
 	LoadLvl(lvldat, IDLevel);
-	//std::cout << lvldat;
 	float value;
 	std::string DataStructure;
 	std::vector<float> temp;
@@ -28,30 +36,43 @@ void ReadData(int IDLevel) {
 	std::string numLoop;
 	// Read the file
 	while (true) {
-		tm = ReadStrLine(lvldat, DataStructure, tm);
+		if (DataStructure != "--Level Data--" && DataStructure != "--Tile Data--" && DataStructure != "--Bonus Data--" && DataStructure != "--Enemy Data--" && DataStructure != "--Scenery Data--") {
+			tm = ReadStrLine(lvldat, DataStructure, tm);
+		}
 		if (tm == -1) break;
 		if (DataStructure == "--Level Data--") {
-			while (true) {
-				tm = ReadStrLine(lvldat, DataStructure, tm);
-				if (DataStructure == "") continue;
-				int C = 0;
-				numLoop = "";
-				for (const auto& i : DataStructure) {
-					if (i != ' ') numLoop += i;
-					else {
-						if (numLoop != "") {
+			int C;
+			for (int i = 0; i < 2; ++i) {
+				while (true) {
+					tm = ReadStrLine(lvldat, DataStructure, tm);
+					if (DataStructure == "") continue;
+					C = 0;
+					numLoop = "";
+					for (const auto& j : DataStructure) {
+						if (j != ' ') numLoop += j;
+						else {
+							if (i == 0) {
+								if (C == 0) LevelWidth = std::stof(numLoop);
+								else if (C == 1) LevelHeight = std::stof(numLoop);
+							}
+							else if (i == 1) {
+								PlayerData[C] = std::stof(numLoop);
+							}
+							++C;
+							numLoop = "";
+						}
+					}
+					if (numLoop != "") {
+						if (i == 0) {
 							if (C == 0) LevelWidth = std::stof(numLoop);
 							else if (C == 1) LevelHeight = std::stof(numLoop);
 						}
-						++C;
-						numLoop = "";
+						else if (i == 1) {
+							PlayerData[C] = std::stof(numLoop);
+						}
 					}
+					break;
 				}
-				if (numLoop != "") {
-					if (C == 0) LevelWidth = std::stof(numLoop);
-					else if (C == 1) LevelHeight = std::stof(numLoop);
-				}
-				break;
 			}
 		}
 		if (DataStructure == "--Tile Data--") {
@@ -61,7 +82,7 @@ void ReadData(int IDLevel) {
 				temp.clear();
 				numLoop = "";
 				//if said Bonus Data break it
-				if (DataStructure == "--Bonus Data--") break;
+				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Scenery Data--") break;
 				for (const auto& i : DataStructure) {
 					if (i != ' ') numLoop += i;
 					else {
@@ -69,9 +90,9 @@ void ReadData(int IDLevel) {
 						numLoop = "";
 					}
 				}
-				if (tm == -1) break;
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
 				LevelData.push_back(temp);
+				if (tm == -1) break;
 			}
 		}
 		if (DataStructure == "--Bonus Data--") {
@@ -81,7 +102,7 @@ void ReadData(int IDLevel) {
 				temp.clear();
 				numLoop = "";
 				//if said Enemies Data break it
-				if (DataStructure == "--Enemies Data--") break;
+				if (DataStructure == "--Tile Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Scenery Data--") break;
 				for (const auto& i : DataStructure) {
 					if (i != ' ') numLoop += i;
 					else {
@@ -89,16 +110,35 @@ void ReadData(int IDLevel) {
 						numLoop = "";
 					}
 				}
-				if (tm == -1) break;
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				if (temp[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(temp[1])), static_cast<CoinAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
-				else if (temp[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(temp[1])), static_cast<BrickAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
-				else if (temp[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(temp[1])), static_cast<LuckyBlockAtt>(static_cast<int>(temp[2])), temp[3], temp[4]);
+				BonusData.push_back({ temp[0], temp[1], temp[2], temp[3], temp[4] });
+				if (tm == -1) break;
 			}
 		}
+		if (DataStructure == "--Enemy Data--") {
+			while (true) {
+				tm = ReadStrLine(lvldat, DataStructure, tm);
+				if (DataStructure == "") continue;
+				temp.clear();
+				numLoop = "";
+				//if said Enemies Data break it
+				if (DataStructure == "--Bonus Data--" || DataStructure == "--Tile Data--" || DataStructure == "--Scenery Data--") break;
+				for (const auto& i : DataStructure) {
+					if (i != ' ') numLoop += i;
+					else {
+						if (numLoop != "") temp.push_back(std::stof(numLoop));
+						numLoop = "";
+					}
+				}
+				if (numLoop != "") temp.push_back(std::stof(numLoop));
+				EnemyData.push_back({ temp[0], temp[1], temp[2] });
+				if (tm == -1) break;
+			}
+		}
+		if (tm == -1) break;
 	}
 }
-void building() {
+void Obstaclebuilding() {
 	int posTextureIndex;
 	for (const auto& i : LevelData) {
 		// Find the tile id
@@ -107,5 +147,27 @@ void building() {
 		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(ObstaclesTexture, sf::IntRect(ID_list[posTextureIndex][1], ID_list[posTextureIndex][2], 32, 32)) });
 		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ i[1], i[2] });
 		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
+	}
+}
+void Objectbuilding() {
+	//Delete Effects
+	DeleteAllBrickParticle();
+	DeleteAllCoinEffect();
+	DeleteAllGoombaAIEffect();
+	DeleteAllScoreEffect();
+	//Delete Objects
+	DeleteAllBrick();
+	DeleteAllCoin();
+	DeleteAllLuckyBlock();
+	DeleteAllGoombaAI();
+	//(Re)build Objects
+	player.property.setPosition(PlayerData[0], PlayerData[1]);
+	for (const auto& i : BonusData) {
+		if (i[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
+		else if (i[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
+		else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+	}
+	for (const auto& i : EnemyData) {
+		AddGoombaAI(static_cast<GoombaAIType>(i[0]), i[1], i[2]);
 	}
 }

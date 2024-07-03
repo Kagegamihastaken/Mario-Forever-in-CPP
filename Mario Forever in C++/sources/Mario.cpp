@@ -16,6 +16,7 @@
 #include "../headers/Loading.hpp"
 #include "../headers/Collide.hpp"
 #include "../headers/Sound.hpp"
+#include "../headers/Level.hpp"
 
 #include "../resource.h"
 
@@ -39,6 +40,9 @@ int lastPowerState = 0;
 bool OverSpeed = false;
 long long int Score = 0;
 sf::Clock AppearingTimer;
+sf::Clock InvincibleTimer;
+bool Invincible = false;
+bool InvincibleState = false;
 bool MarioAppearing = false;
 // 0 for right; 1 for left
 //texture loading
@@ -422,13 +426,27 @@ void UpdateAnimation() {
 		}
 	}
 }
-void CheckForDeath() {
-	if (isOutScreenY(player.property.getPosition().y, 64)) {
-		window.close();
+void PowerDown() {
+	if (!Invincible) {
+		if (PowerState == 1) {
+			PipeSound.play();
+			PowerState = 0;
+			Invincible = true;
+			InvincibleTimer.restart().asSeconds();
+			InvincibleState = false;
+		}
+		else if (PowerState == 0) Death();
 	}
 }
-void MarioSetSmall() {
-	player.property.setTexture(SmallMario);
+void Death() {
+	Objectbuilding();
+	PowerState = 0;
+	lastPowerState = 0;
+}
+void CheckForDeath() {
+	if (isOutScreenY(player.property.getPosition().y, 64)) {
+		Death();
+	}
 }
 inline void MarioDraw() {
 	// check power state here
@@ -439,5 +457,13 @@ inline void MarioDraw() {
 		lastPowerState = PowerState;
 	}
 	//then draw
-	window.draw(player.property);
+	if (InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) Invincible = false;
+	if (!Invincible) window.draw(player.property);
+	else {
+		if (!InvincibleState) {
+			window.draw(player.property);
+			InvincibleState = true;
+		}
+		else InvincibleState = false;
+	}
 }

@@ -4,7 +4,8 @@
 #define LEVEL_HPP
 
 extern std::vector<std::vector<float>> LevelData;
-extern void building();
+extern void Obstaclebuilding();
+extern void Objectbuilding();
 extern void ReadData(int IDLevel);
 extern float LevelWidth, LevelHeight;
 

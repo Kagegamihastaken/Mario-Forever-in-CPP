@@ -21,5 +21,7 @@ extern sf::Sound CoinSound;
 extern void AddCoin(CoinID ID, CoinAtt att, float x, float y);
 extern inline void CoinUpdate();
 extern inline void CoinOnTouch();
+extern void DeleteAllCoin();
+extern void DeleteLuckyBlock(float x, float y);
 extern void DeleteCoin(float x, float y);
 #endif // Coin_HPP

@@ -147,13 +147,13 @@ void HitEvent(float x, float y) {
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
 				BrickBreakSound.play();
 				AddBrickParticle(BrickIDList[i], Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
-				deleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
+				DeleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
 				Score += 50;
 			}
 		}
 	}
 }
-void deleteBrick(float x, float y) {
+void DeleteBrick(float x, float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			Bricks.erase(Bricks.begin() + i);
@@ -166,4 +166,14 @@ void deleteBrick(float x, float y) {
 			break;
 		}
 	}
+}
+void DeleteAllBrick() {
+	Bricks.clear();
+	BrickAttList.clear();
+	BrickIDList.clear();
+	BrickState.clear();
+	BrickStateCount.clear();
+	BrickSaveList.clear();
+	BrickHitted.clear();
+	UpDown.clear();
 }

@@ -17,6 +17,7 @@
 #include "../headers/GoombaAIEffect.hpp"
 #include "../headers/Mario.hpp"
 #include "../headers/Sound.hpp"
+#include "../headers/Level.hpp"
 
 #include "../resource.h"
 
@@ -107,6 +108,21 @@ void DeleteGoombaAI(GoombaAIType type, float x, float y) {
 		}
 	}
 }
+void DeleteAllGoombaAI() {
+	GoombaAIList.clear();
+	GoombaAIDirectionList.clear();
+	GoombaAITypeList.clear();
+	GoombaAIYveloList.clear();
+	GoombaAIXveloList.clear();
+	GoombaAIDisabledList.clear();
+	GoombaAIClock.clear();
+	GoombaAIAnimationList.clear();
+	GoombaAIHittableList.clear();
+	GoombaAIDefinationList.clear();
+	GoombaAIHitboxList.clear();
+	GoombaAIAppearingList.clear();
+	GoombaAIAppearingYList.clear();
+}
 void GoombaStatusUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (!isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && GoombaAIDisabledList[i]) GoombaAIDisabledList[i] = false;
@@ -135,7 +151,8 @@ void GoombaAICheckCollide() {
 			}
 			if (GoombaAIHittableList[i] == YES || GoombaAIHittableList[i] == NO) {
 				if ((GoombaAIList[i].property.getPosition().y - 16.0f) < player.property.getPosition().y) {
-					window.close();
+					//Objectbuilding();
+					PowerDown();
 					break;
 				}
 			}

@@ -164,7 +164,7 @@ void LuckyHitEvent(float x, float y) {
 		}
 	}
 }
-void deleteLuckyBlock(float x, float y) {
+void DeleteLuckyBlock(float x, float y) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y) {
 			LuckyBlock.erase(LuckyBlock.begin() + i);
@@ -178,4 +178,14 @@ void deleteLuckyBlock(float x, float y) {
 			break;
 		}
 	}
+}
+void DeleteAllLuckyBlock() {
+	LuckyBlock.clear();
+	LuckyBlockAttList.clear();
+	LuckyBlockIDList.clear();
+	LuckyBlockState.clear();
+	LuckyBlockStateCount.clear();
+	LuckyBlockSaveList.clear();
+	LuckyBlockHitted.clear();
+	LuckyUpDown.clear();
 }

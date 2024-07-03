@@ -76,6 +76,12 @@ void DeleteScoreEffect(float x, float y) {
 		}
 	}
 }
+void DeleteAllScoreEffect() {
+	ScoreEffectList.clear();
+	ScoreEffectIDList.clear();
+	ScoreEffectVelocity.clear();
+	ScoreEffectAlpha.clear();
+}
 inline void ScoreEffectStatusUpdate() {
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
 		ScoreEffectList[i].move(0, ScoreEffectVelocity[i] * deltaTime);
