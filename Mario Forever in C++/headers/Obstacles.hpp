@@ -11,7 +11,7 @@ public:
 	sf::Sprite property;
 	sf::FloatRect hitbox;
 };
-extern std::vector<std::vector<int>> ID_list;
+extern std::vector<std::array<int, 3>> ID_list;
 extern std::vector<Obstacles> ObstaclesList;
 extern sf::Texture ObstaclesTexture;
 extern void ObstaclesUpdate();

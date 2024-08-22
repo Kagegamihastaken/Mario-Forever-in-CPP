@@ -105,6 +105,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\VSing\libmodplug\include\libmodplug;C:\VSing\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>C:\VSing\SFML-2.6.1\include;C:\VSing\libmodplug\include\libmodplug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +144,7 @@
     <ClCompile Include="sources\Coin.cpp" />
     <ClCompile Include="sources\CoinEffect.cpp" />
     <ClCompile Include="sources\Collide.cpp" />
+    <ClCompile Include="sources\Collision.cpp" />
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\GoombaAI.cpp" />
     <ClCompile Include="sources\GoombaAIEffect.cpp" />
@@ -152,6 +156,7 @@
     <ClCompile Include="sources\ScoreEffect.cpp" />
     <ClCompile Include="sources\Scroll.cpp" />
     <ClCompile Include="sources\sfMod.cpp" />
+    <ClCompile Include="sources\Slopes.cpp" />
     <ClCompile Include="sources\Sound.cpp" />
     <ClCompile Include="sources\Text.cpp" />
     <ClCompile Include="sources\WindowFrame.cpp" />
@@ -163,6 +168,7 @@
     <ClInclude Include="headers\Coin.hpp" />
     <ClInclude Include="headers\CoinEffect.hpp" />
     <ClInclude Include="headers\Collide.hpp" />
+    <ClInclude Include="headers\Collision.hpp" />
     <ClInclude Include="headers\enum.hpp" />
     <ClInclude Include="headers\Font.hpp" />
     <ClInclude Include="headers\GoombaAI.hpp" />
@@ -177,6 +183,7 @@
     <ClInclude Include="headers\Scroll.hpp" />
     <ClInclude Include="headers\sfMod.hpp" />
     <ClInclude Include="headers\sfMod\Error.hpp" />
+    <ClInclude Include="headers\Slopes.hpp" />
     <ClInclude Include="headers\Sound.hpp" />
     <ClInclude Include="headers\Text.hpp" />
     <ClInclude Include="headers\WindowFrame.hpp" />

@@ -11,6 +11,7 @@
 #include "../headers/CoinEffect.hpp"
 #include "../headers/GoombaAIEffect.hpp"
 #include "../headers/ScoreEffect.hpp"
+#include "../headers/Slopes.hpp"
 
 #include "../resource.h"
 
@@ -22,7 +23,8 @@
 #include <array>
 // Level data
 float LevelWidth, LevelHeight;
-std::vector<std::vector<float>> LevelData;
+std::vector<std::array<float, 3>> LevelData;
+std::vector<std::array<float, 3>> SlopeData;
 std::vector<std::array<float, 5>> BonusData;
 std::vector<std::array<float, 3>> EnemyData;
 std::array<float, 2> PlayerData;
@@ -36,7 +38,7 @@ void ReadData(int IDLevel) {
 	std::string numLoop;
 	// Read the file
 	while (true) {
-		if (DataStructure != "--Level Data--" && DataStructure != "--Tile Data--" && DataStructure != "--Bonus Data--" && DataStructure != "--Enemy Data--" && DataStructure != "--Scenery Data--") {
+		if (DataStructure != "--Level Data--" && DataStructure != "--Tile Data--" && DataStructure != "--Bonus Data--" && DataStructure != "--Enemy Data--" && DataStructure != "--Slope Data--") {
 			tm = ReadStrLine(lvldat, DataStructure, tm);
 		}
 		if (tm == -1) break;
@@ -82,7 +84,7 @@ void ReadData(int IDLevel) {
 				temp.clear();
 				numLoop = "";
 				//if said Bonus Data break it
-				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Scenery Data--") break;
+				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Slope Data--") break;
 				for (const auto& i : DataStructure) {
 					if (i != ' ') numLoop += i;
 					else {
@@ -91,7 +93,7 @@ void ReadData(int IDLevel) {
 					}
 				}
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				LevelData.push_back(temp);
+				LevelData.push_back({ temp[0], temp[1], temp[2] });
 				if (tm == -1) break;
 			}
 		}
@@ -102,7 +104,7 @@ void ReadData(int IDLevel) {
 				temp.clear();
 				numLoop = "";
 				//if said Enemies Data break it
-				if (DataStructure == "--Tile Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Scenery Data--") break;
+				if (DataStructure == "--Tile Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Slope Data--") break;
 				for (const auto& i : DataStructure) {
 					if (i != ' ') numLoop += i;
 					else {
@@ -122,7 +124,7 @@ void ReadData(int IDLevel) {
 				temp.clear();
 				numLoop = "";
 				//if said Enemies Data break it
-				if (DataStructure == "--Bonus Data--" || DataStructure == "--Tile Data--" || DataStructure == "--Scenery Data--") break;
+				if (DataStructure == "--Bonus Data--" || DataStructure == "--Tile Data--" || DataStructure == "--Slope Data--") break;
 				for (const auto& i : DataStructure) {
 					if (i != ' ') numLoop += i;
 					else {
@@ -135,6 +137,26 @@ void ReadData(int IDLevel) {
 				if (tm == -1) break;
 			}
 		}
+		if (DataStructure == "--Slope Data--") {
+			while (true) {
+				tm = ReadStrLine(lvldat, DataStructure, tm);
+				if (DataStructure == "") continue;
+				temp.clear();
+				numLoop = "";
+				//if said Bonus Data break it
+				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Tile Data--") break;
+				for (const auto& i : DataStructure) {
+					if (i != ' ') numLoop += i;
+					else {
+						if (numLoop != "") temp.push_back(std::stof(numLoop));
+						numLoop = "";
+					}
+				}
+				if (numLoop != "") temp.push_back(std::stof(numLoop));
+				SlopeData.push_back({ temp[0], temp[1], temp[2] });
+				if (tm == -1) break;
+			}
+		}
 		if (tm == -1) break;
 	}
 }
@@ -142,11 +164,23 @@ void Obstaclebuilding() {
 	int posTextureIndex;
 	for (const auto& i : LevelData) {
 		// Find the tile id
-		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::vector<int>& compare) {return compare[0] == int(i[0]); }) - (ID_list.begin());
+		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(i[0]); }) - (ID_list.begin());
 		// Then use the index of tile id property to add it to the list
 		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(ObstaclesTexture, sf::IntRect(ID_list[posTextureIndex][1], ID_list[posTextureIndex][2], 32, 32)) });
 		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ i[1], i[2] });
 		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
+	}
+}
+void Slopebuilding() {
+	int posTextureIndex;
+	for (const auto& i : SlopeData) {
+		// Find the tile id
+		posTextureIndex = find_if(IDSlope_list.begin(), IDSlope_list.end(), [&i](const std::array<int, 4>& compare) {return compare[0] == int(i[0]); }) - (IDSlope_list.begin());
+		// Then use the index of tile id property to add it to the list
+		SlopesList.push_back(Obstacles{ int(i[0]), sf::Sprite(SlopeTexture, sf::IntRect(IDSlope_list[posTextureIndex][1], IDSlope_list[posTextureIndex][2], 32, 32)) });
+		SlopesList[int(SlopesList.size()) - 1].property.setPosition({ i[1], i[2] });
+		SlopesGraphIDList.push_back(IDSlope_list[posTextureIndex][3]);
+		setHitbox(SlopesList[int(SlopesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
 	}
 }
 void Objectbuilding() {

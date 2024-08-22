@@ -14,6 +14,7 @@
 #include "headers/GoombaAI.hpp"
 #include "headers/GoombaAIEffect.hpp"
 #include "headers/enum.hpp"
+#include "headers/Slopes.hpp"
 
 #include "headers/sfMod.hpp"
 #include "resource.h"
@@ -28,10 +29,10 @@
 #include <fstream>
 int main() {
 	//Init music
-	sfmod::Mod test;
-	LoadMOD(test, TEST_MUSIC, 14, 44100);
-	test.setLoop(true);
-	test.play();
+	//sfmod::Mod test;
+	//LoadMOD(test, TEST_MUSIC, 14, 44100);
+	//test.setLoop(true);
+	//test.play();
 	//Init window
 	ViewInit();
 	//set level data
@@ -53,6 +54,7 @@ int main() {
 	}
 	//build a level
 	Obstaclebuilding();
+	Slopebuilding();
 	Objectbuilding();
 	std::pair<bool, bool> Test;
 	std::string fall, appe;
@@ -111,6 +113,7 @@ int main() {
 		MarioDraw();
 		GoombaAIUpdate();
 		ObstaclesUpdate();
+		SlopeUpdate();
 		CoinUpdate();
 		BrickUpdate();
 		CoinEffectUpdate();

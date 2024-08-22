@@ -17,6 +17,8 @@
 #include "../headers/Collide.hpp"
 #include "../headers/Sound.hpp"
 #include "../headers/Level.hpp"
+#include "../headers/Slopes.hpp"
+#include "../headers/Collision.hpp"
 
 #include "../resource.h"
 
@@ -226,16 +228,58 @@ void MarioVertXUpdate() {
 	if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::X)) Xvelo = 7.5f;
 }
 void MarioVertYUpdate() {
-	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide, LuckyCollide;
-	// bottom update
-	bool ObstacleCheck, BrickCheck, LuckyCheck;
-	float CurrPosYCollide;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) player.property.move(0.0f, 1.0f * deltaTime);
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player.property.move(0.0f, -1.0f * deltaTime);
+	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide, LuckyCollide, SlopeCollide;
+	bool ObstacleCheck, BrickCheck, LuckyCheck, SlopeCheck;
+	float CurrPosYCollide, CurrPosXCollide, ID, Diff, OldY;
 	bool NoAdd;
+	//bottom update (slopes)
+	SlopeCheck = isCollideBot(player, SlopesList);
+	std::vector<std::array<float, 3>> SlopeTemp;
+	if (SlopeCheck) {
+		MarioCurrentFalling = false;
+		bool isLanding;
+		NoAdd = false;
+		CurrPosXCollide = 0.0f, CurrPosYCollide = 0.0f;
+		if (Yvelo >= 0.0f) {
+			isLanding = true;
+			Yvelo = 0.0f;
+		}
+		else {
+			isLanding = false;
+			Yvelo = 0.0f;
+		}
+		std::cout << Yvelo << "\n";
+		if (Yvelo >= 0.0f) {
+			SlopeTemp.clear();
+			OldY = player.property.getPosition().y;
+			SlopeCollide = isAccuratelyCollideBot(player, SlopesList, CurrPosXCollide, CurrPosYCollide, NoAdd, ID, SlopeTemp);
+			for (const auto& i : SlopeTemp) {
+				if (player.property.getPosition().x <= i[0] + 32) {
+					if (i[2] == 0) player.property.setPosition(player.property.getPosition().x, i[1] + i[0] + 32.0f - player.property.getPosition().x - 3.0f - (52.0f - player.property.getOrigin().y + 7.0f) * 2.0f);
+					if (i[2] == 1) player.property.setPosition(player.property.getPosition().x, i[1] + 0.5 * (i[0] + 32.0f - player.property.getPosition().x - 3.0f + (52.0f - player.property.getOrigin().y + 7.0f)));
+					if (i[2] == 2) player.property.setPosition(player.property.getPosition().x, i[1] + 0.5 * (i[0] + 32.0f - player.property.getPosition().x - 3.0f + (52.0f - player.property.getOrigin().y + 7.0f)) - 16.0f);
+				}
+			}
+			Diff = player.property.getPosition().y - OldY;
+			SlopeCheck = isCollideBot(player, SlopesList);
+			if (!SlopeCheck) player.property.move(0.0f, -Diff);
+		}
+	}
+	// bottom update (obstacles)
 	ObstacleCheck = isCollideBot(player, ObstaclesList);
 	BrickCheck = isCollideBot(player, Bricks);
 	LuckyCheck = isCollideBot(player, LuckyBlock);
+	SlopeCheck = false;
+	for (const auto& i : SlopesList) {
+		if (Collision::pixelPerfectTest(player.property, i.property)) {
+			SlopeCheck = true;
+			break;
+		}
+	}
 	if (Yvelo >= 0.0f && MarioCanJump) MarioCanJump = false;
-	if ((!ObstacleCheck && !BrickCheck && !LuckyCheck) || MarioCanJump) {
+	if ((!ObstacleCheck && !BrickCheck && !LuckyCheck && !SlopeCheck) || MarioCanJump) {
 		MarioCurrentFalling = true;
 		Yvelo += (Yvelo >= 10.0f ? 0.0f : 1.0f * deltaTime);
 		player.property.move(0.0f, Yvelo * deltaTime);

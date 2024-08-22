@@ -9,12 +9,13 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <array>
 
 //Obstacles define
 std::vector<Obstacles> ObstaclesList;
 sf::Texture ObstaclesTexture;
 //set ID for each texture obstacle
-std::vector<std::vector<int>> ID_list{
+std::vector<std::array<int, 3>> ID_list{
 	{0, 0, 0},
 	{1, 32, 0},
 	{2, 64, 0},

@@ -1,8 +1,11 @@
 #include <SFML/Graphics.hpp>
+#include <array>
+#include <vector>
 
 #include "../headers/Collide.hpp"
 #include "../headers/Mario.hpp"
 #include "../headers/Obstacles.hpp"
+#include "../headers/Slopes.hpp"
 
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
 	hitbox = Sethitbox;
@@ -110,6 +113,30 @@ std::pair<bool, std::pair<bool, bool>> isAccurateCollideBot(const MovableObject&
 				CurrPosYCollide = hitbox_loop.getPosition().y;
 				NoAdd = true;
 			}
+		}
+		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) isCollideRight = true;
+		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideLeft = true;
+		if (isCollideBotBool && isCollideRight && isCollideLeft) break;
+	}
+	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
+}
+std::pair<bool, std::pair<bool, bool>> isAccuratelyCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, float& ID, std::vector<std::array<float, 3>>& SlopeTemp) {
+	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
+	sf::FloatRect hitbox_loop;
+	for (int i = 0; i < OL.size(); ++i) {
+		hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
+		if (isCollide(object.hitboxBot, object.property, hitbox_loop)) {
+			isCollideBotBool = true;
+			if (!NoAdd) {
+				CurrPosXCollide = OL[i].property.getPosition().x;
+				CurrPosYCollide = hitbox_loop.getPosition().y;
+				ID = SlopesGraphIDList[i];
+				NoAdd = true;
+			}
+			CurrPosXCollide = OL[i].property.getPosition().x;
+			CurrPosYCollide = hitbox_loop.getPosition().y;
+			ID = SlopesGraphIDList[i];
+			SlopeTemp.push_back({ CurrPosXCollide, CurrPosYCollide, ID });
 		}
 		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) isCollideRight = true;
 		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideLeft = true;
