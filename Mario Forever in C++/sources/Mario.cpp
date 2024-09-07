@@ -250,7 +250,7 @@ void MarioVertYUpdate() {
 			isLanding = false;
 			Yvelo = 0.0f;
 		}
-		std::cout << Yvelo << "\n";
+		//std::cout << Yvelo << "\n";
 		if (Yvelo >= 0.0f) {
 			SlopeTemp.clear();
 			OldY = player.property.getPosition().y;

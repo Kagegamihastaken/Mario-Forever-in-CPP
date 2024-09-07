@@ -29,10 +29,10 @@
 #include <fstream>
 int main() {
 	//Init music
-	//sfmod::Mod test;
-	//LoadMOD(test, TEST_MUSIC, 14, 44100);
-	//test.setLoop(true);
-	//test.play();
+	sfmod::Mod test;
+	LoadMOD(test, TEST_MUSIC, 14, 44100);
+	test.setLoop(true);
+	test.play();
 	//Init window
 	ViewInit();
 	//set level data
@@ -106,7 +106,7 @@ int main() {
 		//Update mario animation
 		UpdateAnimation();
 		//core code
-		window.clear(sf::Color::White);
+		window.clear(sf::Color::Black);
 		updateFrame();
 		//draw
 		updateView();

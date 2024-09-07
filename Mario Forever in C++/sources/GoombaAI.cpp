@@ -23,7 +23,7 @@
 
 std::vector<MovableObject> GoombaAIList;
 std::vector<GoombaAIType> GoombaAITypeList;
-std::array<sf::Texture, 2> GoombaAITexture; //
+std::array<sf::Texture, 3> GoombaAITexture; //
 std::vector<std::pair<float, float>> GoombaAIHitboxList; //
 std::vector<GoombaAIDirection> GoombaAIDirectionList;
 std::vector<float> GoombaAIYveloList;
@@ -31,7 +31,7 @@ std::vector<float> GoombaAIXveloList;
 std::vector<bool> GoombaAIDisabledList;
 std::vector<GoombaAIHittable> GoombaAIHittableList;
 std::vector<std::array<float, 4>> GoombaAIDefinationList;
-std::vector<LocalAnimationManager> GoombaAIAnimationList;
+std::vector<std::pair<LocalAnimationManager, LocalAnimationManager>> GoombaAIAnimationList;
 std::vector<sf::Clock> GoombaAIClock;
 std::vector<bool> GoombaAIAppearingList;
 std::vector<float> GoombaAIAppearingYList;
@@ -43,27 +43,40 @@ int GoombaAILoadRes() {
 	/*
 		0: Goomba
 		1: Mushroom
+		2: Koopa (Green)
 	*/
 	LoadTexture(GoombaAITexture[0], GOOMBA_TEXTURE);
 	LoadTexture(GoombaAITexture[1], MUSHROOM_TEXTURE);
+	LoadTexture(GoombaAITexture[2], GREEN_KOOPA_TEXTURE);
 	return 6;
 }
 int iniGoombaAI = GoombaAILoadRes();
 void AddGoombaAI(GoombaAIType type, float x, float y) {
 	MovableObject Init;
-	LocalAnimationManager in;
-	if (type == GOOMBA) {
-		Init.property.setOrigin(16, 31);
+	LocalAnimationManager in, inri;
+	if (type != MUSHROOM) {
+		if (type == GOOMBA) {
+			Init.property.setOrigin(16, 31);
+			GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
+			GoombaAIHitboxList.push_back({ 31, 32 });
+			in.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
+			inri.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
+		}
+		else if (type == GREEN_KOOPA) {
+			Init.property.setOrigin(13, 44);
+			GoombaAIDefinationList.push_back({ 32.0f, 47.0f, 0.0f, 0.0f });
+			GoombaAIHitboxList.push_back({ 32, 47 });
+			in.setAnimation({ 32,47 }, { 0,0 }, { 2,0 }, 12);
+			inri.setAnimation({ 32,47 }, { 0,1 }, { 2,1 }, 12);
+		}
 		GoombaAIXveloList.push_back(1.0f);
 		GoombaAIHittableList.push_back(YES);
-		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
-		GoombaAIHitboxList.push_back({ 31, 32 });
-		in.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
 		GoombaAIAppearingList.push_back(false);
 	}
-	if (type == MUSHROOM) {
+	else {
 		Init.property.setOrigin(16, 31);
-		Init.property.setTexture(GoombaAITexture[1]);
+		in.setAnimation({ 31,32 }, { 0,0 }, { 1,0 }, 100);
+		inri.setAnimation({ 31,32 }, { 0,0 }, { 1,0 }, 100);
 		GoombaAIXveloList.push_back(2.0f);
 		GoombaAIHittableList.push_back(FULL);
 		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
@@ -78,7 +91,7 @@ void AddGoombaAI(GoombaAIType type, float x, float y) {
 	setHitbox(Init.hitboxRight, { GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first - 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 9.0f });
 	setHitbox(Init.hitboxLeft, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 2.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], 2.0f, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second - 9.0f });
 	Init.property.setPosition(x, y);
-	GoombaAIAnimationList.push_back(in);
+	GoombaAIAnimationList.push_back({ in, inri });
 	GoombaAIClock.push_back(sf::Clock());
 	GoombaAIClock[GoombaAIClock.size() - 1].restart().asMilliseconds();
 	GoombaAIList.push_back(Init);
@@ -289,11 +302,21 @@ void GoombaAIVertYUpdate() {
 void GoombaAIUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (!isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
-			if (GoombaAITypeList[i] == GOOMBA) GoombaAIAnimationList[i].update(GoombaAIList[i].property, GoombaAITexture[0]);
+			if (GoombaAIDirectionList[i] == RIGHT) {
+				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITexture[GoombaAITypeList[i]]);
+
+				GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
+			}
+			else if (GoombaAIDirectionList[i] == LEFT) {
+				GoombaAIAnimationList[i].second.update(GoombaAIList[i].property, GoombaAITexture[GoombaAITypeList[i]]);
+
+				GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
+			}
 			window.draw(GoombaAIList[i].property);
 		}
 		else if (isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
-			GoombaAIAnimationList[i].silentupdate(GoombaAIList[i].property);
+			GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
+			GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
 		}
 	}
 }

@@ -35,8 +35,8 @@ public:
 		this->frequency = frequency;
 	}
 	void update(sf::Sprite& sprite, sf::Texture& texture) {
-		sf::IntRect rect(this->indexAnimation.x * this->spriteSize.x,
-			this->indexAnimation.y * this->spriteSize.y,
+		sf::IntRect rect(this->indexAnimation.x * this->spriteSize.x + this->indexAnimation.x,
+			this->indexAnimation.y * this->spriteSize.y + this->indexAnimation.y,
 			this->spriteSize.x, this->spriteSize.y);
 		sprite.setTexture(texture);
 		sprite.setTextureRect(rect);

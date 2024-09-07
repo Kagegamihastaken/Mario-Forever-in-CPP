@@ -24,8 +24,9 @@ void AnimationManager::update(std::string animation, sf::Sprite& sprite) {
 	// there is actually an entry
 	if (m_sheetSizes[animation] != sf::Vector2i(0, 0)) {
 		// We want to do a few calculations to find the coordinates of the next frame
-		sf::IntRect rect(m_indicies[animation].x * m_spriteSizes[animation].x,
-			m_indicies[animation].y * m_spriteSizes[animation].y,
+
+		sf::IntRect rect(m_indicies[animation].x * m_spriteSizes[animation].x + m_indicies[animation].x,
+			m_indicies[animation].y * m_spriteSizes[animation].y + m_indicies[animation].y,
 			m_spriteSizes[animation].x, m_spriteSizes[animation].y);
 
 		sprite.setTexture(*m_textures[animation]);
