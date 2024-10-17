@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Font.hpp"
+#include "../headers/Text/Font.hpp"
 
 #include <string>
 #include <algorithm>

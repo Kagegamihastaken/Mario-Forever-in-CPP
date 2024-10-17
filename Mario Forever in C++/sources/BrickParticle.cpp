@@ -3,11 +3,11 @@
 #include <iostream>
 #include <array>
 
-#include "../headers/enum.hpp"
-#include "../headers/BrickParticle.hpp"
-#include "../headers/Loading.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/WindowFrame.hpp"
+#include "../headers/Core/Loading/enum.hpp"
+#include "../headers/Effect/BrickParticle.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/WindowFrame.hpp"
 
 #include "../resource.h"
 

@@ -3,8 +3,8 @@
 #include <Windows.h>
 #include <string>
 #include <modplug.h>
-#include "../headers/sfMod.hpp"
-#include "../headers/Loading.hpp"
+#include "../headers/Core/sfMod/sfMod.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
 #include "../resource.h"
 HMODULE GCM() {
 	HMODULE hModule = NULL;

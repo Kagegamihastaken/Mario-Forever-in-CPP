@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "enum.hpp"
+#include "../Core/Loading/enum.hpp"
 #include "Mario.hpp"
 
 extern std::vector<MovableObject> GoombaAIList;

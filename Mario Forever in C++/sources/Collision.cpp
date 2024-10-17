@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 #include <array>
-#include "../headers/Collision.hpp"
+#include "../headers/Core/Collision/Collision.hpp"
 
 namespace Collision
 {

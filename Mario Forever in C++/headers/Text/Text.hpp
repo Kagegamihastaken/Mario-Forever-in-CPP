@@ -1,10 +1,12 @@
+#pragma once
+
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "enum.hpp"
+#include "../Core/Loading/enum.hpp"
 
 class Text {
 public:

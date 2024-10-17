@@ -1,7 +1,9 @@
+#pragma once
+
 #ifndef SLOPES_HPP
 #define SLOPES_HPP
 
-#include "../headers/Obstacles.hpp"
+#include "Obstacles.hpp"
 
 extern std::vector<Obstacles> SlopesList;
 extern std::vector<int> SlopesIDList;

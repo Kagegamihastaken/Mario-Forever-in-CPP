@@ -3,7 +3,7 @@
 #ifndef MARIO_HPP
 #define MARIO_HPP
 
-#include "AnimationManager.hpp"
+#include "../Core/Animate/AnimationManager.hpp"
 
 class MovableObject {
 public:

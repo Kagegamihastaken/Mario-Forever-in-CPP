@@ -1,7 +1,7 @@
 #include <SFML/Audio.hpp>
 
-#include "../headers/Sound.hpp"
-#include "../headers/Loading.hpp"
+#include "../headers/Core/Sound.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
 
 #include "../resource.h"
 

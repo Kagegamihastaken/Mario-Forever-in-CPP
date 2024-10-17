@@ -38,7 +38,7 @@
 #include <vector>
 #include <SFML/Audio.hpp>
 
-#include "sfMod/Error.hpp"
+#include "Error.hpp"
 
 // Forward declarations //
 struct _ModPlugFile;

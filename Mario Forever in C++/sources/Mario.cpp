@@ -6,19 +6,19 @@
 #include <array>
 #include <set>
 
-#include "../headers/Mario.hpp"
-#include "../headers/Obstacles.hpp"
-#include "../headers/Brick.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/AnimationManager.hpp"
-#include "../headers/LuckyBlock.hpp"
-#include "../headers/Loading.hpp"
-#include "../headers/Collide.hpp"
-#include "../headers/Sound.hpp"
-#include "../headers/Level.hpp"
-#include "../headers/Slopes.hpp"
-#include "../headers/Collision.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Block/Obstacles.hpp"
+#include "../headers/Block/Brick.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/Animate/AnimationManager.hpp"
+#include "../headers/Block/LuckyBlock.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/Collision/Collide.hpp"
+#include "../headers/Core/Sound.hpp"
+#include "../headers/Core/Level.hpp"
+#include "../headers/Block/Slopes.hpp"
+#include "../headers/Core/Collision/Collision.hpp"
 
 #include "../resource.h"
 

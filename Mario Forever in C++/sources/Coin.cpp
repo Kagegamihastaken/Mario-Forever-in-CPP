@@ -1,13 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "../headers/Coin.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Mario.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/AnimationManager.hpp"
-#include "../headers/Loading.hpp"
-#include "../headers/Collide.hpp"
-#include "../headers/Sound.hpp"
+#include "../headers/Object/Coin.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/Animate/AnimationManager.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/Collision/Collide.hpp"
+#include "../headers/Core/Sound.hpp"
 
 #include "../resource.h"
 

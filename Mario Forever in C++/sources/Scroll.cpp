@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Scroll.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Mario.hpp"
-#include "../headers/Level.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Core/Level.hpp"
 
 #include <algorithm>
 

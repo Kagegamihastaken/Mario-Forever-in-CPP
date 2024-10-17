@@ -3,11 +3,11 @@
 #include <functional>
 #include <vector>
 
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Collide.hpp"
-#include "../headers/Mario.hpp"
-#include "../headers/Obstacles.hpp"
-#include "../headers/Slopes.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Core/Collision/Collide.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Block/Obstacles.hpp"
+#include "../headers/Block/Slopes.hpp"
 
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
 	hitbox = Sethitbox;

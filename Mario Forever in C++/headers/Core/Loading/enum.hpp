@@ -1,5 +1,9 @@
 #pragma once
 // enum for skin
+
+#ifndef ENUM_HPP
+#define ENUM_HPP
+
 enum BrickID { BRICK_NORMAL, BRICK_GRAY };
 enum CoinID { COIN_NORMAL };
 enum LuckyBlockID { LUCKY_BLOCK, TREE_LUCKY_BLOCK };
@@ -18,8 +22,5 @@ enum GoombaAIDirection { LEFT, RIGHT };
 enum GoombaAIHittable { YES, NO, FULL };
 
 enum GoombaAIEffectID { NONE, COLLIDE };
-
-#ifndef ENUM_HPP
-#define ENUM_HPP
 
 #endif // ENUM_HPP

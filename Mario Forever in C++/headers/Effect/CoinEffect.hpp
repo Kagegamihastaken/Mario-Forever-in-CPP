@@ -5,8 +5,8 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "../headers/LocalAnimationManager.hpp"
-#include "../headers/enum.hpp"
+#include "../Core/Animate/LocalAnimationManager.hpp"
+#include "../Core/Loading/enum.hpp"
 
 class CoinEffect {
 public:

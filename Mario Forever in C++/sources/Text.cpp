@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Font.hpp"
-#include "../headers/Text.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Loading.hpp"
-#include "../headers/enum.hpp"
+#include "../headers/Text/Font.hpp"
+#include "../headers/Text/Text.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/Loading/enum.hpp"
 
 #include "../resource.h"
 

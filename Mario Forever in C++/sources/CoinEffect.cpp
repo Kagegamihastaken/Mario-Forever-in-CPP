@@ -1,10 +1,10 @@
-#include "../headers/CoinEffect.hpp"
-#include "../headers/AnimationManager.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/ScoreEffect.hpp"
-#include "../headers/CoinEffect.hpp"
-#include "../headers/Loading.hpp"
+#include "../headers/Effect/CoinEffect.hpp"
+#include "../headers/Core/Animate/AnimationManager.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Effect/ScoreEffect.hpp"
+#include "../headers/Effect/CoinEffect.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
 
 #include "../resource.h"
 

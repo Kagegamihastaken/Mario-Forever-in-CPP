@@ -4,7 +4,7 @@
 #define WINDOWFRAME_HPP
 
 #include <SFML/Audio.hpp>
-#include "ThreadPool.hpp"
+#include "MultiThreading/ThreadPool.hpp"
 
 extern bool isDebug;
 extern sf::RenderWindow window;

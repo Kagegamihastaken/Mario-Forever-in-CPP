@@ -33,6 +33,7 @@ it freely, subject to the following restrictions:
  *
  * Created on 30 January 2009, 11:02
  */
+#pragma once
 
 #ifndef COLLISION_HPP
 #define COLLISION_HPP

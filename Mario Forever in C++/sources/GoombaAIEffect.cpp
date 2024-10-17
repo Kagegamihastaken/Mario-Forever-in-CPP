@@ -2,15 +2,15 @@
 #include <array>
 #include <vector>
 
-#include "../headers/GoombaAIEffect.hpp"
-#include "../headers/Loading.hpp"
-#include "../headers/Mario.hpp"
-#include "../headers/enum.hpp"
-#include "../headers/Collide.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Brick.hpp"
-#include "../headers/LuckyBlock.hpp"
-#include "../headers/Scroll.hpp"
+#include "../headers/Effect/GoombaAIEffect.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Core/Loading/enum.hpp"
+#include "../headers/Core/Collision/Collide.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Block/Brick.hpp"
+#include "../headers/Block/LuckyBlock.hpp"
+#include "../headers/Core/Scroll.hpp"
 
 #include "../resource.h"
 

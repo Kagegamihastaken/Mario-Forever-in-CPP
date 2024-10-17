@@ -1,4 +1,4 @@
-#include "../headers/AnimationManager.hpp"
+#include "../headers/Core/Animate/AnimationManager.hpp"
 
 // Map definitions
 std::map<std::string, sf::Clock> AnimationManager::m_timeRun;

@@ -1,14 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "../headers/WindowFrame.hpp"
-#include "../headers/AnimationManager.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/Mario.hpp"
-#include "../headers/Loading.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Core/Animate/AnimationManager.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
 
 #include "../resource.h"
 
-#include "../headers/ThreadPool.hpp"
+#include "../headers/Core/MultiThreading/ThreadPool.hpp"
 
 #if defined _DEBUG
 bool isDebug = true;

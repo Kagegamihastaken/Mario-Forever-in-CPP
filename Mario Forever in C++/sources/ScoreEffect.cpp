@@ -2,11 +2,11 @@
 #include <vector>
 #include <iostream>
 
-#include "../headers/enum.hpp"
-#include "../headers/ScoreEffect.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Mario.hpp"
-#include "../headers/Loading.hpp"
+#include "../headers/Core/Loading/enum.hpp"
+#include "../headers/Effect/ScoreEffect.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Object/Mario.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
 
 #include "../resource.h"
 

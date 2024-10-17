@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Obstacles.hpp"
-#include "../headers/WindowFrame.hpp"
-#include "../headers/Scroll.hpp"
-#include "../headers/Loading.hpp"
+#include "../headers/Block/Obstacles.hpp"
+#include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/Loading/Loading.hpp"
 
 #include "../resource.h"
 

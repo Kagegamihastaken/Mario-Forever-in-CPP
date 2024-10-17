@@ -4,8 +4,8 @@
 #define BRICK_HPP
 
 #include <vector>
-#include "../headers/Obstacles.hpp"
-#include "../headers/enum.hpp"
+#include "Obstacles.hpp"
+#include "../Core/Loading/enum.hpp"
 
 extern std::vector<Obstacles> Bricks;
 extern std::vector<BrickID> BrickIDList;
