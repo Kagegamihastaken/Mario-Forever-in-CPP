@@ -40,6 +40,7 @@ int PowerState = 0;
 int lastPowerState = 0;
 
 bool OverSpeed = false;
+bool isMarioOverlapping = false;
 long long int Score = 0;
 sf::Clock AppearingTimer;
 sf::Clock InvincibleTimer;
@@ -228,56 +229,65 @@ void MarioVertXUpdate() {
 	if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::X)) Xvelo = 7.5f;
 }
 void MarioVertYUpdate() {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) player.property.move(0.0f, 1.0f * deltaTime);
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player.property.move(0.0f, -1.0f * deltaTime);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) player.property.move(0.0f, 1.0f * deltaTime);
+	//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player.property.move(0.0f, -1.0f * deltaTime);
 	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide, LuckyCollide, SlopeCollide;
 	bool ObstacleCheck, BrickCheck, LuckyCheck, SlopeCheck;
 	float CurrPosYCollide, CurrPosXCollide, ID, Diff, OldY;
 	bool NoAdd;
 	//bottom update (slopes)
-	SlopeCheck = isCollideBot(player, SlopesList);
+	//SlopeCheck = false;
+	//for (const auto& i : SlopesList) {
+	//	if (Collision::pixelPerfectTest(player.property, i.property)) {
+	//		SlopeCheck = true;
+	//		break;
+	//	}
+	//}
+	SlopeCheck = isCollideBotSlope(player);
 	std::vector<std::array<float, 3>> SlopeTemp;
 	if (SlopeCheck) {
 		MarioCurrentFalling = false;
 		bool isLanding;
 		NoAdd = false;
+		isMarioOverlapping = true;
 		CurrPosXCollide = 0.0f, CurrPosYCollide = 0.0f;
 		if (Yvelo >= 0.0f) {
 			isLanding = true;
 			Yvelo = 0.0f;
 		}
-		else {
-			isLanding = false;
+		else if (Yvelo < 0.0f && !isMarioOverlapping) {
+			isLanding = true;
 			Yvelo = 0.0f;
 		}
-		//std::cout << Yvelo << "\n";
 		if (Yvelo >= 0.0f) {
 			SlopeTemp.clear();
 			OldY = player.property.getPosition().y;
-			SlopeCollide = isAccuratelyCollideBot(player, SlopesList, CurrPosXCollide, CurrPosYCollide, NoAdd, ID, SlopeTemp);
+			SlopeCollide = isAccuratelyCollideBotSlope(player, CurrPosXCollide, CurrPosYCollide, NoAdd, ID, SlopeTemp);
 			for (const auto& i : SlopeTemp) {
-				if (player.property.getPosition().x <= i[0] + 32) {
-					if (i[2] == 0) player.property.setPosition(player.property.getPosition().x, i[1] + i[0] + 32.0f - player.property.getPosition().x - 3.0f - (52.0f - player.property.getOrigin().y + 7.0f) * 2.0f);
-					if (i[2] == 1) player.property.setPosition(player.property.getPosition().x, i[1] + 0.5 * (i[0] + 32.0f - player.property.getPosition().x - 3.0f + (52.0f - player.property.getOrigin().y + 7.0f)));
-					if (i[2] == 2) player.property.setPosition(player.property.getPosition().x, i[1] + 0.5 * (i[0] + 32.0f - player.property.getPosition().x - 3.0f + (52.0f - player.property.getOrigin().y + 7.0f)) - 16.0f);
+				if (true) {
+					if (i[2] == 0) player.property.setPosition(player.property.getPosition().x, std::max(i[1] + i[0] + 32.0f - player.property.getPosition().x - 3.0f - (52.0f - player.property.getOrigin().y + 7.0f) * 2.25f, i[1] - (52.0f - player.property.getOrigin().y + 7.0f)));
+					else if (i[2] == 1) player.property.setPosition(player.property.getPosition().x, std::max(i[1] + 0.5f * (i[0] + 32.0f - player.property.getPosition().x - 3.0f + (52.0f - player.property.getOrigin().y + 5.0f) * 1.15f), i[1] - (52.0f - player.property.getOrigin().y + 5.0f) + 16.0f));
+					else if (i[2] == 2) player.property.setPosition(player.property.getPosition().x, std::max(i[1] + 0.5f * (i[0] + 32.0f - player.property.getPosition().x - 3.0f + (52.0f - player.property.getOrigin().y + 5.0f) * 1.15f) - 16.0f, i[1] - (52.0f - player.property.getOrigin().y + 5.0f)));
 				}
 			}
-			Diff = player.property.getPosition().y - OldY;
-			SlopeCheck = isCollideBot(player, SlopesList);
-			if (!SlopeCheck) player.property.move(0.0f, -Diff);
+			//Diff = abs(player.property.getPosition().y - OldY);
+			//std::cout << Diff << "\n";
+			//SlopeCheck = isCollideBot(player, SlopesList);
+			//if (!SlopeCheck) player.property.move(0.0f, -Diff);
 		}
 	}
+	else isMarioOverlapping = false;
 	// bottom update (obstacles)
 	ObstacleCheck = isCollideBot(player, ObstaclesList);
 	BrickCheck = isCollideBot(player, Bricks);
 	LuckyCheck = isCollideBot(player, LuckyBlock);
-	SlopeCheck = false;
-	for (const auto& i : SlopesList) {
-		if (Collision::pixelPerfectTest(player.property, i.property)) {
-			SlopeCheck = true;
-			break;
-		}
-	}
+	//SlopeCheck = false;
+	//for (const auto& i : SlopesList) {
+	//	if (Collision::pixelPerfectTest(player.property, i.property)) {
+	//		SlopeCheck = true;
+	//		break;
+	//	}
+	//}
 	if (Yvelo >= 0.0f && MarioCanJump) MarioCanJump = false;
 	if ((!ObstacleCheck && !BrickCheck && !LuckyCheck && !SlopeCheck) || MarioCanJump) {
 		MarioCurrentFalling = true;
@@ -371,6 +381,7 @@ void UpdateAnimation() {
 		setHitbox(player.hitboxMain, { 0.0f + 4.0f, 0.0f + PowerOffset[PowerState], 23.0f, 52.0f });
 		setHitbox(player.hitboxTop, { 1.0f + 4.0f, 0.0f + PowerOffset[PowerState], 21.0f, 2.0f });
 		setHitbox(player.hitboxBot, { 1.0f + 4.0f, 50.0f + PowerOffset[PowerState], 21.0f, 2.0f });
+		setHitbox(player.hitboxBot2, { 1.0f + 4.0f, 50.0f + PowerOffset[PowerState], 21.0f, 3.0f });
 		setHitbox(player.hitboxRight2, { 21.0f + 4.0f, 2.0f + PowerOffset[PowerState], 4.0f, 43.0f });
 		setHitbox(player.hitboxLeft2, { -2.0f + 4.0f, 2.0f + PowerOffset[PowerState], 4.0f, 43.0f });
 		setHitbox(player.hitboxRight, { 21.0f + 4.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
@@ -380,6 +391,7 @@ void UpdateAnimation() {
 		setHitbox(player.hitboxMain, { 0.0f + 4.0f, 0.0f + 30.0f, 23.0f, 29.0f }); // 30
 		setHitbox(player.hitboxTop, { 1.0f + 4.0f, 0.0f + 30.0f, 21.0f, 2.0f });
 		setHitbox(player.hitboxBot, { 1.0f + 4.0f, 27.0f + 30.0f, 21.0f, 2.0f });
+		setHitbox(player.hitboxBot2, { 1.0f + 4.0f, 27.0f + 30.0f, 21.0f, 3.0f });
 		setHitbox(player.hitboxRight2, { 21.0f + 4.0f, 2.0f + 30.0f, 4.0f, 20.0f });
 		setHitbox(player.hitboxLeft2, { -2.0f + 4.0f, 2.0f + 30.0f, 4.0f, 20.0f });
 		setHitbox(player.hitboxRight, { 21.0f + 4.0f, 2.0f + 30.0f, 2.0f, 20.0f });
@@ -402,11 +414,11 @@ void UpdateAnimation() {
 					MarioAnimation.resetAnimationIndex("RunSmallRight");
 					MarioAnimation.resetAnimationIndex("RunBigRight");
 					if (PowerState == 0) {
-						MarioAnimation.setAnimationFrequency("RunSmallLeft", std::max(24.0f, std::min(Xvelo * 8.0f, 75.0f)));
+						MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 						MarioAnimation.update("RunSmallLeft", player.property);
 					}
 					else if (PowerState == 1) {
-						MarioAnimation.setAnimationFrequency("RunBigLeft", std::max(24.0f, std::min(Xvelo * 8.0f, 75.0f)));
+						MarioAnimation.setAnimationFrequency("RunBigLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 						MarioAnimation.update("RunBigLeft", player.property);
 					}
 					MarioState = 1;
@@ -442,11 +454,11 @@ void UpdateAnimation() {
 					MarioAnimation.resetAnimationIndex("RunSmallLeft");
 					MarioAnimation.resetAnimationIndex("RunBigLeft");
 					if (PowerState == 0) {
-						MarioAnimation.setAnimationFrequency("RunSmallRight", std::max(24.0f, std::min(Xvelo * 8.0f, 75.0f)));
+						MarioAnimation.setAnimationFrequency("RunSmallRight", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 						MarioAnimation.update("RunSmallRight", player.property);
 					}
 					else if (PowerState == 1) {
-						MarioAnimation.setAnimationFrequency("RunBigRight", std::max(24.0f, std::min(Xvelo * 8.0f, 75.0f)));
+						MarioAnimation.setAnimationFrequency("RunBigRight", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 						MarioAnimation.update("RunBigRight", player.property);
 					}
 					MarioState = 1;

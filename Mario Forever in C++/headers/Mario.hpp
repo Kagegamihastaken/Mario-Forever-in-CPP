@@ -9,6 +9,7 @@ class MovableObject {
 public:
 	sf::FloatRect hitboxMain;
 	sf::FloatRect hitboxBot;
+	sf::FloatRect hitboxBot2;
 	sf::FloatRect hitboxLeft;
 	sf::FloatRect hitboxRight;
 	sf::FloatRect hitboxLeft2;

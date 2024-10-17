@@ -8,13 +8,12 @@ int Xrow;
 int Yrow;
 int FontSizeX;
 int FontSizeY;
-
-sf::Texture FontTexture;
+std::vector<sf::Texture*> FontTextureList;
 std::string FontString = " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}";
 
-void SetFontSize(int sizeX, int sizeY) {
-	Xrow = FontTexture.getSize().x / sizeX;
-	Yrow = FontTexture.getSize().y / sizeY;
+void SetFontSize(int TextSizeX, int TextSizeY, int sizeX, int sizeY) {
+	Xrow = TextSizeX / sizeX;
+	Yrow = TextSizeY / sizeY;
 	FontSizeX = sizeX;
 	FontSizeY = sizeY;
 }
@@ -23,4 +22,9 @@ std::pair<int, int> GetFontTexture(char c) {
 	int index = std::find(FontString.begin(), FontString.end(), c) - FontString.begin();
 	int Divided = index / Xrow;
 	return { (index % Xrow) * FontSizeX, Divided * FontSizeY };
+}
+int GetFontIndex(char c) {
+	if (c >= 'a' && c <= 'z') c -= 32;
+	int index = std::find(FontString.begin(), FontString.end(), c) - FontString.begin();
+	return index;
 }

@@ -159,6 +159,8 @@
     <ClCompile Include="sources\Slopes.cpp" />
     <ClCompile Include="sources\Sound.cpp" />
     <ClCompile Include="sources\Text.cpp" />
+    <ClCompile Include="sources\TextureManager.cpp" />
+    <ClCompile Include="sources\ThreadPool.cpp" />
     <ClCompile Include="sources\WindowFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +188,8 @@
     <ClInclude Include="headers\Slopes.hpp" />
     <ClInclude Include="headers\Sound.hpp" />
     <ClInclude Include="headers\Text.hpp" />
+    <ClInclude Include="headers\TextureManager.hpp" />
+    <ClInclude Include="headers\ThreadPool.hpp" />
     <ClInclude Include="headers\WindowFrame.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

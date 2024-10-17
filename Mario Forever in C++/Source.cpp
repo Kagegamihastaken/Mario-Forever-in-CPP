@@ -28,11 +28,15 @@
 #include <string>
 #include <fstream>
 int main() {
+	//Init Games:
+	loadObstacleRes();
+	loadFontRes();
 	//Init music
 	sfmod::Mod test;
 	LoadMOD(test, TEST_MUSIC, 14, 44100);
-	test.setLoop(true);
-	test.play();
+	//test.setLoop(true);
+	//test.play();
+	window.setActive(false);
 	//Init window
 	ViewInit();
 	//set level data
@@ -42,15 +46,16 @@ int main() {
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
 	AddText("_SCORE", "", RIGHT_MARGIN, 200.0f, 448.0f);
 	AddText("_FPS", "", LEFT_MARGIN, 0, 16.0f);
+	AddText("_DELTA", "", LEFT_MARGIN, 0, 32.0f);
+	AddText("_PROCESS", "", LEFT_MARGIN, 0, 48.0f);
 	if (isDebug) {
-		AddText("_DELTA", "", LEFT_MARGIN, 0, 32.0f);
-		AddText("_MOUSEXY", "", LEFT_MARGIN, 0, 48.0f);
-		AddText("_MARIOXY", "", LEFT_MARGIN, 0, 64.0f);
-		AddText("_VIEWXY", "", LEFT_MARGIN, 0, 80.0f);
-		AddText("_CODX", "", LEFT_MARGIN, 0, 96.0f);
-		AddText("_FALL", "", LEFT_MARGIN, 0, 112.0f);
-		AddText("_APPE", "", LEFT_MARGIN, 0, 128.0f);
-		AddText("_FALLING", "", LEFT_MARGIN, 0, 144.0f);
+		AddText("_MOUSEXY", "", LEFT_MARGIN, 0, 64.0f);
+		AddText("_MARIOXY", "", LEFT_MARGIN, 0, 80.0f);
+		AddText("_VIEWXY", "", LEFT_MARGIN, 0, 96.0f);
+		AddText("_CODX", "", LEFT_MARGIN, 0, 112.0f);
+		AddText("_FALL", "", LEFT_MARGIN, 0, 128.0f);
+		AddText("_APPE", "", LEFT_MARGIN, 0, 144.0f);
+		AddText("_FALLING", "", LEFT_MARGIN, 0, 160.0f);
 	}
 	//build a level
 	Obstaclebuilding();
@@ -63,14 +68,17 @@ int main() {
 		// process events
 		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
+				Thread_Pool.Stop();
 				window.close();
+			}
 		}
 		//update: Mario
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
 		appe = (MarioAppearing ? "TRUE" : "FALSE");
+		EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
+		EditText("Thread: NICE", "_PROCESS");
 		if (isDebug) {
-			EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
 			EditText("mouse: " + std::to_string((int)MouseX) + "/" + std::to_string((int)MouseY), "_MOUSEXY");
 			EditText("mario: " + std::to_string((float)player.property.getPosition().x) + "/" + std::to_string((float)player.property.getPosition().y), "_MARIOXY");
 			EditText("view: " + std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY), "_VIEWXY");
@@ -106,7 +114,7 @@ int main() {
 		//Update mario animation
 		UpdateAnimation();
 		//core code
-		window.clear(sf::Color::Black);
+		window.clear(sf::Color::White);
 		updateFrame();
 		//draw
 		updateView();

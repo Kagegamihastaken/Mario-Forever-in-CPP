@@ -13,6 +13,7 @@ public:
 };
 extern std::vector<std::array<int, 3>> ID_list;
 extern std::vector<Obstacles> ObstaclesList;
-extern sf::Texture ObstaclesTexture;
+extern std::vector<sf::Texture*> ObstaclesTextureList;
+extern void loadObstacleRes();
 extern void ObstaclesUpdate();
 #endif // OBSTACLES_HPP

@@ -15,7 +15,6 @@ std::vector<std::array<sf::Sprite, 4>> BrickParticleList;
 std::vector<std::array<bool, 4>> BrickParticleDisabledList;
 std::vector<BrickID> BrickParticleID;
 std::vector<std::array<std::pair<float, float>, 4>> BrickParticleVelo;
-std::vector<sf::Clock> BrickParticleClock;
 sf::Texture BrickParticleTexture;
 
 int BrickParticleInit() {
@@ -48,8 +47,6 @@ void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 	BrickParticleList.push_back(it);
 	BrickParticleVelo.push_back(veloIt);
 	BrickParticleID.push_back(id);
-	BrickParticleClock.push_back(sf::Clock());
-	BrickParticleClock[BrickParticleClock.size() - 1].restart().asMilliseconds();
 }
 void DeleteSubBrickParticle(float x, float y) {
 	bool Itbreak = false;
@@ -70,13 +67,11 @@ void BrickParticleStatusUpdate() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
 			if (!BrickParticleDisabledList[i][j]) {
+				BrickParticleVelo[i][j].second += 0.5f * deltaTime * 0.3f;
 				BrickParticleList[i][j].move(BrickParticleVelo[i][j].first * deltaTime, BrickParticleVelo[i][j].second * deltaTime);
 				if (BrickParticleVelo[i][j].first > 0) BrickParticleList[i][j].rotate(10.0f * deltaTime);
 				else if (BrickParticleVelo[i][j].first < 0) BrickParticleList[i][j].rotate(-10.0f * deltaTime);
-				if (BrickParticleClock[i].getElapsedTime().asMilliseconds() > 25.0f * deltaTime) {
-					BrickParticleVelo[i][j].second += 1.0f * deltaTime;
-					if (!reUpdate) reUpdate = true;
-				}
+				BrickParticleVelo[i][j].second += 0.5f * deltaTime * 0.3f;
 			}
 		}
 		while (true) {
@@ -89,10 +84,6 @@ void BrickParticleStatusUpdate() {
 				}
 			}
 			if (!canDelete) break;
-		}
-		if (reUpdate && BrickParticleList[i].size() > 0) {
-			BrickParticleClock[i].restart().asMilliseconds();
-			reUpdate = false;
 		}
 	}
 	while (true) {
@@ -110,7 +101,6 @@ void BrickParticleStatusUpdate() {
 				BrickParticleVelo.erase(BrickParticleVelo.begin() + i);
 				BrickParticleDisabledList.erase(BrickParticleDisabledList.begin() + i);
 				BrickParticleID.erase(BrickParticleID.begin() + i);
-				BrickParticleClock.erase(BrickParticleClock.begin() + i);
 				canDelete = true;
 				break;
 			}
@@ -123,7 +113,6 @@ void DeleteAllBrickParticle() {
 	BrickParticleVelo.clear();
 	BrickParticleDisabledList.clear();
 	BrickParticleID.clear();
-	BrickParticleClock.clear();
 }
 void BrickParticleUpdate() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {

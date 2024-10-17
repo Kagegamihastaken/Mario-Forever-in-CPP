@@ -32,9 +32,11 @@ std::vector<bool> LuckyBlockHitted;
 
 sf::Texture LuckyBlockTexture;
 AnimationManager LuckyBlockAnimationManager;
+std::vector<sf::Texture*> LuckyBlockTextureList;
 
 int LoadLuckyBlock() {
 	LoadTexture(LuckyBlockTexture, LUCKYBLOCK_TEXTURE);
+
 	return 6;
 }
 int LuckyBlockInit = LoadLuckyBlock();
@@ -141,7 +143,7 @@ void LuckyHitEvent(float x, float y) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, LuckyLoop)) {
 					if (GoombaAITypeList[j] != MUSHROOM) {
 						if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
-						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 						Kick2Sound.play();
 					}
@@ -154,7 +156,7 @@ void LuckyHitEvent(float x, float y) {
 			}
 			else if (LuckyBlockAttList[i] == LUCKY_MUSHROOM) {
 				VineSound.play();
-				AddGoombaAI(MUSHROOM, LuckyLoop.getPosition().x + 16.0f, LuckyLoop.getPosition().y + 63.0f);
+				AddGoombaAI(MUSHROOM, 0, LuckyLoop.getPosition().x + 16.0f, LuckyLoop.getPosition().y + 63.0f);
 			}
 			LuckyBlockState[i] = true;
 			LuckyUpDown[i] = false;

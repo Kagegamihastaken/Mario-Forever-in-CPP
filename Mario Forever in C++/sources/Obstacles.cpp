@@ -10,10 +10,10 @@
 #include <vector>
 #include <iostream>
 #include <array>
+#include <thread>
 
 //Obstacles define
 std::vector<Obstacles> ObstaclesList;
-sf::Texture ObstaclesTexture;
 //set ID for each texture obstacle
 std::vector<std::array<int, 3>> ID_list{
 	{0, 0, 0},
@@ -24,17 +24,23 @@ std::vector<std::array<int, 3>> ID_list{
 	{5, 64, 32},
 	{6, 96, 0}
 };
+std::vector<sf::Texture*> ObstaclesTextureList;
 //texture loading
 
-int loadObstacleRes() {
-	LoadTexture(ObstaclesTexture, TILESET_TEXTURE);
-	return 6;
+void loadObstacleRes() {
+	sf::Texture* ObstaclesTexture = new sf::Texture();
+	LoadTexture(*ObstaclesTexture, TILESET_TEXTURE);
+	for (const auto& i : ID_list) {
+		ObstaclesTextureList.push_back(new sf::Texture());
+		ObstaclesTextureList.back()->loadFromImage(ObstaclesTexture->copyToImage(), sf::IntRect(i[1], i[2], 32, 32));
+	}
+	delete ObstaclesTexture;
 }
-const int ObstacleInit = loadObstacleRes();
 void ObstaclesUpdate() {
-	for (const auto& i : ObstaclesList) {
-		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			window.draw(i.property);
+	for (int i = 0; i < ObstaclesList.size(); ++i) {
+		if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
+			window.draw(ObstaclesList[i].property);
 		}
 	}
+	//std::cout << ObstaclesList.size() % thread_count << std::endl;
 }
