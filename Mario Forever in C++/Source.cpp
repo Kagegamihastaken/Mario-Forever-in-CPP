@@ -31,12 +31,17 @@ int main() {
 	//Init Games:
 	loadObstacleRes();
 	loadFontRes();
+	LoadBricks();
+	LoadLuckyBlock();
+	GoombaAILoadRes();
+	CoinEffectInit();
+	GoombaAIEffectInit();
 	//Init music
 	sfmod::Mod test;
 	LoadMOD(test, TEST_MUSIC, 14, 44100);
-	//test.setLoop(true);
-	//test.play();
-	window.setActive(false);
+	test.setLoop(true);
+	test.play();
+	//window.setTitle
 	//Init window
 	ViewInit();
 	//set level data

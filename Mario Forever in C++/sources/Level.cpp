@@ -166,7 +166,8 @@ void Obstaclebuilding() {
 		// Find the tile id
 		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(i[0]); }) - (ID_list.begin());
 		// Then use the index of tile id property to add it to the list
-		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
+		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
+		//ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
 		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ i[1], i[2] });
 		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
 	}

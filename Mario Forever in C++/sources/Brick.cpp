@@ -15,6 +15,7 @@
 #include "../headers/Core/Collision/Collide.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Effect/GoombaAIEffect.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -35,15 +36,31 @@ std::vector<sf::Clock> BrickClock;
 std::vector<bool> BrickHitted;
 std::vector<bool> DisabledBrick;
 
-sf::Texture BrickTexture;
-int LoadBricks() {
-	LoadTexture(BrickTexture, BRICK_TEXTURE);
-	return 6;
+TextureManager BrickTextureManager;
+// TODO: Load Texture from TextureManager
+void LoadBricks() {
+	sf::Texture* BrickTexture = new sf::Texture();
+	sf::Texture* BrickTextureTemp = new sf::Texture();
+	LoadTexture(*BrickTexture, BRICK_TEXTURE);
+	// Loading Texture
+	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(0, 0, 32, 32));
+	BrickTextureManager.AddTexture("Brick_Normal", BrickTextureTemp);
+	BrickTextureTemp = new sf::Texture();
+	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(32, 0, 32, 32));
+	BrickTextureManager.AddTexture("Brick_Gray", BrickTextureTemp);
+	BrickTextureTemp = new sf::Texture();
+	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(0, 32, 32, 32));
+	BrickTextureManager.AddTexture("Brick_Normal_Hitted", BrickTextureTemp);
+	BrickTextureTemp = new sf::Texture();
+	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(32, 32, 32, 32));
+	BrickTextureManager.AddTexture("Brick_Gray_Hitted", BrickTextureTemp);
+	BrickTextureTemp = new sf::Texture();
+	delete BrickTexture;
+	delete BrickTextureTemp;
 }
-int BrickInit = LoadBricks();
 void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
-	if (ID == BRICK_GRAY) Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(32, 0, 32, 32)) });
-	else if (ID == BRICK_NORMAL) Bricks.push_back(Obstacles{ 0, sf::Sprite(BrickTexture, sf::IntRect(0, 0, 32, 32)) });
+	if (ID == BRICK_GRAY) Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Gray")) });
+	else if (ID == BRICK_NORMAL) Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Normal")) });
 	BrickAttList.push_back(att);
 	BrickIDList.push_back(ID);
 	BrickState.push_back(false);
@@ -60,8 +77,8 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 inline void BrickStatusUpdate() {
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
-			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTextureRect(sf::IntRect(32, 32, 32, 32));
-			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTextureRect(sf::IntRect(0, 32, 32, 32));
+			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Gray_Hitted"));
+			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Normal_Hitted"));
 		}
 	}
 }

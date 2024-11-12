@@ -5,6 +5,7 @@
 #include "../headers/Effect/ScoreEffect.hpp"
 #include "../headers/Effect/CoinEffect.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -12,19 +13,27 @@
 #include <vector>
 
 std::vector<CoinEffect> CoinEffectList;
-sf::Texture CoinEffectTexture;
 std::vector<CoinID> CoinEffectIDList;
 std::vector<CoinAtt> CoinEffectAttList;
+TextureManager CoinEffectTextureManager;
 
-int CoinEffectInit() {
-	LoadTexture(CoinEffectTexture, COINEFFECT_TEXTURE);
-	return 6;
+void CoinEffectInit() {
+	sf::Texture* CoinEffectTexture = new sf::Texture();
+	sf::Texture* CoinEffectTextureTemp = new sf::Texture();
+	std::vector<sf::Texture*> CoinEffectAnimatedTextureList;
+	LoadTexture(*CoinEffectTexture, COINEFFECT_TEXTURE);
+	for (int i = 0; i <= 20; ++i) {
+		CoinEffectTextureTemp->loadFromImage(CoinEffectTexture->copyToImage(), sf::IntRect(i * 37, 0, 37, 32));
+		CoinEffectAnimatedTextureList.push_back(CoinEffectTextureTemp);
+		CoinEffectTextureTemp = new sf::Texture();
+	}
+	CoinEffectTextureManager.AddAnimatedTexture("CoinEffect", CoinEffectAnimatedTextureList);
+	delete CoinEffectTexture;
+	delete CoinEffectTextureTemp;
 }
-int iniCoinEffect = CoinEffectInit();
 void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;
-	Init.coinEffectAnimation.setAnimation({ 37,32 }, { 0,0 }, { 21,0 }, 95);
-	Init.property.setTexture(CoinEffectTexture);
+	Init.coinEffectAnimation.setAnimation(0, 20, 95);
 	Init.property.setPosition(static_cast<float>(round(x)), y);
 	CoinEffectList.push_back(Init);
 	CoinEffectIDList.push_back(ID);
@@ -58,7 +67,7 @@ inline void CoinEffectStatusUpdate() {
 inline void CoinEffectUpdate() {
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			i.coinEffectAnimation.update(i.property, CoinEffectTexture);
+			i.coinEffectAnimation.update(i.property, CoinEffectTextureManager.GetAnimatedTexture("CoinEffect"));
 			window.draw(i.property);
 		}
 		else i.coinEffectAnimation.silentupdate(i.property);

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "../headers/Text/Font.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include <string>
 #include <algorithm>
@@ -8,7 +9,7 @@ int Xrow;
 int Yrow;
 int FontSizeX;
 int FontSizeY;
-std::vector<sf::Texture*> FontTextureList;
+TextureManager FontTextureList;
 std::string FontString = " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}";
 
 void SetFontSize(int TextSizeX, int TextSizeY, int sizeX, int sizeY) {

@@ -3,6 +3,7 @@
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -24,17 +25,20 @@ std::vector<std::array<int, 3>> ID_list{
 	{5, 64, 32},
 	{6, 96, 0}
 };
-std::vector<sf::Texture*> ObstaclesTextureList;
+TextureManager ObstaclesTextureManager;
 //texture loading
 
 void loadObstacleRes() {
 	sf::Texture* ObstaclesTexture = new sf::Texture();
+	sf::Texture* ObstaclesTextureTemp = new sf::Texture();
 	LoadTexture(*ObstaclesTexture, TILESET_TEXTURE);
-	for (const auto& i : ID_list) {
-		ObstaclesTextureList.push_back(new sf::Texture());
-		ObstaclesTextureList.back()->loadFromImage(ObstaclesTexture->copyToImage(), sf::IntRect(i[1], i[2], 32, 32));
+	for (int i = 0; i < ID_list.size(); ++i) {
+		ObstaclesTextureTemp->loadFromImage(ObstaclesTexture->copyToImage(), sf::IntRect(ID_list[i][1], ID_list[i][2], 32, 32));
+		ObstaclesTextureManager.AddTexture("Obstacles_" + std::to_string(i), ObstaclesTextureTemp);
+		ObstaclesTextureTemp = new sf::Texture();
 	}
 	delete ObstaclesTexture;
+	delete ObstaclesTextureTemp;
 }
 void ObstaclesUpdate() {
 	for (int i = 0; i < ObstaclesList.size(); ++i) {

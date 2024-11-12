@@ -17,16 +17,19 @@ std::vector<TextMarginID> TextMarginList;
 
 void loadFontRes() {
 	sf::Texture* FontTexture = new sf::Texture();
+	sf::Texture* FontTextureLoop = new sf::Texture();
 	LoadTexture(*FontTexture, FONT_TEXTURE);
 	SetFontSize(FontTexture->getSize().x, FontTexture->getSize().y, 15, 16);
 	std::pair<int, int> Pos;
 	for (const auto& i : FontString) {
 		Pos = GetFontTexture(i);
-		FontTextureList.push_back(new sf::Texture());
-		FontTextureList.back()->loadFromImage(FontTexture->copyToImage(), sf::IntRect(Pos.first, Pos.second, FontSizeX, FontSizeY));
+		FontTextureLoop->loadFromImage(FontTexture->copyToImage(), sf::IntRect(Pos.first, Pos.second, FontSizeX, FontSizeY));
+		FontTextureList.AddTexture("Font_" + std::string(1, i), FontTextureLoop);
+		FontTextureLoop = new sf::Texture();
 		//FontTextureList.back()->setSmooth(true);
 	}
 	delete FontTexture;
+	delete FontTextureLoop;
 }
 void AddText(std::string id, std::string text, TextMarginID margin, float x, float y) {
 	//search for duplicates ID
@@ -43,11 +46,9 @@ void AddText(std::string id, std::string text, TextMarginID margin, float x, flo
 		Init->y = y;
 		Init->id = id;
 		Init->textContent = text;
-		int Pos;
 		int Counter = 0;
 		for (const auto& i : text) {
-			Pos = GetFontIndex(i);
-			Init->text.push_back(sf::Sprite(*FontTextureList[Pos]));
+			Init->text.push_back(sf::Sprite(*FontTextureList.GetTexture("Font_" + std::string(1, (i >= 'a' && i <= 'z' ? i - 32 : i)))));
 			Init->text[Counter].setPosition(x + FontSizeX * Counter, y);
 			++Counter;
 		}
@@ -68,11 +69,9 @@ inline void EditText(std::string NewText, std::string id) {
 	}
 	if (isFounded) {
 		std::vector<sf::Sprite> Init;
-		int Pos;
 		int Counter = 0;
 		for (const auto& i : NewText) {
-			Pos = GetFontIndex(i);
-			Init.push_back(sf::Sprite(*FontTextureList[Pos]));
+			Init.push_back(sf::Sprite(*FontTextureList.GetTexture("Font_" + std::string(1, (i >= 'a' && i <= 'z' ? i - 32 : i)))));
 			Init[Counter].setPosition(TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y);
 			++Counter;
 		}

@@ -11,6 +11,7 @@
 #include "../headers/Block/Brick.hpp"
 #include "../headers/Block/LuckyBlock.hpp"
 #include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -24,13 +25,27 @@ std::vector<float> GoombaAIEffectAlphaList;
 std::vector<sf::Clock> GoombaATEffectFadeOutList;
 std::vector<int> GoombaAIEffectSkinIDList;
 
-int GoombaAIEffectInit() {
+TextureManager GoombaAIEffectTextureManager;
+
+void GoombaAIEffectInit() {
+	sf::Texture* GoombaAIEffectTemp = new sf::Texture();
 	LoadTexture(GoombaAIEffectTexture[0], DEAD_GOOMBA_TEXTURE);
 	LoadTexture(GoombaAIEffectTexture[1], DEAD_GREEN_KOOPA_TEXTURE);
 
-	return 6;
+	GoombaAIEffectTemp->loadFromImage(GoombaAIEffectTexture[0].copyToImage(), sf::IntRect(0, 0, 31, 32));
+	GoombaAIEffectTextureManager.AddTexture("DEAD_Goomba_1", GoombaAIEffectTemp);
+	GoombaAIEffectTemp = new sf::Texture();
+
+	GoombaAIEffectTemp->loadFromImage(GoombaAIEffectTexture[0].copyToImage(), sf::IntRect(31, 0, 31, 32));
+	GoombaAIEffectTextureManager.AddTexture("DEAD_Goomba_2", GoombaAIEffectTemp);
+	GoombaAIEffectTemp = new sf::Texture();
+
+	GoombaAIEffectTemp->loadFromImage(GoombaAIEffectTexture[1].copyToImage(), sf::IntRect(0, 0, 33, 28));
+	GoombaAIEffectTextureManager.AddTexture("DEAD_Koopa", GoombaAIEffectTemp);
+	GoombaAIEffectTemp = new sf::Texture();
+
+	delete GoombaAIEffectTemp;
 }
-int iniGoombaAIEffect = GoombaAIEffectInit();
 int getGoombaAIEffectSKin(GoombaAIType type, int SkinID) {
 	if (type == GOOMBA) return 0;
 	else if (type == KOOPA) return 1;
@@ -42,15 +57,14 @@ void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float
 	GoombaAIEffectTypeList.push_back(id);
 	if (type == GOOMBA) {
 		Init.property.setOrigin(16, 31);
-		Init.property.setTexture(GoombaAIEffectTexture[getGoombaAIEffectSKin(type, SkinID)]);
 		if (id == COLLIDE) {
-			Init.property.setTextureRect(sf::IntRect(0, 0, 31, 32));
+			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Goomba_1"));
 			GoombaAIEffectHitboxList.push_back({ 31, 16 });
 			GoombaAIEffectDefinationList.push_back({ 31.0f, 16.0f, 0.0f, 16.0f });
 			GoombaAIEffectYveloList.push_back(0.0f);
 		}
 		else if (id == NONE) {
-			Init.property.setTextureRect(sf::IntRect(31, 0, 31, 32));
+			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Goomba_2"));
 			GoombaAIEffectHitboxList.push_back({ 31, 32 });
 			GoombaAIEffectDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
@@ -58,9 +72,8 @@ void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float
 	}
 	else if (type == KOOPA) {
 		Init.property.setOrigin(16, 19);
-		Init.property.setTexture(GoombaAIEffectTexture[getGoombaAIEffectSKin(type, SkinID)]);
 		if (id == NONE) {
-			Init.property.setTextureRect(sf::IntRect(0, 0, 33, 28));
+			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Koopa"));
 			GoombaAIEffectHitboxList.push_back({ 33, 28 });
 			GoombaAIEffectDefinationList.push_back({ 33.0f, 28.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);

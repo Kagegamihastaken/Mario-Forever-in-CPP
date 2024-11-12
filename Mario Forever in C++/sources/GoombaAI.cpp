@@ -18,6 +18,7 @@
 #include "../headers/Object/Mario.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Core/Level.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -32,11 +33,25 @@ std::vector<bool> GoombaAIDisabledList;
 std::vector<GoombaAIHittable> GoombaAIHittableList;
 std::vector<std::array<float, 4>> GoombaAIDefinationList;
 std::vector<std::pair<LocalAnimationManager, LocalAnimationManager>> GoombaAIAnimationList;
+std::vector<std::pair<std::string, std::string>> GoombaAITextureNameList;
 std::vector<bool> GoombaAIAppearingList;
 std::vector<float> GoombaAIAppearingYList;
 std::vector<int> GoombaAISkinIDList;
+TextureManager GoombaAITextureManager;
 
-int GoombaAILoadRes() {
+void LoadGoombaAITexture(sf::Texture* texture, std::string name, int start, int end, int y, int sizex, int sizey) {
+	sf::Texture* tex = new sf::Texture();
+	std::vector<sf::Texture*>* ani = new std::vector<sf::Texture*>();
+	for (int i = start; i <= end; ++i) {
+		tex->loadFromImage(texture->copyToImage(), sf::IntRect(i * sizex, y * sizey, sizex, sizey));
+		ani->push_back(tex);
+		tex = new sf::Texture();
+	}
+	GoombaAITextureManager.AddAnimatedTexture(name, *ani);
+	delete tex;
+	delete ani;
+}
+void GoombaAILoadRes() {
 	/*
 		0: Goomba
 		1: Mushroom
@@ -47,13 +62,18 @@ int GoombaAILoadRes() {
 	LoadTexture(GoombaAITexture[1], MUSHROOM_TEXTURE);
 	LoadTexture(GoombaAITexture[2], GREEN_KOOPA_TEXTURE);
 	LoadTexture(GoombaAITexture[3], GREEN_KOOPA_SHELL_TEXTURE);
-	return 6;
+
+	LoadGoombaAITexture(&GoombaAITexture[0], "Goomba", 0, 1, 0, 31, 32);
+	LoadGoombaAITexture(&GoombaAITexture[1], "Mushroom", 0, 0, 0, 31, 32);
+	LoadGoombaAITexture(&GoombaAITexture[2], "Koopa_right_green", 0, 1, 0, 32, 47);
+	LoadGoombaAITexture(&GoombaAITexture[2], "Koopa_left_green", 0, 1, 1, 32, 47);
+	//LoadGoombaAITexture(&GoombaAITexture[3], "Koopa_Shell_green_idle", 0, 0, 0, 32, 32);
 }
-int iniGoombaAI = GoombaAILoadRes();
 int getGoombaAISKin(GoombaAIType type, int SkinID) {
 	if (type == GOOMBA) return 0;
 	else if (type == MUSHROOM) return 1;
 	else if (type == KOOPA) return 2;
+	else if (type == SHELL) return 3;
 
 	return -1;
 }
@@ -65,15 +85,17 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y) {
 			Init.property.setOrigin(16, 31);
 			GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIHitboxList.push_back({ 31, 32 });
-			in.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
-			inri.setAnimation({ 31,32 }, { 0,0 }, { 2,0 }, 11);
+			in.setAnimation(0, 1, 11);
+			inri.setAnimation(0, 1, 11);
+			GoombaAITextureNameList.push_back({ "Goomba", "Goomba" });
 		}
 		else if (type == KOOPA) {
 			Init.property.setOrigin(13, 44);
 			GoombaAIDefinationList.push_back({ 32.0f, 47.0f, 0.0f, 0.0f });
 			GoombaAIHitboxList.push_back({ 32, 47 });
-			in.setAnimation({ 32,47 }, { 0,0 }, { 2,0 }, 12);
-			inri.setAnimation({ 32,47 }, { 0,1 }, { 2,1 }, 12);
+			in.setAnimation(0, 1, 12);
+			inri.setAnimation(0, 1, 12);
+			GoombaAITextureNameList.push_back({ "Koopa_right_green", "Koopa_left_green" });
 		}
 		GoombaAIXveloList.push_back(1.0f);
 		GoombaAIHittableList.push_back(YES);
@@ -81,8 +103,9 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y) {
 	}
 	else {
 		Init.property.setOrigin(16, 31);
-		in.setAnimation({ 31,32 }, { 0,0 }, { 1,0 }, 100);
-		inri.setAnimation({ 31,32 }, { 0,0 }, { 1,0 }, 100);
+		in.setAnimation(0, 0, 100);
+		inri.setAnimation(0, 0, 100);
+		GoombaAITextureNameList.push_back({ "Mushroom", "Mushroom" });
 		GoombaAIXveloList.push_back(2.0f);
 		GoombaAIHittableList.push_back(FULL);
 		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
@@ -122,6 +145,7 @@ void DeleteGoombaAI(GoombaAIType type, float x, float y) {
 			GoombaAIAppearingList.erase(GoombaAIAppearingList.begin() + i);
 			GoombaAIAppearingYList.erase(GoombaAIAppearingYList.begin() + i);
 			GoombaAISkinIDList.erase(GoombaAISkinIDList.begin() + i);
+			GoombaAITextureNameList.erase(GoombaAITextureNameList.begin() + i);
 			break;
 		}
 	}
@@ -140,6 +164,7 @@ void DeleteAllGoombaAI() {
 	GoombaAIAppearingList.clear();
 	GoombaAIAppearingYList.clear();
 	GoombaAISkinIDList.clear();
+	GoombaAITextureNameList.clear();
 }
 void GoombaStatusUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
@@ -306,12 +331,13 @@ void GoombaAIUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (!isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
 			if (GoombaAIDirectionList[i] == RIGHT) {
-				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITexture[getGoombaAISKin(GoombaAITypeList[i], GoombaAISkinIDList[i])]);
+				//GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITexture[getGoombaAISKin(GoombaAITypeList[i], GoombaAISkinIDList[i])]);
+				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].first));
 
 				GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
 			}
 			else if (GoombaAIDirectionList[i] == LEFT) {
-				GoombaAIAnimationList[i].second.update(GoombaAIList[i].property, GoombaAITexture[getGoombaAISKin(GoombaAITypeList[i], GoombaAISkinIDList[i])]);
+				GoombaAIAnimationList[i].second.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].second));
 
 				GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
 			}
