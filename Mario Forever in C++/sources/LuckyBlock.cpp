@@ -58,8 +58,14 @@ void LoadLuckyBlock() {
 	delete LuckyBlockTextureTemp;
 }
 void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
-	if (ID == LUCKY_BLOCK) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlockHitted")) });
-	else if (ID == TREE_LUCKY_BLOCK) LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlockTree")) });
+	switch (ID) {
+	case LUCKY_BLOCK:
+		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlockHitted")) });
+		break;
+	case TREE_LUCKY_BLOCK:
+		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlockTree")) });
+		break;
+	}
 	LuckyBlockAttList.push_back(Att);
 	LuckyBlockIDList.push_back(ID);
 	LuckyBlockState.push_back(false);
@@ -143,6 +149,33 @@ inline void LuckyAnimationUpdate() {
 		}
 	}
 }
+void LuckyHit(float x, float y, int i) {
+	if (!LuckyBlockState[i] && !LuckyBlockHitted[i]) {
+		switch (LuckyBlockAttList[i]) {
+		case LUCKY_COIN:
+			CoinSound.play();
+			AddCoinEffect(COIN_NORMAL, ONE_COIN, x - 3, y);
+			++CoinCount;
+			break;
+		case LUCKY_MUSHROOM:
+			VineSound.play();
+			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y + 63.0f, LEFT);
+			break;
+		}
+		LuckyBlockState[i] = true;
+		LuckyUpDown[i] = false;
+		LuckyBlockStateCount[i] = 0;
+		LuckyBlockHitted[i] = true;
+	}
+}
+int getLuckyIndex(float x, float y) {
+	for (int i = 0; i < LuckyBlock.size(); i++) {
+		if (LuckyBlockSaveList[i].first == x && LuckyBlockSaveList[i].second == y) {
+			return i;
+		}
+	}
+	return -1;
+}
 void LuckyHitEvent(float x, float y) {
 	sf::FloatRect LuckyLoop;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
@@ -160,26 +193,14 @@ void LuckyHitEvent(float x, float y) {
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, LuckyLoop)) {
 					if (GoombaAITypeList[j] != MUSHROOM) {
-						if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+						if (GoombaAITypeList[j] == GOOMBA || GoombaAITypeList[j] == KOOPA || GoombaAITypeList[j] == SHELL || GoombaAITypeList[j] == SHELL_MOVING) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 						Kick2Sound.play();
 					}
 				}
 			}
-			if (LuckyBlockAttList[i] == LUCKY_COIN) {
-				CoinSound.play();
-				AddCoinEffect(COIN_NORMAL, ONE_COIN, LuckyLoop.getPosition().x - 3, LuckyLoop.getPosition().y);
-				++CoinCount;
-			}
-			else if (LuckyBlockAttList[i] == LUCKY_MUSHROOM) {
-				VineSound.play();
-				AddGoombaAI(MUSHROOM, 0, LuckyLoop.getPosition().x + 16.0f, LuckyLoop.getPosition().y + 63.0f);
-			}
-			LuckyBlockState[i] = true;
-			LuckyUpDown[i] = false;
-			LuckyBlockStateCount[i] = 0;
-			LuckyBlockHitted[i] = true;
+			LuckyHit(LuckyLoop.getPosition().x, LuckyLoop.getPosition().y, i);
 			break;
 		}
 	}

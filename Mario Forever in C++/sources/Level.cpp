@@ -203,6 +203,6 @@ void Objectbuilding() {
 		else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
 	}
 	for (const auto& i : EnemyData) {
-		AddGoombaAI(static_cast<GoombaAIType>(i[0]), static_cast<int>(i[1]), i[2], i[3]);
+		AddGoombaAI(static_cast<GoombaAIType>(i[0]), static_cast<int>(i[1]), i[2], i[3], LEFT);
 	}
 }

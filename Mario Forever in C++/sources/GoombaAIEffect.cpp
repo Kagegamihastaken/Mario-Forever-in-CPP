@@ -70,7 +70,7 @@ void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float
 			GoombaAIEffectYveloList.push_back(-3.0f);
 		}
 	}
-	else if (type == KOOPA) {
+	else if (type == KOOPA || type == SHELL || type == SHELL_MOVING) {
 		Init.property.setOrigin(16, 19);
 		if (id == NONE) {
 			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Koopa"));

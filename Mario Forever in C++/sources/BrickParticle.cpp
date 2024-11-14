@@ -29,8 +29,14 @@ void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 	sf::Sprite Init;
 	for (int i = 0; i < 4; ++i) {
 		Init.setTexture(BrickParticleTexture);
-		if (id == BRICK_NORMAL) Init.setTextureRect(sf::IntRect(0, 0, 16, 16));
-		else if (id == BRICK_GRAY) Init.setTextureRect(sf::IntRect(16, 0, 16, 16));
+		switch (id) {
+		case BRICK_NORMAL:
+			Init.setTextureRect(sf::IntRect(0, 0, 16, 16));
+			break;
+		case BRICK_GRAY:
+			Init.setTextureRect(sf::IntRect(16, 0, 16, 16));
+			break;
+		}
 		Init.setOrigin(8, 8);
 		if (i == 0) Init.setPosition(ori_x + 8.0f, ori_y + 8.0f);
 		else if (i == 1) Init.setPosition(ori_x + 8.0f + 16.0f, ori_y + 8.0f);

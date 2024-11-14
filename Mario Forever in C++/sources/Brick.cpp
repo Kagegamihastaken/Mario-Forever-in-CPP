@@ -59,8 +59,14 @@ void LoadBricks() {
 	delete BrickTextureTemp;
 }
 void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
-	if (ID == BRICK_GRAY) Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Gray")) });
-	else if (ID == BRICK_NORMAL) Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Normal")) });
+	switch (ID) {
+	case BRICK_GRAY:
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Gray")) });
+		break;
+	case BRICK_NORMAL:
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Normal")) });
+		break;
+	}
 	BrickAttList.push_back(att);
 	BrickIDList.push_back(ID);
 	BrickState.push_back(false);
@@ -73,6 +79,20 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	BrickClock.push_back(sf::Clock());
 	BrickHitted.push_back(false);
 	DisabledBrick.push_back(false);
+}
+inline BrickID GetIDBrick(float x, float y) {
+	for (int i = 0; i < Bricks.size(); i++) {
+		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
+			return BrickIDList[i];
+		}
+	}
+}
+inline BrickAtt GetBrickAtt(float x, float y) {
+	for (int i = 0; i < Bricks.size(); i++) {
+		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
+			return BrickAttList[i];
+		}
+	}
 }
 inline void BrickStatusUpdate() {
 	for (int i = 0; i < Bricks.size(); ++i) {
@@ -113,6 +133,35 @@ inline void BrickUpdate() {
 		}
 	}
 }
+int getBrickIndex(float x, float y) {
+	for (int i = 0; i < Bricks.size(); i++) {
+		if (BrickSaveList[i].first == x && BrickSaveList[i].second == y) {
+			return i;
+		}
+	}
+}
+void MultiBrickCoin(float x, float y, int i) {
+	if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {
+		if (!BrickHitted[i]) {
+			BrickHitted[i] = true;
+			BrickClock[i].restart().asSeconds();
+		}
+		else {
+			if (BrickClock[i].getElapsedTime().asSeconds() > 6.0f && BrickAttList[i] == MULTICOIN) {
+				DisabledBrick[i] = true;
+				BrickState[i] = true;
+				UpDown[i] = false;
+				BrickStateCount[i] = 0;
+			}
+		}
+		CoinSound.play();
+		AddCoinEffect(COIN_NORMAL, ONE_COIN, x - 3, y);
+		++CoinCount;
+		BrickState[i] = true;
+		UpDown[i] = false;
+		BrickStateCount[i] = 0;
+	}
+}
 void HitEvent(float x, float y) {
 	sf::FloatRect BrickLoop;
 	for (int i = 0; i < Bricks.size(); i++) {
@@ -137,28 +186,12 @@ void HitEvent(float x, float y) {
 					}
 				}
 			}
-			if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {
-				if (!BrickHitted[i]) {
-					BrickHitted[i] = true;
-					BrickClock[i].restart().asSeconds();
-				}
-				else {
-					if (BrickClock[i].getElapsedTime().asSeconds() > 6.0f && BrickAttList[i] == MULTICOIN) {
-						DisabledBrick[i] = true;
-						BrickState[i] = true;
-						UpDown[i] = false;
-						BrickStateCount[i] = 0;
-					}
-				}
-				CoinSound.play();
-				AddCoinEffect(COIN_NORMAL, ONE_COIN, BrickLoop.getPosition().x - 3, BrickLoop.getPosition().y);
-				++CoinCount;
-			}
-			if ((BrickAttList[i] == NORMAL && PowerState == 0) || (BrickAttList[i] == MULTICOIN && !DisabledBrick[i])) {
+			MultiBrickCoin(BrickLoop.getPosition().x, BrickLoop.getPosition().y, i);
+			if (BrickAttList[i] == NORMAL && PowerState == 0) {
 				BrickState[i] = true;
 				UpDown[i] = false;
 				BrickStateCount[i] = 0;
-				if (BrickAttList[i] != MULTICOIN) BrickSound.play();
+				BrickSound.play();
 				break;
 			}
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
@@ -180,6 +213,9 @@ void DeleteBrick(float x, float y) {
 			BrickStateCount.erase(BrickStateCount.begin() + i);
 			BrickSaveList.erase(BrickSaveList.begin() + i);
 			UpDown.erase(UpDown.begin() + i);
+			BrickClock.erase(BrickClock.begin() + i);
+			BrickHitted.erase(BrickHitted.begin() + i);
+			DisabledBrick.erase(DisabledBrick.begin() + i);
 			break;
 		}
 	}
@@ -193,4 +229,7 @@ void DeleteAllBrick() {
 	BrickSaveList.clear();
 	BrickHitted.clear();
 	UpDown.clear();
+	BrickClock.clear();
+	BrickHitted.clear();
+	DisabledBrick.clear();
 }

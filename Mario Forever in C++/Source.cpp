@@ -99,6 +99,7 @@ int main() {
 		MarioVertXUpdate();
 		MarioVertYUpdate();
 		//Update movement other than mario
+		GoombaAICollisionUpdate();
 		GoombaAIVertXUpdate();
 		GoombaAIVertYUpdate();
 		GoombaAICheckCollide();
@@ -129,9 +130,9 @@ int main() {
 		SlopeUpdate();
 		CoinUpdate();
 		BrickUpdate();
+		LuckyBlockUpdate();
 		CoinEffectUpdate();
 		ScoreEffectUpdate();
-		LuckyBlockUpdate();
 		BrickParticleUpdate();
 		GoombaAIEffectUpdate();
 		UpdateText();
