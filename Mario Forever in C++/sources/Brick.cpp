@@ -154,7 +154,7 @@ void MultiBrickCoin(float x, float y, int i) {
 				BrickStateCount[i] = 0;
 			}
 		}
-		CoinSound.play();
+		Sounds.PlaySound("Coin");
 		AddCoinEffect(COIN_NORMAL, ONE_COIN, x - 3, y);
 		++CoinCount;
 		BrickState[i] = true;
@@ -172,17 +172,17 @@ void HitEvent(float x, float y) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
-					CoinSound.play();
+					Sounds.PlaySound("Coin");
 					++CoinCount;
 				}
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, BrickLoop)) {
 					if (GoombaAITypeList[j] != MUSHROOM) {
-						if (GoombaAITypeList[j] == GOOMBA) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+						AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-						Kick2Sound.play();
+						Sounds.PlaySound("Kick2");
 					}
 				}
 			}
@@ -191,11 +191,11 @@ void HitEvent(float x, float y) {
 				BrickState[i] = true;
 				UpDown[i] = false;
 				BrickStateCount[i] = 0;
-				BrickSound.play();
+				Sounds.PlaySound("Bump");
 				break;
 			}
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
-				BrickBreakSound.play();
+				Sounds.PlaySound("Break");
 				AddBrickParticle(BrickIDList[i], Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
 				DeleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
 				Score += 50;

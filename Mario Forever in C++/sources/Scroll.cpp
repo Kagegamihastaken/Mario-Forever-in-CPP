@@ -9,6 +9,7 @@
 bool MarioLockedView = false;
 sf::View view;
 float ViewX, ViewY;
+float ViewXOff, ViewYOff;
 void ViewInit() {
 	view.reset(sf::FloatRect(0, 0, Width, Height));
 }
@@ -26,6 +27,8 @@ void updateView() {
 	float vx = window.getSize().x / Width;
 	float vy = window.getSize().y / Height;
 	float min = std::min(vx, vy);
+	ViewXOff = window.getSize().x - (Width * min);
+	ViewYOff = window.getSize().y - (Height * min);
 	view.setViewport(sf::FloatRect(((window.getSize().x - (Width * min)) / window.getSize().x) * 0.5f, ((window.getSize().y - (Height * min)) / window.getSize().y) * 0.5f, (Width * min) / window.getSize().x, (Height * min) / window.getSize().y));
 	ViewX = view.getCenter().x - Width / 2.0f;
 	ViewY = view.getCenter().y - Height / 2.0f;

@@ -7,6 +7,7 @@
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Object/Mario.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/Sound.hpp"
 
 #include "../resource.h"
 
@@ -53,7 +54,11 @@ void AddScoreEffect(ScoreID id, float x, float y) {
 		Score += 10000;
 		Init.setTextureRect(sf::IntRect(0, 96, 42, 16));
 	}
-	else if (id == SCORE_1UP) Init.setTextureRect(sf::IntRect(0, 112, 32, 16));
+	else if (id == SCORE_1UP) {
+		Init.setTextureRect(sf::IntRect(0, 112, 32, 16));
+		++Lives;
+		Sounds.PlaySound("1UP");
+	}
 	Init.setPosition(static_cast<int>(round(x)), y);
 	ScoreEffectList.push_back(Init);
 	ScoreEffectIDList.push_back(id);

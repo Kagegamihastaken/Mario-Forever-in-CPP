@@ -58,7 +58,7 @@ inline void CoinOnTouch() {
 		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
 			Score += 200;
 			DeleteCoin(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y);
-			CoinSound.play();
+			Sounds.PlaySound("Coin");
 			++CoinCount;
 			break;
 		}

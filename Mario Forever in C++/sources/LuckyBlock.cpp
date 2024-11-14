@@ -153,12 +153,12 @@ void LuckyHit(float x, float y, int i) {
 	if (!LuckyBlockState[i] && !LuckyBlockHitted[i]) {
 		switch (LuckyBlockAttList[i]) {
 		case LUCKY_COIN:
-			CoinSound.play();
+			Sounds.PlaySound("Coin");
 			AddCoinEffect(COIN_NORMAL, ONE_COIN, x - 3, y);
 			++CoinCount;
 			break;
 		case LUCKY_MUSHROOM:
-			VineSound.play();
+			Sounds.PlaySound("Vine");
 			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y + 63.0f, LEFT);
 			break;
 		}
@@ -186,7 +186,7 @@ void LuckyHitEvent(float x, float y) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, LuckyLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
-					CoinSound.play();
+					Sounds.PlaySound("Coin");
 					++CoinCount;
 				}
 			}
@@ -196,7 +196,7 @@ void LuckyHitEvent(float x, float y) {
 						if (GoombaAITypeList[j] == GOOMBA || GoombaAITypeList[j] == KOOPA || GoombaAITypeList[j] == SHELL || GoombaAITypeList[j] == SHELL_MOVING) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
 						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-						Kick2Sound.play();
+						Sounds.PlaySound("Kick2");
 					}
 				}
 			}

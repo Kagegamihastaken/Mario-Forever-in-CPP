@@ -36,5 +36,6 @@ extern void MarioVertXUpdate();
 extern void CheckForDeath();
 extern void Death();
 extern int PowerState;
+extern int Lives;
 
 #endif //MARIO_HPP

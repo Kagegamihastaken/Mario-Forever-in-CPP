@@ -2,48 +2,31 @@
 
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
+#include "../headers/Core/SoundManager.hpp"
 
 #include "../resource.h"
 
-sf::SoundBuffer jumpSoundBuffer;
-sf::SoundBuffer BrickSoundBuffer;
-sf::SoundBuffer BirckBreakSoundBuffer;
-sf::SoundBuffer CoinSoundBuffer;
-sf::SoundBuffer StompSoundBuffer;
-sf::SoundBuffer PowerupSoundBuffer;
-sf::SoundBuffer VineSoundBuffer;
-sf::SoundBuffer Kick2SoundBuffer;
-sf::SoundBuffer PipeSoundBuffer;
-
-sf::Sound PipeSound;
-sf::Sound Kick2Sound;
-sf::Sound VineSound;
-sf::Sound CoinSound;
-sf::Sound BrickSound;
-sf::Sound BrickBreakSound;
-sf::Sound SoundJump;
-sf::Sound StompSound;
-sf::Sound Powerup;
-
-int SoundInit() {
-	LoadAudio(jumpSoundBuffer, JUMP_SOUND);
-	SoundJump.setBuffer(jumpSoundBuffer);
-	LoadAudio(BrickSoundBuffer, BUMP_SOUND);
-	BrickSound.setBuffer(BrickSoundBuffer);
-	LoadAudio(BirckBreakSoundBuffer, BREAK_SOUND);
-	BrickBreakSound.setBuffer(BirckBreakSoundBuffer);
-	LoadAudio(CoinSoundBuffer, COIN_SOUND);
-	CoinSound.setBuffer(CoinSoundBuffer);
-	LoadAudio(StompSoundBuffer, STOMP_SOUND);
-	LoadAudio(PowerupSoundBuffer, POWERUP_SOUND);
-	StompSound.setBuffer(StompSoundBuffer);
-	Powerup.setBuffer(PowerupSoundBuffer);
-	LoadAudio(VineSoundBuffer, VINE_SOUND);
-	VineSound.setBuffer(VineSoundBuffer);
-	LoadAudio(Kick2SoundBuffer, KICK2_SOUND);
-	Kick2Sound.setBuffer(Kick2SoundBuffer);
-	LoadAudio(PipeSoundBuffer, PIPE_SOUND);
-	PipeSound.setBuffer(PipeSoundBuffer);
-	return 6;
+SoundManager Sounds;
+void SoundAdd(std::string name, int resID) {
+	sf::SoundBuffer BufferTemp;
+	LoadAudio(BufferTemp, resID);
+	Sounds.AddSound(name, BufferTemp);
 }
-int iniSound = SoundInit();
+void SoundInit() {
+	SoundAdd("Jump", JUMP_SOUND);
+	SoundAdd("Bump", BUMP_SOUND);
+	SoundAdd("Break", BREAK_SOUND);
+	SoundAdd("Coin", COIN_SOUND);
+	SoundAdd("Stomp", STOMP_SOUND);
+	SoundAdd("Powerup", POWERUP_SOUND);
+	SoundAdd("Vine", VINE_SOUND);
+	SoundAdd("Kick2", KICK2_SOUND);
+	SoundAdd("Pipe", PIPE_SOUND);
+	SoundAdd("Kick3", KICK3_SOUND);
+	SoundAdd("Kick4", KICK4_SOUND);
+	SoundAdd("Kick5", KICK5_SOUND);
+	SoundAdd("Kick6", KICK6_SOUND);
+	SoundAdd("Kick7", KICK7_SOUND);
+	SoundAdd("Kick8", KICK8_SOUND);
+	SoundAdd("1UP", ONEUP_SOUND);
+}

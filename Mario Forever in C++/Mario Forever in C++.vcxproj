@@ -158,6 +158,7 @@
     <ClCompile Include="sources\sfMod.cpp" />
     <ClCompile Include="sources\Slopes.cpp" />
     <ClCompile Include="sources\Sound.cpp" />
+    <ClCompile Include="sources\SoundManager.cpp" />
     <ClCompile Include="sources\Text.cpp" />
     <ClCompile Include="sources\TextureManager.cpp" />
     <ClCompile Include="sources\ThreadPool.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="headers\Core\sfMod\Error.hpp" />
     <ClInclude Include="headers\Core\sfMod\sfMod.hpp" />
     <ClInclude Include="headers\Core\Sound.hpp" />
+    <ClInclude Include="headers\Core\SoundManager.hpp" />
     <ClInclude Include="headers\Core\TextureManager.hpp" />
     <ClInclude Include="headers\Core\WindowFrame.hpp" />
     <ClInclude Include="headers\Effect\BrickParticle.hpp" />

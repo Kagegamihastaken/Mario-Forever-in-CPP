@@ -153,6 +153,9 @@
     <ClCompile Include="sources\Text.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
+    <ClCompile Include="sources\SoundManager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="headers\Text\Text.hpp">
       <Filter>Header Files\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\SoundManager.hpp">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

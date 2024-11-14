@@ -7,6 +7,7 @@ extern void ViewInit();
 extern bool MarioLockedView;
 extern sf::View view;
 extern float ViewX, ViewY;
+extern float ViewXOff, ViewYOff;
 extern void setView();
 extern void updateView();
 extern void setRotate(int degree);

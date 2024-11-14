@@ -21,6 +21,7 @@ extern float Width;
 extern float Height;
 extern float MouseX;
 extern float MouseY;
+extern void windowInit();
 
 extern float f_min(float a, float b);
 extern float f_max(float a, float b);

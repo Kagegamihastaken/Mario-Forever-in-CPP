@@ -39,6 +39,8 @@ int MarioState = 0;
 int PowerState = 0;
 int lastPowerState = 0;
 
+int Lives = 4;
+
 bool OverSpeed = false;
 bool isMarioOverlapping = false;
 long long int Score = 0;
@@ -134,14 +136,14 @@ void KeyboardMovement() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && !MarioCanJump && !MarioCurrentFalling) {
 		if (!PreJump && !Holding) {
 			if (Yvelo == 0.0f) {
-				SoundJump.play();
+				Sounds.PlaySound("Jump");
 				Yvelo = -13.5f;
 				MarioCanJump = true;
 			}
 		}
 		else if (PreJump) {
 			if (Yvelo == 0.0f) {
-				SoundJump.play();
+				Sounds.PlaySound("Jump");
 				Yvelo = -14.0f;
 				MarioCanJump = true;
 				PreJump = false;
@@ -485,7 +487,7 @@ void UpdateAnimation() {
 void PowerDown() {
 	if (!Invincible) {
 		if (PowerState == 1) {
-			PipeSound.play();
+			Sounds.PlaySound("Pipe");
 			PowerState = 0;
 			Invincible = true;
 			InvincibleTimer.restart().asSeconds();
@@ -495,6 +497,8 @@ void PowerDown() {
 	}
 }
 void Death() {
+	if (Lives <= 0) window.close();
+	else --Lives;
 	Objectbuilding();
 	PowerState = 0;
 	lastPowerState = 0;

@@ -15,6 +15,7 @@
 #include "headers/Effect/GoombaAIEffect.hpp"
 #include "headers/Core/Loading/enum.hpp"
 #include "headers/Block/Slopes.hpp"
+#include "headers/Core/Sound.hpp"
 
 #include "headers/Core/sfMod/sfMod.hpp"
 #include "resource.h"
@@ -29,6 +30,8 @@
 #include <fstream>
 int main() {
 	//Init Games:
+	windowInit();
+	SoundInit();
 	loadObstacleRes();
 	loadFontRes();
 	LoadBricks();
@@ -47,20 +50,22 @@ int main() {
 	//set level data
 	ReadData(LVL1);
 	//For program
+
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
-	AddText("_SCORE", "", RIGHT_MARGIN, 200.0f, 448.0f);
-	AddText("_FPS", "", LEFT_MARGIN, 0, 16.0f);
-	AddText("_DELTA", "", LEFT_MARGIN, 0, 32.0f);
-	AddText("_PROCESS", "", LEFT_MARGIN, 0, 48.0f);
+	AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
+	AddText("_SCORE", "", RIGHT_MARGIN, 138.0f, 34.0f);
+	AddText("_FPS", "", LEFT_MARGIN, 0.0f, 448.0f);
+	AddText("_DELTA", "", LEFT_MARGIN, 0, 432.0f);
 	if (isDebug) {
-		AddText("_MOUSEXY", "", LEFT_MARGIN, 0, 64.0f);
-		AddText("_MARIOXY", "", LEFT_MARGIN, 0, 80.0f);
-		AddText("_VIEWXY", "", LEFT_MARGIN, 0, 96.0f);
-		AddText("_CODX", "", LEFT_MARGIN, 0, 112.0f);
-		AddText("_FALL", "", LEFT_MARGIN, 0, 128.0f);
-		AddText("_APPE", "", LEFT_MARGIN, 0, 144.0f);
-		AddText("_FALLING", "", LEFT_MARGIN, 0, 160.0f);
+		AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
+		AddText("_MARIOXY", "", RIGHT_MARGIN, 624.0f, 448.0f);
+		AddText("_VIEWXY", "", RIGHT_MARGIN, 624.0f, 432.0f);
+		AddText("_CODX", "", RIGHT_MARGIN, 624.0f, 416.0f);
+		AddText("_CODY", "", RIGHT_MARGIN, 624.0f, 400.0f);
+		AddText("_FALL", "", LEFT_MARGIN, 0.0f, 48.0f);
+		AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
+		AddText("_FALLING", "", LEFT_MARGIN, 0.0f, 80.0f);
 	}
 	//build a level
 	Obstaclebuilding();
@@ -74,6 +79,7 @@ int main() {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
+				Sounds.ClearUp();
 				Thread_Pool.Stop();
 				window.close();
 			}
@@ -82,12 +88,13 @@ int main() {
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
 		appe = (MarioAppearing ? "TRUE" : "FALSE");
 		EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
-		EditText("Thread: NICE", "_PROCESS");
+		EditText(std::to_string(Lives), "_LIVE");
 		if (isDebug) {
-			EditText("mouse: " + std::to_string((int)MouseX) + "/" + std::to_string((int)MouseY), "_MOUSEXY");
-			EditText("mario: " + std::to_string((float)player.property.getPosition().x) + "/" + std::to_string((float)player.property.getPosition().y), "_MARIOXY");
-			EditText("view: " + std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY), "_VIEWXY");
-			EditText("Xvelocity: " + std::to_string(Xvelo), "_CODX");
+			EditText(std::to_string((int)MouseX) + "/" + std::to_string((int)MouseY) + "  R", "_MOUSEXY");
+			EditText(std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y) + "  M", "_MARIOXY");
+			EditText(std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY) + "  V", "_VIEWXY");
+			EditText(std::to_string(Xvelo) + " VX", "_CODX");
+			EditText(std::to_string(Yvelo) + " VY", "_CODY");
 			EditText("Crouch Down: " + fall, "_FALL");
 			EditText("Appear: " + appe, "_APPE");
 			EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
