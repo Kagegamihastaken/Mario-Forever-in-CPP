@@ -23,7 +23,11 @@ std::vector<std::array<int, 3>> ID_list{
 	{3, 0, 32},
 	{4, 32, 32},
 	{5, 64, 32},
-	{6, 96, 0}
+	{6, 96, 0},
+	{7, 128, 0},
+	{8, 160, 0},
+	{9, 128, 32},
+	{10, 160, 32},
 };
 TextureManager ObstaclesTextureManager;
 //texture loading

@@ -156,6 +156,9 @@
     <ClCompile Include="sources\SoundManager.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="sources\PiranhaAI.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="headers\Core\SoundManager.hpp">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Object\PiranhaAI.hpp">
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

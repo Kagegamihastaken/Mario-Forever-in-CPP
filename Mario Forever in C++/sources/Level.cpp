@@ -12,6 +12,7 @@
 #include "../headers/Effect/GoombaAIEffect.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
 #include "../headers/Block/Slopes.hpp"
+#include "../headers/Object/PiranhaAI.hpp"
 
 #include "../resource.h"
 
@@ -26,7 +27,7 @@ float LevelWidth, LevelHeight;
 std::vector<std::array<float, 3>> LevelData;
 std::vector<std::array<float, 3>> SlopeData;
 std::vector<std::array<float, 5>> BonusData;
-std::vector<std::array<float, 4>> EnemyData;
+std::vector<std::array<float, 5>> EnemyData;
 std::array<float, 2> PlayerData;
 void ReadData(int IDLevel) {
 	std::string lvldat;
@@ -133,7 +134,7 @@ void ReadData(int IDLevel) {
 					}
 				}
 				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				EnemyData.push_back({ temp[0], temp[1], temp[2], temp[3] });
+				EnemyData.push_back({ temp[0], temp[1], temp[2], temp[3], temp[4] });
 				if (tm == -1) break;
 			}
 		}
@@ -195,6 +196,7 @@ void Objectbuilding() {
 	DeleteAllCoin();
 	DeleteAllLuckyBlock();
 	DeleteAllGoombaAI();
+	ClearPiranhaAI();
 	//(Re)build Objects
 	player.property.setPosition(PlayerData[0], PlayerData[1]);
 	for (const auto& i : BonusData) {
@@ -203,6 +205,7 @@ void Objectbuilding() {
 		else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
 	}
 	for (const auto& i : EnemyData) {
-		AddGoombaAI(static_cast<GoombaAIType>(i[0]), static_cast<int>(i[1]), i[2], i[3], LEFT);
+		if (i[0] == 0) AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
+		else if (i[0] == 1) AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);
 	}
 }

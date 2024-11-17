@@ -16,6 +16,7 @@
 #include "headers/Core/Loading/enum.hpp"
 #include "headers/Block/Slopes.hpp"
 #include "headers/Core/Sound.hpp"
+#include "headers/Object/PiranhaAI.hpp"
 
 #include "headers/Core/sfMod/sfMod.hpp"
 #include "resource.h"
@@ -39,6 +40,7 @@ int main() {
 	GoombaAILoadRes();
 	CoinEffectInit();
 	GoombaAIEffectInit();
+	PiranhaAIInit();
 	//Init music
 	sfmod::Mod test;
 	LoadMOD(test, TEST_MUSIC, 14, 44100);
@@ -50,7 +52,6 @@ int main() {
 	//set level data
 	ReadData(LVL1);
 	//For program
-
 	AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
 	AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
@@ -111,6 +112,7 @@ int main() {
 		GoombaAIVertYUpdate();
 		GoombaAICheckCollide();
 		GoombaAIEffectVertYUpdate();
+		PiranhaAIMovementUpdate();
 		//Check other event
 		CoinOnTouch();
 		CoinEffectStatusUpdate();
@@ -120,6 +122,7 @@ int main() {
 		BrickParticleStatusUpdate();
 		GoombaStatusUpdate();
 		GoombaAIEffectStatusUpdate();
+		PiranhaAIStatusUpdate();
 		//set view
 		setView();
 		//update text position
@@ -127,12 +130,13 @@ int main() {
 		//Update mario animation
 		UpdateAnimation();
 		//core code
-		window.clear(sf::Color::White);
+		window.clear(sf::Color::Black);
 		updateFrame();
 		//draw
 		updateView();
 		MarioDraw();
 		GoombaAIUpdate();
+		PiranhaAIUpdate();
 		ObstaclesUpdate();
 		SlopeUpdate();
 		CoinUpdate();

@@ -25,7 +25,6 @@
 
 std::vector<MovableObject> GoombaAIList;
 std::vector<GoombaAIType> GoombaAITypeList;
-std::array<sf::Texture, 4> GoombaAITexture; //
 std::vector<std::pair<float, float>> GoombaAIHitboxList; //
 std::vector<GoombaAIDirection> GoombaAIDirectionList;
 std::vector<float> GoombaAIYveloList;
@@ -56,24 +55,18 @@ void LoadGoombaAITexture(sf::Texture* texture, std::string name, int start, int 
 	delete tex;
 	delete ani;
 }
+void LoadingTexture(int ID, std::string name, int start, int end, int y, int sizex, int sizey) {
+	sf::Texture* tex = new sf::Texture();
+	LoadTexture(*tex, ID);
+	LoadGoombaAITexture(tex, name, start, end, y, sizex, sizey);
+}
 void GoombaAILoadRes() {
-	/*
-		0: Goomba
-		1: Mushroom
-		2: Koopa (Green)
-		3: Shell (Green)
-	*/
-	LoadTexture(GoombaAITexture[0], GOOMBA_TEXTURE);
-	LoadTexture(GoombaAITexture[1], MUSHROOM_TEXTURE);
-	LoadTexture(GoombaAITexture[2], GREEN_KOOPA_TEXTURE);
-	LoadTexture(GoombaAITexture[3], GREEN_KOOPA_SHELL_TEXTURE);
-
-	LoadGoombaAITexture(&GoombaAITexture[0], "Goomba", 0, 1, 0, 31, 32);
-	LoadGoombaAITexture(&GoombaAITexture[1], "Mushroom", 0, 0, 0, 31, 32);
-	LoadGoombaAITexture(&GoombaAITexture[2], "Koopa_right_green", 0, 1, 0, 32, 47);
-	LoadGoombaAITexture(&GoombaAITexture[2], "Koopa_left_green", 0, 1, 1, 32, 47);
-	LoadGoombaAITexture(&GoombaAITexture[3], "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
-	LoadGoombaAITexture(&GoombaAITexture[3], "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
+	LoadingTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
+	LoadingTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
+	LoadingTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
+	LoadingTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
+	LoadingTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
+	LoadingTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
 }
 int getGoombaAISKin(GoombaAIType type, int SkinID) {
 	if (type == GOOMBA) return 0;

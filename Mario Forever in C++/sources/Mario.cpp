@@ -500,6 +500,8 @@ void Death() {
 	if (Lives <= 0) window.close();
 	else --Lives;
 	Objectbuilding();
+	Xvelo = 0.0f;
+	Yvelo = 0.0f;
 	PowerState = 0;
 	lastPowerState = 0;
 }

@@ -153,6 +153,7 @@
     <ClCompile Include="sources\LuckyBlock.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
     <ClCompile Include="sources\Obstacles.cpp" />
+    <ClCompile Include="sources\PiranhaAI.cpp" />
     <ClCompile Include="sources\ScoreEffect.cpp" />
     <ClCompile Include="sources\Scroll.cpp" />
     <ClCompile Include="sources\sfMod.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="headers\Object\Coin.hpp" />
     <ClInclude Include="headers\Object\GoombaAI.hpp" />
     <ClInclude Include="headers\Object\Mario.hpp" />
+    <ClInclude Include="headers\Object\PiranhaAI.hpp" />
     <ClInclude Include="headers\Text\Font.hpp" />
     <ClInclude Include="headers\Text\Text.hpp" />
     <ClInclude Include="resource.h" />

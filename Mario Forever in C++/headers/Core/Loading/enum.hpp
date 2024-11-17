@@ -23,4 +23,6 @@ enum GoombaAIHittable { YES, NO, FULL };
 
 enum GoombaAIEffectID { NONE, COLLIDE };
 
+enum PiranhaID { GREEN };
+
 #endif // ENUM_HPP
