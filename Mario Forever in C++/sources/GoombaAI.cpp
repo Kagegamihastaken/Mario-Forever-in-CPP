@@ -67,15 +67,8 @@ void GoombaAILoadRes() {
 	LoadingTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
 	LoadingTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
 	LoadingTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
-}
-int getGoombaAISKin(GoombaAIType type, int SkinID) {
-	if (type == GOOMBA) return 0;
-	else if (type == MUSHROOM) return 1;
-	else if (type == KOOPA) return 2;
-	else if (type == SHELL) return 3;
-	else if (type == SHELL_MOVING) return 4;
-
-	return -1;
+	LoadingTexture(RED_SPINY_TEXTURE, "Spiny_right_red", 0, 1, 0, 33, 32);
+	LoadingTexture(RED_SPINY_TEXTURE, "Spiny_left_red", 0, 1, 1, 33, 32);
 }
 void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirection Dir = LEFT) {
 	MovableObject Init;
@@ -146,6 +139,19 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		GoombaAIAppearingList.push_back(false);
 		GoombaAIOriginList.push_back({ sf::Vector2f(16, 27), sf::Vector2f(16, 27) });
 		GoombaAIInvincibleSecondLimitList.push_back(0.6f);
+		break;
+	case SPINY:
+		Init.property.setOrigin(16, 29);
+		GoombaAIDefinationList.push_back({ 33.0f, 32.0f, 0.0f, 0.0f });
+		GoombaAIHitboxList.push_back({ 33, 32 });
+		in.setAnimation(0, 1, 14);
+		inri.setAnimation(0, 1, 14);
+		GoombaAITextureNameList.push_back({ "Spiny_right_red", "Spiny_left_red" });
+		GoombaAIXveloList.push_back(1.0f);
+		GoombaAIHittableList.push_back(NO);
+		GoombaAIAppearingList.push_back(false);
+		GoombaAIOriginList.push_back({ sf::Vector2f(16, 31), sf::Vector2f(17, 31) });
+		GoombaAIInvincibleSecondLimitList.push_back(0.0f);
 		break;
 	}
 	GoombaAIInvincibleTimerList.push_back(sf::Clock());
@@ -506,7 +512,6 @@ void GoombaAIUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (!isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
 			if (GoombaAIDirectionList[i] == RIGHT) {
-				//GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITexture[getGoombaAISKin(GoombaAITypeList[i], GoombaAISkinIDList[i])]);
 				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].first));
 
 				GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);

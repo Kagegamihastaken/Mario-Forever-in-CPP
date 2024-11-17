@@ -16,7 +16,6 @@
 #include "../resource.h"
 
 std::vector<MovableObject> GoombaAIEffectList;
-std::array<sf::Texture, 2> GoombaAIEffectTexture;
 std::vector<GoombaAIEffectID> GoombaAIEffectTypeList;
 std::vector<float> GoombaAIEffectYveloList;
 std::vector<std::pair<float, float>> GoombaAIEffectHitboxList;
@@ -26,31 +25,21 @@ std::vector<sf::Clock> GoombaATEffectFadeOutList;
 std::vector<int> GoombaAIEffectSkinIDList;
 
 TextureManager GoombaAIEffectTextureManager;
-
-void GoombaAIEffectInit() {
-	sf::Texture* GoombaAIEffectTemp = new sf::Texture();
-	LoadTexture(GoombaAIEffectTexture[0], DEAD_GOOMBA_TEXTURE);
-	LoadTexture(GoombaAIEffectTexture[1], DEAD_GREEN_KOOPA_TEXTURE);
-
-	GoombaAIEffectTemp->loadFromImage(GoombaAIEffectTexture[0].copyToImage(), sf::IntRect(0, 0, 31, 32));
-	GoombaAIEffectTextureManager.AddTexture("DEAD_Goomba_1", GoombaAIEffectTemp);
-	GoombaAIEffectTemp = new sf::Texture();
-
-	GoombaAIEffectTemp->loadFromImage(GoombaAIEffectTexture[0].copyToImage(), sf::IntRect(31, 0, 31, 32));
-	GoombaAIEffectTextureManager.AddTexture("DEAD_Goomba_2", GoombaAIEffectTemp);
-	GoombaAIEffectTemp = new sf::Texture();
-
-	GoombaAIEffectTemp->loadFromImage(GoombaAIEffectTexture[1].copyToImage(), sf::IntRect(0, 0, 33, 28));
-	GoombaAIEffectTextureManager.AddTexture("DEAD_Koopa", GoombaAIEffectTemp);
-	GoombaAIEffectTemp = new sf::Texture();
-
-	delete GoombaAIEffectTemp;
+void loadTextureGoombaAIEffect(int ID, std::string name, sf::IntRect rect) {
+	sf::Texture* texture = new sf::Texture();
+	sf::Texture* temp = new sf::Texture();
+	LoadTexture(*texture, ID);
+	temp->loadFromImage(texture->copyToImage(), rect);
+	GoombaAIEffectTextureManager.AddTexture(name, temp);
+	temp = new sf::Texture();
+	delete texture;
+	delete temp;
 }
-int getGoombaAIEffectSKin(GoombaAIType type, int SkinID) {
-	if (type == GOOMBA) return 0;
-	else if (type == KOOPA) return 1;
-
-	return -1;
+void GoombaAIEffectInit() {
+	loadTextureGoombaAIEffect(DEAD_GOOMBA_TEXTURE, "DEAD_Goomba_1", sf::IntRect(0, 0, 31, 32));
+	loadTextureGoombaAIEffect(DEAD_GOOMBA_TEXTURE, "DEAD_Goomba_2", sf::IntRect(31, 0, 31, 32));
+	loadTextureGoombaAIEffect(DEAD_GREEN_KOOPA_TEXTURE, "DEAD_Koopa", sf::IntRect(0, 0, 33, 28));
+	loadTextureGoombaAIEffect(DEAD_RED_SPINY_TEXTURE, "DEAD_Spiny_Red", sf::IntRect(0, 0, 33, 32));
 }
 void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float x, float y) {
 	MovableObject Init;
@@ -76,6 +65,15 @@ void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float
 			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Koopa"));
 			GoombaAIEffectHitboxList.push_back({ 33, 28 });
 			GoombaAIEffectDefinationList.push_back({ 33.0f, 28.0f, 0.0f, 0.0f });
+			GoombaAIEffectYveloList.push_back(-3.0f);
+		}
+	}
+	else if (type == SPINY) {
+		Init.property.setOrigin(15, 22);
+		if (id == NONE) {
+			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Spiny_Red"));
+			GoombaAIEffectHitboxList.push_back({ 33, 32 });
+			GoombaAIEffectDefinationList.push_back({ 33.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
 		}
 	}

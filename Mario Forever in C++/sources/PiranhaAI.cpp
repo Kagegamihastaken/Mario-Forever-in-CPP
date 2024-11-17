@@ -111,7 +111,7 @@ void AddPiranha(PiranhaID ID, float x, float y) {
 }
 void PiranhaAIMovementUpdate() {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 32, 32) && !PiranhaAIDisabledList[i]) {
+		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			if (!PiranhaAIStopList[i]) {
 				if (!PiranhaAIStateList[i]) {
 					if (PiranhaAIPosTempList[i] <= PiranhaAIPosLimitList[i]) {
@@ -150,17 +150,17 @@ void PiranhaAIMovementUpdate() {
 void PiranhaAIStatusUpdate() {
 	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 32, 32) && PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;
+		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;
 		if (isCollide(PiranhaAIHitboxList[i], PiranhaAIList[i], playerHitbox)) PowerDown();
 	}
 }
 void PiranhaAIUpdate() {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 32, 32) && !PiranhaAIDisabledList[i]) {
+		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			PiranhaAIAnimationList[i].update(PiranhaAIList[i], PiranhaAITextureManager.GetAnimatedTexture(PiranhaAIAnimationNameList[i]));
 			window.draw(PiranhaAIList[i]);
 		}
-		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 32, 32) && !PiranhaAIDisabledList[i]) {
+		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			PiranhaAIAnimationList[i].silentupdate(PiranhaAIList[i]);
 		}
 	}
