@@ -35,7 +35,6 @@ bool Holding;
 bool MarioCrouchDown = false;
 float player_speed;
 int MarioState = 0;
-
 int PowerState = 0;
 int lastPowerState = 0;
 

@@ -43,32 +43,15 @@ std::vector<float> GoombaAIInvincibleSecondLimitList;
 std::vector<int> GoombaAIShellHitCount;
 TextureManager GoombaAITextureManager;
 
-void LoadGoombaAITexture(sf::Texture* texture, std::string name, int start, int end, int y, int sizex, int sizey) {
-	sf::Texture* tex = new sf::Texture();
-	std::vector<sf::Texture*>* ani = new std::vector<sf::Texture*>();
-	for (int i = start; i <= end; ++i) {
-		tex->loadFromImage(texture->copyToImage(), sf::IntRect(i * sizex, y * sizey, sizex, sizey));
-		ani->push_back(tex);
-		tex = new sf::Texture();
-	}
-	GoombaAITextureManager.AddAnimatedTexture(name, *ani);
-	delete tex;
-	delete ani;
-}
-void LoadingTexture(int ID, std::string name, int start, int end, int y, int sizex, int sizey) {
-	sf::Texture* tex = new sf::Texture();
-	LoadTexture(*tex, ID);
-	LoadGoombaAITexture(tex, name, start, end, y, sizex, sizey);
-}
 void GoombaAILoadRes() {
-	LoadingTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
-	LoadingTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
-	LoadingTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
-	LoadingTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
-	LoadingTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
-	LoadingTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
-	LoadingTexture(RED_SPINY_TEXTURE, "Spiny_right_red", 0, 1, 0, 33, 32);
-	LoadingTexture(RED_SPINY_TEXTURE, "Spiny_left_red", 0, 1, 1, 33, 32);
+	GoombaAITextureManager.LoadingAnimatedTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
+	GoombaAITextureManager.LoadingAnimatedTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
+	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
+	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
+	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
+	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
+	GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_right_red", 0, 1, 0, 33, 32);
+	GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_left_red", 0, 1, 1, 33, 32);
 }
 void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirection Dir = LEFT) {
 	MovableObject Init;
@@ -220,7 +203,7 @@ void DeleteAllGoombaAI() {
 }
 void GoombaStatusUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (!isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && GoombaAIDisabledList[i]) GoombaAIDisabledList[i] = false;
+		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 32) && GoombaAIDisabledList[i]) GoombaAIDisabledList[i] = false;
 		if (GoombaAIAppearingList[i] && !GoombaAIDisabledList[i]) {
 			GoombaAIList[i].property.move(0.0f, -0.5f * deltaTime);
 			GoombaAIAppearingYList[i] += 0.5f * deltaTime;
@@ -510,7 +493,7 @@ void GoombaAICollisionUpdate() {
 }
 void GoombaAIUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (!isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
+		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
 			if (GoombaAIDirectionList[i] == RIGHT) {
 				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].first));
 
@@ -527,7 +510,7 @@ void GoombaAIUpdate() {
 			}
 			window.draw(GoombaAIList[i].property);
 		}
-		else if (isOutScreen(GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
+		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
 			GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
 			GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
 		}

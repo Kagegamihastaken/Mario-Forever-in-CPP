@@ -18,18 +18,7 @@ std::vector<CoinAtt> CoinEffectAttList;
 TextureManager CoinEffectTextureManager;
 
 void CoinEffectInit() {
-	sf::Texture* CoinEffectTexture = new sf::Texture();
-	sf::Texture* CoinEffectTextureTemp = new sf::Texture();
-	std::vector<sf::Texture*> CoinEffectAnimatedTextureList;
-	LoadTexture(*CoinEffectTexture, COINEFFECT_TEXTURE);
-	for (int i = 0; i <= 20; ++i) {
-		CoinEffectTextureTemp->loadFromImage(CoinEffectTexture->copyToImage(), sf::IntRect(i * 37, 0, 37, 32));
-		CoinEffectAnimatedTextureList.push_back(CoinEffectTextureTemp);
-		CoinEffectTextureTemp = new sf::Texture();
-	}
-	CoinEffectTextureManager.AddAnimatedTexture("CoinEffect", CoinEffectAnimatedTextureList);
-	delete CoinEffectTexture;
-	delete CoinEffectTextureTemp;
+	CoinEffectTextureManager.LoadingAnimatedTexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 20, 0, 37, 32);
 }
 void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;

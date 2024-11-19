@@ -34,28 +34,11 @@ TextureManager LuckyBlockTextureManager;
 std::vector<sf::Texture*> LuckyBlockTextureList;
 
 void LoadLuckyBlock() {
-	sf::Texture* LuckyBlockTexture = new sf::Texture();
-	sf::Texture* LuckyBlockTextureTemp = new sf::Texture();
-	std::vector<sf::Texture*> LuckyBlockTextureList;
-	LoadTexture(*LuckyBlockTexture, LUCKYBLOCK_TEXTURE);
-	for (int i = 0; i <= 2; ++i) {
-		LuckyBlockTextureTemp->loadFromImage(LuckyBlockTexture->copyToImage(), sf::IntRect(32 * i, 0, 32, 32));
-		LuckyBlockTextureList.push_back(LuckyBlockTextureTemp);
-		LuckyBlockTextureTemp = new sf::Texture();
-	}
-	LuckyBlockTextureManager.AddAnimatedTexture("LuckyBlockAnimated", LuckyBlockTextureList);
-	LuckyBlockTextureTemp->loadFromImage(LuckyBlockTexture->copyToImage(), sf::IntRect(96, 0, 32, 32));
-	LuckyBlockTextureManager.AddTexture("LuckyBlockHitted", LuckyBlockTextureTemp);
-	LuckyBlockTextureTemp = new sf::Texture();
+	LuckyBlockTextureManager.LoadingAnimatedTexture(LUCKYBLOCK_TEXTURE, "LuckyBlockAnimated", 0, 2, 0, 32, 32);
+	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockHitted", 96, 0, 32, 32);
 	//Tree
-	LuckyBlockTextureTemp->loadFromImage(LuckyBlockTexture->copyToImage(), sf::IntRect(64, 32, 32, 32));
-	LuckyBlockTextureManager.AddTexture("LuckyBlockTree", LuckyBlockTextureTemp);
-	LuckyBlockTextureTemp = new sf::Texture();
-	LuckyBlockTextureTemp->loadFromImage(LuckyBlockTexture->copyToImage(), sf::IntRect(96, 32, 32, 32));
-	LuckyBlockTextureManager.AddTexture("LuckyBlockTreeHitted", LuckyBlockTextureTemp);
-	LuckyBlockTextureTemp = new sf::Texture();
-	delete LuckyBlockTexture;
-	delete LuckyBlockTextureTemp;
+	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTree", 64, 32, 32, 32);
+	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTreeHitted", 96, 32, 32, 32);
 }
 void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	switch (ID) {
@@ -159,7 +142,7 @@ void LuckyHit(float x, float y, int i) {
 			break;
 		case LUCKY_MUSHROOM:
 			Sounds.PlaySound("Vine");
-			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y + 63.0f, LEFT);
+			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y + 63.0f, RIGHT);
 			break;
 		}
 		LuckyBlockState[i] = true;

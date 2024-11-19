@@ -24,5 +24,6 @@ enum GoombaAIHittable { YES, NO, FULL };
 enum GoombaAIEffectID { NONE, COLLIDE };
 
 enum PiranhaID { GREEN };
+enum SpikeID { PIRANHA_GROUND, SPIKE_NORMAL };
 
 #endif // ENUM_HPP

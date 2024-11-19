@@ -39,24 +39,11 @@ std::vector<bool> DisabledBrick;
 TextureManager BrickTextureManager;
 // TODO: Load Texture from TextureManager
 void LoadBricks() {
-	sf::Texture* BrickTexture = new sf::Texture();
-	sf::Texture* BrickTextureTemp = new sf::Texture();
-	LoadTexture(*BrickTexture, BRICK_TEXTURE);
 	// Loading Texture
-	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(0, 0, 32, 32));
-	BrickTextureManager.AddTexture("Brick_Normal", BrickTextureTemp);
-	BrickTextureTemp = new sf::Texture();
-	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(32, 0, 32, 32));
-	BrickTextureManager.AddTexture("Brick_Gray", BrickTextureTemp);
-	BrickTextureTemp = new sf::Texture();
-	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(0, 32, 32, 32));
-	BrickTextureManager.AddTexture("Brick_Normal_Hitted", BrickTextureTemp);
-	BrickTextureTemp = new sf::Texture();
-	BrickTextureTemp->loadFromImage(BrickTexture->copyToImage(), sf::IntRect(32, 32, 32, 32));
-	BrickTextureManager.AddTexture("Brick_Gray_Hitted", BrickTextureTemp);
-	BrickTextureTemp = new sf::Texture();
-	delete BrickTexture;
-	delete BrickTextureTemp;
+	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal", 0, 0, 32, 32);
+	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray", 32, 0, 32, 32);
+	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal_Hitted", 0, 32, 32, 32);
+	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray_Hitted", 32, 32, 32, 32);
 }
 void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	switch (ID) {

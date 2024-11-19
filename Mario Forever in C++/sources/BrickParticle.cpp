@@ -8,6 +8,7 @@
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/WindowFrame.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -15,26 +16,24 @@ std::vector<std::array<sf::Sprite, 4>> BrickParticleList;
 std::vector<std::array<bool, 4>> BrickParticleDisabledList;
 std::vector<BrickID> BrickParticleID;
 std::vector<std::array<std::pair<float, float>, 4>> BrickParticleVelo;
-sf::Texture BrickParticleTexture;
+TextureManager BrickParticleTexture;
 
-int BrickParticleInit() {
-	LoadTexture(BrickParticleTexture, BRICKPARTICLE_TEXTURE);
-	return 6;
+void BrickParticleInit() {
+	BrickParticleTexture.Loadingtexture(BRICKPARTICLE_TEXTURE, "BrickParticleNormal", 0, 0, 16, 16);
+	BrickParticleTexture.Loadingtexture(BRICKPARTICLE_TEXTURE, "BrickParticleGray", 16, 0, 16, 16);
 }
-int iniBrickParticle = BrickParticleInit();
 void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 	std::array<sf::Sprite, 4> it;
 	std::array<bool, 4> itn;
 	std::array<std::pair<float, float>, 4> veloIt;
 	sf::Sprite Init;
 	for (int i = 0; i < 4; ++i) {
-		Init.setTexture(BrickParticleTexture);
 		switch (id) {
 		case BRICK_NORMAL:
-			Init.setTextureRect(sf::IntRect(0, 0, 16, 16));
+			Init.setTexture(*BrickParticleTexture.GetTexture("BrickParticleNormal"));
 			break;
 		case BRICK_GRAY:
-			Init.setTextureRect(sf::IntRect(16, 0, 16, 16));
+			Init.setTexture(*BrickParticleTexture.GetTexture("BrickParticleGray"));
 			break;
 		}
 		Init.setOrigin(8, 8);

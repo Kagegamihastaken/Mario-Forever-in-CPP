@@ -13,6 +13,8 @@
 #include "../headers/Effect/ScoreEffect.hpp"
 #include "../headers/Block/Slopes.hpp"
 #include "../headers/Object/PiranhaAI.hpp"
+#include "../headers/Object/Spike.hpp"
+#include "../headers/Core/Scroll.hpp"
 
 #include "../resource.h"
 
@@ -186,6 +188,9 @@ void Slopebuilding() {
 	}
 }
 void Objectbuilding() {
+	player.property.setPosition(PlayerData[0], PlayerData[1]);
+	setView();
+	updateView();
 	//Delete Effects
 	DeleteAllBrickParticle();
 	DeleteAllCoinEffect();
@@ -197,15 +202,20 @@ void Objectbuilding() {
 	DeleteAllLuckyBlock();
 	DeleteAllGoombaAI();
 	ClearPiranhaAI();
+	DeleteAllSpike();
 	//(Re)build Objects
-	player.property.setPosition(PlayerData[0], PlayerData[1]);
-	for (const auto& i : BonusData) {
-		if (i[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
-		else if (i[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
-		else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+	if (BonusData.size() > 0) {
+		for (const auto& i : BonusData) {
+			if (i[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
+			else if (i[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
+			else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+		}
 	}
-	for (const auto& i : EnemyData) {
-		if (i[0] == 0) AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
-		else if (i[0] == 1) AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);
+	if (EnemyData.size() > 0) {
+		for (const auto& i : EnemyData) {
+			if (i[0] == 0) AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
+			else if (i[0] == 1) AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);
+			else if (i[0] == 2) AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);
+		}
 	}
 }

@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="LEVEL_EDITOR|Win32">
+      <Configuration>LEVEL_EDITOR</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="LEVEL_EDITOR|x64">
+      <Configuration>LEVEL_EDITOR</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -51,6 +59,12 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='LEVEL_EDITOR|Win32'">
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='LEVEL_EDITOR|x64'">
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -160,6 +174,7 @@
     <ClCompile Include="sources\Slopes.cpp" />
     <ClCompile Include="sources\Sound.cpp" />
     <ClCompile Include="sources\SoundManager.cpp" />
+    <ClCompile Include="sources\Spike.cpp" />
     <ClCompile Include="sources\Text.cpp" />
     <ClCompile Include="sources\TextureManager.cpp" />
     <ClCompile Include="sources\ThreadPool.cpp" />
@@ -193,12 +208,14 @@
     <ClInclude Include="headers\Object\GoombaAI.hpp" />
     <ClInclude Include="headers\Object\Mario.hpp" />
     <ClInclude Include="headers\Object\PiranhaAI.hpp" />
+    <ClInclude Include="headers\Object\Spike.hpp" />
     <ClInclude Include="headers\Text\Font.hpp" />
     <ClInclude Include="headers\Text\Text.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels\lvl1.txt" />
+    <Text Include="levels\lvl2.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mario Forever in C++.rc" />

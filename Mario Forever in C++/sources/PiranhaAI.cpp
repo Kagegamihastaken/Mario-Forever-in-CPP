@@ -30,20 +30,6 @@ std::vector<sf::Clock> PiranhaAIStopTimerList;
 std::vector<bool> PiranhaAIStopList;
 std::vector<float> PiranhaAIDistanceAppearList;
 
-void LoadingTexturePiranhaAI(int ID, std::string name, int start, int end, int y, int sizex, int sizey) {
-	sf::Texture* texture = new sf::Texture();
-	sf::Texture* tex = new sf::Texture();
-	LoadTexture(*texture, ID);
-	std::vector<sf::Texture*>* ani = new std::vector<sf::Texture*>();
-	for (int i = start; i <= end; ++i) {
-		tex->loadFromImage(texture->copyToImage(), sf::IntRect(i * sizex, y * sizey, sizex, sizey));
-		ani->push_back(tex);
-		tex = new sf::Texture();
-	}
-	PiranhaAITextureManager.AddAnimatedTexture(name, *ani);
-	delete tex;
-	delete ani;
-}
 void DeletePiranhaAI(float x, float y) {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (PiranhaAIList[i].getPosition().x == x && PiranhaAIList[i].getPosition().y == y) {
@@ -82,14 +68,13 @@ void ClearPiranhaAI() {
 	PiranhaAIDistanceAppearList.clear();
 }
 void PiranhaAIInit() {
-	LoadingTexturePiranhaAI(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
+	PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void AddPiranha(PiranhaID ID, float x, float y) {
 	sf::Sprite Init;
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
 	case GREEN:
-		PiranhaAITypeList.push_back(GREEN);
 		InitAnimation.setAnimation(0, 1, 14);
 		PiranhaAIAnimationNameList.push_back("PiranhaGreen");
 		PiranhaAISpeedList.push_back(1.0f);
@@ -97,6 +82,7 @@ void AddPiranha(PiranhaID ID, float x, float y) {
 		PiranhaAIDistanceAppearList.push_back(80.0f);
 		break;
 	}
+	PiranhaAITypeList.push_back(ID);
 	PiranhaAIDisabledList.push_back(true);
 	PiranhaAIHitboxList.push_back(sf::FloatRect(16, 17, 31, 47));
 	Init.setPosition(x, y);

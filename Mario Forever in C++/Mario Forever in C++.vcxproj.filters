@@ -159,6 +159,9 @@
     <ClCompile Include="sources\PiranhaAI.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Spike.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -251,6 +254,9 @@
     <ClInclude Include="headers\Object\PiranhaAI.hpp">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Object\Spike.hpp">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mario Forever in C++.rc">
@@ -259,6 +265,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels\lvl1.txt">
+      <Filter>Level</Filter>
+    </Text>
+    <Text Include="levels\lvl2.txt">
       <Filter>Level</Filter>
     </Text>
   </ItemGroup>

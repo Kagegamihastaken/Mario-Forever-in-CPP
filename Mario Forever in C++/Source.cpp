@@ -17,6 +17,7 @@
 #include "headers/Block/Slopes.hpp"
 #include "headers/Core/Sound.hpp"
 #include "headers/Object/PiranhaAI.hpp"
+#include "headers/Object/Spike.hpp"
 
 #include "headers/Core/sfMod/sfMod.hpp"
 #include "resource.h"
@@ -34,6 +35,7 @@ int main() {
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
+	BrickParticleInit();
 	loadFontRes();
 	LoadBricks();
 	LoadLuckyBlock();
@@ -41,11 +43,12 @@ int main() {
 	CoinEffectInit();
 	GoombaAIEffectInit();
 	PiranhaAIInit();
+	SpikeInit();
 	//Init music
-	sfmod::Mod test;
-	LoadMOD(test, TEST_MUSIC, 14, 44100);
-	test.setLoop(true);
-	test.play();
+	//sfmod::Mod test;
+	//LoadMOD(test, TEST_MUSIC, 14, 44100);
+	//test.setLoop(true);
+	//test.play();
 	//window.setTitle
 	//Init window
 	ViewInit();
@@ -123,6 +126,7 @@ int main() {
 		GoombaStatusUpdate();
 		GoombaAIEffectStatusUpdate();
 		PiranhaAIStatusUpdate();
+		SpikeStatusUpdate();
 		//set view
 		setView();
 		//update text position
@@ -137,6 +141,7 @@ int main() {
 		MarioDraw();
 		GoombaAIUpdate();
 		PiranhaAIUpdate();
+		SpikeUpdate();
 		ObstaclesUpdate();
 		SlopeUpdate();
 		CoinUpdate();
