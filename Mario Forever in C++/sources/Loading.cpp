@@ -42,12 +42,12 @@ void LoadMOD(sfmod::Mod& music, int resID, int channel, int samplerate) {
 	char* hFinal = (char*)LockResource(hData);
 	music.loadFromMemory(hFinal, hSize);
 }
-void LoadOGG(sf::SoundBuffer& music, int resID) {
+void LoadOGG(sf::Music& music, int resID) {
 	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(OGGFILE));
 	HGLOBAL hData = LoadResource(GCM(), hRES);
 	DWORD hSize = SizeofResource(GCM(), hRES);
 	char* hFinal = (char*)LockResource(hData);
-	music.loadFromMemory(hFinal, hSize);
+	music.openFromMemory(hFinal, hSize);
 }
 int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 	std::string ou = "";

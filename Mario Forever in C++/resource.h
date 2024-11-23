@@ -14,9 +14,11 @@
 #endif
 // musicogg
 #define OGGFILE 1279
+#define TEST_OGG 1278
 // musicmod
 #define MODFILE 1023
 #define TEST_MUSIC 1022
+#define DEATH_MUSIC 1021
 // audio
 #define SOUNDFILE 767
 
@@ -63,6 +65,7 @@
 #define DEAD_RED_SPINY_TEXTURE 489
 #define PIRANHA_GROUND_TEXTURE 488
 #define SPIKE_TEXTURE 487
+#define DEAD_MARIO_TEXTURE 486
 // text
 #define LVLFILE 255
 

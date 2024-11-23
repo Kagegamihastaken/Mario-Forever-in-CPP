@@ -17,6 +17,9 @@ public:
 	static sf::Sound GetSound(std::string name);
 	static void PlaySound(std::string name);
 	static void ClearUp();
+	static void SetLoop(std::string name, bool loop);
+	static void StopSound(std::string name);
+	static void StopAllSound();
 };
 
 #endif

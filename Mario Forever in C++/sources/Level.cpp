@@ -15,6 +15,8 @@
 #include "../headers/Object/PiranhaAI.hpp"
 #include "../headers/Object/Spike.hpp"
 #include "../headers/Core/Scroll.hpp"
+#include "../headers/Core/MusicManager.hpp"
+#include "../headers/Core/Music.hpp"
 
 #include "../resource.h"
 
@@ -31,6 +33,7 @@ std::vector<std::array<float, 3>> SlopeData;
 std::vector<std::array<float, 5>> BonusData;
 std::vector<std::array<float, 5>> EnemyData;
 std::array<float, 2> PlayerData;
+std::pair<int, std::string> MusicData;
 void ReadData(int IDLevel) {
 	std::string lvldat;
 	LoadLvl(lvldat, IDLevel);
@@ -47,7 +50,7 @@ void ReadData(int IDLevel) {
 		if (tm == -1) break;
 		if (DataStructure == "--Level Data--") {
 			int C;
-			for (int i = 0; i < 2; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				while (true) {
 					tm = ReadStrLine(lvldat, DataStructure, tm);
 					if (DataStructure == "") continue;
@@ -63,6 +66,10 @@ void ReadData(int IDLevel) {
 							else if (i == 1) {
 								PlayerData[C] = std::stof(numLoop);
 							}
+							else if (i == 2) {
+								if (C == 0) MusicData.first = std::stoi(numLoop);
+								else if (C == 1) MusicData.second = numLoop;
+							}
 							++C;
 							numLoop = "";
 						}
@@ -74,6 +81,10 @@ void ReadData(int IDLevel) {
 						}
 						else if (i == 1) {
 							PlayerData[C] = std::stof(numLoop);
+						}
+						else if (i == 2) {
+							if (C == 0) MusicData.first = std::stoi(numLoop);
+							else if (C == 1) MusicData.second = numLoop;
 						}
 					}
 					break;
@@ -188,6 +199,17 @@ void Slopebuilding() {
 	}
 }
 void Objectbuilding() {
+	//Musicial
+	if (MusicData.first == 0) {
+		if (Music.IsMODMusicPlaying(MusicData.second)) Music.StopMODMusic(MusicData.second);
+		Music.SetMODLoop(MusicData.second, true);
+		Music.PlayMODMusic(MusicData.second);
+	}
+	else if (MusicData.first == 1) {
+		if (Music.IsOGGMusicPlaying(MusicData.second)) Music.StopOGGMusic(MusicData.second);
+		Music.SetOGGLoop(MusicData.second, true);
+		Music.PlayOGGMusic(MusicData.second);
+	}
 	player.property.setPosition(PlayerData[0], PlayerData[1]);
 	setView();
 	updateView();

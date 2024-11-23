@@ -166,6 +166,9 @@
     <ClCompile Include="sources\Loading.cpp" />
     <ClCompile Include="sources\LuckyBlock.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
+    <ClCompile Include="sources\MarioEffect.cpp" />
+    <ClCompile Include="sources\Music.cpp" />
+    <ClCompile Include="sources\MusicManager.cpp" />
     <ClCompile Include="sources\Obstacles.cpp" />
     <ClCompile Include="sources\PiranhaAI.cpp" />
     <ClCompile Include="sources\ScoreEffect.cpp" />
@@ -193,6 +196,8 @@
     <ClInclude Include="headers\Core\Loading\enum.hpp" />
     <ClInclude Include="headers\Core\Loading\Loading.hpp" />
     <ClInclude Include="headers\Core\MultiThreading\ThreadPool.hpp" />
+    <ClInclude Include="headers\Core\Music.hpp" />
+    <ClInclude Include="headers\Core\MusicManager.hpp" />
     <ClInclude Include="headers\Core\Scroll.hpp" />
     <ClInclude Include="headers\Core\sfMod\Error.hpp" />
     <ClInclude Include="headers\Core\sfMod\sfMod.hpp" />
@@ -203,6 +208,7 @@
     <ClInclude Include="headers\Effect\BrickParticle.hpp" />
     <ClInclude Include="headers\Effect\CoinEffect.hpp" />
     <ClInclude Include="headers\Effect\GoombaAIEffect.hpp" />
+    <ClInclude Include="headers\Effect\MarioEffect.hpp" />
     <ClInclude Include="headers\Effect\ScoreEffect.hpp" />
     <ClInclude Include="headers\Object\Coin.hpp" />
     <ClInclude Include="headers\Object\GoombaAI.hpp" />
