@@ -99,7 +99,7 @@ void KeyboardMovement() {
 	if (CanControlMario) {
 		sf::FloatRect hitbox_loop;
 		bool isCollideSideBool = false;
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !MarioCrouchDown) {
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !MarioCrouchDown && window.hasFocus()) {
 			if (Xvelo == 0) MarioDirection = true;
 			else if (!MarioDirection) {
 				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
@@ -114,7 +114,7 @@ void KeyboardMovement() {
 				}
 			}
 		}
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && !MarioCrouchDown) {
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && !MarioCrouchDown && window.hasFocus()) {
 			if (Xvelo == 0) MarioDirection = false;
 			else if (MarioDirection) {
 				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
@@ -130,7 +130,7 @@ void KeyboardMovement() {
 				}
 			}
 		}
-		if ((!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !MarioCrouchDown) || MarioCrouchDown) {
+		if ((!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !MarioCrouchDown) || MarioCrouchDown || !window.hasFocus()) {
 			if (!MarioCrouchDown) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.125f * deltaTime);
 			else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.28125f * deltaTime);
 			if (!MarioDirection) player.property.move(Xvelo * deltaTime, 0.0f);

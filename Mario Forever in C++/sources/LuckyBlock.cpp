@@ -199,6 +199,7 @@ void DeleteLuckyBlock(float x, float y) {
 			LuckyBlockSaveList.erase(LuckyBlockSaveList.begin() + i);
 			LuckyBlockHitted.erase(LuckyBlockHitted.begin() + i);
 			LuckyUpDown.erase(LuckyUpDown.begin() + i);
+			LuckyIdle.erase(LuckyIdle.begin() + i);
 			break;
 		}
 	}
@@ -212,4 +213,5 @@ void DeleteAllLuckyBlock() {
 	LuckyBlockSaveList.clear();
 	LuckyBlockHitted.clear();
 	LuckyUpDown.clear();
+	LuckyIdle.clear();
 }

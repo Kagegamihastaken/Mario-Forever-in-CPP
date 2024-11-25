@@ -43,7 +43,6 @@ int main() {
 	SpikeInit();
 	MusicInit();
 	MarioEffectInit();
-	//Init music
 	//window.setTitle
 	//Init window
 	ViewInit();
