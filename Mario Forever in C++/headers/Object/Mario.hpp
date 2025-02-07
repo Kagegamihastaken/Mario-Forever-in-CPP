@@ -15,6 +15,7 @@ public:
 	sf::FloatRect hitboxLeft2;
 	sf::FloatRect hitboxRight2;
 	sf::FloatRect hitboxTop;
+	sf::FloatRect hitboxSlopeBot;
 	sf::Sprite property;
 };
 extern AnimationManager MarioAnimation;

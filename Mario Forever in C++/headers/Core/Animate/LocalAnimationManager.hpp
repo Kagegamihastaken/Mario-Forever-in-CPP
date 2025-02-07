@@ -33,14 +33,14 @@ public:
 	}
 	void update(sf::Sprite& sprite, std::vector<sf::Texture*> texture) {
 		sprite.setTexture(*texture[this->indexAnimation]);
-		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 3000.0f / this->frequency) {
+		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 2000.0f / this->frequency) {
 			this->TimeRun.restart().asMilliseconds();
 			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
 			else this->indexAnimation = this->startingIndexAnimation;
 		}
 	}
 	void silentupdate(sf::Sprite& sprite) {
-		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 3000.0f / this->frequency) {
+		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 2000.0f / this->frequency) {
 			this->TimeRun.restart().asMilliseconds();
 			this->indexAnimation++;
 			if (this->indexAnimation > this->endingIndexAnimation)  this->indexAnimation = this->startingIndexAnimation;

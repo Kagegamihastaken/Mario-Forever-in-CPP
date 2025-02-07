@@ -82,6 +82,7 @@ inline BrickAtt GetBrickAtt(float x, float y) {
 	}
 }
 inline void BrickStatusUpdate() {
+	if (Bricks.size() == 0) return;
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
 			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Gray_Hitted"));

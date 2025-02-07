@@ -57,8 +57,8 @@ std::array<std::array<sf::FloatRect, 32>, 3> SlopeRectList{
 		sf::FloatRect(28.0f, 2.0f, 1.0f, 30.0f),
 		sf::FloatRect(29.0f, 1.0f, 1.0f, 31.0f),
 		sf::FloatRect(30.0f, 0.0f, 1.0f, 32.0f),
-		sf::FloatRect(31.0f, 0.0f, 1.0f, 32.0f),
-		sf::FloatRect(32.0f, 0.0f, 1.0f, 32.0f)
+		sf::FloatRect(31.0f, -1.0f, 1.0f, 33.0f),
+		sf::FloatRect(32.0f, -2.0f, 1.0f, 34.0f)
 	}
 };
 

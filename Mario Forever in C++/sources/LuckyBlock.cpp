@@ -120,6 +120,7 @@ inline void LuckyBlockUpdate() {
 	}
 }
 inline void LuckyAnimationUpdate() {
+	if (LuckyBlock.size() == 0) return;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockIDList[i] == LUCKY_BLOCK) {
 			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property, LuckyBlockTextureManager.GetAnimatedTexture("LuckyBlockAnimated"));

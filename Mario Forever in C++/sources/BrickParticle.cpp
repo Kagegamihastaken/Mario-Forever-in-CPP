@@ -67,6 +67,7 @@ void DeleteSubBrickParticle(float x, float y) {
 	}
 }
 void BrickParticleStatusUpdate() {
+	if (BrickParticleList.size() == 0) return;
 	bool reUpdate = false, canDelete, AllTrue;
 	//std::cout << BrickParticleTimer.getElapsedTime().asMilliseconds() << "\n";
 	for (int i = 0; i < BrickParticleList.size(); ++i) {

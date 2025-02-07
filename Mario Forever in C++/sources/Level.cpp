@@ -187,6 +187,7 @@ void Obstaclebuilding() {
 	}
 }
 void Slopebuilding() {
+	std::sort(SlopeData.begin(), SlopeData.end(), [](const std::array<float, 3>& a, const std::array<float, 3>& b) {return a[1] < b[1]; });
 	int posTextureIndex;
 	for (const auto& i : SlopeData) {
 		// Find the tile id

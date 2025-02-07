@@ -52,3 +52,9 @@ bool isOutScreenY(float yPos, float OffsetY) {
 	}
 	return false;
 }
+bool isOutScreenYBottom(float yPos, float OffsetY) {
+	if (yPos - ViewY > Height + OffsetY - 32.0f) {
+		return true;
+	}
+	return false;
+}

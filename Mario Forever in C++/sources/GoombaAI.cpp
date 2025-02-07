@@ -68,7 +68,6 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		GoombaAIHittableList.push_back(YES);
 		GoombaAIAppearingList.push_back(false);
 		GoombaAIOriginList.push_back({ sf::Vector2f(15, 31), sf::Vector2f(15, 31) });
-		GoombaAIInvincibleTimerList.push_back(sf::Clock());
 		GoombaAIInvincibleSecondLimitList.push_back(0.0f);
 		break;
 	case KOOPA:
@@ -138,6 +137,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		break;
 	}
 	GoombaAIInvincibleTimerList.push_back(sf::Clock());
+	GoombaAIInvincibleTimerList[GoombaAIInvincibleTimerList.size() - 1].restart().asSeconds();
 	GoombaAIShellHitCount.push_back(0);
 	setHitbox(Init.hitboxMain, { 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first, GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].second });
 	setHitbox(Init.hitboxTop, { 1.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][2], 0.0f + GoombaAIDefinationList[GoombaAIDefinationList.size() - 1][3], GoombaAIHitboxList[GoombaAIHitboxList.size() - 1].first - 2.0f, 2.0f });
@@ -202,14 +202,22 @@ void DeleteAllGoombaAI() {
 	GoombaAIShellHitCount.clear();
 }
 void GoombaStatusUpdate() {
+	std::vector<sf::Vector2f> GoombaAIDeletionPositionList;
+	std::vector<GoombaAIType> GoombaAIDeletionTypeList;
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 32) && GoombaAIDisabledList[i]) GoombaAIDisabledList[i] = false;
+		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && GoombaAIDisabledList[i]) GoombaAIDisabledList[i] = false;
 		if (GoombaAIAppearingList[i] && !GoombaAIDisabledList[i]) {
 			GoombaAIList[i].property.move(0.0f, -0.5f * deltaTime);
 			GoombaAIAppearingYList[i] += 0.5f * deltaTime;
 			if (GoombaAIAppearingYList[i] >= 32.0f) GoombaAIAppearingList[i] = false;
 		}
+		if (isOutScreenYBottom(GoombaAIList[i].property.getPosition().y, 80)) {
+			GoombaAIDeletionPositionList.push_back(GoombaAIList[i].property.getPosition());
+			GoombaAIDeletionTypeList.push_back(GoombaAITypeList[i]);
+		}
 	}
+	if (GoombaAIDeletionPositionList.size() == 0) return;
+	for (int i = 0; i < GoombaAIDeletionPositionList.size(); ++i) DeleteGoombaAI(GoombaAIDeletionTypeList[i], GoombaAIDeletionPositionList[i].x, GoombaAIDeletionPositionList[i].y);
 }
 void GoombaAICheckCollide() {
 	sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.property);
@@ -218,7 +226,7 @@ void GoombaAICheckCollide() {
 		if (isCollide(GoombaAIList[i].hitboxMain, GoombaAIList[i].property, hitbox_mario)) {
 			if (GoombaAIHittableList[i] == YES) {
 				if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() >= GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
-					if (((GoombaAIList[i].property.getPosition().y - 16.0f) > player.property.getPosition().y) && Yvelo > 0.0f) {
+					if (((GoombaAIList[i].property.getPosition().y - 16.0f) > player.property.getPosition().y) && Yvelo > 0.0f && !GoombaAIDisabledList[i]) {
 						if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) Yvelo = -8.0f;
 						else Yvelo = -13.0f;
 						Sounds.PlaySound("Stomp");
@@ -235,6 +243,7 @@ void GoombaAICheckCollide() {
 							GoombaAIShellHitCount[i] = 0;
 							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 13.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 							AddGoombaAI(SHELL, GoombaAISkinIDList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
+							break;
 						}
 						DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 						break;
@@ -244,7 +253,6 @@ void GoombaAICheckCollide() {
 			if (GoombaAIHittableList[i] == YES || GoombaAIHittableList[i] == NO) {
 				if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() > GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
 					if ((GoombaAIList[i].property.getPosition().y - 16.0f) < player.property.getPosition().y) {
-						//Objectbuilding();
 						PowerDown();
 						break;
 					}
@@ -267,6 +275,7 @@ void GoombaAICheckCollide() {
 					}
 					break;
 				}
+				break;
 			}
 		}
 	}
@@ -274,6 +283,10 @@ void GoombaAICheckCollide() {
 void GoombaAIVertXUpdate() {
 	sf::FloatRect hitbox_loop;
 	bool isCollideLeftBool, isCollideRightBool;
+	bool NoAdd, isCollideSide;
+	float CurrPosXCollide, CurrPosYCollide;
+	std::pair<bool, bool> ObstacleCheck, BrickCheck, LuckyCheck, BrickCollideRemove, LuckyCollideRemove;
+	std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 	// Check if a GoombaAI collide with left or right
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
@@ -281,15 +294,15 @@ void GoombaAIVertXUpdate() {
 		if (GoombaAIDirectionList[i] == LEFT) GoombaAIList[i].property.move(-GoombaAIXveloList[i] * deltaTime, 0.0f);
 		else GoombaAIList[i].property.move(GoombaAIXveloList[i] * deltaTime, 0.0f);
 		//check collide
-		std::pair<bool, bool> ObstacleCheck = isOrCollideSide(GoombaAIList[i], ObstaclesList, {});
-		std::pair<bool, bool> BrickCheck = isOrCollideSide(GoombaAIList[i], Bricks, BrickSaveList);
-		std::pair<bool, bool> LuckyCheck = isOrCollideSide(GoombaAIList[i], LuckyBlock, LuckyBlockSaveList);
+		ObstacleCheck = isOrCollideSide(GoombaAIList[i], ObstaclesList, {});
+		BrickCheck = isOrCollideSide(GoombaAIList[i], Bricks, BrickSaveList);
+		LuckyCheck = isOrCollideSide(GoombaAIList[i], LuckyBlock, LuckyBlockSaveList);
 		bool isTrueCollide = false;
 		if (ObstacleCheck.first || ObstacleCheck.second || BrickCheck.first || BrickCheck.second || LuckyCheck.first || LuckyCheck.second) {
 			//shell moving break block
 			if (GoombaAITypeList[i] == SHELL_MOVING) {
 				float BrickCurrPosX = 0, BrickCurrPosY = 0;
-				std::pair<bool, bool> BrickCollideRemove = isAccurateCollideSide2(GoombaAIList[i], Bricks, BrickCurrPosX, BrickCurrPosY, BrickSaveList);
+				BrickCollideRemove = isAccurateCollideSide2(GoombaAIList[i], Bricks, BrickCurrPosX, BrickCurrPosY, BrickSaveList);
 				if (BrickCollideRemove.first || BrickCollideRemove.second) {
 					BrickID CurrBrickID = GetIDBrick(BrickCurrPosX, BrickCurrPosY);
 					BrickAtt CurrBrickAtt = GetBrickAtt(BrickCurrPosX, BrickCurrPosY);
@@ -305,7 +318,7 @@ void GoombaAIVertXUpdate() {
 					}
 				}
 				float LuckyCurrPosX = 0, LuckyCurrPosY = 0;
-				std::pair<bool, bool> LuckyCollideRemove = isAccurateCollideSide2(GoombaAIList[i], LuckyBlock, LuckyCurrPosX, LuckyCurrPosY, LuckyBlockSaveList);
+				LuckyCollideRemove = isAccurateCollideSide2(GoombaAIList[i], LuckyBlock, LuckyCurrPosX, LuckyCurrPosY, LuckyBlockSaveList);
 				if (LuckyCollideRemove.first || LuckyCollideRemove.second) LuckyHit(LuckyCurrPosX, LuckyCurrPosY - 32.0f, getLuckyIndex(LuckyCurrPosX, LuckyCurrPosY));
 			}
 			// Stop on wall
@@ -322,11 +335,10 @@ void GoombaAIVertXUpdate() {
 				else GoombaAIDirectionList[i] = RIGHT;
 			}
 			// Count if size AllCollideList equal to CollideAddCounter
-			float CurrPosXCollide = 0, CurrPosYCollide = 0;
-			bool isCollideSide = false;
+			CurrPosXCollide = 0, CurrPosYCollide = 0;
+			isCollideSide = false;
 			// 0 for right; 1 for left
-			bool NoAdd = false;
-			std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
+			NoAdd = false;
 			isCollideLeftBool = false;
 			isCollideRightBool = false;
 			// Loop through obstacles
@@ -456,7 +468,7 @@ void GoombaAICollisionUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		hitbox_loop = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].property);
 		for (int j = i + 1; j < GoombaAIList.size(); ++j) {
-			if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, hitbox_loop) && !GoombaAIDisabledList[i] && !GoombaAIDisabledList[j]) {
+			if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, hitbox_loop)) {
 				if (GoombaAITypeList[j] != SHELL_MOVING && GoombaAITypeList[i] != SHELL_MOVING) {
 					if (GoombaAIDirectionList[i] == LEFT) GoombaAIDirectionList[i] = RIGHT;
 					else GoombaAIDirectionList[i] = LEFT;
@@ -493,7 +505,7 @@ void GoombaAICollisionUpdate() {
 }
 void GoombaAIUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
+		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
 			if (GoombaAIDirectionList[i] == RIGHT) {
 				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].first));
 
@@ -510,7 +522,7 @@ void GoombaAIUpdate() {
 			}
 			window.draw(GoombaAIList[i].property);
 		}
-		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 32) && !GoombaAIDisabledList[i]) {
+		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
 			GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
 			GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
 		}

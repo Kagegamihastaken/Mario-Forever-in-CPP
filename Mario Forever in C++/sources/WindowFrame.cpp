@@ -34,7 +34,6 @@ sf::Texture CoinHUDTexture;
 
 sf::Sprite MarioHUD;
 
-ThreadPool Thread_Pool;
 TextureManager Maintexture;
 
 AnimationManager CoinHUDAnim;

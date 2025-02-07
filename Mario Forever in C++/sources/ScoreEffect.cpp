@@ -88,6 +88,7 @@ void DeleteAllScoreEffect() {
 	ScoreEffectAlpha.clear();
 }
 inline void ScoreEffectStatusUpdate() {
+	if (ScoreEffectList.size() == 0) return;
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
 		ScoreEffectList[i].move(0, ScoreEffectVelocity[i] * deltaTime);
 		if (ScoreEffectVelocity[i] < 0.0f) ScoreEffectVelocity[i] += 0.025f * deltaTime;

@@ -131,13 +131,23 @@ std::pair<bool, bool> isAccurateCollideSide(const MovableObject& object, const s
 	return { isCollideLeftBool, isCollideRightBool };
 }
 //Y
-bool isCollideBotSlope(const MovableObject& object) {
+bool isCollideBotSlope(const MovableObject& object, float Yvelo) {
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < SlopesList.size(); ++i) {
 		hitbox_loop = getGlobalHitbox(SlopesList[i].hitbox, SlopesList[i].property);
+		hitbox_loop.top -= 32.0f;
+		hitbox_loop.height += 32.0f;
 		if (isCollide(object.hitboxBot2, object.property, hitbox_loop)) {
 			for (auto& j : SlopeRectList[SlopesIDList[i]]) {
 				hitbox_loop = getGlobalHitbox(j, SlopesList[i].property);
+				if (Yvelo == 0.0f) {
+					hitbox_loop.top -= 9.0f;
+					hitbox_loop.height += 9.0f;
+				}
+				else {
+					hitbox_loop.top += 1.0f / deltaTime - 3.0f;
+					hitbox_loop.height -= 1.0f / deltaTime - 3.0f;
+				}
 				if (isCollide(object.hitboxBot2, object.property, hitbox_loop)) return true;
 			}
 		}
@@ -176,14 +186,8 @@ std::pair<bool, std::pair<bool, bool>> isAccuratelyCollideBotSlope(const Movable
 	const sf::FloatRect hitbox = sf::FloatRect(0.0f, -32.0f, 32.0f, 64.0f);
 	for (int i = 0; i < SlopesList.size(); ++i) {
 		hitbox_loop = getGlobalHitbox(hitbox, SlopesList[i].property);
-		if (isCollide(object.hitboxBot, object.property, hitbox_loop)) {
+		if (isCollide(object.hitboxSlopeBot, object.property, hitbox_loop)) {
 			isCollideBotBool = true;
-			if (!NoAdd) {
-				CurrPosXCollide = SlopesList[i].property.getPosition().x;
-				CurrPosYCollide = hitbox_loop.getPosition().y + 32.0f;
-				ID = SlopesIDList[i];
-				NoAdd = true;
-			}
 			CurrPosXCollide = SlopesList[i].property.getPosition().x;
 			CurrPosYCollide = hitbox_loop.getPosition().y + 32.0f;
 			ID = SlopesIDList[i];

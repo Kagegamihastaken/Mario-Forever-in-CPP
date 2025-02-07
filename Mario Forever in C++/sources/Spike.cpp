@@ -58,12 +58,12 @@ void AddSpike(SpikeID ID, float x, float y) {
 	}
 	SpikeHitboxList.push_back(sf::FloatRect(0, 0, 32, 32));
 	Init.setPosition(x, y);
-	Init.setOrigin(15, 31);
 	SpikeList.push_back(Init);
 	SpikeIDList.push_back(ID);
 	SpikeAnimationList.push_back(InitAnimation);
 }
 void SpikeStatusUpdate() {
+	if (SpikeList.size() == 0) return;
 	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) SpikeAnimationList[i].update(SpikeList[i], SpikeTextureManager.GetAnimatedTexture(SpikeAnimationNameList[i]));

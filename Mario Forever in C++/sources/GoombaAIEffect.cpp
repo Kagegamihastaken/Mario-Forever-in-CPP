@@ -106,15 +106,16 @@ void DeleteAllGoombaAIEffect() {
 	GoombaAIEffectSkinIDList.clear();
 }
 void GoombaAIEffectStatusUpdate() {
+	if (GoombaAIEffectList.size() == 0) return;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
 		if (GoombaAIEffectTypeList[i] == NONE) {
-			if (isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) DeleteGoombaAIEffect(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y);
+			if (isOutScreenYBottom(GoombaAIEffectList[i].property.getPosition().y, 64)) DeleteGoombaAIEffect(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y);
 		}
 		else if (GoombaAIEffectTypeList[i] == COLLIDE) {
 			if (GoombaATEffectFadeOutList[i].getElapsedTime().asSeconds() >= 4.0f) {
 				if (GoombaAIEffectAlphaList[i] > 0) {
 					GoombaAIEffectAlphaList[i] -= 7.5f * deltaTime;
-					GoombaAIEffectList[i].property.setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(GoombaAIEffectAlphaList[i]))));
+					//GoombaAIEffectList[i].property.setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(GoombaAIEffectAlphaList[i]))));
 				}
 				else DeleteGoombaAIEffect(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y);
 			}

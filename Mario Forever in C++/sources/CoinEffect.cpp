@@ -45,6 +45,7 @@ void DeleteAllCoinEffect() {
 	CoinEffectAttList.clear();
 }
 inline void CoinEffectStatusUpdate() {
+	if (CoinEffectList.size() == 0) return;
 	for (auto& i : CoinEffectList) {
 		i.property.move(0.0f, i.velocity * deltaTime);
 		if (i.velocity < 0.0f) i.velocity += 0.125f * deltaTime;

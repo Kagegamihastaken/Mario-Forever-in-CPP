@@ -134,6 +134,7 @@ void PiranhaAIMovementUpdate() {
 	}
 }
 void PiranhaAIStatusUpdate() {
+	if (PiranhaAIList.size() == 0) return;
 	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;

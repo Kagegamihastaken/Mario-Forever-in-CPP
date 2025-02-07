@@ -8,6 +8,7 @@
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Collision/Collide.hpp"
 #include "../headers/Core/Sound.hpp"
+#include "../headers/Effect/ScoreEffect.hpp"
 
 #include "../resource.h"
 
@@ -53,6 +54,7 @@ void DeleteAllCoin() {
 	CoinAttList.clear();
 }
 inline void CoinOnTouch() {
+	if (CoinList.size() == 0) return;
 	auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
@@ -65,7 +67,10 @@ inline void CoinOnTouch() {
 	}
 }
 inline void CoinUpdate() {
-	if (CoinCount > 99) CoinCount = 0;
+	if (CoinCount > 99) {
+		CoinCount = 0;
+		AddScoreEffect(SCORE_1UP, player.property.getPosition().x - 11.0f, player.property.getPosition().y);
+	}
 	for (auto& i : CoinList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			CoinAnimation.update("IdleCoin", i.property);

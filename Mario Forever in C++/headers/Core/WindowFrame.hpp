@@ -27,6 +27,4 @@ extern float f_min(float a, float b);
 extern float f_max(float a, float b);
 extern float f_abs(float a);
 
-extern ThreadPool Thread_Pool;
-
 #endif // WINDOWFRAME_HPP
