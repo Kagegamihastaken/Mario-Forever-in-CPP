@@ -369,14 +369,16 @@ void GoombaAIVertYUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
 		// bottom update
-		ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
-		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
-		LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
-		if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
-			GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f);
-			GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
-			GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f);
-		}
+
+		//ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
+		//BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
+		//LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
+		//if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
+		GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f);
+		GoombaAIList[i].property.move(0.0f, GoombaAIYveloList[i] * deltaTime);
+		GoombaAIYveloList[i] += (GoombaAIYveloList[i] >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f);
+		//}
+
 		ObstacleCheck = isCollideBot(GoombaAIList[i], ObstaclesList);
 		BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
 		LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);

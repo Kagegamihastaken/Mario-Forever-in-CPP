@@ -206,6 +206,7 @@ void MarioVertXUpdate() {
 			std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 			isCollideLeftBool = false;
 			isCollideRightBool = false;
+			// snap back w/ detailed check
 			// Loop through obstacles
 			if (!NoAdd) {
 				ObstacleCollide = isAccurateCollideSide(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, {});
@@ -267,7 +268,8 @@ void MarioVertYUpdate() {
 		//		break;
 		//	}
 		//}
-		SlopeCheck = isCollideBotSlope(player, Yvelo);
+
+		/*SlopeCheck = isCollideBotSlope(player, Yvelo);
 		std::vector<std::array<float, 3>> SlopeTemp;
 		if (SlopeCheck) {
 			MarioCurrentFalling = false;
@@ -302,23 +304,22 @@ void MarioVertYUpdate() {
 			}
 		}
 		else isMarioOverlapping = false;
+		*/
+
 		// bottom update (obstacles)
-		ObstacleCheck = isCollideBot(player, ObstaclesList);
-		BrickCheck = isCollideBot(player, Bricks);
-		LuckyCheck = isCollideBot(player, LuckyBlock);
-		//SlopeCheck = false;
-		//for (const auto& i : SlopesList) {
-		//	if (Collision::pixelPerfectTest(player.property, i.property)) {
-		//		SlopeCheck = true;
-		//		break;
-		//	}
-		//}
+
+		//ObstacleCheck = isCollideBot(player, ObstaclesList);
+		//BrickCheck = isCollideBot(player, Bricks);
+		//LuckyCheck = isCollideBot(player, LuckyBlock);
+
 		if (Yvelo >= 0.0f && MarioCanJump) MarioCanJump = false;
-		if ((!ObstacleCheck && !BrickCheck && !LuckyCheck && !SlopeCheck) || MarioCanJump) {
-			MarioCurrentFalling = true;
-			Yvelo += (Yvelo >= 10.0f ? 0.0f : 1.0f * deltaTime);
-			player.property.move(0.0f, Yvelo * deltaTime);
-		}
+		//if ((!ObstacleCheck && !BrickCheck && !LuckyCheck && !SlopeCheck) || MarioCanJump) {
+		//if ((!ObstacleCheck && !BrickCheck && !LuckyCheck) || MarioCanJump) {
+		MarioCurrentFalling = true;
+		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
+		player.property.move(0.0f, Yvelo * deltaTime);
+		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
+		//}
 		ObstacleCheck = isCollideBot(player, ObstaclesList);
 		BrickCheck = isCollideBot(player, Bricks);
 		LuckyCheck = isCollideBot(player, LuckyBlock);
@@ -356,6 +357,7 @@ void MarioVertYUpdate() {
 			Yvelo = 0.0f;
 			CurrPosYCollide;
 			NoAdd = false;
+			//snap back
 			ObstacleCollide = isAccurateCollideTop(player, ObstaclesList, CurrPosYCollide, NoAdd, {});
 			BrickCollide = isAccurateCollideTop(player, Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
 			LuckyCollide = isAccurateCollideTop(player, LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
@@ -376,11 +378,15 @@ void MarioVertYUpdate() {
 			// Start event Brick
 			BrickPos = isCollideTopDetailed(player, Bricks, {});
 			LuckyPos = isCollideTopDetailed(player, LuckyBlock, {});
-			for (const auto& i : BrickPos) {
-				HitEvent(i.first, i.second);
+			if (BrickPos.size() > 0) {
+				for (const auto& i : BrickPos) {
+					HitEvent(i.first, i.second);
+				}
 			}
-			for (const auto& i : LuckyPos) {
-				LuckyHitEvent(i.first, i.second);
+			if (LuckyPos.size() > 0) {
+				for (const auto& i : LuckyPos) {
+					LuckyHitEvent(i.first, i.second);
+				}
 			}
 		}
 	}

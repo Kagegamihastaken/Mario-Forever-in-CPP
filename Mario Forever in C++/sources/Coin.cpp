@@ -57,6 +57,7 @@ inline void CoinOnTouch() {
 	if (CoinList.size() == 0) return;
 	auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < CoinList.size(); i++) {
+		if (isOutScreen(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y, 32, 32)) continue;
 		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
 			Score += 200;
 			DeleteCoin(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y);
@@ -72,9 +73,8 @@ inline void CoinUpdate() {
 		AddScoreEffect(SCORE_1UP, player.property.getPosition().x - 11.0f, player.property.getPosition().y);
 	}
 	for (auto& i : CoinList) {
-		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			CoinAnimation.update("IdleCoin", i.property);
-			window.draw(i.property);
-		}
+		if (isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) continue;
+		CoinAnimation.update("IdleCoin", i.property);
+		window.draw(i.property);
 	}
 }

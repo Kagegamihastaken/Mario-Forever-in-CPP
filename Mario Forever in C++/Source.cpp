@@ -29,6 +29,7 @@
 #include <fstream>
 int main() {
 	//Init Games:
+	window.setKeyRepeatEnabled(false);
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
