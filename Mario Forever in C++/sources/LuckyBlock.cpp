@@ -57,7 +57,7 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	LuckyBlockHitted.push_back(false);
 	LuckyUpDown.push_back(false);
 	LuckyBlock[LuckyBlock.size() - 1].property.setPosition({ x, y });
-	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
+	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	LuckyIdle.push_back(LocalAnimationManager());
 	LuckyIdle.back().setAnimation(0, 2, 9);
 	//LuckyIdle[LuckyIdle.size() - 1].setAnimation({ 32,32 }, { 0,0 }, { 3,0 }, 9);
@@ -68,7 +68,7 @@ inline void LuckyBlockUpdate() {
 			if (LuckyBlockAttList[i] == LUCKY_COIN) {
 				if (!LuckyUpDown[i]) {
 					if (LuckyBlockStateCount[i] < 11.0f) {
-						LuckyBlock[i].property.move(0, 0 - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime);
+						LuckyBlock[i].property.move({ 0, 0 - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime });
 						LuckyBlockStateCount[i] += (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
 					}
 					else {
@@ -78,11 +78,11 @@ inline void LuckyBlockUpdate() {
 				}
 				else {
 					if (LuckyBlockStateCount[i] > 0.0f) {
-						LuckyBlock[i].property.move(0, (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime);
+						LuckyBlock[i].property.move({ 0, (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime });
 						LuckyBlockStateCount[i] -= (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 					}
 					else {
-						LuckyBlock[i].property.setPosition(LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second);
+						LuckyBlock[i].property.setPosition({ LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second });
 						LuckyBlockStateCount[i] = 0.0f;
 						LuckyUpDown[i] = false;
 						LuckyBlockState[i] = false;
@@ -92,7 +92,7 @@ inline void LuckyBlockUpdate() {
 			else {
 				if (!LuckyUpDown[i]) {
 					if (LuckyBlockStateCount[i] < 4.0f) {
-						LuckyBlock[i].property.move(0, -1.0f * deltaTime);
+						LuckyBlock[i].property.move({ 0, -1.0f * deltaTime });
 						LuckyBlockStateCount[i] += 1.0f * deltaTime;
 					}
 					else {
@@ -102,11 +102,11 @@ inline void LuckyBlockUpdate() {
 				}
 				else {
 					if (LuckyBlockStateCount[i] > 0.0f) {
-						LuckyBlock[i].property.move(0, 1.0f * deltaTime);
+						LuckyBlock[i].property.move({ 0, 1.0f * deltaTime });
 						LuckyBlockStateCount[i] -= 1.0f * deltaTime;
 					}
 					else {
-						LuckyBlock[i].property.setPosition(LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second);
+						LuckyBlock[i].property.setPosition({ LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second });
 						LuckyBlockStateCount[i] = 0.0f;
 						LuckyUpDown[i] = false;
 						LuckyBlockState[i] = false;
@@ -125,11 +125,11 @@ inline void LuckyAnimationUpdate() {
 		if (LuckyBlockIDList[i] == LUCKY_BLOCK) {
 			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property, LuckyBlockTextureManager.GetAnimatedTexture("LuckyBlockAnimated"));
 			else {
-				LuckyBlock[i].property.setTexture(*LuckyBlockTextureManager.GetTexture("LuckyBlockHitted"));
+				LuckyBlock[i].property.setTexture(*LuckyBlockTextureManager.GetTexture("LuckyBlockHitted"), true);
 			}
 		}
 		else if (LuckyBlockIDList[i] == TREE_LUCKY_BLOCK) {
-			if (LuckyBlockHitted[i]) LuckyBlock[i].property.setTexture(*LuckyBlockTextureManager.GetTexture("LuckyBlockTreeHitted"));
+			if (LuckyBlockHitted[i]) LuckyBlock[i].property.setTexture(*LuckyBlockTextureManager.GetTexture("LuckyBlockTreeHitted"), true);
 		}
 	}
 }
@@ -165,7 +165,7 @@ void LuckyHitEvent(float x, float y) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
 			LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].property);
-			LuckyLoop.top -= 32.0f;
+			LuckyLoop.position.y -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, LuckyLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
@@ -184,7 +184,7 @@ void LuckyHitEvent(float x, float y) {
 					}
 				}
 			}
-			LuckyHit(LuckyLoop.getPosition().x, LuckyLoop.getPosition().y, i);
+			LuckyHit(LuckyLoop.position.x, LuckyLoop.position.y, i);
 			break;
 		}
 	}

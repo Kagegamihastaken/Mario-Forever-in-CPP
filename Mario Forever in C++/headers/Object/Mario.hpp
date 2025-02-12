@@ -4,6 +4,7 @@
 #define MARIO_HPP
 
 #include "../Core/Animate/AnimationManager.hpp"
+#include "../Core/TextureManager.hpp"
 
 class MovableObject {
 public:
@@ -16,7 +17,7 @@ public:
 	sf::FloatRect hitboxRight2;
 	sf::FloatRect hitboxTop;
 	sf::FloatRect hitboxSlopeBot;
-	sf::Sprite property;
+	sf::Sprite property = sf::Sprite(tempTex);
 };
 extern AnimationManager MarioAnimation;
 extern void UpdateAnimation();

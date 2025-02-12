@@ -25,16 +25,16 @@ void AnimationManager::update(std::string animation, sf::Sprite& sprite) {
 	if (m_sheetSizes[animation] != sf::Vector2i(0, 0)) {
 		// We want to do a few calculations to find the coordinates of the next frame
 
-		sf::IntRect rect(m_indicies[animation].x * m_spriteSizes[animation].x + m_indicies[animation].x,
-			m_indicies[animation].y * m_spriteSizes[animation].y + m_indicies[animation].y,
-			m_spriteSizes[animation].x, m_spriteSizes[animation].y);
+		sf::IntRect rect({ m_indicies[animation].x * m_spriteSizes[animation].x + m_indicies[animation].x,
+			m_indicies[animation].y * m_spriteSizes[animation].y + m_indicies[animation].y },
+			{ m_spriteSizes[animation].x, m_spriteSizes[animation].y });
 
-		sprite.setTexture(*m_textures[animation]);
+		sprite.setTexture(*m_textures[animation], true);
 		sprite.setTextureRect(rect);
 		// Now we want to update the indicies based on the format of our sheet
 		// If we are not at the bottom of a column, we just move down one in y
 		if (m_frequencies[animation] != 0 && m_timeRun[animation].getElapsedTime().asMilliseconds() >= 3000.0f / m_frequencies[animation]) {
-			m_timeRun[animation].restart().asMilliseconds();
+			m_timeRun[animation].restart();
 			if (m_indicies[animation].y < m_endingIndicies[animation].y) {
 				m_indicies[animation].y++;
 			}
@@ -90,7 +90,7 @@ void AnimationManager::addAnimation(std::string animation, sf::Texture* texture,
 	sf::Vector2i startingIndex, sf::Vector2i endingIndex) {
 	// First, we want to make an entry in the texture map
 	m_timeRun[animation] = sf::Clock();
-	m_timeRun[animation].restart().asMilliseconds();
+	m_timeRun[animation].restart();
 	m_textures[animation] = texture;
 	// Next, we make sheet size entry
 	m_sheetSizes[animation].x = sheetSize.x;
@@ -176,7 +176,7 @@ void AnimationManager::setAnimationTexture(std::string animation, sf::Texture* t
 }
 
 void AnimationManager::resetAnimationIndex(std::string animation) {
-	m_timeRun[animation].restart().asMilliseconds();
+	m_timeRun[animation].restart();
 	m_indicies[animation].x = m_startingIndicies[animation].x;
 	m_indicies[animation].y = m_startingIndicies[animation].y;
 }

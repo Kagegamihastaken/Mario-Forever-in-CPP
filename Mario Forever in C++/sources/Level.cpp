@@ -37,7 +37,7 @@ std::pair<int, std::string> MusicData;
 void ReadData(int IDLevel) {
 	std::string lvldat;
 	LoadLvl(lvldat, IDLevel);
-	float value;
+	float value = 0.0f;
 	std::string DataStructure;
 	std::vector<float> temp;
 	int tm = 0;
@@ -183,7 +183,7 @@ void Obstaclebuilding() {
 		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
 		//ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
 		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ i[1], i[2] });
-		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
+		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	}
 }
 void Slopebuilding() {
@@ -193,10 +193,12 @@ void Slopebuilding() {
 		// Find the tile id
 		posTextureIndex = find_if(IDSlope_list.begin(), IDSlope_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(i[0]); }) - (IDSlope_list.begin());
 		// Then use the index of tile id property to add it to the list
-		SlopesList.push_back(Obstacles{ int(i[0]), sf::Sprite(SlopeTexture, sf::IntRect(IDSlope_list[posTextureIndex][1], IDSlope_list[posTextureIndex][2], 32, 32)) });
+		SlopesList.push_back(Obstacles{ int(i[0]), sf::Sprite(SlopeTexture, sf::IntRect({IDSlope_list[posTextureIndex][1], IDSlope_list[posTextureIndex][2] }, {32, 32}))
+			});
 		SlopesList[int(SlopesList.size()) - 1].property.setPosition({ i[1], i[2] });
 		SlopesIDList.push_back(IDSlope_list[posTextureIndex][0]);
-		setHitbox(SlopesList[int(SlopesList.size()) - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
+		setHitbox(SlopesList[int(SlopesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f
+			}));
 	}
 }
 void Objectbuilding() {
@@ -211,7 +213,7 @@ void Objectbuilding() {
 		Music.SetOGGLoop(MusicData.second, true);
 		Music.PlayOGGMusic(MusicData.second);
 	}
-	player.property.setPosition(PlayerData[0], PlayerData[1]);
+	player.property.setPosition({ PlayerData[0], PlayerData[1] });
 	setView();
 	updateView();
 	//Delete Effects

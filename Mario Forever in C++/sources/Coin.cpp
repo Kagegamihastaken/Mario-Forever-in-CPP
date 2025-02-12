@@ -31,9 +31,9 @@ int CoinInit() {
 int CoinIni = CoinInit();
 void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
 	Coin operate;
-	setHitbox(operate.hitbox, { 6, 2, 19, 28 });
-	operate.property.setTexture(CoinTexture);
-	operate.property.setPosition(x, y);
+	setHitbox(operate.hitbox, sf::FloatRect({ 6, 2 }, { 19, 28 }));
+	operate.property.setTexture(CoinTexture, true);
+	operate.property.setPosition({ x, y });
 	CoinList.push_back(operate);
 	CoinIDList.push_back(ID);
 	CoinAttList.push_back(att);

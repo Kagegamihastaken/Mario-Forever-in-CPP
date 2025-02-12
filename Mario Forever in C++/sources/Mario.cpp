@@ -57,7 +57,7 @@ sf::Texture SmallMario;
 sf::Texture BigMario;
 std::array<float, 2> PowerOffset = { 30.0f, 7.0f };
 int loadMarioRes() {
-	AppearingTimer.restart().asMilliseconds();
+	AppearingTimer.restart();
 	// Resources Loader;
 	LoadTexture(SmallMario, SMALLMARIO_TEXTURE);
 	LoadTexture(BigMario, BIGMARIO_TEXTURE);
@@ -98,26 +98,26 @@ void KeyboardMovement() {
 	if (CanControlMario) {
 		sf::FloatRect hitbox_loop;
 		bool isCollideSideBool = false;
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !MarioCrouchDown && window.hasFocus()) {
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown && window.hasFocus()) {
 			if (Xvelo == 0) MarioDirection = true;
 			else if (!MarioDirection) {
 				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
-				player.property.move(Xvelo * deltaTime, 0.0f);
+				player.property.move({ Xvelo * deltaTime, 0.0f });
 			}
 			//init speed
 			if (Xvelo < 1.0f && MarioDirection) Xvelo = 1.0f;
 			if (!isCollideLeft2(player, ObstaclesList, {}) && !isCollideLeft2(player, Bricks, BrickSaveList) && !isCollideLeft2(player, LuckyBlock, LuckyBlockSaveList)) {
 				if (MarioDirection) {
 					Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
-					player.property.move((0 - Xvelo) * deltaTime, 0.0f);
+					player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 				}
 			}
 		}
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && !MarioCrouchDown && window.hasFocus()) {
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && !MarioCrouchDown && window.hasFocus()) {
 			if (Xvelo == 0) MarioDirection = false;
 			else if (MarioDirection) {
 				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
-				player.property.move((0 - Xvelo) * deltaTime, 0.0f);
+				player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 			}
 			//init speed
 			if (Xvelo < 1.0f && !MarioDirection) Xvelo = 1.0f;
@@ -125,18 +125,18 @@ void KeyboardMovement() {
 				if (!MarioDirection) {
 					//Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
 					Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
-					player.property.move(Xvelo * deltaTime, 0.0f);
+					player.property.move({ Xvelo * deltaTime, 0.0f });
 				}
 			}
 		}
-		if ((!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !MarioCrouchDown) || MarioCrouchDown || !window.hasFocus()) {
+		if ((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown) || MarioCrouchDown || !window.hasFocus()) {
 			if (!MarioCrouchDown) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.125f * deltaTime);
 			else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.28125f * deltaTime);
-			if (!MarioDirection) player.property.move(Xvelo * deltaTime, 0.0f);
-			else player.property.move((0 - Xvelo) * deltaTime, 0.0f);
+			if (!MarioDirection) player.property.move({ Xvelo * deltaTime, 0.0f });
+			else player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 		}
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && !MarioCanJump && !MarioCurrentFalling && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCanJump && !MarioCurrentFalling && window.hasFocus()) {
 			if (!PreJump && !Holding) {
 				if (Yvelo == 0.0f) {
 					Sounds.PlaySound("Jump");
@@ -147,24 +147,24 @@ void KeyboardMovement() {
 			else if (PreJump) {
 				if (Yvelo == 0.0f) {
 					Sounds.PlaySound("Jump");
-					Yvelo = -14.0f;
+					Yvelo = -13.5f;
 					MarioCanJump = true;
 					PreJump = false;
 				}
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
 			MarioCrouchDown = true;
 		}
 		else MarioCrouchDown = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) {
 			if (Xvelo < 5.0f && Yvelo < 0.0f) Yvelo -= 0.4f * deltaTime;
 			if (Xvelo >= 5.0f && Yvelo < 0.0f) Yvelo -= 0.5f * deltaTime;
 			if (Yvelo > 0.0f && !Holding) PreJump = true;
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && window.hasFocus()) Holding = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) Holding = true;
 		else Holding = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && window.hasFocus()) player_speed = 7.5f;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus()) player_speed = 7.5f;
 		else player_speed = 4.375f;
 	}
 }
@@ -179,22 +179,22 @@ void MarioVertXUpdate() {
 		bool isTrueCollide = false;
 		if (ObstacleCheck.first || ObstacleCheck.second || BrickCheck.first || BrickCheck.second || LuckyCheck.first || LuckyCheck.second) {
 			// Stop on wall
-			if (ObstacleCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (ObstacleCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+			if (ObstacleCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || (ObstacleCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))) {
 				Xvelo = 0.0f;
 			}
-			else if ((ObstacleCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || !MarioDirection)) || (ObstacleCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || MarioDirection))) {
+			else if ((ObstacleCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || !MarioDirection)) || (ObstacleCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || MarioDirection))) {
 				Xvelo = 0.0f;
 			}
-			if (BrickCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (BrickCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+			if (BrickCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || (BrickCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))) {
 				Xvelo = 0.0f;
 			}
-			else if ((BrickCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || !MarioDirection)) || (BrickCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || MarioDirection))) {
+			else if ((BrickCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || !MarioDirection)) || (BrickCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || MarioDirection))) {
 				Xvelo = 0.0f;
 			}
-			if (LuckyCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || (LuckyCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+			if (LuckyCheck.first && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || (LuckyCheck.second && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))) {
 				Xvelo = 0.0f;
 			}
-			else if ((LuckyCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || !MarioDirection)) || (LuckyCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || MarioDirection))) {
+			else if ((LuckyCheck.first && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || !MarioDirection)) || (LuckyCheck.second && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || MarioDirection))) {
 				Xvelo = 0.0f;
 			}
 			// Count if size AllCollideList equal to CollideAddCounter
@@ -224,32 +224,32 @@ void MarioVertXUpdate() {
 			//if (AllCollideList.size() != CollideAddCounter) break;
 			// Adjust Position if collide
 			if (NoAddCase == 1) {
-				if (ObstacleCollide.first) player.property.setPosition(CurrPosXCollide + 32.0f - 4.0f + player.property.getOrigin().x, player.property.getPosition().y);
-				if (ObstacleCollide.second) player.property.setPosition(CurrPosXCollide - (1.0f + 4.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y);
+				if (ObstacleCollide.first) player.property.setPosition({ CurrPosXCollide + 32.0f - 4.0f + player.property.getOrigin().x, player.property.getPosition().y });
+				if (ObstacleCollide.second) player.property.setPosition({ CurrPosXCollide - (1.0f + 4.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y });
 			}
 			if (NoAddCase == 2) {
-				if (BrickCollide.first) player.property.setPosition(CurrPosXCollide + 32.0f - 4.0f + player.property.getOrigin().x, player.property.getPosition().y);
-				if (BrickCollide.second) player.property.setPosition(CurrPosXCollide - (1.0f + 4.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y);
+				if (BrickCollide.first) player.property.setPosition({ CurrPosXCollide + 32.0f - 4.0f + player.property.getOrigin().x, player.property.getPosition().y });
+				if (BrickCollide.second) player.property.setPosition({ CurrPosXCollide - (1.0f + 4.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y });
 			}
 			if (NoAddCase == 3) {
-				if (LuckyCollide.first) player.property.setPosition(CurrPosXCollide + 32.0f - 4.0f + player.property.getOrigin().x, player.property.getPosition().y);
-				if (LuckyCollide.second) player.property.setPosition(CurrPosXCollide - (1.0f + 4.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y);
+				if (LuckyCollide.first) player.property.setPosition({ CurrPosXCollide + 32.0f - 4.0f + player.property.getOrigin().x, player.property.getPosition().y });
+				if (LuckyCollide.second) player.property.setPosition({ CurrPosXCollide - (1.0f + 4.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y });
 			}
 
 			//if (!ObstacleCollide.first && !ObstacleCollide.second && !BrickCollide.first && !BrickCollide.second && !LuckyCollide.first && !LuckyCollide.second) break;
 			// Break if no collide
 		}
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::X) && Xvelo > 4.475f) {
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
 			OverSpeed = true;
 		}
-		if (Xvelo > player_speed && !sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		if (Xvelo > player_speed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
 			if (OverSpeed) {
 				Xvelo -= 0.125f * deltaTime;
 				if (Xvelo <= player_speed) OverSpeed = false;
 			}
 			else Xvelo = player_speed;
 		}
-		if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::X)) Xvelo = 7.5f;
+		if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) Xvelo = 7.5f;
 	}
 }
 void MarioVertYUpdate() {
@@ -317,8 +317,9 @@ void MarioVertYUpdate() {
 		//if ((!ObstacleCheck && !BrickCheck && !LuckyCheck) || MarioCanJump) {
 		MarioCurrentFalling = true;
 		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
-		player.property.move(0.0f, Yvelo * deltaTime);
+		player.property.move({ 0.0f, Yvelo * deltaTime });
 		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
+		if (Yvelo > 10.0f) Yvelo = 10.0f;
 		//}
 		ObstacleCheck = isCollideBot(player, ObstaclesList);
 		BrickCheck = isCollideBot(player, Bricks);
@@ -341,10 +342,10 @@ void MarioVertYUpdate() {
 			LuckyCollide = isAccurateCollideBot(player, LuckyBlock, CurrPosYCollide, NoAdd);
 			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) && isLanding) {
 				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
-					player.property.setPosition(player.property.getPosition().x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f));
+					player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) });
 				}
 				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second && !LuckyCollide.second.first && !LuckyCollide.second.second) {
-					player.property.setPosition(player.property.getPosition().x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f));
+					player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) });
 				}
 			}
 		}
@@ -364,15 +365,15 @@ void MarioVertYUpdate() {
 			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first)) {
 				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
 					if (PowerState > 0 && !MarioCrouchDown)
-						player.property.setPosition(player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]));
+						player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]) });
 					else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
-						player.property.setPosition(player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f));
+						player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f) });
 				}
 				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second && !LuckyCollide.second.first && !LuckyCollide.second.second) {
 					if (PowerState > 0 && !MarioCrouchDown)
-						player.property.setPosition(player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]));
+						player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]) });
 					else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
-						player.property.setPosition(player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f));
+						player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f) });
 				}
 			}
 			// Start event Brick
@@ -408,28 +409,28 @@ void UpdateAnimation() {
 	//	player.setHitboxLeft({ 0.0f + 5.0f, 2.0f + 2.0f, 2.0f, 20.0f });
 	//}
 
-	player.property.setOrigin(11, 51);
+	player.property.setOrigin({ 11, 51 });
 	if (PowerState > 0 && !MarioCrouchDown) {
-		setHitbox(player.hitboxMain, { 0.0f + 4.0f, 0.0f + PowerOffset[PowerState], 23.0f, 52.0f });
-		setHitbox(player.hitboxTop, { 1.0f + 4.0f, 0.0f + PowerOffset[PowerState], 21.0f, 2.0f });
-		setHitbox(player.hitboxBot, { 1.0f + 4.0f, 50.0f + PowerOffset[PowerState], 21.0f, 2.0f });
-		setHitbox(player.hitboxBot2, { 1.0f + 4.0f, 50.0f + PowerOffset[PowerState], 21.0f, 3.0f });
-		setHitbox(player.hitboxRight2, { 21.0f + 4.0f, 2.0f + PowerOffset[PowerState], 4.0f, 43.0f });
-		setHitbox(player.hitboxLeft2, { -2.0f + 4.0f, 2.0f + PowerOffset[PowerState], 4.0f, 43.0f });
-		setHitbox(player.hitboxRight, { 21.0f + 4.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
-		setHitbox(player.hitboxLeft, { 0.0f + 4.0f, 2.0f + PowerOffset[PowerState], 2.0f, 43.0f });
-		setHitbox(player.hitboxSlopeBot, { 1.0f + 4.0f, 50.0f + PowerOffset[PowerState], 21.0f, 10.0f });
+		setHitbox(player.hitboxMain, sf::FloatRect({ 0.0f + 4.0f, 0.0f + PowerOffset[PowerState] }, { 23.0f, 52.0f }));
+		setHitbox(player.hitboxTop, sf::FloatRect({ 1.0f + 4.0f, 0.0f + PowerOffset[PowerState] }, { 21.0f, 2.0f }));
+		setHitbox(player.hitboxBot, sf::FloatRect({ 1.0f + 4.0f, 50.0f + PowerOffset[PowerState] }, { 21.0f, 2.0f }));
+		setHitbox(player.hitboxBot2, sf::FloatRect({ 1.0f + 4.0f, 50.0f + PowerOffset[PowerState] }, { 21.0f, 3.0f }));
+		setHitbox(player.hitboxRight2, sf::FloatRect({ 21.0f + 4.0f, 2.0f + PowerOffset[PowerState] }, { 4.0f, 43.0f }));
+		setHitbox(player.hitboxLeft2, sf::FloatRect({ -2.0f + 4.0f, 2.0f + PowerOffset[PowerState] }, { 4.0f, 43.0f }));
+		setHitbox(player.hitboxRight, sf::FloatRect({ 21.0f + 4.0f, 2.0f + PowerOffset[PowerState] }, { 2.0f, 43.0f }));
+		setHitbox(player.hitboxLeft, sf::FloatRect({ 0.0f + 4.0f, 2.0f + PowerOffset[PowerState] }, { 2.0f, 43.0f }));
+		setHitbox(player.hitboxSlopeBot, sf::FloatRect({ 1.0f + 4.0f, 50.0f + PowerOffset[PowerState] }, { 21.0f, 10.0f }));
 	}
 	else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown)) {
-		setHitbox(player.hitboxMain, { 0.0f + 4.0f, 0.0f + 30.0f, 23.0f, 29.0f }); // 30
-		setHitbox(player.hitboxTop, { 1.0f + 4.0f, 0.0f + 30.0f, 21.0f, 2.0f });
-		setHitbox(player.hitboxBot, { 1.0f + 4.0f, 27.0f + 30.0f, 21.0f, 2.0f });
-		setHitbox(player.hitboxBot2, { 1.0f + 4.0f, 27.0f + 30.0f, 21.0f, 3.0f });
-		setHitbox(player.hitboxRight2, { 21.0f + 4.0f, 2.0f + 30.0f, 4.0f, 20.0f });
-		setHitbox(player.hitboxLeft2, { -2.0f + 4.0f, 2.0f + 30.0f, 4.0f, 20.0f });
-		setHitbox(player.hitboxRight, { 21.0f + 4.0f, 2.0f + 30.0f, 2.0f, 20.0f });
-		setHitbox(player.hitboxLeft, { 0.0f + 4.0f, 2.0f + 30.0f, 2.0f, 20.0f });
-		setHitbox(player.hitboxSlopeBot, { 1.0f + 4.0f, 27.0f + 30.0f, 21.0f, 10.0f });
+		setHitbox(player.hitboxMain, sf::FloatRect({ 0.0f + 4.0f, 0.0f + 30.0f }, { 23.0f, 29.0f })); // 30
+		setHitbox(player.hitboxTop, sf::FloatRect({ 1.0f + 4.0f, 0.0f + 30.0f }, { 21.0f, 2.0f }));
+		setHitbox(player.hitboxBot, sf::FloatRect({ 1.0f + 4.0f, 27.0f + 30.0f }, { 21.0f, 2.0f }));
+		setHitbox(player.hitboxBot2, sf::FloatRect({ 1.0f + 4.0f, 27.0f + 30.0f }, { 21.0f, 3.0f }));
+		setHitbox(player.hitboxRight2, sf::FloatRect({ 21.0f + 4.0f, 2.0f + 30.0f }, { 4.0f, 20.0f }));
+		setHitbox(player.hitboxLeft2, sf::FloatRect({ -2.0f + 4.0f, 2.0f + 30.0f }, { 4.0f, 20.0f }));
+		setHitbox(player.hitboxRight, sf::FloatRect({ 21.0f + 4.0f, 2.0f + 30.0f }, { 2.0f, 20.0f }));
+		setHitbox(player.hitboxLeft, sf::FloatRect({ 0.0f + 4.0f, 2.0f + 30.0f }, { 2.0f, 20.0f }));
+		setHitbox(player.hitboxSlopeBot, sf::FloatRect({ 1.0f + 4.0f, 27.0f + 30.0f }, { 21.0f, 10.0f }));
 	}
 	//animation update
 
@@ -524,7 +525,7 @@ void PowerDown() {
 			Sounds.PlaySound("Pipe");
 			PowerState = 0;
 			Invincible = true;
-			InvincibleTimer.restart().asSeconds();
+			InvincibleTimer.restart();
 			InvincibleState = false;
 		}
 		else if (PowerState == 0 && CanControlMario) {
@@ -555,7 +556,7 @@ inline void MarioDraw() {
 	if (AppearingTimer.getElapsedTime().asMilliseconds() > (3000.0f / 91.0f) * 15.0f) MarioAppearing = false;
 	if (PowerState != lastPowerState) {
 		MarioAppearing = true;
-		AppearingTimer.restart().asMilliseconds();
+		AppearingTimer.restart();
 		lastPowerState = PowerState;
 	}
 	//then draw

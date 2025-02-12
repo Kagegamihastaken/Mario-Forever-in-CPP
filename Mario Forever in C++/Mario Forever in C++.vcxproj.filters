@@ -96,9 +96,6 @@
     <ClCompile Include="sources\Collide.cpp">
       <Filter>Source Files\Core\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="sources\Collision.cpp">
-      <Filter>Source Files\Core\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="sources\Level.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -189,9 +186,6 @@
       <Filter>Header Files\Core\Loading</Filter>
     </ClInclude>
     <ClInclude Include="headers\Core\Collision\Collide.hpp">
-      <Filter>Header Files\Core\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Core\Collision\Collision.hpp">
       <Filter>Header Files\Core\Collision</Filter>
     </ClInclude>
     <ClInclude Include="headers\Core\MultiThreading\ThreadPool.hpp">

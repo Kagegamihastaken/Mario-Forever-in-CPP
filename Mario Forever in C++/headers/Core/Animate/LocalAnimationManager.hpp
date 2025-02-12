@@ -7,10 +7,10 @@
 
 class LocalAnimationManager {
 private:
-	int indexAnimation;
-	int startingIndexAnimation;
-	int endingIndexAnimation;
-	int frequency;
+	int indexAnimation = 0;
+	int startingIndexAnimation = 0;
+	int endingIndexAnimation = 0;
+	int frequency = 50;
 	sf::Clock TimeRun;
 public:
 	void setAnimation(int startingIndexAnimation = 0, int endingIndexAnimation = 0, int frequency = 50) {
@@ -32,16 +32,16 @@ public:
 		this->frequency = frequency;
 	}
 	void update(sf::Sprite& sprite, std::vector<sf::Texture*> texture) {
-		sprite.setTexture(*texture[this->indexAnimation]);
+		sprite.setTexture(*texture[this->indexAnimation], true);
 		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 2000.0f / this->frequency) {
-			this->TimeRun.restart().asMilliseconds();
+			this->TimeRun.restart();
 			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
 			else this->indexAnimation = this->startingIndexAnimation;
 		}
 	}
 	void silentupdate(sf::Sprite& sprite) {
 		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 2000.0f / this->frequency) {
-			this->TimeRun.restart().asMilliseconds();
+			this->TimeRun.restart();
 			this->indexAnimation++;
 			if (this->indexAnimation > this->endingIndexAnimation)  this->indexAnimation = this->startingIndexAnimation;
 		}

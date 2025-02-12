@@ -71,7 +71,7 @@ void PiranhaAIInit() {
 	PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void AddPiranha(PiranhaID ID, float x, float y) {
-	sf::Sprite Init;
+	sf::Sprite Init(tempTex);
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
 	case GREEN:
@@ -84,9 +84,9 @@ void AddPiranha(PiranhaID ID, float x, float y) {
 	}
 	PiranhaAITypeList.push_back(ID);
 	PiranhaAIDisabledList.push_back(true);
-	PiranhaAIHitboxList.push_back(sf::FloatRect(16, 17, 31, 47));
-	Init.setPosition(x, y);
-	Init.setOrigin(32, 63);
+	PiranhaAIHitboxList.push_back(sf::FloatRect({ 16, 17 }, { 31, 47 }));
+	Init.setPosition({ x, y });
+	Init.setOrigin({ 32, 63 });
 	PiranhaAIAnimationList.push_back(InitAnimation);
 	PiranhaAIPosLimitList.push_back(64.0f);
 	PiranhaAIPosTempList.push_back(0.0f);
@@ -101,12 +101,12 @@ void PiranhaAIMovementUpdate() {
 			if (!PiranhaAIStopList[i]) {
 				if (!PiranhaAIStateList[i]) {
 					if (PiranhaAIPosTempList[i] <= PiranhaAIPosLimitList[i]) {
-						PiranhaAIList[i].move(0.0f, PiranhaAISpeedList[i] * deltaTime);
+						PiranhaAIList[i].move({ 0.0f, PiranhaAISpeedList[i] * deltaTime });
 						PiranhaAIPosTempList[i] += PiranhaAISpeedList[i] * deltaTime;
 					}
 					else {
 						PiranhaAIStateList[i] = true;
-						PiranhaAIList[i].move(0.0f, PiranhaAIPosLimitList[i] - PiranhaAIPosTempList[i]);
+						PiranhaAIList[i].move({ 0.0f, PiranhaAIPosLimitList[i] - PiranhaAIPosTempList[i] });
 						PiranhaAIPosTempList[i] = PiranhaAIPosLimitList[i];
 						PiranhaAIStopList[i] = true;
 						PiranhaAIStopTimerList[i].restart().asSeconds();
@@ -114,12 +114,12 @@ void PiranhaAIMovementUpdate() {
 				}
 				else {
 					if (PiranhaAIPosTempList[i] >= 0.0f) {
-						PiranhaAIList[i].move(0.0f, -PiranhaAISpeedList[i] * deltaTime);
+						PiranhaAIList[i].move({ 0.0f, -PiranhaAISpeedList[i] * deltaTime });
 						PiranhaAIPosTempList[i] -= PiranhaAISpeedList[i] * deltaTime;
 					}
 					else {
 						PiranhaAIStateList[i] = false;
-						PiranhaAIList[i].move(0.0f, -PiranhaAIPosTempList[i]);
+						PiranhaAIList[i].move({ 0.0f, -PiranhaAIPosTempList[i] });
 						PiranhaAIPosTempList[i] = 0.0f;
 						PiranhaAIStopList[i] = true;
 						PiranhaAIStopTimerList[i].restart().asSeconds();
@@ -137,7 +137,10 @@ void PiranhaAIStatusUpdate() {
 	if (PiranhaAIList.size() == 0) return;
 	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;
+		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64)) {
+			if (PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;
+		}
+		else continue;
 		if (isCollide(PiranhaAIHitboxList[i], PiranhaAIList[i], playerHitbox)) PowerDown();
 	}
 }

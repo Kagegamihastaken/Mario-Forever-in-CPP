@@ -61,7 +61,7 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	BrickSaveList.push_back({ x, y });
 	UpDown.push_back(false);
 	Bricks[Bricks.size() - 1].property.setPosition({ x, y });
-	setHitbox(Bricks[Bricks.size() - 1].hitbox, { 0.f, 0.f, 32.f, 32.f });
+	setHitbox(Bricks[Bricks.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	//multicoin attribute
 	BrickClock.push_back(sf::Clock());
 	BrickHitted.push_back(false);
@@ -85,8 +85,8 @@ inline void BrickStatusUpdate() {
 	if (Bricks.size() == 0) return;
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
-			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Gray_Hitted"));
-			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Normal_Hitted"));
+			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Gray_Hitted"), true);
+			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Normal_Hitted"), true);
 		}
 	}
 }
@@ -95,7 +95,7 @@ inline void BrickUpdate() {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {
 				if (BrickStateCount[i] < 11.0f) {
-					Bricks[i].property.move(0, 0 - (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime);
+					Bricks[i].property.move({ 0, 0 - (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime });
 					BrickStateCount[i] += (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
 				}
 				else {
@@ -105,11 +105,11 @@ inline void BrickUpdate() {
 			}
 			else {
 				if (BrickStateCount[i] > 0.0f) {
-					Bricks[i].property.move(0, (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime);
+					Bricks[i].property.move({ 0, (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime });
 					BrickStateCount[i] -= (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 				}
 				else {
-					Bricks[i].property.setPosition(BrickSaveList[i].first, BrickSaveList[i].second);
+					Bricks[i].property.setPosition({ BrickSaveList[i].first, BrickSaveList[i].second });
 					BrickStateCount[i] = 0.0f;
 					UpDown[i] = false;
 					BrickState[i] = false;
@@ -132,7 +132,7 @@ void MultiBrickCoin(float x, float y, int i) {
 	if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {
 		if (!BrickHitted[i]) {
 			BrickHitted[i] = true;
-			BrickClock[i].restart().asSeconds();
+			BrickClock[i].restart();
 		}
 		else {
 			if (BrickClock[i].getElapsedTime().asSeconds() > 6.0f && BrickAttList[i] == MULTICOIN) {
@@ -155,7 +155,7 @@ void HitEvent(float x, float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y && !BrickState[i]) {
 			BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
-			BrickLoop.top -= 32.0f;
+			BrickLoop.position.y -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
@@ -174,7 +174,7 @@ void HitEvent(float x, float y) {
 					}
 				}
 			}
-			MultiBrickCoin(BrickLoop.getPosition().x, BrickLoop.getPosition().y, i);
+			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y, i);
 			if (BrickAttList[i] == NORMAL && PowerState == 0) {
 				BrickState[i] = true;
 				UpDown[i] = false;

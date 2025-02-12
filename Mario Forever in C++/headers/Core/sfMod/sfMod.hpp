@@ -124,7 +124,7 @@ private:
 	std::string name_;
 	int         length_;
 
-	std::vector<sf::Int16> buffer_;
+	std::vector<int16_t> buffer_;
 };
 
 ///////////////////////////////////////////////////////////

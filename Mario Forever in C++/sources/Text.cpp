@@ -23,7 +23,7 @@ void loadFontRes() {
 	std::pair<int, int> Pos;
 	for (const auto& i : FontString) {
 		Pos = GetFontTexture(i);
-		FontTextureLoop->loadFromImage(FontTexture->copyToImage(), sf::IntRect(Pos.first, Pos.second, FontSizeX, FontSizeY));
+		FontTextureLoop->loadFromImage(FontTexture->copyToImage(), false, sf::IntRect({ Pos.first, Pos.second }, { FontSizeX, FontSizeY }));
 		FontTextureList.AddTexture("Font_" + std::string(1, i), FontTextureLoop);
 		FontTextureLoop = new sf::Texture();
 		//FontTextureList.back()->setSmooth(true);
@@ -49,7 +49,7 @@ void AddText(std::string id, std::string text, TextMarginID margin, float x, flo
 		int Counter = 0;
 		for (const auto& i : text) {
 			Init->text.push_back(sf::Sprite(*FontTextureList.GetTexture("Font_" + std::string(1, (i >= 'a' && i <= 'z' ? i - 32 : i)))));
-			Init->text[Counter].setPosition(x + FontSizeX * Counter + Counter, y);
+			Init->text[Counter].setPosition({ x + FontSizeX * Counter + Counter, y });
 			++Counter;
 		}
 		TextList.push_back(Init);
@@ -72,7 +72,7 @@ inline void EditText(std::string NewText, std::string id) {
 		int Counter = 0;
 		for (const auto& i : NewText) {
 			Init.push_back(sf::Sprite(*FontTextureList.GetTexture("Font_" + std::string(1, (i >= 'a' && i <= 'z' ? i - 32 : i)))));
-			Init[Counter].setPosition(TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y);
+			Init[Counter].setPosition({ TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y });
 			++Counter;
 		}
 		TextList[IndexCounter]->text = Init;
@@ -101,8 +101,8 @@ inline void UpdatePositionCharacter() {
 	for (int i = 0; i < TextList.size(); ++i) {
 		iTextSize = static_cast<int>(TextList[i]->text.size());
 		for (int j = 0; j < iTextSize; ++j) {
-			if (TextMarginList[i] == LEFT_MARGIN) TextList[i]->text[j].setPosition(TextList[i]->x + j + FontSizeX * j + view.getCenter().x - (Width / 2.0f), TextList[i]->y + view.getCenter().y - (Height / 2.0f));
-			else if (TextMarginList[i] == RIGHT_MARGIN) TextList[i]->text[j].setPosition(TextList[i]->x + view.getCenter().x - (Width / 2.0f) - (TextList[i]->text.size() - 1 - j) * FontSizeX - (iTextSize - 1 - j), TextList[i]->y + view.getCenter().y - (Height / 2.0f));
+			if (TextMarginList[i] == LEFT_MARGIN) TextList[i]->text[j].setPosition({ TextList[i]->x + j + FontSizeX * j + view.getCenter().x - (Width / 2.0f), TextList[i]->y + view.getCenter().y - (Height / 2.0f) });
+			else if (TextMarginList[i] == RIGHT_MARGIN) TextList[i]->text[j].setPosition({ TextList[i]->x + view.getCenter().x - (Width / 2.0f) - (TextList[i]->text.size() - 1 - j) * FontSizeX - (iTextSize - 1 - j), TextList[i]->y + view.getCenter().y - (Height / 2.0f) });
 		}
 	}
 }

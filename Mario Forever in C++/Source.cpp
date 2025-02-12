@@ -75,9 +75,8 @@ int main() {
 	//looping frame
 	while (window.isOpen()) {
 		// process events
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
+		while (const std::optional event = window.pollEvent()) {
+			if (event->is<sf::Event::Closed>()) {
 				Sounds.ClearUp();
 				window.close();
 			}
@@ -131,6 +130,7 @@ int main() {
 		UpdateAnimation();
 		//core code
 		window.clear(sf::Color::Black);
+		//resetDelta();
 		updateFrame();
 		//draw
 		updateView();
@@ -149,6 +149,7 @@ int main() {
 		GoombaAIEffectUpdate();
 		UpdateText();
 		MarioEffectDraw();
+		FrameDraw();
 
 		//display
 		CheckForDeath();

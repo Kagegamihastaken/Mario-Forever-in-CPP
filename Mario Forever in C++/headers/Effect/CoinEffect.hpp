@@ -7,10 +7,11 @@
 #include <SFML/Graphics.hpp>
 #include "../Core/Animate/LocalAnimationManager.hpp"
 #include "../Core/Loading/enum.hpp"
+#include "../Core/TextureManager.hpp"
 
 class CoinEffect {
 public:
-	sf::Sprite property;
+	sf::Sprite property = sf::Sprite(tempTex);
 	LocalAnimationManager coinEffectAnimation;
 	float velocity = -3.5f;
 };

@@ -7,10 +7,11 @@
 #include <SFML/Audio.hpp>
 
 #include "../Core/Loading/enum.hpp"
+#include "../Core/TextureManager.hpp"
 
 class Coin {
 public:
-	sf::Sprite property;
+	sf::Sprite property = sf::Sprite(tempTex);
 	sf::FloatRect hitbox;
 };
 extern std::vector<CoinID> CoinIDList;

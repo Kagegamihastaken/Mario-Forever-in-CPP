@@ -8,7 +8,7 @@ void MusicManager::AddOGGMusic(std::string name, int ID) {
 	LoadOGG(m_ogg_musics[name], ID);
 }
 void MusicManager::SetOGGLoop(std::string name, bool loop) {
-	m_ogg_musics[name].setLoop(loop);
+	m_ogg_musics[name].setLooping(loop);
 }
 void MusicManager::StopOGGMusic(std::string name) {
 	m_ogg_musics[name].stop();
@@ -33,7 +33,7 @@ void MusicManager::AddMODMusic(std::string name, int ID, int channel) {
 	LoadMOD(m_mod_musics[name], ID, channel, 44100);
 }
 void MusicManager::SetMODLoop(std::string name, bool loop) {
-	m_mod_musics[name].setLoop(loop);
+	m_mod_musics[name].setLooping(loop);
 }
 void MusicManager::StopMODMusic(std::string name) {
 	m_mod_musics[name].stop();
@@ -45,22 +45,22 @@ void MusicManager::PauseMODMusic(std::string name) {
 	m_mod_musics[name].pause();
 }
 bool MusicManager::IsMODMusicPlaying(std::string name) {
-	return m_mod_musics[name].getStatus() == m_mod_musics[name].Playing;
+	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Playing;
 }
 bool MusicManager::IsOGGMusicPlaying(std::string name) {
-	return m_ogg_musics[name].getStatus() == m_ogg_musics[name].Playing;
+	return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Playing;
 }
 bool MusicManager::IsMODMusicStopped(std::string name) {
-	return m_mod_musics[name].getStatus() == m_mod_musics[name].Stopped;
+	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Stopped;
 }
 bool MusicManager::IsOGGMusicStopped(std::string name) {
-	return m_ogg_musics[name].getStatus() == m_ogg_musics[name].Stopped;
+	return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Stopped;
 }
 bool MusicManager::IsMODMusicPaused(std::string name) {
-	return m_mod_musics[name].getStatus() == m_mod_musics[name].Paused;
+	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Paused;
 }
 bool MusicManager::IsOGGMusicPaused(std::string name) {
-	return m_ogg_musics[name].getStatus() == m_ogg_musics[name].Paused;
+	return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Paused;
 }
 void MusicManager::StopAllMODMusic() {
 	for (auto& music : m_mod_musics) {

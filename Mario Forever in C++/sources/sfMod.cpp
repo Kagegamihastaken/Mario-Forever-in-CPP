@@ -137,7 +137,7 @@ bool sfmod::Mod::loadFromFile(const std::string& filename)
 	ModPlug_Settings settings;
 	ModPlug_GetSettings(&settings);
 
-	initialize(settings.mChannels, settings.mFrequency);
+	initialize(settings.mChannels, settings.mFrequency, {});
 
 	return true;
 }
@@ -158,7 +158,7 @@ bool sfmod::Mod::loadFromMemory(const std::string& data)
 	ModPlug_Settings settings;
 	ModPlug_GetSettings(&settings);
 
-	initialize(settings.mChannels, settings.mFrequency);
+	initialize(settings.mChannels, settings.mFrequency, {});
 
 	return true;
 }
@@ -179,14 +179,14 @@ bool sfmod::Mod::loadFromMemory(const void* data, unsigned int size)
 	ModPlug_Settings settings;
 	ModPlug_GetSettings(&settings);
 
-	initialize(settings.mChannels, settings.mFrequency);
+	initialize(settings.mChannels, settings.mFrequency, {});
 
 	return true;
 }
 
 void sfmod::Mod::unload()
 {
-	if (getStatus() != sf::SoundStream::Stopped)
+	if (getStatus() != sf::SoundStream::Status::Stopped)
 		stop();
 
 	if (file_ != NULL) {

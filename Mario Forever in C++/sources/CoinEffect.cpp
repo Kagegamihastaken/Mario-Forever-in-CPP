@@ -23,7 +23,7 @@ void CoinEffectInit() {
 void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation(0, 20, 95);
-	Init.property.setPosition(static_cast<float>(round(x)), y);
+	Init.property.setPosition({ static_cast<float>(round(x)), y });
 	CoinEffectList.push_back(Init);
 	CoinEffectIDList.push_back(ID);
 	CoinEffectAttList.push_back(att);
@@ -47,14 +47,17 @@ void DeleteAllCoinEffect() {
 inline void CoinEffectStatusUpdate() {
 	if (CoinEffectList.size() == 0) return;
 	for (auto& i : CoinEffectList) {
-		i.property.move(0.0f, i.velocity * deltaTime);
+		if (i.coinEffectAnimation.isAtTheEnd()) {
+			DeleteCoinEffect(i.property.getPosition().x, i.property.getPosition().y);
+			continue;
+		}
+		i.property.move({ 0.0f, i.velocity * deltaTime });
 		if (i.velocity < 0.0f) i.velocity += 0.125f * deltaTime;
 		else i.velocity = 0.0f;
-
-		if (i.coinEffectAnimation.isAtTheEnd()) DeleteCoinEffect(i.property.getPosition().x, i.property.getPosition().y);
 	}
 }
 inline void CoinEffectUpdate() {
+	if (CoinEffectList.size() == 0) return;
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			i.coinEffectAnimation.update(i.property, CoinEffectTextureManager.GetAnimatedTexture("CoinEffect"));

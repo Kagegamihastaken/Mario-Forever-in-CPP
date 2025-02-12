@@ -44,7 +44,7 @@ void DeleteSpike(float x, float y) {
 	}
 }
 void AddSpike(SpikeID ID, float x, float y) {
-	sf::Sprite Init;
+	sf::Sprite Init(tempTex);
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
 	case PIRANHA_GROUND:
@@ -56,8 +56,8 @@ void AddSpike(SpikeID ID, float x, float y) {
 		SpikeAnimationNameList.push_back("Spike_Normal");
 		break;
 	}
-	SpikeHitboxList.push_back(sf::FloatRect(0, 0, 32, 32));
-	Init.setPosition(x, y);
+	SpikeHitboxList.push_back(sf::FloatRect({ 0, 0 }, { 32, 32 }));
+	Init.setPosition({ x, y });
 	SpikeList.push_back(Init);
 	SpikeIDList.push_back(ID);
 	SpikeAnimationList.push_back(InitAnimation);
@@ -67,7 +67,10 @@ void SpikeStatusUpdate() {
 	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) SpikeAnimationList[i].update(SpikeList[i], SpikeTextureManager.GetAnimatedTexture(SpikeAnimationNameList[i]));
-		else SpikeAnimationList[i].silentupdate(SpikeList[i]);
+		else {
+			SpikeAnimationList[i].silentupdate(SpikeList[i]);
+			continue;
+		}
 
 		if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
 	}
