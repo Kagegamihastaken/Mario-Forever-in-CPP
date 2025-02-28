@@ -9,6 +9,7 @@
 #include "../headers/Core/Collision/Collide.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
+#include "../headers/Effect/MarioEffect.hpp"
 
 #include "../resource.h"
 
@@ -54,7 +55,7 @@ void DeleteAllCoin() {
 	CoinAttList.clear();
 }
 inline void CoinOnTouch() {
-	if (CoinList.size() == 0) return;
+	if (CoinList.size() == 0 || EffectActive) return;
 	auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (isOutScreen(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y, 32, 32)) continue;

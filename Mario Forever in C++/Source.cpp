@@ -29,7 +29,7 @@
 #include <fstream>
 int main() {
 	//Init Games:
-	window.setKeyRepeatEnabled(false);
+	//window.setKeyRepeatEnabled(false);
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
@@ -81,6 +81,7 @@ int main() {
 				window.close();
 			}
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) AddGoombaAI(GOOMBA, 0, 128.0f, 256.0f, LEFT);
 		//update: Mario
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
 		appe = (MarioAppearing ? "TRUE" : "FALSE");

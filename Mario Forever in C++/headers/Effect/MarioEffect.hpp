@@ -6,4 +6,6 @@ extern void MarioEffectDraw();
 extern void ActiveMarioEffect();
 extern void MarioEffectStatusUpdate();
 
+extern bool EffectActive;
+
 #endif

@@ -54,8 +54,14 @@ std::pair<bool, bool> isOrCollideSide(const MovableObject& object, const std::ve
 			hitbox_loop.position.y = SaveList[i].second;
 			hitbox_loop.position.x = SaveList[i].first;
 		}
-		if (isCollide(object.hitboxRight2, object.property, hitbox_loop)) isRight = true;
-		if (isCollide(object.hitboxLeft2, object.property, hitbox_loop)) isLeft = true;
+		if (isCollide(object.hitboxRight2, object.property, hitbox_loop)) {
+			isRight = true;
+			break;
+		}
+		if (isCollide(object.hitboxLeft2, object.property, hitbox_loop)) {
+			isLeft = true;
+			break;
+		}
 		if (isRight && isLeft) break;
 	}
 	return { isRight, isLeft };
@@ -162,8 +168,8 @@ bool isCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL)
 	}
 	return false;
 }
-std::pair<bool, std::pair<bool, bool>> isAccurateCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd) {
-	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
+std::pair<bool, bool> isAccurateCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd) {
+	bool isCollideBotBool = false, isCollideSide = false;
 	sf::FloatRect hitbox_loop;
 	for (auto& i : OL) {
 		hitbox_loop = getGlobalHitbox(i.hitbox, i.property);
@@ -174,11 +180,10 @@ std::pair<bool, std::pair<bool, bool>> isAccurateCollideBot(const MovableObject&
 				NoAdd = true;
 			}
 		}
-		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) isCollideRight = true;
-		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideLeft = true;
-		if (isCollideBotBool && isCollideRight && isCollideLeft) break;
+		if (isCollide(object.hitboxRight, object.property, hitbox_loop) || isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideSide = true;
+		if (isCollideBotBool && isCollideSide) break;
 	}
-	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
+	return { isCollideBotBool, isCollideSide };
 }
 std::pair<bool, std::pair<bool, bool>> isAccuratelyCollideBotSlope(const MovableObject& object, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, float& ID, std::vector<std::array<float, 3>>& SlopeTemp) {
 	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
@@ -242,8 +247,8 @@ std::vector<std::pair<float, float>> isCollideTopDetailed(const MovableObject& o
 	}
 	return result;
 }
-std::pair<bool, std::pair<bool, bool>> isAccurateCollideTop(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	bool isCollideTopBool = false, isCollideRight = false, isCollideLeft = false;
+std::pair<bool, bool> isAccurateCollideTop(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList = {}) {
+	bool isCollideTopBool = false, isCollideSide = false;
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < OL.size(); ++i) {
 		hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
@@ -255,9 +260,8 @@ std::pair<bool, std::pair<bool, bool>> isAccurateCollideTop(const MovableObject&
 				NoAdd = true;
 			}
 		}
-		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) isCollideRight = true;
-		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideLeft = true;
-		if (isCollideTopBool && isCollideRight && isCollideLeft) break;
+		if (isCollide(object.hitboxRight, object.property, hitbox_loop) || isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideSide = true;
+		if (isCollideTopBool && isCollideSide) break;
 	}
-	return { isCollideTopBool, { isCollideRight, isCollideLeft } };
+	return { isCollideTopBool, isCollideSide };
 }

@@ -129,7 +129,7 @@ void GoombaAIEffectUpdate() {
 	}
 }
 void GoombaAIEffectVertYUpdate() {
-	std::pair<bool, std::pair<bool, bool>> ObstacleCollide, BrickCollide, LuckyCollide;
+	std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 	bool ObstacleCheck, BrickCheck, LuckyCheck, isLanding;
 	float CurrPosYCollide;
 	bool NoAdd;
@@ -167,10 +167,10 @@ void GoombaAIEffectVertYUpdate() {
 			BrickCollide = isAccurateCollideBot(GoombaAIEffectList[i], Bricks, CurrPosYCollide, NoAdd);
 			LuckyCollide = isAccurateCollideBot(GoombaAIEffectList[i], LuckyBlock, CurrPosYCollide, NoAdd);
 			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) && isLanding) {
-				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
+				if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
 					GoombaAIEffectList[i].property.setPosition({ GoombaAIEffectList[i].property.getPosition().x, CurrPosYCollide - (GoombaAIEffectDefinationList[i][1] - GoombaAIEffectList[i].property.getOrigin().y + GoombaAIEffectDefinationList[i][3]) });
 				}
-				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second && !LuckyCollide.second.first && !LuckyCollide.second.second) {
+				if (!ObstacleCollide.second && !BrickCollide.second && !LuckyCollide.second) {
 					GoombaAIEffectList[i].property.setPosition({ GoombaAIEffectList[i].property.getPosition().x, CurrPosYCollide - (GoombaAIEffectDefinationList[i][1] - GoombaAIEffectList[i].property.getOrigin().y + GoombaAIEffectDefinationList[i][3]) });
 				}
 			}
@@ -185,10 +185,10 @@ void GoombaAIEffectVertYUpdate() {
 			BrickCollide = isAccurateCollideTop(GoombaAIEffectList[i], Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
 			LuckyCollide = isAccurateCollideTop(GoombaAIEffectList[i], LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
 			if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first)) {
-				if (ObstacleCollide.second.first || ObstacleCollide.second.second || BrickCollide.second.first || BrickCollide.second.second || LuckyCollide.second.first || LuckyCollide.second.second) {
+				if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
 					GoombaAIEffectList[i].property.setPosition({ GoombaAIEffectList[i].property.getPosition().x, CurrPosYCollide + (31.0f + GoombaAIEffectList[i].property.getOrigin().y - GoombaAIEffectDefinationList[i][3]) });
 				}
-				if (!ObstacleCollide.second.first && !ObstacleCollide.second.second && !BrickCollide.second.first && !BrickCollide.second.second && !LuckyCollide.second.first && !LuckyCollide.second.second) {
+				if (!ObstacleCollide.second && !BrickCollide.second && !LuckyCollide.second) {
 					GoombaAIEffectList[i].property.setPosition({ GoombaAIEffectList[i].property.getPosition().x, CurrPosYCollide + (31.0f + GoombaAIEffectList[i].property.getOrigin().y - GoombaAIEffectDefinationList[i][3]) });
 				}
 			}
