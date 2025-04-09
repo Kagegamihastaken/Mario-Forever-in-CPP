@@ -176,15 +176,25 @@ void ReadData(int IDLevel) {
 }
 void Obstaclebuilding() {
 	int posTextureIndex;
-	for (const auto& i : LevelData) {
-		// Find the tile id
-		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(i[0]); }) - (ID_list.begin());
+	for (int i = 0; i < LevelData.size(); ++i) {
+		//for (const auto& i : LevelData) {
+			// Find the tile id
+		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(LevelData[i][0]); }) - (ID_list.begin());
 		// Then use the index of tile id property to add it to the list
-		ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
+		ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
 		//ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
-		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ i[1], i[2] });
+		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ LevelData[i][1], LevelData[i][2] });
+		ObstaclesVertPosList.push_back({ sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,{LevelData[i][1], LevelData[i][2] } });
 		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	}
+	sort(ObstaclesList.begin(), ObstaclesList.end(), [](Obstacles& A, Obstacles& B) {
+		return A.property.getPosition().x < B.property.getPosition().x;
+		});
+	sort(ObstaclesVertPosList.begin(), ObstaclesVertPosList.end(), [](std::pair<sf::FloatRect, sf::Vector2f>& A, std::pair<sf::FloatRect, sf::Vector2f>& B) {
+		if (A.second.y < B.second.y) return true;
+		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
+		else return false;
+		});
 }
 void Slopebuilding() {
 	std::sort(SlopeData.begin(), SlopeData.end(), [](const std::array<float, 3>& a, const std::array<float, 3>& b) {return a[1] < b[1]; });
@@ -202,6 +212,7 @@ void Slopebuilding() {
 	}
 }
 void Objectbuilding() {
+	sort(BonusData.begin(), BonusData.end(), [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
 	if (MusicData.first == 0) {
 		if (Music.IsMODMusicPlaying(MusicData.second)) Music.StopMODMusic(MusicData.second);
@@ -243,4 +254,6 @@ void Objectbuilding() {
 			else if (i[0] == 2) AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);
 		}
 	}
+	BricksSort();
+	LuckyBlockSort();
 }

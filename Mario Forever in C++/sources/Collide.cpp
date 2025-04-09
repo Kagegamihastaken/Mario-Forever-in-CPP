@@ -12,6 +12,9 @@
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
 	hitbox = Sethitbox;
 }
+sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos) {
+	return sf::FloatRect({ pos.x + hitbox.position.x, pos.y + hitbox.position.y }, { hitbox.size.x, hitbox.size.y });
+}
 sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Sprite& sprite) {
 	return sprite.getTransform().transformRect(hitbox);
 }
@@ -66,10 +69,31 @@ std::pair<bool, bool> isOrCollideSide(const MovableObject& object, const std::ve
 	}
 	return { isRight, isLeft };
 }
-std::pair<bool, bool> isAccurateCollideSide2(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	bool isCollideLeftBool = false, isCollideRightBool = false, NoAdd = false;
+std::pair<bool, bool> isOrCollideSidet(const MovableObject& object, const std::vector<Obstacles>& OL, int first, int last, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	sf::FloatRect hitbox_loop;
-	for (int i = 0; i < OL.size(); ++i) {
+	bool isLeft = false, isRight = false;
+	for (int i = first; i <= last; ++i) {
+		hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
+		if (SaveList.size() > 0) {
+			hitbox_loop.position.y = SaveList[i].second;
+			hitbox_loop.position.x = SaveList[i].first;
+		}
+		if (isCollide(object.hitboxRight2, object.property, hitbox_loop)) {
+			isRight = true;
+			break;
+		}
+		if (isCollide(object.hitboxLeft2, object.property, hitbox_loop)) {
+			isLeft = true;
+			break;
+		}
+		if (isRight && isLeft) break;
+	}
+	return { isRight, isLeft };
+}
+std::pair<bool, bool> isAccurateCollideSide2(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, int first, int last, const std::vector<std::pair<float, float>>& SaveList = {}) {
+	bool isCollideLeftBool = false, isCollideRightBool = false;
+	sf::FloatRect hitbox_loop;
+	for (int i = first; i <= last; ++i) {
 		hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
 		if (SaveList.size() > 0) {
 			hitbox_loop.position.y = SaveList[i].second;
@@ -77,6 +101,36 @@ std::pair<bool, bool> isAccurateCollideSide2(const MovableObject& object, const 
 		}
 		// Check if collide
 		if (isCollide(object.hitboxLeft2, object.property, hitbox_loop)) {
+			isCollideLeftBool = true;
+			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
+				CurrPosXCollide = hitbox_loop.position.x;
+				CurrPosYCollide = hitbox_loop.position.y;
+			}
+			break;
+		}
+		if (isCollide(object.hitboxRight2, object.property, hitbox_loop)) {
+			isCollideRightBool = true;
+			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
+				CurrPosXCollide = hitbox_loop.position.x;
+				CurrPosYCollide = hitbox_loop.position.y;
+			}
+			break;
+		}
+	}
+	return { isCollideLeftBool, isCollideRightBool };
+}
+std::pair<bool, bool> isAccurateCollideSidet(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance, const std::vector<std::pair<float, float>>& SaveList = {}) {
+	bool isCollideLeftBool = false, isCollideRightBool = false;
+	sf::FloatRect hitbox_loop;
+	for (int i = first; i <= last; ++i) {
+		if (f_abs(OL[i].property.getPosition().y - object.property.getPosition().y) > distance) continue;
+		hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
+		if (SaveList.size() > 0) {
+			hitbox_loop.position.y = SaveList[i].second;
+			hitbox_loop.position.x = SaveList[i].first;
+		}
+		// Check if collide
+		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) {
 			isCollideLeftBool = true;
 			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
 				if (!NoAdd) {
@@ -87,7 +141,7 @@ std::pair<bool, bool> isAccurateCollideSide2(const MovableObject& object, const 
 			}
 			break;
 		}
-		if (isCollide(object.hitboxRight2, object.property, hitbox_loop)) {
+		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) {
 			isCollideRightBool = true;
 			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
 				if (!NoAdd) {
@@ -185,6 +239,24 @@ std::pair<bool, bool> isAccurateCollideBot(const MovableObject& object, const st
 	}
 	return { isCollideBotBool, isCollideSide };
 }
+std::pair<bool, bool> isAccurateCollideBott(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance) {
+	bool isCollideBotBool = false, isCollideSide = false;
+	sf::FloatRect hitbox_loop;
+	for (int i = first; i <= last; ++i) {
+		if (f_abs(OLVert[i].second.x - object.property.getPosition().x) > distance) continue;
+		hitbox_loop = getGlobalHitbox(OLVert[i].first, OLVert[i].second);
+		if (isCollide(object.hitboxBot, object.property, hitbox_loop)) {
+			isCollideBotBool = true;
+			if (!NoAdd) {
+				CurrPosYCollide = hitbox_loop.position.y;
+				NoAdd = true;
+			}
+		}
+		if (isCollide(object.hitboxRight, object.property, hitbox_loop) || isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideSide = true;
+		if (isCollideBotBool && isCollideSide) break;
+	}
+	return { isCollideBotBool, isCollideSide };
+}
 std::pair<bool, std::pair<bool, bool>> isAccuratelyCollideBotSlope(const MovableObject& object, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, float& ID, std::vector<std::array<float, 3>>& SlopeTemp) {
 	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
 	sf::FloatRect hitbox_loop;
@@ -264,4 +336,119 @@ std::pair<bool, bool> isAccurateCollideTop(const MovableObject& object, const st
 		if (isCollideTopBool && isCollideSide) break;
 	}
 	return { isCollideTopBool, isCollideSide };
+}
+std::pair<bool, bool> isAccurateCollideTopt(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance) {
+	bool isCollideTopBool = false, isCollideSide = false;
+	sf::FloatRect hitbox_loop;
+	for (int i = first; i <= last; ++i) {
+		hitbox_loop = getGlobalHitbox(OLVert[i].first, OLVert[i].second);
+		if (f_abs(OLVert[i].second.x - object.property.getPosition().x) > distance) continue;
+		//if (SaveList.size() > 0) hitbox_loop.position.y = SaveList[i].second;
+		if (isCollide(object.hitboxTop, object.property, hitbox_loop)) {
+			isCollideTopBool = true;
+			if (!NoAdd) {
+				CurrPosYCollide = hitbox_loop.position.y;
+				NoAdd = true;
+			}
+		}
+		if (isCollide(object.hitboxRight, object.property, hitbox_loop) || isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideSide = true;
+		if (isCollideTopBool && isCollideSide) break;
+	}
+	return { isCollideTopBool, isCollideSide };
+}
+int find_max_inx(const MovableObject& object, const std::vector<Obstacles>& OL) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].property.getPosition().x - 32.0f <= object.property.getPosition().x) {
+			l = m + 1;
+			out = m;
+		}
+		else r = m - 1;
+	}
+	return out;
+}
+int find_max_inx_dist(const MovableObject& object, const std::vector<Obstacles>& OL, float dist) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].property.getPosition().x - dist <= object.property.getPosition().x) {
+			l = m + 1;
+			out = m;
+		}
+		else r = m - 1;
+	}
+	return out;
+}
+int find_min_inx(const MovableObject& object, const std::vector<Obstacles>& OL) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].property.getPosition().x + 32.0f >= object.property.getPosition().x) {
+			r = m - 1;
+			out = m;
+		}
+		else l = m + 1;
+	}
+	return out;
+}
+int find_min_inx_dist(const MovableObject& object, const std::vector<Obstacles>& OL, float dist) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].property.getPosition().x + dist >= object.property.getPosition().x) {
+			r = m - 1;
+			out = m;
+		}
+		else l = m + 1;
+	}
+	return out;
+}
+int find_max_iny(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].second.y - 32.0f <= object.property.getPosition().y) {
+			l = m + 1;
+			out = m;
+		}
+		else r = m - 1;
+	}
+	return out;
+}
+int find_max_iny_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].second.y - dist <= object.property.getPosition().y) {
+			l = m + 1;
+			out = m;
+		}
+		else r = m - 1;
+	}
+	return out;
+}
+int find_min_iny(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].second.y + 32.0f >= object.property.getPosition().y) {
+			r = m - 1;
+			out = m;
+		}
+		else l = m + 1;
+	}
+	return out;
+}
+int find_min_iny_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist) {
+	int l = 0, r = OL.size() - 1, m, out = 0;
+	while (l <= r) {
+		m = (l + r) / 2;
+		if (OL[m].second.y + dist >= object.property.getPosition().y) {
+			r = m - 1;
+			out = m;
+		}
+		else l = m + 1;
+	}
+	return out;
 }

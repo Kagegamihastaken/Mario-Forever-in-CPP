@@ -25,6 +25,7 @@
 #include <iostream>
 
 std::vector<Obstacles> Bricks;
+std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;
 std::vector<bool> BrickState;
 std::vector<float> BrickStateCount;
 std::vector<bool> UpDown;
@@ -66,6 +67,15 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	BrickClock.push_back(sf::Clock());
 	BrickHitted.push_back(false);
 	DisabledBrick.push_back(false);
+	BricksVertPosList.push_back({ sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) });
+}
+void BricksSort() {
+	if (Bricks.size() == 0) return;
+	sort(BricksVertPosList.begin(), BricksVertPosList.end(), [](std::pair<sf::FloatRect, sf::Vector2f>& A, std::pair<sf::FloatRect, sf::Vector2f>& B) {
+		if (A.second.y < B.second.y) return true;
+		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
+		else return false;
+		});
 }
 inline BrickID GetIDBrick(float x, float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
@@ -192,6 +202,12 @@ void HitEvent(float x, float y) {
 	}
 }
 void DeleteBrick(float x, float y) {
+	for (int i = 0; i < BricksVertPosList.size(); ++i) {
+		if (BricksVertPosList[i].second.x == x && BricksVertPosList[i].second.y == y) {
+			BricksVertPosList.erase(BricksVertPosList.begin() + i);
+			break;
+		}
+	}
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			Bricks.erase(Bricks.begin() + i);
@@ -220,4 +236,5 @@ void DeleteAllBrick() {
 	BrickClock.clear();
 	BrickHitted.clear();
 	DisabledBrick.clear();
+	BricksVertPosList.clear();
 }

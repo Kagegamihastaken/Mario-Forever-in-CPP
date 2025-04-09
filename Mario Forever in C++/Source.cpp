@@ -21,6 +21,8 @@
 #include "headers/Core/Music.hpp"
 #include "headers/Effect/MarioEffect.hpp"
 
+#include "headers/Core/Collision/Collide.hpp"
+
 #include "resource.h"
 #include "headers/Core/Loading/Loading.hpp"
 
@@ -58,11 +60,11 @@ int main() {
 	AddText("_DELTA", "", LEFT_MARGIN, 0, 432.0f);
 	AddText("_CODX", "", RIGHT_MARGIN, 624.0f, 416.0f);
 	AddText("_CODY", "", RIGHT_MARGIN, 624.0f, 400.0f);
+	AddText("_FALL", "", LEFT_MARGIN, 0.0f, 48.0f);
+	AddText("_MARIOXY", "", RIGHT_MARGIN, 624.0f, 448.0f);
 	if (isDebug) {
 		AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
-		AddText("_MARIOXY", "", RIGHT_MARGIN, 624.0f, 448.0f);
 		AddText("_VIEWXY", "", RIGHT_MARGIN, 624.0f, 432.0f);
-		AddText("_FALL", "", LEFT_MARGIN, 0.0f, 48.0f);
 		AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
 		AddText("_FALLING", "", LEFT_MARGIN, 0.0f, 80.0f);
 	}
@@ -89,11 +91,13 @@ int main() {
 		EditText(std::to_string(Lives), "_LIVE");
 		EditText(std::to_string(Xvelo) + " VX", "_CODX");
 		EditText(std::to_string(Yvelo) + " VY", "_CODY");
+		EditText(std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y) + "  M", "_MARIOXY");
+		//EditText("Crouch Down: " + fall, "_FALL");
+		//EditText(std::to_string(ObstaclesList.size() + Bricks.size() + LuckyBlock.size()), "_FALL");
+		EditText(std::to_string(GoombaAIList.size()), "_FALL");
 		if (isDebug) {
 			EditText(std::to_string((int)MouseX) + "/" + std::to_string((int)MouseY) + "  R", "_MOUSEXY");
-			EditText(std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y) + "  M", "_MARIOXY");
 			EditText(std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY) + "  V", "_VIEWXY");
-			EditText("Crouch Down: " + fall, "_FALL");
 			EditText("Appear: " + appe, "_APPE");
 			EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
 		}

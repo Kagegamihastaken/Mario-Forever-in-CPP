@@ -21,6 +21,7 @@
 #include <iostream>
 
 std::vector<Obstacles> LuckyBlock;
+std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyVertPosList;
 std::vector<LuckyBlockID> LuckyBlockIDList;
 std::vector<LuckyBlockAtt> LuckyBlockAttList;
 std::vector<bool> LuckyBlockState;
@@ -60,7 +61,16 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	LuckyIdle.push_back(LocalAnimationManager());
 	LuckyIdle.back().setAnimation(0, 2, 9);
+	LuckyVertPosList.push_back({ sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) });
 	//LuckyIdle[LuckyIdle.size() - 1].setAnimation({ 32,32 }, { 0,0 }, { 3,0 }, 9);
+}
+void LuckyBlockSort() {
+	if (LuckyBlock.size() == 0) return;
+	sort(LuckyVertPosList.begin(), LuckyVertPosList.end(), [](std::pair<sf::FloatRect, sf::Vector2f>& A, std::pair<sf::FloatRect, sf::Vector2f>& B) {
+		if (A.second.y < B.second.y) return true;
+		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
+		else return false;
+		});
 }
 inline void LuckyBlockUpdate() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
@@ -190,6 +200,12 @@ void LuckyHitEvent(float x, float y) {
 	}
 }
 void DeleteLuckyBlock(float x, float y) {
+	for (int i = 0; i < LuckyVertPosList.size(); ++i) {
+		if (LuckyVertPosList[i].second.x == x && LuckyVertPosList[i].second.y == y) {
+			LuckyVertPosList.erase(LuckyVertPosList.begin() + i);
+			break;
+		}
+	}
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y) {
 			LuckyBlock.erase(LuckyBlock.begin() + i);
@@ -215,4 +231,5 @@ void DeleteAllLuckyBlock() {
 	LuckyBlockHitted.clear();
 	LuckyUpDown.clear();
 	LuckyIdle.clear();
+	LuckyVertPosList.clear();
 }

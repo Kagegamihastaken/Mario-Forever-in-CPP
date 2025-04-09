@@ -66,13 +66,14 @@ void SpikeStatusUpdate() {
 	if (SpikeList.size() == 0) return;
 	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) SpikeAnimationList[i].update(SpikeList[i], SpikeTextureManager.GetAnimatedTexture(SpikeAnimationNameList[i]));
+		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
+			if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
+			SpikeAnimationList[i].update(SpikeList[i], SpikeTextureManager.GetAnimatedTexture(SpikeAnimationNameList[i]));
+		}
 		else {
 			SpikeAnimationList[i].silentupdate(SpikeList[i]);
 			continue;
 		}
-
-		if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
 	}
 }
 void SpikeUpdate() {

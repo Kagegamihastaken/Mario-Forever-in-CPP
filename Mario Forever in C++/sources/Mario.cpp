@@ -29,7 +29,6 @@ MovableObject player;
 float Xvelo = 0.0f;
 float Yvelo = 0.0f;
 bool MarioDirection;
-bool MarioCanJump = true;
 bool MarioCurrentFalling = true;
 bool PreJump = false;
 bool Holding;
@@ -136,19 +135,17 @@ void KeyboardMovement() {
 			else player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 		}
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCanJump && !MarioCurrentFalling && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCurrentFalling && window.hasFocus()) {
 			if (!PreJump && !Holding) {
 				if (Yvelo == 0.0f) {
 					Sounds.PlaySound("Jump");
 					Yvelo = -13.5f;
-					MarioCanJump = true;
 				}
 			}
 			else if (PreJump) {
 				if (Yvelo == 0.0f) {
 					Sounds.PlaySound("Jump");
 					Yvelo = -13.5f;
-					MarioCanJump = true;
 					PreJump = false;
 				}
 			}
@@ -170,12 +167,33 @@ void KeyboardMovement() {
 }
 void MarioVertXUpdate() {
 	if (CanControlMario) {
+		int be, nd;
 		sf::FloatRect hitbox_loop;
+		std::pair<bool, bool> ObstacleCheck, BrickCheck, LuckyCheck;
 		bool isCollideLeftBool, isCollideRightBool;
 		// Check if Mario collide with left or right
-		std::pair<bool, bool> ObstacleCheck = isOrCollideSide(player, ObstaclesList, {});
-		std::pair<bool, bool> BrickCheck = isOrCollideSide(player, Bricks, BrickSaveList);
-		std::pair<bool, bool> LuckyCheck = isOrCollideSide(player, LuckyBlock, LuckyBlockSaveList);
+		if (!MarioDirection) {
+			be = find_min_inx(player, ObstaclesList);
+			nd = find_max_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
+			ObstacleCheck = isOrCollideSidet(player, ObstaclesList, be, nd, {});
+			be = find_min_inx(player, Bricks);
+			nd = find_max_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
+			BrickCheck = isOrCollideSidet(player, Bricks, be, nd, BrickSaveList);
+			be = find_min_inx(player, LuckyBlock);
+			nd = find_max_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
+			LuckyCheck = isOrCollideSidet(player, LuckyBlock, be, nd, LuckyBlockSaveList);
+		}
+		else {
+			be = find_max_inx(player, ObstaclesList);
+			nd = find_min_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
+			ObstacleCheck = isOrCollideSidet(player, ObstaclesList, nd, be, {});
+			be = find_max_inx(player, Bricks);
+			nd = find_min_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
+			BrickCheck = isOrCollideSidet(player, Bricks, nd, be, BrickSaveList);
+			be = find_max_inx(player, LuckyBlock);
+			nd = find_min_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
+			LuckyCheck = isOrCollideSidet(player, LuckyBlock, nd, be, LuckyBlockSaveList);
+		}
 		bool isTrueCollide = false;
 		if (ObstacleCheck.first || ObstacleCheck.second || BrickCheck.first || BrickCheck.second || LuckyCheck.first || LuckyCheck.second) {
 			// Stop on wall
@@ -208,9 +226,33 @@ void MarioVertXUpdate() {
 			isCollideRightBool = false;
 			// snap back w/ detailed check
 			// Loop through obstacles
-			ObstacleCollide = isAccurateCollideSide(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, {});
-			BrickCollide = isAccurateCollideSide(player, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, BrickSaveList);
-			LuckyCollide = isAccurateCollideSide(player, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+			if (!MarioDirection) {
+				be = find_min_inx(player, ObstaclesList);
+				nd = find_max_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
+				ObstacleCollide = isAccurateCollideSidet(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, {});
+				be = find_min_inx(player, Bricks);
+				nd = find_max_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
+				BrickCollide = isAccurateCollideSidet(player, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, BrickSaveList);
+				be = find_min_inx(player, LuckyBlock);
+				nd = find_max_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
+				LuckyCollide = isAccurateCollideSidet(player, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, LuckyBlockSaveList);
+			}
+			else {
+				be = find_max_inx(player, ObstaclesList);
+				nd = find_min_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
+				ObstacleCollide = isAccurateCollideSidet(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, {});
+				be = find_max_inx(player, Bricks);
+				nd = find_min_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
+				BrickCollide = isAccurateCollideSidet(player, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, BrickSaveList);
+				be = find_max_inx(player, LuckyBlock);
+				nd = find_min_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
+				LuckyCollide = isAccurateCollideSidet(player, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, LuckyBlockSaveList);
+			}
+
+			//ObstacleCollide = isAccurateCollideSidet(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, {});
+			//BrickCollide = isAccurateCollideSide(player, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, BrickSaveList);
+			//LuckyCollide = isAccurateCollideSide(player, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+
 			// Break if size AllCollideList is not equal to CollideAddCounter
 			//if (AllCollideList.size() != CollideAddCounter) break;
 			// Adjust Position if collide
@@ -307,12 +349,19 @@ void MarioVertYUpdate() {
 		//}
 		bool isLanding;
 		NoAdd = false;
-		ObstacleCollide = isAccurateCollideBot(player, ObstaclesList, CurrPosYCollide, NoAdd);
-		BrickCollide = isAccurateCollideBot(player, Bricks, CurrPosYCollide, NoAdd);
-		LuckyCollide = isAccurateCollideBot(player, LuckyBlock, CurrPosYCollide, NoAdd);
+		int be, nd;
+		be = find_min_iny(player, ObstaclesVertPosList);
+		nd = find_max_iny_dist(player, ObstaclesVertPosList, 64.0f + (Yvelo) * 16.0f);
+		ObstacleCollide = isAccurateCollideBott(player, ObstaclesVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		be = find_min_iny(player, BricksVertPosList);
+		nd = find_max_iny_dist(player, BricksVertPosList, 64.0f + (Yvelo) * 16.0f);
+		BrickCollide = isAccurateCollideBott(player, BricksVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		be = find_min_iny(player, LuckyVertPosList);
+		nd = find_max_iny_dist(player, LuckyVertPosList, 64.0f + (Yvelo) * 16.0f);
+		LuckyCollide = isAccurateCollideBott(player, LuckyVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		//LuckyCollide = isAccurateCollideBot(player, LuckyBlock, CurrPosYCollide, NoAdd);
 		//recolide
 		if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-			if (Yvelo >= 0.0f && MarioCanJump) MarioCanJump = false;
 			MarioCurrentFalling = false;
 			if (Yvelo >= 0.0f) {
 				isLanding = true;
@@ -332,9 +381,19 @@ void MarioVertYUpdate() {
 			}
 		}
 		// top update
-		ObstacleCollide = isAccurateCollideTop(player, ObstaclesList, CurrPosYCollide, NoAdd, {});
-		BrickCollide = isAccurateCollideTop(player, Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
-		LuckyCollide = isAccurateCollideTop(player, LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+		NoAdd = false;
+		be = find_max_iny(player, ObstaclesVertPosList);
+		nd = find_min_iny_dist(player, ObstaclesVertPosList, 64.0f - (Yvelo) * 16.0f);
+		ObstacleCollide = isAccurateCollideTopt(player, ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		be = find_max_iny(player, BricksVertPosList);
+		nd = find_min_iny_dist(player, BricksVertPosList, 64.0f - (Yvelo) * 16.0f);
+		BrickCollide = isAccurateCollideTopt(player, BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		be = find_max_iny(player, LuckyVertPosList);
+		nd = find_min_iny_dist(player, LuckyVertPosList, 64.0f - (Yvelo) * 16.0f);
+		LuckyCollide = isAccurateCollideTopt(player, LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		//ObstacleCollide = isAccurateCollideTop(player, ObstaclesList, CurrPosYCollide, NoAdd, {});
+		//BrickCollide = isAccurateCollideTop(player, Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
+		//LuckyCollide = isAccurateCollideTop(player, LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
 		std::vector<std::pair<float, float>> BrickPos, LuckyPos;
 		if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) && Yvelo < 0.0f) {
 			Yvelo = 0.0f;

@@ -235,6 +235,7 @@ void GoombaAICheckCollide() {
 	sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
+		if (f_abs(player.property.getPosition().x - GoombaAIList[i].property.getPosition().x) >= 160.0f) continue;
 		if (isCollide(GoombaAIList[i].hitboxMain, GoombaAIList[i].property, hitbox_mario)) {
 			if (GoombaAIHittableList[i] == YES) {
 				if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() >= GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
@@ -299,6 +300,7 @@ void GoombaAIVertXUpdate() {
 	float CurrPosXCollide, CurrPosYCollide;
 	std::pair<bool, bool> ObstacleCheck, BrickCheck, LuckyCheck, BrickCollideRemove, LuckyCollideRemove;
 	std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
+	int be, nd;
 	// Check if a GoombaAI collide with left or right
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
@@ -314,8 +316,19 @@ void GoombaAIVertXUpdate() {
 			//shell moving break block
 		if (GoombaAITypeList[i] == SHELL_MOVING) {
 			float BrickCurrPosX = 0, BrickCurrPosY = 0;
-			BrickCollideRemove = isAccurateCollideSide2(GoombaAIList[i], Bricks, BrickCurrPosX, BrickCurrPosY, BrickSaveList);
+			if (GoombaAIDirectionList[i] == RIGHT) {
+				be = find_min_inx(GoombaAIList[i], Bricks);
+				nd = find_max_inx_dist(GoombaAIList[i], Bricks, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+				BrickCollideRemove = isAccurateCollideSide2(GoombaAIList[i], Bricks, BrickCurrPosX, BrickCurrPosY, be, nd, BrickSaveList);
+			}
+			else if (GoombaAIDirectionList[i] == LEFT) {
+				be = find_max_inx(GoombaAIList[i], Bricks);
+				nd = find_min_inx_dist(GoombaAIList[i], Bricks, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+				BrickCollideRemove = isAccurateCollideSide2(GoombaAIList[i], Bricks, BrickCurrPosX, BrickCurrPosY, nd, be, BrickSaveList);
+			}
 			if (BrickCollideRemove.first || BrickCollideRemove.second) {
+				if (GoombaAIDirectionList[i] == RIGHT) GoombaAIDirectionList[i] = LEFT;
+				else GoombaAIDirectionList[i] = RIGHT;
 				BrickID CurrBrickID = GetIDBrick(BrickCurrPosX, BrickCurrPosY);
 				BrickAtt CurrBrickAtt = GetBrickAtt(BrickCurrPosX, BrickCurrPosY);
 				switch (CurrBrickAtt) {
@@ -330,8 +343,21 @@ void GoombaAIVertXUpdate() {
 				}
 			}
 			float LuckyCurrPosX = 0, LuckyCurrPosY = 0;
-			LuckyCollideRemove = isAccurateCollideSide2(GoombaAIList[i], LuckyBlock, LuckyCurrPosX, LuckyCurrPosY, LuckyBlockSaveList);
-			if (LuckyCollideRemove.first || LuckyCollideRemove.second) LuckyHit(LuckyCurrPosX, LuckyCurrPosY - 32.0f, getLuckyIndex(LuckyCurrPosX, LuckyCurrPosY));
+			if (GoombaAIDirectionList[i] == RIGHT) {
+				be = find_min_inx(GoombaAIList[i], LuckyBlock);
+				nd = find_max_inx_dist(GoombaAIList[i], LuckyBlock, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+				LuckyCollideRemove = isAccurateCollideSide2(GoombaAIList[i], LuckyBlock, LuckyCurrPosX, LuckyCurrPosY, be, nd, LuckyBlockSaveList);
+			}
+			else if (GoombaAIDirectionList[i] == LEFT) {
+				be = find_max_inx(GoombaAIList[i], LuckyBlock);
+				nd = find_min_inx_dist(GoombaAIList[i], LuckyBlock, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+				LuckyCollideRemove = isAccurateCollideSide2(GoombaAIList[i], LuckyBlock, LuckyCurrPosX, LuckyCurrPosY, nd, be, LuckyBlockSaveList);
+			}
+			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
+				if (GoombaAIDirectionList[i] == RIGHT) GoombaAIDirectionList[i] = LEFT;
+				else GoombaAIDirectionList[i] = RIGHT;
+				LuckyHit(LuckyCurrPosX, LuckyCurrPosY - 32.0f, getLuckyIndex(LuckyCurrPosX, LuckyCurrPosY));
+			}
 		}
 		// Count if size AllCollideList equal to CollideAddCounter
 		CurrPosXCollide = 0, CurrPosYCollide = 0;
@@ -341,9 +367,28 @@ void GoombaAIVertXUpdate() {
 		isCollideLeftBool = false;
 		isCollideRightBool = false;
 		// Loop through obstacles
-		ObstacleCollide = isAccurateCollideSide(GoombaAIList[i], ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, {});
-		BrickCollide = isAccurateCollideSide(GoombaAIList[i], Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, BrickSaveList);
-		LuckyCollide = isAccurateCollideSide(GoombaAIList[i], LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+		if (GoombaAIDirectionList[i] == RIGHT) {
+			be = find_min_inx(GoombaAIList[i], ObstaclesList);
+			nd = find_max_inx_dist(GoombaAIList[i], ObstaclesList, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+			ObstacleCollide = isAccurateCollideSidet(GoombaAIList[i], ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, {});
+			be = find_min_inx(GoombaAIList[i], Bricks);
+			nd = find_max_inx_dist(GoombaAIList[i], Bricks, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+			BrickCollide = isAccurateCollideSidet(GoombaAIList[i], Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, BrickSaveList);
+			be = find_min_inx(GoombaAIList[i], LuckyBlock);
+			nd = find_max_inx_dist(GoombaAIList[i], LuckyBlock, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+			LuckyCollide = isAccurateCollideSidet(GoombaAIList[i], LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, LuckyBlockSaveList);
+		}
+		else if (GoombaAIDirectionList[i] == LEFT) {
+			be = find_max_inx(GoombaAIList[i], ObstaclesList);
+			nd = find_min_inx_dist(GoombaAIList[i], ObstaclesList, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+			ObstacleCollide = isAccurateCollideSidet(GoombaAIList[i], ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, {});
+			be = find_max_inx(GoombaAIList[i], Bricks);
+			nd = find_min_inx_dist(GoombaAIList[i], Bricks, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+			BrickCollide = isAccurateCollideSidet(GoombaAIList[i], Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, BrickSaveList);
+			be = find_max_inx(GoombaAIList[i], LuckyBlock);
+			nd = find_min_inx_dist(GoombaAIList[i], LuckyBlock, 64.0f + (GoombaAIXveloList[i]) * 16.0f);
+			LuckyCollide = isAccurateCollideSidet(GoombaAIList[i], LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, LuckyBlockSaveList);
+		}
 
 		// Stop on wall
 		if ((ObstacleCollide.second && GoombaAIDirectionList[i] == RIGHT) || (ObstacleCollide.first && GoombaAIDirectionList[i] == LEFT)) {
@@ -393,9 +438,19 @@ void GoombaAIVertYUpdate() {
 		//}
 
 		NoAdd = false;
-		ObstacleCollide = isAccurateCollideBot(GoombaAIList[i], ObstaclesList, CurrPosYCollide, NoAdd);
-		BrickCollide = isAccurateCollideBot(GoombaAIList[i], Bricks, CurrPosYCollide, NoAdd);
-		LuckyCollide = isAccurateCollideBot(GoombaAIList[i], LuckyBlock, CurrPosYCollide, NoAdd);
+		int be, nd;
+		be = find_min_iny(GoombaAIList[i], ObstaclesVertPosList);
+		nd = find_max_iny_dist(GoombaAIList[i], ObstaclesVertPosList, 64.0f + (GoombaAIYveloList[i]) * 16.0f);
+		ObstacleCollide = isAccurateCollideBott(GoombaAIList[i], ObstaclesVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		be = find_min_iny(GoombaAIList[i], BricksVertPosList);
+		nd = find_max_iny_dist(GoombaAIList[i], BricksVertPosList, 64.0f + (GoombaAIYveloList[i]) * 16.0f);
+		BrickCollide = isAccurateCollideBott(GoombaAIList[i], BricksVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		be = find_min_iny(GoombaAIList[i], LuckyVertPosList);
+		nd = find_max_iny_dist(GoombaAIList[i], LuckyVertPosList, 64.0f + (GoombaAIYveloList[i]) * 16.0f);
+		LuckyCollide = isAccurateCollideBott(GoombaAIList[i], LuckyVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		//ObstacleCollide = isAccurateCollideBot(GoombaAIList[i], ObstaclesList, CurrPosYCollide, NoAdd);
+		//BrickCollide = isAccurateCollideBot(GoombaAIList[i], Bricks, CurrPosYCollide, NoAdd);
+		//LuckyCollide = isAccurateCollideBot(GoombaAIList[i], LuckyBlock, CurrPosYCollide, NoAdd);
 		if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
 			if (GoombaAIYveloList[i] >= 0.0f) {
 				GoombaAIYveloList[i] = 0.0f;
@@ -416,9 +471,19 @@ void GoombaAIVertYUpdate() {
 			}
 		}
 		// top update
-		ObstacleCollide = isAccurateCollideTop(GoombaAIList[i], ObstaclesList, CurrPosYCollide, NoAdd, {});
-		BrickCollide = isAccurateCollideTop(GoombaAIList[i], Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
-		LuckyCollide = isAccurateCollideTop(GoombaAIList[i], LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
+		NoAdd = false;
+		be = find_max_iny(GoombaAIList[i], ObstaclesVertPosList);
+		nd = find_min_iny_dist(GoombaAIList[i], ObstaclesVertPosList, 64.0f - (GoombaAIYveloList[i]) * 16.0f);
+		ObstacleCollide = isAccurateCollideTopt(GoombaAIList[i], ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		be = find_max_iny(GoombaAIList[i], BricksVertPosList);
+		nd = find_min_iny_dist(GoombaAIList[i], BricksVertPosList, 64.0f - (GoombaAIYveloList[i]) * 16.0f);
+		BrickCollide = isAccurateCollideTopt(GoombaAIList[i], BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		be = find_max_iny(GoombaAIList[i], LuckyVertPosList);
+		nd = find_min_iny_dist(GoombaAIList[i], LuckyVertPosList, 64.0f - (GoombaAIYveloList[i]) * 16.0f);
+		LuckyCollide = isAccurateCollideTopt(GoombaAIList[i], LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		//ObstacleCollide = isAccurateCollideTop(GoombaAIList[i], ObstaclesList, CurrPosYCollide, NoAdd, {});
+		//BrickCollide = isAccurateCollideTop(GoombaAIList[i], Bricks, CurrPosYCollide, NoAdd, BrickSaveList);
+		//LuckyCollide = isAccurateCollideTop(GoombaAIList[i], LuckyBlock, CurrPosYCollide, NoAdd, LuckyBlockSaveList);
 		if ((ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) && GoombaAIYveloList[i] < 0.0f) {
 			GoombaAIYveloList[i] = 0.0f;
 			if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
@@ -479,6 +544,7 @@ void GoombaAICollisionUpdate() {
 		hitbox_loop = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].property);
 		flag = false;
 		for (int j = 0; j < GoombaAIList.size(); ++j) {
+			if (f_abs(GoombaAIList[i].property.getPosition().x - GoombaAIList[j].property.getPosition().x) >= 160.0f) continue;
 			if (GoombaAIDisabledList[j] || GoombaAIAppearingList[j] || i == j) continue;
 			if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, hitbox_loop)) {
 				if (GoombaAITypeList[j] != SHELL_MOVING && GoombaAITypeList[i] != SHELL_MOVING) {

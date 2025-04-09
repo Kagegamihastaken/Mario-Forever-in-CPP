@@ -15,6 +15,7 @@
 
 //Obstacles define
 std::vector<Obstacles> ObstaclesList;
+std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 //set ID for each texture obstacle
 std::vector<std::array<int, 3>> ID_list{
 	{0, 0, 0},
