@@ -29,33 +29,41 @@ void AddScoreEffect(ScoreID id, float x, float y) {
 	if (id == SCORE_100) {
 		Score += 100;
 		Init.setTextureRect(sf::IntRect({ 0, 0 }, { 26, 16 }));
+		Init.setOrigin({ 12, 15 });
 	}
 	else if (id == SCORE_200) {
 		Score += 200;
 		Init.setTextureRect(sf::IntRect({ 0, 16 }, { 28, 16 }));
+		Init.setOrigin({ 14, 15 });
 	}
 	else if (id == SCORE_500) {
 		Score += 500;
 		Init.setTextureRect(sf::IntRect({ 0, 32 }, { 28, 16 }));
+		Init.setOrigin({ 13, 15 });
 	}
 	else if (id == SCORE_1000) {
 		Score += 1000;
 		Init.setTextureRect(sf::IntRect({ 0, 48 }, { 34, 16 }));
+		Init.setOrigin({ 16, 15 });
 	}
 	else if (id == SCORE_2000) {
 		Score += 2000;
 		Init.setTextureRect(sf::IntRect({ 0, 64 }, { 35, 16 }));
+		Init.setOrigin({ 16, 15 });
 	}
 	else if (id == SCORE_5000) {
 		Score += 5000;
 		Init.setTextureRect(sf::IntRect({ 0, 80 }, { 34, 16 }));
+		Init.setOrigin({ 16, 15 });
 	}
 	else if (id == SCORE_10000) {
 		Score += 10000;
 		Init.setTextureRect(sf::IntRect({ 0, 96 }, { 42, 16 }));
+		Init.setOrigin({ 20, 15 });
 	}
 	else if (id == SCORE_1UP) {
 		Init.setTextureRect(sf::IntRect({ 0, 112 }, { 32, 16 }));
+		Init.setOrigin({ 14, 15 });
 		++Lives;
 		Sounds.PlaySound("1UP");
 	}

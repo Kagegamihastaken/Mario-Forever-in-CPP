@@ -76,6 +76,12 @@
     <Filter Include="Source Files\Text">
       <UniqueIdentifier>{68a6eaf9-f327-4f6f-b3cd-36744ab35ab1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core\Background">
+      <UniqueIdentifier>{523c8b90-f612-427a-a19c-bc49a4d9a922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Background">
+      <UniqueIdentifier>{5f376aa1-a2fa-4765-9762-1edc19e7eab5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\sfMod.cpp">
@@ -167,6 +173,15 @@
     </ClCompile>
     <ClCompile Include="sources\MarioEffect.cpp">
       <Filter>Source Files\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\BgGradient.cpp">
+      <Filter>Source Files\Core\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Bg.cpp">
+      <Filter>Source Files\Core\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ExitGate.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +283,15 @@
     </ClInclude>
     <ClInclude Include="headers\Effect\MarioEffect.hpp">
       <Filter>Header Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\Background\BgGradient.hpp">
+      <Filter>Header Files\Core\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\Background\Bg.hpp">
+      <Filter>Header Files\Core\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Object\ExitGate.hpp">
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

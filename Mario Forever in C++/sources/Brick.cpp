@@ -153,7 +153,7 @@ void MultiBrickCoin(float x, float y, int i) {
 			}
 		}
 		Sounds.PlaySound("Coin");
-		AddCoinEffect(COIN_NORMAL, ONE_COIN, x - 3, y);
+		AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y + 32.0f);
 		++CoinCount;
 		BrickState[i] = true;
 		UpDown[i] = false;
@@ -168,7 +168,7 @@ void HitEvent(float x, float y) {
 			BrickLoop.position.y -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
-					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x - 3, CoinList[j].property.getPosition().y);
+					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x + 15.0f, CoinList[j].property.getPosition().y + 32.0f);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
 					Sounds.PlaySound("Coin");
 					++CoinCount;

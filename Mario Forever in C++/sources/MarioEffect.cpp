@@ -4,6 +4,7 @@
 #include "../headers/Object/Mario.hpp"
 #include "../headers/Core/Music.hpp"
 #include "../headers/Core/Scroll.hpp"
+#include "../headers/Object/ExitGate.hpp"
 
 #include "../resource.h"
 
@@ -39,6 +40,8 @@ void ActiveMarioEffect() {
 		playerEffect.setPosition({ player.property.getPosition().x - 10.0f, player.property.getPosition().y - 23.0f });
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;
+		//prevent any bug occur
+		ExitGateClock.reset();
 	}
 }
 void MarioEffectDraw() {

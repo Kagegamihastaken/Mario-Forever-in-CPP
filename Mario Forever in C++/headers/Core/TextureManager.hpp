@@ -18,7 +18,7 @@ public:
 	static void AddAnimatedTexture(std::string name, std::vector<sf::Texture*> textures);
 	static std::vector<sf::Texture*> GetAnimatedTexture(std::string name);
 	static void LoadingAnimatedTexture(int ID, std::string name, int start, int end, int y, int sizex, int sizey);
-	static void Loadingtexture(int ID, std::string name, int x, int y, int sizex, int sizey);
+	static void Loadingtexture(int ID, std::string name, int x, int y, int sizex, int sizey, bool isRepeated = false);
 };
 
 #endif

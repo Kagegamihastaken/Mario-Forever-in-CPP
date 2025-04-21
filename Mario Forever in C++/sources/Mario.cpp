@@ -19,6 +19,7 @@
 #include "../headers/Core/Level.hpp"
 #include "../headers/Block/Slopes.hpp"
 #include "../headers/Effect/MarioEffect.hpp"
+#include "../headers/Object/ExitGate.hpp"
 #include "../headers/Core/Music.hpp"
 
 #include "../resource.h"
@@ -28,7 +29,8 @@ AnimationManager MarioAnimation;
 MovableObject player;
 float Xvelo = 0.0f;
 float Yvelo = 0.0f;
-bool MarioDirection;
+bool FirstMarioDirection = false;
+bool MarioDirection = FirstMarioDirection;
 bool MarioCurrentFalling = true;
 bool PreJump = false;
 bool Holding;
@@ -94,7 +96,7 @@ int loadMarioRes() {
 int MarioInit = loadMarioRes();
 //sprite function
 void KeyboardMovement() {
-	if (CanControlMario) {
+	if (CanControlMario && !LevelCompleteEffect) {
 		sf::FloatRect hitbox_loop;
 		bool isCollideSideBool = false;
 		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown && window.hasFocus()) {
@@ -163,6 +165,16 @@ void KeyboardMovement() {
 		else Holding = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus()) player_speed = 7.5f;
 		else player_speed = 4.375f;
+	}
+	else if (LevelCompleteEffect) {
+		if (MarioDirection) MarioDirection = false;
+		if (!isCollideRight2(player, ObstaclesList, {}) && !isCollideRight2(player, Bricks, BrickSaveList) && !isCollideRight2(player, LuckyBlock, LuckyBlockSaveList) && !EffectActive) {
+			Xvelo = 2.5f;
+			player.property.move({ Xvelo * deltaTime, 0.0f });
+		}
+		else Xvelo = 0.0f;
+		//if (!MarioDirection) player.property.move({ Xvelo * deltaTime, 0.0f });
+		//else player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 	}
 }
 void MarioVertXUpdate() {
@@ -567,7 +579,7 @@ void PowerDown() {
 			InvincibleTimer.restart();
 			InvincibleState = false;
 		}
-		else if (PowerState == 0 && CanControlMario) {
+		else if (PowerState == 0 && CanControlMario && !LevelCompleteEffect) {
 			CanControlMario = false;
 			ActiveMarioEffect();
 		}
@@ -583,6 +595,10 @@ void Death() {
 	Yvelo = 0.0f;
 	PowerState = 0;
 	lastPowerState = 0;
+	LevelCompleteEffect = false;
+	MarioDirection = FirstMarioDirection;
+	ExitGateForeActive = true;
+	ExitGateEffectReset();
 }
 void CheckForDeath() {
 	if (isOutScreenYBottom(player.property.getPosition().y, 80)) {

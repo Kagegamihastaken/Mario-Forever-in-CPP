@@ -140,11 +140,14 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="sources\AnimationManager.cpp" />
+    <ClCompile Include="sources\Bg.cpp" />
+    <ClCompile Include="sources\BgGradient.cpp" />
     <ClCompile Include="sources\Brick.cpp" />
     <ClCompile Include="sources\BrickParticle.cpp" />
     <ClCompile Include="sources\Coin.cpp" />
     <ClCompile Include="sources\CoinEffect.cpp" />
     <ClCompile Include="sources\Collide.cpp" />
+    <ClCompile Include="sources\ExitGate.cpp" />
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\GoombaAI.cpp" />
     <ClCompile Include="sources\GoombaAIEffect.cpp" />
@@ -176,6 +179,8 @@
     <ClInclude Include="headers\Block\Slopes.hpp" />
     <ClInclude Include="headers\Core\Animate\AnimationManager.hpp" />
     <ClInclude Include="headers\Core\Animate\LocalAnimationManager.hpp" />
+    <ClInclude Include="headers\Core\Background\Bg.hpp" />
+    <ClInclude Include="headers\Core\Background\BgGradient.hpp" />
     <ClInclude Include="headers\Core\Collision\Collide.hpp" />
     <ClInclude Include="headers\Core\Level.hpp" />
     <ClInclude Include="headers\Core\Loading\enum.hpp" />
@@ -196,6 +201,7 @@
     <ClInclude Include="headers\Effect\MarioEffect.hpp" />
     <ClInclude Include="headers\Effect\ScoreEffect.hpp" />
     <ClInclude Include="headers\Object\Coin.hpp" />
+    <ClInclude Include="headers\Object\ExitGate.hpp" />
     <ClInclude Include="headers\Object\GoombaAI.hpp" />
     <ClInclude Include="headers\Object\Mario.hpp" />
     <ClInclude Include="headers\Object\PiranhaAI.hpp" />

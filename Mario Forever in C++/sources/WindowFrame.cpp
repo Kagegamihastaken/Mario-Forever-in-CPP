@@ -39,6 +39,7 @@ AnimationManager CoinHUDAnim;
 float f_min(float a, float b) { return a < b ? a : b; }
 float f_max(float a, float b) { return a > b ? a : b; }
 float f_abs(float a) { return a < 0 ? -a : a; }
+int hex_to_int(std::string hex) { return std::stoi(hex, nullptr, 16); }
 void windowInit() {
 	sf::Texture* Temp = new sf::Texture();
 	LoadTexture(*Temp, MARIOHUD_TEXTURE);

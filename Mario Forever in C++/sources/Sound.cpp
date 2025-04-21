@@ -1,8 +1,8 @@
 #include <SFML/Audio.hpp>
 
+#include "../headers/Core/SoundManager.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
-#include "../headers/Core/SoundManager.hpp"
 
 #include "../resource.h"
 

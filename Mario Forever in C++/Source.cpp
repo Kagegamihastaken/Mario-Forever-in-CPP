@@ -20,16 +20,22 @@
 #include "headers/Object/Spike.hpp"
 #include "headers/Core/Music.hpp"
 #include "headers/Effect/MarioEffect.hpp"
-
-#include "headers/Core/Collision/Collide.hpp"
+#include "headers/Core/Background/BgGradient.hpp"
+#include "headers/Core/Background/Bg.hpp"
+#include "headers/Object/ExitGate.hpp"
 
 #include "resource.h"
-#include "headers/Core/Loading/Loading.hpp"
 
 #include <iostream>
 #include <string>
-#include <fstream>
 int main() {
+	//background
+
+	//bg[0].position = sf::Vector2f(ViewX, ViewY);
+	//bg[1].position = sf::Vector2f(ViewX + Width, ViewY);
+	//bg[2].position = sf::Vector2f(ViewX, ViewY + Height);
+	//bg[3].position = sf::Vector2f(ViewX + Width, ViewY + Height);
+
 	//Init Games:
 	//window.setKeyRepeatEnabled(false);
 	windowInit();
@@ -46,6 +52,8 @@ int main() {
 	SpikeInit();
 	MusicInit();
 	MarioEffectInit();
+	BgInit();
+	ExitGateInit();
 	//window.setTitle
 	//Init window
 	ViewInit();
@@ -69,9 +77,12 @@ int main() {
 		AddText("_FALLING", "", LEFT_MARGIN, 0.0f, 80.0f);
 	}
 	//build a level
+	Bgbuilding();
 	Obstaclebuilding();
 	Slopebuilding();
 	Objectbuilding();
+	BgGradientInitPos();
+	ExitGateBuilding();
 	std::pair<bool, bool> Test;
 	std::string fall, appe;
 	//looping frame
@@ -83,7 +94,12 @@ int main() {
 				window.close();
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) AddGoombaAI(GOOMBA, 0, 128.0f, 256.0f, LEFT);
+		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
+			ExitGateClock.reset();
+			Sounds.ClearUp();
+			window.close();
+		}
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) AddGoombaAI(GOOMBA, 0, 128.0f, 256.0f, LEFT);
 		//update: Mario
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
 		appe = (MarioAppearing ? "TRUE" : "FALSE");
@@ -104,6 +120,7 @@ int main() {
 		EditText("FPS: " + std::to_string((int)fps), "_FPS");
 		EditText(std::to_string(CoinCount), "_COIN");
 		EditText(std::to_string(Score), "_SCORE");
+
 		KeyboardMovement();
 		MarioVertXUpdate();
 		MarioVertYUpdate();
@@ -127,18 +144,25 @@ int main() {
 		PiranhaAIStatusUpdate();
 		SpikeStatusUpdate();
 		MarioEffectStatusUpdate();
+		ExitGateStatusUpdate();
 		//set view
 		setView();
 		//update text position
-		UpdatePositionCharacter();
 		//Update mario animation
 		UpdateAnimation();
 		//core code
-		window.clear(sf::Color::Black);
+		window.clear(sf::Color::Transparent);
 		//resetDelta();
 		updateFrame();
-		//draw
+		//viewUpdate
 		updateView();
+		//Update Position that stuck on screen
+		UpdatePositionCharacter();
+		BgUpdatePos();
+		//draw
+		BgGradientDraw();
+		BgDraw();
+		ExitGateUpdate();
 		MarioDraw();
 		GoombaAIUpdate();
 		PiranhaAIUpdate();
@@ -152,8 +176,9 @@ int main() {
 		ScoreEffectUpdate();
 		BrickParticleUpdate();
 		GoombaAIEffectUpdate();
-		UpdateText();
 		MarioEffectDraw();
+		ExitGateEffectUpdate();
+		UpdateText();
 		FrameDraw();
 
 		//display

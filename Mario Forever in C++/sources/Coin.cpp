@@ -71,7 +71,7 @@ inline void CoinOnTouch() {
 inline void CoinUpdate() {
 	if (CoinCount > 99) {
 		CoinCount = 0;
-		AddScoreEffect(SCORE_1UP, player.property.getPosition().x - 11.0f, player.property.getPosition().y);
+		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);
 	}
 	for (auto& i : CoinList) {
 		if (isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) continue;

@@ -14,8 +14,13 @@ void ViewInit() {
 	view = sf::View(sf::FloatRect({ 0, 0 }, { Width, Height }));
 }
 void setView() {
+	//  MouseX - (Width / 2.0f)
+
 	//view.setCenter(player.property.getPosition().x + (Xvelo > 0.0f ? CompareX * deltaTime : 0.0f), Height / 2.0f);
-	view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth / 2.0f), std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight / 2.0f) });
+	//view.setCenter({ player.property.getPosition().x, player.property.getPosition().y });
+	view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f), std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f) });
+
+	//view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x + (MouseX - Width / 2.0f) * 0.1f), LevelWidth / 2.0f), std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight / 2.0f) });
 }
 void moveView(float x, float y) {
 	view.setCenter({ view.getCenter().x + x, view.getCenter().y + y });
@@ -29,7 +34,7 @@ void updateView() {
 	float min = std::min(vx, vy);
 	ViewXOff = window.getSize().x - (Width * min);
 	ViewYOff = window.getSize().y - (Height * min);
-	view.setViewport(sf::FloatRect({ ((window.getSize().x - (Width * min)) / window.getSize().x) * 0.5f, ((window.getSize().y - (Height * min)) / window.getSize().y) * 0.5f }, { (Width * min) / window.getSize().x, (Height * min) / window.getSize().y }));
+	view.setViewport(sf::FloatRect({ ((window.getSize().x - (view.getSize().x * min)) / window.getSize().x) * 0.5f, ((window.getSize().y - (view.getSize().y * min)) / window.getSize().y) * 0.5f }, { (view.getSize().x * min) / window.getSize().x, (view.getSize().y * min) / window.getSize().y }));
 	ViewX = view.getCenter().x - Width / 2.0f;
 	ViewY = view.getCenter().y - Height / 2.0f;
 	window.setView(view);

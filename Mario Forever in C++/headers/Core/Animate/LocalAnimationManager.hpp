@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "../WindowFrame.hpp"
+
 class LocalAnimationManager {
 private:
 	int indexAnimation = 0;
@@ -12,12 +14,17 @@ private:
 	int endingIndexAnimation = 0;
 	int frequency = 50;
 	sf::Clock TimeRun;
+	float TimeRan = 0.0f;
+	float TimeRemainSave = 0.0f;
 public:
 	void setAnimation(int startingIndexAnimation = 0, int endingIndexAnimation = 0, int frequency = 50) {
 		this->startingIndexAnimation = startingIndexAnimation;
 		this->indexAnimation = startingIndexAnimation;
 		this->endingIndexAnimation = endingIndexAnimation;
 		this->frequency = frequency;
+		this->TimeRun.restart();
+		this->TimeRan = 0.0f;
+		this->TimeRemainSave = 0.0f;
 	}
 	void setIndexAnimation(int indexAnimation) {
 		this->indexAnimation = indexAnimation;
@@ -33,17 +40,27 @@ public:
 	}
 	void update(sf::Sprite& sprite, std::vector<sf::Texture*> texture) {
 		sprite.setTexture(*texture[this->indexAnimation], true);
-		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 2000.0f / this->frequency) {
+		this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMilliseconds();
+		if (this->frequency != 0 && this->TimeRan >= (2000.0f / this->frequency)) {
+			long long loop = (long long)(this->TimeRan / (2000.0f / this->frequency));
+			for (int i = 0; i < loop; i++) {
+				if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
+				else this->indexAnimation = this->startingIndexAnimation;
+			}
+			this->TimeRemainSave = TimeRan - loop * (2000.0f / this->frequency);
 			this->TimeRun.restart();
-			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
-			else this->indexAnimation = this->startingIndexAnimation;
 		}
 	}
 	void silentupdate(sf::Sprite& sprite) {
-		if (this->frequency != 0 && this->TimeRun.getElapsedTime().asMilliseconds() >= 2000.0f / this->frequency) {
+		this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMilliseconds();
+		if (this->frequency != 0 && this->TimeRan >= (2000.0f / this->frequency)) {
+			long long loop = (long long)(this->TimeRan / (2000.0f / this->frequency));
+			for (int i = 0; i < loop; i++) {
+				if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
+				else this->indexAnimation = this->startingIndexAnimation;
+			}
+			this->TimeRemainSave = TimeRan - loop * (2000.0f / this->frequency);
 			this->TimeRun.restart();
-			this->indexAnimation++;
-			if (this->indexAnimation > this->endingIndexAnimation)  this->indexAnimation = this->startingIndexAnimation;
 		}
 	}
 	bool isAtTheEnd() {

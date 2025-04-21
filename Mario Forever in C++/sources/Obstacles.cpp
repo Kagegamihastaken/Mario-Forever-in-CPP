@@ -14,6 +14,7 @@
 #include <thread>
 
 //Obstacles define
+sf::VertexArray ObstaclesVA;
 std::vector<Obstacles> ObstaclesList;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 //set ID for each texture obstacle
@@ -34,15 +35,21 @@ TextureManager ObstaclesTextureManager;
 //texture loading
 
 void loadObstacleRes() {
+	ObstaclesTextureManager.Loadingtexture(TILESET_TEXTURE, "Tileset", 0, 0, 192, 64);
 	for (int i = 0; i < ID_list.size(); ++i) {
 		ObstaclesTextureManager.Loadingtexture(TILESET_TEXTURE, "Obstacles_" + std::to_string(i), ID_list[i][1], ID_list[i][2], 32, 32);
 	}
 }
 void ObstaclesUpdate() {
-	for (int i = 0; i < ObstaclesList.size(); ++i) {
-		if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
-			window.draw(ObstaclesList[i].property);
-		}
-	}
+	//sf::RenderStates states;
+	//sf::Transformable trans;
+	//states.transform *= trans.getTransform();
+	//states.texture = ObstaclesTextureManager.GetTexture("Tileset");
+	window.draw(ObstaclesVA, ObstaclesTextureManager.GetTexture("Tileset"));
+	//for (int i = 0; i < ObstaclesList.size(); ++i) {
+	//	if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
+	//		window.draw(ObstaclesList[i].property);
+	//	}
+	//}
 	//std::cout << ObstaclesList.size() % thread_count << std::endl;
 }

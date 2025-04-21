@@ -30,6 +30,8 @@ extern bool MarioCurrentFalling;
 extern bool MarioCrouchDown;
 extern bool MarioAppearing;
 extern bool CanControlMario;
+extern bool FirstMarioDirection;
+extern bool PreJump;
 extern long long int Score;
 extern void KeyboardMovement();
 extern inline void MarioDraw();

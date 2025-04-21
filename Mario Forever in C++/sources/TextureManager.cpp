@@ -1,7 +1,7 @@
+#include <iostream>
+
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
-
-#include <iostream>
 
 std::map<std::string, sf::Texture*> TextureManager::m_textures;
 std::map<std::string, std::vector<sf::Texture*>> TextureManager::m_animated_textures;
@@ -34,11 +34,12 @@ void TextureManager::LoadingAnimatedTexture(int ID, std::string name, int start,
 	delete tex;
 	delete ani;
 }
-void TextureManager::Loadingtexture(int ID, std::string name, int x, int y, int sizex, int sizey) {
+void TextureManager::Loadingtexture(int ID, std::string name, int x, int y, int sizex, int sizey, bool isRepeated) {
 	sf::Texture* texture = new sf::Texture();
 	sf::Texture* tex = new sf::Texture();
 	LoadTexture(*texture, ID);
 	tex->loadFromImage(texture->copyToImage(), false, sf::IntRect({ x, y }, { sizex, sizey }));
+	tex->setRepeated(isRepeated);
 	AddTexture(name, tex);
 	tex = new sf::Texture();
 	delete tex;

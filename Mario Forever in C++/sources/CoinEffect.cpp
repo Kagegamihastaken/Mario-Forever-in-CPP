@@ -3,7 +3,6 @@
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
-#include "../headers/Effect/CoinEffect.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/TextureManager.hpp"
 
@@ -22,8 +21,9 @@ void CoinEffectInit() {
 }
 void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;
-	Init.coinEffectAnimation.setAnimation(0, 20, 95);
+	Init.coinEffectAnimation.setAnimation(0, 20, 70);
 	Init.property.setPosition({ static_cast<float>(round(x)), y });
+	Init.property.setOrigin({ 18, 31 });
 	CoinEffectList.push_back(Init);
 	CoinEffectIDList.push_back(ID);
 	CoinEffectAttList.push_back(att);
@@ -34,7 +34,7 @@ void DeleteCoinEffect(float x, float y) {
 			CoinEffectList.erase(CoinEffectList.begin() + i);
 			CoinEffectIDList.erase(CoinEffectIDList.begin() + i);
 			CoinEffectAttList.erase(CoinEffectAttList.begin() + i);
-			AddScoreEffect(SCORE_200, x + 4, y);
+			AddScoreEffect(SCORE_200, x, y);
 			break;
 		}
 	}

@@ -245,16 +245,16 @@ void GoombaAICheckCollide() {
 						Sounds.PlaySound("Stomp");
 						switch (GoombaAITypeList[i]) {
 						case GOOMBA:
-							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 15.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
+							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 							AddGoombaAIEffect(GoombaAITypeList[i], COLLIDE, GoombaAISkinIDList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 							break;
 						case KOOPA:
-							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 13.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
+							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 							AddGoombaAI(SHELL, GoombaAISkinIDList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y + 3.0f);
 							break;
 						case SHELL_MOVING:
 							GoombaAIShellHitCount[i] = 0;
-							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 13.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
+							AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 							AddGoombaAI(SHELL, GoombaAISkinIDList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 							break;
 						}
@@ -275,7 +275,7 @@ void GoombaAICheckCollide() {
 				switch (GoombaAITypeList[i]) {
 				case MUSHROOM:
 					Sounds.PlaySound("Powerup");
-					if (GoombaAITypeList[i] == MUSHROOM) AddScoreEffect(SCORE_1000, GoombaAIList[i].property.getPosition().x - 15.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
+					if (GoombaAITypeList[i] == MUSHROOM) AddScoreEffect(SCORE_1000, GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[0].second);
 					if (PowerState == 0) PowerState = 1;
 					DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 					break;
@@ -499,37 +499,37 @@ static void Kicking(int i, int j) {
 	switch (GoombaAIShellHitCount[i]) {
 	case 0:
 		Sounds.PlaySound("Kick2");
-		AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		++GoombaAIShellHitCount[i];
 		break;
 	case 1:
 		Sounds.PlaySound("Kick3");
-		AddScoreEffect(SCORE_200, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_200, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		++GoombaAIShellHitCount[i];
 		break;
 	case 2:
 		Sounds.PlaySound("Kick4");
-		AddScoreEffect(SCORE_500, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_500, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		++GoombaAIShellHitCount[i];
 		break;
 	case 3:
 		Sounds.PlaySound("Kick5");
-		AddScoreEffect(SCORE_1000, GoombaAIList[j].property.getPosition().x - 12.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_1000, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		++GoombaAIShellHitCount[i];
 		break;
 	case 4:
 		Sounds.PlaySound("Kick6");
-		AddScoreEffect(SCORE_2000, GoombaAIList[j].property.getPosition().x - 12.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_2000, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		++GoombaAIShellHitCount[i];
 		break;
 	case 5:
 		Sounds.PlaySound("Kick7");
-		AddScoreEffect(SCORE_5000, GoombaAIList[j].property.getPosition().x - 12.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_5000, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		++GoombaAIShellHitCount[i];
 		break;
 	case 6:
 		Sounds.PlaySound("Kick8");
-		AddScoreEffect(SCORE_1UP, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+		AddScoreEffect(SCORE_1UP, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 		GoombaAIShellHitCount[i] = 0;
 		break;
 	}
@@ -579,8 +579,8 @@ void GoombaAICollisionUpdate() {
 				//}
 				else if (GoombaAITypeList[i] == SHELL_MOVING && GoombaAITypeList[j] == SHELL_MOVING) {
 					Sounds.PlaySound("Kick2");
-					AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
-					AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x - 15.0f, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[i].second);
+					AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
+					AddScoreEffect(SCORE_100, GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y - GoombaAIHitboxList[i].second);
 					AddGoombaAIEffect(GoombaAITypeList[i], NONE, GoombaAISkinIDList[i], GoombaAIList[i].property.getPosition().x, GoombaAIList[i].property.getPosition().y);
 					GoombaAIDeleteSet.insert({ GoombaAITypeList[i],  { GoombaAIList[i].property.getPosition().x , GoombaAIList[i].property.getPosition().y } });
 					AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);

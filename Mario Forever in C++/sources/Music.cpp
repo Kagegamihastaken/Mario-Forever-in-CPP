@@ -10,4 +10,5 @@ void MusicInit() {
 	Music.AddOGGMusic("MainMusicOGG", TEST_OGG);
 	Music.AddMODMusic("MarioDeath", DEATH_MUSIC, 31);
 	Music.AddOGGMusic("RigitMedium", RIGIT_MEDIUM);
+	Music.AddOGGMusic("LevelComplete", LEVEL_COMPLETE);
 }
