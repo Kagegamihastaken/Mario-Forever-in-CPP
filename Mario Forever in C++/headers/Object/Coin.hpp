@@ -18,7 +18,7 @@ extern std::vector<CoinID> CoinIDList;
 extern std::vector<CoinAtt> CoinAttList;
 extern int CoinCount;
 extern std::vector<Coin> CoinList;
-extern sf::Sound CoinSound;
+extern void CoinInit();
 extern void AddCoin(CoinID ID, CoinAtt att, float x, float y);
 extern inline void CoinUpdate();
 extern inline void CoinOnTouch();

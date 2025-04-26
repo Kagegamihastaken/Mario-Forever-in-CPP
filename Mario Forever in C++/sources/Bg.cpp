@@ -8,10 +8,11 @@
 
 #include "../resource.h"
 
-std::vector<sf::VertexArray> BgList;
+std::vector<std::array<sf::Vertex, 4>> BgList;
 std::vector<std::string> BgTextureNameList;
 std::vector<float> BgParallaxList;
 TextureManager BgTextureManager;
+sf::VertexBuffer buffer;
 
 void BgInit() {
 	BgTextureManager.Loadingtexture(GREEN_BACKGROUND_TEXTURE, "GreenBackground", 0, 0, 512, 480, true);
@@ -19,6 +20,9 @@ void BgInit() {
 	BgTextureManager.Loadingtexture(GREEN_MID_TEXTURE, "GreenMid", 0, 0, 410, 480, true);
 	BgTextureManager.Loadingtexture(GREEN_MID2_TEXTURE, "GreenMid2", 0, 0, 282, 480, true);
 	BgTextureManager.Loadingtexture(GREEN_BACK_TEXTURE, "GreenBack", 0, 0, 1411, 480, true);
+
+	buffer.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
+	buffer.create(4);
 }
 void AddBg(int type, int parallax) {
 	switch (type) {
@@ -38,7 +42,7 @@ void AddBg(int type, int parallax) {
 		BgTextureNameList.push_back("GreenBack");
 		break;
 	}
-	BgList.push_back(sf::VertexArray(sf::PrimitiveType::TriangleStrip, 4));
+	BgList.push_back(std::array<sf::Vertex, 4>());
 	BgList.back()[0].texCoords = sf::Vector2f(0, 0);
 	BgList.back()[1].texCoords = sf::Vector2f(LevelWidth, 0);
 	BgList.back()[2].texCoords = sf::Vector2f(0, LevelHeight);
@@ -76,6 +80,7 @@ void DeleteAllBg() {
 }
 void BgDraw() {
 	for (int i = 0; i < BgList.size(); ++i) {
-		window.draw(BgList[i], BgTextureManager.GetTexture(BgTextureNameList[i]));
+		buffer.update(BgList[i].data());
+		window.draw(buffer, BgTextureManager.GetTexture(BgTextureNameList[i]));
 	}
 }

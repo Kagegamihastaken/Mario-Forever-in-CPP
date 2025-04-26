@@ -21,7 +21,7 @@ int main() {
 	std::pair<std::string, std::string> temp;
 	std::set<std::string> id;
 	std::string line;
-	std::ifstream foi("../Mario Forever in C++/Mario Forever in C++.rc");
+	std::ifstream foi("../Mario Forever in C++/Texture.rc");
 	std::cout << "Building resource.h ...\n";
 	bool flag = false;
 	std::string loop;
@@ -70,13 +70,14 @@ int main() {
 		foo << "// \n";
 		foo << "#ifdef APSTUDIO_INVOKED\n";
 		foo << "#ifndef APSTUDIO_READONLY_SYMBOLS\n";
-		foo << "#define _APS_NEXT_RESOURCE_VALUE        101\n";
+		foo << "#define _APS_NEXT_RESOURCE_VALUE        102\n";
 		foo << "#define _APS_NEXT_COMMAND_VALUE         40001\n";
 		foo << "#define _APS_NEXT_CONTROL_VALUE         1001\n";
 		foo << "#define _APS_NEXT_SYMED_VALUE           101\n";
 		foo << "#endif\n";
 		foo << "#endif\n";
 		foo << "\n";
+		foo << "#define IDI_ICON1 101\n";
 		//
 		counter = 0;
 		for (const auto& i : id) {

@@ -4,12 +4,13 @@
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Object/Mario.hpp"
 #include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/Animate/AnimationManager.hpp"
+#include "../headers/Core/Animate/LocalAnimationManager.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Collision/Collide.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
 #include "../headers/Effect/MarioEffect.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -19,21 +20,18 @@
 std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
 std::vector<CoinAtt> CoinAttList;
-sf::Texture CoinTexture;
-AnimationManager CoinAnimation;
+TextureManager CoinTexture;
+LocalAnimationManager CoinAnimation;
 int CoinCount = 0;
 bool firstUpdate = true;
 
-int CoinInit() {
-	LoadTexture(CoinTexture, COIN_TEXTURE);
-	CoinAnimation.addAnimation("IdleCoin", &CoinTexture, { 3,0 }, { 32,32 }, { 0,0 }, 20);
-	return 6;
+void CoinInit() {
+	CoinTexture.LoadingAnimatedTexture(COIN_TEXTURE, "CoinTexture", 0, 2, 0, 32, 32);
+	CoinAnimation.setAnimation(0, 2, 20);
 }
-int CoinIni = CoinInit();
 void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
 	Coin operate;
 	setHitbox(operate.hitbox, sf::FloatRect({ 6, 2 }, { 19, 28 }));
-	operate.property.setTexture(CoinTexture, true);
 	operate.property.setPosition({ x, y });
 	CoinList.push_back(operate);
 	CoinIDList.push_back(ID);
@@ -75,7 +73,7 @@ inline void CoinUpdate() {
 	}
 	for (auto& i : CoinList) {
 		if (isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) continue;
-		CoinAnimation.update("IdleCoin", i.property);
+		CoinAnimation.update(i.property, CoinTexture.GetAnimatedTexture("CoinTexture"));
 		window.draw(i.property);
 	}
 }

@@ -17,6 +17,7 @@ public:
 };
 extern std::vector<CoinEffect> CoinEffectList;
 extern std::vector<CoinID> CoinEffectIDList;
+extern void ScoreEffectInit();
 extern void CoinEffectInit();
 extern void DeleteAllCoinEffect();
 extern void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y);

@@ -1,4 +1,5 @@
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <Windows.h>
 #include <string>
@@ -60,4 +61,11 @@ int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 	}
 	out = ou.substr(0, ou.size());
 	return -1;
+}
+void LoadImageFile(sf::Image& image, int resID) {
+	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(IMAGEFILE));
+	HGLOBAL hData = LoadResource(GCM(), hRES);
+	DWORD hSize = SizeofResource(GCM(), hRES);
+	char* hFinal = (char*)LockResource(hData);
+	image.loadFromMemory(hFinal, hSize);
 }

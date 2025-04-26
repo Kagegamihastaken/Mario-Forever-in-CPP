@@ -45,11 +45,10 @@ void ObstaclesUpdate() {
 	//sf::Transformable trans;
 	//states.transform *= trans.getTransform();
 	//states.texture = ObstaclesTextureManager.GetTexture("Tileset");
-	window.draw(ObstaclesVA, ObstaclesTextureManager.GetTexture("Tileset"));
-	//for (int i = 0; i < ObstaclesList.size(); ++i) {
-	//	if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
-	//		window.draw(ObstaclesList[i].property);
-	//	}
-	//}
-	//std::cout << ObstaclesList.size() % thread_count << std::endl;
+	//window.draw(ObstaclesVA, ObstaclesTextureManager.GetTexture("Tileset"));
+	for (int i = 0; i < ObstaclesList.size(); ++i) {
+		if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
+			window.draw(ObstaclesList[i].property);
+		}
+	}
 }

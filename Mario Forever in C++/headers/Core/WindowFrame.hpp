@@ -28,5 +28,6 @@ extern int hex_to_int(std::string hex);
 extern float f_min(float a, float b);
 extern float f_max(float a, float b);
 extern float f_abs(float a);
+extern void OutputToWindow(std::string output);
 
 #endif // WINDOWFRAME_HPP

@@ -37,7 +37,7 @@ bool Holding;
 bool MarioCrouchDown = false;
 float player_speed;
 int MarioState = 0;
-int PowerState = 0;
+int PowerState = 1;
 int lastPowerState = 0;
 
 int Lives = 4;
@@ -100,56 +100,57 @@ void KeyboardMovement() {
 		sf::FloatRect hitbox_loop;
 		bool isCollideSideBool = false;
 		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown && window.hasFocus()) {
-			if (Xvelo == 0) MarioDirection = true;
-			else if (!MarioDirection) {
-				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
-				player.property.move({ Xvelo * deltaTime, 0.0f });
-			}
-			//init speed
-			if (Xvelo < 1.0f && MarioDirection) Xvelo = 1.0f;
-			if (!isCollideLeft2(player, ObstaclesList, {}) && !isCollideLeft2(player, Bricks, BrickSaveList) && !isCollideLeft2(player, LuckyBlock, LuckyBlockSaveList)) {
-				if (MarioDirection) {
-					Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
-					player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
-				}
-			}
-		}
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && !MarioCrouchDown && window.hasFocus()) {
-			if (Xvelo == 0) MarioDirection = false;
-			else if (MarioDirection) {
-				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
-				player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
-			}
-			//init speed
-			if (Xvelo < 1.0f && !MarioDirection) Xvelo = 1.0f;
-			if (!isCollideRight2(player, ObstaclesList, {}) && !isCollideRight2(player, Bricks, BrickSaveList) && !isCollideRight2(player, LuckyBlock, LuckyBlockSaveList)) {
-				if (!MarioDirection) {
-					//Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
-					Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+			if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !MarioCurrentFalling && PowerState > 0)) {
+				if (Xvelo == 0) MarioDirection = true;
+				else if (!MarioDirection) {
+					Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
 					player.property.move({ Xvelo * deltaTime, 0.0f });
 				}
+				//init speed
+				if (Xvelo < 1.0f && MarioDirection && !MarioCrouchDown) Xvelo = 1.0f;
+				if (!isCollideLeft2(player, ObstaclesList, {}) && !isCollideLeft2(player, Bricks, BrickSaveList) && !isCollideLeft2(player, LuckyBlock, LuckyBlockSaveList)) {
+					if (MarioDirection) {
+						Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+						player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
+					}
+				}
 			}
 		}
-		if ((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown) || MarioCrouchDown || !window.hasFocus()) {
+		else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && !MarioCrouchDown && window.hasFocus()) {
+			if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !MarioCurrentFalling && PowerState > 0)) {
+				if (Xvelo == 0) MarioDirection = false;
+				else if (MarioDirection) {
+					Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
+					player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
+				}
+				if (Xvelo < 1.0f && !MarioDirection && !MarioCrouchDown) Xvelo = 1.0f;
+				if (!isCollideRight2(player, ObstaclesList, {}) && !isCollideRight2(player, Bricks, BrickSaveList) && !isCollideRight2(player, LuckyBlock, LuckyBlockSaveList)) {
+					//init speed
+					if (!MarioDirection) {
+						Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+						player.property.move({ Xvelo * deltaTime, 0.0f });
+					}
+				}
+			}
+		}
+		else if (((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))) && !MarioCrouchDown) || MarioCrouchDown) {
 			if (!MarioCrouchDown) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.125f * deltaTime);
 			else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.28125f * deltaTime);
+			//if (!MarioCrouchDown) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.001f * deltaTime);
+			//else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.0001f * deltaTime);
 			if (!MarioDirection) player.property.move({ Xvelo * deltaTime, 0.0f });
 			else player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 		}
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCurrentFalling && window.hasFocus()) {
 			if (!PreJump && !Holding) {
-				if (Yvelo == 0.0f) {
-					Sounds.PlaySound("Jump");
-					Yvelo = -13.5f;
-				}
+				Sounds.PlaySound("Jump");
+				Yvelo = -13.5f;
 			}
 			else if (PreJump) {
-				if (Yvelo == 0.0f) {
-					Sounds.PlaySound("Jump");
-					Yvelo = -13.5f;
-					PreJump = false;
-				}
+				Sounds.PlaySound("Jump");
+				Yvelo = -13.5f;
+				PreJump = false;
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
@@ -159,12 +160,14 @@ void KeyboardMovement() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) {
 			if (Xvelo < 5.0f && Yvelo < 0.0f) Yvelo -= 0.4f * deltaTime;
 			if (Xvelo >= 5.0f && Yvelo < 0.0f) Yvelo -= 0.5f * deltaTime;
-			if (Yvelo > 0.0f && !Holding) PreJump = true;
+			if (Yvelo >= 0.0f && !Holding) PreJump = true;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) Holding = true;
 		else Holding = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus()) player_speed = 7.5f;
 		else player_speed = 4.375f;
+
+		if (!MarioCurrentFalling && PreJump) PreJump = false;
 	}
 	else if (LevelCompleteEffect) {
 		if (MarioDirection) MarioDirection = false;

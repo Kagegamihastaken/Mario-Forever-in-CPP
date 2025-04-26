@@ -232,8 +232,8 @@ void ReadData(int IDLevel) {
 }
 void Obstaclebuilding() {
 	int posTextureIndex;
-	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
-	ObstaclesVA.resize(LevelData.size() * 6);
+	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
+	//ObstaclesVA.resize(LevelData.size() * 6);
 	for (int i = 0; i < LevelData.size(); ++i) {
 		//for (const auto& i : LevelData) {
 			// Find the tile id
@@ -245,20 +245,20 @@ void Obstaclebuilding() {
 		ObstaclesVertPosList.push_back({ sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,{LevelData[i][1], LevelData[i][2] } });
 		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 
-		sf::Vertex* vertex = &ObstaclesVA[i * 6];
-		vertex[0].position = sf::Vector2f(LevelData[i][1], LevelData[i][2]);
-		vertex[1].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
-		vertex[2].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
-		vertex[3].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
-		vertex[4].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
-		vertex[5].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2] + 32.0f);
+		//sf::Vertex* vertex = &ObstaclesVA[i * 6];
+		//vertex[0].position = sf::Vector2f(LevelData[i][1], LevelData[i][2]);
+		//vertex[1].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
+		//vertex[2].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
+		//vertex[3].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
+		//vertex[4].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
+		//vertex[5].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2] + 32.0f);
 
-		vertex[0].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2]);
-		vertex[1].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
-		vertex[2].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
-		vertex[3].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
-		vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
-		vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
+		//vertex[0].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2]);
+		//vertex[1].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
+		//vertex[2].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
+		//vertex[3].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
+		//vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
+		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
 	sort(ObstaclesList.begin(), ObstaclesList.end(), [](Obstacles& A, Obstacles& B) {
 		return A.property.getPosition().x < B.property.getPosition().x;

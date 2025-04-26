@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cstdint>
 
 #include "../WindowFrame.hpp"
 
@@ -16,6 +17,8 @@ private:
 	sf::Clock TimeRun;
 	float TimeRan = 0.0f;
 	float TimeRemainSave = 0.0f;
+	uintptr_t TextureAddress = 0;
+	uintptr_t SpriteAddress = 0;
 public:
 	void setAnimation(int startingIndexAnimation = 0, int endingIndexAnimation = 0, int frequency = 50) {
 		this->startingIndexAnimation = startingIndexAnimation;
@@ -25,6 +28,8 @@ public:
 		this->TimeRun.restart();
 		this->TimeRan = 0.0f;
 		this->TimeRemainSave = 0.0f;
+		this->TextureAddress = 0;
+		this->SpriteAddress = 0;
 	}
 	void setIndexAnimation(int indexAnimation) {
 		this->indexAnimation = indexAnimation;
@@ -39,7 +44,12 @@ public:
 		this->frequency = frequency;
 	}
 	void update(sf::Sprite& sprite, std::vector<sf::Texture*> texture) {
-		sprite.setTexture(*texture[this->indexAnimation], true);
+		//sprite.setTexture(*texture[this->indexAnimation], true);
+		if (this->TextureAddress != reinterpret_cast<uintptr_t>(texture[this->indexAnimation]) || this->SpriteAddress != reinterpret_cast<uintptr_t>(&sprite)) {
+			sprite.setTexture(*texture[this->indexAnimation], true);
+			this->TextureAddress = reinterpret_cast<uintptr_t>(texture[this->indexAnimation]);
+			this->SpriteAddress = reinterpret_cast<uintptr_t>(&sprite);
+		}
 		this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMilliseconds();
 		if (this->frequency != 0 && this->TimeRan >= (2000.0f / this->frequency)) {
 			long long loop = (long long)(this->TimeRan / (2000.0f / this->frequency));
