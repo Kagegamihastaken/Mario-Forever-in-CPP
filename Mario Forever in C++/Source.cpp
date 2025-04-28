@@ -42,6 +42,7 @@ int main() {
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
+	loadMarioRes();
 	BrickParticleInit();
 	loadFontRes();
 	LoadBricks();
@@ -71,7 +72,7 @@ int main() {
 	AddText("_FPS", "", LEFT_MARGIN, 0.0f, 464.0f);
 	//AddText("_DELTA", "", LEFT_MARGIN, 0, 432.0f);
 	//AddText("_HOLDING", "", LEFT_MARGIN, 0.0f, 432.0f);
-	AddText("_CODX", "", RIGHT_MARGIN, 624.0f, 416.0f);
+	//AddText("_CODX", "", RIGHT_MARGIN, 624.0f, 416.0f);
 	//AddText("_CODY", "", RIGHT_MARGIN, 624.0f, 400.0f);
 	//AddText("_FALL", "", LEFT_MARGIN, 0.0f, 48.0f);
 	//AddText("_MARIOXY", "", RIGHT_MARGIN, 624.0f, 448.0f);
@@ -111,7 +112,7 @@ int main() {
 		appe = (MarioAppearing ? "TRUE" : "FALSE");
 		//EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
 		EditText(std::to_string(Lives), "_LIVE");
-		EditText(std::to_string(Xvelo) + " VX", "_CODX");
+		//EditText(std::to_string(Xvelo) + " VX", "_CODX");
 		//EditText(std::to_string(Yvelo) + " VY", "_CODY");
 		//EditText(std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y) + "  M", "_MARIOXY");
 		//EditText("Crouch Down: " + fall, "_FALL");

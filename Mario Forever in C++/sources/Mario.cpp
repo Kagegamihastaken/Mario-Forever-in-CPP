@@ -11,7 +11,8 @@
 #include "../headers/Block/Brick.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/Animate/AnimationManager.hpp"
+#include "../headers/Core/Animate/LocalAnimationManager.hpp"
+#include "../headers/Core/TextureManager.hpp"
 #include "../headers/Block/LuckyBlock.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Collision/Collide.hpp"
@@ -25,8 +26,9 @@
 #include "../resource.h"
 
 //define here
-AnimationManager MarioAnimation;
+LocalAnimationManager MarioAnimation;
 MovableObject player;
+TextureManager MarioTexture;
 float Xvelo = 0.0f;
 float Yvelo = 0.0f;
 bool FirstMarioDirection = false;
@@ -37,7 +39,8 @@ bool Holding;
 bool MarioCrouchDown = false;
 float player_speed;
 int MarioState = 0;
-int PowerState = 1;
+int lastMarioState = -1;
+int PowerState = 0;
 int lastPowerState = 0;
 
 int Lives = 4;
@@ -57,43 +60,35 @@ bool CanControlMario = true;
 sf::Texture SmallMario;
 sf::Texture BigMario;
 std::array<float, 2> PowerOffset = { 30.0f, 7.0f };
-int loadMarioRes() {
+void loadMarioRes() {
 	AppearingTimer.restart();
 	// Resources Loader;
-	LoadTexture(SmallMario, SMALLMARIO_TEXTURE);
-	LoadTexture(BigMario, BIGMARIO_TEXTURE);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "IdleSmallLeft", 2, 2, 0, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "RunSmallLeft", 0, 2, 0, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "JumpSmallLeft", 3, 3, 0, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "AppearSmallLeft", 0, 2, 2, 31, 59);
 
-	//set Texture
-	//left (small)
-	MarioAnimation.addAnimation("RunSmallLeft", &SmallMario, { 6,2 }, { 31,59 }, { 0,0 }, 0, { 0,0 }, { 3,0 });
-	MarioAnimation.addAnimation("IdleSmallLeft", &SmallMario, { 6,2 }, { 31,59 }, { 2,0 }, 0, { 2,0 }, { 3,0 });
-	MarioAnimation.addAnimation("JumpSmallLeft", &SmallMario, { 6,2 }, { 31,59 }, { 3,0 }, 0, { 3,0 }, { 4,0 });
-	MarioAnimation.addAnimation("AppearSmallLeft", &SmallMario, { 6,2 }, { 31,59 }, { 0,2 }, 91, { 0,2 }, { 3,2 });
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "IdleSmallRight", 2, 2, 1, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "RunSmallRight", 0, 2, 1, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "JumpSmallRight", 3, 3, 1, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(SMALLMARIO_TEXTURE, "AppearSmallRight", 3, 5, 2, 31, 59);
 
-	//left (big)
-	MarioAnimation.addAnimation("RunBigLeft", &BigMario, { 6,2 }, { 31,59 }, { 0,0 }, 0, { 0,0 }, { 3,0 });
-	MarioAnimation.addAnimation("IdleBigLeft", &BigMario, { 6,2 }, { 31,59 }, { 2,0 }, 0, { 2,0 }, { 3,0 });
-	MarioAnimation.addAnimation("JumpBigLeft", &BigMario, { 6,2 }, { 31,59 }, { 3,0 }, 0, { 3,0 }, { 4,0 });
-	MarioAnimation.addAnimation("DownBigLeft", &BigMario, { 6,2 }, { 31,59 }, { 4,0 }, 0, { 4,0 }, { 5,0 });
-	MarioAnimation.addAnimation("AppearBigLeft", &BigMario, { 6,2 }, { 31,59 }, { 0,2 }, 91, { 0,2 }, { 3,2 });
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "IdleBigLeft", 2, 2, 0, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "RunBigLeft", 0, 2, 0, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "JumpBigLeft", 3, 3, 0, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "AppearBigLeft", 0, 2, 2, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "DownBigLeft", 4, 4, 0, 31, 59);
 
-	//right (small)
-	MarioAnimation.addAnimation("RunSmallRight", &SmallMario, { 6,2 }, { 31,59 }, { 0,1 }, 0, { 0,1 }, { 3,1 });
-	MarioAnimation.addAnimation("IdleSmallRight", &SmallMario, { 6,2 }, { 31,59 }, { 2,1 }, 0, { 2,1 }, { 3,1 });
-	MarioAnimation.addAnimation("JumpSmallRight", &SmallMario, { 6,2 }, { 31,59 }, { 3,1 }, 0, { 3,1 }, { 4,1 });
-	MarioAnimation.addAnimation("AppearSmallRight", &SmallMario, { 6,2 }, { 31,59 }, { 3,2 }, 91, { 3,2 }, { 6,2 });
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "IdleBigRight", 2, 2, 1, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "RunBigRight", 0, 2, 1, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "JumpBigRight", 3, 3, 1, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "AppearBigRight", 3, 5, 2, 31, 59);
+	MarioTexture.LoadingAnimatedTexture(BIGMARIO_TEXTURE, "DownBigRight", 4, 4, 1, 31, 59);
 
-	//right (big)
-	MarioAnimation.addAnimation("RunBigRight", &BigMario, { 6,2 }, { 31,59 }, { 0,1 }, 0, { 0,1 }, { 3,1 });
-	MarioAnimation.addAnimation("IdleBigRight", &BigMario, { 6,2 }, { 31,59 }, { 2,1 }, 0, { 2,1 }, { 3,1 });
-	MarioAnimation.addAnimation("JumpBigRight", &BigMario, { 6,2 }, { 31,59 }, { 3,1 }, 0, { 3,1 }, { 4,1 });
-	MarioAnimation.addAnimation("DownBigRight", &BigMario, { 6,2 }, { 31,59 }, { 4,1 }, 0, { 4,1 }, { 5,1 });
-	MarioAnimation.addAnimation("AppearBigRight", &BigMario, { 6,2 }, { 31,59 }, { 3,2 }, 91, { 3,2 }, { 6,2 });
+	MarioAnimation.setAnimation(0, 0);
 
 	//set property of Mario
-	return 6;
 }
-int MarioInit = loadMarioRes();
 //sprite function
 void KeyboardMovement() {
 	if (CanControlMario && !LevelCompleteEffect) {
@@ -146,11 +141,13 @@ void KeyboardMovement() {
 			if (!PreJump && !Holding) {
 				Sounds.PlaySound("Jump");
 				Yvelo = -13.5f;
+				Holding = true;
 			}
 			else if (PreJump) {
 				Sounds.PlaySound("Jump");
 				Yvelo = -13.5f;
 				PreJump = false;
+				Holding = true;
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
@@ -162,8 +159,7 @@ void KeyboardMovement() {
 			if (Xvelo >= 5.0f && Yvelo < 0.0f) Yvelo -= 0.5f * deltaTime;
 			if (Yvelo >= 0.0f && !Holding) PreJump = true;
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) Holding = true;
-		else Holding = false;
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) Holding = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus()) player_speed = 7.5f;
 		else player_speed = 4.375f;
 
@@ -446,12 +442,6 @@ void MarioVertYUpdate() {
 		}
 	}
 }
-void resetAnimation() {
-	MarioAnimation.resetAnimationIndex("RunSmallRight");
-	MarioAnimation.resetAnimationIndex("RunSmallLeft");
-	MarioAnimation.resetAnimationIndex("RunBigRight");
-	MarioAnimation.resetAnimationIndex("RunBigLeft");
-}
 void UpdateAnimation() {
 	//if (PowerState == 0 && !MarioCrouchDown) {
 	//	player.setHitboxMain({ 0.0f + 5.0f, 0.0f + 2.0f, 23.0f, 29.0f });
@@ -489,87 +479,69 @@ void UpdateAnimation() {
 	//animation update
 
 	//mariostate:
-	// 0: idle, 1: run, 2: jump = fall, 3: crouch
+	// 0: idle, 1: run, 2: jump = fall, 3: crouch, 4: appear
+	std::string DirName = (!MarioDirection) ? "Left" : "Right";
 	if (CanControlMario) {
-		if (!MarioDirection) {
-			if (!MarioAppearing) {
-				if (Yvelo == 0.0f && !MarioCurrentFalling && !MarioCrouchDown) {
-					if (Xvelo == 0.0f) {
-						resetAnimation();
-						if (PowerState == 0) MarioAnimation.update("IdleSmallLeft", player.property);
-						else if (PowerState == 1) MarioAnimation.update("IdleBigLeft", player.property);
-						MarioState = 0;
-					}
-					else {
-						MarioAnimation.resetAnimationIndex("RunSmallRight");
-						MarioAnimation.resetAnimationIndex("RunBigRight");
-						if (PowerState == 0) {
-							MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-							MarioAnimation.update("RunSmallLeft", player.property);
-						}
-						else if (PowerState == 1) {
-							MarioAnimation.setAnimationFrequency("RunBigLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-							MarioAnimation.update("RunBigLeft", player.property);
-						}
-						MarioState = 1;
-					}
+		if (!MarioAppearing) {
+			if (Yvelo != 0.0f && MarioCurrentFalling) {
+				MarioState = 2;
+				if (lastMarioState != MarioState && MarioState != 4) {
+					MarioAnimation.setAnimation(0, 0, 0);
+					lastMarioState = MarioState;
 				}
-				else if ((Yvelo != 0.0f || MarioCurrentFalling) && !MarioCrouchDown) {
-					resetAnimation();
-					if (PowerState == 0) MarioAnimation.update("JumpSmallLeft", player.property);
-					else if (PowerState == 1) MarioAnimation.update("JumpBigLeft", player.property);
-					MarioState = 2;
+				if (PowerState == 0) MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("JumpSmall" + DirName));
+				else if (PowerState == 1) MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("JumpBig" + DirName));
+			}
+			else if (Yvelo == 0.0f && !(!MarioCurrentFalling && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0)) {
+				if (Xvelo == 0.0f) {
+					MarioState = 0;
+					if (lastMarioState != MarioState && MarioState != 4) {
+						MarioAnimation.setAnimation(0, 0, 0);
+						lastMarioState = MarioState;
+					}
+					if (PowerState == 0) MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("IdleSmall" + DirName));
+					else if (PowerState == 1) MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("IdleBig" + DirName));
 				}
-				else if (MarioCrouchDown && PowerState > 0) {
-					resetAnimation();
-					MarioAnimation.update("DownBigLeft", player.property);
-					MarioState = 3;
+				else {
+					MarioState = 1;
+					if (lastMarioState != MarioState && MarioState != 4) {
+						MarioAnimation.SetRangeIndexAnimation(0, 2);
+						lastMarioState = MarioState;
+					}
+					MarioAnimation.setFrequency(f_max(12.0f, f_min(Xvelo * 6.0f, 45.0f)));
+					//MarioAnimation.resetAnimationIndex("RunSmallRight");
+					//MarioAnimation.resetAnimationIndex("RunBigRight");
+					if (PowerState == 0) {
+						//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
+						//MarioAnimation.update("RunSmallLeft", player.property);
+						MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("RunSmall" + DirName));
+					}
+					else if (PowerState == 1) {
+						//MarioAnimation.setAnimationFrequency("RunBigLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
+						//MarioAnimation.update("RunBigLeft", player.property);
+						MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("RunBig" + DirName));
+					}
 				}
 			}
-			else {
-				if (PowerState == 0) MarioAnimation.update("AppearSmallLeft", player.property);
-				else if (PowerState == 1) MarioAnimation.update("AppearBigLeft", player.property);
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0) {
+				MarioState = 3;
+				if (lastMarioState != MarioState && MarioState != 4) {
+					MarioAnimation.setAnimation(0, 0, 100);
+					lastMarioState = MarioState;
+				}
+				MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("DownBig" + DirName));
 			}
 		}
 		else {
-			if (!MarioAppearing) {
-				if (Yvelo == 0.0f && !MarioCurrentFalling && !MarioCrouchDown) {
-					if (Xvelo == 0.0f) {
-						resetAnimation();
-						if (PowerState == 0) MarioAnimation.update("IdleSmallRight", player.property);
-						else if (PowerState == 1) MarioAnimation.update("IdleBigRight", player.property);
-						MarioState = 0;
-					}
-					else {
-						MarioAnimation.resetAnimationIndex("RunSmallLeft");
-						MarioAnimation.resetAnimationIndex("RunBigLeft");
-						if (PowerState == 0) {
-							MarioAnimation.setAnimationFrequency("RunSmallRight", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-							MarioAnimation.update("RunSmallRight", player.property);
-						}
-						else if (PowerState == 1) {
-							MarioAnimation.setAnimationFrequency("RunBigRight", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-							MarioAnimation.update("RunBigRight", player.property);
-						}
-						MarioState = 1;
-					}
-				}
-				else if ((Yvelo != 0.0f || MarioCurrentFalling) && !MarioCrouchDown) {
-					resetAnimation();
-					if (PowerState == 0) MarioAnimation.update("JumpSmallRight", player.property);
-					else if (PowerState == 1) MarioAnimation.update("JumpBigRight", player.property);
-					MarioState = 2;
-				}
-				else if (MarioCrouchDown && PowerState > 0) {
-					resetAnimation();
-					MarioAnimation.update("DownBigRight", player.property);
-					MarioState = 3;
-				}
+			MarioState = 4;
+			if (lastMarioState != MarioState && MarioState == 4) {
+				MarioAnimation.SetRangeIndexAnimation(0, 2, 100);
+				lastMarioState = MarioState;
 			}
-			else {
-				if (PowerState == 0) MarioAnimation.update("AppearSmallRight", player.property);
-				else if (PowerState == 1) MarioAnimation.update("AppearBigRight", player.property);
-			}
+			if (PowerState == 0) MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("AppearSmall" + DirName));
+			else if (PowerState == 1) MarioAnimation.update(player.property, MarioTexture.GetAnimatedTexture("AppearBig" + DirName));
+			//if (PowerState == 0) MarioAnimation.update("AppearSmallLeft", player.property);
+			//else if (PowerState == 1) MarioAnimation.update("AppearBigLeft", player.property);
 		}
 	}
 }

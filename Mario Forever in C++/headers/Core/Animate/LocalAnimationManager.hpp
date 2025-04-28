@@ -31,6 +31,23 @@ public:
 		this->TextureAddress = 0;
 		this->SpriteAddress = 0;
 	}
+	void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50) {
+		if (this->startingIndexAnimation != startingIndexAnimation || this->endingIndexAnimation != endingIndexAnimation) {
+			this->startingIndexAnimation = startingIndexAnimation;
+			this->endingIndexAnimation = endingIndexAnimation;
+			this->frequency = frequency;
+			this->indexAnimation = startingIndexAnimation;
+			this->TimeRun.restart();
+			this->TimeRan = 0.0f;
+			this->TimeRemainSave = 0.0f;
+		}
+		else {
+			this->frequency = frequency;
+			this->TimeRun.restart();
+			this->TimeRan = 0.0f;
+			this->TimeRemainSave = 0.0f;
+		}
+	}
 	void setIndexAnimation(int indexAnimation) {
 		this->indexAnimation = indexAnimation;
 	}

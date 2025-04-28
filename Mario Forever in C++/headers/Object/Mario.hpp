@@ -19,7 +19,6 @@ public:
 	sf::FloatRect hitboxSlopeBot;
 	sf::Sprite property = sf::Sprite(tempTex);
 };
-extern AnimationManager MarioAnimation;
 extern void UpdateAnimation();
 extern MovableObject player;
 extern float player_speed;
@@ -40,6 +39,7 @@ extern void PowerDown();
 extern void MarioVertYUpdate();
 extern void MarioVertXUpdate();
 extern void CheckForDeath();
+extern void loadMarioRes();
 extern void Death();
 extern int PowerState;
 extern int Lives;
