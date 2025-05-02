@@ -26,13 +26,16 @@ int CoinCount = 0;
 bool firstUpdate = true;
 
 void CoinInit() {
-	CoinTexture.LoadingAnimatedTexture(COIN_TEXTURE, "CoinTexture", 0, 2, 0, 32, 32);
-	CoinAnimation.setAnimation(0, 2, 20);
+	CoinTexture.Loadingtexture(COIN_TEXTURE, "Coin", 0, 0, 96, 32);
+	//CoinTexture.LoadingAnimatedTexture(COIN_TEXTURE, "CoinTexture", 0, 2, 0, 32, 32);
+	//CoinAnimation.setAnimation(0, 2, 20);
+	CoinAnimation.setAnimation(0, 2, 32, 32, 0, 20);
 }
 void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
 	Coin operate;
 	setHitbox(operate.hitbox, sf::FloatRect({ 6, 2 }, { 19, 28 }));
 	operate.property.setPosition({ x, y });
+	CoinAnimation.setTexture(operate.property, CoinTexture.GetTexture("Coin"));
 	CoinList.push_back(operate);
 	CoinIDList.push_back(ID);
 	CoinAttList.push_back(att);
@@ -73,7 +76,7 @@ inline void CoinUpdate() {
 	}
 	for (auto& i : CoinList) {
 		if (isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) continue;
-		CoinAnimation.update(i.property, CoinTexture.GetAnimatedTexture("CoinTexture"));
-		window.draw(i.property);
+		CoinAnimation.update(i.property);
+		rTexture.draw(i.property);
 	}
 }

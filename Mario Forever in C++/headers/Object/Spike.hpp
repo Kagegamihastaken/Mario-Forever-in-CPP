@@ -10,7 +10,6 @@
 extern std::vector<sf::Sprite> SpikeList;
 extern std::vector<SpikeID> SpikeIDList;
 extern std::vector<LocalAnimationManager> SpikeAnimationList;
-extern std::vector<std::string> SpikeAnimationNameList;
 
 extern void DeleteAllSpike();
 extern void DeleteSpike(float x, float y);

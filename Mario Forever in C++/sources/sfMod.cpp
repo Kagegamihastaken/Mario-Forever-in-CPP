@@ -29,7 +29,7 @@
 //    distribution.                                                         //
 //////////////////////////////////////////////////////////////////////////////
 #include <modplug.h>
-#include "../headers/Core/sfMod/sfMod.hpp"
+#include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
 
 #include <fstream>
 

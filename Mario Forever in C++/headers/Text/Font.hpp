@@ -12,7 +12,7 @@ extern TextureManager FontTextureList;
 extern std::string FontString;
 extern void SetFontSize(int TextSizeX, int TextSizeY, int sizeX, int sizeY);
 extern int GetFontIndex(char c);
-extern std::pair<int, int> GetFontTexture(char c);
+extern sf::Vector2i GetFontTexture(char c);
 extern int FontSizeX;
 extern int FontSizeY;
 

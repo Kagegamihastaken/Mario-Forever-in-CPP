@@ -5,6 +5,7 @@
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Loading/enum.hpp"
+#include "../headers/Core/TextureManager.hpp"
 
 #include "../resource.h"
 
@@ -16,20 +17,8 @@ std::vector<Text*> TextList;
 std::vector<TextMarginID> TextMarginList;
 
 void loadFontRes() {
-	sf::Texture* FontTexture = new sf::Texture();
-	sf::Texture* FontTextureLoop = new sf::Texture();
-	LoadTexture(*FontTexture, FONT_TEXTURE);
-	SetFontSize(FontTexture->getSize().x, FontTexture->getSize().y, 15, 16);
-	std::pair<int, int> Pos;
-	for (const auto& i : FontString) {
-		Pos = GetFontTexture(i);
-		FontTextureLoop->loadFromImage(FontTexture->copyToImage(), false, sf::IntRect({ Pos.first, Pos.second }, { FontSizeX, FontSizeY }));
-		FontTextureList.AddTexture("Font_" + std::string(1, i), FontTextureLoop);
-		FontTextureLoop = new sf::Texture();
-		//FontTextureList.back()->setSmooth(true);
-	}
-	delete FontTexture;
-	delete FontTextureLoop;
+	FontTextureList.Loadingtexture(FONT_TEXTURE, "Font", 0, 0, 645, 32);
+	SetFontSize(645, 32, 15, 16);
 }
 void AddText(std::string id, std::string text, TextMarginID margin, float x, float y) {
 	//search for duplicates ID
@@ -47,8 +36,10 @@ void AddText(std::string id, std::string text, TextMarginID margin, float x, flo
 		Init->id = id;
 		Init->textContent = text;
 		int Counter = 0;
+		sf::Vector2i lp;
 		for (const auto& i : text) {
-			Init->text.push_back(sf::Sprite(*FontTextureList.GetTexture("Font_" + std::string(1, (i >= 'a' && i <= 'z' ? i - 32 : i)))));
+			lp = GetFontTexture(i);
+			Init->text.push_back(sf::Sprite(*FontTextureList.GetTexture("Font"), sf::IntRect({ lp.x, lp.y }, { 15, 16 })));
 			Init->text[Counter].setPosition({ x + FontSizeX * Counter + Counter, y });
 			++Counter;
 		}
@@ -69,9 +60,11 @@ inline void EditText(std::string NewText, std::string id) {
 	}
 	if (isFounded) {
 		std::vector<sf::Sprite> Init;
+		sf::Vector2i lp;
 		int Counter = 0;
 		for (const auto& i : NewText) {
-			Init.push_back(sf::Sprite(*FontTextureList.GetTexture("Font_" + std::string(1, (i >= 'a' && i <= 'z' ? i - 32 : i)))));
+			lp = GetFontTexture(i);
+			Init.push_back(sf::Sprite(*FontTextureList.GetTexture("Font"), sf::IntRect({ lp.x, lp.y }, { 15, 16 })));
 			Init[Counter].setPosition({ TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y });
 			++Counter;
 		}
@@ -109,7 +102,7 @@ inline void UpdatePositionCharacter() {
 inline void UpdateText() {
 	for (const auto& i : TextList) {
 		for (const auto& j : i->text) {
-			window.draw(j);
+			rTexture.draw(j);
 		}
 	}
 }

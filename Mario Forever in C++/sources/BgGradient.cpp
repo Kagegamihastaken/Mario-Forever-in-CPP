@@ -18,5 +18,5 @@ void BgGradientInitPos() {
 	bgGradient[3].position = sf::Vector2f(LevelWidth, LevelHeight);
 }
 void BgGradientDraw() {
-	window.draw(bgGradient);
+	rTexture.draw(bgGradient);
 }

@@ -135,7 +135,7 @@ void BrickParticleUpdate() {
 	if (BrickParticleList.size() == 0) return;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			if (!BrickParticleDisabledList[i][j]) window.draw(BrickParticleList[i][j]);
+			if (!BrickParticleDisabledList[i][j]) rTexture.draw(BrickParticleList[i][j]);
 		}
 	}
 }

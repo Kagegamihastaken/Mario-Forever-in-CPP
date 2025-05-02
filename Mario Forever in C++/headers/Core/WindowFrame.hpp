@@ -8,6 +8,7 @@
 
 extern bool isDebug;
 extern sf::RenderWindow window;
+extern sf::RenderTexture rTexture;
 extern sf::Sound Kick2Sound;
 extern sf::View view;
 extern sf::Clock delta;
@@ -28,6 +29,5 @@ extern int hex_to_int(std::string hex);
 extern float f_min(float a, float b);
 extern float f_max(float a, float b);
 extern float f_abs(float a);
-extern void OutputToWindow(std::string output);
 
 #endif // WINDOWFRAME_HPP

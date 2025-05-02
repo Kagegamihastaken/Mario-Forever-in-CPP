@@ -35,19 +35,24 @@ TextureManager LuckyBlockTextureManager;
 std::vector<sf::Texture*> LuckyBlockTextureList;
 
 void LoadLuckyBlock() {
-	LuckyBlockTextureManager.LoadingAnimatedTexture(LUCKYBLOCK_TEXTURE, "LuckyBlockAnimated", 0, 2, 0, 32, 32);
-	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockHitted", 96, 0, 32, 32);
+	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlock", 0, 0, 128, 64);
+
+	//LuckyBlockTextureManager.LoadingAnimatedTexture(LUCKYBLOCK_TEXTURE, "LuckyBlockAnimated", 0, 2, 0, 32, 32);
+	//LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockHitted", 96, 0, 32, 32);
 	//Tree
-	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTree", 64, 32, 32, 32);
-	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTreeHitted", 96, 32, 32, 32);
+	//LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTree", 64, 32, 32, 32);
+	//LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTreeHitted", 96, 32, 32, 32);
 }
 void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
+	LuckyIdle.push_back(LocalAnimationManager());
+	LuckyIdle.back().setAnimation(0, 2, 32, 32, 0, 9);
 	switch (ID) {
 	case LUCKY_BLOCK:
-		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlockHitted")) });
+		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlock"), sf::IntRect({ 0, 0 }, { 32, 32 })) });
+		LuckyIdle.back().setTexture(LuckyBlock.back().property, LuckyBlockTextureManager.GetTexture("LuckyBlock"));
 		break;
 	case TREE_LUCKY_BLOCK:
-		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlockTree")) });
+		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(*LuckyBlockTextureManager.GetTexture("LuckyBlock"), sf::IntRect({ 64, 32 }, { 32, 32 })) });
 		break;
 	}
 	LuckyBlockAttList.push_back(Att);
@@ -59,8 +64,7 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	LuckyUpDown.push_back(false);
 	LuckyBlock[LuckyBlock.size() - 1].property.setPosition({ x, y });
 	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
-	LuckyIdle.push_back(LocalAnimationManager());
-	LuckyIdle.back().setAnimation(0, 2, 9);
+	//LuckyIdle.back().setAnimation(0, 2, 9);
 	LuckyVertPosList.push_back({ sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) });
 	//LuckyIdle[LuckyIdle.size() - 1].setAnimation({ 32,32 }, { 0,0 }, { 3,0 }, 9);
 }
@@ -125,7 +129,7 @@ inline void LuckyBlockUpdate() {
 			}
 		}
 		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
-			window.draw(LuckyBlock[i].property);
+			rTexture.draw(LuckyBlock[i].property);
 		}
 	}
 }
@@ -133,13 +137,13 @@ inline void LuckyAnimationUpdate() {
 	if (LuckyBlock.size() == 0) return;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockIDList[i] == LUCKY_BLOCK) {
-			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property, LuckyBlockTextureManager.GetAnimatedTexture("LuckyBlockAnimated"));
+			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property);
 			else {
-				LuckyBlock[i].property.setTexture(*LuckyBlockTextureManager.GetTexture("LuckyBlockHitted"), true);
+				LuckyBlock[i].property.setTextureRect(sf::IntRect({ 96, 0 }, { 32, 32 }));
 			}
 		}
 		else if (LuckyBlockIDList[i] == TREE_LUCKY_BLOCK) {
-			if (LuckyBlockHitted[i]) LuckyBlock[i].property.setTexture(*LuckyBlockTextureManager.GetTexture("LuckyBlockTreeHitted"), true);
+			if (LuckyBlockHitted[i]) LuckyBlock[i].property.setTextureRect(sf::IntRect({ 96, 32 }, { 32, 32 }));
 		}
 	}
 }

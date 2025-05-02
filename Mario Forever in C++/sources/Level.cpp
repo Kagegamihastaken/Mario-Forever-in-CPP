@@ -239,7 +239,8 @@ void Obstaclebuilding() {
 			// Find the tile id
 		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(LevelData[i][0]); }) - (ID_list.begin());
 		// Then use the index of tile id property to add it to the list
-		ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
+		//ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
+		ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
 		//ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
 		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ LevelData[i][1], LevelData[i][2] });
 		ObstaclesVertPosList.push_back({ sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,{LevelData[i][1], LevelData[i][2] } });
@@ -308,6 +309,7 @@ void Objectbuilding() {
 	}
 	player.property.setPosition({ PlayerData[0], PlayerData[1] });
 	MarioDirection = FirstMarioDirection;
+	//rTexture.resize(sf::Vector2u({ static_cast<unsigned int>(LevelWidth) * 2, static_cast<unsigned int>(LevelHeight) * 2 }));
 	setView();
 	updateView();
 	//Delete Effects

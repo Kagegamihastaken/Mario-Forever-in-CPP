@@ -125,7 +125,7 @@ void GoombaAIEffectStatusUpdate() {
 void GoombaAIEffectUpdate() {
 	if (GoombaAIEffectList.size() == 0) return;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
-		if (!isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) window.draw(GoombaAIEffectList[i].property);
+		if (!isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) rTexture.draw(GoombaAIEffectList[i].property);
 	}
 }
 void GoombaAIEffectVertYUpdate() {

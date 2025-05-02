@@ -157,6 +157,7 @@
     <ClCompile Include="sources\GoombaAIEffect.cpp" />
     <ClCompile Include="sources\Level.cpp" />
     <ClCompile Include="sources\Loading.cpp" />
+    <ClCompile Include="sources\LocalAnimationManager.cpp" />
     <ClCompile Include="sources\LuckyBlock.cpp" />
     <ClCompile Include="sources\Mario.cpp" />
     <ClCompile Include="sources\MarioEffect.cpp" />
@@ -186,6 +187,20 @@
     <ClInclude Include="headers\Core\Background\Bg.hpp" />
     <ClInclude Include="headers\Core\Background\BgGradient.hpp" />
     <ClInclude Include="headers\Core\Collision\Collide.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Absorel.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\all.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\BasicClock.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Continuum.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Duration.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\FpsLite.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Stopwatch.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Timer.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Timestep.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\TimestepLite.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Yalpes.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\sfMod\Error.hpp" />
+    <ClInclude Include="headers\Core\ExternalHeaders\sfMod\sfMod.hpp" />
     <ClInclude Include="headers\Core\Level.hpp" />
     <ClInclude Include="headers\Core\Loading\enum.hpp" />
     <ClInclude Include="headers\Core\Loading\Loading.hpp" />
@@ -193,8 +208,6 @@
     <ClInclude Include="headers\Core\Music.hpp" />
     <ClInclude Include="headers\Core\MusicManager.hpp" />
     <ClInclude Include="headers\Core\Scroll.hpp" />
-    <ClInclude Include="headers\Core\sfMod\Error.hpp" />
-    <ClInclude Include="headers\Core\sfMod\sfMod.hpp" />
     <ClInclude Include="headers\Core\Sound.hpp" />
     <ClInclude Include="headers\Core\SoundManager.hpp" />
     <ClInclude Include="headers\Core\TextureManager.hpp" />
@@ -224,6 +237,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\resources\GameICON.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Absorel.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\BasicClock.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\Continuum.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\Duration.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\FpsLite.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\Stopwatch.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\Timer.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\Timestep.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\TimestepLite.inl" />
+    <None Include="headers\Core\ExternalHeaders\Kairos\Yalpes.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

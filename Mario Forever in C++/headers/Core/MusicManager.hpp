@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 #include <SFML/Audio.hpp>
-#include "sfMod/sfMod.hpp"
+#include "ExternalHeaders/sfMod/sfMod.hpp"
 #include <vector>
 #include <modplug.h>
 

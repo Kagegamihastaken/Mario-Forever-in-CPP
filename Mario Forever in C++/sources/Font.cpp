@@ -18,7 +18,7 @@ void SetFontSize(int TextSizeX, int TextSizeY, int sizeX, int sizeY) {
 	FontSizeX = sizeX;
 	FontSizeY = sizeY;
 }
-std::pair<int, int> GetFontTexture(char c) {
+sf::Vector2i GetFontTexture(char c) {
 	if (c >= 'a' && c <= 'z') c -= 32;
 	int index = std::find(FontString.begin(), FontString.end(), c) - FontString.begin();
 	int Divided = index / Xrow;

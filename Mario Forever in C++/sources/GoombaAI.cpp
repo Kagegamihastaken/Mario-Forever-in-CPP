@@ -36,7 +36,6 @@ std::vector<bool> GoombaAIDisabledList;
 std::vector<GoombaAIHittable> GoombaAIHittableList;
 std::vector<std::array<float, 4>> GoombaAIDefinationList;
 std::vector<std::pair<LocalAnimationManager, LocalAnimationManager>> GoombaAIAnimationList;
-std::vector<std::pair<std::string, std::string>> GoombaAITextureNameList;
 std::vector<bool> GoombaAIAppearingList;
 std::vector<float> GoombaAIAppearingYList;
 std::vector<int> GoombaAISkinIDList;
@@ -48,14 +47,20 @@ std::vector<std::pair<bool, int>> GoombaAICollisionList;
 TextureManager GoombaAITextureManager;
 
 void GoombaAILoadRes() {
-	GoombaAITextureManager.LoadingAnimatedTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
-	GoombaAITextureManager.LoadingAnimatedTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
-	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
-	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
-	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
-	GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
-	GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_right_red", 0, 1, 0, 33, 32);
-	GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_left_red", 0, 1, 1, 33, 32);
+	GoombaAITextureManager.Loadingtexture(GOOMBA_TEXTURE, "Goomba", 0, 0, 62, 32);
+	GoombaAITextureManager.Loadingtexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 31, 32);
+	GoombaAITextureManager.Loadingtexture(GREEN_KOOPA_TEXTURE, "Koopa_green", 0, 0, 64, 94);
+	GoombaAITextureManager.Loadingtexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green", 0, 0, 132, 28);
+	GoombaAITextureManager.Loadingtexture(RED_SPINY_TEXTURE, "Spiny_red", 0, 0, 66, 64);
+
+	//GoombaAITextureManager.LoadingAnimatedTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
+	//GoombaAITextureManager.LoadingAnimatedTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
+	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
+	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
+	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
+	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
+	//GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_right_red", 0, 1, 0, 33, 32);
+	//GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_left_red", 0, 1, 1, 33, 32);
 }
 void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirection Dir = LEFT) {
 	MovableObject Init;
@@ -65,9 +70,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		Init.property.setOrigin({ 15, 31 });
 		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 		GoombaAIHitboxList.push_back({ 31, 32 });
-		in.setAnimation(0, 1, 11);
-		inri.setAnimation(0, 1, 11);
-		GoombaAITextureNameList.push_back({ "Goomba", "Goomba" });
+		in.setAnimation(0, 1, 31, 32, 0, 11);
+		in.setTexture(Init.property, GoombaAITextureManager.GetTexture("Goomba"));
+		inri.setAnimation(0, 1, 31, 32, 0, 11);
+		inri.setTexture(Init.property, GoombaAITextureManager.GetTexture("Goomba"));
 		GoombaAIXveloList.push_back(1.0f);
 		GoombaAIHittableList.push_back(YES);
 		GoombaAIAppearingList.push_back(false);
@@ -78,9 +84,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		Init.property.setOrigin({ 13, 44 });
 		GoombaAIDefinationList.push_back({ 32.0f, 47.0f, 0.0f, 0.0f });
 		GoombaAIHitboxList.push_back({ 32, 47 });
-		in.setAnimation(0, 1, 12);
-		inri.setAnimation(0, 1, 12);
-		GoombaAITextureNameList.push_back({ "Koopa_right_green", "Koopa_left_green" });
+		in.setAnimation(0, 1, 32, 47, 0, 12);
+		in.setTexture(Init.property, GoombaAITextureManager.GetTexture("Koopa_green"));
+		inri.setAnimation(0, 1, 32, 47, 1, 12);
+		inri.setTexture(Init.property, GoombaAITextureManager.GetTexture("Koopa_green"));
 		GoombaAIXveloList.push_back(1.0f);
 		GoombaAIHittableList.push_back(YES);
 		GoombaAIAppearingList.push_back(false);
@@ -91,9 +98,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		Init.property.setOrigin({ 16, 31 });
 		GoombaAIDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 		GoombaAIHitboxList.push_back({ 31, 32 });
-		in.setAnimation(0, 0, 100);
-		inri.setAnimation(0, 0, 100);
-		GoombaAITextureNameList.push_back({ "Mushroom", "Mushroom" });
+		in.setAnimation(0, 0, 31, 32, 0, 100);
+		in.setTexture(Init.property, GoombaAITextureManager.GetTexture("Mushroom"));
+		inri.setAnimation(0, 0, 31, 32, 0, 100);
+		inri.setTexture(Init.property, GoombaAITextureManager.GetTexture("Mushroom"));
 		GoombaAIXveloList.push_back(2.0f);
 		GoombaAIHittableList.push_back(FULL);
 		GoombaAIAppearingList.push_back(true);
@@ -104,9 +112,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		Init.property.setOrigin({ 16, 27 });
 		GoombaAIDefinationList.push_back({ 33.0f, 28.0f, 0.0f, 0.0f });
 		GoombaAIHitboxList.push_back({ 33, 28 });
-		in.setAnimation(0, 0, 100);
-		inri.setAnimation(0, 0, 100);
-		GoombaAITextureNameList.push_back({ "Koopa_Shell_green_idle", "Koopa_Shell_green_idle" });
+		in.setAnimation(3, 3, 33, 28, 0, 100);
+		in.setTexture(Init.property, GoombaAITextureManager.GetTexture("Koopa_Shell_green"));
+		inri.setAnimation(3, 3, 33, 28, 0, 100);
+		inri.setTexture(Init.property, GoombaAITextureManager.GetTexture("Koopa_Shell_green"));
 		GoombaAIXveloList.push_back(0.0f);
 		GoombaAIHittableList.push_back(FULL);
 		GoombaAIAppearingList.push_back(false);
@@ -117,9 +126,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		Init.property.setOrigin({ 16, 27 });
 		GoombaAIDefinationList.push_back({ 33.0f, 28.0f, 0.0f, 0.0f });
 		GoombaAIHitboxList.push_back({ 33, 28 });
-		in.setAnimation(0, 3, 54);
-		inri.setAnimation(0, 3, 54);
-		GoombaAITextureNameList.push_back({ "Koopa_Shell_green_moving", "Koopa_Shell_green_moving" });
+		in.setAnimation(0, 3, 33, 28, 0, 54);
+		in.setTexture(Init.property, GoombaAITextureManager.GetTexture("Koopa_Shell_green"));
+		inri.setAnimation(0, 3, 33, 28, 0, 54);
+		inri.setTexture(Init.property, GoombaAITextureManager.GetTexture("Koopa_Shell_green"));
 		GoombaAIXveloList.push_back(5.0f);
 		GoombaAIHittableList.push_back(YES);
 		GoombaAIAppearingList.push_back(false);
@@ -130,9 +140,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 		Init.property.setOrigin({ 16, 29 });
 		GoombaAIDefinationList.push_back({ 33.0f, 32.0f, 0.0f, 0.0f });
 		GoombaAIHitboxList.push_back({ 33, 32 });
-		in.setAnimation(0, 1, 14);
-		inri.setAnimation(0, 1, 14);
-		GoombaAITextureNameList.push_back({ "Spiny_right_red", "Spiny_left_red" });
+		in.setAnimation(0, 1, 33, 32, 0, 14);
+		in.setTexture(Init.property, GoombaAITextureManager.GetTexture("Spiny_red"));
+		inri.setAnimation(0, 1, 33, 32, 1, 14);
+		inri.setTexture(Init.property, GoombaAITextureManager.GetTexture("Spiny_red"));
 		GoombaAIXveloList.push_back(1.0f);
 		GoombaAIHittableList.push_back(NO);
 		GoombaAIAppearingList.push_back(false);
@@ -177,7 +188,6 @@ void DeleteGoombaAI(GoombaAIType type, float x, float y) {
 			GoombaAIAppearingList.erase(GoombaAIAppearingList.begin() + i);
 			GoombaAIAppearingYList.erase(GoombaAIAppearingYList.begin() + i);
 			GoombaAISkinIDList.erase(GoombaAISkinIDList.begin() + i);
-			GoombaAITextureNameList.erase(GoombaAITextureNameList.begin() + i);
 			GoombaAIOriginList.erase(GoombaAIOriginList.begin() + i);
 			GoombaAIInvincibleTimerList.erase(GoombaAIInvincibleTimerList.begin() + i);
 			GoombaAIInvincibleSecondLimitList.erase(GoombaAIInvincibleSecondLimitList.begin() + i);
@@ -202,7 +212,6 @@ void DeleteAllGoombaAI() {
 	GoombaAIAppearingList.clear();
 	GoombaAIAppearingYList.clear();
 	GoombaAISkinIDList.clear();
-	GoombaAITextureNameList.clear();
 	GoombaAIOriginList.clear();
 	GoombaAIInvincibleTimerList.clear();
 	GoombaAIInvincibleSecondLimitList.clear();
@@ -608,24 +617,24 @@ void GoombaAIUpdate() {
 		//else GoombaAIList[i].property.setColor(sf::Color(0, 0, 255));
 		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
 			if (GoombaAIDirectionList[i] == RIGHT) {
-				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].first));
+				GoombaAIAnimationList[i].first.update(GoombaAIList[i].property);
 
-				GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
+				GoombaAIAnimationList[i].second.silentupdate();
 
 				if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].first) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].first);
 			}
 			else if (GoombaAIDirectionList[i] == LEFT) {
-				GoombaAIAnimationList[i].second.update(GoombaAIList[i].property, GoombaAITextureManager.GetAnimatedTexture(GoombaAITextureNameList[i].second));
+				GoombaAIAnimationList[i].second.update(GoombaAIList[i].property);
 
-				GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
+				GoombaAIAnimationList[i].first.silentupdate();
 
 				if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].second) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].second);
 			}
-			window.draw(GoombaAIList[i].property);
+			rTexture.draw(GoombaAIList[i].property);
 		}
 		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
-			GoombaAIAnimationList[i].second.silentupdate(GoombaAIList[i].property);
-			GoombaAIAnimationList[i].first.silentupdate(GoombaAIList[i].property);
+			GoombaAIAnimationList[i].second.silentupdate();
+			GoombaAIAnimationList[i].first.silentupdate();
 		}
 	}
 }

@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Core">
       <UniqueIdentifier>{fdcebf43-b910-4266-b1cd-10e3d90a5eb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Core\sfMod">
-      <UniqueIdentifier>{6a1a0d07-592b-4d85-b4a2-1de99a77ae9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Text">
       <UniqueIdentifier>{f4365ee7-000b-41ee-b4a5-084d9dabd179}</UniqueIdentifier>
     </Filter>
@@ -81,6 +78,15 @@
     </Filter>
     <Filter Include="Source Files\Core\Background">
       <UniqueIdentifier>{5f376aa1-a2fa-4765-9762-1edc19e7eab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\ExternalHeaders">
+      <UniqueIdentifier>{e34bffe5-21c6-47b6-9f11-cdbb54e3e7cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\ExternalHeaders\Kairos">
+      <UniqueIdentifier>{d621127d-a6fb-4b2b-b16f-2fb97e7e0801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\ExternalHeaders\sfMod">
+      <UniqueIdentifier>{b39e85b8-c0ed-46ff-8150-4e40e825cb33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +189,9 @@
     <ClCompile Include="sources\ExitGate.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
+    <ClCompile Include="sources\LocalAnimationManager.cpp">
+      <Filter>Source Files\Core\Animate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Core\Animate\AnimationManager.hpp">
@@ -202,12 +211,6 @@
     </ClInclude>
     <ClInclude Include="headers\Core\MultiThreading\ThreadPool.hpp">
       <Filter>Header Files\Core\MultiThreading</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Core\sfMod\Error.hpp">
-      <Filter>Header Files\Core\sfMod</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Core\sfMod\sfMod.hpp">
-      <Filter>Header Files\Core\sfMod</Filter>
     </ClInclude>
     <ClInclude Include="headers\Core\Level.hpp">
       <Filter>Header Files\Core</Filter>
@@ -293,6 +296,48 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\sfMod\Error.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\sfMod</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\sfMod\sfMod.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\sfMod</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Absorel.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\all.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\BasicClock.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Continuum.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Duration.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\FpsLite.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Stopwatch.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Timer.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Timestep.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\TimestepLite.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Yalpes.hpp">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\ExternalHeaders\Kairos.hpp">
+      <Filter>Header Files\Core\ExternalHeaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels\lvl1.txt">
@@ -314,5 +359,37 @@
     <Image Include="data\resources\GameICON.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Absorel.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\BasicClock.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Continuum.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Duration.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\FpsLite.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Stopwatch.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Timer.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Timestep.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\TimestepLite.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
+    <None Include="headers\Core\ExternalHeaders\Kairos\Yalpes.inl">
+      <Filter>Header Files\Core\ExternalHeaders\Kairos</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include <modplug.h>
-#include "../headers/Core/sfMod/sfMod.hpp"
+#include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../resource.h"
 HMODULE GCM() {

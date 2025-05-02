@@ -113,6 +113,6 @@ inline void ScoreEffectStatusUpdate() {
 inline void ScoreEffectUpdate() {
 	if (ScoreEffectList.size() == 0) return;
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
-		window.draw(ScoreEffectList[i]);
+		rTexture.draw(ScoreEffectList[i]);
 	}
 }

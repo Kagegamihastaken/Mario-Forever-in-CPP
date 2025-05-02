@@ -20,6 +20,7 @@ bool isDebug = false;
 float Width = 640.0f, Height = 480.0f;
 sf::VideoMode videoMode({ (unsigned int)(Width), (unsigned int)(Height) });
 sf::RenderWindow window(videoMode, "Mario Forever");
+sf::RenderTexture rTexture({ (unsigned int)(Width), (unsigned int)(Height) });
 sf::Clock delta;
 float deltaTime;
 sf::Clock fpsClock;
@@ -41,9 +42,6 @@ float f_min(float a, float b) { return a < b ? a : b; }
 float f_max(float a, float b) { return a > b ? a : b; }
 float f_abs(float a) { return a < 0 ? -a : a; }
 int hex_to_int(std::string hex) { return std::stoi(hex, nullptr, 16); }
-void OutputToWindow(std::string output) {
-	OutputDebugStringA("Init Game\n");
-}
 void windowInit() {
 	sf::Image icon;
 	LoadImageFile(icon, GAME_ICON);
@@ -56,6 +54,7 @@ void windowInit() {
 	delete Temp;
 	MarioHUD.setTexture(*Maintexture.GetTexture("MarioHUD"), true);
 	window.setIcon(icon);
+	//window.setVerticalSyncEnabled(true);
 }
 void FrameDraw() {
 	//CoinHUD
@@ -63,8 +62,8 @@ void FrameDraw() {
 	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
 	//MarioHUD
 	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
-	window.draw(CoinHUD);
-	window.draw(MarioHUD);
+	rTexture.draw(CoinHUD);
+	rTexture.draw(MarioHUD);
 }
 void updateFrame() {
 	sf::Vector2i mouse = sf::Mouse::getPosition(window);
@@ -80,6 +79,7 @@ void updateFrame() {
 		else window.setFramerateLimit(0); //300
 	}
 	deltaTime = delta.restart().asSeconds() * 50.0f;
+	//deltaTime = (delta.restart().asMicroseconds() * 50) / 1000000.0f;
 	float fpsUpdate = 1.0f / fpsClock.restart().asSeconds();
 	if (GameClock.getElapsedTime().asSeconds() >= 0.5f) {
 		if (deltaTime >= 1.0f) {

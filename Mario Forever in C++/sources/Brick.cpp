@@ -41,18 +41,19 @@ TextureManager BrickTextureManager;
 // TODO: Load Texture from TextureManager
 void LoadBricks() {
 	// Loading Texture
-	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal", 0, 0, 32, 32);
-	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray", 32, 0, 32, 32);
-	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal_Hitted", 0, 32, 32, 32);
-	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray_Hitted", 32, 32, 32, 32);
+	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Bricks", 0, 0, 64, 64);
+	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal", 0, 0, 32, 32);
+	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray", 32, 0, 32, 32);
+	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal_Hitted", 0, 32, 32, 32);
+	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray_Hitted", 32, 32, 32, 32);
 }
 void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	switch (ID) {
 	case BRICK_GRAY:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Gray")) });
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Bricks"), sf::IntRect({32, 0}, {32, 32})) });
 		break;
 	case BRICK_NORMAL:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Brick_Normal")) });
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Bricks"), sf::IntRect({0, 0}, {32, 32})) });
 		break;
 	}
 	BrickAttList.push_back(att);
@@ -95,8 +96,8 @@ inline void BrickStatusUpdate() {
 	if (Bricks.size() == 0) return;
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
-			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Gray_Hitted"), true);
-			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTexture(*BrickTextureManager.GetTexture("Brick_Normal_Hitted"), true);
+			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTextureRect(sf::IntRect({ 32, 32 }, { 32, 32 }));
+			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTextureRect(sf::IntRect({ 0, 32 }, { 32, 32 }));
 		}
 	}
 }
@@ -127,7 +128,7 @@ inline void BrickUpdate() {
 			}
 		}
 		if (!isOutScreen(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, 32, 32)) {
-			window.draw(Bricks[i].property);
+			rTexture.draw(Bricks[i].property);
 		}
 	}
 }

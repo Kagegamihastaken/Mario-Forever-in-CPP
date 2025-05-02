@@ -19,7 +19,6 @@ std::vector<sf::Sprite> PiranhaAIList;
 std::vector<PiranhaID> PiranhaAITypeList;
 std::vector<sf::FloatRect> PiranhaAIHitboxList;
 std::vector<LocalAnimationManager> PiranhaAIAnimationList;
-std::vector<std::string> PiranhaAIAnimationNameList;
 std::vector<bool> PiranhaAIDisabledList;
 std::vector<float> PiranhaAISpeedList;
 std::vector<float> PiranhaAIPosLimitList;
@@ -37,7 +36,6 @@ void DeletePiranhaAI(float x, float y) {
 			PiranhaAITypeList.erase(PiranhaAITypeList.begin() + i);
 			PiranhaAIHitboxList.erase(PiranhaAIHitboxList.begin() + i);
 			PiranhaAIAnimationList.erase(PiranhaAIAnimationList.begin() + i);
-			PiranhaAIAnimationNameList.erase(PiranhaAIAnimationNameList.begin() + i);
 			PiranhaAIDisabledList.erase(PiranhaAIDisabledList.begin() + i);
 			PiranhaAISpeedList.erase(PiranhaAISpeedList.begin() + i);
 			PiranhaAIPosLimitList.erase(PiranhaAIPosLimitList.begin() + i);
@@ -56,7 +54,6 @@ void ClearPiranhaAI() {
 	PiranhaAITypeList.clear();
 	PiranhaAIHitboxList.clear();
 	PiranhaAIAnimationList.clear();
-	PiranhaAIAnimationNameList.clear();
 	PiranhaAIDisabledList.clear();
 	PiranhaAISpeedList.clear();
 	PiranhaAIPosLimitList.clear();
@@ -68,15 +65,17 @@ void ClearPiranhaAI() {
 	PiranhaAIDistanceAppearList.clear();
 }
 void PiranhaAIInit() {
-	PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
+	PiranhaAITextureManager.Loadingtexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 0, 128, 64);
+	//PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void AddPiranha(PiranhaID ID, float x, float y) {
 	sf::Sprite Init(tempTex);
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
 	case GREEN:
-		InitAnimation.setAnimation(0, 1, 14);
-		PiranhaAIAnimationNameList.push_back("PiranhaGreen");
+		InitAnimation.setAnimation(0, 1, 64, 64, 0, 14);
+		InitAnimation.setTexture(Init, PiranhaAITextureManager.GetTexture("PiranhaGreen"));
+		//PiranhaAIAnimationNameList.push_back("PiranhaGreen");
 		PiranhaAISpeedList.push_back(1.0f);
 		PiranhaAIStopTimeList.push_back(1.4f);
 		PiranhaAIDistanceAppearList.push_back(80.0f);
@@ -147,11 +146,11 @@ void PiranhaAIStatusUpdate() {
 void PiranhaAIUpdate() {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
-			PiranhaAIAnimationList[i].update(PiranhaAIList[i], PiranhaAITextureManager.GetAnimatedTexture(PiranhaAIAnimationNameList[i]));
-			window.draw(PiranhaAIList[i]);
+			PiranhaAIAnimationList[i].update(PiranhaAIList[i]);
+			rTexture.draw(PiranhaAIList[i]);
 		}
 		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
-			PiranhaAIAnimationList[i].silentupdate(PiranhaAIList[i]);
+			PiranhaAIAnimationList[i].silentupdate();
 		}
 	}
 }

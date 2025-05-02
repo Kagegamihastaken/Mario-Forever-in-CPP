@@ -28,6 +28,7 @@
 
 #include <iostream>
 #include <string>
+sf::Sprite Renderer(tempTex);
 int main() {
 	//background
 
@@ -38,7 +39,6 @@ int main() {
 
 	//Init Games:
 	//window.setKeyRepeatEnabled(false);
-	OutputToWindow("Loading...");
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
@@ -100,6 +100,8 @@ int main() {
 				Sounds.ClearUp();
 				window.close();
 			}
+			if (const auto* resized = event->getIf<sf::Event::Resized>()) {
+			}
 		}
 		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
 			ExitGateClock.reset();
@@ -160,7 +162,7 @@ int main() {
 		//Update mario animation
 		UpdateAnimation();
 		//core code
-		window.clear(sf::Color::Transparent);
+		rTexture.clear();
 		//resetDelta();
 		updateFrame();
 		//viewUpdate
@@ -168,6 +170,7 @@ int main() {
 		//Update Position that stuck on screen
 		UpdatePositionCharacter();
 		BgUpdatePos();
+		CheckForDeath();
 		//draw
 		BgGradientDraw();
 		BgDraw();
@@ -175,8 +178,8 @@ int main() {
 		MarioDraw();
 		GoombaAIUpdate();
 		PiranhaAIUpdate();
-		SpikeUpdate();
 		ObstaclesUpdate();
+		SpikeUpdate();
 		SlopeUpdate();
 		CoinUpdate();
 		BrickUpdate();
@@ -189,9 +192,11 @@ int main() {
 		ExitGateEffectUpdate();
 		UpdateText();
 		FrameDraw();
-
+		rTexture.display();
+		window.clear();
+		Renderer.setTexture(rTexture.getTexture(), true);
+		window.draw(Renderer);
 		//display
-		CheckForDeath();
 		window.display();
 	}
 }

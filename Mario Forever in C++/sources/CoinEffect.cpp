@@ -17,11 +17,13 @@ std::vector<CoinAtt> CoinEffectAttList;
 TextureManager CoinEffectTextureManager;
 
 void CoinEffectInit() {
-	CoinEffectTextureManager.LoadingAnimatedTexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 20, 0, 37, 32);
+	CoinEffectTextureManager.Loadingtexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 0, 777, 32);
+	//CoinEffectTextureManager.LoadingAnimatedTexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 20, 0, 37, 32);
 }
 void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffect Init;
-	Init.coinEffectAnimation.setAnimation(0, 20, 70);
+	Init.coinEffectAnimation.setAnimation(0, 20, 37, 32, 0, 70);
+	Init.coinEffectAnimation.setTexture(Init.property, CoinEffectTextureManager.GetTexture("CoinEffect"));
 	Init.property.setPosition({ static_cast<float>(round(x)), y });
 	Init.property.setOrigin({ 18, 31 });
 	CoinEffectList.push_back(Init);
@@ -60,9 +62,9 @@ inline void CoinEffectUpdate() {
 	if (CoinEffectList.size() == 0) return;
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			i.coinEffectAnimation.update(i.property, CoinEffectTextureManager.GetAnimatedTexture("CoinEffect"));
-			window.draw(i.property);
+			i.coinEffectAnimation.update(i.property);
+			rTexture.draw(i.property);
 		}
-		else i.coinEffectAnimation.silentupdate(i.property);
+		else i.coinEffectAnimation.silentupdate();
 	}
 }

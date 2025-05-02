@@ -78,7 +78,7 @@ int getSlopesIndex(float x, float y) {
 void SlopeUpdate() {
 	for (const auto& i : SlopesList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			window.draw(i.property);
+			rTexture.draw(i.property);
 		}
 	}
 }

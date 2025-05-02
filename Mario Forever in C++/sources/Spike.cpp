@@ -16,20 +16,21 @@
 std::vector<sf::Sprite> SpikeList;
 std::vector<SpikeID> SpikeIDList;
 std::vector<LocalAnimationManager> SpikeAnimationList;
-std::vector<std::string> SpikeAnimationNameList;
 std::vector<sf::FloatRect> SpikeHitboxList;
 
 TextureManager SpikeTextureManager;
 
 void SpikeInit() {
-	SpikeTextureManager.LoadingAnimatedTexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 3, 0, 32, 32);
-	SpikeTextureManager.LoadingAnimatedTexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 0, 32, 32);
+	SpikeTextureManager.Loadingtexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 0, 128, 32);
+	SpikeTextureManager.Loadingtexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 32, 32);
+
+	//SpikeTextureManager.LoadingAnimatedTexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 3, 0, 32, 32);
+	//SpikeTextureManager.LoadingAnimatedTexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 0, 32, 32);
 }
 void DeleteAllSpike() {
 	SpikeList.clear();
 	SpikeIDList.clear();
 	SpikeAnimationList.clear();
-	SpikeAnimationNameList.clear();
 	SpikeHitboxList.clear();
 }
 void DeleteSpike(float x, float y) {
@@ -38,7 +39,6 @@ void DeleteSpike(float x, float y) {
 			SpikeList.erase(SpikeList.begin() + i);
 			SpikeIDList.erase(SpikeIDList.begin() + i);
 			SpikeAnimationList.erase(SpikeAnimationList.begin() + i);
-			SpikeAnimationNameList.erase(SpikeAnimationNameList.begin() + i);
 			SpikeHitboxList.erase(SpikeHitboxList.begin() + i);
 		}
 	}
@@ -48,12 +48,12 @@ void AddSpike(SpikeID ID, float x, float y) {
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
 	case PIRANHA_GROUND:
-		InitAnimation.setAnimation(0, 3, 22);
-		SpikeAnimationNameList.push_back("Piranha_Ground");
+		InitAnimation.setAnimation(0, 3, 32, 32, 0, 22);
+		InitAnimation.setTexture(Init, SpikeTextureManager.GetTexture("Piranha_Ground"));
 		break;
 	case SPIKE_NORMAL:
-		InitAnimation.setAnimation(0, 0, 100);
-		SpikeAnimationNameList.push_back("Spike_Normal");
+		InitAnimation.setAnimation(0, 0, 32, 32, 0, 100);
+		InitAnimation.setTexture(Init, SpikeTextureManager.GetTexture("Spike_Normal"));
 		break;
 	}
 	SpikeHitboxList.push_back(sf::FloatRect({ 0, 0 }, { 32, 32 }));
@@ -68,16 +68,16 @@ void SpikeStatusUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
 			if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
-			SpikeAnimationList[i].update(SpikeList[i], SpikeTextureManager.GetAnimatedTexture(SpikeAnimationNameList[i]));
+			SpikeAnimationList[i].update(SpikeList[i]);
 		}
 		else {
-			SpikeAnimationList[i].silentupdate(SpikeList[i]);
+			SpikeAnimationList[i].silentupdate();
 			continue;
 		}
 	}
 }
 void SpikeUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) window.draw(SpikeList[i]);
+		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) rTexture.draw(SpikeList[i]);
 	}
 }
