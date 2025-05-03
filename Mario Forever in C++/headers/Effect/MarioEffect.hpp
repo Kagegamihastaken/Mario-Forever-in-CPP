@@ -4,7 +4,7 @@
 extern void MarioEffectInit();
 extern void MarioEffectDraw();
 extern void ActiveMarioEffect();
-extern void MarioEffectStatusUpdate();
+extern void MarioEffectStatusUpdate(float deltaTime);
 
 extern bool EffectActive;
 

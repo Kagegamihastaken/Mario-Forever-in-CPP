@@ -46,7 +46,7 @@ void DeleteAllCoinEffect() {
 	CoinEffectIDList.clear();
 	CoinEffectAttList.clear();
 }
-inline void CoinEffectStatusUpdate() {
+inline void CoinEffectStatusUpdate(float deltaTime) {
 	if (CoinEffectList.size() == 0) return;
 	for (auto& i : CoinEffectList) {
 		if (i.coinEffectAnimation.isAtTheEnd()) {

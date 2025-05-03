@@ -4,19 +4,17 @@
 #define WINDOWFRAME_HPP
 
 #include <SFML/Audio.hpp>
-#include "MultiThreading/ThreadPool.hpp"
+#include "ExternalHeaders/Kairos.hpp"
 
 extern bool isDebug;
 extern sf::RenderWindow window;
 extern sf::RenderTexture rTexture;
 extern sf::Sound Kick2Sound;
 extern sf::View view;
-extern sf::Clock delta;
-extern sf::Clock fpsClock;
-extern sf::Clock GameClock;
-extern float deltaTime;
-extern float fps;
 extern int optionSmoothness;
+extern kairos::Stopwatch Gclock;
+extern kairos::Timestep timestep;
+extern kairos::FpsLite fpsLite;
 extern void updateFrame();
 extern float Width;
 extern float Height;

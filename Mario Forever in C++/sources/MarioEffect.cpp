@@ -17,7 +17,7 @@ void MarioEffectInit() {
 	MarioEffectTextureManager.Loadingtexture(DEAD_MARIO_TEXTURE, "DEADMario", 0, 0, 32, 32);
 	playerEffect.setTexture(*MarioEffectTextureManager.GetTexture("DEADMario"), true);
 }
-void MarioEffectStatusUpdate() {
+void MarioEffectStatusUpdate(float deltaTime) {
 	if (EffectActive) {
 		if (MarioEffectTimer.getElapsedTime().asSeconds() >= 4.0f) {
 			CanControlMario = true;

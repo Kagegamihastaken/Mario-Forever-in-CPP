@@ -218,7 +218,7 @@ void DeleteAllGoombaAI() {
 	GoombaAIShellHitCount.clear();
 	GoombaAICollisionList.clear();
 }
-void GoombaStatusUpdate() {
+void GoombaStatusUpdate(float deltaTime) {
 	std::vector<sf::Vector2f> GoombaAIDeletionPositionList;
 	std::vector<GoombaAIType> GoombaAIDeletionTypeList;
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
@@ -302,7 +302,7 @@ void GoombaAICheckCollide() {
 		}
 	}
 }
-void GoombaAIVertXUpdate() {
+void GoombaAIVertXUpdate(float deltaTime) {
 	sf::FloatRect hitbox_loop;
 	bool isCollideLeftBool, isCollideRightBool;
 	bool NoAdd, isCollideSide;
@@ -428,7 +428,7 @@ void GoombaAIVertXUpdate() {
 	//}
 	}
 }
-void GoombaAIVertYUpdate() {
+void GoombaAIVertYUpdate(float deltaTime) {
 	std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 	bool ObstacleCheck, BrickCheck, LuckyCheck, isLanding;
 	float CurrPosYCollide;

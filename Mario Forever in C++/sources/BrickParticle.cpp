@@ -72,7 +72,7 @@ void DeleteSubBrickParticleIndex(int i, int j) {
 		BrickParticleDisabledList[i][j] = true;
 	}
 }
-void BrickParticleStatusUpdate() {
+void BrickParticleStatusUpdate(float deltaTime) {
 	//std::cout << BrickParticleList.size() << "\n";
 	if (BrickParticleList.size() == 0) return;
 	bool reUpdate = false, canDelete = false, AllTrue = false;

@@ -191,7 +191,7 @@ std::pair<bool, bool> isAccurateCollideSide(const MovableObject& object, const s
 	return { isCollideLeftBool, isCollideRightBool };
 }
 //Y
-bool isCollideBotSlope(const MovableObject& object, float Yvelo) {
+bool isCollideBotSlope(const MovableObject& object, float Yvelo, float deltaTime) {
 	sf::FloatRect hitbox_loop;
 	for (int i = 0; i < SlopesList.size(); ++i) {
 		hitbox_loop = getGlobalHitbox(SlopesList[i].hitbox, SlopesList[i].property);

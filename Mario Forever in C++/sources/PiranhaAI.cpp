@@ -94,7 +94,7 @@ void AddPiranha(PiranhaID ID, float x, float y) {
 	PiranhaAIStopList.push_back(false);
 	PiranhaAIList.push_back(Init);
 }
-void PiranhaAIMovementUpdate() {
+void PiranhaAIMovementUpdate(float deltaTime) {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			if (!PiranhaAIStopList[i]) {

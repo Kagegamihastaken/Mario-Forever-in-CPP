@@ -9,8 +9,8 @@ extern sf::Sprite ExitGateBack;
 extern sf::Sprite ExitGateIndicator;
 extern sf::Sprite ExitGateFore;
 extern void ExitGateInit();
-extern void ExitGateUpdate();
-extern void ExitGateStatusUpdate();
-extern void ExitGateEffectUpdate();
+extern void ExitGateDraw();
+extern void ExitGateStatusUpdate(float deltaTime);
+extern void ExitGateEffectDraw();
 extern void ExitGateEffectReset();
 #endif

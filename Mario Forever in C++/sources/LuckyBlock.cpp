@@ -76,7 +76,14 @@ void LuckyBlockSort() {
 		else return false;
 		});
 }
-inline void LuckyBlockUpdate() {
+inline void LuckyBlockDraw() {
+	for (int i = 0; i < LuckyBlock.size(); i++) {
+		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
+			rTexture.draw(LuckyBlock[i].property);
+		}
+	}
+}
+inline void LuckyBlockUpdate(float deltaTime) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockState[i]) {
 			if (LuckyBlockAttList[i] == LUCKY_COIN) {

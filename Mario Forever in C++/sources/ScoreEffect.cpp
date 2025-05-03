@@ -80,7 +80,7 @@ void AddScoreEffect(ScoreID id, float x, float y) {
 	ScoreEffectVelocity.push_back(-1.5f);
 	ScoreEffectAlpha.push_back(255);
 }
-void DeleteScoreEffect(float x, float y) {
+void DeleteScoreEffect(float x, float y, float deltaTime) {
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
 		if (ScoreEffectList[i].getPosition().x == x && ScoreEffectList[i].getPosition().y == y) {
 			if (ScoreEffectAlpha[i] > 0) {
@@ -102,12 +102,12 @@ void DeleteAllScoreEffect() {
 	ScoreEffectVelocity.clear();
 	ScoreEffectAlpha.clear();
 }
-inline void ScoreEffectStatusUpdate() {
+inline void ScoreEffectStatusUpdate(float deltaTime) {
 	if (ScoreEffectList.size() == 0) return;
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
 		ScoreEffectList[i].move({ 0, ScoreEffectVelocity[i] * deltaTime });
 		if (ScoreEffectVelocity[i] < 0.0f) ScoreEffectVelocity[i] += 0.025f * deltaTime;
-		else DeleteScoreEffect(ScoreEffectList[i].getPosition().x, ScoreEffectList[i].getPosition().y);
+		else DeleteScoreEffect(ScoreEffectList[i].getPosition().x, ScoreEffectList[i].getPosition().y, deltaTime);
 	}
 }
 inline void ScoreEffectUpdate() {

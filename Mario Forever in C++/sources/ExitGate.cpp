@@ -57,7 +57,7 @@ void ExitGateInit() {
 	ExitGateIndicatorAnimation.setTexture(ExitGateIndicator, ExitGateTextureManager.GetTexture("ExitGateIndicator"));
 	ExitGateIndicator.setOrigin({ 0.0f, 31.0f });
 }
-void ExitGateStatusUpdate() {
+void ExitGateStatusUpdate(float deltaTime) {
 	if (ExitGateForeActive) {
 		if (ExitGateIndicator.getPosition().x <= player.property.getPosition().x - 24.0f && !PreJump && !MarioCurrentFalling) {
 			AddScoreEffect(SCORE_100, player.property.getPosition().x, player.property.getPosition().y);
@@ -119,7 +119,7 @@ void ExitGateEffectReset() {
 	ExitGateForeEffectSpeed = 0.0f;
 	ExitGateForeRender = true;
 }
-void ExitGateUpdate() {
+void ExitGateDraw() {
 	if (!isOutScreen(ExitGateIndicator.getPosition().x, ExitGateIndicator.getPosition().y, 64, 64)) {
 		ExitGateIndicatorAnimation.update(ExitGateIndicator);
 		rTexture.draw(ExitGateIndicator);
@@ -127,6 +127,6 @@ void ExitGateUpdate() {
 	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) rTexture.draw(ExitGateBack);
 	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && ExitGateForeRender) rTexture.draw(ExitGateFore);
 }
-void ExitGateEffectUpdate() {
+void ExitGateEffectDraw() {
 	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && !ExitGateForeRender) rTexture.draw(ExitGateForeEffect);
 }

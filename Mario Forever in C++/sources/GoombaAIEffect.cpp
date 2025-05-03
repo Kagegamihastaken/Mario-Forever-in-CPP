@@ -105,7 +105,7 @@ void DeleteAllGoombaAIEffect() {
 	GoombaAIEffectAlphaList.clear();
 	GoombaAIEffectSkinIDList.clear();
 }
-void GoombaAIEffectStatusUpdate() {
+void GoombaAIEffectStatusUpdate(float deltaTime) {
 	if (GoombaAIEffectList.size() == 0) return;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
 		if (GoombaAIEffectTypeList[i] == NONE) {
@@ -128,7 +128,7 @@ void GoombaAIEffectUpdate() {
 		if (!isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) rTexture.draw(GoombaAIEffectList[i].property);
 	}
 }
-void GoombaAIEffectVertYUpdate() {
+void GoombaAIEffectVertYUpdate(float deltaTime) {
 	std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 	bool ObstacleCheck, BrickCheck, LuckyCheck, isLanding;
 	float CurrPosYCollide;

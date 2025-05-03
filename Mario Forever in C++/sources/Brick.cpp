@@ -101,7 +101,14 @@ inline void BrickStatusUpdate() {
 		}
 	}
 }
-inline void BrickUpdate() {
+inline void BrickDraw() {
+	for (int i = 0; i < Bricks.size(); i++) {
+		if (!isOutScreen(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, 32, 32)) {
+			rTexture.draw(Bricks[i].property);
+		}
+	}
+}
+inline void BrickUpdate(float deltaTime) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {
@@ -126,9 +133,6 @@ inline void BrickUpdate() {
 					BrickState[i] = false;
 				}
 			}
-		}
-		if (!isOutScreen(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, 32, 32)) {
-			rTexture.draw(Bricks[i].property);
 		}
 	}
 }

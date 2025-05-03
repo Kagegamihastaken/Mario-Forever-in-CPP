@@ -17,7 +17,7 @@ extern std::pair<bool, bool> isOrCollideSidet(const MovableObject& object, const
 extern std::pair<bool, bool> isAccurateCollideSide(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList);
 extern std::pair<bool, bool> isAccurateCollideSidet(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance, const std::vector<std::pair<float, float>>& SaveList);
 extern std::pair<bool, bool> isAccurateCollideSide2(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, int first, int last, const std::vector<std::pair<float, float>>& SaveList);
-extern bool isCollideBotSlope(const MovableObject& object, float Yvelo);
+extern bool isCollideBotSlope(const MovableObject& object, float Yvelo, float deltaTime);
 extern bool isCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL);
 extern std::pair<bool, bool> isAccurateCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosYCollide, bool& NoAdd);
 extern std::pair<bool, bool> isAccurateCollideBott(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance);

@@ -24,6 +24,8 @@
 #include "headers/Core/Background/Bg.hpp"
 #include "headers/Object/ExitGate.hpp"
 
+#include "headers/Core/ExternalHeaders/Kairos.hpp"
+
 #include "resource.h"
 
 #include <iostream>
@@ -39,6 +41,7 @@ int main() {
 
 	//Init Games:
 	//window.setKeyRepeatEnabled(false);
+
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
@@ -128,44 +131,54 @@ int main() {
 			EditText(std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY) + "  V", "_VIEWXY");
 			EditText("Appear: " + appe, "_APPE");
 		}
-		EditText("FPS: " + std::to_string((int)fps), "_FPS");
+		EditText("FPS: " + std::to_string((int)fpsLite.getFps()), "_FPS");
 		EditText(std::to_string(CoinCount), "_COIN");
 		EditText(std::to_string(Score), "_SCORE");
 
-		KeyboardMovement();
-		MarioVertXUpdate();
-		MarioVertYUpdate();
-		//Update movement other than mario
+		fpsLite.update();
+
+		timestep.addFrame();
+		while (timestep.isUpdateRequired()) {
+			float dt{ timestep.getStepAsFloat() * 50.0f };
+
+			KeyboardMovement(dt);
+			MarioVertXUpdate(dt);
+			MarioVertYUpdate(dt);
+
+			GoombaAIVertXUpdate(dt);
+			GoombaAIVertYUpdate(dt);
+			GoombaAIEffectVertYUpdate(dt);
+			PiranhaAIMovementUpdate(dt);
+
+			CoinEffectStatusUpdate(dt);
+			ScoreEffectStatusUpdate(dt);
+			BrickParticleStatusUpdate(dt);
+			GoombaStatusUpdate(dt);
+			GoombaAIEffectStatusUpdate(dt);
+			MarioEffectStatusUpdate(dt);
+			ExitGateStatusUpdate(dt);
+
+			BrickUpdate(dt);
+			LuckyBlockUpdate(dt);
+		}
+		UpdateAnimation();
+
 		GoombaAICollisionUpdate();
-		GoombaAIVertXUpdate();
-		GoombaAIVertYUpdate();
 		GoombaAICheckCollide();
-		GoombaAIEffectVertYUpdate();
-		PiranhaAIMovementUpdate();
-		//Check other event
-		//
 		CoinOnTouch();
-		CoinEffectStatusUpdate();
 		LuckyAnimationUpdate();
 		BrickStatusUpdate();
-		ScoreEffectStatusUpdate();
-		BrickParticleStatusUpdate();
-		GoombaStatusUpdate();
-		GoombaAIEffectStatusUpdate();
 		PiranhaAIStatusUpdate();
 		SpikeStatusUpdate();
-		MarioEffectStatusUpdate();
-		ExitGateStatusUpdate();
+
 		//set view
 		setView();
 		//update text position
 		//Update mario animation
-		UpdateAnimation();
 		//core code
 		rTexture.clear();
 		//resetDelta();
 		updateFrame();
-		//viewUpdate
 		updateView();
 		//Update Position that stuck on screen
 		UpdatePositionCharacter();
@@ -174,7 +187,7 @@ int main() {
 		//draw
 		BgGradientDraw();
 		BgDraw();
-		ExitGateUpdate();
+		ExitGateDraw();
 		MarioDraw();
 		GoombaAIUpdate();
 		PiranhaAIUpdate();
@@ -182,14 +195,14 @@ int main() {
 		SpikeUpdate();
 		SlopeUpdate();
 		CoinUpdate();
-		BrickUpdate();
-		LuckyBlockUpdate();
+		BrickDraw();
+		LuckyBlockDraw();
 		CoinEffectUpdate();
 		ScoreEffectUpdate();
 		BrickParticleUpdate();
 		GoombaAIEffectUpdate();
 		MarioEffectDraw();
-		ExitGateEffectUpdate();
+		ExitGateEffectDraw();
 		UpdateText();
 		FrameDraw();
 		rTexture.display();

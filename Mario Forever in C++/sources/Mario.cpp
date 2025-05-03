@@ -93,7 +93,7 @@ void loadMarioRes() {
 	//set property of Mario
 }
 //sprite function
-void KeyboardMovement() {
+void KeyboardMovement(float deltaTime) {
 	if (CanControlMario && !LevelCompleteEffect) {
 		sf::FloatRect hitbox_loop;
 		bool isCollideSideBool = false;
@@ -179,7 +179,7 @@ void KeyboardMovement() {
 		//else player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
 	}
 }
-void MarioVertXUpdate() {
+void MarioVertXUpdate(float deltaTime) {
 	if (CanControlMario) {
 		int be, nd;
 		sf::FloatRect hitbox_loop;
@@ -293,7 +293,7 @@ void MarioVertXUpdate() {
 		if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) Xvelo = 7.5f;
 	}
 }
-void MarioVertYUpdate() {
+void MarioVertYUpdate(float deltaTime) {
 	if (CanControlMario) {
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) player.property.move(0.0f, 1.0f * deltaTime);
 		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) player.property.move(0.0f, -1.0f * deltaTime);
@@ -495,7 +495,7 @@ void UpdateAnimation() {
 	}
 	if (CanControlMario) {
 		if (!MarioAppearing) {
-			if (Yvelo != 0.0f && MarioCurrentFalling) {
+			if (MarioCurrentFalling) {
 				MarioState = 2;
 				if (lastMarioState != MarioState && MarioState != 4) {
 					MarioAnimation.setAnimation(3, 3, 31, 59, ypos, 100);
