@@ -155,6 +155,7 @@
     <ClCompile Include="sources\Font.cpp" />
     <ClCompile Include="sources\GoombaAI.cpp" />
     <ClCompile Include="sources\GoombaAIEffect.cpp" />
+    <ClCompile Include="sources\Interpolation.cpp" />
     <ClCompile Include="sources\Level.cpp" />
     <ClCompile Include="sources\Loading.cpp" />
     <ClCompile Include="sources\LocalAnimationManager.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="headers\Core\ExternalHeaders\Kairos\Yalpes.hpp" />
     <ClInclude Include="headers\Core\ExternalHeaders\sfMod\Error.hpp" />
     <ClInclude Include="headers\Core\ExternalHeaders\sfMod\sfMod.hpp" />
+    <ClInclude Include="headers\Core\Interpolation.hpp" />
     <ClInclude Include="headers\Core\Level.hpp" />
     <ClInclude Include="headers\Core\Loading\enum.hpp" />
     <ClInclude Include="headers\Core\Loading\Loading.hpp" />

@@ -23,6 +23,7 @@
 #include "headers/Core/Background/BgGradient.hpp"
 #include "headers/Core/Background/Bg.hpp"
 #include "headers/Object/ExitGate.hpp"
+#include "headers/Core/Interpolation.hpp"
 
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
 
@@ -111,7 +112,7 @@ int main() {
 			Sounds.ClearUp();
 			window.close();
 		}
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) AddGoombaAI(GOOMBA, 0, 128.0f, 256.0f, LEFT);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) AddGoombaAI(GOOMBA, 0, 128.0f, 256.0f, LEFT);
 		//update: Mario
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
 		appe = (MarioAppearing ? "TRUE" : "FALSE");
@@ -138,8 +139,13 @@ int main() {
 		fpsLite.update();
 
 		timestep.addFrame();
+		//timestep.setTimeSpeed(0.5f);
 		while (timestep.isUpdateRequired()) {
 			float dt{ timestep.getStepAsFloat() * 50.0f };
+			//Interpolate process
+			if (isInterpolation) {
+				SetPrevMarioPos();
+			}
 
 			KeyboardMovement(dt);
 			MarioVertXUpdate(dt);
@@ -160,6 +166,10 @@ int main() {
 
 			BrickUpdate(dt);
 			LuckyBlockUpdate(dt);
+		}
+		//interpolate
+		if (isInterpolation) {
+			InterpolateMarioPos();
 		}
 		UpdateAnimation();
 

@@ -13,14 +13,15 @@ public:
 	sf::FloatRect hitboxBot2;
 	sf::FloatRect hitboxLeft;
 	sf::FloatRect hitboxRight;
-	sf::FloatRect hitboxLeft2;
-	sf::FloatRect hitboxRight2;
 	sf::FloatRect hitboxTop;
 	sf::FloatRect hitboxSlopeBot;
 	sf::Sprite property = sf::Sprite(tempTex);
 };
 extern void UpdateAnimation();
 extern MovableObject player;
+extern sf::Vector2f prevMarioPos;
+extern void SetPrevMarioPos();
+extern void InterpolateMarioPos();
 extern float player_speed;
 extern float Xvelo;
 extern float Yvelo;

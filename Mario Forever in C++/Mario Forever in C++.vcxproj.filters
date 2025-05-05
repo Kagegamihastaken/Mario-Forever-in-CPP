@@ -192,6 +192,9 @@
     <ClCompile Include="sources\LocalAnimationManager.cpp">
       <Filter>Source Files\Core\Animate</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Interpolation.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Core\Animate\AnimationManager.hpp">
@@ -337,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="headers\Core\ExternalHeaders\Kairos.hpp">
       <Filter>Header Files\Core\ExternalHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Core\Interpolation.hpp">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

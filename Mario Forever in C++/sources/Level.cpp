@@ -308,6 +308,7 @@ void Objectbuilding() {
 		Music.PlayOGGMusic(MusicData.second);
 	}
 	player.property.setPosition({ PlayerData[0], PlayerData[1] });
+	prevMarioPos = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;
 	//rTexture.resize(sf::Vector2u({ static_cast<unsigned int>(LevelWidth) * 2, static_cast<unsigned int>(LevelHeight) * 2 }));
 	setView();
