@@ -32,6 +32,7 @@
 #include <iostream>
 #include <string>
 sf::Sprite Renderer(tempTex);
+float alphainter = 1.0f;
 int main() {
 	//background
 
@@ -104,15 +105,12 @@ int main() {
 				Sounds.ClearUp();
 				window.close();
 			}
-			if (const auto* resized = event->getIf<sf::Event::Resized>()) {
-			}
 		}
 		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
 			ExitGateClock.reset();
 			Sounds.ClearUp();
 			window.close();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) AddGoombaAI(GOOMBA, 0, 128.0f, 256.0f, LEFT);
 		//update: Mario
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
 		appe = (MarioAppearing ? "TRUE" : "FALSE");
@@ -143,34 +141,56 @@ int main() {
 		while (timestep.isUpdateRequired()) {
 			float dt{ timestep.getStepAsFloat() * 50.0f };
 			//Interpolate process
-			if (isInterpolation) {
-				SetPrevMarioPos();
-			}
-
+			//set previous position
+			SetPrevMarioPos();
+			SetPrevGoombaAIPos();
+			SetPrevGoombaAIEffectPos();
+			SetPrevPiranhaAIPos();
+			SetPrevCoinEffectPos();
+			SetPrevScoreEffectPos();
+			SetPrevBrickParticlePos();
+			SetPrevMarioEffectPos();
+			SetPrevExitGatePos();
+			SetPrevBricksPos();
+			SetPrevLuckyBlockPos();
+			//deltaTime movement
 			KeyboardMovement(dt);
-			MarioVertXUpdate(dt);
-			MarioVertYUpdate(dt);
+			MarioPosXUpdate(dt);
+			MarioVertXUpdate();
+			MarioPosYUpdate(dt);
+			MarioVertYUpdate();
 
 			GoombaAIVertXUpdate(dt);
 			GoombaAIVertYUpdate(dt);
 			GoombaAIEffectVertYUpdate(dt);
 			PiranhaAIMovementUpdate(dt);
 
+			GoombaStatusUpdate(dt);
+			GoombaAIEffectStatusUpdate(dt);
 			CoinEffectStatusUpdate(dt);
 			ScoreEffectStatusUpdate(dt);
 			BrickParticleStatusUpdate(dt);
-			GoombaStatusUpdate(dt);
-			GoombaAIEffectStatusUpdate(dt);
 			MarioEffectStatusUpdate(dt);
 			ExitGateStatusUpdate(dt);
-
 			BrickUpdate(dt);
 			LuckyBlockUpdate(dt);
 		}
 		//interpolate
-		if (isInterpolation) {
-			InterpolateMarioPos();
-		}
+		if (isInterpolation) alphainter = timestep.getInterpolationAlphaAsFloat();
+		else alphainter = 1.0f;
+
+		InterpolateMarioPos(alphainter);
+		InterpolateGoombaAIPos(alphainter);
+		InterpolateGoombaAIEffectPos(alphainter);
+		InterpolatePiranhaAIPos(alphainter);
+		InterpolateCoinEffectPos(alphainter);
+		InterpolateScoreEffectPos(alphainter);
+		InterpolateBrickParticlePos(alphainter);
+		InterpolateMarioEffectPos(alphainter);
+		InterpolateExitGatePos(alphainter);
+		InterpolateBricksPos(alphainter);
+		InterpolateLuckyBlockPos(alphainter);
+		//After interpolate
 		UpdateAnimation();
 
 		GoombaAICollisionUpdate();

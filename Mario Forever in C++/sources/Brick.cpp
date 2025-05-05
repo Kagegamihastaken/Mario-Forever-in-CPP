@@ -16,6 +16,7 @@
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Effect/GoombaAIEffect.hpp"
 #include "../headers/Core/TextureManager.hpp"
+#include "../headers/Core/Interpolation.hpp"
 
 #include "../resource.h"
 
@@ -47,6 +48,16 @@ void LoadBricks() {
 	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal_Hitted", 0, 32, 32, 32);
 	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray_Hitted", 32, 32, 32, 32);
 }
+void SetPrevBricksPos() {
+	for (int i = 0; i < Bricks.size(); i++) {
+		Bricks[i].prev = Bricks[i].curr;
+	}
+}
+void InterpolateBricksPos(float alpha) {
+	for (int i = 0; i < Bricks.size(); i++) {
+		Bricks[i].property.setPosition(linearInterpolation(Bricks[i].prev, Bricks[i].curr, alpha));
+	}
+}
 void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	switch (ID) {
 	case BRICK_GRAY:
@@ -62,7 +73,8 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 	BrickStateCount.push_back(0);
 	BrickSaveList.push_back({ x, y });
 	UpDown.push_back(false);
-	Bricks[Bricks.size() - 1].property.setPosition({ x, y });
+	Bricks.back().property.setPosition({ x, y });
+	Bricks.back().curr = Bricks.back().prev = Bricks.back().property.getPosition();
 	setHitbox(Bricks[Bricks.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	//multicoin attribute
 	BrickClock.push_back(sf::Clock());
@@ -113,7 +125,7 @@ inline void BrickUpdate(float deltaTime) {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {
 				if (BrickStateCount[i] < 11.0f) {
-					Bricks[i].property.move({ 0, 0 - (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime });
+					Bricks[i].curr = { Bricks[i].curr.x, Bricks[i].curr.y - (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime };
 					BrickStateCount[i] += (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
 				}
 				else {
@@ -123,11 +135,11 @@ inline void BrickUpdate(float deltaTime) {
 			}
 			else {
 				if (BrickStateCount[i] > 0.0f) {
-					Bricks[i].property.move({ 0, (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime });
+					Bricks[i].curr = { Bricks[i].curr.x, Bricks[i].curr.y + (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime };
 					BrickStateCount[i] -= (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 				}
 				else {
-					Bricks[i].property.setPosition({ BrickSaveList[i].first, BrickSaveList[i].second });
+					Bricks[i].curr = { BrickSaveList[i].first, BrickSaveList[i].second };
 					BrickStateCount[i] = 0.0f;
 					UpDown[i] = false;
 					BrickState[i] = false;

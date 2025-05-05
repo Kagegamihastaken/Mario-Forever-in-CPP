@@ -44,8 +44,6 @@ int lastMarioState = -1;
 int PowerState = 0;
 int lastPowerState = 0;
 
-sf::Vector2f prevMarioPos(0, 0);
-
 int Lives = 4;
 
 bool OverSpeed = false;
@@ -75,11 +73,10 @@ void loadMarioRes() {
 }
 //sprite function
 void SetPrevMarioPos() {
-	prevMarioPos = player.property.getPosition();
+	player.prev = player.curr;
 }
-void InterpolateMarioPos() {
-	player.property.setPosition(linearInterpolation(prevMarioPos, player.property.getPosition(), timestep.getInterpolationAlphaAsFloat()));
-	std::cout << timestep.getInterpolationAlphaAsFloat() << std::endl;
+void InterpolateMarioPos(float alpha) {
+	player.property.setPosition(linearInterpolation(player.prev, player.curr, alpha));
 }
 void KeyboardMovement(float deltaTime) {
 	if (CanControlMario && !LevelCompleteEffect) {
@@ -144,48 +141,10 @@ void KeyboardMovement(float deltaTime) {
 		Xvelo = 2.5f;
 	}
 }
-void MarioVertXUpdate(float deltaTime) {
+void MarioPosXUpdate(float deltaTime) {
 	if (CanControlMario) {
-		int be, nd;
-		sf::FloatRect hitbox_loop;
-		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
-		bool isCollideLeftBool, isCollideRightBool;
-		float CurrPosXCollide = 0, CurrPosYCollide = 0;
-		bool NoAdd = false;
-
-		if (!MarioDirection) player.property.move({ Xvelo * deltaTime, 0.0f });
-		else player.property.move({ (0 - Xvelo) * deltaTime, 0.0f });
-		if (!MarioDirection) {
-			be = find_min_inx(player, ObstaclesList);
-			nd = find_max_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
-			ObstacleCollide = isAccurateCollideSidet(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, {});
-			be = find_min_inx(player, Bricks);
-			nd = find_max_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
-			BrickCollide = isAccurateCollideSidet(player, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, BrickSaveList);
-			be = find_min_inx(player, LuckyBlock);
-			nd = find_max_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
-			LuckyCollide = isAccurateCollideSidet(player, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, LuckyBlockSaveList);
-		}
-		else {
-			be = find_max_inx(player, ObstaclesList);
-			nd = find_min_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
-			ObstacleCollide = isAccurateCollideSidet(player, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, {});
-			be = find_max_inx(player, Bricks);
-			nd = find_min_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
-			BrickCollide = isAccurateCollideSidet(player, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, BrickSaveList);
-			be = find_max_inx(player, LuckyBlock);
-			nd = find_min_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
-			LuckyCollide = isAccurateCollideSidet(player, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, LuckyBlockSaveList);
-		}
-		//snap back
-		if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-			Xvelo = 0.0f;
-			player.property.setPosition({ CurrPosXCollide + 32.0f - 3.0f + player.property.getOrigin().x, player.property.getPosition().y });
-		}
-		if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
-			Xvelo = 0.0f;
-			player.property.setPosition({ CurrPosXCollide - (1.0f + 5.0f + (23 - player.property.getOrigin().x)), player.property.getPosition().y });
-		}
+		if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
+		else player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
 
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
 			OverSpeed = true;
@@ -200,31 +159,77 @@ void MarioVertXUpdate(float deltaTime) {
 		if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) Xvelo = 7.5f;
 	}
 }
-void MarioVertYUpdate(float deltaTime) {
+void MarioVertXUpdate() {
+	if (CanControlMario) {
+		int be, nd;
+		sf::FloatRect hitbox_loop;
+		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
+		bool isCollideLeftBool, isCollideRightBool;
+		float CurrPosXCollide = 0, CurrPosYCollide = 0;
+		bool NoAdd = false;
+
+		if (!MarioDirection) {
+			be = find_min_inx(player, ObstaclesList);
+			nd = find_max_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
+			ObstacleCollide = isAccurateCollideSidet(player, player.curr, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, {});
+			be = find_min_inx(player, Bricks);
+			nd = find_max_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
+			BrickCollide = isAccurateCollideSidet(player, player.curr, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, BrickSaveList);
+			be = find_min_inx(player, LuckyBlock);
+			nd = find_max_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
+			LuckyCollide = isAccurateCollideSidet(player, player.curr, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f, LuckyBlockSaveList);
+		}
+		else {
+			be = find_max_inx(player, ObstaclesList);
+			nd = find_min_inx_dist(player, ObstaclesList, 64.0f + (Xvelo) * 16.0f);
+			ObstacleCollide = isAccurateCollideSidet(player, player.curr, ObstaclesList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, {});
+			be = find_max_inx(player, Bricks);
+			nd = find_min_inx_dist(player, Bricks, 64.0f + (Xvelo) * 16.0f);
+			BrickCollide = isAccurateCollideSidet(player, player.curr, Bricks, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, BrickSaveList);
+			be = find_max_inx(player, LuckyBlock);
+			nd = find_min_inx_dist(player, LuckyBlock, 64.0f + (Xvelo) * 16.0f);
+			LuckyCollide = isAccurateCollideSidet(player, player.curr, LuckyBlock, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f, LuckyBlockSaveList);
+		}
+		//snap back
+		if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+			Xvelo = 0.0f;
+			player.curr = { CurrPosXCollide + 32.0f - 3.0f + player.property.getOrigin().x, player.curr.y };
+		}
+		if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+			Xvelo = 0.0f;
+			player.curr = { CurrPosXCollide - (1.0f + 5.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+		}
+	}
+}
+void MarioPosYUpdate(float deltaTime) {
+	if (CanControlMario) {
+		MarioCurrentFalling = true;
+		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
+		player.curr = { player.curr.x, player.curr.y + Yvelo * deltaTime };
+		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
+		if (Yvelo > 10.0f) Yvelo = 10.0f;
+	}
+}
+void MarioVertYUpdate() {
 	if (CanControlMario) {
 		bool ObstacleCollide, BrickCollide, LuckyCollide, SlopeCollide;
 		bool SlopeCheck;
 		float CurrPosYCollide, CurrPosXCollide, ID, Diff, OldY;
 		bool NoAdd;
 
-		MarioCurrentFalling = true;
-		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
-		player.property.setPosition({ player.property.getPosition().x, player.property.getPosition().y + Yvelo * deltaTime });
-		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
-		if (Yvelo > 10.0f) Yvelo = 10.0f;
 		//}
 		bool isLanding;
 		NoAdd = false;
 		int be, nd;
 		be = find_min_iny(player, ObstaclesVertPosList);
 		nd = find_max_iny_dist(player, ObstaclesVertPosList, 64.0f + (Yvelo) * 16.0f);
-		ObstacleCollide = isAccurateCollideBott(player, ObstaclesVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		ObstacleCollide = isAccurateCollideBott(player, player.curr, ObstaclesVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		be = find_min_iny(player, BricksVertPosList);
 		nd = find_max_iny_dist(player, BricksVertPosList, 64.0f + (Yvelo) * 16.0f);
-		BrickCollide = isAccurateCollideBott(player, BricksVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		BrickCollide = isAccurateCollideBott(player, player.curr, BricksVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		be = find_min_iny(player, LuckyVertPosList);
 		nd = find_max_iny_dist(player, LuckyVertPosList, 64.0f + (Yvelo) * 16.0f);
-		LuckyCollide = isAccurateCollideBott(player, LuckyVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		LuckyCollide = isAccurateCollideBott(player, player.curr, LuckyVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		//recolide
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
 			MarioCurrentFalling = false;
@@ -237,32 +242,32 @@ void MarioVertYUpdate(float deltaTime) {
 				Yvelo = 0.0f;
 			}
 			if (isLanding) {
-				player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) });
+				player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) };
 			}
 		}
 		// top update
 		NoAdd = false;
 		be = find_max_iny(player, ObstaclesVertPosList);
 		nd = find_min_iny_dist(player, ObstaclesVertPosList, 64.0f - (Yvelo) * 16.0f);
-		ObstacleCollide = isAccurateCollideTopt(player, ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		ObstacleCollide = isAccurateCollideTopt(player, player.curr, ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		be = find_max_iny(player, BricksVertPosList);
 		nd = find_min_iny_dist(player, BricksVertPosList, 64.0f - (Yvelo) * 16.0f);
-		BrickCollide = isAccurateCollideTopt(player, BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		BrickCollide = isAccurateCollideTopt(player, player.curr, BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		be = find_max_iny(player, LuckyVertPosList);
 		nd = find_min_iny_dist(player, LuckyVertPosList, 64.0f - (Yvelo) * 16.0f);
-		LuckyCollide = isAccurateCollideTopt(player, LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		LuckyCollide = isAccurateCollideTopt(player, player.curr, LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		std::vector<std::pair<float, float>> BrickPos, LuckyPos;
 		if ((ObstacleCollide || BrickCollide || LuckyCollide) && Yvelo < 0.0f) {
 			Yvelo = 0.0f;
 			NoAdd = false;
 			//snap back
 			if (PowerState > 0 && !MarioCrouchDown)
-				player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]) });
+				player.curr = { player.curr.x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]) };
 			else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
-				player.property.setPosition({ player.property.getPosition().x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f) });
+				player.curr = { player.curr.x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f) };
 			// Start event Brick
 			if (BrickCollide) {
-				BrickPos = isCollideTopDetailed(player, Bricks, BrickSaveList);
+				BrickPos = isCollideTopDetailed(player, player.curr, Bricks, BrickSaveList);
 				if (BrickPos.size() > 0) {
 					for (const auto& i : BrickPos) {
 						HitEvent(i.first, i.second);
@@ -270,7 +275,7 @@ void MarioVertYUpdate(float deltaTime) {
 				}
 			}
 			if (LuckyCollide) {
-				LuckyPos = isCollideTopDetailed(player, LuckyBlock, LuckyBlockSaveList);
+				LuckyPos = isCollideTopDetailed(player, player.curr, LuckyBlock, LuckyBlockSaveList);
 				if (LuckyPos.size() > 0) {
 					for (const auto& i : LuckyPos) {
 						LuckyHitEvent(i.first, i.second);

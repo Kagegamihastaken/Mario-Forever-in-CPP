@@ -11,6 +11,8 @@ public:
 	int id = 0;
 	sf::Sprite property;
 	sf::FloatRect hitbox;
+	sf::Vector2f curr = sf::Vector2f(0, 0);
+	sf::Vector2f prev = sf::Vector2f(0, 0);
 };
 extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 extern sf::VertexArray ObstaclesVA;

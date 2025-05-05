@@ -293,6 +293,7 @@ void ExitGateBuilding() {
 	ExitGateBack.setPosition({ ExitGateData[2], ExitGateData[3] });
 	ExitGateIndicator.setPosition({ ExitGateData[0], ExitGateData[1] });
 	ExitGateFore.setPosition({ ExitGateBack.getPosition().x + 43.0f, ExitGateBack.getPosition().y - 250.0f });
+	ExitGateForeCurr = ExitGateForePrev = ExitGateFore.getPosition();
 }
 void Objectbuilding() {
 	sort(BonusData.begin(), BonusData.end(), [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
@@ -308,7 +309,7 @@ void Objectbuilding() {
 		Music.PlayOGGMusic(MusicData.second);
 	}
 	player.property.setPosition({ PlayerData[0], PlayerData[1] });
-	prevMarioPos = player.property.getPosition();
+	player.curr = player.prev = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;
 	//rTexture.resize(sf::Vector2u({ static_cast<unsigned int>(LevelWidth) * 2, static_cast<unsigned int>(LevelHeight) * 2 }));
 	setView();

@@ -7,6 +7,8 @@
 extern void GoombaAIEffectInit();
 extern void DeleteGoombaAIEffect(float x, float y);
 extern void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float x, float y);
+extern void SetPrevGoombaAIEffectPos();
+extern void InterpolateGoombaAIEffectPos(float alpha);
 extern void DeleteAllGoombaAIEffect();
 extern void GoombaAIEffectUpdate();
 extern void GoombaAIEffectVertYUpdate(float deltaTime);

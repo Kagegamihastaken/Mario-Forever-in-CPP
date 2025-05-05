@@ -13,6 +13,8 @@ extern std::vector<GoombaAIType> GoombaAITypeList;
 extern std::vector<std::pair<float, float>> GoombaAIHitboxList;
 extern std::vector<int> GoombaAISkinIDList;
 extern void GoombaAILoadRes();
+extern void SetPrevGoombaAIPos();
+extern void InterpolateGoombaAIPos(float alpha);
 extern void DeleteGoombaAI(GoombaAIType type, float x, float y);
 extern void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirection Dir);
 extern void GoombaStatusUpdate(float deltaTime);

@@ -14,6 +14,8 @@ extern TextureManager BrickTextureManager;
 extern std::vector<std::pair<float, float>> BrickSaveList;
 extern void AddBrick(BrickID ID, BrickAtt att, float x, float y);
 extern void BricksSort();
+extern void SetPrevBricksPos();
+extern void InterpolateBricksPos(float alpha);
 extern inline void BrickUpdate(float deltaTime);
 extern inline void BrickDraw();
 extern void HitEvent(float x, float y);

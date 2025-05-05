@@ -9,6 +9,7 @@
 #include "../headers/Effect/ScoreEffect.hpp"
 #include "../headers/Core/Music.hpp"
 #include "../headers/Core/Animate/LocalAnimationManager.hpp"
+#include "../headers/Core/Interpolation.hpp"
 
 #include "../resource.h"
 #include "../headers/Core/Loading/enum.hpp"
@@ -23,6 +24,11 @@ sf::Sprite ExitGateFore(tempTex);
 sf::Sprite ExitGateForeEffect(tempTex);
 sf::Sprite ExitGateIndicator(tempTex);
 sf::Clock ExitGateClock;
+
+sf::Vector2f ExitGateForeCurr = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForePrev = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForeEffectCurr = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForeEffectPrev = sf::Vector2f(0.0f, 0.0f);
 
 const float ExitGateForeYLimit = 222.0f;
 float ExitGateForeY = 0.0f;
@@ -57,10 +63,18 @@ void ExitGateInit() {
 	ExitGateIndicatorAnimation.setTexture(ExitGateIndicator, ExitGateTextureManager.GetTexture("ExitGateIndicator"));
 	ExitGateIndicator.setOrigin({ 0.0f, 31.0f });
 }
+void SetPrevExitGatePos() {
+	ExitGateForePrev = ExitGateForeCurr;
+	ExitGateForeEffectPrev = ExitGateForeEffectCurr;
+}
+void InterpolateExitGatePos(float alpha) {
+	ExitGateFore.setPosition(linearInterpolation(ExitGateForePrev, ExitGateForeCurr, alpha));
+	ExitGateForeEffect.setPosition(linearInterpolation(ExitGateForeEffectPrev, ExitGateForeEffectCurr, alpha));
+}
 void ExitGateStatusUpdate(float deltaTime) {
 	if (ExitGateForeActive) {
-		if (ExitGateIndicator.getPosition().x <= player.property.getPosition().x - 24.0f && !PreJump && !MarioCurrentFalling) {
-			AddScoreEffect(SCORE_100, player.property.getPosition().x, player.property.getPosition().y);
+		if (ExitGateIndicator.getPosition().x <= player.curr.x - 24.0f && !PreJump && !MarioCurrentFalling) {
+			AddScoreEffect(SCORE_100, player.curr.x, player.curr.y);
 			ExitGateClock.start();
 			LevelCompleteEffect = true;
 			Music.StopAllMODMusic();
@@ -68,7 +82,7 @@ void ExitGateStatusUpdate(float deltaTime) {
 			Music.PlayOGGMusic("LevelComplete");
 			ExitGateForeActive = false;
 		}
-		if (isCollide(player.hitboxMain, player.property, getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore))) {
+		if (isCollide(player.hitboxMain, player.property, player.curr, getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore))) {
 			if (ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 30.0f) AddScoreEffect(SCORE_10000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
 			else if (ExitGateFore.getPosition().y >= ExitGateBack.getPosition().y - 266.0f + 30.0f && ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 60.0f) AddScoreEffect(SCORE_5000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
 			else if (ExitGateFore.getPosition().y >= ExitGateBack.getPosition().y - 266.0f + 60.0f && ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 100.0f) AddScoreEffect(SCORE_2000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
@@ -82,6 +96,7 @@ void ExitGateStatusUpdate(float deltaTime) {
 			Music.StopAllOGGMusic();
 			Music.PlayOGGMusic("LevelComplete");
 			ExitGateForeEffect.setPosition(ExitGateFore.getPosition());
+			ExitGateForeEffectCurr = ExitGateForeEffectPrev = ExitGateFore.getPosition();
 
 			ExitGateForeEffectSpeed = dis(seed) * M_PI / 180.0f;
 			ExitGateForeActive = false;
@@ -104,17 +119,19 @@ void ExitGateStatusUpdate(float deltaTime) {
 				ExitGateForeY = 0.0f;
 			}
 		}
-		ExitGateFore.setPosition({ ExitGateFore.getPosition().x, ExitGateBack.getPosition().y - 250.0f + ExitGateForeY });
+		ExitGateForeCurr = { ExitGateForeCurr.x, ExitGateBack.getPosition().y - 250.0f + ExitGateForeY };
 	}
 	else if (!ExitGateForeRender) {
 		ExitGateForeEffectYSpeed += 0.5f * deltaTime * 0.2f;
-		ExitGateForeEffect.move({ 0.0f - sin(ExitGateForeEffectSpeed) * 5.0f * deltaTime, (cos(ExitGateForeEffectSpeed) * 5.0f + ExitGateForeEffectYSpeed) * deltaTime });
+		ExitGateForeEffectCurr = { ExitGateForeEffectCurr.x - sin(ExitGateForeEffectSpeed) * 5.0f * deltaTime, ExitGateForeEffectCurr.y + (cos(ExitGateForeEffectSpeed) * 5.0f + ExitGateForeEffectYSpeed) * deltaTime };
+		//ExitGateForeEffect.move({ 0.0f - sin(ExitGateForeEffectSpeed) * 5.0f * deltaTime, (cos(ExitGateForeEffectSpeed) * 5.0f + ExitGateForeEffectYSpeed) * deltaTime });
 		ExitGateForeEffectYSpeed += 0.5f * deltaTime * 0.2f;
 		ExitGateForeEffect.rotate(sf::degrees(-25.0f * deltaTime));
 	}
 }
 void ExitGateEffectReset() {
 	ExitGateFore.setPosition({ ExitGateBack.getPosition().x + 43.0f, ExitGateBack.getPosition().y - 250.0f });
+	ExitGateForeCurr = ExitGateForePrev = ExitGateFore.getPosition();
 	ExitGateForeEffectYSpeed = 0.0f;
 	ExitGateForeEffectSpeed = 0.0f;
 	ExitGateForeRender = true;

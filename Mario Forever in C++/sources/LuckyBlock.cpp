@@ -14,6 +14,7 @@
 #include "../headers/Effect/GoombaAIEffect.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Core/TextureManager.hpp"
+#include "../headers/Core/Interpolation.hpp"
 
 #include "../resource.h"
 
@@ -43,6 +44,16 @@ void LoadLuckyBlock() {
 	//LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTree", 64, 32, 32, 32);
 	//LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockTreeHitted", 96, 32, 32, 32);
 }
+void SetPrevLuckyBlockPos() {
+	for (int i = 0; i < LuckyBlock.size(); i++) {
+		LuckyBlock[i].prev = LuckyBlock[i].curr;
+	}
+}
+void InterpolateLuckyBlockPos(float alpha) {
+	for (int i = 0; i < LuckyBlock.size(); i++) {
+		LuckyBlock[i].property.setPosition(linearInterpolation(LuckyBlock[i].prev, LuckyBlock[i].curr, alpha));
+	}
+}
 void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	LuckyIdle.push_back(LocalAnimationManager());
 	LuckyIdle.back().setAnimation(0, 2, 32, 32, 0, 9);
@@ -62,7 +73,8 @@ void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y) {
 	LuckyBlockSaveList.push_back({ x, y });
 	LuckyBlockHitted.push_back(false);
 	LuckyUpDown.push_back(false);
-	LuckyBlock[LuckyBlock.size() - 1].property.setPosition({ x, y });
+	LuckyBlock.back().property.setPosition({ x, y });
+	LuckyBlock.back().curr = LuckyBlock.back().prev = LuckyBlock.back().property.getPosition();
 	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	//LuckyIdle.back().setAnimation(0, 2, 9);
 	LuckyVertPosList.push_back({ sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) });
@@ -89,7 +101,7 @@ inline void LuckyBlockUpdate(float deltaTime) {
 			if (LuckyBlockAttList[i] == LUCKY_COIN) {
 				if (!LuckyUpDown[i]) {
 					if (LuckyBlockStateCount[i] < 11.0f) {
-						LuckyBlock[i].property.move({ 0, 0 - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime });
+						LuckyBlock[i].curr = { LuckyBlock[i].curr.x, LuckyBlock[i].curr.y - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime };
 						LuckyBlockStateCount[i] += (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
 					}
 					else {
@@ -99,11 +111,11 @@ inline void LuckyBlockUpdate(float deltaTime) {
 				}
 				else {
 					if (LuckyBlockStateCount[i] > 0.0f) {
-						LuckyBlock[i].property.move({ 0, (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime });
+						LuckyBlock[i].curr = { LuckyBlock[i].curr.x, LuckyBlock[i].curr.y + (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime };
 						LuckyBlockStateCount[i] -= (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 					}
 					else {
-						LuckyBlock[i].property.setPosition({ LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second });
+						LuckyBlock[i].curr = { LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second };
 						LuckyBlockStateCount[i] = 0.0f;
 						LuckyUpDown[i] = false;
 						LuckyBlockState[i] = false;
@@ -113,7 +125,7 @@ inline void LuckyBlockUpdate(float deltaTime) {
 			else {
 				if (!LuckyUpDown[i]) {
 					if (LuckyBlockStateCount[i] < 4.0f) {
-						LuckyBlock[i].property.move({ 0, -1.0f * deltaTime });
+						LuckyBlock[i].curr = { LuckyBlock[i].curr.x,LuckyBlock[i].curr.y - 1.0f * deltaTime };
 						LuckyBlockStateCount[i] += 1.0f * deltaTime;
 					}
 					else {
@@ -123,20 +135,17 @@ inline void LuckyBlockUpdate(float deltaTime) {
 				}
 				else {
 					if (LuckyBlockStateCount[i] > 0.0f) {
-						LuckyBlock[i].property.move({ 0, 1.0f * deltaTime });
+						LuckyBlock[i].curr = { LuckyBlock[i].curr.x, LuckyBlock[i].curr.y + 1.0f * deltaTime };
 						LuckyBlockStateCount[i] -= 1.0f * deltaTime;
 					}
 					else {
-						LuckyBlock[i].property.setPosition({ LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second });
+						LuckyBlock[i].curr = { LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second };
 						LuckyBlockStateCount[i] = 0.0f;
 						LuckyUpDown[i] = false;
 						LuckyBlockState[i] = false;
 					}
 				}
 			}
-		}
-		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
-			rTexture.draw(LuckyBlock[i].property);
 		}
 	}
 }

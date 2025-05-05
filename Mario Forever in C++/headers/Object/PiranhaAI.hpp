@@ -11,6 +11,8 @@ extern std::vector<sf::Sprite> PiranhaAIList;
 extern std::vector<PiranhaID> PiranhaAITypeList;
 extern std::vector<sf::FloatRect> PiranhaAIHitboxList;
 
+extern void SetPrevPiranhaAIPos();
+extern void InterpolatePiranhaAIPos(float alpha);
 extern void AddPiranha(PiranhaID ID, float x, float y);
 extern void PiranhaAIInit();
 extern void PiranhaAIStatusUpdate();
