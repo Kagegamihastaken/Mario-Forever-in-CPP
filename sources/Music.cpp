@@ -1,14 +1,12 @@
 #include "../headers/Core/Music.hpp"
 #include "../headers/Core/MusicManager.hpp"
 
-#include "../resource.h"
-
 MusicManager Music;
 
 void MusicInit() {
-	Music.AddMODMusic("MainMusicMOD", TEST_MUSIC, 32);
-	Music.AddOGGMusic("MainMusicOGG", TEST_OGG);
-	Music.AddMODMusic("MarioDeath", DEATH_MUSIC, 31);
-	Music.AddOGGMusic("RigitMedium", RIGIT_MEDIUM);
-	Music.AddOGGMusic("LevelComplete", LEVEL_COMPLETE);
+	Music.AddMODMusic("MainMusicMOD", "musics/hurricane_-_future.mod");
+	Music.AddMODMusic("MarioDeath", "musics/1-Music-Die.it");
+	Music.AddOGGMusic("MainMusicOGG", "musics/The_Worst_Goodbye.ogg");
+	Music.AddOGGMusic("RigitMedium", "musics/Rigit_Medium.ogg");
+	Music.AddOGGMusic("LevelComplete", "musics/Level_Complete.ogg");
 }

@@ -24,8 +24,6 @@
 #include "../headers/Core/Music.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 //define here
 LocalAnimationManager MarioAnimation;
 MovableObject player;
@@ -65,8 +63,8 @@ void loadMarioRes() {
 	AppearingTimer.restart();
 	// Resources Loader;
 
-	MarioTexture.Loadingtexture(SMALLMARIO_TEXTURE, "SmallMario", 0, 0, 248, 118);
-	MarioTexture.Loadingtexture(BIGMARIO_TEXTURE, "BigMario", 0, 0, 248, 118);
+	MarioTexture.Loadingtexture("data/resources/SmallMario.png", "SmallMario", 0, 0, 248, 118);
+	MarioTexture.Loadingtexture("data/resources/BigMario.png", "BigMario", 0, 0, 248, 118);
 
 	MarioAnimation.setAnimation(0, 0, 31, 59, 0, 0);
 	player.property.setOrigin({ 11, 51 });
@@ -80,8 +78,6 @@ void InterpolateMarioPos(float alpha) {
 }
 void KeyboardMovement(float deltaTime) {
 	if (CanControlMario && !LevelCompleteEffect) {
-		sf::FloatRect hitbox_loop;
-		bool isCollideSideBool = false;
 		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown && window.hasFocus()) {
 			if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !MarioCurrentFalling && PowerState > 0)) {
 				if (Xvelo == 0) MarioDirection = true;
@@ -103,7 +99,7 @@ void KeyboardMovement(float deltaTime) {
 				if (!MarioDirection) Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
 			}
 		}
-		else if (((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))) && !MarioCrouchDown) || MarioCrouchDown) {
+		else if ((((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))) && !MarioCrouchDown) || MarioCrouchDown) {
 			if (!MarioCrouchDown) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.125f * deltaTime);
 			else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.28125f * deltaTime);
 		}
@@ -162,9 +158,7 @@ void MarioPosXUpdate(float deltaTime) {
 void MarioVertXUpdate() {
 	if (CanControlMario) {
 		int be, nd;
-		sf::FloatRect hitbox_loop;
 		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
-		bool isCollideLeftBool, isCollideRightBool;
 		float CurrPosXCollide = 0, CurrPosYCollide = 0;
 		bool NoAdd = false;
 
@@ -212,9 +206,8 @@ void MarioPosYUpdate(float deltaTime) {
 }
 void MarioVertYUpdate() {
 	if (CanControlMario) {
-		bool ObstacleCollide, BrickCollide, LuckyCollide, SlopeCollide;
-		bool SlopeCheck;
-		float CurrPosYCollide, CurrPosXCollide, ID, Diff, OldY;
+		bool ObstacleCollide, BrickCollide, LuckyCollide;
+		float CurrPosYCollide;
 		bool NoAdd;
 
 		//}

@@ -16,8 +16,6 @@
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 #include <vector>
 #include <iostream>
 
@@ -36,7 +34,7 @@ TextureManager LuckyBlockTextureManager;
 std::vector<sf::Texture*> LuckyBlockTextureList;
 
 void LoadLuckyBlock() {
-	LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlock", 0, 0, 128, 64);
+	LuckyBlockTextureManager.Loadingtexture("data/resources/luckyblock.png", "LuckyBlock", 0, 0, 128, 64);
 
 	//LuckyBlockTextureManager.LoadingAnimatedTexture(LUCKYBLOCK_TEXTURE, "LuckyBlockAnimated", 0, 2, 0, 32, 32);
 	//LuckyBlockTextureManager.Loadingtexture(LUCKYBLOCK_TEXTURE, "LuckyBlockHitted", 96, 0, 32, 32);

@@ -24,27 +24,20 @@
 #include "headers/Core/Background/Bg.hpp"
 #include "headers/Object/ExitGate.hpp"
 #include "headers/Core/Interpolation.hpp"
+#include "headers/Core/Loading/Loading.hpp"
 
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
-
-#include "resource.h"
 
 #include <iostream>
 #include <string>
 sf::Clock test;
 sf::Sprite Renderer(tempTex);
 float alphainter = 1.0f;
+
 int main() {
-	//background
+	IOInit();
 
-	//bg[0].position = sf::Vector2f(ViewX, ViewY);
-	//bg[1].position = sf::Vector2f(ViewX + Width, ViewY);
-	//bg[2].position = sf::Vector2f(ViewX, ViewY + Height);
-	//bg[3].position = sf::Vector2f(ViewX + Width, ViewY + Height);
-
-	//Init Games:
-	//window.setKeyRepeatEnabled(false);
-
+	loadSlopeRes();
 	windowInit();
 	SoundInit();
 	loadObstacleRes();
@@ -68,7 +61,7 @@ int main() {
 	//Init window
 	ViewInit();
 	//set level data
-	ReadData(LVL1);
+	ReadData("data/levels/lvl1.txt");
 	//For program
 	//AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
 	AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
@@ -96,7 +89,6 @@ int main() {
 	Objectbuilding();
 	BgGradientInitPos();
 	ExitGateBuilding();
-	std::pair<bool, bool> Test;
 	std::string fall, appe;
 	//looping frame
 	while (window.isOpen()) {
@@ -106,12 +98,14 @@ int main() {
 			if (event->is<sf::Event::Closed>()) {
 				Sounds.ClearUp();
 				window.close();
+				IODeinit();
 			}
 		}
 		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
 			ExitGateClock.reset();
 			Sounds.ClearUp();
 			window.close();
+			IODeinit();
 		}
 		//update: Mario
 		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
@@ -237,6 +231,7 @@ int main() {
 		ExitGateEffectDraw();
 		UpdateText();
 		FrameDraw();
+
 		rTexture.display();
 		window.clear();
 		Renderer.setTexture(rTexture.getTexture(), true);

@@ -62,11 +62,9 @@ std::array<std::array<sf::FloatRect, 32>, 3> SlopeRectList{
 	}
 };
 
-int loadSlopeRes() {
-	LoadTexture(SlopeTexture, SLOPE_TEXTURE);
-	return 6;
+void loadSlopeRes() {
+	LoadTexture(SlopeTexture, "data/resources/Slope.png");
 }
-const int ObstacleInit = loadSlopeRes();
 int getSlopesIndex(float x, float y) {
 	for (int i = 0; i < SlopesList.size(); ++i) {
 		if (SlopesList[i].property.getPosition().x == x && SlopesList[i].property.getPosition().y == y) {

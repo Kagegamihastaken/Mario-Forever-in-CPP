@@ -7,8 +7,6 @@
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -18,7 +16,7 @@ std::vector<CoinAtt> CoinEffectAttList;
 TextureManager CoinEffectTextureManager;
 
 void CoinEffectInit() {
-	CoinEffectTextureManager.Loadingtexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 0, 777, 32);
+	CoinEffectTextureManager.Loadingtexture("data/resources/CoinEffect.png", "CoinEffect", 0, 0, 777, 32);
 	//CoinEffectTextureManager.LoadingAnimatedTexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 20, 0, 37, 32);
 }
 void SetPrevCoinEffectPos() {

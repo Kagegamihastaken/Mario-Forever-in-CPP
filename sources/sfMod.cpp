@@ -28,7 +28,7 @@
 //    3. This notice may not be removed or altered from any source          //
 //    distribution.                                                         //
 //////////////////////////////////////////////////////////////////////////////
-#include <libmodplug/modplug.h>
+#include <modplug.h>
 #include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
 
 #include <fstream>

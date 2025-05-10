@@ -9,8 +9,6 @@
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/ExternalHeaders/Kairos.hpp"
 
-#include "../resource.h"
-
 #if defined _DEBUG
 bool isDebug = true;
 #else
@@ -43,11 +41,11 @@ float f_abs(float a) { return a < 0 ? -a : a; }
 int hex_to_int(std::string hex) { return std::stoi(hex, nullptr, 16); }
 void windowInit() {
 	sf::Image icon;
-	LoadImageFile(icon, GAME_ICON);
+	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	sf::Texture* Temp = new sf::Texture();
-	Maintexture.Loadingtexture(MARIOHUD_TEXTURE, "MarioHUD", 0, 0, 97, 16);
+	Maintexture.Loadingtexture("data/resources/MarioHUD.png", "MarioHUD", 0, 0, 97, 16);
 	//Maintexture.AddTexture("MarioHUD", Temp);
-	LoadTexture(CoinHUDTexture, COINHUD_TEXTURE);
+	LoadTexture(CoinHUDTexture, "data/resources/CoinHUD.png");
 	CoinHUDAnim.addAnimation("IdleCoinHUD", &CoinHUDTexture, { 3,0 }, { 28,16 }, { 0,0 }, 16, { 0,0 }, { 3,0 });
 	Temp = new sf::Texture();
 	delete Temp;

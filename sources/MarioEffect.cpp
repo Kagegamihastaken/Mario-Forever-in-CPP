@@ -7,8 +7,6 @@
 #include "../headers/Object/ExitGate.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 TextureManager MarioEffectTextureManager;
 sf::Sprite playerEffect(tempTex);
 sf::Vector2f MarioEffectCurr;
@@ -17,7 +15,7 @@ bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
 void MarioEffectInit() {
-	MarioEffectTextureManager.Loadingtexture(DEAD_MARIO_TEXTURE, "DEADMario", 0, 0, 32, 32);
+	MarioEffectTextureManager.Loadingtexture("data/resources/MarioDead.png", "DEADMario", 0, 0, 32, 32);
 	playerEffect.setTexture(*MarioEffectTextureManager.GetTexture("DEADMario"), true);
 }
 void SetPrevMarioEffectPos() {

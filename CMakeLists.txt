@@ -1,18 +1,4 @@
 cmake_minimum_required(VERSION 3.31)
-set(CMAKE_CXX_STANDARD 17)
-
-if(WIN32)
-    # Windows-specific configurations
-    add_definitions(-DWIN32_LEAN_AND_MEAN)     # Exclude rarely-used stuff from Windows headers
-    add_definitions(-DNOMINMAX)                # Prevents Windows.h from defining min/max macros
-
-    # If you need Common Controls v6
-    add_definitions(-D_WIN32_WINNT=0x0601)    # Target Windows 7 or later
-
-    # If you need Unicode support (though I see you're explicitly removing it in your current setup)
-    # add_definitions(-DUNICODE -D_UNICODE)
-endif()
-
 
 #Ship game
 set(PRODUCTION_BUILD OFF CACHE BOOL "Make this a production build" FORCE)
@@ -44,6 +30,19 @@ FetchContent_Declare(SFML
         EXCLUDE_FROM_ALL
         SYSTEM)
 FetchContent_MakeAvailable(SFML)
+#physfs
+find_library(PHYSFS_LIBRARY
+        NAMES physfs
+        PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib"
+        REQUIRED
+)
+find_path(PHYSFS_INCLUDE_DIR
+        NAMES physfs.h
+        PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include"
+        REQUIRED
+)
+
+
 #libmodplug
 find_library(MODPLUG_LIBRARY
         NAMES modplug libmodplug
@@ -53,8 +52,8 @@ find_library(MODPLUG_LIBRARY
 find_path(MODPLUG_INCLUDE_DIR
         NAMES modplug.h libmodplug/modplug.h
         PATHS
-            "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/src"
-            "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/src/libmodplug"
+            "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include"
+            "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/libmodplug"
         REQUIRED
 )
 
@@ -71,56 +70,125 @@ file(GLOB_RECURSE MY_HEADERS CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/headers/*.hpp"
 )
 
-
-add_executable("${CMAKE_PROJECT_NAME}")
-
+if(WIN32)
+    set(APP_RESOURCE_WINDOWS
+            "${CMAKE_CURRENT_SOURCE_DIR}/Resource.rc"
+    )
+    if(MSVC)
+        # MSVC specific RC handling
+        set_source_files_properties(${APP_RESOURCE_WINDOWS} PROPERTIES
+                COMPILE_FLAGS "/nologo"
+        )
+    elseif(MINGW)
+        # Ensure proper resource compilation with MinGW
+        set(CMAKE_RC_COMPILER_INIT windres)
+        enable_language(RC)
+        set(CMAKE_RC_COMPILE_OBJECT
+                "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+    endif()
+endif()
+add_executable(${CMAKE_PROJECT_NAME}
+        ${MY_SOURCES}
+        ${APP_RESOURCE_WINDOWS}
+)
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
 
+set(RESOURCE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/data.zip"
+)
+
+# Define the music directory
+set(MUSIC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/musics")
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${RESOURCE_FILES}
+        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>
+)
+
+# Copy music directory to output directory
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${MUSIC_DIR}
+        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/musics"
+)
+
 if(PRODUCTION_BUILD)
+    set(RELEASE_DIR "${CMAKE_BINARY_DIR}/Release")
+    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${RELEASE_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${RESOURCE_FILES}
+            "${RELEASE_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${MUSIC_DIR}
+            "${RELEASE_DIR}/musics"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
+            "${RELEASE_DIR}"
+    )
+
     # setup the ASSETS_PATH macro to be in the root folder of your exe
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="./data/")
     # remove the option to debug asserts.
     target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
     target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=0)
 else()
+    set(DEBUG_DIR "${CMAKE_BINARY_DIR}/Debug")
+    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${DEBUG_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${RESOURCE_FILES}
+            "${DEBUG_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${MUSIC_DIR}
+            "${DEBUG_DIR}/musics"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
+            "${DEBUG_DIR}"
+    )
+
+
     # This is useful to get an ASSETS_PATH in your IDE during development
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/data/")
     target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
     target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=1)
 endif()
 
-if(WIN32)
-    set(APP_RESOURCE_WINDOWS
-            "${CMAKE_CURRENT_SOURCE_DIR}/resource.rc"
-            "${CMAKE_CURRENT_SOURCE_DIR}/Texture.rc"
+# Then modify your target_sources to include both .rc files
+
+if(MSVC)
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+            _CRT_SECURE_NO_WARNINGS
+            _UNICODE
+            UNICODE
+            _CRT_NON_CONFORMING_WCSTOK
+    )
+
+    # Optional: Add resource compiler definitions if needed
+    set_property(SOURCE ${APP_RESOURCE_WINDOWS} PROPERTY COMPILE_DEFINITIONS
+            "NDEBUG;_UNICODE;UNICODE"
     )
 endif()
 
-# Then modify your target_sources to include both .rc files
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
-        ${MY_SOURCES}
-        $<$<BOOL:${WIN32}>:${APP_RESOURCE_WINDOWS}>
-)
 
-if(MSVC) # If using the VS compiler...
-
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC _CRT_SECURE_NO_WARNINGS)
-
-    #set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup") #no console)
-
-endif()
-
-#force remove unicode
-if (WIN32)
-    target_compile_options("${CMAKE_PROJECT_NAME}" PRIVATE /UUNICODE /U_UNICODE)
-endif()
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
         ${MODPLUG_INCLUDE_DIR}
+        ${PHYSFS_INCLUDE_DIR}
         "${CMAKE_CURRENT_SOURCE_DIR}/headers"  # for headers in sources directory
 )
 if(WIN32)
-    target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window winmm gdi32 user32 shell32 ${MODPLUG_LIBRARY})
+    if(MINGW)
+        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
+                -static-libgcc
+                -static-libstdc++
+        )
+    endif()
+    target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE
+            SFML::Audio SFML::Graphics SFML::System SFML::Window
+            gdi32 user32 shell32 ole32 uuid
+            ${PHYSFS_LIBRARY}
+            ${MODPLUG_LIBRARY})
 else()
-    target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window ${MODPLUG_LIBRARY})
+    target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window ${PHYSFS_LIBRARY}
+            ${MODPLUG_LIBRARY})
 endif()
