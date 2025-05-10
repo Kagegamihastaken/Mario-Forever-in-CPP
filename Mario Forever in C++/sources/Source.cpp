@@ -31,6 +31,7 @@
 
 #include <iostream>
 #include <string>
+sf::Clock test;
 sf::Sprite Renderer(tempTex);
 float alphainter = 1.0f;
 int main() {
@@ -99,6 +100,7 @@ int main() {
 	std::string fall, appe;
 	//looping frame
 	while (window.isOpen()) {
+		test.restart();
 		// process events
 		while (const std::optional event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
