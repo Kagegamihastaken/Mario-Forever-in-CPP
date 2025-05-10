@@ -1,0 +1,32 @@
+// resource.rc
+#include <windows.h>
+#include "resource.h"
+
+// If you're using an icon
+IDI_ICON1 ICON "icon1.ico"
+
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+FILEOS         VOS_NT_WINDOWS32
+FILETYPE       VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4" // U.S. English - multilingual (hex)
+        BEGIN
+            VALUE "CompanyName",      "Your Company"
+            VALUE "FileDescription",  "MFCPP Application"
+            VALUE "FileVersion",      "1.0.0.0"
+            VALUE "InternalName",     "MFCPP"
+            VALUE "LegalCopyright",   "Copyright (C) 2024"
+            VALUE "OriginalFilename", "MFCPP.exe"
+            VALUE "ProductName",      "MFCPP"
+            VALUE "ProductVersion",   "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
