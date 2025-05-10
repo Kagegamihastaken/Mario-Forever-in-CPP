@@ -46,7 +46,7 @@ void AddText(std::string id, std::string text, TextMarginID margin, float x, flo
 	}
 	else std::cout << "Cannot add text ID " << id << " (Duplicated ID)" << "\n";
 }
-inline void EditText(std::string NewText, std::string id) {
+void EditText(std::string NewText, std::string id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {

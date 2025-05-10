@@ -1,3 +1,4 @@
+#define MODPLUG_STATIC
 //////////////////////////////////
 // sfmod 1.1.0                  //
 // Copyright (c) Kerli Low 2012 //
@@ -28,6 +29,7 @@
 //    3. This notice may not be removed or altered from any source          //
 //    distribution.                                                         //
 //////////////////////////////////////////////////////////////////////////////
+///
 #include <modplug.h>
 #include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
 

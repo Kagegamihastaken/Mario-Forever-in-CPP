@@ -34,7 +34,12 @@ sf::Clock test;
 sf::Sprite Renderer(tempTex);
 float alphainter = 1.0f;
 
+// TODO: Implement DEBUG in Engine
+// TODO: ImGUI for better debug
+// TODO: Implement REGEX
+
 int main() {
+	std::cout << "MFCPP On" << std::endl;
 	IOInit();
 
 	loadSlopeRes();

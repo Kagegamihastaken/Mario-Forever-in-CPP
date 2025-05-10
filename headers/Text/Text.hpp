@@ -17,7 +17,7 @@ public:
 };
 extern void loadFontRes();
 extern void AddText(std::string id, std::string text, TextMarginID margin, float x, float y);
-extern inline void EditText(std::string NewText, std::string id);
+extern void EditText(std::string NewText, std::string id);
 extern inline void EditPosition(float NewX, float NewY, std::string id);
 extern inline void UpdateText();
 extern inline void UpdatePositionCharacter();

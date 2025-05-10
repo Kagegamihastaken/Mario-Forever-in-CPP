@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.25)
+project(MFCPP)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #Ship game
 set(PRODUCTION_BUILD OFF CACHE BOOL "Make this a production build" FORCE)
@@ -6,23 +10,12 @@ set(PRODUCTION_BUILD OFF CACHE BOOL "Make this a production build" FORCE)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-if(PRODUCTION_BUILD)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) #link time optimization
-else()
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)
-endif()
+#lib include
+include(FetchContent)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
-
-if (MSVC)
-    add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
-endif()
-
-
-project(MFCPP)
 set(SFML_STATIC_LIBRARIES TRUE)
 #sfml
-include(FetchContent)
 FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 3.0.1
@@ -31,45 +24,55 @@ FetchContent_Declare(SFML
         SYSTEM)
 FetchContent_MakeAvailable(SFML)
 #physfs
-find_library(PHYSFS_LIBRARY
-        NAMES physfs
-        PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib"
-        REQUIRED
+FetchContent_Declare(physfs
+        GIT_REPOSITORY https://github.com/icculus/physfs.git
+        GIT_TAG release-3.2.0  # You can specify a specific version/tag
+        GIT_SHALLOW ON
 )
-find_path(PHYSFS_INCLUDE_DIR
-        NAMES physfs.h
-        PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include"
-        REQUIRED
-)
-
+FetchContent_MakeAvailable(physfs)
 
 #libmodplug
-find_library(MODPLUG_LIBRARY
-        NAMES modplug libmodplug
-        PATHS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib"
-        REQUIRED
+set(MODPLUG_STATIC ON CACHE BOOL "Build static modplug library" FORCE)
+set(MODPLUG_BUILD_SHARED OFF CACHE BOOL "Build shared modplug library" FORCE)
+
+FetchContent_Declare(libmodplug
+        GIT_REPOSITORY https://github.com/Konstanty/libmodplug.git
+        GIT_TAG master  # You might want to use a specific commit hash for stability
+        GIT_SHALLOW ON
 )
-find_path(MODPLUG_INCLUDE_DIR
-        NAMES modplug.h libmodplug/modplug.h
-        PATHS
-            "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include"
-            "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/libmodplug"
-        REQUIRED
-)
+#FetchContent_MakeAvailable(libmodplug)
+FetchContent_GetProperties(libmodplug)
+if(NOT libmodplug_POPULATED)
+    if(MSVC)
+        file(WRITE "${libmodplug_BINARY_DIR}/config.h" "#define HAVE_X87 1\n")
+    endif()
+    FetchContent_MakeAvailable(libmodplug)
+    #(libmodplug, ${libmodplug_SOURCE_DIR})
+    #add_subdirectory(libmodplug, ${libmodplug_BINARY_DIR})
+endif()
 
-
-
-#add_subdirectory(lib/libmodplug)
-
+#source project
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/sources/*.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/Source.cpp"
 )
+
+message("Source files to be compiled:")
+foreach(source ${MY_SOURCES})
+    message("  ${source}")
+endforeach()
+
+#header project
 file(GLOB_RECURSE MY_HEADERS CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resource.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/headers/*.hpp"
 )
+message("Source files to be compiled:")
+foreach(header ${MY_HEADERS})
+    message("  ${header}")
+endforeach()
 
+#compile icon program and data
 if(WIN32)
     set(APP_RESOURCE_WINDOWS
             "${CMAKE_CURRENT_SOURCE_DIR}/Resource.rc"
@@ -87,17 +90,19 @@ if(WIN32)
                 "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
     endif()
 endif()
+
 add_executable(${CMAKE_PROJECT_NAME}
         ${MY_SOURCES}
+        ${MY_HEADERS}
         ${APP_RESOURCE_WINDOWS}
-)
-set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
 
+)
+#data
 set(RESOURCE_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/data.zip"
 )
 
-# Define the music directory
+# music
 set(MUSIC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/musics")
 
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
@@ -169,12 +174,16 @@ if(MSVC)
     )
 endif()
 
-
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+        MODPLUG_STATIC
+        HAVE_X87
+)
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
-        ${MODPLUG_INCLUDE_DIR}
-        ${PHYSFS_INCLUDE_DIR}
-        "${CMAKE_CURRENT_SOURCE_DIR}/headers"  # for headers in sources directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/headers"
+        "${libmodplug_SOURCE_DIR}/src"
+        "${libmodplug_SOURCE_DIR}/src/libmodplug" # for headers in sources directory
+        "${libmodplug_BINARY_DIR}"
 )
 if(WIN32)
     if(MINGW)
@@ -186,9 +195,15 @@ if(WIN32)
     target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE
             SFML::Audio SFML::Graphics SFML::System SFML::Window
             gdi32 user32 shell32 ole32 uuid
-            ${PHYSFS_LIBRARY}
-            ${MODPLUG_LIBRARY})
+            physfs-static
+            modplug)
 else()
-    target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window ${PHYSFS_LIBRARY}
-            ${MODPLUG_LIBRARY})
+    target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window
+            physfs-static
+            modplug)
 endif()
+
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
