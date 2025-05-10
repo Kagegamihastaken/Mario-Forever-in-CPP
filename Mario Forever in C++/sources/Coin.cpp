@@ -12,8 +12,6 @@
 #include "../headers/Effect/MarioEffect.hpp"
 #include "../headers/Core/TextureManager.hpp"
 
-#include "../resource.h"
-
 #include <vector>
 #include <iostream>
 #include <utility>
@@ -26,7 +24,7 @@ int CoinCount = 0;
 bool firstUpdate = true;
 
 void CoinInit() {
-	CoinTexture.Loadingtexture(COIN_TEXTURE, "Coin", 0, 0, 96, 32);
+	CoinTexture.Loadingtexture("data/resources/Coin.png", "Coin", 0, 0, 96, 32);
 	//CoinTexture.LoadingAnimatedTexture(COIN_TEXTURE, "CoinTexture", 0, 2, 0, 32, 32);
 	//CoinAnimation.setAnimation(0, 2, 20);
 	CoinAnimation.setAnimation(0, 2, 32, 32, 0, 20);

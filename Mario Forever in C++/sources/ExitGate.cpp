@@ -11,7 +11,6 @@
 #include "../headers/Core/Animate/LocalAnimationManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
 #include "../headers/Core/Loading/enum.hpp"
 
 #include <random>
@@ -44,10 +43,10 @@ std::random_device seed;
 std::uniform_real_distribution<float> dis(123.75f, 146.25f);
 
 void ExitGateInit() {
-	ExitGateTextureManager.Loadingtexture(EXIT_GATE_BACK_TEXTURE, "ExitGateBack", 0, 0, 95, 288);
-	ExitGateTextureManager.Loadingtexture(EXIT_GATE_FORE_TEXTURE, "ExitGateFore", 0, 0, 44, 16);
-	ExitGateTextureManager.Loadingtexture(EXIT_GATE_FORE_EFFECT_TEXTURE, "ExitGateForeEffect", 0, 0, 44, 16);
-	ExitGateTextureManager.Loadingtexture(EXIT_GATE_INDICATOR_TEXTURE, "ExitGateIndicator", 0, 0, 93, 32);
+	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateBack.png", "ExitGateBack", 0, 0, 95, 288);
+	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateFore.png", "ExitGateFore", 0, 0, 44, 16);
+	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateForeEffect.png", "ExitGateForeEffect", 0, 0, 44, 16);
+	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateIndicator.png", "ExitGateIndicator", 0, 0, 93, 32);
 	//ExitGateTextureManager.LoadingAnimatedTexture(EXIT_GATE_INDICATOR_TEXTURE, "ExitGateIndicator", 0, 2, 0, 31, 32);
 	ExitGateBack.setTexture(*ExitGateTextureManager.GetTexture("ExitGateBack"), true);
 	ExitGateBack.setOrigin({ 0.0f, 287.0f });

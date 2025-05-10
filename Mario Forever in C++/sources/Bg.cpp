@@ -6,8 +6,6 @@
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/Level.hpp"
 
-#include "../resource.h"
-
 std::vector<std::array<sf::Vertex, 4>> BgList;
 std::vector<std::string> BgTextureNameList;
 std::vector<float> BgParallaxList;
@@ -15,11 +13,11 @@ TextureManager BgTextureManager;
 sf::VertexBuffer buffer;
 
 void BgInit() {
-	BgTextureManager.Loadingtexture(GREEN_BACKGROUND_TEXTURE, "GreenBackground", 0, 0, 512, 480, true);
-	BgTextureManager.Loadingtexture(GREEN_FORE_TEXTURE, "GreenFore", 0, 0, 512, 480, true);
-	BgTextureManager.Loadingtexture(GREEN_MID_TEXTURE, "GreenMid", 0, 0, 410, 480, true);
-	BgTextureManager.Loadingtexture(GREEN_MID2_TEXTURE, "GreenMid2", 0, 0, 282, 480, true);
-	BgTextureManager.Loadingtexture(GREEN_BACK_TEXTURE, "GreenBack", 0, 0, 1411, 480, true);
+	BgTextureManager.Loadingtexture("data/resources/Background/GreenBackground.png", "GreenBackground", 0, 0, 512, 480, true);
+	BgTextureManager.Loadingtexture("data/resources/Background/GreenFore.png", "GreenFore", 0, 0, 512, 480, true);
+	BgTextureManager.Loadingtexture("data/resources/Background/GreenMid.png", "GreenMid", 0, 0, 410, 480, true);
+	BgTextureManager.Loadingtexture("data/resources/Background/GreenMid2.png", "GreenMid2", 0, 0, 282, 480, true);
+	BgTextureManager.Loadingtexture("data/resources/Background/GreenBack.png", "GreenBack", 0, 0, 1411, 480, true);
 
 	buffer.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 	buffer.create(4);

@@ -346,25 +346,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="levels\lvl1.txt">
-      <Filter>Level</Filter>
-    </Text>
-    <Text Include="levels\lvl2.txt">
-      <Filter>Level</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Texture.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="data\resources\GameICON.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="headers\Core\ExternalHeaders\Kairos\Absorel.inl">

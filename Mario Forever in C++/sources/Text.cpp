@@ -7,8 +7,6 @@
 #include "../headers/Core/Loading/enum.hpp"
 #include "../headers/Core/TextureManager.hpp"
 
-#include "../resource.h"
-
 #include <vector>
 #include <iostream>
 #include <string>
@@ -17,7 +15,7 @@ std::vector<Text*> TextList;
 std::vector<TextMarginID> TextMarginList;
 
 void loadFontRes() {
-	FontTextureList.Loadingtexture(FONT_TEXTURE, "Font", 0, 0, 645, 32);
+	FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 	SetFontSize(645, 32, 15, 16);
 }
 void AddText(std::string id, std::string text, TextMarginID margin, float x, float y) {

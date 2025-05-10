@@ -4,8 +4,8 @@
 std::map<std::string, sf::Music> MusicManager::m_ogg_musics;
 std::map<std::string, sfmod::Mod> MusicManager::m_mod_musics;
 
-void MusicManager::AddOGGMusic(std::string name, int ID) {
-	LoadOGG(m_ogg_musics[name], ID);
+void MusicManager::AddOGGMusic(std::string name, std::string path) {
+	LoadOGG(m_ogg_musics[name], path);
 }
 void MusicManager::SetOGGLoop(std::string name, bool loop) {
 	m_ogg_musics[name].setLooping(loop);
@@ -15,7 +15,7 @@ void MusicManager::StopOGGMusic(std::string name) {
 }
 void MusicManager::StopAllOGGMusic() {
 	for (auto& music : m_ogg_musics) {
-		music.second.stop();
+		if (music.second.getStatus() == sf::SoundSource::Status::Playing) music.second.stop();
 	}
 }
 void MusicManager::PlayOGGMusic(std::string name) {
@@ -29,8 +29,9 @@ void MusicManager::ClearUp() {
 	m_mod_musics.clear();
 }
 
-void MusicManager::AddMODMusic(std::string name, int ID, int channel) {
-	LoadMOD(m_mod_musics[name], ID, channel, 44100);
+void MusicManager::AddMODMusic(std::string name, std::string path) {
+	LoadMOD(m_mod_musics[name], path);
+	//LoadMOD(m_mod_musics[name], ID, channel, 44100);
 }
 void MusicManager::SetMODLoop(std::string name, bool loop) {
 	m_mod_musics[name].setLooping(loop);
@@ -64,6 +65,6 @@ bool MusicManager::IsOGGMusicPaused(std::string name) {
 }
 void MusicManager::StopAllMODMusic() {
 	for (auto& music : m_mod_musics) {
-		music.second.stop();
+		if (music.second.getStatus() == sf::SoundSource::Status::Playing) music.second.stop();
 	}
 }

@@ -8,7 +8,6 @@
 #include "../headers/Object/Mario.hpp"
 
 #include "../headers/Core/Loading/enum.hpp"
-#include "../resource.h"
 
 #include <vector>
 #include <string>
@@ -21,8 +20,8 @@ std::vector<sf::FloatRect> SpikeHitboxList;
 TextureManager SpikeTextureManager;
 
 void SpikeInit() {
-	SpikeTextureManager.Loadingtexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 0, 128, 32);
-	SpikeTextureManager.Loadingtexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 32, 32);
+	SpikeTextureManager.Loadingtexture("data/resources/Spike/PiranhaGround.png", "Piranha_Ground", 0, 0, 128, 32);
+	SpikeTextureManager.Loadingtexture("data/resources/Spike/Spike.png", "Spike_Normal", 0, 0, 32, 32);
 
 	//SpikeTextureManager.LoadingAnimatedTexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 3, 0, 32, 32);
 	//SpikeTextureManager.LoadingAnimatedTexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 0, 32, 32);

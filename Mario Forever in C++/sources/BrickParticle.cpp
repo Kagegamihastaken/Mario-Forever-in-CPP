@@ -11,8 +11,6 @@
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 std::vector<std::array<sf::Sprite, 4>> BrickParticleList;
 std::vector<std::array<sf::Vector2f, 4>> BrickParticleCurr;
 std::vector<std::array<sf::Vector2f, 4>> BrickParticlePrev;
@@ -23,8 +21,8 @@ TextureManager BrickParticleTexture;
 std::vector<int> BrickParticleDisabledAM;
 
 void BrickParticleInit() {
-	BrickParticleTexture.Loadingtexture(BRICKPARTICLE_TEXTURE, "BrickParticleNormal", 0, 0, 16, 16);
-	BrickParticleTexture.Loadingtexture(BRICKPARTICLE_TEXTURE, "BrickParticleGray", 16, 0, 16, 16);
+	BrickParticleTexture.Loadingtexture("data/resources/BrickParticle.png", "BrickParticle", 0, 0, 16, 16);
+	//BrickParticleTexture.Loadingtexture(BRICKPARTICLE_TEXTURE, "BrickParticleGray", 16, 0, 16, 16);
 }
 void SetPrevBrickParticlePos() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
@@ -46,12 +44,13 @@ void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 	std::array<bool, 4> itn;
 	std::array<std::pair<float, float>, 4> veloIt;
 	for (int i = 0; i < 4; ++i) {
+		it[i].setTexture(*BrickParticleTexture.GetTexture("BrickParticle"), true);
 		switch (id) {
 		case BRICK_NORMAL:
-			it[i].setTexture(*BrickParticleTexture.GetTexture("BrickParticleNormal"), true);
+			it[i].setTextureRect(sf::IntRect({ 0, 0 }, { 16, 16 }));
 			break;
 		case BRICK_GRAY:
-			it[i].setTexture(*BrickParticleTexture.GetTexture("BrickParticleGray"), true);
+			it[i].setTextureRect(sf::IntRect({ 16, 0 }, { 16, 16 }));
 			break;
 		}
 		it[i].setOrigin({ 8, 8 });

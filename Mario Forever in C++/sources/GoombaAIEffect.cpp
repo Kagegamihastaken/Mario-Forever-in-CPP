@@ -14,8 +14,6 @@
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 std::vector<MovableObject> GoombaAIEffectList;
 std::vector<GoombaAIEffectID> GoombaAIEffectTypeList;
 std::vector<float> GoombaAIEffectYveloList;
@@ -27,10 +25,10 @@ std::vector<int> GoombaAIEffectSkinIDList;
 
 TextureManager GoombaAIEffectTextureManager;
 void GoombaAIEffectInit() {
-	GoombaAIEffectTextureManager.Loadingtexture(DEAD_GOOMBA_TEXTURE, "DEAD_Goomba_1", 0, 0, 31, 32);
-	GoombaAIEffectTextureManager.Loadingtexture(DEAD_GOOMBA_TEXTURE, "DEAD_Goomba_2", 31, 0, 31, 32);
-	GoombaAIEffectTextureManager.Loadingtexture(DEAD_GREEN_KOOPA_TEXTURE, "DEAD_Koopa", 0, 0, 33, 28);
-	GoombaAIEffectTextureManager.Loadingtexture(DEAD_RED_SPINY_TEXTURE, "DEAD_Spiny_Red", 0, 0, 33, 32);
+	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Goomba/DEAD_Goomba.png", "DEAD_Goomba_1", 0, 0, 31, 32);
+	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Goomba/DEAD_Goomba.png", "DEAD_Goomba_2", 31, 0, 31, 32);
+	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Koopa/DEAD_GreenKoopa.png", "DEAD_Koopa", 0, 0, 33, 28);
+	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Spiny/DEAD_RedSpiny.png", "DEAD_Spiny_Red", 0, 0, 33, 32);
 }
 void SetPrevGoombaAIEffectPos() {
 	for (int i = 0; i < GoombaAIEffectList.size(); i++) {

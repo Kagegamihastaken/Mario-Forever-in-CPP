@@ -5,8 +5,6 @@
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/TextureManager.hpp"
 
-#include "../resource.h"
-
 #include <string>
 #include <vector>
 #include <iostream>
@@ -35,7 +33,7 @@ TextureManager ObstaclesTextureManager;
 //texture loading
 
 void loadObstacleRes() {
-	ObstaclesTextureManager.Loadingtexture(TILESET_TEXTURE, "Tileset", 0, 0, 192, 64);
+	ObstaclesTextureManager.Loadingtexture("data/resources/Tileset.png", "Tileset", 0, 0, 192, 64);
 	//for (int i = 0; i < ID_list.size(); ++i) {
 	//	ObstaclesTextureManager.Loadingtexture(TILESET_TEXTURE, "Obstacles_" + std::to_string(i), ID_list[i][1], ID_list[i][2], 32, 32);
 	//}

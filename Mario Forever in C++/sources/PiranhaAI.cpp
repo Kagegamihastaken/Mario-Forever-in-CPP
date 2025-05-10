@@ -9,8 +9,6 @@
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 #include <vector>
 #include <string>
 
@@ -72,7 +70,7 @@ void ClearPiranhaAI() {
 	PiranhaAIPosPrevList.clear();
 }
 void PiranhaAIInit() {
-	PiranhaAITextureManager.Loadingtexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 0, 128, 64);
+	PiranhaAITextureManager.Loadingtexture("data/resources/Piranha/PiranhaGreen.png", "PiranhaGreen", 0, 0, 128, 64);
 	//PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void SetPrevPiranhaAIPos() {

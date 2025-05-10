@@ -40,9 +40,9 @@ std::vector<std::array<float, 5>> EnemyData;
 std::array<float, 4> ExitGateData;
 std::array<float, 2> PlayerData;
 std::pair<int, std::string> MusicData;
-void ReadData(int IDLevel) {
+void ReadData(std::string path) {
 	std::string lvldat;
-	LoadLvl(lvldat, IDLevel);
+	LoadLvl(lvldat, path);
 	float value = 0.0f;
 	std::string DataStructure;
 	std::vector<float> temp;

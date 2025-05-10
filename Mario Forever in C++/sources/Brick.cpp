@@ -18,8 +18,6 @@
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
 
-#include "../resource.h"
-
 #include <fstream>
 #include <streambuf>
 #include <vector>
@@ -42,7 +40,7 @@ TextureManager BrickTextureManager;
 // TODO: Load Texture from TextureManager
 void LoadBricks() {
 	// Loading Texture
-	BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Bricks", 0, 0, 64, 64);
+	BrickTextureManager.Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
 	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal", 0, 0, 32, 32);
 	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray", 32, 0, 32, 32);
 	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal_Hitted", 0, 32, 32, 32);

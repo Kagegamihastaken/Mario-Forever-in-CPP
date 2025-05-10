@@ -4,51 +4,56 @@
 #include <Windows.h>
 #include <string>
 #include <modplug.h>
+#include <physfs.h>
 #include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../resource.h"
-HMODULE GCM() {
-	HMODULE hModule = NULL;
-	GetModuleHandleEx(
-		GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-		(LPCTSTR)GCM,
-		&hModule);
-	return hModule;
+#include <iostream>
+void IOInit() {
+	PHYSFS_init(nullptr);
+	PHYSFS_mount("data.zip", "/", 1);
 }
-void LoadTexture(sf::Texture& texture, int resID) {
-	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(IMAGEFILE));
-	HGLOBAL hData = LoadResource(GCM(), hRES);
-	DWORD hSize = SizeofResource(GCM(), hRES);
-	char* hFinal = (char*)LockResource(hData);
-	texture.loadFromMemory(hFinal, hSize);
+void IODeinit() {
+	PHYSFS_deinit();
 }
-void LoadAudio(sf::SoundBuffer& soundBuffer, int resID) {
-	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(SOUNDFILE));
-	HGLOBAL hData = LoadResource(GCM(), hRES);
-	DWORD hSize = SizeofResource(GCM(), hRES);
-	char* hFinal = (char*)LockResource(hData);
-	soundBuffer.loadFromMemory(hFinal, hSize);
+std::vector<uint8_t> Loadbyte(std::string fileName)
+{
+	std::vector<uint8_t> vec;
+	if (PHYSFS_isInit()) {
+		PHYSFS_File* fp = PHYSFS_openRead(fileName.c_str());
+		if (fp) {
+			std::vector<uint8_t> buffer(1024);
+			PHYSFS_sint64 rc;
+			do {
+				rc = PHYSFS_readBytes(fp, buffer.data(), buffer.size());
+				vec.insert(vec.end(), buffer.begin(), buffer.begin() + rc);
+			} while (!PHYSFS_eof(fp));
+			PHYSFS_close(fp);
+		}
+	}
+	return vec;
 }
-void LoadLvl(std::string& lvl, int resID) {
-	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(LVLFILE));
-	HGLOBAL hData = LoadResource(GCM(), hRES);
-	DWORD hSize = SizeofResource(GCM(), hRES);
-	char* hFinal = (char*)LockResource(hData);
-	lvl.assign(hFinal, hSize);
+void LoadTexture(sf::Texture& texture, std::string path) {
+	std::vector<uint8_t> vec = Loadbyte(path);
+	texture.loadFromMemory(vec.data(), vec.size());
 }
-void LoadMOD(sfmod::Mod& music, int resID, int channel, int samplerate) {
-	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(MODFILE));
-	HGLOBAL hData = LoadResource(GCM(), hRES);
-	DWORD hSize = SizeofResource(GCM(), hRES);
-	char* hFinal = (char*)LockResource(hData);
-	music.loadFromMemory(hFinal, hSize);
+void LoadAudio(sf::SoundBuffer& soundBuffer, std::string path) {
+	std::vector<uint8_t> vec = Loadbyte(path);
+	soundBuffer.loadFromMemory(vec.data(), vec.size());
 }
-void LoadOGG(sf::Music& music, int resID) {
-	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(OGGFILE));
-	HGLOBAL hData = LoadResource(GCM(), hRES);
-	DWORD hSize = SizeofResource(GCM(), hRES);
-	char* hFinal = (char*)LockResource(hData);
-	music.openFromMemory(hFinal, hSize);
+void LoadLvl(std::string& lvl, std::string path) {
+	std::vector<uint8_t> vec = Loadbyte(path);
+	lvl.assign(vec.begin(), vec.end());
+}
+void LoadMOD(sfmod::Mod& music, std::string path) {
+	std::vector<uint8_t> vec = Loadbyte(path);
+	music.loadFromFile(path);
+	//music.loadFromMemory(vec.data(), vec.size());
+}
+void LoadOGG(sf::Music& music, std::string path) {
+	std::vector<uint8_t> vec = Loadbyte(path);
+	music.openFromFile(path);
+	//music.openFromMemory(vec.data(), vec.size());
 }
 int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 	std::string ou = "";
@@ -62,10 +67,7 @@ int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 	out = ou.substr(0, ou.size());
 	return -1;
 }
-void LoadImageFile(sf::Image& image, int resID) {
-	HRSRC hRES = FindResource(GCM(), MAKEINTRESOURCE(resID), MAKEINTRESOURCE(IMAGEFILE));
-	HGLOBAL hData = LoadResource(GCM(), hRES);
-	DWORD hSize = SizeofResource(GCM(), hRES);
-	char* hFinal = (char*)LockResource(hData);
-	image.loadFromMemory(hFinal, hSize);
+void LoadImageFile(sf::Image& image, std::string path) {
+	std::vector<uint8_t> vec = Loadbyte(path);
+	image.loadFromMemory(vec.data(), vec.size());
 }

@@ -7,26 +7,26 @@
 #include "../resource.h"
 
 SoundManager Sounds;
-void SoundAdd(std::string name, int resID) {
+void SoundAdd(std::string name, std::string path) {
 	sf::SoundBuffer BufferTemp;
-	LoadAudio(BufferTemp, resID);
+	LoadAudio(BufferTemp, path);
 	Sounds.AddSound(name, BufferTemp);
 }
 void SoundInit() {
-	SoundAdd("Jump", JUMP_SOUND);
-	SoundAdd("Bump", BUMP_SOUND);
-	SoundAdd("Break", BREAK_SOUND);
-	SoundAdd("Coin", COIN_SOUND);
-	SoundAdd("Stomp", STOMP_SOUND);
-	SoundAdd("Powerup", POWERUP_SOUND);
-	SoundAdd("Vine", VINE_SOUND);
-	SoundAdd("Kick2", KICK2_SOUND);
-	SoundAdd("Pipe", PIPE_SOUND);
-	SoundAdd("Kick3", KICK3_SOUND);
-	SoundAdd("Kick4", KICK4_SOUND);
-	SoundAdd("Kick5", KICK5_SOUND);
-	SoundAdd("Kick6", KICK6_SOUND);
-	SoundAdd("Kick7", KICK7_SOUND);
-	SoundAdd("Kick8", KICK8_SOUND);
-	SoundAdd("1UP", ONEUP_SOUND);
+	SoundAdd("Jump", "data/sounds/jump.wav");
+	SoundAdd("Bump", "data/sounds/bump.wav");
+	SoundAdd("Break", "data/sounds/break.wav");
+	SoundAdd("Coin", "data/sounds/coin.wav");
+	SoundAdd("Stomp", "data/sounds/stomp.wav");
+	SoundAdd("Powerup", "data/sounds/powerup.wav");
+	SoundAdd("Vine", "data/sounds/vine.wav");
+	SoundAdd("Kick2", "data/sounds/kick2.wav");
+	SoundAdd("Pipe", "data/sounds/pipe.wav");
+	SoundAdd("Kick3", "data/sounds/kick3.wav");
+	SoundAdd("Kick4", "data/sounds/kick4.wav");
+	SoundAdd("Kick5", "data/sounds/kick5.wav");
+	SoundAdd("Kick6", "data/sounds/kick6.wav");
+	SoundAdd("Kick7", "data/sounds/kick7.wav");
+	SoundAdd("Kick8", "data/sounds/kick8.wav");
+	SoundAdd("1UP", "data/sounds/1up.wav");
 }
