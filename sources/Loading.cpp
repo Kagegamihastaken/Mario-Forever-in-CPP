@@ -1,14 +1,10 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-#include <Windows.h>
 #include <string>
-#include <modplug.h>
 #include <physfs.h>
 #include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
-#include "../resource.h"
-#include <iostream>
 void IOInit() {
 	PHYSFS_init(nullptr);
 	PHYSFS_mount("data.zip", "/", 1);
@@ -36,23 +32,28 @@ std::vector<uint8_t> Loadbyte(std::string fileName)
 void LoadTexture(sf::Texture& texture, std::string path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	texture.loadFromMemory(vec.data(), vec.size());
+	vec.clear();
 }
 void LoadAudio(sf::SoundBuffer& soundBuffer, std::string path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	soundBuffer.loadFromMemory(vec.data(), vec.size());
+	vec.clear();
 }
 void LoadLvl(std::string& lvl, std::string path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	lvl.assign(vec.begin(), vec.end());
+	vec.clear();
 }
 void LoadMOD(sfmod::Mod& music, std::string path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	music.loadFromFile(path);
+	vec.clear();
 	//music.loadFromMemory(vec.data(), vec.size());
 }
 void LoadOGG(sf::Music& music, std::string path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	music.openFromFile(path);
+	vec.clear();
 	//music.openFromMemory(vec.data(), vec.size());
 }
 int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
@@ -70,4 +71,5 @@ int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 void LoadImageFile(sf::Image& image, std::string path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	image.loadFromMemory(vec.data(), vec.size());
+	vec.clear();
 }

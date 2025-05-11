@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="57" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="38" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
@@ -19,15 +19,82 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="MFCPP" targetName="freetype" />
+      <config projectName="MFCPP" targetName="modplug" />
+      <config projectName="MFCPP" targetName="test_physfs" />
+      <config projectName="MFCPP" targetName="sfml-window" />
+      <config projectName="MFCPP" targetName="ogg" />
+      <config projectName="MFCPP" targetName="vorbis" />
+      <config projectName="MFCPP" targetName="physfs" />
+      <config projectName="MFCPP" targetName="sfml-audio" />
+      <config projectName="MFCPP" targetName="sfml-network" />
+      <config projectName="MFCPP" targetName="sfml-system" />
+      <config projectName="MFCPP" targetName="vorbisenc" />
+      <config projectName="MFCPP" targetName="physfs-static" />
+      <config projectName="MFCPP" targetName="vorbisfile" />
+      <config projectName="MFCPP" targetName="sfml-graphics" />
+      <config projectName="MFCPP" targetName="MFCPP" />
+      <config projectName="MFCPP" targetName="FLAC" />
+      <config projectName="MFCPP" targetName="sfml-main" />
+      <config projectName="MFCPP" targetName="docs" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Release-Visual Studio" ENABLED="true" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="Release-VS" ENABLED="true" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="Debug-VS" ENABLED="false" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="cmake now dont use vcpkg">
+      <change afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/AnimationManager.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/LocalAnimationManager.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Background/Bg.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Background/BgGradient.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Absorel.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Absorel.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/BasicClock.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/BasicClock.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Continuum.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Continuum.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Duration.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Duration.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/FpsLite.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/FpsLite.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Stopwatch.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Stopwatch.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timer.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timer.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timestep.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timestep.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/TimestepLite.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/TimestepLite.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Yalpes.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Yalpes.inl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/all.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/Error.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Scroll.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/TextureManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/TextureManager.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/AnimationManager.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Bg.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/BgGradient.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/CoinEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/CoinEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/GoombaAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/GoombaAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Loading.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Loading.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Scroll.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/TextureManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/TextureManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/WindowFrame.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,12 +103,27 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release-Visual Studio" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release-VS" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Kagegamihastaken&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Kagegamihastaken/Mario-Forever-in-CPP.git&quot;,
+    &quot;accountId&quot;: &quot;59a6c684-5798-4d96-a621-f649603082f2&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -58,29 +140,147 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "RunOnceActivity.west.config.association.type.startup.service": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "D:/source/repos/Mario-Forever-in-CPP",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;CMake Application.MFCPP.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/source/repos/Mario-Forever-in-CPP&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="CMake Application.MFCPP">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FLAC" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="FLAC" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MFCPP" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="MFCPP" CONFIG_NAME="Release-VS" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="MFCPP">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="docs" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="freetype" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="freetype" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="modplug" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="modplug" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ogg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ogg" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="physfs-static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs-static" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-audio" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-audio" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-graphics" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-graphics" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-main" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-network" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-network" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-system" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-system" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-window" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-window" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="test_physfs" CONFIG_NAME="Release-VS" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="test_physfs">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbis" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbis" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbisenc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisenc" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbisfile" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisfile" CONFIG_NAME="Release-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.docs" />
+      <item itemvalue="CMake Application.FLAC" />
+      <item itemvalue="CMake Application.MFCPP" />
+      <item itemvalue="CMake Application.modplug" />
+      <item itemvalue="CMake Application.freetype" />
+      <item itemvalue="CMake Application.ogg" />
+      <item itemvalue="CMake Application.physfs" />
+      <item itemvalue="CMake Application.physfs-static" />
+      <item itemvalue="CMake Application.sfml-audio" />
+      <item itemvalue="CMake Application.sfml-graphics" />
+      <item itemvalue="CMake Application.sfml-main" />
+      <item itemvalue="CMake Application.sfml-network" />
+      <item itemvalue="CMake Application.sfml-system" />
+      <item itemvalue="CMake Application.sfml-window" />
+      <item itemvalue="CMake Application.test_physfs" />
+      <item itemvalue="CMake Application.vorbis" />
+      <item itemvalue="CMake Application.vorbisenc" />
+      <item itemvalue="CMake Application.vorbisfile" />
+    </list>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -91,7 +291,31 @@
       <updated>1746622326879</updated>
       <workItem from="1746622328158" duration="257000" />
       <workItem from="1746660756798" duration="31000" />
+      <workItem from="1746864968424" duration="3109000" />
+      <workItem from="1746871992257" duration="2811000" />
+      <workItem from="1746886146330" duration="62000" />
+      <workItem from="1746886513444" duration="294000" />
+      <workItem from="1746889135980" duration="6525000" />
+      <workItem from="1746927059663" duration="13925000" />
+      <workItem from="1746963662156" duration="672000" />
     </task>
+    <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
+      <option name="closed" value="true" />
+      <created>1746865055531</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1746865055531</updated>
+    </task>
+    <task id="LOCAL-00002" summary="cmake now dont use vcpkg">
+      <option name="closed" value="true" />
+      <created>1746894062630</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746894062630</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,5 +325,21 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="restructure project (Now use cmake)" />
+    <MESSAGE value="cmake now dont use vcpkg" />
+    <option name="LAST_COMMIT_MESSAGE" value="cmake now dont use vcpkg" />
   </component>
 </project>

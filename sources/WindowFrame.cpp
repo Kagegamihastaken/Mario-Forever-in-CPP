@@ -16,7 +16,7 @@ bool isDebug = false;
 #endif
 float Width = 640.0f, Height = 480.0f;
 sf::VideoMode videoMode({ (unsigned int)(Width), (unsigned int)(Height) });
-sf::RenderWindow window(videoMode, "Mario Forever");
+sf::RenderWindow window;
 sf::RenderTexture rTexture({ (unsigned int)(Width), (unsigned int)(Height) });
 int optionSmoothness = 1;
 int previousUpdate = 2;
@@ -40,6 +40,9 @@ float f_max(float a, float b) { return a > b ? a : b; }
 float f_abs(float a) { return a < 0 ? -a : a; }
 int hex_to_int(std::string hex) { return std::stoi(hex, nullptr, 16); }
 void windowInit() {
+	// Create Window
+	window.create(videoMode, "Mario Forever");
+
 	sf::Image icon;
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	sf::Texture* Temp = new sf::Texture();

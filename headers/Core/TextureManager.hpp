@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 extern sf::Texture tempTex;
+extern void InitTempTex();
 class TextureManager {
 private:
 	static std::map<std::string, sf::Texture*> m_textures;

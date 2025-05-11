@@ -1,3 +1,5 @@
+#define PRODUCTION_BUILD
+//include
 #include <SFML/Graphics.hpp>
 #include "headers/Core/WindowFrame.hpp"
 #include "headers/Object/Mario.hpp"
@@ -29,9 +31,6 @@
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
 
 #include <iostream>
-#include <string>
-sf::Clock test;
-sf::Sprite Renderer(tempTex);
 float alphainter = 1.0f;
 
 // TODO: Implement DEBUG in Engine
@@ -39,9 +38,10 @@ float alphainter = 1.0f;
 // TODO: Implement REGEX
 
 int main() {
-	std::cout << "MFCPP On" << std::endl;
+	std::cout << "\nMFCPP On\n" << std::endl;
 	IOInit();
 
+	InitTempTex();
 	loadSlopeRes();
 	windowInit();
 	SoundInit();
@@ -97,7 +97,6 @@ int main() {
 	std::string fall, appe;
 	//looping frame
 	while (window.isOpen()) {
-		test.restart();
 		// process events
 		while (const std::optional event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
@@ -239,7 +238,7 @@ int main() {
 
 		rTexture.display();
 		window.clear();
-		Renderer.setTexture(rTexture.getTexture(), true);
+		sf::Sprite Renderer(rTexture.getTexture());
 		window.draw(Renderer);
 		//display
 		window.display();

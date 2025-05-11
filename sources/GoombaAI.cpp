@@ -287,7 +287,7 @@ void GoombaAICheckCollide() {
 						default:
 							break;
 						}
-						DeleteGoombaAIIndex(i);
+						DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y);
 						break;
 					}
 				}
@@ -306,14 +306,14 @@ void GoombaAICheckCollide() {
 					Sounds.PlaySound("Powerup");
 					if (GoombaAITypeList[i] == MUSHROOM) AddScoreEffect(SCORE_1000, GoombaAIList[i].curr.x, GoombaAIList[i].curr.y - GoombaAIHitboxList[0].second);
 					if (PowerState == 0) PowerState = 1;
-					DeleteGoombaAIIndex(i);
+					DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y);
 					break;
 				case GoombaAIType::SHELL:
 					if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() > GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
 						Sounds.PlaySound("Kick2");
 						if (GoombaAIList[i].curr.x >= player.curr.x) AddGoombaAI(SHELL_MOVING, GoombaAISkinIDList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y, RIGHT);
 						else AddGoombaAI(SHELL_MOVING, GoombaAISkinIDList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y, LEFT);
-						DeleteGoombaAIIndex(i);
+						DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y);
 					}
 					break;
 				case GoombaAIType::SHELL_MOVING:

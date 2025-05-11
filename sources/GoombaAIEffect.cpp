@@ -124,7 +124,7 @@ void GoombaAIEffectStatusUpdate(float deltaTime) {
 	if (GoombaAIEffectList.size() == 0) return;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
 		if (GoombaAIEffectTypeList[i] == NONE) {
-			if (isOutScreenYBottom(GoombaAIEffectList[i].property.getPosition().y, 64)) DeleteGoombaAIEffectIndex(i);
+			if (isOutScreenYBottom(GoombaAIEffectList[i].property.getPosition().y, 64)) DeleteGoombaAIEffect(GoombaAIEffectList[i].curr.x, GoombaAIEffectList[i].curr.y);
 		}
 		else if (GoombaAIEffectTypeList[i] == COLLIDE) {
 			if (GoombaATEffectFadeOutList[i].getElapsedTime().asSeconds() >= 4.0f) {
@@ -132,7 +132,7 @@ void GoombaAIEffectStatusUpdate(float deltaTime) {
 					GoombaAIEffectAlphaList[i] -= 7.5f * deltaTime;
 					GoombaAIEffectList[i].property.setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(GoombaAIEffectAlphaList[i]))));
 				}
-				else DeleteGoombaAIEffectIndex(i);
+				else DeleteGoombaAIEffect(GoombaAIEffectList[i].curr.x, GoombaAIEffectList[i].curr.y);
 			}
 		}
 	}

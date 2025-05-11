@@ -66,7 +66,7 @@ void DeleteAllCoinEffect() {
 inline void CoinEffectStatusUpdate(float deltaTime) {
 	for (int i = 0; i < CoinEffectList.size(); ++i) {
 		if (CoinEffectList[i].coinEffectAnimation.isAtTheEnd()) {
-			DeleteCoinEffect(i);
+			DeleteCoinEffect(CoinEffectList[i].curr.x, CoinEffectList[i].curr.y);
 			continue;
 		}
 		CoinEffectList[i].curr = { CoinEffectList[i].curr.x, CoinEffectList[i].curr.y + CoinEffectList[i].velocity * deltaTime };

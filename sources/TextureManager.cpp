@@ -7,6 +7,9 @@ std::map<std::string, sf::Texture*> TextureManager::m_textures;
 std::map<std::string, std::vector<sf::Texture*>> TextureManager::m_animated_textures;
 
 sf::Texture tempTex;
+void InitTempTex() {
+	LoadTexture(tempTex, "data/resources/placeholder.png");
+}
 void TextureManager::AddTexture(std::string name, sf::Texture* texture) {
 	m_textures[name] = texture;
 }

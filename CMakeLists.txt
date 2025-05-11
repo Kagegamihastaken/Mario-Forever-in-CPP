@@ -104,23 +104,22 @@ set(RESOURCE_FILES
 
 # music
 set(MUSIC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/musics")
-
-add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+if(NOT PRODUCTION_BUILD)
+    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${RESOURCE_FILES}
         $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>
 )
 
-# Copy music directory to output directory
-add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${MUSIC_DIR}
         "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/musics"
 )
-
-if(PRODUCTION_BUILD)
-    set(RELEASE_DIR "${CMAKE_BINARY_DIR}/Release")
-    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+else()
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        set(RELEASE_DIR "${CMAKE_BINARY_DIR}/Release")
+        add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${RELEASE_DIR}"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${RESOURCE_FILES}
@@ -131,15 +130,12 @@ if(PRODUCTION_BUILD)
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
             "${RELEASE_DIR}"
-    )
-
-    # setup the ASSETS_PATH macro to be in the root folder of your exe
-    # remove the option to debug asserts.
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=0)
-else()
-    set(DEBUG_DIR "${CMAKE_BINARY_DIR}/Debug")
-    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        )
+        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
+        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=0)
+    else()
+        set(DEBUG_DIR "${CMAKE_BINARY_DIR}/Debug")
+        add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${DEBUG_DIR}"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${RESOURCE_FILES}
@@ -150,12 +146,11 @@ else()
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
             "${DEBUG_DIR}"
-    )
+        )
 
-
-    # This is useful to get an ASSETS_PATH in your IDE during development
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
-    target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=1)
+        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
+        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=1)
+    endif()
 endif()
 
 # Then modify your target_sources to include both .rc files
@@ -206,4 +201,3 @@ endif()
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 )
-
