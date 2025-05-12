@@ -1,6 +1,5 @@
 #include "../headers/Object/PiranhaAI.hpp"
 #include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Loading/enum.hpp"
 #include "../headers/Core/Animate/LocalAnimationManager.hpp"
 #include "../headers/Core/Collision/Collide.hpp"
@@ -10,7 +9,6 @@
 #include "../headers/Core/Interpolation.hpp"
 
 #include <vector>
-#include <string>
 
 TextureManager PiranhaAITextureManager;
 
@@ -30,7 +28,7 @@ std::vector<sf::Clock> PiranhaAIStopTimerList;
 std::vector<bool> PiranhaAIStopList;
 std::vector<float> PiranhaAIDistanceAppearList;
 
-void DeletePiranhaAI(float x, float y) {
+void DeletePiranhaAI(const float x, const float y) {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (PiranhaAIList[i].getPosition().x == x && PiranhaAIList[i].getPosition().y == y) {
 			PiranhaAIList.erase(PiranhaAIList.begin() + i);
@@ -78,12 +76,12 @@ void SetPrevPiranhaAIPos() {
 		PiranhaAIPosPrevList[i] = PiranhaAIPosCurrList[i];
 	}
 }
-void InterpolatePiranhaAIPos(float alpha) {
+void InterpolatePiranhaAIPos(const float alpha) {
 	for (int i = 0; i < PiranhaAIList.size(); i++) {
 		PiranhaAIList[i].setPosition(linearInterpolation(PiranhaAIPosPrevList[i], PiranhaAIPosCurrList[i], alpha));
 	}
 }
-void AddPiranha(PiranhaID ID, float x, float y) {
+void AddPiranha(const PiranhaID ID, const float x, const float y) {
 	sf::Sprite Init(tempTex);
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
@@ -111,7 +109,7 @@ void AddPiranha(PiranhaID ID, float x, float y) {
 	PiranhaAIStopList.push_back(false);
 	PiranhaAIList.push_back(Init);
 }
-void PiranhaAIMovementUpdate(float deltaTime) {
+void PiranhaAIMovementUpdate(const float deltaTime) {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			if (!PiranhaAIStopList[i]) {
@@ -151,7 +149,7 @@ void PiranhaAIMovementUpdate(float deltaTime) {
 }
 void PiranhaAIStatusUpdate() {
 	if (PiranhaAIList.size() == 0) return;
-	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
+	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y, 64, 64)) {
 			if (PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;

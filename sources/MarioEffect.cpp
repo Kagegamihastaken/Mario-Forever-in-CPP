@@ -21,10 +21,10 @@ void MarioEffectInit() {
 void SetPrevMarioEffectPos() {
 	MarioEffectPrev = MarioEffectCurr;
 }
-void InterpolateMarioEffectPos(float alpha) {
+void InterpolateMarioEffectPos(const float alpha) {
 	playerEffect.setPosition(linearInterpolation(MarioEffectPrev, MarioEffectCurr, alpha));
 }
-void MarioEffectStatusUpdate(float deltaTime) {
+void MarioEffectStatusUpdate(const float deltaTime) {
 	if (EffectActive) {
 		if (MarioEffectTimer.getElapsedTime().asSeconds() >= 4.0f) {
 			CanControlMario = true;

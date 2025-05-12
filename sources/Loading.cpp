@@ -12,16 +12,14 @@ void IOInit() {
 void IODeinit() {
 	PHYSFS_deinit();
 }
-std::vector<uint8_t> Loadbyte(std::string fileName)
+std::vector<uint8_t> Loadbyte(const std::string &fileName)
 {
 	std::vector<uint8_t> vec;
 	if (PHYSFS_isInit()) {
-		PHYSFS_File* fp = PHYSFS_openRead(fileName.c_str());
-		if (fp) {
+		if (PHYSFS_File* fp = PHYSFS_openRead(fileName.c_str())) {
 			std::vector<uint8_t> buffer(1024);
-			PHYSFS_sint64 rc;
 			do {
-				rc = PHYSFS_readBytes(fp, buffer.data(), buffer.size());
+				const PHYSFS_sint64 rc = PHYSFS_readBytes(fp, buffer.data(), buffer.size());
 				vec.insert(vec.end(), buffer.begin(), buffer.begin() + rc);
 			} while (!PHYSFS_eof(fp));
 			PHYSFS_close(fp);
@@ -29,34 +27,34 @@ std::vector<uint8_t> Loadbyte(std::string fileName)
 	}
 	return vec;
 }
-void LoadTexture(sf::Texture& texture, std::string path) {
+void LoadTexture(sf::Texture& texture, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	texture.loadFromMemory(vec.data(), vec.size());
 	vec.clear();
 }
-void LoadAudio(sf::SoundBuffer& soundBuffer, std::string path) {
+void LoadAudio(sf::SoundBuffer& soundBuffer, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	soundBuffer.loadFromMemory(vec.data(), vec.size());
 	vec.clear();
 }
-void LoadLvl(std::string& lvl, std::string path) {
+void LoadLvl(std::string& lvl, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	lvl.assign(vec.begin(), vec.end());
 	vec.clear();
 }
-void LoadMOD(sfmod::Mod& music, std::string path) {
+void LoadMOD(sfmod::Mod& music, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	music.loadFromFile(path);
 	vec.clear();
 	//music.loadFromMemory(vec.data(), vec.size());
 }
-void LoadOGG(sf::Music& music, std::string path) {
+void LoadOGG(sf::Music& music, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	music.openFromFile(path);
 	vec.clear();
 	//music.openFromMemory(vec.data(), vec.size());
 }
-int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
+int ReadStrLine(const std::string& lvldata, std::string& out, const int resume = 0) {
 	std::string ou = "";
 	for (int i = resume; i < lvldata.size(); ++i) {
 		if (lvldata[i] == '\n') {
@@ -68,7 +66,7 @@ int ReadStrLine(std::string& lvldata, std::string& out, int resume = 0) {
 	out = ou.substr(0, ou.size());
 	return -1;
 }
-void LoadImageFile(sf::Image& image, std::string path) {
+void LoadImageFile(sf::Image& image, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	image.loadFromMemory(vec.data(), vec.size());
 	vec.clear();

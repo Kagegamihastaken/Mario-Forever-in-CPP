@@ -2,14 +2,10 @@
 #include "../headers/Block/Obstacles.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/TextureManager.hpp"
 
-#include <string>
 #include <vector>
-#include <iostream>
 #include <array>
-#include <thread>
 
 //Obstacles define
 sf::VertexArray ObstaclesVA;
@@ -34,9 +30,6 @@ TextureManager ObstaclesTextureManager;
 
 void loadObstacleRes() {
 	ObstaclesTextureManager.Loadingtexture("data/resources/Tileset.png", "Tileset", 0, 0, 192, 64);
-	//for (int i = 0; i < ID_list.size(); ++i) {
-	//	ObstaclesTextureManager.Loadingtexture(TILESET_TEXTURE, "Obstacles_" + std::to_string(i), ID_list[i][1], ID_list[i][2], 32, 32);
-	//}
 }
 void ObstaclesUpdate() {
 	//sf::RenderStates states;

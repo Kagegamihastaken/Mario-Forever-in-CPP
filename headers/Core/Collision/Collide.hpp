@@ -11,7 +11,7 @@ extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Spri
 extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos);
 extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Sprite& sprite);
 extern bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::FloatRect& other);
-extern bool isCollide(const sf::FloatRect& hitbox, sf::Sprite& sprite, const sf::Vector2f& pos, const sf::FloatRect& other);
+extern bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::Vector2f& pos, const sf::FloatRect& other);
 
 extern std::pair<bool, bool> isAccurateCollideSide(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList);
 extern std::pair<bool, bool> isAccurateCollideSidet(const MovableObject& object, const sf::Vector2f& pos, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance, const std::vector<std::pair<float, float>>& SaveList);

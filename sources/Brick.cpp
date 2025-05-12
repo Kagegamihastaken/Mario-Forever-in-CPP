@@ -17,11 +17,7 @@
 #include "../headers/Effect/GoombaAIEffect.hpp"
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"
-
-#include <fstream>
-#include <streambuf>
 #include <vector>
-#include <iostream>
 
 std::vector<Obstacles> Bricks;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;
@@ -37,26 +33,21 @@ std::vector<bool> BrickHitted;
 std::vector<bool> DisabledBrick;
 
 TextureManager BrickTextureManager;
-// TODO: Load Texture from TextureManager
 void LoadBricks() {
 	// Loading Texture
 	BrickTextureManager.Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
-	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal", 0, 0, 32, 32);
-	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray", 32, 0, 32, 32);
-	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Normal_Hitted", 0, 32, 32, 32);
-	//BrickTextureManager.Loadingtexture(BRICK_TEXTURE, "Brick_Gray_Hitted", 32, 32, 32, 32);
 }
 void SetPrevBricksPos() {
 	for (int i = 0; i < Bricks.size(); i++) {
 		Bricks[i].prev = Bricks[i].curr;
 	}
 }
-void InterpolateBricksPos(float alpha) {
+void InterpolateBricksPos(const float alpha) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		Bricks[i].property.setPosition(linearInterpolation(Bricks[i].prev, Bricks[i].curr, alpha));
 	}
 }
-void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
+void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y) {
 	switch (ID) {
 	case BRICK_GRAY:
 		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Bricks"), sf::IntRect({32, 0}, {32, 32})) });
@@ -82,25 +73,28 @@ void AddBrick(BrickID ID, BrickAtt att, float x, float y) {
 }
 void BricksSort() {
 	if (Bricks.size() == 0) return;
-	sort(BricksVertPosList.begin(), BricksVertPosList.end(), [](std::pair<sf::FloatRect, sf::Vector2f>& A, std::pair<sf::FloatRect, sf::Vector2f>& B) {
+	std::ranges::sort(BricksVertPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
 		if (A.second.y < B.second.y) return true;
 		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
 		else return false;
 		});
 }
-inline BrickID GetIDBrick(float x, float y) {
+inline BrickID GetIDBrick(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			return BrickIDList[i];
 		}
 	}
+	return BRICK_NORMAL;
 }
-inline BrickAtt GetBrickAtt(float x, float y) {
+
+inline BrickAtt GetBrickAtt(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			return BrickAttList[i];
 		}
 	}
+	return NORMAL;
 }
 inline void BrickStatusUpdate() {
 	if (Bricks.size() == 0) return;
@@ -118,7 +112,7 @@ inline void BrickDraw() {
 		}
 	}
 }
-inline void BrickUpdate(float deltaTime) {
+inline void BrickUpdate(const float deltaTime) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {
@@ -146,14 +140,15 @@ inline void BrickUpdate(float deltaTime) {
 		}
 	}
 }
-int getBrickIndex(float x, float y) {
+int getBrickIndex(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (BrickSaveList[i].first == x && BrickSaveList[i].second == y) {
 			return i;
 		}
 	}
+	return 0;
 }
-void MultiBrickCoin(float x, float y, int i) {
+void MultiBrickCoin(const float x, const float y, const int i) {
 	if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {
 		if (!BrickHitted[i]) {
 			BrickHitted[i] = true;
@@ -175,11 +170,10 @@ void MultiBrickCoin(float x, float y, int i) {
 		BrickStateCount[i] = 0;
 	}
 }
-void HitEvent(float x, float y) {
-	sf::FloatRect BrickLoop;
+void HitEvent(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y && !BrickState[i]) {
-			BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
+			sf::FloatRect BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
 			BrickLoop.position.y -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
@@ -194,7 +188,7 @@ void HitEvent(float x, float y) {
 					if (GoombaAITypeList[j] != MUSHROOM) {
 						AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
 						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].curr.x, GoombaAIList[j].curr.y);
 						Sounds.PlaySound("Kick2");
 					}
 				}
@@ -216,7 +210,7 @@ void HitEvent(float x, float y) {
 		}
 	}
 }
-void DeleteBrick(float x, float y) {
+void DeleteBrick(const float x, const float y) {
 	for (int i = 0; i < BricksVertPosList.size(); ++i) {
 		if (BricksVertPosList[i].second.x == x && BricksVertPosList[i].second.y == y) {
 			BricksVertPosList.erase(BricksVertPosList.begin() + i);

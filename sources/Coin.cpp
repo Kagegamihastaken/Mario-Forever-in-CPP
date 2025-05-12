@@ -1,11 +1,9 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include "../headers/Object/Coin.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Object/Mario.hpp"
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/Animate/LocalAnimationManager.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Collision/Collide.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
@@ -13,8 +11,6 @@
 #include "../headers/Core/TextureManager.hpp"
 
 #include <vector>
-#include <iostream>
-#include <utility>
 std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
 std::vector<CoinAtt> CoinAttList;
@@ -25,11 +21,9 @@ bool firstUpdate = true;
 
 void CoinInit() {
 	CoinTexture.Loadingtexture("data/resources/Coin.png", "Coin", 0, 0, 96, 32);
-	//CoinTexture.LoadingAnimatedTexture(COIN_TEXTURE, "CoinTexture", 0, 2, 0, 32, 32);
-	//CoinAnimation.setAnimation(0, 2, 20);
 	CoinAnimation.setAnimation(0, 2, 32, 32, 0, 20);
 }
-void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
+void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	Coin operate;
 	setHitbox(operate.hitbox, sf::FloatRect({ 6, 2 }, { 19, 28 }));
 	operate.property.setPosition({ x, y });
@@ -38,7 +32,7 @@ void AddCoin(CoinID ID, CoinAtt att, float x, float y) {
 	CoinIDList.push_back(ID);
 	CoinAttList.push_back(att);
 }
-void DeleteCoin(float x, float y) {
+void DeleteCoin(const float x, const float y) {
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (CoinList[i].property.getPosition().x == x && CoinList[i].property.getPosition().y == y) {
 			CoinList.erase(CoinList.begin() + i);
@@ -55,7 +49,7 @@ void DeleteAllCoin() {
 }
 inline void CoinOnTouch() {
 	if (CoinList.size() == 0 || EffectActive) return;
-	auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
+	const auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < CoinList.size(); i++) {
 		if (isOutScreen(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y, 32, 32)) continue;
 		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
@@ -72,9 +66,9 @@ inline void CoinUpdate() {
 		CoinCount = 0;
 		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);
 	}
-	for (auto& i : CoinList) {
-		if (isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) continue;
-		CoinAnimation.update(i.property);
-		rTexture.draw(i.property);
+	for (auto&[property, hitbox] : CoinList) {
+		if (isOutScreen(property.getPosition().x, property.getPosition().y, 32, 32)) continue;
+		CoinAnimation.update(property);
+		rTexture.draw(property);
 	}
 }

@@ -1,5 +1,4 @@
 #include "../headers/Effect/CoinEffect.hpp"
-#include "../headers/Core/Animate/AnimationManager.hpp"
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
@@ -17,19 +16,18 @@ TextureManager CoinEffectTextureManager;
 
 void CoinEffectInit() {
 	CoinEffectTextureManager.Loadingtexture("data/resources/CoinEffect.png", "CoinEffect", 0, 0, 777, 32);
-	//CoinEffectTextureManager.LoadingAnimatedTexture(COINEFFECT_TEXTURE, "CoinEffect", 0, 20, 0, 37, 32);
 }
 void SetPrevCoinEffectPos() {
 	for (int i = 0; i < CoinEffectList.size(); i++) {
 		CoinEffectList[i].prev = CoinEffectList[i].curr;
 	}
 }
-void InterpolateCoinEffectPos(float alpha) {
+void InterpolateCoinEffectPos(const float alpha) {
 	for (int i = 0; i < CoinEffectList.size(); i++) {
 		CoinEffectList[i].property.setPosition(linearInterpolation(CoinEffectList[i].prev, CoinEffectList[i].curr, alpha));
 	}
 }
-void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
+void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation(0, 20, 37, 32, 0, 70);
 	Init.coinEffectAnimation.setTexture(Init.property, CoinEffectTextureManager.GetTexture("CoinEffect"));
@@ -40,14 +38,14 @@ void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y) {
 	CoinEffectIDList.push_back(ID);
 	CoinEffectAttList.push_back(att);
 }
-void DeleteCoinEffect(int i) {
-	sf::Vector2f pos = CoinEffectList[i].property.getPosition();
+void DeleteCoinEffect(const int i) {
+	const sf::Vector2f pos = CoinEffectList[i].property.getPosition();
 	CoinEffectList.erase(CoinEffectList.begin() + i);
 	CoinEffectIDList.erase(CoinEffectIDList.begin() + i);
 	CoinEffectAttList.erase(CoinEffectAttList.begin() + i);
 	AddScoreEffect(SCORE_200, pos.x, pos.y);
 }
-void DeleteCoinEffect(float x, float y) {
+void DeleteCoinEffect(const float x, const float y) {
 	for (int i = 0; i < CoinEffectList.size(); ++i) {
 		if (CoinEffectList[i].curr.x == x && CoinEffectList[i].curr.y == y) {
 			CoinEffectList.erase(CoinEffectList.begin() + i);
@@ -63,7 +61,7 @@ void DeleteAllCoinEffect() {
 	CoinEffectIDList.clear();
 	CoinEffectAttList.clear();
 }
-inline void CoinEffectStatusUpdate(float deltaTime) {
+inline void CoinEffectStatusUpdate(const float deltaTime) {
 	for (int i = 0; i < CoinEffectList.size(); ++i) {
 		if (CoinEffectList[i].coinEffectAnimation.isAtTheEnd()) {
 			DeleteCoinEffect(CoinEffectList[i].curr.x, CoinEffectList[i].curr.y);

@@ -23,6 +23,13 @@ FetchContent_Declare(SFML
         EXCLUDE_FROM_ALL
         SYSTEM)
 FetchContent_MakeAvailable(SFML)
+#ctre
+FetchContent_Declare(CTRE
+        GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
+        GIT_TAG v3.9.0
+        GIT_SHALLOW ON
+)
+FetchContent_MakeAvailable(CTRE)
 #physfs
 FetchContent_Declare(physfs
         GIT_REPOSITORY https://github.com/icculus/physfs.git
@@ -191,11 +198,11 @@ if(WIN32)
             SFML::Audio SFML::Graphics SFML::System SFML::Window
             gdi32 user32 shell32 ole32 uuid
             physfs-static
-            modplug)
+            modplug ctre::ctre)
 else()
     target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window
             physfs-static
-            modplug)
+            modplug ctre::ctre)
 endif()
 
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES

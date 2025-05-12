@@ -1,11 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <iostream>
 #include <array>
 
 #include "../headers/Core/Loading/enum.hpp"
 #include "../headers/Effect/BrickParticle.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Core/TextureManager.hpp"
@@ -22,7 +20,6 @@ std::vector<int> BrickParticleDisabledAM;
 
 void BrickParticleInit() {
 	BrickParticleTexture.Loadingtexture("data/resources/BrickParticle.png", "BrickParticle", 0, 0, 16, 16);
-	//BrickParticleTexture.Loadingtexture(BRICKPARTICLE_TEXTURE, "BrickParticleGray", 16, 0, 16, 16);
 }
 void SetPrevBrickParticlePos() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
@@ -31,14 +28,14 @@ void SetPrevBrickParticlePos() {
 		}
 	}
 }
-void InterpolateBrickParticlePos(float alpha) {
+void InterpolateBrickParticlePos(const float alpha) {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
 			BrickParticleList[i][j].setPosition(linearInterpolation(BrickParticlePrev[i][j], BrickParticleCurr[i][j], alpha));
 		}
 	}
 }
-void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
+void AddBrickParticle(const BrickID id, const float ori_x, const float ori_y) {
 	std::array<sf::Sprite, 4> it = { sf::Sprite(tempTex), sf::Sprite(tempTex), sf::Sprite(tempTex), sf::Sprite(tempTex) };
 	std::array<sf::Vector2f, 4> itc;
 	std::array<bool, 4> itn;
@@ -71,10 +68,10 @@ void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 			itc[i] = { ori_x + 8.0f + 16.0f, ori_y + 8.0f + 16.0f };
 		}
 		itn[i] = false;
-		if (i == 0) veloIt[i] = std::make_pair(-2, -8);
-		else if (i == 1) veloIt[i] = std::make_pair(2, -8);
-		else if (i == 2) veloIt[i] = std::make_pair(-4, -7);
-		else if (i == 3) veloIt[i] = std::make_pair(4, -7);
+		if (i == 0) veloIt[i] = std::make_pair(-2.0f, -8.0f);
+		else if (i == 1) veloIt[i] = std::make_pair(2.0f, -8.0f);
+		else if (i == 2) veloIt[i] = std::make_pair(-4.0f, -7.0f);
+		else if (i == 3) veloIt[i] = std::make_pair(4.0f, -7.0f);
 	}
 	BrickParticleCurr.push_back(itc);
 	BrickParticlePrev.push_back(itc);
@@ -84,7 +81,7 @@ void AddBrickParticle(BrickID id, float ori_x, float ori_y) {
 	BrickParticleID.push_back(id);
 	BrickParticleDisabledAM.push_back(0);
 }
-void DeleteSubBrickParticle(float x, float y) {
+void DeleteSubBrickParticle(const float x, const float y) {
 	bool Itbreak = false;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
@@ -97,17 +94,15 @@ void DeleteSubBrickParticle(float x, float y) {
 		if (Itbreak) break;
 	}
 }
-void DeleteSubBrickParticleIndex(int i, int j) {
+void DeleteSubBrickParticleIndex(const int i, const int j) {
 	if (!BrickParticleDisabledList[i][j]) {
 		++BrickParticleDisabledAM[i];
 		BrickParticleDisabledList[i][j] = true;
 	}
 }
-void BrickParticleStatusUpdate(float deltaTime) {
-	//std::cout << BrickParticleList.size() << "\n";
+void BrickParticleStatusUpdate(const float deltaTime) {
 	if (BrickParticleList.size() == 0) return;
-	bool reUpdate = false, canDelete = false, AllTrue = false;
-	//std::cout << BrickParticleTimer.getElapsedTime().asMilliseconds() << "\n";
+	bool canDelete = false;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
 			if (!BrickParticleDisabledList[i][j]) {

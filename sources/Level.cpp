@@ -17,19 +17,19 @@
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/MusicManager.hpp"
 #include "../headers/Core/Music.hpp"
-#include "../headers/Core/Background/BgGradient.hpp"
 #include "../headers/Core/Background/Bg.hpp"
-#include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Object/ExitGate.hpp"
 
-#include "../resource.h"
-
+#include <utility>
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include <fstream>
 #include <string>
 #include <array>
+#include <ctre.hpp>
+
+#include "Core/WindowFrame.hpp"
+#include "Core/Background/BgGradient.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::array<float, 2>> BgData;
@@ -40,6 +40,155 @@ std::vector<std::array<float, 5>> EnemyData;
 std::array<float, 4> ExitGateData;
 std::array<float, 2> PlayerData;
 std::pair<int, std::string> MusicData;
+void NPCDATAREAD(std::string line) {
+	std::array<float, 5> temp;
+	bool flag = false;
+	for (auto match : ctre::search_all<"(NPC_TYPE|NPC_ID|NPC_ATT|NPC_X|NPC_Y)=(\\S*)">(line)) {
+		if (match.get<1>() == "NPC_TYPE") {
+			temp[0] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "NPC_ID") {
+			temp[1] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "NPC_ATT") {
+			temp[2] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "NPC_X") {
+			temp[3] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "NPC_Y") {
+			temp[4] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+	}
+	if (flag) EnemyData.push_back(temp);
+}
+void BONUSDATAREAD(std::string line) {
+	std::array<float, 5> temp;
+	bool flag = false;
+	for (auto match : ctre::search_all<"(BONUS_TYPE|BONUS_ID|BONUS_ATT|BONUS_X|BONUS_Y)=(\\S*)">(line)) {
+		if (match.get<1>() == "BONUS_TYPE") {
+			temp[0] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "BONUS_ID") {
+			temp[1] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "BONUS_ATT") {
+			temp[2] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "BONUS_X") {
+			temp[3] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "BONUS_Y") {
+			temp[4] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+	}
+	if (flag) BonusData.push_back(temp);
+}
+void TILEDATAREAD(std::string line) {
+	//TILE
+	std::array<float, 3> temp;
+	bool flag = false;
+	for (auto match : ctre::search_all<"(TILE_ID|TILE_X|TILE_Y)=(\\S*)">(line)) {
+		if (match.get<1>() == "TILE_ID") {
+			temp[0] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "TILE_X") {
+			temp[1] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "TILE_Y") {
+			temp[2] = match.get<2>().to_number<float>();
+			if (!flag) flag = true;
+		}
+	}
+	if (flag) LevelData.push_back(temp);
+}
+void LEVELDATAREAD(std::string line) {
+	//BG
+	for (auto match : ctre::search_all<"(BG_FIRST_COLOR|BG_SECOND_COLOR)=(\\S*)">(line)) {
+		if (match.get<1>() == "BG_FIRST_COLOR") {
+			bgGradient[0].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
+			bgGradient[1].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
+		}
+		else if (match.get<1>() == "BG_SECOND_COLOR") {
+			bgGradient[2].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
+			bgGradient[3].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
+		}
+	}
+	//EXIT
+	for (auto match : ctre::search_all<"(EXIT_INDICATOR_X|EXIT_INDICATOR_Y|EXIT_GATE_X|EXIT_GATE_Y)=(\\S*)">(line)) {
+		if (match.get<1>() == "EXIT_INDICATOR_X") ExitGateData[0] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EXIT_INDICATOR_Y") ExitGateData[1] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EXIT_GATE_X") ExitGateData[2] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EXIT_GATE_Y") ExitGateData[3] = match.get<2>().to_number<float>();
+	}
+	//LEVELDATA
+	for (auto match : ctre::search_all<"(LEVEL_WIDTH|LEVEL_HEIGHT)=(\\S*)">(line)) {
+		if (match.get<1>() == "LEVEL_WIDTH") LevelWidth = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "LEVEL_HEIGHT") LevelHeight = match.get<2>().to_number<float>();
+	}
+	//MARIOPOS
+	for (auto match : ctre::search_all<"(MARIO_X|MARIO_Y)=(\\S*)">(line)) {
+		if (match.get<1>() == "MARIO_X") PlayerData[0] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "MARIO_Y") PlayerData[1] = match.get<2>().to_number<float>();
+	}
+	//MUSIC
+	for (auto match : ctre::search_all<"(MUSIC_TYPE|MUSIC_NAME)=(\\S*)">(line)) {
+		if (match.get<1>() == "MUSIC_TYPE") MusicData.first = match.get<2>().to_number<int>();
+		else if (match.get<1>() == "MUSIC_NAME") MusicData.second = match.get<2>().to_string();
+	}
+}
+void ReadData(std::string path) {
+	std::string lvldat;
+	LoadLvl(lvldat, std::move(path));
+	std::stringstream input_view(lvldat);
+	std::string line;
+	int ReadMode = 0;
+	// Read the file
+	bool flag = false;
+	while (std::getline(input_view, line)) {
+		flag = false;
+		for (auto match : ctre::search_all<"(\\[LEVEL_DATA\\]|\\[TILE_DATA\\]|\\[BONUS_DATA\\]|\\[NPC_DATA\\])">(line)) {
+			if (match.get<0>() == "[LEVEL_DATA]") {
+				ReadMode = 0;
+				flag = true;
+			}
+			else if (match.get<0>() == "[TILE_DATA]") {
+				ReadMode = 1;
+				flag = true;
+			}
+			else if (match.get<0>() == "[BONUS_DATA]") {
+				ReadMode = 2;
+				flag = true;
+			}
+			else if (match.get<0>() == "[NPC_DATA]") {
+				ReadMode = 3;
+				flag = true;
+			}
+		}
+		if (flag) continue;
+
+		switch (ReadMode) {
+			case 0: LEVELDATAREAD(line); break;
+			case 1: TILEDATAREAD(line); break;
+			case 2: BONUSDATAREAD(line); break;
+			case 3: NPCDATAREAD(line); break;
+			default: ;
+		}
+	}
+}
+/*
 void ReadData(std::string path) {
 	std::string lvldat;
 	LoadLvl(lvldat, path);
@@ -230,21 +379,23 @@ void ReadData(std::string path) {
 		if (tm == -1) break;
 	}
 }
+*/
 void Obstaclebuilding() {
-	int posTextureIndex;
 	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
 	//ObstaclesVA.resize(LevelData.size() * 6);
 	for (int i = 0; i < LevelData.size(); ++i) {
 		//for (const auto& i : LevelData) {
 			// Find the tile id
-		posTextureIndex = find_if(ID_list.begin(), ID_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(LevelData[i][0]); }) - (ID_list.begin());
+		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 3> &compare) {
+			return compare[0] == static_cast<int>(LevelData[i][0]);
+		}) - (ID_list.begin());
 		// Then use the index of tile id property to add it to the list
 		//ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
-		ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
+		ObstaclesList.push_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
 		//ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
-		ObstaclesList[int(ObstaclesList.size()) - 1].property.setPosition({ LevelData[i][1], LevelData[i][2] });
+		ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].property.setPosition({ LevelData[i][1], LevelData[i][2] });
 		ObstaclesVertPosList.push_back({ sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,{LevelData[i][1], LevelData[i][2] } });
-		setHitbox(ObstaclesList[int(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
+		setHitbox(ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 
 		//sf::Vertex* vertex = &ObstaclesVA[i * 6];
 		//vertex[0].position = sf::Vector2f(LevelData[i][1], LevelData[i][2]);
@@ -261,32 +412,33 @@ void Obstaclebuilding() {
 		//vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
 		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
-	sort(ObstaclesList.begin(), ObstaclesList.end(), [](Obstacles& A, Obstacles& B) {
+	std::ranges::sort(ObstaclesList, [](const Obstacles& A, const Obstacles& B) {
 		return A.property.getPosition().x < B.property.getPosition().x;
 		});
-	sort(ObstaclesVertPosList.begin(), ObstaclesVertPosList.end(), [](std::pair<sf::FloatRect, sf::Vector2f>& A, std::pair<sf::FloatRect, sf::Vector2f>& B) {
+	std::ranges::sort(ObstaclesVertPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
 		if (A.second.y < B.second.y) return true;
 		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
 		else return false;
 		});
 }
 void Slopebuilding() {
-	std::sort(SlopeData.begin(), SlopeData.end(), [](const std::array<float, 3>& a, const std::array<float, 3>& b) {return a[1] < b[1]; });
-	int posTextureIndex;
+	std::ranges::sort(SlopeData, [](const std::array<float, 3>& a, const std::array<float, 3>& b) {return a[1] < b[1]; });
 	for (const auto& i : SlopeData) {
 		// Find the tile id
-		posTextureIndex = find_if(IDSlope_list.begin(), IDSlope_list.end(), [&i](const std::array<int, 3>& compare) {return compare[0] == int(i[0]); }) - (IDSlope_list.begin());
+		const int posTextureIndex = std::ranges::find_if(IDSlope_list, [&i](const std::array<int, 3> &compare) {
+			return compare[0] == static_cast<int>(i[0]);
+		}) - (IDSlope_list.begin());
 		// Then use the index of tile id property to add it to the list
-		SlopesList.push_back(Obstacles{ int(i[0]), sf::Sprite(SlopeTexture, sf::IntRect({IDSlope_list[posTextureIndex][1], IDSlope_list[posTextureIndex][2] }, {32, 32}))
+		SlopesList.push_back(Obstacles{ static_cast<int>(i[0]), sf::Sprite(SlopeTexture, sf::IntRect({IDSlope_list[posTextureIndex][1], IDSlope_list[posTextureIndex][2] }, {32, 32}))
 			});
-		SlopesList[int(SlopesList.size()) - 1].property.setPosition({ i[1], i[2] });
+		SlopesList[static_cast<int>(SlopesList.size()) - 1].property.setPosition({ i[1], i[2] });
 		SlopesIDList.push_back(IDSlope_list[posTextureIndex][0]);
-		setHitbox(SlopesList[int(SlopesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
+		setHitbox(SlopesList[static_cast<int>(SlopesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	}
 }
 void Bgbuilding() {
 	for (const auto& i : BgData) {
-		AddBg(int(i[0]), int(i[1]));
+		AddBg(static_cast<int>(i[0]), static_cast<int>(i[1]));
 	}
 }
 void ExitGateBuilding() {
@@ -296,7 +448,7 @@ void ExitGateBuilding() {
 	ExitGateForeCurr = ExitGateForePrev = ExitGateFore.getPosition();
 }
 void Objectbuilding() {
-	sort(BonusData.begin(), BonusData.end(), [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
+	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
 	if (MusicData.first == 0) {
 		if (Music.IsMODMusicPlaying(MusicData.second)) Music.StopMODMusic(MusicData.second);

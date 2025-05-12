@@ -25,8 +25,8 @@ extern void ScoreEffectInit();
 extern void CoinEffectInit();
 extern void DeleteAllCoinEffect();
 extern void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y);
-extern inline void CoinEffectUpdate();
+extern void CoinEffectUpdate();
 extern void DeleteCoinEffect(float x, float y);
-extern inline void CoinEffectStatusUpdate(float deltaTime);
+extern void CoinEffectStatusUpdate(float deltaTime);
 
 #endif

@@ -1,13 +1,10 @@
-#include <Windows.h>
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/Animate/AnimationManager.hpp"
 #include "../headers/Core/Scroll.hpp"
-#include "../headers/Object/Mario.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/ExternalHeaders/Kairos.hpp"
+#include "Core/Animate/LocalAnimationManager.hpp"
 
 #if defined _DEBUG
 bool isDebug = true;
@@ -15,9 +12,9 @@ bool isDebug = true;
 bool isDebug = false;
 #endif
 float Width = 640.0f, Height = 480.0f;
-sf::VideoMode videoMode({ (unsigned int)(Width), (unsigned int)(Height) });
+sf::VideoMode videoMode({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 sf::RenderWindow window;
-sf::RenderTexture rTexture({ (unsigned int)(Width), (unsigned int)(Height) });
+sf::RenderTexture rTexture({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 int optionSmoothness = 1;
 int previousUpdate = 2;
 
@@ -34,24 +31,22 @@ sf::Texture CoinHUDTexture;
 sf::Sprite MarioHUD(tempTex);
 TextureManager Maintexture;
 
-AnimationManager CoinHUDAnim;
-float f_min(float a, float b) { return a < b ? a : b; }
-float f_max(float a, float b) { return a > b ? a : b; }
-float f_abs(float a) { return a < 0 ? -a : a; }
-int hex_to_int(std::string hex) { return std::stoi(hex, nullptr, 16); }
+LocalAnimationManager CoinHUDAnim;
+float f_min(const float a, const float b) { return a < b ? a : b; }
+float f_max(const float a, const float b) { return a > b ? a : b; }
+float f_abs(const float a) { return a < 0 ? -a : a; }
+int hex_to_int(const std::string &hex) { return std::stoi(hex, nullptr, 16); }
 void windowInit() {
 	// Create Window
 	window.create(videoMode, "Mario Forever");
 
 	sf::Image icon;
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
-	sf::Texture* Temp = new sf::Texture();
 	Maintexture.Loadingtexture("data/resources/MarioHUD.png", "MarioHUD", 0, 0, 97, 16);
+	Maintexture.Loadingtexture("data/resources/CoinHUD.png", "CoinHUDTexture", 0, 0, 86, 16);
+	CoinHUD.setTexture(*Maintexture.GetTexture("CoinHUDTexture"), true);
+	CoinHUDAnim.setAnimation(0, 2, 28, 16, 0, 16 );
 	//Maintexture.AddTexture("MarioHUD", Temp);
-	LoadTexture(CoinHUDTexture, "data/resources/CoinHUD.png");
-	CoinHUDAnim.addAnimation("IdleCoinHUD", &CoinHUDTexture, { 3,0 }, { 28,16 }, { 0,0 }, 16, { 0,0 }, { 3,0 });
-	Temp = new sf::Texture();
-	delete Temp;
 	MarioHUD.setTexture(*Maintexture.GetTexture("MarioHUD"), true);
 	window.setIcon(icon);
 	//window.setVerticalSyncEnabled(true);
@@ -61,7 +56,7 @@ void windowInit() {
 }
 void FrameDraw() {
 	//CoinHUD
-	CoinHUDAnim.update("IdleCoinHUD", CoinHUD);
+	CoinHUDAnim.update(CoinHUD);
 	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
 	//MarioHUD
 	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
@@ -69,7 +64,7 @@ void FrameDraw() {
 	rTexture.draw(MarioHUD);
 }
 void updateFrame() {
-	sf::Vector2i mouse = sf::Mouse::getPosition(window);
+	const sf::Vector2i mouse = sf::Mouse::getPosition(window);
 	MouseX = (mouse.x - ViewXOff / 2.0f) * (Width / (window.getSize().x - ViewXOff));
 	MouseY = (mouse.y - ViewYOff / 2.0f) * (Height / (window.getSize().y - ViewYOff));
 	if (previousUpdate == 2) {

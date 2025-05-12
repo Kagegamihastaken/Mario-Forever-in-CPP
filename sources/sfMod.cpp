@@ -65,7 +65,7 @@ void sfmod::defaultSettings()
 ///////////////////////////////////////////////////////////
 sfmod::Mod::Mod() : sf::SoundStream(), sfmod::Error()
 {
-	file_ = NULL;
+	file_ = nullptr;
 
 	name_ = "";
 	length_ = 0;
@@ -76,7 +76,7 @@ sfmod::Mod::Mod() : sf::SoundStream(), sfmod::Error()
 sfmod::Mod::Mod(const std::string& filename)
 	: sf::SoundStream(), sfmod::Error()
 {
-	file_ = NULL;
+	file_ = nullptr;
 
 	name_ = "";
 	length_ = 0;
@@ -86,10 +86,10 @@ sfmod::Mod::Mod(const std::string& filename)
 	loadFromFile(filename);
 }
 
-sfmod::Mod::Mod(const void* data, unsigned int size)
+sfmod::Mod::Mod(const void* data, const unsigned int size)
 	: sf::SoundStream(), sfmod::Error()
 {
-	file_ = NULL;
+	file_ = nullptr;
 
 	name_ = "";
 	length_ = 0;
@@ -118,7 +118,7 @@ bool sfmod::Mod::loadFromFile(const std::string& filename)
 	}
 
 	file.seekg(0, std::ios::end);
-	unsigned int size = static_cast<unsigned int>(file.tellg());
+	const unsigned int size = static_cast<unsigned int>(file.tellg());
 	file.seekg(0, std::ios::beg);
 
 	data.reserve(size);
@@ -128,7 +128,7 @@ bool sfmod::Mod::loadFromFile(const std::string& filename)
 	file.close();
 
 	file_ = ModPlug_Load(data.c_str(), size);
-	if (file_ == NULL) {
+	if (file_ == nullptr) {
 		setError("Failed to load module.");
 		return false;
 	}
@@ -149,7 +149,7 @@ bool sfmod::Mod::loadFromMemory(const std::string& data)
 	unload();
 
 	file_ = ModPlug_Load(data.c_str(), data.size());
-	if (file_ == NULL) {
+	if (file_ == nullptr) {
 		setError("Failed to load module.");
 		return false;
 	}
@@ -165,12 +165,12 @@ bool sfmod::Mod::loadFromMemory(const std::string& data)
 	return true;
 }
 
-bool sfmod::Mod::loadFromMemory(const void* data, unsigned int size)
+bool sfmod::Mod::loadFromMemory(const void* data, const unsigned int size)
 {
 	unload();
 
 	file_ = ModPlug_Load(data, size);
-	if (file_ == NULL) {
+	if (file_ == nullptr) {
 		setError("Failed to load module.");
 		return false;
 	}
@@ -191,9 +191,9 @@ void sfmod::Mod::unload()
 	if (getStatus() != sf::SoundStream::Status::Stopped)
 		stop();
 
-	if (file_ != NULL) {
+	if (file_ != nullptr) {
 		ModPlug_Unload(file_);
-		file_ = NULL;
+		file_ = nullptr;
 	}
 
 	name_ = "";
@@ -226,7 +226,7 @@ int sfmod::Mod::getModuleType() const
 std::string sfmod::Mod::getSongComments() const
 {
 	char* comments = ModPlug_GetMessage(file_);
-	if (comments == NULL)
+	if (comments == nullptr)
 		return std::string();
 
 	return std::string(comments);
@@ -287,7 +287,7 @@ unsigned int sfmod::Mod::getChannelCount() const
 	return ModPlug_NumChannels(file_);
 }
 
-std::string sfmod::Mod::getInstrumentName(unsigned int index) const
+std::string sfmod::Mod::getInstrumentName(const unsigned int index) const
 {
 	char buf[40] = { 0 };
 
@@ -296,7 +296,7 @@ std::string sfmod::Mod::getInstrumentName(unsigned int index) const
 	return std::string(buf);
 }
 
-std::string sfmod::Mod::getSampleName(unsigned int index) const
+std::string sfmod::Mod::getSampleName(const unsigned int index) const
 {
 	char buf[40] = { 0 };
 
@@ -305,34 +305,30 @@ std::string sfmod::Mod::getSampleName(unsigned int index) const
 	return std::string(buf);
 }
 
-ModPlugNote* sfmod::Mod::getPattern(int pattern, unsigned int* numrows) const
+ModPlugNote* sfmod::Mod::getPattern(const int pattern, unsigned int* numrows) const
 {
 	return ModPlug_GetPattern(file_, pattern, numrows);
 }
 
-void sfmod::Mod::setMasterVolume(unsigned int volume)
-{
+void sfmod::Mod::setMasterVolume(const unsigned int volume) const {
 	ModPlug_SetMasterVolume(file_, volume);
 }
 
-void sfmod::Mod::seekOrder(int order)
-{
+void sfmod::Mod::seekOrder(const int order) const {
 	ModPlug_SeekOrder(file_, order);
 }
 
-void sfmod::Mod::initMixerCallback(ModPlugMixerProc proc)
-{
+void sfmod::Mod::initMixerCallback(const ModPlugMixerProc proc) const {
 	ModPlug_InitMixerCallback(file_, proc);
 }
 
-void sfmod::Mod::unloadMixerCallback()
-{
+void sfmod::Mod::unloadMixerCallback() const {
 	ModPlug_UnloadMixerCallback(file_);
 }
 
 bool sfmod::Mod::onGetData(sf::SoundStream::Chunk& data)
 {
-	int read = ModPlug_Read(file_, reinterpret_cast<void*>(&buffer_[0]),
+	const int read = ModPlug_Read(file_, reinterpret_cast<void*>(&buffer_[0]),
 		SFMOD_BUFFERSIZE);
 
 	if (read == 0)
@@ -344,7 +340,7 @@ bool sfmod::Mod::onGetData(sf::SoundStream::Chunk& data)
 	return true;
 }
 
-void sfmod::Mod::onSeek(sf::Time timeOffset)
+void sfmod::Mod::onSeek(const sf::Time timeOffset)
 {
 	ModPlug_Seek(file_, static_cast<int>(timeOffset.asMilliseconds()));
 }

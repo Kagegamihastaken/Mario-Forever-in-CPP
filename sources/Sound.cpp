@@ -4,10 +4,8 @@
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Core/Loading/Loading.hpp"
 
-#include "../resource.h"
-
 SoundManager Sounds;
-void SoundAdd(std::string name, std::string path) {
+void SoundAdd(const std::string &name, const std::string &path) {
 	sf::SoundBuffer BufferTemp;
 	LoadAudio(BufferTemp, path);
 	Sounds.AddSound(name, BufferTemp);

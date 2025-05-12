@@ -24,14 +24,14 @@ sf::Sprite ExitGateForeEffect(tempTex);
 sf::Sprite ExitGateIndicator(tempTex);
 sf::Clock ExitGateClock;
 
-sf::Vector2f ExitGateForeCurr = sf::Vector2f(0.0f, 0.0f);
-sf::Vector2f ExitGateForePrev = sf::Vector2f(0.0f, 0.0f);
-sf::Vector2f ExitGateForeEffectCurr = sf::Vector2f(0.0f, 0.0f);
-sf::Vector2f ExitGateForeEffectPrev = sf::Vector2f(0.0f, 0.0f);
+auto ExitGateForeCurr = sf::Vector2f(0.0f, 0.0f);
+auto ExitGateForePrev = sf::Vector2f(0.0f, 0.0f);
+auto ExitGateForeEffectCurr = sf::Vector2f(0.0f, 0.0f);
+auto ExitGateForeEffectPrev = sf::Vector2f(0.0f, 0.0f);
 
-const float ExitGateForeYLimit = 222.0f;
+constexpr float ExitGateForeYLimit = 222.0f;
 float ExitGateForeY = 0.0f;
-const float ExitGateForeYSpeed = 3.05f;
+constexpr float ExitGateForeYSpeed = 3.05f;
 bool ExitGateState = false;
 bool ExitGateForeActive = true;
 bool LevelCompleteEffect = false;
@@ -66,11 +66,11 @@ void SetPrevExitGatePos() {
 	ExitGateForePrev = ExitGateForeCurr;
 	ExitGateForeEffectPrev = ExitGateForeEffectCurr;
 }
-void InterpolateExitGatePos(float alpha) {
+void InterpolateExitGatePos(const float alpha) {
 	ExitGateFore.setPosition(linearInterpolation(ExitGateForePrev, ExitGateForeCurr, alpha));
 	ExitGateForeEffect.setPosition(linearInterpolation(ExitGateForeEffectPrev, ExitGateForeEffectCurr, alpha));
 }
-void ExitGateStatusUpdate(float deltaTime) {
+void ExitGateStatusUpdate(const float deltaTime) {
 	if (ExitGateForeActive) {
 		if (ExitGateIndicator.getPosition().x <= player.curr.x - 24.0f && !PreJump && !MarioCurrentFalling) {
 			AddScoreEffect(SCORE_100, player.curr.x, player.curr.y);

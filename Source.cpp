@@ -1,4 +1,3 @@
-#define PRODUCTION_BUILD
 //include
 #include <SFML/Graphics.hpp>
 #include "headers/Core/WindowFrame.hpp"
@@ -37,8 +36,9 @@ float alphainter = 1.0f;
 // TODO: ImGUI for better debug
 // TODO: Implement REGEX
 
+
 int main() {
-	std::cout << "\nMFCPP On\n" << std::endl;
+	std::cout << "MFCPP On\n" << std::endl;
 	IOInit();
 
 	InitTempTex();
@@ -94,7 +94,7 @@ int main() {
 	Objectbuilding();
 	BgGradientInitPos();
 	ExitGateBuilding();
-	std::string fall, appe;
+	std::string fall;
 	//looping frame
 	while (window.isOpen()) {
 		// process events
@@ -112,8 +112,6 @@ int main() {
 			IODeinit();
 		}
 		//update: Mario
-		fall = (MarioCrouchDown ? "TRUE" : "FALSE");
-		appe = (MarioAppearing ? "TRUE" : "FALSE");
 		//EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
 		EditText(std::to_string(Lives), "_LIVE");
 		//EditText(std::to_string(Xvelo) + " VX", "_CODX");
@@ -126,11 +124,12 @@ int main() {
 		//EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
 		//EditText("PreJump: " + (PreJump ? std::string("TRUE") : std::string("FALSE")), "_PREJUMP");
 		if (isDebug) {
-			EditText(std::to_string((int)MouseX) + "/" + std::to_string((int)MouseY) + "  R", "_MOUSEXY");
-			EditText(std::to_string((int)ViewX) + "/" + std::to_string((int)ViewY) + "  V", "_VIEWXY");
+			std::string appe;
+			EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
+			EditText(std::to_string(static_cast<int>(ViewX)) + "/" + std::to_string(static_cast<int>(ViewY)) + "  V", "_VIEWXY");
 			EditText("Appear: " + appe, "_APPE");
 		}
-		EditText("FPS: " + std::to_string((int)fpsLite.getFps()), "_FPS");
+		EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
 		EditText(std::to_string(CoinCount), "_COIN");
 		EditText(std::to_string(Score), "_SCORE");
 
@@ -190,7 +189,7 @@ int main() {
 		InterpolateExitGatePos(alphainter);
 		InterpolateBricksPos(alphainter);
 		InterpolateLuckyBlockPos(alphainter);
-		//After interpolate
+		//After interpolated
 		UpdateAnimation();
 
 		GoombaAICollisionUpdate();

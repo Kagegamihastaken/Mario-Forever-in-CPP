@@ -1,12 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <iostream>
 
 #include "../headers/Core/Loading/enum.hpp"
 #include "../headers/Effect/ScoreEffect.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Object/Mario.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Sound.hpp"
 #include "../headers/Core/TextureManager.hpp"
 #include "../headers/Core/Interpolation.hpp"

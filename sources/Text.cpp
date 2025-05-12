@@ -18,7 +18,7 @@ void loadFontRes() {
 	FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 	SetFontSize(645, 32, 15, 16);
 }
-void AddText(std::string id, std::string text, TextMarginID margin, float x, float y) {
+void AddText(const std::string &id, const std::string &text, const TextMarginID margin, const float x, float y) {
 	//search for duplicates ID
 	bool isDuplicate = false;
 	for (const auto& i : TextList) {
@@ -28,15 +28,16 @@ void AddText(std::string id, std::string text, TextMarginID margin, float x, flo
 	}
 	if (!isDuplicate) {
 		// If not proceed as usual
-		Text* Init = new Text();
+
+		// LEAKED
+		const auto Init = new Text();
 		Init->x = x;
 		Init->y = y;
 		Init->id = id;
 		Init->textContent = text;
 		int Counter = 0;
-		sf::Vector2i lp;
 		for (const auto& i : text) {
-			lp = GetFontTexture(i);
+			sf::Vector2i lp = GetFontTexture(i);
 			Init->text.push_back(sf::Sprite(*FontTextureList.GetTexture("Font"), sf::IntRect({ lp.x, lp.y }, { 15, 16 })));
 			Init->text[Counter].setPosition({ x + FontSizeX * Counter + Counter, y });
 			++Counter;
@@ -46,7 +47,7 @@ void AddText(std::string id, std::string text, TextMarginID margin, float x, flo
 	}
 	else std::cout << "Cannot add text ID " << id << " (Duplicated ID)" << "\n";
 }
-void EditText(std::string NewText, std::string id) {
+void EditText(const std::string &NewText, const std::string &id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {
@@ -58,10 +59,9 @@ void EditText(std::string NewText, std::string id) {
 	}
 	if (isFounded) {
 		std::vector<sf::Sprite> Init;
-		sf::Vector2i lp;
 		int Counter = 0;
 		for (const auto& i : NewText) {
-			lp = GetFontTexture(i);
+			sf::Vector2i lp = GetFontTexture(i);
 			Init.push_back(sf::Sprite(*FontTextureList.GetTexture("Font"), sf::IntRect({ lp.x, lp.y }, { 15, 16 })));
 			Init[Counter].setPosition({ TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y });
 			++Counter;
@@ -71,7 +71,7 @@ void EditText(std::string NewText, std::string id) {
 	}
 	else std::cout << "Cannot edit text ID " << id << " (Not existed ID)" << "\n";
 }
-inline void EditPosition(float NewX, float NewY, std::string id) {
+inline void EditPosition(const float NewX, const float NewY, const std::string &id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {
@@ -88,9 +88,8 @@ inline void EditPosition(float NewX, float NewY, std::string id) {
 	else std::cout << "Cannot edit position ID " << id << " (Not existed ID)" << "\n";
 }
 inline void UpdatePositionCharacter() {
-	int iTextSize;
 	for (int i = 0; i < TextList.size(); ++i) {
-		iTextSize = static_cast<int>(TextList[i]->text.size());
+		const int iTextSize = static_cast<int>(TextList[i]->text.size());
 		for (int j = 0; j < iTextSize; ++j) {
 			if (TextMarginList[i] == LEFT_MARGIN) TextList[i]->text[j].setPosition({ TextList[i]->x + j + FontSizeX * j + view.getCenter().x - (Width / 2.0f), TextList[i]->y + view.getCenter().y - (Height / 2.0f) });
 			else if (TextMarginList[i] == RIGHT_MARGIN) TextList[i]->text[j].setPosition({ TextList[i]->x + view.getCenter().x - (Width / 2.0f) - (TextList[i]->text.size() - 1 - j) * FontSizeX - (iTextSize - 1 - j), TextList[i]->y + view.getCenter().y - (Height / 2.0f) });
@@ -104,7 +103,7 @@ inline void UpdateText() {
 		}
 	}
 }
-inline int getSizeText(std::string id) {
+inline int getSizeText(const std::string &id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
 	for (const auto& i : TextList) {

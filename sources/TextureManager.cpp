@@ -10,24 +10,24 @@ sf::Texture tempTex;
 void InitTempTex() {
 	LoadTexture(tempTex, "data/resources/placeholder.png");
 }
-void TextureManager::AddTexture(std::string name, sf::Texture* texture) {
+void TextureManager::AddTexture(const std::string &name, sf::Texture* texture) {
 	m_textures[name] = texture;
 }
-void TextureManager::AddAnimatedTexture(std::string name, std::vector<sf::Texture*> textures) {
+void TextureManager::AddAnimatedTexture(const std::string &name, const std::vector<sf::Texture*> &textures) {
 	m_animated_textures[name] = textures;
 	//m_animated_textures.at(name).assign(textures.begin(), textures.end());
 }
-sf::Texture* TextureManager::GetTexture(std::string name) {
+sf::Texture* TextureManager::GetTexture(const std::string &name) {
 	return m_textures[name];
 }
-std::vector<sf::Texture*> TextureManager::GetAnimatedTexture(std::string name) {
+std::vector<sf::Texture*> TextureManager::GetAnimatedTexture(const std::string &name) {
 	return m_animated_textures[name];
 }
-void TextureManager::LoadingAnimatedTexture(std::string path, std::string name, int start, int end, int y, int sizex, int sizey) {
-	sf::Texture* texture = new sf::Texture();
+void TextureManager::LoadingAnimatedTexture(const std::string &path, const std::string &name, const int start, const int end, const int y, int sizex, int sizey) {
+	const auto texture = new sf::Texture();
 	LoadTexture(*texture, path);
-	sf::Texture* tex = new sf::Texture();
-	std::vector<sf::Texture*>* ani = new std::vector<sf::Texture*>();
+	auto tex = new sf::Texture();
+	const auto ani = new std::vector<sf::Texture*>();
 	for (int i = start; i <= end; ++i) {
 		tex->loadFromImage(texture->copyToImage(), false, sf::IntRect({ i * sizex, y * sizey }, { sizex, sizey }));
 		ani->push_back(tex);
@@ -37,9 +37,9 @@ void TextureManager::LoadingAnimatedTexture(std::string path, std::string name, 
 	delete tex;
 	delete ani;
 }
-void TextureManager::Loadingtexture(std::string path, std::string name, int x, int y, int sizex, int sizey, bool isRepeated) {
-	sf::Texture* texture = new sf::Texture();
-	sf::Texture* tex = new sf::Texture();
+void TextureManager::Loadingtexture(const std::string &path, const std::string &name, int x, int y, int sizex, int sizey, const bool isRepeated) {
+	const auto texture = new sf::Texture();
+	auto tex = new sf::Texture();
 	LoadTexture(*texture, path);
 	tex->loadFromImage(texture->copyToImage(), false, sf::IntRect({ x, y }, { sizex, sizey }));
 	tex->setRepeated(isRepeated);

@@ -1,6 +1,5 @@
 #include "../headers/Object/Spike.hpp"
 #include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
 #include "../headers/Core/Animate/LocalAnimationManager.hpp"
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/WindowFrame.hpp"
@@ -10,7 +9,6 @@
 #include "../headers/Core/Loading/enum.hpp"
 
 #include <vector>
-#include <string>
 
 std::vector<sf::Sprite> SpikeList;
 std::vector<SpikeID> SpikeIDList;
@@ -32,7 +30,7 @@ void DeleteAllSpike() {
 	SpikeAnimationList.clear();
 	SpikeHitboxList.clear();
 }
-void DeleteSpike(float x, float y) {
+void DeleteSpike(const float x, const float y) {
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (SpikeList[i].getPosition().x == x && SpikeList[i].getPosition().y == y) {
 			SpikeList.erase(SpikeList.begin() + i);
@@ -42,7 +40,7 @@ void DeleteSpike(float x, float y) {
 		}
 	}
 }
-void AddSpike(SpikeID ID, float x, float y) {
+void AddSpike(const SpikeID ID, float x, float y) {
 	sf::Sprite Init(tempTex);
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
@@ -63,7 +61,7 @@ void AddSpike(SpikeID ID, float x, float y) {
 }
 void SpikeStatusUpdate() {
 	if (SpikeList.size() == 0) return;
-	sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
+	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
 			if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();

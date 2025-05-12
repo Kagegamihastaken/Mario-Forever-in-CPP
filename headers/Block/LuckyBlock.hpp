@@ -18,9 +18,9 @@ extern void LuckyHit(float x, float y, int i);
 extern int getLuckyIndex(float x, float y);
 extern void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y);
 extern void LoadLuckyBlock();
-extern inline void LuckyBlockDraw();
-extern inline void LuckyBlockUpdate(float deltaTime);
-extern inline void LuckyAnimationUpdate();
+extern void LuckyBlockDraw();
+extern void LuckyBlockUpdate(float deltaTime);
+extern void LuckyAnimationUpdate();
 extern void DeleteAllLuckyBlock();
 void LuckyHitEvent(float x, float y);
 

@@ -4,24 +4,24 @@
 std::map<std::string, sf::Music> MusicManager::m_ogg_musics;
 std::map<std::string, sfmod::Mod> MusicManager::m_mod_musics;
 
-void MusicManager::AddOGGMusic(std::string name, std::string path) {
+void MusicManager::AddOGGMusic(const std::string &name, const std::string &path) {
 	LoadOGG(m_ogg_musics[name], path);
 }
-void MusicManager::SetOGGLoop(std::string name, bool loop) {
+void MusicManager::SetOGGLoop(const std::string &name, const bool loop) {
 	m_ogg_musics[name].setLooping(loop);
 }
-void MusicManager::StopOGGMusic(std::string name) {
+void MusicManager::StopOGGMusic(const std::string &name) {
 	m_ogg_musics[name].stop();
 }
 void MusicManager::StopAllOGGMusic() {
-	for (auto& music : m_ogg_musics) {
-		if (music.second.getStatus() == sf::SoundSource::Status::Playing) music.second.stop();
+	for (auto&[fst, snd] : m_ogg_musics) {
+		if (snd.getStatus() == sf::SoundSource::Status::Playing) snd.stop();
 	}
 }
-void MusicManager::PlayOGGMusic(std::string name) {
+void MusicManager::PlayOGGMusic(const std::string &name) {
 	m_ogg_musics[name].play();
 }
-void MusicManager::PauseOGGMusic(std::string name) {
+void MusicManager::PauseOGGMusic(const std::string &name) {
 	m_ogg_musics[name].pause();
 }
 void MusicManager::ClearUp() {
@@ -29,42 +29,42 @@ void MusicManager::ClearUp() {
 	m_mod_musics.clear();
 }
 
-void MusicManager::AddMODMusic(std::string name, std::string path) {
+void MusicManager::AddMODMusic(const std::string &name, const std::string &path) {
 	LoadMOD(m_mod_musics[name], path);
 	//LoadMOD(m_mod_musics[name], ID, channel, 44100);
 }
-void MusicManager::SetMODLoop(std::string name, bool loop) {
+void MusicManager::SetMODLoop(const std::string &name, const bool loop) {
 	m_mod_musics[name].setLooping(loop);
 }
-void MusicManager::StopMODMusic(std::string name) {
+void MusicManager::StopMODMusic(const std::string &name) {
 	m_mod_musics[name].stop();
 }
-void MusicManager::PlayMODMusic(std::string name) {
+void MusicManager::PlayMODMusic(const std::string &name) {
 	m_mod_musics[name].play();
 }
-void MusicManager::PauseMODMusic(std::string name) {
+void MusicManager::PauseMODMusic(const std::string &name) {
 	m_mod_musics[name].pause();
 }
-bool MusicManager::IsMODMusicPlaying(std::string name) {
+bool MusicManager::IsMODMusicPlaying(const std::string &name) {
 	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Playing;
 }
-bool MusicManager::IsOGGMusicPlaying(std::string name) {
+bool MusicManager::IsOGGMusicPlaying(const std::string &name) {
 	return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Playing;
 }
-bool MusicManager::IsMODMusicStopped(std::string name) {
+bool MusicManager::IsMODMusicStopped(const std::string &name) {
 	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Stopped;
 }
-bool MusicManager::IsOGGMusicStopped(std::string name) {
+bool MusicManager::IsOGGMusicStopped(const std::string &name) {
 	return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Stopped;
 }
-bool MusicManager::IsMODMusicPaused(std::string name) {
+bool MusicManager::IsMODMusicPaused(const std::string &name) {
 	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Paused;
 }
-bool MusicManager::IsOGGMusicPaused(std::string name) {
+bool MusicManager::IsOGGMusicPaused(const std::string &name) {
 	return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Paused;
 }
 void MusicManager::StopAllMODMusic() {
-	for (auto& music : m_mod_musics) {
-		if (music.second.getStatus() == sf::SoundSource::Status::Playing) music.second.stop();
+	for (auto&[fst, snd] : m_mod_musics) {
+		if (snd.getStatus() == sf::SoundSource::Status::Playing) snd.stop();
 	}
 }

@@ -16,11 +16,11 @@ public:
 	std::string id;
 };
 extern void loadFontRes();
-extern void AddText(std::string id, std::string text, TextMarginID margin, float x, float y);
-extern void EditText(std::string NewText, std::string id);
-extern inline void EditPosition(float NewX, float NewY, std::string id);
-extern inline void UpdateText();
-extern inline void UpdatePositionCharacter();
-extern inline int getSizeText(std::string id);
+extern void AddText(const std::string &id, const std::string &text, TextMarginID margin, float x, float y);
+extern void EditText(const std::string &NewText, const std::string &id);
+extern void EditPosition(float NewX, float NewY, const std::string &id);
+extern void UpdateText();
+extern void UpdatePositionCharacter();
+extern int getSizeText(const std::string &id);
 
 #endif // !TEXT_HPP

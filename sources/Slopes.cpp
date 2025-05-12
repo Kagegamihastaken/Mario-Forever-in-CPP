@@ -7,8 +7,6 @@
 #include "../headers/Core/Scroll.hpp"
 #include "../headers/Core/WindowFrame.hpp"
 #include "../headers/Block/Obstacles.hpp"
-
-#include "../resource.h"
 std::vector<Obstacles> SlopesList;
 std::vector<int> SlopesIDList;
 sf::Texture SlopeTexture;
@@ -65,7 +63,7 @@ std::array<std::array<sf::FloatRect, 32>, 3> SlopeRectList{
 void loadSlopeRes() {
 	LoadTexture(SlopeTexture, "data/resources/Slope.png");
 }
-int getSlopesIndex(float x, float y) {
+int getSlopesIndex(const float x, const float y) {
 	for (int i = 0; i < SlopesList.size(); ++i) {
 		if (SlopesList[i].property.getPosition().x == x && SlopesList[i].property.getPosition().y == y) {
 			return i;

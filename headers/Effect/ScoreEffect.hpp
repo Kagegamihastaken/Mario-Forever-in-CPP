@@ -11,6 +11,6 @@ extern void InterpolateScoreEffectPos(float alpha);
 extern void AddScoreEffect(ScoreID id, float x, float y);
 extern void DeleteScoreEffect(int i, float deltaTime);
 extern void DeleteAllScoreEffect();
-extern inline void ScoreEffectStatusUpdate(float deltaTime);
-extern inline void ScoreEffectUpdate();
+extern void ScoreEffectStatusUpdate(float deltaTime);
+extern void ScoreEffectUpdate();
 #endif

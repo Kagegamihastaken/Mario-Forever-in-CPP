@@ -3,7 +3,6 @@
 #ifndef MARIO_HPP
 #define MARIO_HPP
 
-#include "../Core/Animate/AnimationManager.hpp"
 #include "../Core/TextureManager.hpp"
 
 class MovableObject {
@@ -36,7 +35,7 @@ extern bool PreJump;
 extern bool Holding;
 extern long long int Score;
 extern void KeyboardMovement(float deltaTime);
-extern inline void MarioDraw();
+extern void MarioDraw();
 extern void PowerDown();
 extern void MarioPosYUpdate(float deltaTime);
 extern void MarioVertYUpdate();
