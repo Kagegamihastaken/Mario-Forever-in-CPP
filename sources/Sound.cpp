@@ -1,8 +1,8 @@
 #include <SFML/Audio.hpp>
 
-#include "../headers/Core/SoundManager.hpp"
-#include "../headers/Core/Sound.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
+#include "Core/SoundManager.hpp"
+#include "Core/Sound.hpp"
+#include "Core/Loading/Loading.hpp"
 
 SoundManager Sounds;
 void SoundAdd(const std::string &name, const std::string &path) {

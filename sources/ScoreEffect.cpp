@@ -1,13 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "../headers/Core/Loading/enum.hpp"
-#include "../headers/Effect/ScoreEffect.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Object/Mario.hpp"
-#include "../headers/Core/Sound.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Interpolation.hpp"
+#include "Core/Loading/enum.hpp"
+#include "Effect/ScoreEffect.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Object/Mario.hpp"
+#include "Core/Sound.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/Interpolation.hpp"
 
 //define
 std::vector<sf::Sprite> ScoreEffectList;

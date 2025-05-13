@@ -1,17 +1,17 @@
 #define _USE_MATH_DEFINES
 #include <SFML/Graphics.hpp>
 
-#include "../headers/Object/ExitGate.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Collision/Collide.hpp"
-#include "../headers/Effect/ScoreEffect.hpp"
-#include "../headers/Core/Music.hpp"
-#include "../headers/Core/Animate/LocalAnimationManager.hpp"
-#include "../headers/Core/Interpolation.hpp"
+#include "Object/ExitGate.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/Collision/Collide.hpp"
+#include "Effect/ScoreEffect.hpp"
+#include "Core/Music.hpp"
+#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Interpolation.hpp"
 
-#include "../headers/Core/Loading/enum.hpp"
+#include "Core/Loading/enum.hpp"
 
 #include <random>
 #include <cmath>

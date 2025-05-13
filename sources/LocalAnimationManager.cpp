@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
 
-#include "../headers/Core/WindowFrame.hpp"
+#include "Core/WindowFrame.hpp"
 
-#include "../headers/Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/LocalAnimationManager.hpp"
 
 void LocalAnimationManager::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int sizex, const int sizey, const int y, const int frequency) {
 	this->startingIndexAnimation = startingIndexAnimation;

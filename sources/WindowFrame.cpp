@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/ExternalHeaders/Kairos.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/Loading/Loading.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/LocalAnimationManager.hpp"
 
 #if defined _DEBUG

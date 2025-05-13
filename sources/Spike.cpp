@@ -1,12 +1,12 @@
-#include "../headers/Object/Spike.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Animate/LocalAnimationManager.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/Collision/Collide.hpp"
-#include "../headers/Object/Mario.hpp"
+#include "Object/Spike.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Core/Collision/Collide.hpp"
+#include "Object/Mario.hpp"
 
-#include "../headers/Core/Loading/enum.hpp"
+#include "Core/Loading/enum.hpp"
 
 #include <vector>
 

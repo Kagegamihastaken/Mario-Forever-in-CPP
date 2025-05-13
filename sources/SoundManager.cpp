@@ -1,4 +1,4 @@
-#include "../headers/Core/SoundManager.hpp"
+#include "Core/SoundManager.hpp"
 
 std::map<std::string, sf::Sound> SoundManager::m_sounds;
 std::map<std::string, sf::SoundBuffer> SoundManager::m_buffers;

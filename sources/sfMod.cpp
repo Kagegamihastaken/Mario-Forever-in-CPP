@@ -1,4 +1,3 @@
-#define MODPLUG_STATIC
 //////////////////////////////////
 // sfmod 1.1.0                  //
 // Copyright (c) Kerli Low 2012 //
@@ -31,7 +30,7 @@
 //////////////////////////////////////////////////////////////////////////////
 ///
 #include <modplug.h>
-#include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
+#include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 
 #include <fstream>
 

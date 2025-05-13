@@ -1,5 +1,5 @@
-#include "../headers/Core/Music.hpp"
-#include "../headers/Core/MusicManager.hpp"
+#include "Core/Music.hpp"
+#include "Core/MusicManager.hpp"
 
 MusicManager Music;
 

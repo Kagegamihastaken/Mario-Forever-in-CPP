@@ -2,11 +2,11 @@
 #include <vector>
 #include <array>
 
-#include "../headers/Block/Slopes.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Block/Obstacles.hpp"
+#include "Block/Slopes.hpp"
+#include "Core/Loading/Loading.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Block/Obstacles.hpp"
 std::vector<Obstacles> SlopesList;
 std::vector<int> SlopesIDList;
 sf::Texture SlopeTexture;

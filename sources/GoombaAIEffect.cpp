@@ -2,16 +2,16 @@
 #include <array>
 #include <vector>
 
-#include "../headers/Effect/GoombaAIEffect.hpp"
-#include "../headers/Object/Mario.hpp"
-#include "../headers/Core/Loading/enum.hpp"
-#include "../headers/Core/Collision/Collide.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Block/Brick.hpp"
-#include "../headers/Block/LuckyBlock.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Interpolation.hpp"
+#include "Effect/GoombaAIEffect.hpp"
+#include "Object/Mario.hpp"
+#include "Core/Loading/enum.hpp"
+#include "Core/Collision/Collide.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Block/Brick.hpp"
+#include "Block/LuckyBlock.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/Interpolation.hpp"
 
 std::vector<MovableObject> GoombaAIEffectList;
 std::vector<GoombaAIEffectID> GoombaAIEffectTypeList;

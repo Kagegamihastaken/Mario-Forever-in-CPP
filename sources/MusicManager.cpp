@@ -1,5 +1,5 @@
-#include "../headers/Core/MusicManager.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
+#include "Core/MusicManager.hpp"
+#include "Core/Loading/Loading.hpp"
 
 std::map<std::string, sf::Music> MusicManager::m_ogg_musics;
 std::map<std::string, sfmod::Mod> MusicManager::m_mod_musics;

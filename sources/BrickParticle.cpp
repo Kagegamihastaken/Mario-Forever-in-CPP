@@ -2,12 +2,12 @@
 #include <vector>
 #include <array>
 
-#include "../headers/Core/Loading/enum.hpp"
-#include "../headers/Effect/BrickParticle.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Interpolation.hpp"
+#include "Core/Loading/enum.hpp"
+#include "Effect/BrickParticle.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/Interpolation.hpp"
 
 std::vector<std::array<sf::Sprite, 4>> BrickParticleList;
 std::vector<std::array<sf::Vector2f, 4>> BrickParticleCurr;

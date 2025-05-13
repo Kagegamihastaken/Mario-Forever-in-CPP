@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/Loading/Loading.hpp"
 
 std::map<std::string, sf::Texture*> TextureManager::m_textures;
 std::map<std::string, std::vector<sf::Texture*>> TextureManager::m_animated_textures;

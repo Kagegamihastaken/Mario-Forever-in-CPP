@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Block/Obstacles.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/TextureManager.hpp"
+#include "Block/Obstacles.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/TextureManager.hpp"
 
 #include <vector>
 #include <array>

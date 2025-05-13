@@ -1,14 +1,19 @@
 cmake_minimum_required(VERSION 3.25)
-project(MFCPP)
+cmake_policy(SET CMP0048 NEW)
+project(MFCPP VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#Ship game
-set(PRODUCTION_BUILD OFF CACHE BOOL "Make this a production build" FORCE)
-
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+option(DEVELOPMENT_BUILD "Enable development build for developing engine" ON)
+
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/config/config.h.in
+        ${CMAKE_CURRENT_BINARY_DIR}/config/config.h
+)
 
 #lib include
 include(FetchContent)
@@ -57,6 +62,24 @@ if(NOT libmodplug_POPULATED)
     #(libmodplug, ${libmodplug_SOURCE_DIR})
     #add_subdirectory(libmodplug, ${libmodplug_BINARY_DIR})
 endif()
+FetchContent_Declare(imgui
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG v1.91.9b
+        GIT_SHALLOW ON
+)
+FetchContent_MakeAvailable(imgui)
+#imgui-sfml
+FetchContent_Declare(imgui-sfml
+        GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
+        GIT_TAG v3.0
+        GIT_SHALLOW ON
+)
+set(IMGUI_DIR ${imgui_SOURCE_DIR})
+option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" OFF)
+option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" OFF)
+FetchContent_MakeAvailable(imgui-sfml)
+
+
 
 #source project
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
@@ -111,54 +134,16 @@ set(RESOURCE_FILES
 
 # music
 set(MUSIC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/musics")
-if(NOT PRODUCTION_BUILD)
-    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${RESOURCE_FILES}
         $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>
 )
-
-    add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${MUSIC_DIR}
         "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/musics"
 )
-else()
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        set(RELEASE_DIR "${CMAKE_BINARY_DIR}/Release")
-        add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${RELEASE_DIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${RESOURCE_FILES}
-            "${RELEASE_DIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${MUSIC_DIR}
-            "${RELEASE_DIR}/musics"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
-            "${RELEASE_DIR}"
-        )
-        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
-        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=0)
-    else()
-        set(DEBUG_DIR "${CMAKE_BINARY_DIR}/Debug")
-        add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${DEBUG_DIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${RESOURCE_FILES}
-            "${DEBUG_DIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${MUSIC_DIR}
-            "${DEBUG_DIR}/musics"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
-            "${DEBUG_DIR}"
-        )
-
-        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
-        target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=1)
-    endif()
-endif()
 
 # Then modify your target_sources to include both .rc files
 
@@ -174,6 +159,16 @@ if(MSVC)
     set_property(SOURCE ${APP_RESOURCE_WINDOWS} PROPERTY COMPILE_DEFINITIONS
             "NDEBUG;_UNICODE;UNICODE"
     )
+
+    if (NOT DEVELOPMENT_BUILD)
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+                LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+        )
+    else()
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+                LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+        )
+    endif()
 endif()
 
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
@@ -183,6 +178,7 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/headers"
+        "${CMAKE_CURRENT_BINARY_DIR}/config"
         "${libmodplug_SOURCE_DIR}/src"
         "${libmodplug_SOURCE_DIR}/src/libmodplug" # for headers in sources directory
         "${libmodplug_BINARY_DIR}"
@@ -198,11 +194,11 @@ if(WIN32)
             SFML::Audio SFML::Graphics SFML::System SFML::Window
             gdi32 user32 shell32 ole32 uuid
             physfs-static
-            modplug ctre::ctre)
+            modplug ctre::ctre ImGui-SFML::ImGui-SFML)
 else()
     target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window
             physfs-static
-            modplug ctre::ctre)
+            modplug ctre::ctre ImGui-SFML::ImGui-SFML)
 endif()
 
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES

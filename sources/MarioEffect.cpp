@@ -1,11 +1,11 @@
-#include "../headers/Effect/MarioEffect.hpp"
-#include "../headers/Core/TextureManager.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Object/Mario.hpp"
-#include "../headers/Core/Music.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Object/ExitGate.hpp"
-#include "../headers/Core/Interpolation.hpp"
+#include "Effect/MarioEffect.hpp"
+#include "Core/TextureManager.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Object/Mario.hpp"
+#include "Core/Music.hpp"
+#include "Core/Scroll.hpp"
+#include "Object/ExitGate.hpp"
+#include "Core/Interpolation.hpp"
 
 TextureManager MarioEffectTextureManager;
 sf::Sprite playerEffect(tempTex);

@@ -28,6 +28,10 @@
 #include "headers/Core/Loading/Loading.hpp"
 
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
+#include "config.h"
+
+#include "imgui.h"
+#include "imgui-SFML.h"
 
 #include <iostream>
 float alphainter = 1.0f;
@@ -36,9 +40,17 @@ float alphainter = 1.0f;
 // TODO: ImGUI for better debug
 // TODO: Implement REGEX
 
-
+#ifdef DEVELOPMENT_BUILD
 int main() {
-	std::cout << "MFCPP On\n" << std::endl;
+#else
+int WinMain() {
+#endif
+	#ifdef DEVELOPMENT_BUILD
+		std::cout << "DEVELOP!" << "\n";
+	#else
+		std::cout << "RELEASE!" << "\n";
+	#endif
+
 	IOInit();
 
 	InitTempTex();
@@ -62,6 +74,8 @@ int main() {
 	MarioEffectInit();
 	BgInit();
 	ExitGateInit();
+	ImGui::SFML::Init(window);
+	sf::Clock deltaClock;
 	//window.setTitle
 	//Init window
 	ViewInit();
@@ -99,6 +113,8 @@ int main() {
 	while (window.isOpen()) {
 		// process events
 		while (const std::optional event = window.pollEvent()) {
+			ImGui::SFML::ProcessEvent(window, *event);
+
 			if (event->is<sf::Event::Closed>()) {
 				Sounds.ClearUp();
 				window.close();
@@ -190,6 +206,14 @@ int main() {
 		InterpolateBricksPos(alphainter);
 		InterpolateLuckyBlockPos(alphainter);
 		//After interpolated
+
+		ImGui::SFML::Update(window, deltaClock.restart());
+		ImGui::ShowDemoWindow();
+
+		ImGui::Begin("Hello, world!");
+		ImGui::Button("Look at this pretty button");
+		ImGui::End();
+
 		UpdateAnimation();
 
 		GoombaAICollisionUpdate();
@@ -234,12 +258,14 @@ int main() {
 		ExitGateEffectDraw();
 		UpdateText();
 		FrameDraw();
-
 		rTexture.display();
 		window.clear();
 		sf::Sprite Renderer(rTexture.getTexture());
 		window.draw(Renderer);
+		ImGui::SFML::Render(window);
 		//display
 		window.display();
 	}
+
+	ImGui::SFML::Shutdown();
 }

@@ -1,14 +1,14 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Object/Coin.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Object/Mario.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/Animate/LocalAnimationManager.hpp"
-#include "../headers/Core/Collision/Collide.hpp"
-#include "../headers/Core/Sound.hpp"
-#include "../headers/Effect/ScoreEffect.hpp"
-#include "../headers/Effect/MarioEffect.hpp"
-#include "../headers/Core/TextureManager.hpp"
+#include "Object/Coin.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Object/Mario.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Collision/Collide.hpp"
+#include "Core/Sound.hpp"
+#include "Effect/ScoreEffect.hpp"
+#include "Effect/MarioEffect.hpp"
+#include "Core/TextureManager.hpp"
 
 #include <vector>
 std::vector<CoinID> CoinIDList;

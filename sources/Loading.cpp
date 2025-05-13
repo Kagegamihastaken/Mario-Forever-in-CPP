@@ -3,8 +3,8 @@
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <string>
 #include <physfs.h>
-#include "../headers/Core/ExternalHeaders/sfMod/sfMod.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
+#include "Core/ExternalHeaders/sfMod/sfMod.hpp"
+#include "Core/Loading/Loading.hpp"
 void IOInit() {
 	PHYSFS_init(nullptr);
 	PHYSFS_mount("data.zip", "/", 1);

@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Text/Font.hpp"
-#include "../headers/Core/TextureManager.hpp"
+#include "Text/Font.hpp"
+#include "Core/TextureManager.hpp"
 
 #include <string>
 #include <algorithm>

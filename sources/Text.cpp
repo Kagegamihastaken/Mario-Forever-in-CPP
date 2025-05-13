@@ -1,11 +1,11 @@
 #include <SFML/Graphics.hpp>
-#include "../headers/Text/Font.hpp"
-#include "../headers/Text/Text.hpp"
-#include "../headers/Core/Scroll.hpp"
-#include "../headers/Core/WindowFrame.hpp"
-#include "../headers/Core/Loading/Loading.hpp"
-#include "../headers/Core/Loading/enum.hpp"
-#include "../headers/Core/TextureManager.hpp"
+#include "Text/Font.hpp"
+#include "Text/Text.hpp"
+#include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
+#include "Core/Loading/Loading.hpp"
+#include "Core/Loading/enum.hpp"
+#include "Core/TextureManager.hpp"
 
 #include <vector>
 #include <iostream>
