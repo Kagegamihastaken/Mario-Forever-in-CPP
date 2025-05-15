@@ -14,7 +14,7 @@ bool isDebug = false;
 float Width = 640.0f, Height = 480.0f;
 sf::VideoMode videoMode({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 sf::RenderWindow window;
-sf::RenderTexture rTexture({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
+sf::RenderTexture rObject({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 int optionSmoothness = 1;
 int previousUpdate = 2;
 
@@ -60,8 +60,8 @@ void FrameDraw() {
 	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
 	//MarioHUD
 	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
-	rTexture.draw(CoinHUD);
-	rTexture.draw(MarioHUD);
+	rObject.draw(CoinHUD);
+	rObject.draw(MarioHUD);
 }
 void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);

@@ -148,7 +148,7 @@ void PiranhaAIMovementUpdate(const float deltaTime) {
 	}
 }
 void PiranhaAIStatusUpdate() {
-	if (PiranhaAIList.size() == 0) return;
+	if (PiranhaAIList.empty()) return;
 	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y, 64, 64)) {
@@ -162,7 +162,7 @@ void PiranhaAIUpdate() {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			PiranhaAIAnimationList[i].update(PiranhaAIList[i]);
-			rTexture.draw(PiranhaAIList[i]);
+			rObject.draw(PiranhaAIList[i]);
 		}
 		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
 			PiranhaAIAnimationList[i].silentupdate();

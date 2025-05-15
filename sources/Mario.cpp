@@ -416,11 +416,11 @@ inline void MarioDraw() {
 	//then draw
 	if (InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) Invincible = false;
 	if (!Invincible) {
-		if (CanControlMario) rTexture.draw(player.property);
+		if (CanControlMario) rObject.draw(player.property);
 	}
 	else {
 		if (!InvincibleState) {
-			if (CanControlMario) rTexture.draw(player.property);
+			if (CanControlMario) rObject.draw(player.property);
 			InvincibleState = true;
 		}
 		else InvincibleState = false;

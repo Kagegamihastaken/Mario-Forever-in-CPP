@@ -21,38 +21,39 @@ include(FetchContent)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
 set(SFML_STATIC_LIBRARIES TRUE)
 #sfml
+message("Downloading SFML...")
 FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 3.0.1
         GIT_SHALLOW ON
         EXCLUDE_FROM_ALL
         SYSTEM)
-FetchContent_MakeAvailable(SFML)
 #ctre
+FetchContent_MakeAvailable(SFML)
+message("Downloading CTRE...")
 FetchContent_Declare(CTRE
         GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
         GIT_TAG v3.9.0
         GIT_SHALLOW ON
 )
-FetchContent_MakeAvailable(CTRE)
 #physfs
+FetchContent_MakeAvailable(CTRE)
+message("Downloading physfs...")
 FetchContent_Declare(physfs
         GIT_REPOSITORY https://github.com/icculus/physfs.git
         GIT_TAG release-3.2.0  # You can specify a specific version/tag
         GIT_SHALLOW ON
 )
 FetchContent_MakeAvailable(physfs)
-
 #libmodplug
 set(MODPLUG_STATIC ON CACHE BOOL "Build static modplug library" FORCE)
 set(MODPLUG_BUILD_SHARED OFF CACHE BOOL "Build shared modplug library" FORCE)
-
+message("Downloading libmodplug...")
 FetchContent_Declare(libmodplug
         GIT_REPOSITORY https://github.com/Konstanty/libmodplug.git
         GIT_TAG master  # You might want to use a specific commit hash for stability
         GIT_SHALLOW ON
 )
-#FetchContent_MakeAvailable(libmodplug)
 FetchContent_GetProperties(libmodplug)
 if(NOT libmodplug_POPULATED)
     if(MSVC)
@@ -62,6 +63,8 @@ if(NOT libmodplug_POPULATED)
     #(libmodplug, ${libmodplug_SOURCE_DIR})
     #add_subdirectory(libmodplug, ${libmodplug_BINARY_DIR})
 endif()
+#FetchContent_MakeAvailable(libmodplug)
+message("Downloading imgui...")
 FetchContent_Declare(imgui
         GIT_REPOSITORY https://github.com/ocornut/imgui.git
         GIT_TAG v1.91.9b
@@ -69,17 +72,16 @@ FetchContent_Declare(imgui
 )
 FetchContent_MakeAvailable(imgui)
 #imgui-sfml
+message("Downloading imgui-sfml...")
+set(IMGUI_DIR ${imgui_SOURCE_DIR})
+option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" OFF)
+option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" OFF)
 FetchContent_Declare(imgui-sfml
         GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
         GIT_TAG v3.0
         GIT_SHALLOW ON
 )
-set(IMGUI_DIR ${imgui_SOURCE_DIR})
-option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" OFF)
-option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" OFF)
 FetchContent_MakeAvailable(imgui-sfml)
-
-
 
 #source project
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS

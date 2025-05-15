@@ -116,6 +116,6 @@ inline void ScoreEffectStatusUpdate(float deltaTime) {
 inline void ScoreEffectUpdate() {
 	if (ScoreEffectList.size() == 0) return;
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
-		rTexture.draw(ScoreEffectList[i]);
+		rObject.draw(ScoreEffectList[i]);
 	}
 }

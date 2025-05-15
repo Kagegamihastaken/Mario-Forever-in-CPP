@@ -106,9 +106,9 @@ inline void BrickStatusUpdate() {
 	}
 }
 inline void BrickDraw() {
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (!isOutScreen(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y, 32, 32)) {
-			rTexture.draw(Bricks[i].property);
+	for (auto & Brick : Bricks) {
+		if (!isOutScreen(Brick.property.getPosition().x, Brick.property.getPosition().y, 32, 32)) {
+			rObject.draw(Brick.property);
 		}
 	}
 }

@@ -77,7 +77,7 @@ inline void CoinEffectUpdate() {
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			i.coinEffectAnimation.update(i.property);
-			rTexture.draw(i.property);
+			rObject.draw(i.property);
 		}
 		else i.coinEffectAnimation.silentupdate();
 	}

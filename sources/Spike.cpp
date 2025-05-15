@@ -75,6 +75,6 @@ void SpikeStatusUpdate() {
 }
 void SpikeUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) rTexture.draw(SpikeList[i]);
+		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) rObject.draw(SpikeList[i]);
 	}
 }

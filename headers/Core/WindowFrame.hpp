@@ -8,7 +8,7 @@
 
 extern bool isDebug;
 extern sf::RenderWindow window;
-extern sf::RenderTexture rTexture;
+extern sf::RenderTexture rObject;
 extern sf::Sound Kick2Sound;
 extern sf::View view;
 extern int optionSmoothness;

@@ -599,7 +599,7 @@ void GoombaAIUpdate() {
 
 				if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].second) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].second);
 			}
-			rTexture.draw(GoombaAIList[i].property);
+			rObject.draw(GoombaAIList[i].property);
 		}
 		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
 			GoombaAIAnimationList[i].second.silentupdate();

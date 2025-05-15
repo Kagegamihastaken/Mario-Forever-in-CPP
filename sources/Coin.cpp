@@ -69,6 +69,6 @@ inline void CoinUpdate() {
 	for (auto&[property, hitbox] : CoinList) {
 		if (isOutScreen(property.getPosition().x, property.getPosition().y, 32, 32)) continue;
 		CoinAnimation.update(property);
-		rTexture.draw(property);
+		rObject.draw(property);
 	}
 }

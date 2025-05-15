@@ -80,7 +80,7 @@ void LuckyBlockSort() {
 inline void LuckyBlockDraw() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
-			rTexture.draw(LuckyBlock[i].property);
+			rObject.draw(LuckyBlock[i].property);
 		}
 	}
 }

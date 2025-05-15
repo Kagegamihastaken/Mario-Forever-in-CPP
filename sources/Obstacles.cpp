@@ -39,7 +39,7 @@ void ObstaclesUpdate() {
 	//window.draw(ObstaclesVA, ObstaclesTextureManager.GetTexture("Tileset"));
 	for (int i = 0; i < ObstaclesList.size(); ++i) {
 		if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
-			rTexture.draw(ObstaclesList[i].property);
+			rObject.draw(ObstaclesList[i].property);
 		}
 	}
 }

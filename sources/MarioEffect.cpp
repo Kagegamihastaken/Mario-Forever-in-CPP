@@ -54,6 +54,6 @@ void ActiveMarioEffect() {
 }
 void MarioEffectDraw() {
 	if (EffectActive) {
-		if (!isOutScreen(playerEffect.getPosition().x, playerEffect.getPosition().y, 32, 32)) rTexture.draw(playerEffect);
+		if (!isOutScreen(playerEffect.getPosition().x, playerEffect.getPosition().y, 32, 32)) rObject.draw(playerEffect);
 	}
 }

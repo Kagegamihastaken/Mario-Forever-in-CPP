@@ -138,11 +138,11 @@ void ExitGateEffectReset() {
 void ExitGateDraw() {
 	if (!isOutScreen(ExitGateIndicator.getPosition().x, ExitGateIndicator.getPosition().y, 64, 64)) {
 		ExitGateIndicatorAnimation.update(ExitGateIndicator);
-		rTexture.draw(ExitGateIndicator);
+		rObject.draw(ExitGateIndicator);
 	}
-	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) rTexture.draw(ExitGateBack);
-	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && ExitGateForeRender) rTexture.draw(ExitGateFore);
+	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) rObject.draw(ExitGateBack);
+	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && ExitGateForeRender) rObject.draw(ExitGateFore);
 }
 void ExitGateEffectDraw() {
-	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && !ExitGateForeRender) rTexture.draw(ExitGateForeEffect);
+	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && !ExitGateForeRender) rObject.draw(ExitGateForeEffect);
 }

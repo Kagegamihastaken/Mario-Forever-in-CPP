@@ -99,7 +99,7 @@ inline void UpdatePositionCharacter() {
 inline void UpdateText() {
 	for (const auto& i : TextList) {
 		for (const auto& j : i->text) {
-			rTexture.draw(j);
+			rObject.draw(j);
 		}
 	}
 }
