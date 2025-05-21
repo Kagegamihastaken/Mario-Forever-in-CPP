@@ -27,9 +27,7 @@ float MouseX, MouseY;
 
 sf::Sprite CoinHUD(tempTex);
 sf::Texture CoinHUDTexture;
-
 sf::Sprite MarioHUD(tempTex);
-TextureManager Maintexture;
 
 LocalAnimationManager CoinHUDAnim;
 float f_min(const float a, const float b) { return a < b ? a : b; }
@@ -42,12 +40,12 @@ void windowInit() {
 
 	sf::Image icon;
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
-	Maintexture.Loadingtexture("data/resources/MarioHUD.png", "MarioHUD", 0, 0, 97, 16);
-	Maintexture.Loadingtexture("data/resources/CoinHUD.png", "CoinHUDTexture", 0, 0, 86, 16);
-	CoinHUD.setTexture(*Maintexture.GetTexture("CoinHUDTexture"), true);
+	TextureManager::Loadingtexture("data/resources/MarioHUD.png", "MarioHUD", 0, 0, 97, 16);
+	TextureManager::Loadingtexture("data/resources/CoinHUD.png", "CoinHUDTexture", 0, 0, 86, 16);
+	CoinHUD.setTexture(*TextureManager::GetTexture("CoinHUDTexture"), true);
 	CoinHUDAnim.setAnimation(0, 2, 28, 16, 0, 16 );
 	//Maintexture.AddTexture("MarioHUD", Temp);
-	MarioHUD.setTexture(*Maintexture.GetTexture("MarioHUD"), true);
+	MarioHUD.setTexture(*TextureManager::GetTexture("MarioHUD"), true);
 	window.setIcon(icon);
 	//window.setVerticalSyncEnabled(true);
 
@@ -65,8 +63,8 @@ void FrameDraw() {
 }
 void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);
-	MouseX = (mouse.x - ViewXOff / 2.0f) * (Width / (window.getSize().x - ViewXOff));
-	MouseY = (mouse.y - ViewYOff / 2.0f) * (Height / (window.getSize().y - ViewYOff));
+	MouseX = (static_cast<float>(mouse.x) - ViewXOff / 2.0f) * (Width / (static_cast<float>(window.getSize().x) - ViewXOff));
+	MouseY = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (Height / (static_cast<float>(window.getSize().y) - ViewYOff));
 	if (previousUpdate == 2) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
 		else window.setFramerateLimit(0); //300

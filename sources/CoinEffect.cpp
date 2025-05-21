@@ -12,25 +12,24 @@
 std::vector<CoinEffect> CoinEffectList;
 std::vector<CoinID> CoinEffectIDList;
 std::vector<CoinAtt> CoinEffectAttList;
-TextureManager CoinEffectTextureManager;
 
 void CoinEffectInit() {
-	CoinEffectTextureManager.Loadingtexture("data/resources/CoinEffect.png", "CoinEffect", 0, 0, 777, 32);
+	TextureManager::Loadingtexture("data/resources/CoinEffect.png", "CoinEffect", 0, 0, 777, 32);
 }
 void SetPrevCoinEffectPos() {
-	for (int i = 0; i < CoinEffectList.size(); i++) {
-		CoinEffectList[i].prev = CoinEffectList[i].curr;
+	for (auto & i : CoinEffectList) {
+		i.prev = i.curr;
 	}
 }
 void InterpolateCoinEffectPos(const float alpha) {
-	for (int i = 0; i < CoinEffectList.size(); i++) {
-		CoinEffectList[i].property.setPosition(linearInterpolation(CoinEffectList[i].prev, CoinEffectList[i].curr, alpha));
+	for (auto & i : CoinEffectList) {
+		i.property.setPosition(linearInterpolation(i.prev, i.curr, alpha));
 	}
 }
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation(0, 20, 37, 32, 0, 70);
-	Init.coinEffectAnimation.setTexture(Init.property, CoinEffectTextureManager.GetTexture("CoinEffect"));
+	LocalAnimationManager::setTexture(Init.property, TextureManager::GetTexture("CoinEffect"));
 	Init.property.setPosition({ static_cast<float>(round(x)), y });
 	Init.property.setOrigin({ 18, 31 });
 	Init.curr = Init.prev = Init.property.getPosition();
@@ -62,18 +61,18 @@ void DeleteAllCoinEffect() {
 	CoinEffectAttList.clear();
 }
 inline void CoinEffectStatusUpdate(const float deltaTime) {
-	for (int i = 0; i < CoinEffectList.size(); ++i) {
-		if (CoinEffectList[i].coinEffectAnimation.isAtTheEnd()) {
-			DeleteCoinEffect(CoinEffectList[i].curr.x, CoinEffectList[i].curr.y);
+	for (auto & i : CoinEffectList) {
+		if (i.coinEffectAnimation.isAtTheEnd()) {
+			DeleteCoinEffect(i.curr.x, i.curr.y);
 			continue;
 		}
-		CoinEffectList[i].curr = { CoinEffectList[i].curr.x, CoinEffectList[i].curr.y + CoinEffectList[i].velocity * deltaTime };
-		if (CoinEffectList[i].velocity < 0.0f) CoinEffectList[i].velocity += 0.125f * deltaTime;
-		else CoinEffectList[i].velocity = 0.0f;
+		i.curr = { i.curr.x, i.curr.y + i.velocity * deltaTime };
+		if (i.velocity < 0.0f) i.velocity += 0.125f * deltaTime;
+		else i.velocity = 0.0f;
 	}
 }
 inline void CoinEffectUpdate() {
-	if (CoinEffectList.size() == 0) return;
+	if (CoinEffectList.empty()) return;
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			i.coinEffectAnimation.update(i.property);

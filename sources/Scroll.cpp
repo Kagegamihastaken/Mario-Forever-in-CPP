@@ -6,6 +6,9 @@
 
 #include <algorithm>
 
+#include "Core/Scene.hpp"
+#include "Core/Loading/enum.hpp"
+
 bool MarioLockedView = false;
 sf::View view;
 sf::View WindowView;
@@ -45,7 +48,8 @@ void ViewInit() {
 }
 void setView() {
 	WindowView = getLetterboxView(view, window.getSize().x, window.getSize().y);
-	view.setCenter({ std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f)), std::round(std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f)) });
+	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f)), std::round(std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f)) });
+	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f, 240.0f});
 	WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));
 }
 void moveView(float x, float y) {

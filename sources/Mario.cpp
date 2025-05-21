@@ -247,7 +247,6 @@ void MarioVertYUpdate() {
 		LuckyCollide = isAccurateCollideTopt(player, player.curr, LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		if ((ObstacleCollide || BrickCollide || LuckyCollide) && Yvelo < 0.0f) {
 			Yvelo = 0.0f;
-			NoAdd = false;
 			//snap back
 			if (PowerState > 0 && !MarioCrouchDown)
 				player.curr = { player.curr.x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - PowerOffset[PowerState]) };
@@ -255,16 +254,14 @@ void MarioVertYUpdate() {
 				player.curr = { player.curr.x, CurrPosYCollide + (31.0f + player.property.getOrigin().y - 30.0f) };
 			// Start event Brick
 			if (BrickCollide) {
-				if (const std::vector<std::pair<float, float> > BrickPos = isCollideTopDetailed(player, player.curr, Bricks, BrickSaveList); BrickPos.size() > 0) {
+				if (const std::vector<std::pair<float, float> > BrickPos = isCollideTopDetailed(player, player.curr, Bricks, BrickSaveList); !BrickPos.empty()) {
 					for (const auto&[fst, snd] : BrickPos) {
 						HitEvent(fst, snd);
 					}
 				}
 			}
 			if (LuckyCollide) {
-				const std::vector<std::pair<float, float> > LuckyPos = isCollideTopDetailed(
-					player, player.curr, LuckyBlock, LuckyBlockSaveList);
-				if (LuckyPos.size() > 0) {
+				if (const std::vector<std::pair<float, float> > LuckyPos = isCollideTopDetailed(player, player.curr, LuckyBlock, LuckyBlockSaveList); !LuckyPos.empty()) {
 					for (const auto&[fst, snd] : LuckyPos) {
 						LuckyHitEvent(fst, snd);
 					}

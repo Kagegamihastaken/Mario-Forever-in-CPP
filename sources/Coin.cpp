@@ -14,20 +14,19 @@
 std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
 std::vector<CoinAtt> CoinAttList;
-TextureManager CoinTexture;
 LocalAnimationManager CoinAnimation;
 int CoinCount = 0;
 bool firstUpdate = true;
 
 void CoinInit() {
-	CoinTexture.Loadingtexture("data/resources/Coin.png", "Coin", 0, 0, 96, 32);
+	TextureManager::Loadingtexture("data/resources/Coin.png", "Coin", 0, 0, 96, 32);
 	CoinAnimation.setAnimation(0, 2, 32, 32, 0, 20);
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	Coin operate;
 	setHitbox(operate.hitbox, sf::FloatRect({ 6, 2 }, { 19, 28 }));
 	operate.property.setPosition({ x, y });
-	CoinAnimation.setTexture(operate.property, CoinTexture.GetTexture("Coin"));
+	LocalAnimationManager::setTexture(operate.property, TextureManager::GetTexture("Coin"));
 	CoinList.push_back(operate);
 	CoinIDList.push_back(ID);
 	CoinAttList.push_back(att);
@@ -48,14 +47,14 @@ void DeleteAllCoin() {
 	CoinAttList.clear();
 }
 inline void CoinOnTouch() {
-	if (CoinList.size() == 0 || EffectActive) return;
+	if (CoinList.empty() || EffectActive) return;
 	const auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
-	for (int i = 0; i < CoinList.size(); i++) {
-		if (isOutScreen(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y, 32, 32)) continue;
-		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
+	for (auto &[property, hitbox] : CoinList) {
+		if (isOutScreen(property.getPosition().x, property.getPosition().y, 32, 32)) continue;
+		if (isCollide(hitbox, property, playerHitbox)) {
 			Score += 200;
-			DeleteCoin(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y);
-			Sounds.PlaySound("Coin");
+			DeleteCoin(property.getPosition().x, property.getPosition().y);
+			SoundManager::PlaySound("Coin");
 			++CoinCount;
 			break;
 		}

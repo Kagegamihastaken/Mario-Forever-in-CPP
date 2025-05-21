@@ -26,7 +26,7 @@ void SetPrevScoreEffectPos() {
 		ScoreEffectPrev[i] = ScoreEffectCurr[i];
 	}
 }
-void InterpolateScoreEffectPos(float alpha) {
+void InterpolateScoreEffectPos(const float alpha) {
 	for (int i = 0; i < ScoreEffectList.size(); i++) {
 		ScoreEffectList[i].setPosition(linearInterpolation(ScoreEffectPrev[i], ScoreEffectCurr[i], alpha));
 	}
@@ -84,7 +84,7 @@ void AddScoreEffect(ScoreID id, float x, float y) {
 	ScoreEffectVelocity.push_back(-1.5f);
 	ScoreEffectAlpha.push_back(255);
 }
-void DeleteScoreEffect(int i, float deltaTime) {
+void DeleteScoreEffect(const int i, const float deltaTime) {
 	if (ScoreEffectAlpha[i] > 0) {
 		ScoreEffectAlpha[i] -= 7.5f * deltaTime;
 		ScoreEffectList[i].setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(ScoreEffectAlpha[i]))));

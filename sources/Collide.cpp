@@ -1,18 +1,16 @@
 #include <SFML/Graphics.hpp>
-#include <array>
 #include <vector>
 
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Object/Mario.hpp"
 #include "Block/Obstacles.hpp"
-#include "Block/Slopes.hpp"
 
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
 	hitbox = Sethitbox;
 }
-sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos) {
-	return sf::FloatRect({ pos.x + hitbox.position.x, pos.y + hitbox.position.y }, { hitbox.size.x, hitbox.size.y });
+sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) {
+	return sf::FloatRect({ pos.x + hitbox.position.x - origin.x, pos.y + hitbox.position.y - origin.y }, { hitbox.size.x, hitbox.size.y });
 }
 sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Sprite& sprite) {
 	sf::Sprite obj(sprite.getTexture());
@@ -22,6 +20,9 @@ sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& p
 }
 sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Sprite& sprite) {
 	return sprite.getTransform().transformRect(hitbox);
+}
+bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other) {
+	return static_cast<bool>(hitbox.findIntersection(other));
 }
 bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::FloatRect& other) {
 	return static_cast<bool>(getGlobalHitbox(hitbox, sprite).findIntersection(other));
@@ -36,18 +37,17 @@ bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::
 // Mario && GoombaAI only
 std::pair<bool, bool> isAccurateCollideSidet(const MovableObject& object, const sf::Vector2f& pos, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance, const std::vector<std::pair<float, float>>& SaveList = {}) {
 	bool isCollideLeftBool = false, isCollideRightBool = false;
-	sf::Sprite obj(object.property.getTexture());
-	obj.setPosition(pos);
-	obj.setOrigin(object.property.getOrigin());
+	const sf::FloatRect hitbox_intersect_left = getGlobalHitbox(object.hitboxLeft, pos, object.property.getOrigin());
+	const sf::FloatRect hitbox_intersect_right = getGlobalHitbox(object.hitboxRight, pos, object.property.getOrigin());
 	for (int i = first; i <= last; ++i) {
-		if (f_abs(OL[i].property.getPosition().y - obj.getPosition().y) > distance) continue;
+		if (f_abs(OL[i].property.getPosition().y - object.property.getPosition().y) > distance) continue;
 		sf::FloatRect hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
 		if (SaveList.size() > 0) {
 			hitbox_loop.position.y = SaveList[i].second;
 			hitbox_loop.position.x = SaveList[i].first;
 		}
 		// Check if collide
-		if (isCollide(object.hitboxLeft, obj, hitbox_loop)) {
+		if (isCollide(hitbox_intersect_left, hitbox_loop)) {
 			isCollideLeftBool = true;
 			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
 				if (!NoAdd) {
@@ -58,41 +58,7 @@ std::pair<bool, bool> isAccurateCollideSidet(const MovableObject& object, const 
 			}
 			break;
 		}
-		if (isCollide(object.hitboxRight, obj, hitbox_loop)) {
-			isCollideRightBool = true;
-			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
-				if (!NoAdd) {
-					CurrPosXCollide = hitbox_loop.position.x;
-					CurrPosYCollide = hitbox_loop.position.y;
-					NoAdd = true;
-				}
-			}
-			break;
-		}
-	}
-	return { isCollideLeftBool, isCollideRightBool };
-}
-std::pair<bool, bool> isAccurateCollideSide(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	bool isCollideLeftBool = false, isCollideRightBool = false;
-	for (int i = 0; i < OL.size(); ++i) {
-		sf::FloatRect hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
-		if (SaveList.size() > 0) {
-			hitbox_loop.position.y = SaveList[i].second;
-			hitbox_loop.position.x = SaveList[i].first;
-		}
-		// Check if collide
-		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) {
-			isCollideLeftBool = true;
-			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
-				if (!NoAdd) {
-					CurrPosXCollide = hitbox_loop.position.x;
-					CurrPosYCollide = hitbox_loop.position.y;
-					NoAdd = true;
-				}
-			}
-			break;
-		}
-		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) {
+		if (isCollide(hitbox_intersect_right, hitbox_loop)) {
 			isCollideRightBool = true;
 			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
 				if (!NoAdd) {
@@ -107,42 +73,12 @@ std::pair<bool, bool> isAccurateCollideSide(const MovableObject& object, const s
 	return { isCollideLeftBool, isCollideRightBool };
 }
 //Y
-bool isCollideBotSlope(const MovableObject& object, const float Yvelo, const float deltaTime) {
-	for (int i = 0; i < SlopesList.size(); ++i) {
-		sf::FloatRect hitbox_loop = getGlobalHitbox(SlopesList[i].hitbox, SlopesList[i].property);
-		hitbox_loop.position.y -= 32.0f;
-		hitbox_loop.size.y += 32.0f;
-		if (isCollide(object.hitboxBot2, object.property, hitbox_loop)) {
-			for (auto& j : SlopeRectList[SlopesIDList[i]]) {
-				hitbox_loop = getGlobalHitbox(j, SlopesList[i].property);
-				if (Yvelo == 0.0f) {
-					hitbox_loop.position.y -= 9.0f;
-					hitbox_loop.size.y += 9.0f;
-				}
-				else {
-					hitbox_loop.position.y += 1.0f / deltaTime - 3.0f;
-					hitbox_loop.size.y -= 1.0f / deltaTime - 3.0f;
-				}
-				if (isCollide(object.hitboxBot2, object.property, hitbox_loop)) return true;
-			}
-		}
-	}
-	return false;
-}
-bool isCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL) {
-	for (auto& i : OL) {
-		if (sf::FloatRect hitbox_loop = getGlobalHitbox(i.hitbox, i.property); isCollide(object.hitboxBot, object.property, hitbox_loop)) return true;
-	}
-	return false;
-}
 bool isAccurateCollideBott(const MovableObject& object, const sf::Vector2f& pos, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
-	sf::Sprite obj(object.property.getTexture());
-	obj.setPosition(pos);
-	obj.setOrigin(object.property.getOrigin());
 	bool isCollideBotBool = false;
+	const sf::FloatRect hitbox_intersect = getGlobalHitbox(object.hitboxBot, pos, object.property.getOrigin());
 	for (int i = first; i <= last; ++i) {
-		if (f_abs(OLVert[i].second.x - obj.getPosition().x) > distance) continue;
-		if (sf::FloatRect hitbox_loop = getGlobalHitbox(OLVert[i].first, OLVert[i].second); isCollide(object.hitboxBot, obj, hitbox_loop)) {
+		if (f_abs(OLVert[i].second.x - object.property.getPosition().x) > distance) continue;
+		if (const sf::FloatRect hitbox_loop = getGlobalHitbox(OLVert[i].first, OLVert[i].second, {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
 			isCollideBotBool = true;
 			if (!NoAdd) {
 				CurrPosYCollide = hitbox_loop.position.y;
@@ -153,77 +89,24 @@ bool isAccurateCollideBott(const MovableObject& object, const sf::Vector2f& pos,
 	}
 	return isCollideBotBool;
 }
-std::pair<bool, std::pair<bool, bool>> isAccuratelyCollideBotSlope(const MovableObject& object, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, float& ID, std::vector<std::array<float, 3>>& SlopeTemp) {
-	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
-	constexpr auto hitbox = sf::FloatRect({ 0.0f, -32.0f }, { 32.0f, 64.0f });
-	for (int i = 0; i < SlopesList.size(); ++i) {
-		sf::FloatRect hitbox_loop = getGlobalHitbox(hitbox, SlopesList[i].property);
-		if (isCollide(object.hitboxSlopeBot, object.property, hitbox_loop)) {
-			isCollideBotBool = true;
-			CurrPosXCollide = SlopesList[i].property.getPosition().x;
-			CurrPosYCollide = hitbox_loop.position.y + 32.0f;
-			ID = SlopesIDList[i];
-			SlopeTemp.push_back({ CurrPosXCollide, CurrPosYCollide, ID });
-		}
-		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) isCollideRight = true;
-		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideLeft = true;
-		if (isCollideBotBool && isCollideRight && isCollideLeft) break;
-	}
-	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
-}
-std::pair<bool, std::pair<bool, bool>> isAccuratelyCollideBot(const MovableObject& object, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, float& ID, std::vector<std::array<float, 3>>& SlopeTemp) {
-	bool isCollideBotBool = false, isCollideRight = false, isCollideLeft = false;
-	for (int i = 0; i < OL.size(); ++i) {
-		sf::FloatRect hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
-		if (isCollide(object.hitboxBot, object.property, hitbox_loop)) {
-			isCollideBotBool = true;
-			if (!NoAdd) {
-				CurrPosXCollide = OL[i].property.getPosition().x;
-				CurrPosYCollide = hitbox_loop.position.y;
-				ID = SlopesIDList[i];
-				NoAdd = true;
-			}
-			CurrPosXCollide = OL[i].property.getPosition().x;
-			CurrPosYCollide = hitbox_loop.position.y;
-			ID = SlopesIDList[i];
-			SlopeTemp.push_back({ CurrPosXCollide, CurrPosYCollide, ID });
-		}
-		if (isCollide(object.hitboxRight, object.property, hitbox_loop)) isCollideRight = true;
-		if (isCollide(object.hitboxLeft, object.property, hitbox_loop)) isCollideLeft = true;
-		if (isCollideBotBool && isCollideRight && isCollideLeft) break;
-	}
-	return { isCollideBotBool, { isCollideRight, isCollideLeft } };
-}
-bool isCollideTop(const MovableObject& object, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	for (int i = 0; i < OL.size(); ++i) {
-		sf::FloatRect hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
-		if (SaveList.size() > 0) hitbox_loop.position.y = SaveList[i].second;
-		if (isCollide(object.hitboxTop, object.property, hitbox_loop)) return true;
-	}
-	return false;
-}
 std::vector<std::pair<float, float>> isCollideTopDetailed(const MovableObject& object, const sf::Vector2f& pos, const std::vector<Obstacles>& OL, const std::vector<std::pair<float, float>>& SaveList = {}) {
-	sf::Sprite obj(object.property.getTexture());
-	obj.setPosition(pos);
-	obj.setOrigin(object.property.getOrigin());
+	const sf::FloatRect hitbox_intersect = getGlobalHitbox(object.hitboxTop, pos, object.property.getOrigin());
 	std::vector<std::pair<float, float>> result;
 	for (int i = 0; i < OL.size(); ++i) {
 		sf::FloatRect hitbox_loop = getGlobalHitbox(OL[i].hitbox, OL[i].property);
 		if (SaveList.size() > 0) hitbox_loop.position.y = SaveList[i].second;
-		if (isCollide(object.hitboxTop, obj, hitbox_loop)) result.push_back({ hitbox_loop.position.x, hitbox_loop.position.y });
+		if (isCollide(hitbox_intersect, hitbox_loop)) result.push_back({ hitbox_loop.position.x, hitbox_loop.position.y });
 	}
 	return result;
 }
 bool isAccurateCollideTopt(const MovableObject& object, const sf::Vector2f& pos, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
-	sf::Sprite obj(object.property.getTexture());
-	obj.setPosition(pos);
-	obj.setOrigin(object.property.getOrigin());
+	const sf::FloatRect hitbox_intersect = getGlobalHitbox(object.hitboxTop, pos, object.property.getOrigin());
 	bool isCollideTopBool = false;
 	for (int i = first; i <= last; ++i) {
-		sf::FloatRect hitbox_loop = getGlobalHitbox(OLVert[i].first, OLVert[i].second);
-		if (f_abs(OLVert[i].second.x - obj.getPosition().x) > distance) continue;
+		sf::FloatRect hitbox_loop = getGlobalHitbox(OLVert[i].first, OLVert[i].second, {0,0});
+		if (f_abs(OLVert[i].second.x - object.property.getPosition().x) > distance) continue;
 		//if (SaveList.size() > 0) hitbox_loop.position.y = SaveList[i].second;
-		if (isCollide(object.hitboxTop, obj, hitbox_loop)) {
+		if (isCollide(hitbox_intersect, hitbox_loop)) {
 			isCollideTopBool = true;
 			if (!NoAdd) {
 				CurrPosYCollide = hitbox_loop.position.y;

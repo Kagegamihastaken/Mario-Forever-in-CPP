@@ -25,5 +25,6 @@ enum GoombaAIEffectID { NONE, COLLIDE };
 
 enum PiranhaID { GREEN };
 enum SpikeID { PIRANHA_GROUND, SPIKE_NORMAL };
+enum SceneID {SCENE_GAMEPLAY, SCENE_LEVEL_EDITOR};
 
 #endif // ENUM_HPP

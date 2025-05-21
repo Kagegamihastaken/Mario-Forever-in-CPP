@@ -15,11 +15,10 @@ std::vector<std::array<sf::Vector2f, 4>> BrickParticlePrev;
 std::vector<std::array<bool, 4>> BrickParticleDisabledList;
 std::vector<BrickID> BrickParticleID;
 std::vector<std::array<std::pair<float, float>, 4>> BrickParticleVelo;
-TextureManager BrickParticleTexture;
 std::vector<int> BrickParticleDisabledAM;
 
 void BrickParticleInit() {
-	BrickParticleTexture.Loadingtexture("data/resources/BrickParticle.png", "BrickParticle", 0, 0, 16, 16);
+	TextureManager::Loadingtexture("data/resources/BrickParticle.png", "BrickParticle", 0, 0, 16, 16);
 }
 void SetPrevBrickParticlePos() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
@@ -38,10 +37,10 @@ void InterpolateBrickParticlePos(const float alpha) {
 void AddBrickParticle(const BrickID id, const float ori_x, const float ori_y) {
 	std::array<sf::Sprite, 4> it = { sf::Sprite(tempTex), sf::Sprite(tempTex), sf::Sprite(tempTex), sf::Sprite(tempTex) };
 	std::array<sf::Vector2f, 4> itc;
-	std::array<bool, 4> itn;
+	std::array<bool, 4> itn{};
 	std::array<std::pair<float, float>, 4> veloIt;
 	for (int i = 0; i < 4; ++i) {
-		it[i].setTexture(*BrickParticleTexture.GetTexture("BrickParticle"), true);
+		it[i].setTexture(*TextureManager::GetTexture("BrickParticle"), true);
 		switch (id) {
 		case BRICK_NORMAL:
 			it[i].setTextureRect(sf::IntRect({ 0, 0 }, { 16, 16 }));
@@ -101,7 +100,7 @@ void DeleteSubBrickParticleIndex(const int i, const int j) {
 	}
 }
 void BrickParticleStatusUpdate(const float deltaTime) {
-	if (BrickParticleList.size() == 0) return;
+	if (BrickParticleList.empty()) return;
 	bool canDelete = false;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
@@ -162,7 +161,7 @@ void DeleteAllBrickParticle() {
 	BrickParticlePrev.clear();
 }
 void BrickParticleUpdate() {
-	if (BrickParticleList.size() == 0) return;
+	if (BrickParticleList.empty()) return;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
 			if (!BrickParticleDisabledList[i][j]) rObject.draw(BrickParticleList[i][j]);

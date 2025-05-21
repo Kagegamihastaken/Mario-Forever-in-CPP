@@ -82,6 +82,15 @@ FetchContent_Declare(imgui-sfml
         GIT_SHALLOW ON
 )
 FetchContent_MakeAvailable(imgui-sfml)
+message("Downloading boost (container_hash)...")
+FetchContent_Declare(Boost
+        GIT_REPOSITORY https://github.com/boostorg/boost.git
+        GIT_TAG boost-1.88.0
+        GIT_SHALLOW ON
+)
+set(BOOST_INCLUDE_LIBRARIES container_hash)
+set(BOOST_ENABLE_CMAKE ON)
+FetchContent_MakeAvailable(Boost)
 
 #source project
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
@@ -196,11 +205,11 @@ if(WIN32)
             SFML::Audio SFML::Graphics SFML::System SFML::Window
             gdi32 user32 shell32 ole32 uuid
             physfs-static
-            modplug ctre::ctre ImGui-SFML::ImGui-SFML)
+            modplug ctre::ctre ImGui-SFML::ImGui-SFML Boost::container_hash)
 else()
     target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE SFML::Audio SFML::Graphics SFML::System SFML::Window
             physfs-static
-            modplug ctre::ctre ImGui-SFML::ImGui-SFML)
+            modplug ctre::ctre ImGui-SFML::ImGui-SFML Boost::container_hash)
 endif()
 
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
