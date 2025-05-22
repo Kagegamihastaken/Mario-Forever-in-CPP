@@ -7,7 +7,7 @@
 #include "headers/Object/ExitGate.hpp"
 #include "headers/Core/Interpolation.hpp"
 #include "headers/Core/Loading/Loading.hpp"
-#include "headers/Core/RenderTileHash.hpp"
+#include "headers/Core/Hash.hpp"
 
 #include "headers/Editor/RenderTile.hpp"
 

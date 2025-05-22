@@ -132,11 +132,15 @@ void KeyboardMovement(const float deltaTime) {
 		if (MarioDirection) MarioDirection = false;
 		Xvelo = 2.5f;
 	}
+	else if (!CanControlMario) {
+		Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.625f * deltaTime);
+		if (Xvelo < 0.0f) Xvelo = 0.0f;
+	}
 }
 void MarioPosXUpdate(const float deltaTime) {
+	if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
+	else player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
 	if (CanControlMario) {
-		if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
-		else player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
 
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
 			OverSpeed = true;

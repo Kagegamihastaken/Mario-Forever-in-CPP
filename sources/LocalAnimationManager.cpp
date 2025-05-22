@@ -67,6 +67,9 @@ void LocalAnimationManager::update(sf::Sprite& sprite) {
 		this->TimeRun.restart();
 	}
 }
+sf::IntRect LocalAnimationManager::getAnimationTextureRect() const {
+	return sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey });
+}
 void LocalAnimationManager::silentupdate() {
 	this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMilliseconds();
 	if (this->frequency != 0 && this->TimeRan >= (2000.0f / this->frequency / (timestep.getTimeSpeed()))) {

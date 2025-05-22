@@ -1,15 +1,11 @@
 #ifndef PIRANHAAI_HPP
 #define PIRANHAAI_HPP
 
-#include "../Core/Loading/enum.hpp"
-
+#include "Core/Loading/enum.hpp"
 #include <vector>
-
 #include <SFML/Graphics.hpp>
 
-extern std::vector<sf::Sprite> PiranhaAIList;
-extern std::vector<PiranhaID> PiranhaAITypeList;
-extern std::vector<sf::FloatRect> PiranhaAIHitboxList;
+#include "Core/Animate/LocalAnimationManager.hpp"
 
 extern void SetPrevPiranhaAIPos();
 extern void InterpolatePiranhaAIPos(float alpha);

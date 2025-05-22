@@ -4,7 +4,7 @@
 
 class RenderTile : public sf::Drawable, public sf::Transformable {
 public:
-    explicit RenderTile(const sf::Texture& texture);
+    RenderTile(const sf::Texture& texture);
     RenderTile(const sf::Texture& texture, const sf::IntRect& rect);
     RenderTile(const sf::Texture& texture, const sf::Vector2f& position);
     RenderTile(const sf::Texture& texture, const sf::Vector2f& position, const sf::IntRect& rect);

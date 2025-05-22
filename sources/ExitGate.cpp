@@ -81,7 +81,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			Music.PlayOGGMusic("LevelComplete");
 			ExitGateForeActive = false;
 		}
-		if (isCollide(player.hitboxMain, player.property, player.curr, getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore))) {
+		if (isCollide(getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin()), getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore))) {
 			if (ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 30.0f) AddScoreEffect(SCORE_10000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
 			else if (ExitGateFore.getPosition().y >= ExitGateBack.getPosition().y - 266.0f + 30.0f && ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 60.0f) AddScoreEffect(SCORE_5000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
 			else if (ExitGateFore.getPosition().y >= ExitGateBack.getPosition().y - 266.0f + 60.0f && ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 100.0f) AddScoreEffect(SCORE_2000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);

@@ -27,12 +27,6 @@ bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other) {
 bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::FloatRect& other) {
 	return static_cast<bool>(getGlobalHitbox(hitbox, sprite).findIntersection(other));
 }
-bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::Vector2f& pos, const sf::FloatRect& other) {
-	sf::Sprite obj(sprite.getTexture());
-	obj.setPosition(pos);
-	obj.setOrigin(sprite.getOrigin());
-	return static_cast<bool>(getGlobalHitbox(hitbox, obj).findIntersection(other));
-}
 
 // Mario && GoombaAI only
 std::pair<bool, bool> isAccurateCollideSidet(const MovableObject& object, const sf::Vector2f& pos, const std::vector<Obstacles>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance, const std::vector<std::pair<float, float>>& SaveList = {}) {

@@ -7,165 +7,117 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Interpolation.hpp"
-
 #include <vector>
+#include "Class/PiranhaAIClass.hpp"
 
-TextureManager PiranhaAITextureManager;
-
-std::vector<sf::Sprite> PiranhaAIList;
-std::vector<sf::Vector2f> PiranhaAIPosCurrList;
-std::vector<sf::Vector2f> PiranhaAIPosPrevList;
-std::vector<PiranhaID> PiranhaAITypeList;
-std::vector<sf::FloatRect> PiranhaAIHitboxList;
-std::vector<LocalAnimationManager> PiranhaAIAnimationList;
-std::vector<bool> PiranhaAIDisabledList;
-std::vector<float> PiranhaAISpeedList;
-std::vector<float> PiranhaAIPosLimitList;
-std::vector<float> PiranhaAIPosTempList;
-std::vector<bool> PiranhaAIStateList;
-std::vector<float> PiranhaAIStopTimeList;
-std::vector<sf::Clock> PiranhaAIStopTimerList;
-std::vector<bool> PiranhaAIStopList;
-std::vector<float> PiranhaAIDistanceAppearList;
-
+std::vector<PiranhaAI> PiranhaAIList;
 void DeletePiranhaAI(const float x, const float y) {
-	for (int i = 0; i < PiranhaAIList.size(); ++i) {
+	for (unsigned int i = 0; i < PiranhaAIList.size(); ++i) {
 		if (PiranhaAIList[i].getPosition().x == x && PiranhaAIList[i].getPosition().y == y) {
 			PiranhaAIList.erase(PiranhaAIList.begin() + i);
-			PiranhaAITypeList.erase(PiranhaAITypeList.begin() + i);
-			PiranhaAIHitboxList.erase(PiranhaAIHitboxList.begin() + i);
-			PiranhaAIAnimationList.erase(PiranhaAIAnimationList.begin() + i);
-			PiranhaAIDisabledList.erase(PiranhaAIDisabledList.begin() + i);
-			PiranhaAISpeedList.erase(PiranhaAISpeedList.begin() + i);
-			PiranhaAIPosLimitList.erase(PiranhaAIPosLimitList.begin() + i);
-			PiranhaAIPosTempList.erase(PiranhaAIPosTempList.begin() + i);
-			PiranhaAIStateList.erase(PiranhaAIStateList.begin() + i);
-			PiranhaAIStopTimeList.erase(PiranhaAIStopTimeList.begin() + i);
-			PiranhaAIStopTimerList.erase(PiranhaAIStopTimerList.begin() + i);
-			PiranhaAIStopList.erase(PiranhaAIStopList.begin() + i);
-			PiranhaAIDistanceAppearList.erase(PiranhaAIDistanceAppearList.begin() + i);
-			PiranhaAIPosCurrList.erase(PiranhaAIPosCurrList.begin() + i);
-			PiranhaAIPosPrevList.erase(PiranhaAIPosPrevList.begin() + i);
 			break;
 		}
 	}
 }
 void ClearPiranhaAI() {
 	PiranhaAIList.clear();
-	PiranhaAITypeList.clear();
-	PiranhaAIHitboxList.clear();
-	PiranhaAIAnimationList.clear();
-	PiranhaAIDisabledList.clear();
-	PiranhaAISpeedList.clear();
-	PiranhaAIPosLimitList.clear();
-	PiranhaAIPosTempList.clear();
-	PiranhaAIStateList.clear();
-	PiranhaAIStopTimeList.clear();
-	PiranhaAIStopTimerList.clear();
-	PiranhaAIStopList.clear();
-	PiranhaAIDistanceAppearList.clear();
-	PiranhaAIPosCurrList.clear();
-	PiranhaAIPosPrevList.clear();
 }
 void PiranhaAIInit() {
-	PiranhaAITextureManager.Loadingtexture("data/resources/Piranha/PiranhaGreen.png", "PiranhaGreen", 0, 0, 128, 64);
+	TextureManager::Loadingtexture("data/resources/Piranha/PiranhaGreen.png", "PiranhaGreen", 0, 0, 128, 64);
 	//PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void SetPrevPiranhaAIPos() {
-	for (int i = 0; i < PiranhaAIList.size(); i++) {
-		PiranhaAIPosPrevList[i] = PiranhaAIPosCurrList[i];
+	for (auto &i : PiranhaAIList) {
+		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolatePiranhaAIPos(const float alpha) {
-	for (int i = 0; i < PiranhaAIList.size(); i++) {
-		PiranhaAIList[i].setPosition(linearInterpolation(PiranhaAIPosPrevList[i], PiranhaAIPosCurrList[i], alpha));
+	for (auto &i : PiranhaAIList) {
+		i.setPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
 void AddPiranha(const PiranhaID ID, const float x, const float y) {
-	sf::Sprite Init(tempTex);
+	PiranhaAIList.push_back(sf::Vector2f({x, y + 64.0f}));
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
-	case GREEN:
-		InitAnimation.setAnimation(0, 1, 64, 64, 0, 14);
-		InitAnimation.setTexture(Init, PiranhaAITextureManager.GetTexture("PiranhaGreen"));
-		//PiranhaAIAnimationNameList.push_back("PiranhaGreen");
-		PiranhaAISpeedList.push_back(1.0f);
-		PiranhaAIStopTimeList.push_back(1.4f);
-		PiranhaAIDistanceAppearList.push_back(80.0f);
-		break;
+		case GREEN:
+			PiranhaAIList.back().m_animation.setAnimation(0, 1, 64, 64, 0, 14);
+			PiranhaAIList.back().setTexture(*TextureManager::GetTexture("PiranhaGreen"));
+			PiranhaAIList.back().setSpeed(1.0f);
+			PiranhaAIList.back().setStopTime(1.4f);
+			PiranhaAIList.back().setDistanceAppear(80.0f);
+			break;
 	}
-	PiranhaAITypeList.push_back(ID);
-	PiranhaAIDisabledList.push_back(true);
-	PiranhaAIHitboxList.push_back(sf::FloatRect({ 16, 17 }, { 31, 47 }));
-	Init.setPosition({ x, y + 64.0f });
-	Init.setOrigin({ 32, 63 });
-	PiranhaAIPosCurrList.push_back(Init.getPosition());
-	PiranhaAIPosPrevList.push_back(Init.getPosition());
-	PiranhaAIAnimationList.push_back(InitAnimation);
-	PiranhaAIPosLimitList.push_back(64.0f);
-	PiranhaAIPosTempList.push_back(64.0f);
-	PiranhaAIStateList.push_back(true);
-	PiranhaAIStopTimerList.push_back(sf::Clock());
-	PiranhaAIStopList.push_back(false);
-	PiranhaAIList.push_back(Init);
+	PiranhaAIList.back().setTextureRect(sf::IntRect({0, 0}, {64, 64}), true);
+	PiranhaAIList.back().setID(ID);
+	PiranhaAIList.back().setDisabled(true);
+	PiranhaAIList.back().setHitbox(sf::FloatRect({ 16, 17 }, { 31, 47 }));
+	PiranhaAIList.back().setOrigin({32, 63});
+	PiranhaAIList.back().setPreviousPosition(PiranhaAIList.back().getPosition());
+	PiranhaAIList.back().setCurrentPosition(PiranhaAIList.back().getPosition());
+	PiranhaAIList.back().setPositionLimit(64.0f);
+	PiranhaAIList.back().setPositionTemporary(64.0f);
+	PiranhaAIList.back().setState(true);
+	PiranhaAIList.back().setStop(false);
 }
 void PiranhaAIMovementUpdate(const float deltaTime) {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y, 64, 64) && !PiranhaAIDisabledList[i]) {
-			if (!PiranhaAIStopList[i]) {
-				if (!PiranhaAIStateList[i]) {
-					if (PiranhaAIPosTempList[i] <= PiranhaAIPosLimitList[i]) {
-						PiranhaAIPosCurrList[i] = { PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y + PiranhaAISpeedList[i] * deltaTime };
-						PiranhaAIPosTempList[i] += PiranhaAISpeedList[i] * deltaTime;
+		if (!isOutScreen(PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y, 64, 64) && !PiranhaAIList[i].isDisabled()) {
+			if (!PiranhaAIList[i].getStop()) {
+				if (!PiranhaAIList[i].getState()) {
+					if (PiranhaAIList[i].getPositionTemporary() <= PiranhaAIList[i].getPositionLimit()) {
+						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y + PiranhaAIList[i].getSpeed() * deltaTime });
+						PiranhaAIList[i].setPositionTemporary(PiranhaAIList[i].getPositionTemporary() + PiranhaAIList[i].getSpeed() * deltaTime);
 					}
 					else {
-						PiranhaAIStateList[i] = true;
-						PiranhaAIPosCurrList[i] = { PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y + PiranhaAIPosLimitList[i] - PiranhaAIPosTempList[i] };
-						PiranhaAIPosTempList[i] = PiranhaAIPosLimitList[i];
-						PiranhaAIStopList[i] = true;
-						PiranhaAIStopTimerList[i].restart();
+						PiranhaAIList[i].setState(true);
+						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y + PiranhaAIList[i].getPositionLimit() - PiranhaAIList[i].getPositionTemporary() });
+						PiranhaAIList[i].setPositionTemporary(PiranhaAIList[i].getPositionLimit());
+						PiranhaAIList[i].setStop(true);
+						PiranhaAIList[i].restartStopClock();
 					}
 				}
 				else {
-					if (PiranhaAIPosTempList[i] >= 0.0f) {
-						PiranhaAIPosCurrList[i] = { PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y - PiranhaAISpeedList[i] * deltaTime };
-						PiranhaAIPosTempList[i] -= PiranhaAISpeedList[i] * deltaTime;
+					if (PiranhaAIList[i].getPositionTemporary() >= 0.0f) {
+						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y - PiranhaAIList[i].getSpeed() * deltaTime });
+						PiranhaAIList[i].setPositionTemporary(PiranhaAIList[i].getPositionTemporary() - PiranhaAIList[i].getSpeed() * deltaTime);
 					}
 					else {
-						PiranhaAIStateList[i] = false;
-						PiranhaAIPosCurrList[i] = { PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y - PiranhaAIPosTempList[i] };
-						PiranhaAIPosTempList[i] = 0.0f;
-						PiranhaAIStopList[i] = true;
-						PiranhaAIStopTimerList[i].restart();
+						PiranhaAIList[i].setState(false);
+						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y - PiranhaAIList[i].getPositionTemporary() });
+						PiranhaAIList[i].setPositionTemporary(0.0f);
+						PiranhaAIList[i].setStop(true);
+						PiranhaAIList[i].restartStopClock();
 					}
 				}
 			}
 			else {
-				if (PiranhaAIStopTimerList[i].getElapsedTime().asSeconds() > PiranhaAIStopTimeList[i] && f_abs(player.curr.x - PiranhaAIPosCurrList[i].x) > PiranhaAIDistanceAppearList[i] && PiranhaAIStateList[i]) PiranhaAIStopList[i] = false;
-				else if (PiranhaAIStopTimerList[i].getElapsedTime().asSeconds() > PiranhaAIStopTimeList[i] && !PiranhaAIStateList[i]) PiranhaAIStopList[i] = false;
+				if (PiranhaAIList[i].getStopClock().getElapsedTime().asSeconds() > PiranhaAIList[i].getStopTime() && f_abs(player.curr.x - PiranhaAIList[i].getCurrentPosition().x) > PiranhaAIList[i].getDistanceAppear() && PiranhaAIList[i].getState()) PiranhaAIList[i].setStop(false);
+				else if (PiranhaAIList[i].getStopClock().getElapsedTime().asSeconds() > PiranhaAIList[i].getStopTime() && !PiranhaAIList[i].getState()) PiranhaAIList[i].setStop(false);
 			}
 		}
 	}
 }
 void PiranhaAIStatusUpdate() {
 	if (PiranhaAIList.empty()) return;
-	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
+	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIPosCurrList[i].x, PiranhaAIPosCurrList[i].y, 64, 64)) {
-			if (PiranhaAIDisabledList[i]) PiranhaAIDisabledList[i] = false;
+		if (!isOutScreen(PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y, 64, 64)) {
+			if (PiranhaAIList[i].isDisabled()) PiranhaAIList[i].setDisabled(false);
 		}
 		else continue;
-		if (isCollide(PiranhaAIHitboxList[i], PiranhaAIList[i], PiranhaAIPosCurrList[i], playerHitbox)) PowerDown();
+		if (sf::FloatRect PiranhaHitbox = getGlobalHitbox(PiranhaAIList[i].getHitbox(), PiranhaAIList[i].getCurrentPosition(), PiranhaAIList[i].getOrigin()); isCollide(PiranhaHitbox, playerHitbox)) PowerDown();
 	}
 }
 void PiranhaAIUpdate() {
 	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
-			PiranhaAIAnimationList[i].update(PiranhaAIList[i]);
+		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIList[i].isDisabled()) {
+			PiranhaAIList[i].setTextureRect(PiranhaAIList[i].m_animation.getAnimationTextureRect());
+			PiranhaAIList[i].m_animation.silentupdate();
 			rObject.draw(PiranhaAIList[i]);
 		}
-		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIDisabledList[i]) {
-			PiranhaAIAnimationList[i].silentupdate();
+		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIList[i].isDisabled()) {
+			PiranhaAIList[i].m_animation.silentupdate();
 		}
 	}
 }

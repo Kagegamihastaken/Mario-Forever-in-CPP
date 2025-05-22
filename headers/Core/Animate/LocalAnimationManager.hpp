@@ -24,6 +24,7 @@ public:
 	void setFrequency(int frequency);
 	void update(sf::Sprite& sprite);
 	void silentupdate();
+	sf::IntRect getAnimationTextureRect() const;
 	bool isAtTheEnd() const;
 
 	static void setTexture(sf::Sprite& sprite, const sf::Texture* texture);

@@ -257,7 +257,7 @@ void GoombaAICheckCollide() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
 		if (f_abs(player.curr.x - GoombaAIList[i].curr.x) >= 160.0f) continue;
-		if (isCollide(GoombaAIList[i].hitboxMain, GoombaAIList[i].property, GoombaAIList[i].curr, hitbox_mario)) {
+		if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].curr, GoombaAIList[i].property.getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
 			if (GoombaAIHittableList[i] == YES) {
 				if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() >= GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
 					if (((GoombaAIList[i].curr.y - 16.0f) > player.curr.y) && Yvelo > 0.0f && !GoombaAIDisabledList[i]) {
@@ -523,13 +523,13 @@ void GoombaAICollisionUpdate() {
 	bool flag = false;
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
-		sf::FloatRect hitbox_loop = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].curr,
-		                                            GoombaAIList[i].property);
+		const sf::FloatRect hitbox_loop = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].curr,
+		                                            GoombaAIList[i].property.getOrigin());
 		flag = false;
 		for (int j = 0; j < GoombaAIList.size(); ++j) {
 			if (f_abs(GoombaAIList[i].curr.x - GoombaAIList[j].curr.x) >= 160.0f) continue;
 			if (GoombaAIDisabledList[j] || GoombaAIAppearingList[j] || i == j) continue;
-			if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, GoombaAIList[j].curr, hitbox_loop)) {
+			if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(GoombaAIList[j].hitboxMain, GoombaAIList[j].curr, GoombaAIList[j].property.getOrigin()); isCollide(GoombaAIHitbox, hitbox_loop)) {
 				if (GoombaAITypeList[j] != SHELL_MOVING && GoombaAITypeList[i] != SHELL_MOVING) {
 					if ((!GoombaAICollisionList[i].first && !GoombaAICollisionList[j].first) || (GoombaAICollisionList[i].second != j && GoombaAICollisionList[i].first)) {
 						if (GoombaAIDirectionList[i] == GoombaAIDirectionList[j] && (GoombaAIXveloList[i] > 0.0f && GoombaAIXveloList[j] > 0.0f)) continue;
