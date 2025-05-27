@@ -58,7 +58,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 		}
 	}
 	else if (type == KOOPA || type == SHELL || type == SHELL_MOVING) {
-		Init.property.setOrigin({ 16, 19 });
+		Init.property.setOrigin({ 16, 27 });
 		if (id == NONE) {
 			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Koopa"), true);
 			GoombaAIEffectHitboxList.push_back({ 33.0f, 28.0f });

@@ -103,12 +103,12 @@ void KeyboardMovement(const float deltaTime) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCurrentFalling && window.hasFocus()) {
 			if (!PreJump && !Holding) {
 				Sounds.PlaySound("Jump");
-				Yvelo = -14.0f;
+				Yvelo = -13.0f;
 				Holding = true;
 			}
 			else if (PreJump) {
 				Sounds.PlaySound("Jump");
-				Yvelo = -14.0f;
+				Yvelo = -13.0f;
 				PreJump = false;
 				Holding = true;
 			}
@@ -198,17 +198,16 @@ void MarioVertXUpdate() {
 void MarioPosYUpdate(const float deltaTime) {
 	if (CanControlMario) {
 		MarioCurrentFalling = true;
-		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
 		player.curr = { player.curr.x, player.curr.y + Yvelo * deltaTime };
-		Yvelo += (Yvelo >= 10.0f ? 0.0f : 0.5f * deltaTime);
+		Yvelo += (Yvelo >= 10.0f ? 0.0f : 1.0f * deltaTime);
 		if (Yvelo > 10.0f) Yvelo = 10.0f;
 	}
 }
 void MarioVertYUpdate() {
 	if (CanControlMario) {
 		float CurrPosYCollide;
-
 		//}
+		player.curr = { player.curr.x, player.curr.y + 1.0f };
 		bool NoAdd = false;
 		int be = find_min_iny(player, ObstaclesVertPosList);
 		int nd = find_max_iny_dist(player, ObstaclesVertPosList, 64.0f + (Yvelo) * 16.0f);
@@ -238,6 +237,7 @@ void MarioVertYUpdate() {
 				player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) };
 			}
 		}
+		else player.curr = { player.curr.x, player.curr.y - 1.0f };
 		// top update
 		NoAdd = false;
 		be = find_max_iny(player, ObstaclesVertPosList);

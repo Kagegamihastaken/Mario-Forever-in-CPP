@@ -15,6 +15,7 @@ private:
 
     sf::VertexArray m_vertices;
     sf::Texture     m_texture;
+    sf::Vector2f    m_position;
 };
 
 #endif

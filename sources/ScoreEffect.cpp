@@ -65,7 +65,7 @@ void AddScoreEffect(ScoreID id, float x, float y) {
 		Init.setOrigin({ 16, 15 });
 		break;
 	case SCORE_10000:
-		Init.setTextureRect(sf::IntRect({ 0, 96 }, { 38, 16 }));
+		Init.setTextureRect(sf::IntRect({ 0, 96 }, { 42, 16 }));
 		Score += 10000;
 		Init.setOrigin({ 20, 15 });
 		break;

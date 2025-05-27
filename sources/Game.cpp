@@ -25,6 +25,7 @@
 #include "Object/Spike.hpp"
 #include "Text/Text.hpp"
 #include "Core/Scene.hpp"
+#include "Editor/Editor.hpp"
 
 
 void GameObjectInit() {
@@ -74,6 +75,7 @@ void GameTextInit() {
         }
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        AddText("_FPS", "", LEFT_MARGIN, 0.0f, 464.0f);
         AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
     }
 }
@@ -92,6 +94,7 @@ void GameObjectEditText() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         //EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
         EditText(std::to_string(Lives), "_LIVE");
+        EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
         //EditText(std::to_string(Xvelo) + " VX", "_CODX");
         //EditText(std::to_string(Yvelo) + " VY", "_CODY");
         //EditText(std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y) + "  M", "_MARIOXY");
@@ -107,11 +110,11 @@ void GameObjectEditText() {
             EditText(std::to_string(static_cast<int>(ViewX)) + "/" + std::to_string(static_cast<int>(ViewY)) + "  V", "_VIEWXY");
             EditText("Appear: " + appe, "_APPE");
         }
-        EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
         EditText(std::to_string(CoinCount), "_COIN");
         EditText(std::to_string(Score), "_SCORE");
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
         EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
     }
 }
@@ -128,6 +131,9 @@ void GameObjectSetPrev() {
         SetPrevExitGatePos();
         SetPrevBricksPos();
         SetPrevLuckyBlockPos();
+    }
+    else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        SetPrevEditor();
     }
 }
 void GameObjectDeltaMovement(const float dt) {
@@ -153,6 +159,9 @@ void GameObjectDeltaMovement(const float dt) {
         BrickUpdate(dt);
         LuckyBlockUpdate(dt);
     }
+    else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        EditorScreenMove(dt);
+    }
 }
 void GameObjectInterpolateMovement(const float alpha) {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
@@ -167,6 +176,9 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateExitGatePos(alpha);
         InterpolateBricksPos(alpha);
         InterpolateLuckyBlockPos(alpha);
+    }
+    else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        InterpolateEditorPos(alpha);
     }
 }
 void GameObjectCollisionNAnimation() {
@@ -192,6 +204,11 @@ void GameObjectMiscUpdate() {
         CheckForDeath();
     }
 }
+void GameObjectEditorUpdate() {
+    if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        PlaceTile();
+    }
+}
 void GameObjectDraw() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         BgGradientDraw();
@@ -213,6 +230,9 @@ void GameObjectDraw() {
         MarioEffectDraw();
         ExitGateEffectDraw();
         FrameDraw();
+    }
+    else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        DrawTile();
     }
     UpdateText();
 }

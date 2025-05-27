@@ -181,7 +181,7 @@ int getLuckyIndex(const float x, const float y) {
 }
 void LuckyHitEvent(const float x, const float y) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
+		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].property);
 			LuckyLoop.position.y -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
@@ -215,7 +215,7 @@ void DeleteLuckyBlock(const float x, const float y) {
 		}
 	}
 	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlock[i].property.getPosition().x == x && LuckyBlock[i].property.getPosition().y == y) {
+		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y) {
 			LuckyBlock.erase(LuckyBlock.begin() + i);
 			LuckyBlockAttList.erase(LuckyBlockAttList.begin() + i);
 			LuckyBlockIDList.erase(LuckyBlockIDList.begin() + i);

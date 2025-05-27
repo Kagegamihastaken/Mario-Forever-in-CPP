@@ -172,7 +172,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 }
 void HitEvent(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
-		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y && !BrickState[i]) {
+		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y && !BrickState[i]) {
 			sf::FloatRect BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
 			BrickLoop.position.y -= 32.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
@@ -186,8 +186,8 @@ void HitEvent(const float x, const float y) {
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
 				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, BrickLoop)) {
 					if (GoombaAITypeList[j] != MUSHROOM) {
-						AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
-						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
+						AddScoreEffect(SCORE_100, GoombaAIList[j].curr.x - 15.0f, GoombaAIList[j].curr.y - GoombaAIHitboxList[j].second);
+						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].curr.x, GoombaAIList[j].curr.y);
 						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].curr.x, GoombaAIList[j].curr.y);
 						Sounds.PlaySound("Kick2");
 					}
@@ -203,8 +203,8 @@ void HitEvent(const float x, const float y) {
 			}
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
 				Sounds.PlaySound("Break");
-				AddBrickParticle(BrickIDList[i], Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
-				DeleteBrick(Bricks[i].property.getPosition().x, Bricks[i].property.getPosition().y);
+				AddBrickParticle(BrickIDList[i], Bricks[i].curr.x, Bricks[i].curr.y);
+				DeleteBrick(Bricks[i].curr.x, Bricks[i].curr.y);
 				Score += 50;
 			}
 		}
@@ -217,8 +217,8 @@ void DeleteBrick(const float x, const float y) {
 			break;
 		}
 	}
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
+	for (int i = 0; i < Bricks.size(); ++i) {
+		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y) {
 			Bricks.erase(Bricks.begin() + i);
 			BrickAttList.erase(BrickAttList.begin() + i);
 			BrickIDList.erase(BrickIDList.begin() + i);

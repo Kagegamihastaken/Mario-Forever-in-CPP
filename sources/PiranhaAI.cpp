@@ -37,8 +37,7 @@ void InterpolatePiranhaAIPos(const float alpha) {
 	}
 }
 void AddPiranha(const PiranhaID ID, const float x, const float y) {
-	PiranhaAIList.push_back(sf::Vector2f({x, y + 64.0f}));
-	LocalAnimationManager InitAnimation;
+	PiranhaAIList.emplace_back(sf::Vector2f({x, y + 64.0f}));
 	switch (ID) {
 		case GREEN:
 			PiranhaAIList.back().m_animation.setAnimation(0, 1, 64, 64, 0, 14);
@@ -61,39 +60,40 @@ void AddPiranha(const PiranhaID ID, const float x, const float y) {
 	PiranhaAIList.back().setStop(false);
 }
 void PiranhaAIMovementUpdate(const float deltaTime) {
-	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y, 64, 64) && !PiranhaAIList[i].isDisabled()) {
-			if (!PiranhaAIList[i].getStop()) {
-				if (!PiranhaAIList[i].getState()) {
-					if (PiranhaAIList[i].getPositionTemporary() <= PiranhaAIList[i].getPositionLimit()) {
-						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y + PiranhaAIList[i].getSpeed() * deltaTime });
-						PiranhaAIList[i].setPositionTemporary(PiranhaAIList[i].getPositionTemporary() + PiranhaAIList[i].getSpeed() * deltaTime);
+	for (auto & i : PiranhaAIList) {
+		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64, 64) && !i.isDisabled()) {
+			if (!i.getStop()) {
+				if (!i.getState()) {
+					if (i.getPositionTemporary() <= i.getPositionLimit()) {
+						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y + i.getSpeed() * deltaTime });
+						i.setPositionTemporary(i.getPositionTemporary() + i.getSpeed() * deltaTime);
 					}
 					else {
-						PiranhaAIList[i].setState(true);
-						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y + PiranhaAIList[i].getPositionLimit() - PiranhaAIList[i].getPositionTemporary() });
-						PiranhaAIList[i].setPositionTemporary(PiranhaAIList[i].getPositionLimit());
-						PiranhaAIList[i].setStop(true);
-						PiranhaAIList[i].restartStopClock();
+						i.setState(true);
+						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y + i.getPositionLimit() - i.getPositionTemporary() });
+						i.setPositionTemporary(i.getPositionLimit());
+						i.setStop(true);
+						i.restartStopClock();
 					}
 				}
 				else {
-					if (PiranhaAIList[i].getPositionTemporary() >= 0.0f) {
-						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y - PiranhaAIList[i].getSpeed() * deltaTime });
-						PiranhaAIList[i].setPositionTemporary(PiranhaAIList[i].getPositionTemporary() - PiranhaAIList[i].getSpeed() * deltaTime);
+					if (i.getPositionTemporary() >= 0.0f) {
+						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y - i.getSpeed() * deltaTime });
+						i.setPositionTemporary(i.getPositionTemporary() - i.getSpeed() * deltaTime);
 					}
 					else {
-						PiranhaAIList[i].setState(false);
-						PiranhaAIList[i].setCurrentPosition({ PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y - PiranhaAIList[i].getPositionTemporary() });
-						PiranhaAIList[i].setPositionTemporary(0.0f);
-						PiranhaAIList[i].setStop(true);
-						PiranhaAIList[i].restartStopClock();
+						i.setState(false);
+						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y - i.getPositionTemporary() });
+						i.setPositionTemporary(0.0f);
+						i.setStop(true);
+						i.restartStopClock();
 					}
 				}
 			}
 			else {
-				if (PiranhaAIList[i].getStopClock().getElapsedTime().asSeconds() > PiranhaAIList[i].getStopTime() && f_abs(player.curr.x - PiranhaAIList[i].getCurrentPosition().x) > PiranhaAIList[i].getDistanceAppear() && PiranhaAIList[i].getState()) PiranhaAIList[i].setStop(false);
-				else if (PiranhaAIList[i].getStopClock().getElapsedTime().asSeconds() > PiranhaAIList[i].getStopTime() && !PiranhaAIList[i].getState()) PiranhaAIList[i].setStop(false);
+				if (i.getStopClock().getElapsedTime().asSeconds() > i.getStopTime() && f_abs(
+					    player.curr.x - i.getCurrentPosition().x) > i.getDistanceAppear() && i.getState()) i.setStop(false);
+				else if (i.getStopClock().getElapsedTime().asSeconds() > i.getStopTime() && !i.getState()) i.setStop(false);
 			}
 		}
 	}
@@ -101,23 +101,23 @@ void PiranhaAIMovementUpdate(const float deltaTime) {
 void PiranhaAIStatusUpdate() {
 	if (PiranhaAIList.empty()) return;
 	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
-	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getCurrentPosition().x, PiranhaAIList[i].getCurrentPosition().y, 64, 64)) {
-			if (PiranhaAIList[i].isDisabled()) PiranhaAIList[i].setDisabled(false);
+	for (auto & i : PiranhaAIList) {
+		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64, 64)) {
+			if (i.isDisabled()) i.setDisabled(false);
 		}
 		else continue;
-		if (sf::FloatRect PiranhaHitbox = getGlobalHitbox(PiranhaAIList[i].getHitbox(), PiranhaAIList[i].getCurrentPosition(), PiranhaAIList[i].getOrigin()); isCollide(PiranhaHitbox, playerHitbox)) PowerDown();
+		if (sf::FloatRect PiranhaHitbox = getGlobalHitbox(i.getHitbox(), i.getCurrentPosition(), i.getOrigin()); isCollide(PiranhaHitbox, playerHitbox)) PowerDown();
 	}
 }
 void PiranhaAIUpdate() {
-	for (int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (!isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIList[i].isDisabled()) {
-			PiranhaAIList[i].setTextureRect(PiranhaAIList[i].m_animation.getAnimationTextureRect());
-			PiranhaAIList[i].m_animation.silentupdate();
-			rObject.draw(PiranhaAIList[i]);
+	for (auto & i : PiranhaAIList) {
+		if (!isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
+			i.setTextureRect(i.m_animation.getAnimationTextureRect());
+			i.m_animation.silentupdate();
+			rObject.draw(i);
 		}
-		else if (isOutScreen(PiranhaAIList[i].getPosition().x, PiranhaAIList[i].getPosition().y, 64, 64) && !PiranhaAIList[i].isDisabled()) {
-			PiranhaAIList[i].m_animation.silentupdate();
+		else if (isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
+			i.m_animation.silentupdate();
 		}
 	}
 }

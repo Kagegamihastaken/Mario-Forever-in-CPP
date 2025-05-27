@@ -56,14 +56,14 @@ void LocalAnimationManager::update(sf::Sprite& sprite) {
 	//sprite.setTexture(*texture[this->indexAnimation], true);
 	sprite.setTextureRect(sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey }));
 	this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
-	if (this->frequency != 0 && this->TimeRan >= (2000.0f / this->frequency / (timestep.getTimeSpeed()))) {
+	if (this->frequency != 0 && this->TimeRan >= ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()))) {
 		const long long loop = static_cast<long long>(
-			this->TimeRan / (2000.0f / this->frequency / (timestep.getTimeSpeed())));
+			this->TimeRan / ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed())));
 		for (int i = 0; i < loop; i++) {
 			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
 			else this->indexAnimation = this->startingIndexAnimation;
 		}
-		this->TimeRemainSave = TimeRan - loop * (2000.0f / this->frequency / (timestep.getTimeSpeed()));
+		this->TimeRemainSave = TimeRan - loop * ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()));
 		this->TimeRun.restart();
 	}
 }
@@ -71,14 +71,15 @@ sf::IntRect LocalAnimationManager::getAnimationTextureRect() const {
 	return sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey });
 }
 void LocalAnimationManager::silentupdate() {
-	this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMilliseconds();
-	if (this->frequency != 0 && this->TimeRan >= (2000.0f / this->frequency / (timestep.getTimeSpeed()))) {
-		const long long loop = static_cast<long long>(this->TimeRan / (2000.0f / this->frequency / (timestep.getTimeSpeed())));
+	this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
+	if (this->frequency != 0 && this->TimeRan >= ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()))) {
+		const long long loop = static_cast<long long>(
+			this->TimeRan / ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed())));
 		for (int i = 0; i < loop; i++) {
 			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
 			else this->indexAnimation = this->startingIndexAnimation;
 		}
-		this->TimeRemainSave = TimeRan - loop * (2000.0f / this->frequency / (timestep.getTimeSpeed()));
+		this->TimeRemainSave = TimeRan - loop * ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()));
 		this->TimeRun.restart();
 	}
 }

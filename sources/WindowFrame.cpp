@@ -33,6 +33,10 @@ LocalAnimationManager CoinHUDAnim;
 float f_min(const float a, const float b) { return a < b ? a : b; }
 float f_max(const float a, const float b) { return a > b ? a : b; }
 float f_abs(const float a) { return a < 0 ? -a : a; }
+float f_round(const float val) {
+	if (const float fl = std::floor(val); val - fl < 0.5f) return fl;
+	else return fl+1.0f;
+}
 int hex_to_int(const std::string &hex) { return std::stoi(hex, nullptr, 16); }
 void windowInit() {
 	// Create Window
@@ -47,10 +51,9 @@ void windowInit() {
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(*TextureManager::GetTexture("MarioHUD"), true);
 	window.setIcon(icon);
-	//window.setVerticalSyncEnabled(true);
-
-	timestep.setStep(1.0f / 2000.0f);
-	timestep.setMaxAccumulation(1.0f / 40.0f);
+	rObject.setRepeated(true);
+	timestep.setStep(1.0f / 50.0f);
+	timestep.setMaxAccumulation(1.0f / 30.0f);
 }
 void FrameDraw() {
 	//CoinHUD
@@ -67,12 +70,12 @@ void updateFrame() {
 	MouseY = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (Height / (static_cast<float>(window.getSize().y) - ViewYOff));
 	if (previousUpdate == 2) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(0); //300
+		else window.setFramerateLimit(60); //300
 		previousUpdate = optionSmoothness;
 	}
 	else if (previousUpdate != optionSmoothness) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(0); //300
+		else window.setFramerateLimit(60); //300
 	}
 	//deltaTime = delta.restart().asSeconds() * 50.0f;
 	//deltaTime = (delta.restart().asMicroseconds() * 50) / 1000000.0f;

@@ -260,7 +260,8 @@ void GoombaAICheckCollide() {
 		if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].curr, GoombaAIList[i].property.getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
 			if (GoombaAIHittableList[i] == YES) {
 				if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() >= GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
-					if (((GoombaAIList[i].curr.y - 16.0f) > player.curr.y) && Yvelo > 0.0f && !GoombaAIDisabledList[i]) {
+					if (((GoombaAIList[i].curr.y - 8.0f) > player.curr.y) && Yvelo > 0.0f && !GoombaAIDisabledList[i]) {
+						player.curr = {player.curr.x, GoombaAIList[i].curr.y - GoombaAIList[i].property.getOrigin().y - 1.0f};
 						if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
 						else Yvelo = -13.0f;
 						Sounds.PlaySound("Stomp");
@@ -271,7 +272,7 @@ void GoombaAICheckCollide() {
 							break;
 						case GoombaAIType::KOOPA:
 							AddScoreEffect(SCORE_100, GoombaAIList[i].curr.x, GoombaAIList[i].curr.y - GoombaAIHitboxList[0].second);
-							AddGoombaAI(SHELL, GoombaAISkinIDList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y + 3.0f);
+							AddGoombaAI(SHELL, GoombaAISkinIDList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y + 2.0f);
 							break;
 						case GoombaAIType::SHELL_MOVING:
 							GoombaAIShellHitCount[i] = 0;
@@ -522,7 +523,7 @@ void GoombaAICollisionUpdate() {
 	std::set<int> coll_set;
 	bool flag = false;
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (GoombaAIDisabledList[i] || GoombaAIAppearingList[i]) continue;
+		if (GoombaAIAppearingList[i]) continue;
 		const sf::FloatRect hitbox_loop = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].curr,
 		                                            GoombaAIList[i].property.getOrigin());
 		flag = false;

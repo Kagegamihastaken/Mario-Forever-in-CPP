@@ -11,5 +11,6 @@ extern void GameObjectInterpolateMovement(float alpha);
 extern void GameObjectCollisionNAnimation();
 extern void GameObjectMiscUpdate();
 extern void GameObjectDraw();
+extern void GameObjectEditorUpdate();
 
 #endif //GAME_HPP

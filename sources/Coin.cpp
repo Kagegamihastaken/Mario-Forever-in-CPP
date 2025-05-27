@@ -46,18 +46,23 @@ void DeleteAllCoin() {
 	CoinIDList.clear();
 	CoinAttList.clear();
 }
-inline void CoinOnTouch() {
+void CoinOnTouch() {
 	if (CoinList.empty() || EffectActive) return;
 	const auto playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
-	for (auto &[property, hitbox] : CoinList) {
-		if (isOutScreen(property.getPosition().x, property.getPosition().y, 32, 32)) continue;
-		if (isCollide(hitbox, property, playerHitbox)) {
+	int i = 0;
+	while (i < CoinList.size()) {
+		if (isOutScreen(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y, 32, 32)) {
+			++i;
+			continue;
+		}
+		if (isCollide(CoinList[i].hitbox, CoinList[i].property, playerHitbox)) {
 			Score += 200;
-			DeleteCoin(property.getPosition().x, property.getPosition().y);
+			DeleteCoin(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y);
 			SoundManager::PlaySound("Coin");
 			++CoinCount;
-			break;
+			continue;
 		}
+		++i;
 	}
 }
 inline void CoinUpdate() {
