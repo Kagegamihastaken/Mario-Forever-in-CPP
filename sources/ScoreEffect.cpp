@@ -110,7 +110,11 @@ inline void ScoreEffectStatusUpdate(float deltaTime) {
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
 		ScoreEffectCurr[i] = { ScoreEffectCurr[i].x, ScoreEffectCurr[i].y + ScoreEffectVelocity[i] * deltaTime };
 		if (ScoreEffectVelocity[i] < 0.0f) ScoreEffectVelocity[i] += 0.025f * deltaTime;
-		else DeleteScoreEffect(i, deltaTime);
+		else if (ScoreEffectVelocity[i] >= 0.0f) {
+			ScoreEffectVelocity[i] = 0.0f;
+			DeleteScoreEffect(i, deltaTime);
+
+		}
 	}
 }
 inline void ScoreEffectUpdate() {

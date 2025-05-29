@@ -9,7 +9,8 @@
 
 //Obstacles define
 sf::VertexArray ObstaclesVA;
-std::vector<Obstacles> ObstaclesList;
+//std::vector<Obstacles> ObstaclesList;
+std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesHorzPosList;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 //set ID for each texture obstacle
 std::vector<std::array<int, 3>> ID_list{
@@ -29,17 +30,17 @@ TextureManager ObstaclesTextureManager;
 //texture loading
 
 void loadObstacleRes() {
-	ObstaclesTextureManager.Loadingtexture("data/resources/Tileset.png", "Tileset", 0, 0, 192, 64);
+	TextureManager::Loadingtexture("data/resources/Tileset.png", "Tileset", 0, 0, 192, 64);
 }
 void ObstaclesUpdate() {
 	//sf::RenderStates states;
 	//sf::Transformable trans;
 	//states.transform *= trans.getTransform();
 	//states.texture = ObstaclesTextureManager.GetTexture("Tileset");
-	//window.draw(ObstaclesVA, ObstaclesTextureManager.GetTexture("Tileset"));
-	for (int i = 0; i < ObstaclesList.size(); ++i) {
-		if (!isOutScreen(ObstaclesList[i].property.getPosition().x, ObstaclesList[i].property.getPosition().y, 32, 32)) {
-			rObject.draw(ObstaclesList[i].property);
-		}
-	}
+	rObject.draw(ObstaclesVA, TextureManager::GetTexture("Tileset"));
+	//for (const auto & i : ObstaclesList) {
+	//	if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
+	//		rObject.draw(i.property);
+	//	}
+	//}
 }

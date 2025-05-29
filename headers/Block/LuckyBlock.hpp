@@ -9,8 +9,8 @@
 
 extern std::vector<Obstacles> LuckyBlock;
 extern std::vector<LuckyBlockID> LuckyBlockIDList;
-extern std::vector<std::pair<float, float>> LuckyBlockSaveList;
 extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyVertPosList;
+extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyHorzPosList;
 extern void SetPrevLuckyBlockPos();
 extern void InterpolateLuckyBlockPos(float alpha);
 extern void LuckyBlockSort();

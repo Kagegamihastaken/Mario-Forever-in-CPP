@@ -51,7 +51,7 @@ void ViewInit() {
 }
 void setView() {
 	WindowView = getLetterboxView(view, window.getSize().x, window.getSize().y);
-	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ f_round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f)), f_round(std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f)) });
+	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f)), std::round(std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f)) });
 	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f});
 	//std::cout << player.property.getPosition().x << "\n";
 	WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));

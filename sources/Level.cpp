@@ -41,7 +41,7 @@ std::array<float, 4> ExitGateData;
 std::array<float, 2> PlayerData;
 std::pair<int, std::string> MusicData;
 void NPCDATAREAD(std::string line) {
-	std::array<float, 5> temp;
+	std::array<float, 5> temp{};
 	bool flag = false;
 	for (auto match : ctre::search_all<"(NPC_TYPE|NPC_ID|NPC_ATT|NPC_X|NPC_Y)=(\\S*)">(line)) {
 		if (match.get<1>() == "NPC_TYPE") {
@@ -68,7 +68,7 @@ void NPCDATAREAD(std::string line) {
 	if (flag) EnemyData.push_back(temp);
 }
 void BONUSDATAREAD(std::string line) {
-	std::array<float, 5> temp;
+	std::array<float, 5> temp{};
 	bool flag = false;
 	for (auto match : ctre::search_all<"(BONUS_TYPE|BONUS_ID|BONUS_ATT|BONUS_X|BONUS_Y)=(\\S*)">(line)) {
 		if (match.get<1>() == "BONUS_TYPE") {
@@ -96,7 +96,7 @@ void BONUSDATAREAD(std::string line) {
 }
 void TILEDATAREAD(std::string line) {
 	//TILE
-	std::array<float, 3> temp;
+	std::array<float, 3> temp{};
 	bool flag = false;
 	for (auto match : ctre::search_all<"(TILE_ID|TILE_X|TILE_Y)=(\\S*)">(line)) {
 		if (match.get<1>() == "TILE_ID") {
@@ -381,8 +381,8 @@ void ReadData(std::string path) {
 }
 */
 void Obstaclebuilding() {
-	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
-	//ObstaclesVA.resize(LevelData.size() * 6);
+	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
+	ObstaclesVA.resize(LevelData.size() * 6);
 	for (int i = 0; i < LevelData.size(); ++i) {
 		//for (const auto& i : LevelData) {
 			// Find the tile id
@@ -391,29 +391,35 @@ void Obstaclebuilding() {
 		}) - (ID_list.begin());
 		// Then use the index of tile id property to add it to the list
 		//ObstaclesList.push_back(Obstacles{ int(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Obstacles_" + std::to_string(posTextureIndex))) });
-		ObstaclesList.push_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
+		//ObstaclesList.emplace_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(*ObstaclesTextureManager.GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
 		//ObstaclesList.push_back(Obstacles{ int(i[0]), sf::Sprite(*ObstaclesTextureList[i[0]]) });
-		ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].property.setPosition({ LevelData[i][1], LevelData[i][2] });
-		ObstaclesVertPosList.push_back({ sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,{LevelData[i][1], LevelData[i][2] } });
-		setHitbox(ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
+		//ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].property.setPosition({ LevelData[i][1], LevelData[i][2] });
+		ObstaclesVertPosList.emplace_back(sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,sf::Vector2f({LevelData[i][1], LevelData[i][2] }));
+		ObstaclesHorzPosList.emplace_back(sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,sf::Vector2f({LevelData[i][1], LevelData[i][2] }));
+		//setHitbox(ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 
-		//sf::Vertex* vertex = &ObstaclesVA[i * 6];
-		//vertex[0].position = sf::Vector2f(LevelData[i][1], LevelData[i][2]);
-		//vertex[1].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
-		//vertex[2].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
-		//vertex[3].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
-		//vertex[4].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
-		//vertex[5].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2] + 32.0f);
+		sf::Vertex* vertex = &ObstaclesVA[i * 6];
+		vertex[0].position = sf::Vector2f(LevelData[i][1], LevelData[i][2]);
+		vertex[1].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
+		vertex[2].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
+		vertex[3].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
+		vertex[4].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
+		vertex[5].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2] + 32.0f);
 
-		//vertex[0].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2]);
-		//vertex[1].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
-		//vertex[2].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
-		//vertex[3].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
-		//vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
-		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
+		vertex[0].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2]);
+		vertex[1].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
+		vertex[2].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
+		vertex[3].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
+		vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
+		vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
-	std::ranges::sort(ObstaclesList, [](const Obstacles& A, const Obstacles& B) {
-		return A.property.getPosition().x < B.property.getPosition().x;
+	//std::ranges::sort(ObstaclesList, [](const Obstacles& A, const Obstacles& B) {
+		//return A.property.getPosition().x < B.property.getPosition().x;
+		//});
+	std::ranges::sort(ObstaclesHorzPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
+		if (A.second.x < B.second.x) return true;
+		else if (A.second.x == B.second.x) return A.second.y < B.second.y;
+		else return false;
 		});
 	std::ranges::sort(ObstaclesVertPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
 		if (A.second.y < B.second.y) return true;
@@ -479,14 +485,14 @@ void Objectbuilding() {
 	ClearPiranhaAI();
 	DeleteAllSpike();
 	//(Re)build Objects
-	if (BonusData.size() > 0) {
+	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
 			if (i[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
 			else if (i[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
 			else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
 		}
 	}
-	if (EnemyData.size() > 0) {
+	if (!EnemyData.empty()) {
 		for (const auto& i : EnemyData) {
 			if (i[0] == 0) AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
 			else if (i[0] == 1) AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);

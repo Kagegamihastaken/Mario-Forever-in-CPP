@@ -23,7 +23,7 @@ std::vector<LuckyBlockAtt> LuckyBlockAttList;
 std::vector<bool> LuckyBlockState;
 std::vector<float> LuckyBlockStateCount;
 std::vector<bool> LuckyUpDown;
-std::vector<std::pair<float, float>> LuckyBlockSaveList;
+std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyHorzPosList;
 std::vector<LocalAnimationManager> LuckyIdle;
 std::vector<bool> LuckyBlockHitted;
 
@@ -59,7 +59,7 @@ void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, floa
 	LuckyBlockIDList.push_back(ID);
 	LuckyBlockState.push_back(false);
 	LuckyBlockStateCount.push_back(0);
-	LuckyBlockSaveList.push_back({ x, y });
+	LuckyHorzPosList.push_back({ sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) });
 	LuckyBlockHitted.push_back(false);
 	LuckyUpDown.push_back(false);
 	LuckyBlock.back().property.setPosition({ x, y });
@@ -77,14 +77,14 @@ void LuckyBlockSort() {
 		else return false;
 		});
 }
-inline void LuckyBlockDraw() {
+void LuckyBlockDraw() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
 			rObject.draw(LuckyBlock[i].property);
 		}
 	}
 }
-inline void LuckyBlockUpdate(const float deltaTime) {
+void LuckyBlockUpdate(const float deltaTime) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockState[i]) {
 			if (LuckyBlockAttList[i] == LUCKY_COIN) {
@@ -104,7 +104,7 @@ inline void LuckyBlockUpdate(const float deltaTime) {
 						LuckyBlockStateCount[i] -= (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 					}
 					else {
-						LuckyBlock[i].curr = { LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second };
+						LuckyBlock[i].curr = { LuckyHorzPosList[i].second.x, LuckyHorzPosList[i].second.y };
 						LuckyBlockStateCount[i] = 0.0f;
 						LuckyUpDown[i] = false;
 						LuckyBlockState[i] = false;
@@ -128,7 +128,7 @@ inline void LuckyBlockUpdate(const float deltaTime) {
 						LuckyBlockStateCount[i] -= 1.0f * deltaTime;
 					}
 					else {
-						LuckyBlock[i].curr = { LuckyBlockSaveList[i].first, LuckyBlockSaveList[i].second };
+						LuckyBlock[i].curr = { LuckyHorzPosList[i].second.x, LuckyHorzPosList[i].second.y };
 						LuckyBlockStateCount[i] = 0.0f;
 						LuckyUpDown[i] = false;
 						LuckyBlockState[i] = false;
@@ -138,7 +138,7 @@ inline void LuckyBlockUpdate(const float deltaTime) {
 		}
 	}
 }
-inline void LuckyAnimationUpdate() {
+void LuckyAnimationUpdate() {
 	if (LuckyBlock.size() == 0) return;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockIDList[i] == LUCKY_BLOCK) {
@@ -173,7 +173,7 @@ void LuckyHit(const float x, const float y, const int i) {
 }
 int getLuckyIndex(const float x, const float y) {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlockSaveList[i].first == x && LuckyBlockSaveList[i].second == y) {
+		if (LuckyHorzPosList[i].second.x == x && LuckyHorzPosList[i].second.y == y) {
 			return i;
 		}
 	}
@@ -221,7 +221,7 @@ void DeleteLuckyBlock(const float x, const float y) {
 			LuckyBlockIDList.erase(LuckyBlockIDList.begin() + i);
 			LuckyBlockState.erase(LuckyBlockState.begin() + i);
 			LuckyBlockStateCount.erase(LuckyBlockStateCount.begin() + i);
-			LuckyBlockSaveList.erase(LuckyBlockSaveList.begin() + i);
+			LuckyHorzPosList.erase(LuckyHorzPosList.begin() + i);
 			LuckyBlockHitted.erase(LuckyBlockHitted.begin() + i);
 			LuckyUpDown.erase(LuckyUpDown.begin() + i);
 			LuckyIdle.erase(LuckyIdle.begin() + i);
@@ -235,7 +235,7 @@ void DeleteAllLuckyBlock() {
 	LuckyBlockIDList.clear();
 	LuckyBlockState.clear();
 	LuckyBlockStateCount.clear();
-	LuckyBlockSaveList.clear();
+	LuckyHorzPosList.clear();
 	LuckyBlockHitted.clear();
 	LuckyUpDown.clear();
 	LuckyIdle.clear();

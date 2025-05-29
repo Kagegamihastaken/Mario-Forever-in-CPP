@@ -9,6 +9,8 @@
 #include "headers/Core/Loading/Loading.hpp"
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
 
+#include "Object/GoombaAI.hpp"
+
 #include "headers/Editor/Editor.hpp"
 
 #include "Core/Hash.hpp"
@@ -47,6 +49,11 @@ int WinMain() {
 				SoundManager::ClearUp();
 				window.close();
 				IODeinit();
+			}
+			else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+				if (mousePressed->button == sf::Mouse::Button::Left) {
+					AddGoombaAI(GoombaAIType::MUSHROOM, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+				}
 			}
 		}
 		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {

@@ -24,55 +24,53 @@ std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;
 std::vector<bool> BrickState;
 std::vector<float> BrickStateCount;
 std::vector<bool> UpDown;
-std::vector<std::pair<float, float>> BrickSaveList;
+std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksHorzPosList;
 std::vector<BrickID> BrickIDList;
 std::vector<BrickAtt> BrickAttList;
 //multicoin attribute
 std::vector<sf::Clock> BrickClock;
 std::vector<bool> BrickHitted;
 std::vector<bool> DisabledBrick;
-
-TextureManager BrickTextureManager;
 void LoadBricks() {
 	// Loading Texture
-	BrickTextureManager.Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
+	TextureManager::Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
 }
 void SetPrevBricksPos() {
-	for (int i = 0; i < Bricks.size(); i++) {
-		Bricks[i].prev = Bricks[i].curr;
+	for (auto & Brick : Bricks) {
+		Brick.prev = Brick.curr;
 	}
 }
 void InterpolateBricksPos(const float alpha) {
-	for (int i = 0; i < Bricks.size(); i++) {
-		Bricks[i].property.setPosition(linearInterpolation(Bricks[i].prev, Bricks[i].curr, alpha));
+	for (auto & Brick : Bricks) {
+		Brick.property.setPosition(linearInterpolation(Brick.prev, Brick.curr, alpha));
 	}
 }
 void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y) {
 	switch (ID) {
 	case BRICK_GRAY:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Bricks"), sf::IntRect({32, 0}, {32, 32})) });
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(*TextureManager::GetTexture("Bricks"), sf::IntRect({32, 0}, {32, 32})) });
 		break;
 	case BRICK_NORMAL:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(*BrickTextureManager.GetTexture("Bricks"), sf::IntRect({0, 0}, {32, 32})) });
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(*TextureManager::GetTexture("Bricks"), sf::IntRect({0, 0}, {32, 32})) });
 		break;
 	}
-	BrickAttList.push_back(att);
-	BrickIDList.push_back(ID);
-	BrickState.push_back(false);
-	BrickStateCount.push_back(0);
-	BrickSaveList.push_back({ x, y });
-	UpDown.push_back(false);
+	BrickAttList.emplace_back(att);
+	BrickIDList.emplace_back(ID);
+	BrickState.emplace_back(false);
+	BrickStateCount.emplace_back(0);
+	BricksHorzPosList.emplace_back( sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) );
+	UpDown.emplace_back(false);
 	Bricks.back().property.setPosition({ x, y });
 	Bricks.back().curr = Bricks.back().prev = Bricks.back().property.getPosition();
 	setHitbox(Bricks[Bricks.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 	//multicoin attribute
-	BrickClock.push_back(sf::Clock());
+	BrickClock.emplace_back();
 	BrickHitted.push_back(false);
 	DisabledBrick.push_back(false);
-	BricksVertPosList.push_back({ sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) });
+	BricksVertPosList.emplace_back( sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) );
 }
 void BricksSort() {
-	if (Bricks.size() == 0) return;
+	if (Bricks.empty()) return;
 	std::ranges::sort(BricksVertPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
 		if (A.second.y < B.second.y) return true;
 		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
@@ -96,8 +94,8 @@ inline BrickAtt GetBrickAtt(const float x, const float y) {
 	}
 	return NORMAL;
 }
-inline void BrickStatusUpdate() {
-	if (Bricks.size() == 0) return;
+void BrickStatusUpdate() {
+	if (Bricks.empty()) return;
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
 			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTextureRect(sf::IntRect({ 32, 32 }, { 32, 32 }));
@@ -105,14 +103,14 @@ inline void BrickStatusUpdate() {
 		}
 	}
 }
-inline void BrickDraw() {
+void BrickDraw() {
 	for (auto & Brick : Bricks) {
 		if (!isOutScreen(Brick.property.getPosition().x, Brick.property.getPosition().y, 32, 32)) {
 			rObject.draw(Brick.property);
 		}
 	}
 }
-inline void BrickUpdate(const float deltaTime) {
+void BrickUpdate(const float deltaTime) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (BrickState[i]) {
 			if (!UpDown[i]) {
@@ -131,7 +129,7 @@ inline void BrickUpdate(const float deltaTime) {
 					BrickStateCount[i] -= (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
 				}
 				else {
-					Bricks[i].curr = { BrickSaveList[i].first, BrickSaveList[i].second };
+					Bricks[i].curr = { BricksHorzPosList[i].second.x, BricksHorzPosList[i].second.y };
 					BrickStateCount[i] = 0.0f;
 					UpDown[i] = false;
 					BrickState[i] = false;
@@ -142,7 +140,7 @@ inline void BrickUpdate(const float deltaTime) {
 }
 int getBrickIndex(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
-		if (BrickSaveList[i].first == x && BrickSaveList[i].second == y) {
+		if (BricksHorzPosList[i].second.x == x && BricksHorzPosList[i].second.y == y) {
 			return i;
 		}
 	}
@@ -224,7 +222,7 @@ void DeleteBrick(const float x, const float y) {
 			BrickIDList.erase(BrickIDList.begin() + i);
 			BrickState.erase(BrickState.begin() + i);
 			BrickStateCount.erase(BrickStateCount.begin() + i);
-			BrickSaveList.erase(BrickSaveList.begin() + i);
+			BricksHorzPosList.erase(BricksHorzPosList.begin() + i);
 			UpDown.erase(UpDown.begin() + i);
 			BrickClock.erase(BrickClock.begin() + i);
 			BrickHitted.erase(BrickHitted.begin() + i);
@@ -239,7 +237,7 @@ void DeleteAllBrick() {
 	BrickIDList.clear();
 	BrickState.clear();
 	BrickStateCount.clear();
-	BrickSaveList.clear();
+	BricksHorzPosList.clear();
 	BrickHitted.clear();
 	UpDown.clear();
 	BrickClock.clear();
