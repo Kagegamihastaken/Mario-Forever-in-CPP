@@ -4,7 +4,7 @@
 #include "Object/ExitGate.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Core/Music.hpp"
@@ -16,7 +16,6 @@
 #include <random>
 #include <cmath>
 
-TextureManager ExitGateTextureManager;
 LocalAnimationManager ExitGateIndicatorAnimation;
 sf::Sprite ExitGateBack(tempTex);
 sf::Sprite ExitGateFore(tempTex);
@@ -38,28 +37,38 @@ bool LevelCompleteEffect = false;
 float ExitGateForeEffectSpeed = 0.0f;
 float ExitGateForeEffectYSpeed = 0.0f;
 float ExitGateForeRender = true;
-
+static std::vector<std::string> ExitIndicatorAnimName;
+static constexpr int EXIT_INDICATOR_IMAGE_WIDTH = 93;
+static constexpr int EXIT_INDICATOR_WIDTH = 31;
+static constexpr int EXIT_INDICATOR_HEIGHT = 32;
 std::random_device seed;
 std::uniform_real_distribution<float> dis(123.75f, 146.25f);
 
 void ExitGateInit() {
-	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateBack.png", "ExitGateBack", 0, 0, 95, 288);
-	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateFore.png", "ExitGateFore", 0, 0, 44, 16);
-	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateForeEffect.png", "ExitGateForeEffect", 0, 0, 44, 16);
-	ExitGateTextureManager.Loadingtexture("data/resources/ExitGateIndicator.png", "ExitGateIndicator", 0, 0, 93, 32);
+	ImageManager::AddImage("ExitGateBackImage", "data/resources/ExitGateBack.png");
+	ImageManager::AddTexture("ExitGateBackImage", "ExitGateBack");
+	ImageManager::AddImage("ExitGateForeImage", "data/resources/ExitGateFore.png");
+	ImageManager::AddTexture("ExitGateForeImage", "ExitGateFore");
+	ImageManager::AddImage("ExitGateForeEffectImage", "data/resources/ExitGateForeEffect.png");
+	ImageManager::AddTexture("ExitGateForeEffectImage", "ExitGateForeEffect");
+	ImageManager::AddImage("ExitGateIndicatorImage", "data/resources/ExitGateIndicator.png");
+	for (int i = 0; i < EXIT_INDICATOR_IMAGE_WIDTH / EXIT_INDICATOR_WIDTH; i++) {
+		ImageManager::AddTexture("ExitGateIndicatorImage", sf::IntRect({i * EXIT_INDICATOR_WIDTH, 0}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT}), "ExitGateIndicator_" + std::to_string(i));
+		ExitIndicatorAnimName.push_back("ExitGateIndicator_" + std::to_string(i));
+	}
 	//ExitGateTextureManager.LoadingAnimatedTexture(EXIT_GATE_INDICATOR_TEXTURE, "ExitGateIndicator", 0, 2, 0, 31, 32);
-	ExitGateBack.setTexture(*ExitGateTextureManager.GetTexture("ExitGateBack"), true);
+	ExitGateBack.setTexture(ImageManager::GetTexture("ExitGateBack"), true);
 	ExitGateBack.setOrigin({ 0.0f, 287.0f });
 
-	ExitGateFore.setTexture(*ExitGateTextureManager.GetTexture("ExitGateFore"), true);
+	ExitGateFore.setTexture(ImageManager::GetTexture("ExitGateFore"), true);
 	ExitGateFore.setOrigin({ 23.0f, 0.0f });
 
-	ExitGateForeEffect.setTexture(*ExitGateTextureManager.GetTexture("ExitGateForeEffect"), true);
+	ExitGateForeEffect.setTexture(ImageManager::GetTexture("ExitGateForeEffect"), true);
 	ExitGateForeEffect.setOrigin({ 21.0f, 7.0f });
 	ExitGateClock.reset();
 
-	ExitGateIndicatorAnimation.setAnimation(0, 2, 31, 32, 0, 50);
-	ExitGateIndicatorAnimation.setTexture(ExitGateIndicator, ExitGateTextureManager.GetTexture("ExitGateIndicator"));
+	ExitGateIndicatorAnimation.setAnimation(0, 2, 50);
+	ExitGateIndicatorAnimation.SetSequence(ExitIndicatorAnimName, ExitIndicatorAnimName);
 	ExitGateIndicator.setOrigin({ 0.0f, 31.0f });
 }
 void SetPrevExitGatePos() {
@@ -138,11 +147,11 @@ void ExitGateEffectReset() {
 void ExitGateDraw() {
 	if (!isOutScreen(ExitGateIndicator.getPosition().x, ExitGateIndicator.getPosition().y, 64, 64)) {
 		ExitGateIndicatorAnimation.update(ExitGateIndicator);
-		rObject.draw(ExitGateIndicator);
+		window.draw(ExitGateIndicator);
 	}
-	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) rObject.draw(ExitGateBack);
-	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && ExitGateForeRender) rObject.draw(ExitGateFore);
+	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) window.draw(ExitGateBack);
+	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && ExitGateForeRender) window.draw(ExitGateFore);
 }
 void ExitGateEffectDraw() {
-	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && !ExitGateForeRender) rObject.draw(ExitGateForeEffect);
+	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && !ExitGateForeRender) window.draw(ExitGateForeEffect);
 }

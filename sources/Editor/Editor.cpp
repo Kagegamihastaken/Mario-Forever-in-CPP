@@ -4,7 +4,7 @@
 #include "Editor/Editor.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Hash.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/Interpolation.hpp"
 
@@ -42,7 +42,7 @@ void PlaceTile() {
             if (((lastPlaceX != std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f) || (lastPlaceY != std::floor(MouseY / 32.0f) * 32.0f)) || ((lastDeleteX == std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f) && (lastDeleteY == std::floor(MouseY / 32.0f) * 32.0f))) {
                 if (!Tile.contains(sf::Vector2f(std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f, std::floor(MouseY / 32.0f) * 32.0f))) {
                     std::cout << "Placed\n";
-                    Tile.insert(RenderTile(*TextureManager::GetTexture("Tileset"), sf::Vector2f({std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f, std::floor(MouseY / 32.0f) * 32.0f}), sf::IntRect({{ID_list[6][1], ID_list[6][2]}, {32, 32}})));
+                    Tile.insert(RenderTile(ImageManager::GetTexture("Tile_6"), sf::Vector2f({std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f, std::floor(MouseY / 32.0f) * 32.0f})));
                 }
                 else std::cout << "Already Placed\n";
                 lastPlaceX = std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f;
@@ -61,6 +61,6 @@ void EditorScreenMove(const float dt) {
 
 void DrawTile() {
     for (const auto &i : Tile) {
-        rObject.draw(i);
+        window.draw(i);
     }
 }

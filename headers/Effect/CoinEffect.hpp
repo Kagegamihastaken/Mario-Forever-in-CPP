@@ -7,7 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Core/Animate/LocalAnimationManager.hpp"
 #include "../Core/Loading/enum.hpp"
-#include "../Core/TextureManager.hpp"
+#include "../Core/ImageManager.hpp"
 
 class CoinEffect {
 public:

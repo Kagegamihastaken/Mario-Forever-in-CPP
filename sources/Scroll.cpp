@@ -50,11 +50,11 @@ void ViewInit() {
 	view = sf::View(sf::FloatRect({ 0, 0 }, { Width, Height }));
 }
 void setView() {
-	WindowView = getLetterboxView(view, window.getSize().x, window.getSize().y);
-	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f)), std::round(std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f)) });
+	view = getLetterboxView(view, window.getSize().x, window.getSize().y);
+	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f), std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f) });
 	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f});
 	//std::cout << player.property.getPosition().x << "\n";
-	WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));
+	//WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));
 }
 void moveView(float x, float y) {
 	view.setCenter({ view.getCenter().x + x, view.getCenter().y + y });
@@ -71,8 +71,9 @@ void updateView() {
 	//view.setViewport(sf::FloatRect({ ((window.getSize().x - (view.getSize().x * min)) / window.getSize().x) * 0.5f, ((window.getSize().y - (view.getSize().y * min)) / window.getSize().y) * 0.5f }, { (view.getSize().x * min) / window.getSize().x, (view.getSize().y * min) / window.getSize().y }));
 	ViewX = view.getCenter().x - Width / 2.0f;
 	ViewY = view.getCenter().y - Height / 2.0f;
-	rObject.setView(view);
-	window.setView(WindowView);
+	//rObject.setView(view);
+	window.setView(view);
+	//window.setView(WindowView);
 	//window.setView(viewwin);
 }
 bool isOutScreen(float xPos, float yPos, float OffsetX, float OffsetY) {

@@ -20,7 +20,6 @@
 //#include "imgui-SFML.h"
 #include <iostream>
 float alpha = 1.0f;
-
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
 // TODO: Implement REGEX;
@@ -34,7 +33,6 @@ int WinMain() {
 #else
 	std::cout << "RELEASE!" << "\n";
 #endif
-
 	IOInit();
 	GameObjectInit();
 	//ImGui::SFML::Init(window);
@@ -85,12 +83,12 @@ int WinMain() {
 		//ImGui::End();
 		GameObjectMiscUpdate();
 		//draw
-		rObject.clear();
-		GameObjectDraw();
-		rObject.display();
-		sf::Sprite Renderer(rObject.getTexture());
+		//rObject.clear();
+		//rObject.display();
+		//sf::Sprite Renderer(rObject.getTexture());
 		window.clear();
-		window.draw(Renderer);
+		GameObjectDraw();
+		//window.draw(Renderer);
 		//ImGui::SFML::Render(window);
 		window.display();
 	}

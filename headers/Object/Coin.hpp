@@ -7,7 +7,7 @@
 #include <SFML/Audio.hpp>
 
 #include "../Core/Loading/enum.hpp"
-#include "../Core/TextureManager.hpp"
+#include "../Core/ImageManager.hpp"
 
 class Coin {
 public:

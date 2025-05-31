@@ -2,7 +2,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/LocalAnimationManager.hpp"
 
@@ -38,18 +38,31 @@ float f_round(const float val) {
 	else return fl+1.0f;
 }
 int hex_to_int(const std::string &hex) { return std::stoi(hex, nullptr, 16); }
+
+static std::vector<std::string> CoinHUDAnimName;
+static constexpr int COINHUD_IMAGE_WIDTH = 86;
+static constexpr int COINHUD_WIDTH = 28;
+static constexpr int COINHUD_HEIGHT = 16;
+
 void windowInit() {
 	// Create Window
 	window.create(videoMode, "Mario Forever");
 
 	sf::Image icon;
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
-	TextureManager::Loadingtexture("data/resources/MarioHUD.png", "MarioHUD", 0, 0, 97, 16);
-	TextureManager::Loadingtexture("data/resources/CoinHUD.png", "CoinHUDTexture", 0, 0, 86, 16);
-	CoinHUD.setTexture(*TextureManager::GetTexture("CoinHUDTexture"), true);
-	CoinHUDAnim.setAnimation(0, 2, 28, 16, 0, 16 );
+
+	ImageManager::AddImage("MarioHUDImage", "data/resources/MarioHUD.png");
+	ImageManager::AddTexture("MarioHUDImage", "MarioHUD");
+	ImageManager::AddImage("CoinHUDImage", "data/resources/CoinHUD.png");
+	for (int i = 0; i < COINHUD_IMAGE_WIDTH / COINHUD_WIDTH; i++) {
+		ImageManager::AddTexture("CoinHUDImage", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }), "CoinHUD_" + std::to_string(i));
+		CoinHUDAnimName.emplace_back("CoinHUD_" + std::to_string(i));
+	}
+	CoinHUD.setTexture(ImageManager::GetTexture("CoinHUD_0"), true);
+	CoinHUDAnim.setAnimation(0, 2, 16);
+	CoinHUDAnim.SetSequence(CoinHUDAnimName, CoinHUDAnimName);
 	//Maintexture.AddTexture("MarioHUD", Temp);
-	MarioHUD.setTexture(*TextureManager::GetTexture("MarioHUD"), true);
+	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
 	window.setIcon(icon);
 	rObject.setRepeated(true);
 	//window.setVerticalSyncEnabled(true);
@@ -62,8 +75,8 @@ void FrameDraw() {
 	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
 	//MarioHUD
 	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
-	rObject.draw(CoinHUD);
-	rObject.draw(MarioHUD);
+	window.draw(CoinHUD);
+	window.draw(MarioHUD);
 }
 void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);
@@ -71,12 +84,12 @@ void updateFrame() {
 	MouseY = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (Height / (static_cast<float>(window.getSize().y) - ViewYOff));
 	if (previousUpdate == 2) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(0); //300
+		else window.setFramerateLimit(60); //300
 		previousUpdate = optionSmoothness;
 	}
 	else if (previousUpdate != optionSmoothness) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(0); //300
+		else window.setFramerateLimit(60); //300
 	}
 	//deltaTime = delta.restart().asSeconds() * 50.0f;
 	//deltaTime = (delta.restart().asMicroseconds() * 50) / 1000000.0f;

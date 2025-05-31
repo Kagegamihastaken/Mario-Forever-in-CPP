@@ -6,9 +6,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-#include "../Core/TextureManager.hpp"
+#include "../Core/ImageManager.hpp"
 
-extern TextureManager FontTextureList;
 extern std::string FontString;
 extern void SetFontSize(int TextSizeX, int TextSizeY, int sizeX, int sizeY);
 extern int GetFontIndex(char c);

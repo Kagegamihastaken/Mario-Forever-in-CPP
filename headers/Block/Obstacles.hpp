@@ -3,7 +3,7 @@
 #ifndef OBSTACLES_HPP
 #define OBSTACLES_HPP
 
-#include "../Core/TextureManager.hpp"
+#include "../Core/ImageManager.hpp"
 #include <SFML/Graphics.hpp>
 
 class Obstacles {
@@ -18,8 +18,8 @@ extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesHorzPosList;
 extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 extern sf::VertexArray ObstaclesVA;
 extern std::vector<std::array<int, 3>> ID_list;
-//extern std::vector<Obstacles> ObstaclesList;
-extern TextureManager ObstaclesTextureManager;
+extern std::vector<Obstacles> ObstaclesList;
+extern ImageManager ObstaclesTextureManager;
 extern void loadObstacleRes();
 extern void ObstaclesUpdate();
 #endif // OBSTACLES_HPP

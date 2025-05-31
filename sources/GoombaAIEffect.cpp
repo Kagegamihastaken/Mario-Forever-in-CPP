@@ -10,7 +10,7 @@
 #include "Block/Brick.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 
 std::vector<MovableObject> GoombaAIEffectList;
@@ -22,12 +22,15 @@ std::vector<float> GoombaAIEffectAlphaList;
 std::vector<sf::Clock> GoombaATEffectFadeOutList;
 std::vector<int> GoombaAIEffectSkinIDList;
 
-TextureManager GoombaAIEffectTextureManager;
+ImageManager GoombaAIEffectTextureManager;
 void GoombaAIEffectInit() {
-	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Goomba/DEAD_Goomba.png", "DEAD_Goomba_1", 0, 0, 31, 32);
-	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Goomba/DEAD_Goomba.png", "DEAD_Goomba_2", 31, 0, 31, 32);
-	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Koopa/DEAD_GreenKoopa.png", "DEAD_Koopa", 0, 0, 33, 28);
-	GoombaAIEffectTextureManager.Loadingtexture("data/resources/Spiny/DEAD_RedSpiny.png", "DEAD_Spiny_Red", 0, 0, 33, 32);
+	ImageManager::AddImage("DEAD_GoombaImage", "data/resources/Goomba/DEAD_Goomba.png");
+	ImageManager::AddTexture("DEAD_GoombaImage", sf::IntRect({0, 0}, {31, 32}), "DEAD_Goomba_1");
+	ImageManager::AddTexture("DEAD_GoombaImage", sf::IntRect({31, 0}, {31, 32}), "DEAD_Goomba_2");
+	ImageManager::AddImage("DEAD_KoopaImage", "data/resources/Koopa/DEAD_GreenKoopa.png");
+	ImageManager::AddTexture("DEAD_KoopaImage", "DEAD_Koopa");
+	ImageManager::AddImage("DEAD_SpinyImage", "data/resources/Spiny/DEAD_RedSpiny.png");
+	ImageManager::AddTexture("DEAD_SpinyImage", "DEAD_Spiny_Red");
 }
 void SetPrevGoombaAIEffectPos() {
 	for (int i = 0; i < GoombaAIEffectList.size(); i++) {
@@ -45,13 +48,13 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 	if (type == GOOMBA) {
 		Init.property.setOrigin({ 16, 31 });
 		if (id == COLLIDE) {
-			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Goomba_1"), true);
+			Init.property.setTexture(ImageManager::GetTexture("DEAD_Goomba_1"), true);
 			GoombaAIEffectHitboxList.push_back({ 31.0f, 16.0f });
 			GoombaAIEffectDefinationList.push_back({ 31.0f, 16.0f, 0.0f, 16.0f });
 			GoombaAIEffectYveloList.push_back(0.0f);
 		}
 		else if (id == NONE) {
-			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Goomba_2"), true);
+			Init.property.setTexture(ImageManager::GetTexture("DEAD_Goomba_2"), true);
 			GoombaAIEffectHitboxList.push_back({ 31.0f, 32.0f });
 			GoombaAIEffectDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
@@ -60,7 +63,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 	else if (type == KOOPA || type == SHELL || type == SHELL_MOVING) {
 		Init.property.setOrigin({ 16, 27 });
 		if (id == NONE) {
-			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Koopa"), true);
+			Init.property.setTexture(ImageManager::GetTexture("DEAD_Koopa"), true);
 			GoombaAIEffectHitboxList.push_back({ 33.0f, 28.0f });
 			GoombaAIEffectDefinationList.push_back({ 33.0f, 28.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
@@ -69,7 +72,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 	else if (type == SPINY) {
 		Init.property.setOrigin({ 15, 22 });
 		if (id == NONE) {
-			Init.property.setTexture(*GoombaAIEffectTextureManager.GetTexture("DEAD_Spiny_Red"), true);
+			Init.property.setTexture(ImageManager::GetTexture("DEAD_Spiny_Red"), true);
 			GoombaAIEffectHitboxList.push_back({ 33.0f, 32.0f });
 			GoombaAIEffectDefinationList.push_back({ 33.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
@@ -137,7 +140,7 @@ void GoombaAIEffectStatusUpdate(const float deltaTime) {
 void GoombaAIEffectUpdate() {
 	if (GoombaAIEffectList.size() == 0) return;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
-		if (!isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) rObject.draw(GoombaAIEffectList[i].property);
+		if (!isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) window.draw(GoombaAIEffectList[i].property);
 	}
 }
 void GoombaAIEffectVertYUpdate(const float deltaTime) {

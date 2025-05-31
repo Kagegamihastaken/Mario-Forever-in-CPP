@@ -3,7 +3,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -12,9 +12,16 @@
 std::vector<CoinEffect> CoinEffectList;
 std::vector<CoinID> CoinEffectIDList;
 std::vector<CoinAtt> CoinEffectAttList;
-
+static std::vector<std::string> CoinEffectAnimName;
+static constexpr int COINEFFECT_IMAGE_WIDTH = 777;
+static constexpr int COINEFFECT_WIDTH = 37;
+static constexpr int COINEFFECT_HEIGHT = 32;
 void CoinEffectInit() {
-	TextureManager::Loadingtexture("data/resources/CoinEffect.png", "CoinEffect", 0, 0, 777, 32);
+	ImageManager::AddImage("CoinEffectImage", "data/resources/CoinEffect.png");
+	for (int i = 0; i < COINEFFECT_IMAGE_WIDTH / COINEFFECT_WIDTH; ++i) {
+		ImageManager::AddTexture("CoinEffectImage", sf::IntRect({i * COINEFFECT_WIDTH, 0}, {COINEFFECT_WIDTH, COINEFFECT_HEIGHT}), "CoinEffect_"+std::to_string(i));
+		CoinEffectAnimName.push_back("CoinEffect_"+std::to_string(i));
+	}
 }
 void SetPrevCoinEffectPos() {
 	for (auto & i : CoinEffectList) {
@@ -28,8 +35,8 @@ void InterpolateCoinEffectPos(const float alpha) {
 }
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffect Init;
-	Init.coinEffectAnimation.setAnimation(0, 20, 37, 32, 0, 70);
-	LocalAnimationManager::setTexture(Init.property, TextureManager::GetTexture("CoinEffect"));
+	Init.coinEffectAnimation.setAnimation(0, 20, 70);
+	Init.coinEffectAnimation.SetSequence(CoinEffectAnimName, CoinEffectAnimName);
 	Init.property.setPosition({ static_cast<float>(round(x)), y });
 	Init.property.setOrigin({ 18, 31 });
 	Init.curr = Init.prev = Init.property.getPosition();
@@ -76,7 +83,7 @@ inline void CoinEffectUpdate() {
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			i.coinEffectAnimation.update(i.property);
-			rObject.draw(i.property);
+			window.draw(i.property);
 		}
 		else i.coinEffectAnimation.silentupdate();
 	}

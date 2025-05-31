@@ -1,5 +1,6 @@
+#include <SFML/Graphics.hpp>
 #include "Object/Spike.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Animate/LocalAnimationManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
@@ -14,12 +15,16 @@ std::vector<sf::Sprite> SpikeList;
 std::vector<SpikeID> SpikeIDList;
 std::vector<LocalAnimationManager> SpikeAnimationList;
 std::vector<sf::FloatRect> SpikeHitboxList;
-
-TextureManager SpikeTextureManager;
-
+static std::vector<std::string> PiranhaGroundAnimName;
 void SpikeInit() {
-	SpikeTextureManager.Loadingtexture("data/resources/Spike/PiranhaGround.png", "Piranha_Ground", 0, 0, 128, 32);
-	SpikeTextureManager.Loadingtexture("data/resources/Spike/Spike.png", "Spike_Normal", 0, 0, 32, 32);
+	ImageManager::AddImage("NormalSpikeImage", "data/resources/Spike/Spike.png");
+	ImageManager::AddTexture("NormalSpikeImage", "NormalSpike");
+	ImageManager::AddImage("PiranhaGroundImage", "data/resources/Spike/PiranhaGround.png");
+	for (int i = 0; i < 4; ++i) {
+		ImageManager::AddTexture("PiranhaGroundImage", sf::IntRect({i * 32, 0}, {32, 32}), "PiranhaGreenGround_" + std::to_string(i));
+		PiranhaGroundAnimName.emplace_back("PiranhaGreenGround_" + std::to_string(i));
+	}
+	//SpikeTextureManager.Loadingtexture("data/resources/Spike/Spike.png", "Spike_Normal", 0, 0, 32, 32);
 
 	//SpikeTextureManager.LoadingAnimatedTexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 3, 0, 32, 32);
 	//SpikeTextureManager.LoadingAnimatedTexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 0, 32, 32);
@@ -45,12 +50,12 @@ void AddSpike(const SpikeID ID, float x, float y) {
 	LocalAnimationManager InitAnimation;
 	switch (ID) {
 	case PIRANHA_GROUND:
-		InitAnimation.setAnimation(0, 3, 32, 32, 0, 22);
-		InitAnimation.setTexture(Init, SpikeTextureManager.GetTexture("Piranha_Ground"));
+		InitAnimation.setAnimation(0, 3, 22);
+		InitAnimation.SetSequence(PiranhaGroundAnimName, PiranhaGroundAnimName);
 		break;
 	case SPIKE_NORMAL:
-		InitAnimation.setAnimation(0, 0, 32, 32, 0, 100);
-		InitAnimation.setTexture(Init, SpikeTextureManager.GetTexture("Spike_Normal"));
+		InitAnimation.setAnimation(0, 0, 100);
+		InitAnimation.AddSequence("NormalSpike", "NormalSpike");
 		break;
 	}
 	SpikeHitboxList.push_back(sf::FloatRect({ 0, 0 }, { 32, 32 }));
@@ -75,6 +80,6 @@ void SpikeStatusUpdate() {
 }
 void SpikeUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) rObject.draw(SpikeList[i]);
+		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) window.draw(SpikeList[i]);
 	}
 }

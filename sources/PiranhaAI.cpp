@@ -1,5 +1,5 @@
 #include "Object/PiranhaAI.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/Animate/LocalAnimationManager.hpp"
 #include "Core/Collision/Collide.hpp"
@@ -9,7 +9,10 @@
 #include "Core/Interpolation.hpp"
 #include <vector>
 #include "Class/PiranhaAIClass.hpp"
-
+static std::vector<std::string> PiranhaAnimName;
+static constexpr int PIRANHA_IMAGE_WIDTH = 128;
+static constexpr int PIRANHA_WIDTH = 64;
+static constexpr int PIRANHA_HEIGHT = 64;
 std::vector<PiranhaAI> PiranhaAIList;
 void DeletePiranhaAI(const float x, const float y) {
 	for (unsigned int i = 0; i < PiranhaAIList.size(); ++i) {
@@ -23,7 +26,11 @@ void ClearPiranhaAI() {
 	PiranhaAIList.clear();
 }
 void PiranhaAIInit() {
-	TextureManager::Loadingtexture("data/resources/Piranha/PiranhaGreen.png", "PiranhaGreen", 0, 0, 128, 64);
+	ImageManager::AddImage("PiranhaGreenImage", "data/resources/Piranha/PiranhaGreen.png");
+	for (int i = 0; i < PIRANHA_IMAGE_WIDTH / PIRANHA_WIDTH; ++i) {
+		ImageManager::AddTexture("PiranhaGreenImage", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}), "PiranhaGreen_" + std::to_string(i));
+		PiranhaAnimName.emplace_back("PiranhaGreen_" + std::to_string(i));
+	}
 	//PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void SetPrevPiranhaAIPos() {
@@ -40,8 +47,8 @@ void AddPiranha(const PiranhaID ID, const float x, const float y) {
 	PiranhaAIList.emplace_back(sf::Vector2f({x, y + 64.0f}));
 	switch (ID) {
 		case GREEN:
-			PiranhaAIList.back().m_animation.setAnimation(0, 1, 64, 64, 0, 14);
-			PiranhaAIList.back().setTexture(*TextureManager::GetTexture("PiranhaGreen"));
+			PiranhaAIList.back().m_animation.setAnimation(0, 1, 14);
+			PiranhaAIList.back().m_animation.SetSequence(PiranhaAnimName, PiranhaAnimName);
 			PiranhaAIList.back().setSpeed(1.0f);
 			PiranhaAIList.back().setStopTime(1.4f);
 			PiranhaAIList.back().setDistanceAppear(80.0f);
@@ -112,9 +119,11 @@ void PiranhaAIStatusUpdate() {
 void PiranhaAIUpdate() {
 	for (auto & i : PiranhaAIList) {
 		if (!isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
-			i.setTextureRect(i.m_animation.getAnimationTextureRect());
+			//i.m_animation.getCurrentAnimationName();
+			i.setTexture(ImageManager::GetTexture(i.m_animation.getCurrentAnimationName()));
+			//i.setTextureRect(i.m_animation.getAnimationTextureRect());
 			i.m_animation.silentupdate();
-			rObject.draw(i);
+			window.draw(i);
 		}
 		else if (isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
 			i.m_animation.silentupdate();

@@ -2,22 +2,28 @@
 
 #include "Core/Background/Bg.hpp"
 #include "Core/WindowFrame.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Level.hpp"
 
 std::vector<std::array<sf::Vertex, 4>> BgList;
 std::vector<std::string> BgTextureNameList;
 std::vector<float> BgParallaxList;
-TextureManager BgTextureManager;
+ImageManager BgTextureManager;
 sf::VertexBuffer buffer;
 
 void BgInit() {
-	BgTextureManager.Loadingtexture("data/resources/Background/GreenBackground.png", "GreenBackground", 0, 0, 512, 480, true);
-	BgTextureManager.Loadingtexture("data/resources/Background/GreenFore.png", "GreenFore", 0, 0, 512, 480, true);
-	BgTextureManager.Loadingtexture("data/resources/Background/GreenMid.png", "GreenMid", 0, 0, 410, 480, true);
-	BgTextureManager.Loadingtexture("data/resources/Background/GreenMid2.png", "GreenMid2", 0, 0, 282, 480, true);
-	BgTextureManager.Loadingtexture("data/resources/Background/GreenBack.png", "GreenBack", 0, 0, 1411, 480, true);
+	ImageManager::AddImage("GreenBackgroundImage", "data/resources/Background/GreenBackground.png");
+	ImageManager::AddImage("GreenForeImage", "data/resources/Background/GreenFore.png");
+	ImageManager::AddImage("GreenMidImage", "data/resources/Background/GreenMid.png");
+	ImageManager::AddImage("GreenMid2Image", "data/resources/Background/GreenMid2.png");
+	ImageManager::AddImage("GreenBackImage", "data/resources/Background/GreenBack.png");
+
+	ImageManager::AddTexture("GreenBackgroundImage", "GreenBackground", true);
+	ImageManager::AddTexture("GreenForeImage", "GreenFore", true);
+	ImageManager::AddTexture("GreenMidImage", "GreenMid", true);
+	ImageManager::AddTexture("GreenMid2Image", "GreenMid2", true);
+	ImageManager::AddTexture("GreenBackImage", "GreenBack", true);
 
 	buffer.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 	buffer.create(4);
@@ -80,6 +86,6 @@ void DeleteAllBg() {
 void BgDraw() {
 	for (int i = 0; i < BgList.size(); ++i) {
 		buffer.update(BgList[i].data());
-		rObject.draw(buffer, BgTextureManager.GetTexture(BgTextureNameList[i]));
+		window.draw(buffer, &ImageManager::GetTexture(BgTextureNameList[i]));
 	}
 }

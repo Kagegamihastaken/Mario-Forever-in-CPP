@@ -2,14 +2,15 @@
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 
 #include <vector>
 #include <array>
+#include <iostream>
 
 //Obstacles define
 sf::VertexArray ObstaclesVA;
-//std::vector<Obstacles> ObstaclesList;
+std::vector<Obstacles> ObstaclesList;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesHorzPosList;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 //set ID for each texture obstacle
@@ -26,21 +27,24 @@ std::vector<std::array<int, 3>> ID_list{
 	{9, 128, 32},
 	{10, 160, 32},
 };
-TextureManager ObstaclesTextureManager;
+ImageManager ObstaclesTextureManager;
 //texture loading
 
 void loadObstacleRes() {
-	TextureManager::Loadingtexture("data/resources/Tileset.png", "Tileset", 0, 0, 192, 64);
+	ImageManager::AddImage("TilesetImage", "data/resources/Tileset.png");
+	for (int i = 0; i < ID_list.size(); ++i) {
+		ImageManager::AddTexture("TilesetImage", sf::IntRect({ID_list[i][1], ID_list[i][2]}, {32, 32}), "Tile_" + std::to_string(ID_list[i][0]));
+	}
 }
 void ObstaclesUpdate() {
 	//sf::RenderStates states;
 	//sf::Transformable trans;
 	//states.transform *= trans.getTransform();
 	//states.texture = ObstaclesTextureManager.GetTexture("Tileset");
-	rObject.draw(ObstaclesVA, TextureManager::GetTexture("Tileset"));
-	//for (const auto & i : ObstaclesList) {
-	//	if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-	//		rObject.draw(i.property);
-	//	}
-	//}
+	//window.draw(ObstaclesVA, ImageManager::GetTexture("Tileset"));
+	for (const auto & i : ObstaclesList) {
+		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
+			window.draw(i.property);
+		}
+	}
 }

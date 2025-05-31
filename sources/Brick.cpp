@@ -15,7 +15,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Sound.hpp"
 #include "Effect/GoombaAIEffect.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include <vector>
 
@@ -33,7 +33,12 @@ std::vector<bool> BrickHitted;
 std::vector<bool> DisabledBrick;
 void LoadBricks() {
 	// Loading Texture
-	TextureManager::Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
+	ImageManager::AddImage("BrickImage", "data/resources/Brick.png");
+	ImageManager::AddTexture("BrickImage", sf::IntRect({0, 0}, {32, 32}), "NormalBrick");
+	ImageManager::AddTexture("BrickImage", sf::IntRect({0, 32}, {32, 32}), "NormalHittedBrick");
+	ImageManager::AddTexture("BrickImage", sf::IntRect({32, 0}, {32, 32}), "GrayBrick");
+	ImageManager::AddTexture("BrickImage", sf::IntRect({32, 32}, {32, 32}), "GrayHittedBrick");
+	//ImageManager::Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
 }
 void SetPrevBricksPos() {
 	for (auto & Brick : Bricks) {
@@ -48,10 +53,10 @@ void InterpolateBricksPos(const float alpha) {
 void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y) {
 	switch (ID) {
 	case BRICK_GRAY:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(*TextureManager::GetTexture("Bricks"), sf::IntRect({32, 0}, {32, 32})) });
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("GrayBrick"))});
 		break;
 	case BRICK_NORMAL:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(*TextureManager::GetTexture("Bricks"), sf::IntRect({0, 0}, {32, 32})) });
+			Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalBrick"))});
 		break;
 	}
 	BrickAttList.emplace_back(att);
@@ -98,15 +103,15 @@ void BrickStatusUpdate() {
 	if (Bricks.empty()) return;
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
-			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTextureRect(sf::IntRect({ 32, 32 }, { 32, 32 }));
-			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTextureRect(sf::IntRect({ 0, 32 }, { 32, 32 }));
+			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(ImageManager::GetTexture("GrayHittedBrick"));
+			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTexture(ImageManager::GetTexture("NormalHittedBrick"));
 		}
 	}
 }
 void BrickDraw() {
 	for (auto & Brick : Bricks) {
 		if (!isOutScreen(Brick.property.getPosition().x, Brick.property.getPosition().y, 32, 32)) {
-			rObject.draw(Brick.property);
+			window.draw(Brick.property);
 		}
 	}
 }

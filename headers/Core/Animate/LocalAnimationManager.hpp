@@ -1,22 +1,24 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
-
-#include <SFML\Graphics.hpp>
+#include "Core/Loading/enum.hpp"
 
 class LocalAnimationManager {
 private:
-	int indexAnimation = 0;
-	int startingIndexAnimation = 0;
-	int endingIndexAnimation = 0;
-	int frequency = 50;
-	int y = 0;
-	sf::Clock TimeRun;
-	float TimeRan = 0.0f;
-	float TimeRemainSave = 0.0f;
-	int sizex = 0, sizey = 0;
+	std::string m_lastAnim = "";
+protected:
+	int m_indexAnimation = 0;
+	int m_startingIndexAnimation = 0;
+	int m_endingIndexAnimation = 0;
+	int m_frequency = 50;
+	sf::Clock m_TimeRun;
+	float m_TimeRan = 0.0f;
+	float m_TimeRemainSave = 0.0f;
+	AnimationDirection m_direction;
+	std::vector<std::string> m_LeftIndex;
+	std::vector<std::string> m_RightIndex;
 public:
-	void setAnimation(int startingIndexAnimation = 0, int endingIndexAnimation = 0, int sizex = 0, int sizey = 0, int y = 0, int frequency = 50);
+	void setAnimation(int startingIndexAnimation = 0, int endingIndexAnimation = 0, int frequency = 50);
 	void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 	void setIndexAnimation(int indexAnimation);
 	void setStartingIndexAnimation(int startingIndexAnimation);
@@ -24,10 +26,11 @@ public:
 	void setFrequency(int frequency);
 	void update(sf::Sprite& sprite);
 	void silentupdate();
-	sf::IntRect getAnimationTextureRect() const;
-	bool isAtTheEnd() const;
-
-	static void setTexture(sf::Sprite& sprite, const sf::Texture* texture);
-	void setYPos(int y);
+	std::string getCurrentAnimationName();
+	void setDirection(const AnimationDirection& dir);
+	//sf::IntRect getAnimationTextureRect() const;
+	[[nodiscard]] bool isAtTheEnd() const;
+	void AddSequence(const std::string& a_left, const std::string& a_right);
+	void SetSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
 };
 #endif // LOCALANIMATIONMANAGER_HPP

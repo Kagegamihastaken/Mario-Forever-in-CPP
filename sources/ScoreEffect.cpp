@@ -6,20 +6,29 @@
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Sound.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 
 //define
 std::vector<sf::Sprite> ScoreEffectList;
 std::vector<ScoreID> ScoreEffectIDList;
-TextureManager ScoreEffectTexture;
+ImageManager ScoreEffectTexture;
 std::vector<float> ScoreEffectVelocity;
 std::vector<float> ScoreEffectAlpha;
 std::vector<sf::Vector2f> ScoreEffectCurr;
 std::vector<sf::Vector2f> ScoreEffectPrev;
 
 void ScoreEffectInit() {
-	ScoreEffectTexture.Loadingtexture("data/resources/Score.png", "SCORE_TEXTURE", 0, 0, 42, 128);
+	ImageManager::AddImage("ScoreTextureImage", "data/resources/Score.png");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 0 }, { 26, 16 }), "Score_100");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 16 }, { 28, 16 }), "Score_200");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 32 }, { 28, 16 }), "Score_500");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 48 }, { 34, 16 }), "Score_1000");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 64 }, { 35, 16 }), "Score_2000");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 80 }, { 36, 16 }), "Score_5000");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 96 }, { 42, 16 }), "Score_10000");
+	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 112 }, { 32, 16 }), "Score_1UP");
+	//ScoreEffectTexture.Loadingtexture("data/resources/Score.png", "SCORE_TEXTURE", 0, 0, 42, 128);
 }
 void SetPrevScoreEffectPos() {
 	for (int i = 0; i < ScoreEffectList.size(); i++) {
@@ -32,45 +41,45 @@ void InterpolateScoreEffectPos(const float alpha) {
 	}
 }
 void AddScoreEffect(ScoreID id, float x, float y) {
-	sf::Sprite Init(*ScoreEffectTexture.GetTexture("SCORE_TEXTURE"));
+	sf::Sprite Init(tempTex);
 	switch (id) {
-	case SCORE_100:
-		Init.setTextureRect(sf::IntRect({ 0, 0 }, { 26, 16 }));
+		case SCORE_100:
+		Init.setTexture(ImageManager::GetTexture("Score_100"), true);
 		Score += 100;
 		Init.setOrigin({ 12, 15 });
 		break;
 	case SCORE_200:
-		Init.setTextureRect(sf::IntRect({ 0, 16 }, { 28, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_200"), true);
 		Score += 200;
 		Init.setOrigin({ 14, 15 });
 		break;
 	case SCORE_500:
-		Init.setTextureRect(sf::IntRect({ 0, 32 }, { 28, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_500"), true);
 		Score += 500;
 		Init.setOrigin({ 13, 15 });
 		break;
 	case SCORE_1000:
-		Init.setTextureRect(sf::IntRect({ 0, 48 }, { 34, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_1000"), true);
 		Score += 1000;
 		Init.setOrigin({ 16, 15 });
 		break;
 	case SCORE_2000:
-		Init.setTextureRect(sf::IntRect({ 0, 64 }, { 35, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_2000"), true);
 		Score += 2000;
 		Init.setOrigin({ 16, 15 });
 		break;
 	case SCORE_5000:
-		Init.setTextureRect(sf::IntRect({ 0, 80 }, { 36, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_5000"), true);
 		Score += 5000;
 		Init.setOrigin({ 16, 15 });
 		break;
 	case SCORE_10000:
-		Init.setTextureRect(sf::IntRect({ 0, 96 }, { 42, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_10000"), true);
 		Score += 10000;
 		Init.setOrigin({ 20, 15 });
 		break;
 	case SCORE_1UP:
-		Init.setTextureRect(sf::IntRect({ 0, 112 }, { 32, 16 }));
+		Init.setTexture(ImageManager::GetTexture("Score_1UP"), true);
 		Init.setOrigin({ 14, 15 });
 		++Lives;
 		Sounds.PlaySound("1UP");
@@ -120,6 +129,6 @@ inline void ScoreEffectStatusUpdate(float deltaTime) {
 inline void ScoreEffectUpdate() {
 	if (ScoreEffectList.size() == 0) return;
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
-		rObject.draw(ScoreEffectList[i]);
+		window.draw(ScoreEffectList[i]);
 	}
 }

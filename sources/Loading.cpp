@@ -5,6 +5,7 @@
 #include <physfs.h>
 #include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "Core/Loading/Loading.hpp"
+#include <iostream>
 void IOInit() {
 	PHYSFS_init(nullptr);
 	PHYSFS_mount("data.zip", "/", 1);
@@ -68,6 +69,6 @@ int ReadStrLine(const std::string& lvldata, std::string& out, const int resume =
 }
 void LoadImageFile(sf::Image& image, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
-	image.loadFromMemory(vec.data(), vec.size());
+	if (!image.loadFromMemory(vec.data(), vec.size())) std::cout << "Failed to load image from: " + path + "\n";
 	vec.clear();
 }

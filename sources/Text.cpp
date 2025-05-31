@@ -5,7 +5,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/Loading/enum.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 
 #include <vector>
 #include <iostream>
@@ -15,8 +15,12 @@ std::vector<Text*> TextList;
 std::vector<TextMarginID> TextMarginList;
 
 void loadFontRes() {
-	FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 	SetFontSize(645, 32, 15, 16);
+	ImageManager::AddImage("FontImage", "data/resources/Font.png");
+	for (const auto &i : FontString) {
+		ImageManager::AddTexture("FontImage", sf::IntRect({ GetFontTexture(i).x, GetFontTexture(i).y }, { 15, 16 }), "Font_" + std::to_string(i));
+	}
+	//FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 }
 void AddText(const std::string &id, const std::string &text, const TextMarginID margin, const float x, float y) {
 	//search for duplicates ID
@@ -27,7 +31,7 @@ void AddText(const std::string &id, const std::string &text, const TextMarginID 
 		}
 	}
 	if (!isDuplicate) {
-		// If not proceed as usual
+		// If not, proceed as usual
 
 		// LEAKED
 		const auto Init = new Text();
@@ -37,8 +41,7 @@ void AddText(const std::string &id, const std::string &text, const TextMarginID 
 		Init->textContent = text;
 		int Counter = 0;
 		for (const auto& i : text) {
-			sf::Vector2i lp = GetFontTexture(i);
-			Init->text.push_back(sf::Sprite(*FontTextureList.GetTexture("Font"), sf::IntRect({ lp.x, lp.y }, { 15, 16 })));
+			Init->text.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
 			Init->text[Counter].setPosition({ x + FontSizeX * Counter + Counter, y });
 			++Counter;
 		}
@@ -61,8 +64,7 @@ void EditText(const std::string &NewText, const std::string &id) {
 		std::vector<sf::Sprite> Init;
 		int Counter = 0;
 		for (const auto& i : NewText) {
-			sf::Vector2i lp = GetFontTexture(i);
-			Init.push_back(sf::Sprite(*FontTextureList.GetTexture("Font"), sf::IntRect({ lp.x, lp.y }, { 15, 16 })));
+			Init.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
 			Init[Counter].setPosition({ TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y });
 			++Counter;
 		}
@@ -99,7 +101,7 @@ inline void UpdatePositionCharacter() {
 inline void UpdateText() {
 	for (const auto& i : TextList) {
 		for (const auto& j : i->text) {
-			rObject.draw(j);
+			window.draw(j);
 		}
 	}
 }

@@ -9,7 +9,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Animate/LocalAnimationManager.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/Collision/Collide.hpp"
@@ -23,7 +23,6 @@
 //define here
 LocalAnimationManager MarioAnimation;
 MovableObject player;
-TextureManager MarioTexture;
 float Xvelo = 0.0f;
 float Yvelo = 0.0f;
 bool FirstMarioDirection = false;
@@ -34,17 +33,16 @@ bool Holding;
 bool MarioCrouchDown = false;
 float player_speed;
 int MarioState = 0;
-int lastMarioState = -1;
+static int lastMarioState = -1;
 int PowerState = 0;
-int lastPowerState = 0;
+static int lastPowerState = 0;
 
 int Lives = 4;
 
-bool OverSpeed = false;
-bool isMarioOverlapping = false;
+static bool OverSpeed = false;
 long long int Score = 0;
-sf::Clock AppearingTimer;
-sf::Clock InvincibleTimer;
+static sf::Clock AppearingTimer;
+static sf::Clock InvincibleTimer;
 bool Invincible = false;
 bool InvincibleState = false;
 bool MarioAppearing = false;
@@ -54,16 +52,35 @@ bool CanControlMario = true;
 //texture loading
 sf::Texture SmallMario;
 sf::Texture BigMario;
-std::array<float, 2> PowerOffset = { 30.0f, 7.0f };
+static constexpr std::array<float, 2> PowerOffset = { 30.0f, 7.0f };
+static constexpr int MARIO_IMAGE_WIDTH = 248;
+static constexpr int MARIO_WIDTH = 31;
+static constexpr int MARIO_HEIGHT = 59;
+
+static std::vector<std::string> SmallMarioLeft;
+static std::vector<std::string> SmallMarioRight;
+static std::vector<std::string> BigMarioLeft;
+static std::vector<std::string> BigMarioRight;
+
 void loadMarioRes() {
 	AppearingTimer.restart();
 	// Resources Loader;
-
-	MarioTexture.Loadingtexture("data/resources/SmallMario.png", "SmallMario", 0, 0, 248, 118);
-	MarioTexture.Loadingtexture("data/resources/BigMario.png", "BigMario", 0, 0, 248, 118);
-
-	MarioAnimation.setAnimation(0, 0, 31, 59, 0, 0);
+	MarioAnimation.setAnimation(0, 0, 0);
 	player.property.setOrigin({ 11, 51 });
+	ImageManager::AddImage("SmallMarioImage", "data/resources/SmallMario.png");
+	ImageManager::AddImage("BigMarioImage", "data/resources/BigMario.png");
+	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
+		//SmallMario
+		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioRight_" + std::to_string(i));
+		SmallMarioRight.push_back("SmallMarioRight_" + std::to_string(i));
+		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioLeft_" + std::to_string(i), false, true);
+		SmallMarioLeft.push_back("SmallMarioLeft_" + std::to_string(i));
+		//BigMario
+		ImageManager::AddTexture("BigMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "BigMarioRight_" + std::to_string(i));
+		BigMarioRight.push_back("BigMarioRight_" + std::to_string(i));
+		ImageManager::AddTexture("BigMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "BigMarioLeft_" + std::to_string(i), false, true);
+		BigMarioLeft.push_back("BigMarioLeft_" + std::to_string(i));
+	}
 }
 //sprite function
 void SetPrevMarioPos() {
@@ -297,13 +314,12 @@ void UpdateAnimation() {
 
 	//mariostate:
 	// 0: idle, 1: run, 2: jump = fall, 3: crouch, 4: appear
-	const int ypos = (!MarioDirection) ? 0 : 1;
 	switch (PowerState) {
 	case 0:
-		MarioAnimation.setTexture(player.property, MarioTexture.GetTexture("SmallMario"));
+		MarioAnimation.SetSequence(SmallMarioLeft, SmallMarioRight);
 		break;
 	case 1:
-		MarioAnimation.setTexture(player.property, MarioTexture.GetTexture("BigMario"));
+		MarioAnimation.SetSequence(BigMarioLeft, BigMarioRight);
 		break;
 	default: ;
 	}
@@ -312,10 +328,10 @@ void UpdateAnimation() {
 			if (MarioCurrentFalling) {
 				MarioState = 2;
 				if (lastMarioState != MarioState) {
-					MarioAnimation.setAnimation(3, 3, 31, 59, ypos, 100);
+					MarioAnimation.setAnimation(3, 3, 100);
 					lastMarioState = MarioState;
 				}
-				MarioAnimation.setYPos(ypos);
+				MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
 				if (PowerState == 0) MarioAnimation.update(player.property);
 				else if (PowerState == 1) MarioAnimation.update(player.property);
 			}
@@ -323,20 +339,20 @@ void UpdateAnimation() {
 				if (Xvelo == 0.0f) {
 					MarioState = 0;
 					if (lastMarioState != MarioState) {
-						MarioAnimation.setAnimation(2, 2, 31, 59, ypos, 0);
+						MarioAnimation.setAnimation(2, 2, 0);
 						lastMarioState = MarioState;
 					}
-					MarioAnimation.setYPos(ypos);
+					MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
 					if (PowerState == 0) MarioAnimation.update(player.property);
 					else if (PowerState == 1) MarioAnimation.update(player.property);
 				}
 				else {
 					MarioState = 1;
 					if (lastMarioState != MarioState) {
-						MarioAnimation.setAnimation(0, 2, 31, 59, ypos);
+						MarioAnimation.setAnimation(0, 2);
 						lastMarioState = MarioState;
 					}
-					MarioAnimation.setYPos(ypos);
+					MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
 					MarioAnimation.setFrequency(f_max(12.0f, f_min(Xvelo * 6.0f, 45.0f)));
 					if (PowerState == 0) {
 						//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
@@ -351,20 +367,20 @@ void UpdateAnimation() {
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0) {
 				MarioState = 3;
 				if (lastMarioState != MarioState) {
-					MarioAnimation.setAnimation(4, 4, 31, 59, ypos);
+					MarioAnimation.setAnimation(4, 4);
 					lastMarioState = MarioState;
 				}
-				MarioAnimation.setYPos(ypos);
+				MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
 				MarioAnimation.update(player.property);
 			}
 		}
 		else {
 			MarioState = 4;
 			if (lastMarioState != MarioState) {
-				MarioAnimation.setAnimation(5, 7, 31, 59, ypos, 100);
+				MarioAnimation.setAnimation(5, 7, 100);
 				lastMarioState = MarioState;
 			}
-			MarioAnimation.setYPos(ypos);
+			MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
 			if (PowerState == 0) MarioAnimation.update(player.property);
 			else if (PowerState == 1) MarioAnimation.update(player.property);
 		}
@@ -417,11 +433,11 @@ inline void MarioDraw() {
 	//then draw
 	if (InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) Invincible = false;
 	if (!Invincible) {
-		if (CanControlMario) rObject.draw(player.property);
+		if (CanControlMario) window.draw(player.property);
 	}
 	else {
 		if (!InvincibleState) {
-			if (CanControlMario) rObject.draw(player.property);
+			if (CanControlMario) window.draw(player.property);
 			InvincibleState = true;
 		}
 		else InvincibleState = false;

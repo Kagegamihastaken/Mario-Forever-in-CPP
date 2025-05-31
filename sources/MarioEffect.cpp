@@ -1,5 +1,5 @@
 #include "Effect/MarioEffect.hpp"
-#include "Core/TextureManager.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Music.hpp"
@@ -7,7 +7,6 @@
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
 
-TextureManager MarioEffectTextureManager;
 sf::Sprite playerEffect(tempTex);
 sf::Vector2f MarioEffectCurr;
 sf::Vector2f MarioEffectPrev;
@@ -15,8 +14,9 @@ bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
 void MarioEffectInit() {
-	MarioEffectTextureManager.Loadingtexture("data/resources/MarioDead.png", "DEADMario", 0, 0, 32, 32);
-	playerEffect.setTexture(*MarioEffectTextureManager.GetTexture("DEADMario"), true);
+	ImageManager::AddImage("DEADMarioImage", "data/resources/MarioDead.png");
+	ImageManager::AddTexture("DEADMarioImage", "DEADMario");
+	playerEffect.setTexture(ImageManager::GetTexture("DEADMario"), true);
 }
 void SetPrevMarioEffectPos() {
 	MarioEffectPrev = MarioEffectCurr;
@@ -54,6 +54,6 @@ void ActiveMarioEffect() {
 }
 void MarioEffectDraw() {
 	if (EffectActive) {
-		if (!isOutScreen(playerEffect.getPosition().x, playerEffect.getPosition().y, 32, 32)) rObject.draw(playerEffect);
+		if (!isOutScreen(playerEffect.getPosition().x, playerEffect.getPosition().y, 32, 32)) window.draw(playerEffect);
 	}
 }

@@ -4,87 +4,103 @@
 #include "Core/WindowFrame.hpp"
 
 #include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/ImageManager.hpp"
+#include "Core/Loading/enum.hpp"
 
-void LocalAnimationManager::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int sizex, const int sizey, const int y, const int frequency) {
-	this->startingIndexAnimation = startingIndexAnimation;
-	this->indexAnimation = startingIndexAnimation;
-	this->endingIndexAnimation = endingIndexAnimation;
-	this->frequency = frequency;
-	this->TimeRun.restart();
-	this->TimeRan = 0.0f;
-	this->TimeRemainSave = 0.0f;
-	this->sizex = sizex;
-	this->sizey = sizey;
-	this->y = y;
+void LocalAnimationManager::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
+	m_startingIndexAnimation = startingIndexAnimation;
+	m_indexAnimation = startingIndexAnimation;
+	m_endingIndexAnimation = endingIndexAnimation;
+	m_frequency = frequency;
+	m_TimeRun.restart();
+	m_TimeRan = 0.0f;
+	m_TimeRemainSave = 0.0f;
+	m_direction = AnimationDirection::ANIM_LEFT;
 }
-void LocalAnimationManager::setTexture(sf::Sprite& sprite, const sf::Texture* texture) {
-	sprite.setTexture(*texture);
+void LocalAnimationManager::AddSequence(const std::string& a_left, const std::string& a_right) {
+	m_LeftIndex.emplace_back(a_left);
+	m_RightIndex.emplace_back(a_right);
+}
+void LocalAnimationManager::SetSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right) {
+	m_LeftIndex = s_left;
+	m_RightIndex = s_right;
 }
 void LocalAnimationManager::SetRangeIndexAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
-	if (this->startingIndexAnimation != startingIndexAnimation || this->endingIndexAnimation != endingIndexAnimation) {
-		this->startingIndexAnimation = startingIndexAnimation;
-		this->endingIndexAnimation = endingIndexAnimation;
-		this->frequency = frequency;
-		this->indexAnimation = startingIndexAnimation;
-		this->TimeRun.restart();
-		this->TimeRan = 0.0f;
-		this->TimeRemainSave = 0.0f;
+	if (m_startingIndexAnimation != startingIndexAnimation || m_endingIndexAnimation != endingIndexAnimation) {
+		m_startingIndexAnimation = startingIndexAnimation;
+		m_endingIndexAnimation = endingIndexAnimation;
+		m_frequency = frequency;
+		m_indexAnimation = startingIndexAnimation;
+		m_TimeRun.restart();
+		m_TimeRan = 0.0f;
+		m_TimeRemainSave = 0.0f;
 	}
 	else {
-		this->frequency = frequency;
-		this->TimeRun.restart();
-		this->TimeRan = 0.0f;
-		this->TimeRemainSave = 0.0f;
+		m_frequency = frequency;
+		m_TimeRun.restart();
+		m_TimeRan = 0.0f;
+		m_TimeRemainSave = 0.0f;
 	}
 }
 void LocalAnimationManager::setIndexAnimation(const int indexAnimation) {
-	this->indexAnimation = indexAnimation;
+	m_indexAnimation = indexAnimation;
 }
 void LocalAnimationManager::setStartingIndexAnimation(const int startingIndexAnimation) {
-	this->startingIndexAnimation = startingIndexAnimation;
+	m_startingIndexAnimation = startingIndexAnimation;
 }
 void LocalAnimationManager::setEndingIndexAnimation(const int endingIndexAnimation) {
-	this->endingIndexAnimation = endingIndexAnimation;
+	m_endingIndexAnimation = endingIndexAnimation;
 }
 void LocalAnimationManager::setFrequency(const int frequency) {
-	this->frequency = frequency;
-}
-void LocalAnimationManager::setYPos(const int y) {
-	this->y = y;
+	m_frequency = frequency;
 }
 void LocalAnimationManager::update(sf::Sprite& sprite) {
 	//sprite.setTexture(*texture[this->indexAnimation], true);
-	sprite.setTextureRect(sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey }));
-	this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
-	if (this->frequency != 0 && this->TimeRan >= ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()))) {
+	//sprite.setTextureRect(sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey }));
+	std::string* stranim = &m_LeftIndex[m_indexAnimation];
+	if (m_direction == AnimationDirection::ANIM_RIGHT) stranim = &m_RightIndex[m_indexAnimation];
+	//sprite.setTexture(ImageManager::GetTexture(*stranim), true);
+	if (m_lastAnim != *stranim) {
+		m_lastAnim = *stranim;
+		sprite.setTexture(ImageManager::GetTexture(*stranim), true);
+	}
+	m_TimeRan = m_TimeRemainSave + m_TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
+	if (m_frequency != 0 && m_TimeRan >= ((2000.0f / timestep.getTimeSpeed()) / m_frequency / (timestep.getTimeSpeed()))) {
 		const long long loop = static_cast<long long>(
-			this->TimeRan / ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed())));
+			m_TimeRan / ((2000.0f / timestep.getTimeSpeed()) / m_frequency / (timestep.getTimeSpeed())));
 		for (int i = 0; i < loop; i++) {
-			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
-			else this->indexAnimation = this->startingIndexAnimation;
+			if (m_indexAnimation < m_endingIndexAnimation) m_indexAnimation++;
+			else m_indexAnimation = m_startingIndexAnimation;
 		}
-		this->TimeRemainSave = TimeRan - loop * ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()));
-		this->TimeRun.restart();
+		m_TimeRemainSave = m_TimeRan - loop * ((2000.0f / timestep.getTimeSpeed()) / m_frequency / (timestep.getTimeSpeed()));
+		m_TimeRun.restart();
 	}
 }
-sf::IntRect LocalAnimationManager::getAnimationTextureRect() const {
-	return sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey });
+std::string LocalAnimationManager::getCurrentAnimationName() {
+	if (m_direction == AnimationDirection::ANIM_RIGHT) return m_RightIndex[m_indexAnimation];
+	else return m_LeftIndex[m_indexAnimation];
 }
+void LocalAnimationManager::setDirection(const AnimationDirection& dir) {
+	m_direction = dir;
+}
+//sf::IntRect LocalAnimationManager::getAnimationTextureRect() const {
+	//return sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey });
+//}
 void LocalAnimationManager::silentupdate() {
-	this->TimeRan = this->TimeRemainSave + this->TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
-	if (this->frequency != 0 && this->TimeRan >= ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()))) {
+	m_TimeRan = m_TimeRemainSave + m_TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
+	if (m_frequency != 0 && m_TimeRan >= ((2000.0f / timestep.getTimeSpeed()) / m_frequency / (timestep.getTimeSpeed()))) {
 		const long long loop = static_cast<long long>(
-			this->TimeRan / ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed())));
+			m_TimeRan / ((2000.0f / timestep.getTimeSpeed()) / m_frequency / (timestep.getTimeSpeed())));
 		for (int i = 0; i < loop; i++) {
-			if (this->indexAnimation < this->endingIndexAnimation) this->indexAnimation++;
-			else this->indexAnimation = this->startingIndexAnimation;
+			if (m_indexAnimation < m_endingIndexAnimation) m_indexAnimation++;
+			else m_indexAnimation = m_startingIndexAnimation;
 		}
-		this->TimeRemainSave = TimeRan - loop * ((2000.0f / timestep.getTimeSpeed()) / this->frequency / (timestep.getTimeSpeed()));
-		this->TimeRun.restart();
+		m_TimeRemainSave = m_TimeRan - loop * ((2000.0f / timestep.getTimeSpeed()) / m_frequency / (timestep.getTimeSpeed()));
+		m_TimeRun.restart();
 	}
 }
 bool LocalAnimationManager::isAtTheEnd() const {
-	int temp = this->endingIndexAnimation;
+	int temp = this->m_endingIndexAnimation;
 	temp = std::max(0, temp - 1);
-	return (this->indexAnimation == temp);
+	return (this->m_indexAnimation == temp);
 }

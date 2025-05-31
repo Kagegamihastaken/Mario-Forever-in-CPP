@@ -3,7 +3,8 @@
 #ifndef MARIO_HPP
 #define MARIO_HPP
 
-#include "../Core/TextureManager.hpp"
+#include "../Core/ImageManager.hpp"
+#include "Editor/RenderTile.hpp"
 
 class MovableObject {
 public:
