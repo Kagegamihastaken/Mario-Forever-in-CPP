@@ -16,6 +16,7 @@ extern kairos::Stopwatch Gclock;
 extern kairos::Timestep timestep;
 extern kairos::FpsLite fpsLite;
 extern void updateFrame();
+extern void HUDUpdate();
 extern float Width;
 extern float Height;
 extern float MouseX;

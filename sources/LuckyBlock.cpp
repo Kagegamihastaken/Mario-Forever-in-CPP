@@ -86,7 +86,8 @@ void LuckyBlockSort() {
 void LuckyBlockDraw() {
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
-			window.draw(LuckyBlock[i].property);
+			if (LuckyBlockIDList[i] == LUCKY_BLOCK && !LuckyBlockHitted[i]) LuckyIdle[i].AnimationDraw(window);
+			else window.draw(LuckyBlock[i].property);
 		}
 	}
 }
@@ -144,17 +145,19 @@ void LuckyBlockUpdate(const float deltaTime) {
 		}
 	}
 }
+void LuckyBlockHittedUpdate(const int index) {
+	if (LuckyBlockIDList[index] == LUCKY_BLOCK) {
+		LuckyBlock[index].property.setTexture(ImageManager::GetTexture("NormalLuckyBlockHit"));
+	}
+	else if (LuckyBlockIDList[index] == TREE_LUCKY_BLOCK) {
+		LuckyBlock[index].property.setTexture(ImageManager::GetTexture("TreeLuckyBlockHit"));
+	}
+}
 void LuckyAnimationUpdate() {
 	if (LuckyBlock.size() == 0) return;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlockIDList[i] == LUCKY_BLOCK) {
-			if (!LuckyBlockHitted[i]) LuckyIdle[i].update(LuckyBlock[i].property);
-			else {
-				LuckyBlock[i].property.setTexture(ImageManager::GetTexture("NormalLuckyBlockHit"));
-			}
-		}
-		else if (LuckyBlockIDList[i] == TREE_LUCKY_BLOCK) {
-			if (LuckyBlockHitted[i]) LuckyBlock[i].property.setTexture(ImageManager::GetTexture("TreeLuckyBlockHit"));
+			if (!LuckyBlockHitted[i]) LuckyIdle[i].AnimationUpdate(LuckyBlock[i].property.getPosition(), LuckyBlock[i].property.getOrigin());
 		}
 	}
 }
@@ -171,6 +174,7 @@ void LuckyHit(const float x, const float y, const int i) {
 			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y + 63.0f, RIGHT);
 			break;
 		}
+		LuckyBlockHittedUpdate(i);
 		LuckyBlockState[i] = true;
 		LuckyUpDown[i] = false;
 		LuckyBlockStateCount[i] = 0;

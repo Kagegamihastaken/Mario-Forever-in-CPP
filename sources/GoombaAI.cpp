@@ -339,7 +339,7 @@ void GoombaAICheckCollide() {
 				case GoombaAIType::MUSHROOM:
 					Sounds.PlaySound("Powerup");
 					if (GoombaAITypeList[i] == MUSHROOM) AddScoreEffect(SCORE_1000, GoombaAIList[i].curr.x, GoombaAIList[i].curr.y - GoombaAIHitboxList[0].second);
-					if (PowerState == 0) PowerState = 1;
+					SetPowerState(1);
 					DeleteGoombaAI(GoombaAITypeList[i], GoombaAIList[i].curr.x, GoombaAIList[i].curr.y);
 					break;
 				case GoombaAIType::SHELL:
@@ -637,11 +637,12 @@ void GoombaAIUpdate() {
 				GoombaAIAnimationList[i].setDirection(AnimationDirection::ANIM_LEFT);
 				if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].second) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].second);
 			}
-			GoombaAIAnimationList[i].update(GoombaAIList[i].property);
-			window.draw(GoombaAIList[i].property);
+			GoombaAIAnimationList[i].AnimationUpdate(GoombaAIList[i].property.getPosition(), GoombaAIList[i].property.getOrigin());
+			GoombaAIAnimationList[i].AnimationDraw(window);
+			//window.draw(GoombaAIList[i].property);
 		}
 		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
-			GoombaAIAnimationList[i].silentupdate();
+			GoombaAIAnimationList[i].AnimationUpdate(GoombaAIList[i].property.getPosition(), GoombaAIList[i].property.getOrigin());
 		}
 	}
 }

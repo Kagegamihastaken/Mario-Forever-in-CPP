@@ -21,7 +21,6 @@ extern void BrickDraw();
 extern void HitEvent(float x, float y);
 extern void DeleteBrick(float x, float y);
 extern void LoadBricks();
-extern void BrickStatusUpdate();
 extern BrickID GetIDBrick(float x, float y);
 extern BrickAtt GetBrickAtt(float x, float y);
 extern int getBrickIndex(float x, float y);

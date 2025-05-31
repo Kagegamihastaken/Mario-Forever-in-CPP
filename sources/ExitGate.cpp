@@ -146,8 +146,9 @@ void ExitGateEffectReset() {
 }
 void ExitGateDraw() {
 	if (!isOutScreen(ExitGateIndicator.getPosition().x, ExitGateIndicator.getPosition().y, 64, 64)) {
-		ExitGateIndicatorAnimation.update(ExitGateIndicator);
-		window.draw(ExitGateIndicator);
+		ExitGateIndicatorAnimation.AnimationUpdate(ExitGateIndicator.getPosition(), ExitGateIndicator.getOrigin());
+		ExitGateIndicatorAnimation.AnimationDraw(window);
+		//window.draw(ExitGateIndicator);
 	}
 	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) window.draw(ExitGateBack);
 	if (!isOutScreen(ExitGateFore.getPosition().x, ExitGateFore.getPosition().y, 64, 64) && ExitGateForeRender) window.draw(ExitGateFore);

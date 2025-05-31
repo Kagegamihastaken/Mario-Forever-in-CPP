@@ -119,14 +119,16 @@ void PiranhaAIStatusUpdate() {
 void PiranhaAIUpdate() {
 	for (auto & i : PiranhaAIList) {
 		if (!isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
+			i.m_animation.AnimationUpdate(i.getPosition(), i.getOrigin());
+			i.m_animation.AnimationDraw(window);
 			//i.m_animation.getCurrentAnimationName();
-			i.setTexture(ImageManager::GetTexture(i.m_animation.getCurrentAnimationName()));
+			//i.setTexture(ImageManager::GetTexture(i.m_animation.getCurrentAnimationName()));
 			//i.setTextureRect(i.m_animation.getAnimationTextureRect());
-			i.m_animation.silentupdate();
-			window.draw(i);
+			//i.m_animation.silentupdate();
+			//window.draw(i);
 		}
 		else if (isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
-			i.m_animation.silentupdate();
+			i.m_animation.AnimationUpdate(i.getPosition(), i.getOrigin());
 		}
 	}
 }

@@ -1,11 +1,14 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
+#include <SFML/Graphics.hpp>
 #include "Core/Loading/enum.hpp"
 
 class LocalAnimationManager {
 private:
 	std::string m_lastAnim = "";
+	std::vector<sf::Sprite> m_LeftIndex;
+	std::vector<sf::Sprite> m_RightIndex;
 protected:
 	int m_indexAnimation = 0;
 	int m_startingIndexAnimation = 0;
@@ -15,18 +18,15 @@ protected:
 	float m_TimeRan = 0.0f;
 	float m_TimeRemainSave = 0.0f;
 	AnimationDirection m_direction;
-	std::vector<std::string> m_LeftIndex;
-	std::vector<std::string> m_RightIndex;
 public:
-	void setAnimation(int startingIndexAnimation = 0, int endingIndexAnimation = 0, int frequency = 50);
+	void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 	void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 	void setIndexAnimation(int indexAnimation);
 	void setStartingIndexAnimation(int startingIndexAnimation);
 	void setEndingIndexAnimation(int endingIndexAnimation);
 	void setFrequency(int frequency);
-	void update(sf::Sprite& sprite);
-	void silentupdate();
-	std::string getCurrentAnimationName();
+	void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
+	void AnimationDraw(sf::RenderWindow& window);
 	void setDirection(const AnimationDirection& dir);
 	//sf::IntRect getAnimationTextureRect() const;
 	[[nodiscard]] bool isAtTheEnd() const;

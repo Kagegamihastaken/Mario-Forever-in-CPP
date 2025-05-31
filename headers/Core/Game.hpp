@@ -8,9 +8,10 @@ extern void GameObjectEditText();
 extern void GameObjectSetPrev();
 extern void GameObjectDeltaMovement(float dt);
 extern void GameObjectInterpolateMovement(float alpha);
-extern void GameObjectCollisionNAnimation();
+extern void GameObjectCollision();
 extern void GameObjectMiscUpdate();
 extern void GameObjectDraw();
 extern void GameObjectEditorUpdate();
+extern void GameObjectAnimation();
 
 #endif //GAME_HPP

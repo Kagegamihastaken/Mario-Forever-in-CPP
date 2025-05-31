@@ -70,16 +70,15 @@ void SpikeStatusUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
 			if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
-			SpikeAnimationList[i].update(SpikeList[i]);
+			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());
 		}
 		else {
-			SpikeAnimationList[i].silentupdate();
-			continue;
+			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());
 		}
 	}
 }
 void SpikeUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) window.draw(SpikeList[i]);
+		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) SpikeAnimationList[i].AnimationDraw(window);
 	}
 }

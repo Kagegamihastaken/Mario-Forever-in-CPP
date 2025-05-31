@@ -45,6 +45,7 @@ extern void MarioVertXUpdate();
 extern void CheckForDeath();
 extern void loadMarioRes();
 extern void Death();
+extern void SetPowerState(int ps);
 extern int PowerState;
 extern int Lives;
 

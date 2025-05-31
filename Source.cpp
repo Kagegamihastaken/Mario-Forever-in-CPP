@@ -67,12 +67,13 @@ int WinMain() {
 		while (timestep.isUpdateRequired()) {
 			GameObjectSetPrev();
 			GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
-			GameObjectCollisionNAnimation();
+			GameObjectCollision();
 		}
 
 		if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
 		else alpha = 1.0f;
 		GameObjectInterpolateMovement(alpha);
+		GameObjectAnimation();
 		//ImGui::SFML::Update(window, deltaClock.restart());
 		//ImGui::ShowDemoWindow();
 

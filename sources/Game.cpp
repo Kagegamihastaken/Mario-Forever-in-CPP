@@ -181,16 +181,19 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateEditorPos(alpha);
     }
 }
-void GameObjectCollisionNAnimation() {
+void GameObjectAnimation() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-        GoombaAICollisionUpdate();
-        GoombaAICheckCollide();
-        CoinOnTouch();
         PiranhaAIStatusUpdate();
         SpikeStatusUpdate();
         UpdateAnimation();
         LuckyAnimationUpdate();
-        BrickStatusUpdate();
+    }
+}
+void GameObjectCollision() {
+    if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        GoombaAICollisionUpdate();
+        GoombaAICheckCollide();
+        CoinOnTouch();
     }
 }
 void GameObjectMiscUpdate() {
@@ -198,6 +201,7 @@ void GameObjectMiscUpdate() {
     updateFrame();
     updateView();
     UpdatePositionCharacter();
+    HUDUpdate();
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         //Update Position that stuck on screen
         BgUpdatePos();

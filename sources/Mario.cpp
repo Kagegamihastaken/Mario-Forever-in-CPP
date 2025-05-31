@@ -62,6 +62,21 @@ static std::vector<std::string> SmallMarioRight;
 static std::vector<std::string> BigMarioLeft;
 static std::vector<std::string> BigMarioRight;
 
+void UpdateSequenceAnimation() {
+	switch (PowerState) {
+		case 0:
+			MarioAnimation.SetSequence(SmallMarioLeft, SmallMarioRight);
+			break;
+		case 1:
+			MarioAnimation.SetSequence(BigMarioLeft, BigMarioRight);
+			break;
+		default: ;
+	}
+}
+void SetPowerState(const int ps) {
+	PowerState = ps;
+	UpdateSequenceAnimation();
+}
 void loadMarioRes() {
 	AppearingTimer.restart();
 	// Resources Loader;
@@ -81,6 +96,7 @@ void loadMarioRes() {
 		ImageManager::AddTexture("BigMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "BigMarioLeft_" + std::to_string(i), false, true);
 		BigMarioLeft.push_back("BigMarioLeft_" + std::to_string(i));
 	}
+	UpdateSequenceAnimation();
 }
 //sprite function
 void SetPrevMarioPos() {
@@ -314,15 +330,6 @@ void UpdateAnimation() {
 
 	//mariostate:
 	// 0: idle, 1: run, 2: jump = fall, 3: crouch, 4: appear
-	switch (PowerState) {
-	case 0:
-		MarioAnimation.SetSequence(SmallMarioLeft, SmallMarioRight);
-		break;
-	case 1:
-		MarioAnimation.SetSequence(BigMarioLeft, BigMarioRight);
-		break;
-	default: ;
-	}
 	if (CanControlMario) {
 		if (!MarioAppearing) {
 			if (MarioCurrentFalling) {
@@ -332,8 +339,7 @@ void UpdateAnimation() {
 					lastMarioState = MarioState;
 				}
 				MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
-				if (PowerState == 0) MarioAnimation.update(player.property);
-				else if (PowerState == 1) MarioAnimation.update(player.property);
+				MarioAnimation.AnimationUpdate(player.property.getPosition(), player.property.getOrigin());
 			}
 			else if (Yvelo == 0.0f && !(!MarioCurrentFalling && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0)) {
 				if (Xvelo == 0.0f) {
@@ -343,8 +349,7 @@ void UpdateAnimation() {
 						lastMarioState = MarioState;
 					}
 					MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
-					if (PowerState == 0) MarioAnimation.update(player.property);
-					else if (PowerState == 1) MarioAnimation.update(player.property);
+					MarioAnimation.AnimationUpdate(player.property.getPosition(), player.property.getOrigin());
 				}
 				else {
 					MarioState = 1;
@@ -354,14 +359,8 @@ void UpdateAnimation() {
 					}
 					MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
 					MarioAnimation.setFrequency(f_max(12.0f, f_min(Xvelo * 6.0f, 45.0f)));
-					if (PowerState == 0) {
-						//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-						MarioAnimation.update(player.property);
-					}
-					else if (PowerState == 1) {
-						//MarioAnimation.setAnimationFrequency("RunBigLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-						MarioAnimation.update(player.property);
-					}
+					//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
+					MarioAnimation.AnimationUpdate(player.property.getPosition(), player.property.getOrigin());
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0) {
@@ -371,7 +370,7 @@ void UpdateAnimation() {
 					lastMarioState = MarioState;
 				}
 				MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
-				MarioAnimation.update(player.property);
+				MarioAnimation.AnimationUpdate(player.property.getPosition(), player.property.getOrigin());
 			}
 		}
 		else {
@@ -381,8 +380,7 @@ void UpdateAnimation() {
 				lastMarioState = MarioState;
 			}
 			MarioAnimation.setDirection(static_cast<AnimationDirection>(!MarioDirection));
-			if (PowerState == 0) MarioAnimation.update(player.property);
-			else if (PowerState == 1) MarioAnimation.update(player.property);
+			MarioAnimation.AnimationUpdate(player.property.getPosition(), player.property.getOrigin());
 		}
 	}
 }
@@ -390,7 +388,7 @@ void PowerDown() {
 	if (!Invincible) {
 		if (PowerState == 1) {
 			Sounds.PlaySound("Pipe");
-			PowerState = 0;
+			SetPowerState(0);
 			Invincible = true;
 			InvincibleTimer.restart();
 			InvincibleState = false;
@@ -409,7 +407,7 @@ void Death() {
 	Objectbuilding();
 	Xvelo = 0.0f;
 	Yvelo = 0.0f;
-	PowerState = 0;
+	SetPowerState(0);
 	lastPowerState = 0;
 	LevelCompleteEffect = false;
 	MarioDirection = FirstMarioDirection;
@@ -433,11 +431,11 @@ inline void MarioDraw() {
 	//then draw
 	if (InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) Invincible = false;
 	if (!Invincible) {
-		if (CanControlMario) window.draw(player.property);
+		if (CanControlMario) MarioAnimation.AnimationDraw(window);
 	}
 	else {
 		if (!InvincibleState) {
-			if (CanControlMario) window.draw(player.property);
+			if (CanControlMario) MarioAnimation.AnimationDraw(window);
 			InvincibleState = true;
 		}
 		else InvincibleState = false;

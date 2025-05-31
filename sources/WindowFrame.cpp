@@ -69,13 +69,13 @@ void windowInit() {
 	timestep.setStep(1.0f / 50.0f);
 	timestep.setMaxAccumulation(1.0f / 30.0f);
 }
-void FrameDraw() {
-	//CoinHUD
-	CoinHUDAnim.update(CoinHUD);
+void HUDUpdate() {
 	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
-	//MarioHUD
+	CoinHUDAnim.AnimationUpdate(CoinHUD.getPosition(), CoinHUD.getOrigin());
 	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
-	window.draw(CoinHUD);
+}
+void FrameDraw() {
+	CoinHUDAnim.AnimationDraw(window);
 	window.draw(MarioHUD);
 }
 void updateFrame() {
@@ -84,12 +84,12 @@ void updateFrame() {
 	MouseY = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (Height / (static_cast<float>(window.getSize().y) - ViewYOff));
 	if (previousUpdate == 2) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(60); //300
+		else window.setFramerateLimit(0); //300
 		previousUpdate = optionSmoothness;
 	}
 	else if (previousUpdate != optionSmoothness) {
 		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(60); //300
+		else window.setFramerateLimit(0); //300
 	}
 	//deltaTime = delta.restart().asSeconds() * 50.0f;
 	//deltaTime = (delta.restart().asMicroseconds() * 50) / 1000000.0f;

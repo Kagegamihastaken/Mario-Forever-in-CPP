@@ -82,9 +82,9 @@ inline void CoinEffectUpdate() {
 	if (CoinEffectList.empty()) return;
 	for (auto& i : CoinEffectList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			i.coinEffectAnimation.update(i.property);
-			window.draw(i.property);
+			i.coinEffectAnimation.AnimationUpdate(i.property.getPosition(), i.property.getOrigin());
+			i.coinEffectAnimation.AnimationDraw(window);
 		}
-		else i.coinEffectAnimation.silentupdate();
+		else i.coinEffectAnimation.AnimationUpdate(i.property.getPosition(), i.property.getOrigin());
 	}
 }

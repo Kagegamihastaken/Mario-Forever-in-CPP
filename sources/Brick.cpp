@@ -56,7 +56,7 @@ void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y
 		Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("GrayBrick"))});
 		break;
 	case BRICK_NORMAL:
-			Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalBrick"))});
+		Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalBrick"))});
 		break;
 	}
 	BrickAttList.emplace_back(att);
@@ -99,14 +99,9 @@ inline BrickAtt GetBrickAtt(const float x, const float y) {
 	}
 	return NORMAL;
 }
-void BrickStatusUpdate() {
-	if (Bricks.empty()) return;
-	for (int i = 0; i < Bricks.size(); ++i) {
-		if (DisabledBrick[i] && BrickAttList[i] == MULTICOIN) {
-			if (BrickIDList[i] == BRICK_GRAY) Bricks[i].property.setTexture(ImageManager::GetTexture("GrayHittedBrick"));
-			else if (BrickIDList[i] == BRICK_NORMAL) Bricks[i].property.setTexture(ImageManager::GetTexture("NormalHittedBrick"));
-		}
-	}
+void BrickHittedUpdate(const int index) {
+	if (BrickIDList[index] == BRICK_GRAY) Bricks[index].property.setTexture(ImageManager::GetTexture("GrayHittedBrick"));
+	else if (BrickIDList[index] == BRICK_NORMAL) Bricks[index].property.setTexture(ImageManager::GetTexture("NormalHittedBrick"));
 }
 void BrickDraw() {
 	for (auto & Brick : Bricks) {
@@ -163,6 +158,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 				BrickState[i] = true;
 				UpDown[i] = false;
 				BrickStateCount[i] = 0;
+				BrickHittedUpdate(i);
 			}
 		}
 		Sounds.PlaySound("Coin");
