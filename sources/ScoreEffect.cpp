@@ -122,13 +122,12 @@ inline void ScoreEffectStatusUpdate(float deltaTime) {
 		else if (ScoreEffectVelocity[i] >= 0.0f) {
 			ScoreEffectVelocity[i] = 0.0f;
 			DeleteScoreEffect(i, deltaTime);
-
 		}
 	}
 }
 inline void ScoreEffectUpdate() {
-	if (ScoreEffectList.size() == 0) return;
-	for (int i = 0; i < ScoreEffectList.size(); ++i) {
-		window.draw(ScoreEffectList[i]);
+	if (ScoreEffectList.empty()) return;
+	for (const auto & i : ScoreEffectList) {
+		window.draw(i);
 	}
 }

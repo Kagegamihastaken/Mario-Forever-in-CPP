@@ -36,7 +36,7 @@ bool ExitGateForeActive = true;
 bool LevelCompleteEffect = false;
 float ExitGateForeEffectSpeed = 0.0f;
 float ExitGateForeEffectYSpeed = 0.0f;
-float ExitGateForeRender = true;
+bool ExitGateForeRender = true;
 static std::vector<std::string> ExitIndicatorAnimName;
 static constexpr int EXIT_INDICATOR_IMAGE_WIDTH = 93;
 static constexpr int EXIT_INDICATOR_WIDTH = 31;

@@ -19,7 +19,7 @@ public:
 	sf::Vector2f prev;
 	sf::Sprite property = sf::Sprite(tempTex);
 };
-extern void UpdateAnimation();
+extern void MarioUpdateAnimation();
 extern MovableObject player;
 extern void SetPrevMarioPos();
 extern void InterpolateMarioPos(float alpha);
@@ -46,6 +46,8 @@ extern void CheckForDeath();
 extern void loadMarioRes();
 extern void Death();
 extern void SetPowerState(int ps);
+extern void InvincibleStateUpdate();
+extern void MarioUpdateHitbox();
 extern int PowerState;
 extern int Lives;
 

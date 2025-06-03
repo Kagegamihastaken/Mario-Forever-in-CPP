@@ -65,20 +65,19 @@ void AddSpike(const SpikeID ID, float x, float y) {
 	SpikeAnimationList.push_back(InitAnimation);
 }
 void SpikeStatusUpdate() {
-	if (SpikeList.size() == 0) return;
+	if (SpikeList.empty()) return;
 	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
 			if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
-			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());
-		}
-		else {
-			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());
 		}
 	}
 }
 void SpikeUpdate() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) SpikeAnimationList[i].AnimationDraw(window);
+		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
+			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());
+			SpikeAnimationList[i].AnimationDraw(window);
+		}
 	}
 }

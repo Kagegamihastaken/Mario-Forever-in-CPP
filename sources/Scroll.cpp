@@ -63,9 +63,9 @@ void setRotate(int degree) {
 	//view.setRotation(sf::Angle(degree));
 }
 void updateView() {
-	float vx = window.getSize().x / Width;
-	float vy = window.getSize().y / Height;
-	float min = std::min(vx, vy);
+	const float vx = window.getSize().x / Width;
+	const float vy = window.getSize().y / Height;
+	const float min = std::min(vx, vy);
 	ViewXOff = window.getSize().x - (Width * min);
 	ViewYOff = window.getSize().y - (Height * min);
 	//view.setViewport(sf::FloatRect({ ((window.getSize().x - (view.getSize().x * min)) / window.getSize().x) * 0.5f, ((window.getSize().y - (view.getSize().y * min)) / window.getSize().y) * 0.5f }, { (view.getSize().x * min) / window.getSize().x, (view.getSize().y * min) / window.getSize().y }));

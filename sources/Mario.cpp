@@ -307,7 +307,7 @@ void MarioVertYUpdate() {
 		}
 	}
 }
-void UpdateAnimation() {
+void MarioUpdateHitbox() {
 	if (PowerState > 0 && !MarioCrouchDown) {
 		setHitbox(player.hitboxMain, sf::FloatRect({ 0.0f + 4.0f, 0.0f + PowerOffset[PowerState] }, { 23.0f, 52.0f }));
 		setHitbox(player.hitboxTop, sf::FloatRect({ 1.0f + 4.0f, 0.0f + PowerOffset[PowerState] }, { 21.0f, 2.0f }));
@@ -326,6 +326,8 @@ void UpdateAnimation() {
 		setHitbox(player.hitboxLeft, sf::FloatRect({ -2.0f + 4.0f, 2.0f + 30.0f }, { 4.0f, 20.0f }));
 		setHitbox(player.hitboxSlopeBot, sf::FloatRect({ 1.0f + 4.0f, 27.0f + 30.0f }, { 21.0f, 10.0f }));
 	}
+}
+void MarioUpdateAnimation() {
 	//animation update
 
 	//mariostate:
@@ -420,7 +422,7 @@ void CheckForDeath() {
 		ActiveMarioEffect();
 	}
 }
-inline void MarioDraw() {
+void MarioDraw() {
 	// check power state here
 	if (AppearingTimer.getElapsedTime().asMilliseconds() > (3000.0f / 91.0f) * 15.0f) MarioAppearing = false;
 	if (PowerState != lastPowerState) {
@@ -434,10 +436,13 @@ inline void MarioDraw() {
 		if (CanControlMario) MarioAnimation.AnimationDraw(window);
 	}
 	else {
-		if (!InvincibleState) {
+		if (!InvincibleState)
 			if (CanControlMario) MarioAnimation.AnimationDraw(window);
-			InvincibleState = true;
-		}
+	}
+}
+void InvincibleStateUpdate() {
+	if (Invincible) {
+		if (!InvincibleState) InvincibleState = true;
 		else InvincibleState = false;
 	}
 }

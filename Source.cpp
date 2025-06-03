@@ -8,6 +8,7 @@
 #include "headers/Core/Interpolation.hpp"
 #include "headers/Core/Loading/Loading.hpp"
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
+#include "headers/Core/WindowFrame.hpp"
 
 #include "Object/GoombaAI.hpp"
 
@@ -40,6 +41,7 @@ int WinMain() {
 	GameTextInit();
 	GameLoadLevel();
 	std::string fall;
+	bool fullscreenmode = false;
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
 			//ImGui::SFML::ProcessEvent(window, *event);
@@ -51,6 +53,18 @@ int WinMain() {
 			else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
 				if (mousePressed->button == sf::Mouse::Button::Left) {
 					AddGoombaAI(GoombaAIType::MUSHROOM, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+				}
+			}
+			else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+				if (keyPressed->code == sf::Keyboard::Key::F11) {
+					if (fullscreenmode == false) {
+						window.create(videoMode, "Mario Forever", sf::State::Fullscreen);
+						fullscreenmode = true;
+					}
+					else {
+						window.create(videoMode, "Mario Forever", sf::State::Windowed);
+						fullscreenmode = false;
+					}
 				}
 			}
 		}
@@ -67,6 +81,9 @@ int WinMain() {
 		while (timestep.isUpdateRequired()) {
 			GameObjectSetPrev();
 			GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
+
+			InvincibleStateUpdate();
+
 			GameObjectCollision();
 		}
 

@@ -17,7 +17,7 @@ protected:
 	sf::Clock m_TimeRun;
 	float m_TimeRan = 0.0f;
 	float m_TimeRemainSave = 0.0f;
-	AnimationDirection m_direction;
+	AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 public:
 	void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 	void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
@@ -25,6 +25,7 @@ public:
 	void setStartingIndexAnimation(int startingIndexAnimation);
 	void setEndingIndexAnimation(int endingIndexAnimation);
 	void setFrequency(int frequency);
+
 	void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
 	void AnimationDraw(sf::RenderWindow& window);
 	void setDirection(const AnimationDirection& dir);

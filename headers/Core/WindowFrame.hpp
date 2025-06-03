@@ -7,6 +7,7 @@
 #include "ExternalHeaders/Kairos.hpp"
 
 extern bool isDebug;
+extern sf::VideoMode videoMode;
 extern sf::RenderWindow window;
 extern sf::RenderTexture rObject;
 extern sf::Sound Kick2Sound;

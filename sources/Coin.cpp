@@ -85,9 +85,9 @@ inline void CoinUpdate() {
 		CoinCount = 0;
 		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);
 	}
-	for (int i = 0; i < CoinList.size(); ++i) {
-		if (isOutScreen(CoinList[i].property.getPosition().x, CoinList[i].property.getPosition().y, 32, 32)) continue;
-		CoinAnimation.AnimationUpdate(CoinList[i].property.getPosition(), CoinList[i].property.getOrigin());
+	for (auto &[property, hitbox] : CoinList) {
+		if (isOutScreen(property.getPosition().x, property.getPosition().y, 32, 32)) continue;
+		CoinAnimation.AnimationUpdate(property.getPosition(), property.getOrigin());
 		CoinAnimation.AnimationDraw(window);
 		//CoinAnimationList[i].update(CoinList[i].property);
 		//window.draw(CoinList[i].property);

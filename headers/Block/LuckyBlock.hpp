@@ -20,7 +20,6 @@ extern void AddLuckyBlock(LuckyBlockID ID, LuckyBlockAtt Att, float x, float y);
 extern void LoadLuckyBlock();
 extern void LuckyBlockDraw();
 extern void LuckyBlockUpdate(float deltaTime);
-extern void LuckyAnimationUpdate();
 extern void DeleteAllLuckyBlock();
 void LuckyHitEvent(float x, float y);
 

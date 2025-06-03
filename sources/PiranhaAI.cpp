@@ -127,8 +127,5 @@ void PiranhaAIUpdate() {
 			//i.m_animation.silentupdate();
 			//window.draw(i);
 		}
-		else if (isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
-			i.m_animation.AnimationUpdate(i.getPosition(), i.getOrigin());
-		}
 	}
 }

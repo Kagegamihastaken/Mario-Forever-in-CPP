@@ -183,10 +183,7 @@ void GameObjectInterpolateMovement(const float alpha) {
 }
 void GameObjectAnimation() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-        PiranhaAIStatusUpdate();
-        SpikeStatusUpdate();
-        UpdateAnimation();
-        LuckyAnimationUpdate();
+        MarioUpdateAnimation();
     }
 }
 void GameObjectCollision() {
@@ -194,6 +191,11 @@ void GameObjectCollision() {
         GoombaAICollisionUpdate();
         GoombaAICheckCollide();
         CoinOnTouch();
+        PiranhaAIStatusUpdate();
+        MarioUpdateHitbox();
+        SpikeStatusUpdate();
+
+        CheckForDeath();
     }
 }
 void GameObjectMiscUpdate() {
@@ -205,7 +207,6 @@ void GameObjectMiscUpdate() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         //Update Position that stuck on screen
         BgUpdatePos();
-        CheckForDeath();
     }
 }
 void GameObjectEditorUpdate() {

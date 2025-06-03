@@ -116,7 +116,7 @@ void BrickParticleStatusUpdate(const float deltaTime) {
 		while (true) {
 			canDelete = false;
 			for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-				if (isOutScreen(BrickParticleCurr[i][j].x, BrickParticleCurr[i][j].y, 32 + 8, 32 + 8) && !BrickParticleDisabledList[i][j]) {
+				if (isOutScreen(BrickParticleCurr[i][j].x, BrickParticleCurr[i][j].y, 32 + 16, 32 + 16) && !BrickParticleDisabledList[i][j]) {
 					DeleteSubBrickParticleIndex(i, j);
 					//DeleteSubBrickParticle(BrickParticleList[i][j].getPosition().x, BrickParticleList[i][j].getPosition().y);
 					canDelete = true;

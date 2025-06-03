@@ -296,7 +296,7 @@ void GoombaAICheckCollide() {
 		if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(GoombaAIList[i].hitboxMain, GoombaAIList[i].curr, GoombaAIList[i].property.getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
 			if (GoombaAIHittableList[i] == YES) {
 				if ((GoombaAIInvincibleTimerList[i].getElapsedTime().asSeconds() >= GoombaAIInvincibleSecondLimitList[i] && GoombaAIInvincibleSecondLimitList[i] > 0.0f) || GoombaAIInvincibleSecondLimitList[i] == 0.0f) {
-					if (((GoombaAIList[i].curr.y - 8.0f) > player.curr.y) && Yvelo > 0.0f && !GoombaAIDisabledList[i]) {
+					if (((GoombaAIList[i].curr.y - 16.0f) > player.curr.y) && Yvelo > 0.0f && !GoombaAIDisabledList[i]) {
 						player.curr = {player.curr.x, GoombaAIList[i].curr.y - GoombaAIList[i].property.getOrigin().y - 1.0f};
 						if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
 						else Yvelo = -13.0f;
@@ -628,6 +628,7 @@ void GoombaAIUpdate() {
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
 		//if (GoombaAIDirectionList[i] == LEFT) GoombaAIList[i].property.setColor(sf::Color(255, 0, 0));
 		//else GoombaAIList[i].property.setColor(sf::Color(0, 0, 255));
+		if (GoombaAIDisabledList[i]) continue;
 		if (!isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
 			if (GoombaAIDirectionList[i] == RIGHT) {
 				GoombaAIAnimationList[i].setDirection(AnimationDirection::ANIM_RIGHT);
@@ -640,9 +641,6 @@ void GoombaAIUpdate() {
 			GoombaAIAnimationList[i].AnimationUpdate(GoombaAIList[i].property.getPosition(), GoombaAIList[i].property.getOrigin());
 			GoombaAIAnimationList[i].AnimationDraw(window);
 			//window.draw(GoombaAIList[i].property);
-		}
-		else if (isOutScreen(GoombaAIList[i].property.getPosition().x - GoombaAIList[i].property.getOrigin().x, GoombaAIList[i].property.getPosition().y, 32, 80) && !GoombaAIDisabledList[i]) {
-			GoombaAIAnimationList[i].AnimationUpdate(GoombaAIList[i].property.getPosition(), GoombaAIList[i].property.getOrigin());
 		}
 	}
 }

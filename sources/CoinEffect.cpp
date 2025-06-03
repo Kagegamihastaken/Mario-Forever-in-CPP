@@ -85,6 +85,5 @@ inline void CoinEffectUpdate() {
 			i.coinEffectAnimation.AnimationUpdate(i.property.getPosition(), i.property.getOrigin());
 			i.coinEffectAnimation.AnimationDraw(window);
 		}
-		else i.coinEffectAnimation.AnimationUpdate(i.property.getPosition(), i.property.getOrigin());
 	}
 }

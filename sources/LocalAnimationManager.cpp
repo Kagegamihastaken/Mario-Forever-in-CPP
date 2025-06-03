@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <cstdint>
 #include <iostream>
 
 #include "Core/WindowFrame.hpp"
@@ -66,16 +65,21 @@ void LocalAnimationManager::setFrequency(const int frequency) {
 void LocalAnimationManager::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
 	//sprite.setTexture(*texture[this->indexAnimation], true);
 	//sprite.setTextureRect(sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey }));
-	m_TimeRan = m_TimeRemainSave + m_TimeRun.getElapsedTime().asMicroseconds() / 1000.0f;
-	if (m_frequency != 0 && m_TimeRan >= (2000.0f / m_frequency / (timestep.getTimeSpeed()))) {
-		const long long loop = static_cast<long long>(
-		m_TimeRan / (2000.0f / m_frequency / (timestep.getTimeSpeed())));
-		for (int i = 0; i < loop; i++) {
-			if (m_indexAnimation < m_endingIndexAnimation) m_indexAnimation++;
-			else m_indexAnimation = m_startingIndexAnimation;
-		}
-		m_TimeRemainSave = m_TimeRan - loop * (2000.0f / m_frequency / (timestep.getTimeSpeed()));
-		m_TimeRun.restart();
+	m_TimeRan = m_TimeRemainSave + static_cast<float>(m_TimeRun.getElapsedTime().asMicroseconds()) / 1000.0f;
+	if (m_frequency != 0) {
+		if (const float FrameTime = 2000.0f / static_cast<float>(m_frequency) / static_cast<float>(timestep.getTimeSpeed());
+			m_TimeRan >= FrameTime) {
+			const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
+			//m_indexAnimation += loop;
+			m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
+			//if (m_indexAnimation > m_endingIndexAnimation) m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation + loop) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
+			//for (int i = 0; i < loop; i++) {
+			//	if (m_indexAnimation < m_endingIndexAnimation) m_indexAnimation++;
+			//	else m_indexAnimation = m_startingIndexAnimation;
+			//}
+			m_TimeRemainSave = m_TimeRan - static_cast<float>(FrameCount) * FrameTime;
+			m_TimeRun.restart();
+			}
 	}
 
 	if (m_direction == AnimationDirection::ANIM_RIGHT) {

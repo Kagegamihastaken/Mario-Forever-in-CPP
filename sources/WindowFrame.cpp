@@ -64,7 +64,7 @@ void windowInit() {
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
 	window.setIcon(icon);
-	rObject.setRepeated(true);
+	//rObject.setRepeated(true);
 	//window.setVerticalSyncEnabled(true);
 	timestep.setStep(1.0f / 50.0f);
 	timestep.setMaxAccumulation(1.0f / 30.0f);
