@@ -203,10 +203,10 @@ void GameObjectMiscUpdate() {
     updateFrame();
     updateView();
     UpdatePositionCharacter();
-    HUDUpdate();
+    BgUpdatePos();
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-        //Update Position that stuck on screen
-        BgUpdatePos();
+        HUDUpdate();
+        //Update Position that stuck on scree
     }
 }
 void GameObjectEditorUpdate() {

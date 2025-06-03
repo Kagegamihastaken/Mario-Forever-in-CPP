@@ -5,14 +5,22 @@
 
 #include <SFML/Audio.hpp>
 #include "ExternalHeaders/Kairos.hpp"
-
+namespace Window {
+    extern int WindowGetScale();
+    extern void WindowToggleFullscreen();
+    extern void WindowToggleSmooth();
+    extern void WindowSetSmooth(bool val);
+    extern void WindowSetFullscreen(bool val);
+    extern void WindowSetScale(int val);
+    extern void ChangeScreenMode(unsigned int mode = 0);
+}
 extern bool isDebug;
 extern sf::VideoMode videoMode;
 extern sf::RenderWindow window;
 extern sf::RenderTexture rObject;
 extern sf::Sound Kick2Sound;
 extern sf::View view;
-extern int optionSmoothness;
+extern const std::vector<sf::VideoMode> Resolutions;
 extern kairos::Stopwatch Gclock;
 extern kairos::Timestep timestep;
 extern kairos::FpsLite fpsLite;

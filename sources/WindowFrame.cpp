@@ -6,17 +6,27 @@
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/LocalAnimationManager.hpp"
 
+#include <iostream>
+
 #if defined _DEBUG
 bool isDebug = true;
 #else
 bool isDebug = false;
 #endif
 float Width = 640.0f, Height = 480.0f;
-sf::VideoMode videoMode({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 sf::RenderWindow window;
 sf::RenderTexture rObject({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
-int optionSmoothness = 1;
-int previousUpdate = 2;
+static bool OPTION_SMOOTH = true;
+static bool OPTION_VSYNC = false;
+static bool OPTION_FULLSCREEN = false;
+
+static bool PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
+static std::string PROGRAM_NAME = "Mario Forever";
+static unsigned int OPTION_SCALE = 0;
+sf::VideoMode x1({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
+sf::VideoMode x15({ static_cast<unsigned int>(Width * 1.5f), static_cast<unsigned int>(Height* 1.5f) });
+sf::VideoMode x2({ static_cast<unsigned int>(Width * 2.0f), static_cast<unsigned int>(Height* 2.0f) });
+const std::vector<sf::VideoMode> Resolutions = sf::VideoMode::getFullscreenModes();
 
 kairos::Stopwatch Gclock;
 kairos::Timestep timestep;
@@ -38,18 +48,75 @@ float f_round(const float val) {
 	else return fl+1.0f;
 }
 int hex_to_int(const std::string &hex) { return std::stoi(hex, nullptr, 16); }
-
+static sf::Image icon;
 static std::vector<std::string> CoinHUDAnimName;
 static constexpr int COINHUD_IMAGE_WIDTH = 86;
 static constexpr int COINHUD_WIDTH = 28;
 static constexpr int COINHUD_HEIGHT = 16;
+namespace Window {
+	static sf::VideoMode WindowGetVideoMode() {
+		if (!OPTION_FULLSCREEN) {
+			switch (OPTION_SCALE) {
+				case 0:
+					return x1;
+				case 1:
+					return x1;
+				case 2:
+					return x15;
+				case 3:
+					return x2;
+				default: ;
+			}
+		}
+		else {
+			return Resolutions[0];
+		}
+		return x1;
+	}
+	int WindowGetScale() { return OPTION_SCALE; }
+	void WindowToggleFullscreen() {OPTION_FULLSCREEN = !OPTION_FULLSCREEN;}
+	void WindowToggleSmooth() {OPTION_SMOOTH = !OPTION_SMOOTH;}
+	void WindowSetSmooth(const bool val) {OPTION_SMOOTH = val;}
+	void WindowSetFullscreen(const bool val) {OPTION_FULLSCREEN = val;}
+	void WindowSetScale(const int val) {OPTION_SCALE = val % 4;}
+	void ChangeScreenMode(const unsigned int mode) {
+		// 0: native, 1: x1, 2: x1.5, 3: x2
 
+		/*
+		 * MODE
+		 * 0: normal
+		 * 1: force switch
+		 * 2: force resize
+		 *
+		*/
+		if (PREV_OPTION_FULLSCREEN != OPTION_FULLSCREEN) {
+			window.create(WindowGetVideoMode(), PROGRAM_NAME, OPTION_FULLSCREEN ? sf::State::Fullscreen : sf::State::Windowed );
+		}
+		else {
+			if (mode == 1) window.create(WindowGetVideoMode(), PROGRAM_NAME, OPTION_FULLSCREEN ? sf::State::Fullscreen : sf::State::Windowed);
+			else if (mode == 2) {
+				if (!OPTION_FULLSCREEN) window.setSize(WindowGetVideoMode().size);
+				else window.create(WindowGetVideoMode(), PROGRAM_NAME, sf::State::Fullscreen);
+			}
+		}
+		PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
+		window.setVerticalSyncEnabled(OPTION_VSYNC);
+		window.setIcon(icon);
+		if (!OPTION_SMOOTH) window.setFramerateLimit(50);
+		else window.setFramerateLimit(0); //300
+	}
+}
 void windowInit() {
+	for (std::size_t i = 0; i < Resolutions.size(); ++i)
+	{
+		sf::VideoMode mode = Resolutions[i];
+		std::cout << "Mode #" << i << ": "
+				  << mode.size.x << "x" << mode.size.y << " - "
+				  << mode.bitsPerPixel << " bpp" << std::endl;
+	}
 	// Create Window
-	window.create(videoMode, "Mario Forever");
-
-	sf::Image icon;
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
+	Window::ChangeScreenMode(1);
 
 	ImageManager::AddImage("MarioHUDImage", "data/resources/MarioHUD.png");
 	ImageManager::AddTexture("MarioHUDImage", "MarioHUD");
@@ -63,7 +130,6 @@ void windowInit() {
 	CoinHUDAnim.SetSequence(CoinHUDAnimName, CoinHUDAnimName);
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
-	window.setIcon(icon);
 	//rObject.setRepeated(true);
 	//window.setVerticalSyncEnabled(true);
 	timestep.setStep(1.0f / 50.0f);
@@ -82,15 +148,6 @@ void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);
 	MouseX = (static_cast<float>(mouse.x) - ViewXOff / 2.0f) * (Width / (static_cast<float>(window.getSize().x) - ViewXOff));
 	MouseY = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (Height / (static_cast<float>(window.getSize().y) - ViewYOff));
-	if (previousUpdate == 2) {
-		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(0); //300
-		previousUpdate = optionSmoothness;
-	}
-	else if (previousUpdate != optionSmoothness) {
-		if (!optionSmoothness) window.setFramerateLimit(50);
-		else window.setFramerateLimit(0); //300
-	}
 	//deltaTime = delta.restart().asSeconds() * 50.0f;
 	//deltaTime = (delta.restart().asMicroseconds() * 50) / 1000000.0f;
 	//float fpsUpdate = 1.0f / fpsClock.restart().asSeconds();

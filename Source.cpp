@@ -8,6 +8,7 @@
 #include "headers/Core/Interpolation.hpp"
 #include "headers/Core/Loading/Loading.hpp"
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
+#include "headers/Core/Interpolation.hpp"
 #include "headers/Core/WindowFrame.hpp"
 
 #include "Object/GoombaAI.hpp"
@@ -41,7 +42,6 @@ int WinMain() {
 	GameTextInit();
 	GameLoadLevel();
 	std::string fall;
-	bool fullscreenmode = false;
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
 			//ImGui::SFML::ProcessEvent(window, *event);
@@ -57,14 +57,19 @@ int WinMain() {
 			}
 			else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
 				if (keyPressed->code == sf::Keyboard::Key::F11) {
-					if (fullscreenmode == false) {
-						window.create(videoMode, "Mario Forever", sf::State::Fullscreen);
-						fullscreenmode = true;
-					}
-					else {
-						window.create(videoMode, "Mario Forever", sf::State::Windowed);
-						fullscreenmode = false;
-					}
+					Window::WindowToggleFullscreen();
+					Window::ChangeScreenMode();
+				}
+				else if (keyPressed->code == sf::Keyboard::Key::F12) {
+					Window::WindowToggleSmooth();
+					Window::ChangeScreenMode();
+				}
+				else if (keyPressed->code == sf::Keyboard::Key::F10) {
+					Window::WindowSetScale(Window::WindowGetScale() + 1);
+					Window::ChangeScreenMode(2);
+				}
+				else if (keyPressed->code == sf::Keyboard::Key::F9) {
+					isInterpolation = !isInterpolation;
 				}
 			}
 		}
@@ -80,11 +85,11 @@ int WinMain() {
 		timestep.addFrame();
 		while (timestep.isUpdateRequired()) {
 			GameObjectSetPrev();
+			GameObjectCollision();
+
 			GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
 
 			InvincibleStateUpdate();
-
-			GameObjectCollision();
 		}
 
 		if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
