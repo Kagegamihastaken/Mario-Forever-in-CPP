@@ -12,6 +12,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Class/CollisionObjectClass.hpp"
 
 std::vector<MovableObject> GoombaAIEffectList;
 std::vector<GoombaAIEffectID> GoombaAIEffectTypeList;
@@ -33,13 +34,13 @@ void GoombaAIEffectInit() {
 	ImageManager::AddTexture("DEAD_SpinyImage", "DEAD_Spiny_Red");
 }
 void SetPrevGoombaAIEffectPos() {
-	for (int i = 0; i < GoombaAIEffectList.size(); i++) {
-		GoombaAIEffectList[i].prev = GoombaAIEffectList[i].curr;
+	for (auto & i : GoombaAIEffectList) {
+		i.prev = i.curr;
 	}
 }
 void InterpolateGoombaAIEffectPos(const float alpha) {
-	for (int i = 0; i < GoombaAIEffectList.size(); i++) {
-		GoombaAIEffectList[i].property.setPosition(linearInterpolation(GoombaAIEffectList[i].prev, GoombaAIEffectList[i].curr, alpha));
+	for (auto & i : GoombaAIEffectList) {
+		i.property.setPosition(linearInterpolation(i.prev, i.curr, alpha));
 	}
 }
 void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const int SkinID, const float x, float y) {
@@ -49,13 +50,13 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 		Init.property.setOrigin({ 16, 31 });
 		if (id == COLLIDE) {
 			Init.property.setTexture(ImageManager::GetTexture("DEAD_Goomba_1"), true);
-			GoombaAIEffectHitboxList.push_back({ 31.0f, 16.0f });
+			GoombaAIEffectHitboxList.emplace_back( 31.0f, 16.0f );
 			GoombaAIEffectDefinationList.push_back({ 31.0f, 16.0f, 0.0f, 16.0f });
 			GoombaAIEffectYveloList.push_back(0.0f);
 		}
 		else if (id == NONE) {
 			Init.property.setTexture(ImageManager::GetTexture("DEAD_Goomba_2"), true);
-			GoombaAIEffectHitboxList.push_back({ 31.0f, 32.0f });
+			GoombaAIEffectHitboxList.emplace_back( 31.0f, 32.0f );
 			GoombaAIEffectDefinationList.push_back({ 31.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
 		}
@@ -64,7 +65,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 		Init.property.setOrigin({ 16, 27 });
 		if (id == NONE) {
 			Init.property.setTexture(ImageManager::GetTexture("DEAD_Koopa"), true);
-			GoombaAIEffectHitboxList.push_back({ 33.0f, 28.0f });
+			GoombaAIEffectHitboxList.emplace_back( 33.0f, 28.0f );
 			GoombaAIEffectDefinationList.push_back({ 33.0f, 28.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
 		}
@@ -73,7 +74,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 		Init.property.setOrigin({ 15, 22 });
 		if (id == NONE) {
 			Init.property.setTexture(ImageManager::GetTexture("DEAD_Spiny_Red"), true);
-			GoombaAIEffectHitboxList.push_back({ 33.0f, 32.0f });
+			GoombaAIEffectHitboxList.emplace_back( 33.0f, 32.0f );
 			GoombaAIEffectDefinationList.push_back({ 33.0f, 32.0f, 0.0f, 0.0f });
 			GoombaAIEffectYveloList.push_back(-3.0f);
 		}
@@ -86,7 +87,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 	Init.property.setPosition({ round(x), y });
 	Init.curr = Init.prev = Init.property.getPosition();
 	GoombaAIEffectList.push_back(Init);
-	GoombaATEffectFadeOutList.push_back(sf::Clock());
+	GoombaATEffectFadeOutList.emplace_back();
 	GoombaATEffectFadeOutList[GoombaATEffectFadeOutList.size() - 1].restart();
 	GoombaAIEffectAlphaList.push_back(255);
 	GoombaAIEffectSkinIDList.push_back(SkinID);
@@ -121,7 +122,7 @@ void DeleteAllGoombaAIEffect() {
 	GoombaAIEffectSkinIDList.clear();
 }
 void GoombaAIEffectStatusUpdate(const float deltaTime) {
-	if (GoombaAIEffectList.size() == 0) return;
+	if (GoombaAIEffectList.empty()) return;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
 		if (GoombaAIEffectTypeList[i] == NONE) {
 			if (isOutScreenYBottom(GoombaAIEffectList[i].property.getPosition().y, 64)) DeleteGoombaAIEffect(GoombaAIEffectList[i].curr.x, GoombaAIEffectList[i].curr.y);
@@ -138,9 +139,9 @@ void GoombaAIEffectStatusUpdate(const float deltaTime) {
 	}
 }
 void GoombaAIEffectUpdate() {
-	if (GoombaAIEffectList.size() == 0) return;
-	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
-		if (!isOutScreen(GoombaAIEffectList[i].property.getPosition().x, GoombaAIEffectList[i].property.getPosition().y, 64, 64)) window.draw(GoombaAIEffectList[i].property);
+	if (GoombaAIEffectList.empty()) return;
+	for (auto & i : GoombaAIEffectList) {
+		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 64, 64)) window.draw(i.property);
 	}
 }
 void GoombaAIEffectVertYUpdate(const float deltaTime) {
@@ -168,15 +169,15 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		int be = find_min_iny(GoombaAIEffectList[i], ObstaclesVertPosList);
 		int nd = find_max_iny_dist(GoombaAIEffectList[i], ObstaclesVertPosList,
 		                           64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
-		bool ObstacleCollide = isAccurateCollideBott(GoombaAIEffectList[i], GoombaAIEffectList[i].curr,
+		bool ObstacleCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxBot),
 		                                             ObstaclesVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		be = find_min_iny(GoombaAIEffectList[i], BricksVertPosList);
 		nd = find_max_iny_dist(GoombaAIEffectList[i], BricksVertPosList, 64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
-		bool BrickCollide = isAccurateCollideBott(GoombaAIEffectList[i], GoombaAIEffectList[i].curr, BricksVertPosList,
+		bool BrickCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxBot), BricksVertPosList,
 		                                          CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		be = find_min_iny(GoombaAIEffectList[i], LuckyVertPosList);
 		nd = find_max_iny_dist(GoombaAIEffectList[i], LuckyVertPosList, 64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
-		bool LuckyCollide = isAccurateCollideBott(GoombaAIEffectList[i], GoombaAIEffectList[i].curr, LuckyVertPosList,
+		bool LuckyCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxBot), LuckyVertPosList,
 		                                          CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
 			if (GoombaAIEffectYveloList[i] >= 0.0f) {
@@ -196,13 +197,13 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		NoAdd = false;
 		be = find_max_iny(GoombaAIEffectList[i], ObstaclesVertPosList);
 		nd = find_min_iny_dist(GoombaAIEffectList[i], ObstaclesVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
-		ObstacleCollide = isAccurateCollideTopt(GoombaAIEffectList[i], GoombaAIEffectList[i].curr, ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		ObstacleCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxTop), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		be = find_max_iny(GoombaAIEffectList[i], BricksVertPosList);
 		nd = find_min_iny_dist(GoombaAIEffectList[i], BricksVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
-		BrickCollide = isAccurateCollideTopt(GoombaAIEffectList[i], GoombaAIEffectList[i].curr, BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		BrickCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxTop), BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		be = find_max_iny(GoombaAIEffectList[i], LuckyVertPosList);
 		nd = find_min_iny_dist(GoombaAIEffectList[i], LuckyVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
-		LuckyCollide = isAccurateCollideTopt(GoombaAIEffectList[i], GoombaAIEffectList[i].curr, LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		LuckyCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxTop), LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		if ((ObstacleCollide || BrickCollide || LuckyCollide) && GoombaAIEffectYveloList[i] < 0.0f) {
 			GoombaAIEffectYveloList[i] = 0.0f;
 			GoombaAIEffectList[i].curr = { GoombaAIEffectList[i].curr.x, CurrPosYCollide + (31.0f + GoombaAIEffectList[i].property.getOrigin().y - GoombaAIEffectDefinationList[i][3]) };

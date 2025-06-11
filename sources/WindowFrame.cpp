@@ -4,7 +4,8 @@
 #include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/ExternalHeaders/Kairos.hpp"
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
+#include "Core/Interpolation.hpp"
 
 #include <iostream>
 
@@ -39,7 +40,7 @@ sf::Sprite CoinHUD(tempTex);
 sf::Texture CoinHUDTexture;
 sf::Sprite MarioHUD(tempTex);
 
-LocalAnimationManager CoinHUDAnim;
+SingleAnimationObject CoinHUDAnim;
 float f_min(const float a, const float b) { return a < b ? a : b; }
 float f_max(const float a, const float b) { return a > b ? a : b; }
 float f_abs(const float a) { return a < 0 ? -a : a; }
@@ -102,11 +103,31 @@ namespace Window {
 		PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
 		window.setVerticalSyncEnabled(OPTION_VSYNC);
 		window.setIcon(icon);
-		if (!OPTION_SMOOTH) window.setFramerateLimit(50);
+		if (!OPTION_SMOOTH) window.setFramerateLimit(60);
 		else window.setFramerateLimit(0); //300
+	}
+	void WindowEventUpdate(const std::optional<sf::Event>& event) {
+		if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+			if (keyPressed->code == sf::Keyboard::Key::F11) {
+				WindowToggleFullscreen();
+				ChangeScreenMode();
+			}
+			else if (keyPressed->code == sf::Keyboard::Key::F12) {
+				WindowToggleSmooth();
+				ChangeScreenMode();
+			}
+			else if (keyPressed->code == sf::Keyboard::Key::F10) {
+				WindowSetScale(WindowGetScale() + 1);
+				ChangeScreenMode(2);
+			}
+			else if (keyPressed->code == sf::Keyboard::Key::F9) {
+				isInterpolation = !isInterpolation;
+			}
+		}
 	}
 }
 void windowInit() {
+	//window.setMinimumSize(std::optional<sf::Vector2u>({static_cast<unsigned>(Width), static_cast<unsigned>(Height)}));
 	for (std::size_t i = 0; i < Resolutions.size(); ++i)
 	{
 		sf::VideoMode mode = Resolutions[i];
@@ -127,7 +148,7 @@ void windowInit() {
 	}
 	CoinHUD.setTexture(ImageManager::GetTexture("CoinHUD_0"), true);
 	CoinHUDAnim.setAnimation(0, 2, 16);
-	CoinHUDAnim.SetSequence(CoinHUDAnimName, CoinHUDAnimName);
+	CoinHUDAnim.SetAnimationSequence(CoinHUDAnimName, CoinHUDAnimName);
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
 	//rObject.setRepeated(true);

@@ -3,7 +3,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Sound.hpp"
 #include "Effect/ScoreEffect.hpp"
@@ -15,7 +15,7 @@ std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
 std::vector<CoinAtt> CoinAttList;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> CoinPosList;
-LocalAnimationManager CoinAnimation;
+SingleAnimationObject CoinAnimation;
 int CoinCount = 0;
 bool firstUpdate = true;
 static std::vector<std::string> CoinAnimName;
@@ -29,7 +29,7 @@ void CoinInit() {
 		CoinAnimName.emplace_back("Coin_" + std::to_string(i));
 	}
 	CoinAnimation.setAnimation(0, 2, 20);
-	CoinAnimation.SetSequence(CoinAnimName, CoinAnimName);
+	CoinAnimation.SetAnimationSequence(CoinAnimName, CoinAnimName);
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	Coin operate;
@@ -66,12 +66,12 @@ void CoinOnTouch() {
 	if (!MarioDirection) {
 		const int be = find_min_inx(player, CoinPosList);
 		const int nd = find_max_inx_dist(player, CoinPosList, 64.0f + (Xvelo) * 4.0f);
-		CoinPos = isAccurateCollideMaint(player, player.curr, CoinPosList, be, nd, 80.0f);
+		CoinPos = isAccurateCollideMaint(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxMain), CoinPosList, be, nd, 80.0f);
 	}
 	else {
 		const int be = find_max_inx(player, CoinPosList);
 		const int nd = find_min_inx_dist(player, CoinPosList, 64.0f + (Xvelo) * 4.0f);
-		CoinPos = isAccurateCollideMaint(player, player.curr, CoinPosList, nd, be, 80.0f);
+		CoinPos = isAccurateCollideMaint(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxMain), CoinPosList, nd, be, 80.0f);
 	}
 	for (const auto &i : CoinPos) {
 		Score += 200;

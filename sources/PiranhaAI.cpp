@@ -1,22 +1,23 @@
 #include "Object/PiranhaAI.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/enum.hpp"
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Interpolation.hpp"
-#include <vector>
 #include "Class/PiranhaAIClass.hpp"
+#include <vector>
+#include <iostream>
 static std::vector<std::string> PiranhaAnimName;
 static constexpr int PIRANHA_IMAGE_WIDTH = 128;
 static constexpr int PIRANHA_WIDTH = 64;
 static constexpr int PIRANHA_HEIGHT = 64;
-std::vector<PiranhaAI> PiranhaAIList;
+std::vector<MFCPP::PiranhaAI> PiranhaAIList;
 void DeletePiranhaAI(const float x, const float y) {
 	for (unsigned int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (PiranhaAIList[i].getPosition().x == x && PiranhaAIList[i].getPosition().y == y) {
+		if (PiranhaAIList[i].getCurrentPosition().x == x && PiranhaAIList[i].getCurrentPosition().y == y) {
 			PiranhaAIList.erase(PiranhaAIList.begin() + i);
 			break;
 		}
@@ -40,27 +41,28 @@ void SetPrevPiranhaAIPos() {
 }
 void InterpolatePiranhaAIPos(const float alpha) {
 	for (auto &i : PiranhaAIList) {
-		i.setPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
+		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
 void AddPiranha(const PiranhaID ID, const float x, const float y) {
-	PiranhaAIList.emplace_back(sf::Vector2f({x, y + 64.0f}));
+	PiranhaAIList.emplace_back();
 	switch (ID) {
 		case GREEN:
-			PiranhaAIList.back().m_animation.setAnimation(0, 1, 14);
-			PiranhaAIList.back().m_animation.SetSequence(PiranhaAnimName, PiranhaAnimName);
+			PiranhaAIList.back().setAnimation(0, 1, 14);
+			PiranhaAIList.back().SetAnimationSequence(PiranhaAnimName, PiranhaAnimName);
 			PiranhaAIList.back().setSpeed(1.0f);
 			PiranhaAIList.back().setStopTime(1.4f);
 			PiranhaAIList.back().setDistanceAppear(80.0f);
 			break;
 	}
-	PiranhaAIList.back().setTextureRect(sf::IntRect({0, 0}, {64, 64}), true);
 	PiranhaAIList.back().setID(ID);
 	PiranhaAIList.back().setDisabled(true);
 	PiranhaAIList.back().setHitbox(sf::FloatRect({ 16, 17 }, { 31, 47 }));
 	PiranhaAIList.back().setOrigin({32, 63});
-	PiranhaAIList.back().setPreviousPosition(PiranhaAIList.back().getPosition());
-	PiranhaAIList.back().setCurrentPosition(PiranhaAIList.back().getPosition());
+
+	PiranhaAIList.back().setCurrentPosition(sf::Vector2f({x, y + 64.0f}));
+	PiranhaAIList.back().setPreviousPosition(PiranhaAIList.back().getCurrentPosition());
+	PiranhaAIList.back().setInterpolatedPosition(PiranhaAIList.back().getCurrentPosition());
 	PiranhaAIList.back().setPositionLimit(64.0f);
 	PiranhaAIList.back().setPositionTemporary(64.0f);
 	PiranhaAIList.back().setState(true);
@@ -118,9 +120,9 @@ void PiranhaAIStatusUpdate() {
 }
 void PiranhaAIUpdate() {
 	for (auto & i : PiranhaAIList) {
-		if (!isOutScreen(i.getPosition().x, i.getPosition().y, 64, 64) && !i.isDisabled()) {
-			i.m_animation.AnimationUpdate(i.getPosition(), i.getOrigin());
-			i.m_animation.AnimationDraw(window);
+		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64) && !i.isDisabled()) {
+			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+			i.AnimationDraw(window);
 			//i.m_animation.getCurrentAnimationName();
 			//i.setTexture(ImageManager::GetTexture(i.m_animation.getCurrentAnimationName()));
 			//i.setTextureRect(i.m_animation.getAnimationTextureRect());

@@ -24,7 +24,7 @@ std::vector<bool> LuckyBlockState;
 std::vector<float> LuckyBlockStateCount;
 std::vector<bool> LuckyUpDown;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyHorzPosList;
-std::vector<LocalAnimationManager> LuckyIdle;
+std::vector<SingleAnimationObject> LuckyIdle;
 std::vector<bool> LuckyBlockHitted;
 static std::vector<std::string> NormLuckyBlockAnimName;
 
@@ -55,7 +55,7 @@ void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, floa
 	switch (ID) {
 	case LUCKY_BLOCK:
 		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalLuckyBlock_0")) });
-		LuckyIdle.back().SetSequence(NormLuckyBlockAnimName, NormLuckyBlockAnimName);
+		LuckyIdle.back().SetAnimationSequence(NormLuckyBlockAnimName, NormLuckyBlockAnimName);
 		break;
 	case TREE_LUCKY_BLOCK:
 		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("TreeLuckyBlock")) });

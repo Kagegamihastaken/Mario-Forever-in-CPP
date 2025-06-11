@@ -17,6 +17,7 @@ public:
 extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesHorzPosList;
 extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 extern sf::VertexArray ObstaclesVA;
+extern sf::RenderTexture ObstacleRTexture;
 extern std::vector<std::array<int, 3>> ID_list;
 extern std::vector<Obstacles> ObstaclesList;
 extern ImageManager ObstaclesTextureManager;

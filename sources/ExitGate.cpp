@@ -8,7 +8,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Core/Music.hpp"
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
 
 #include "Core/Loading/enum.hpp"
@@ -16,7 +16,7 @@
 #include <random>
 #include <cmath>
 
-LocalAnimationManager ExitGateIndicatorAnimation;
+SingleAnimationObject ExitGateIndicatorAnimation;
 sf::Sprite ExitGateBack(tempTex);
 sf::Sprite ExitGateFore(tempTex);
 sf::Sprite ExitGateForeEffect(tempTex);
@@ -68,7 +68,7 @@ void ExitGateInit() {
 	ExitGateClock.reset();
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50);
-	ExitGateIndicatorAnimation.SetSequence(ExitIndicatorAnimName, ExitIndicatorAnimName);
+	ExitGateIndicatorAnimation.SetAnimationSequence(ExitIndicatorAnimName, ExitIndicatorAnimName);
 	ExitGateIndicator.setOrigin({ 0.0f, 31.0f });
 }
 void SetPrevExitGatePos() {

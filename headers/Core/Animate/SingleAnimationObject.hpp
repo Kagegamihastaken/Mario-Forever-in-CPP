@@ -4,12 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include "Core/Loading/enum.hpp"
 
-class LocalAnimationManager {
-private:
+class SingleAnimationObject {
 	std::string m_lastAnim = "";
 	std::vector<sf::Sprite> m_LeftIndex;
 	std::vector<sf::Sprite> m_RightIndex;
-protected:
+
 	int m_indexAnimation = 0;
 	int m_startingIndexAnimation = 0;
 	int m_endingIndexAnimation = 0;
@@ -24,14 +23,14 @@ public:
 	void setIndexAnimation(int indexAnimation);
 	void setStartingIndexAnimation(int startingIndexAnimation);
 	void setEndingIndexAnimation(int endingIndexAnimation);
-	void setFrequency(int frequency);
+	void setFrequencyAnimation(int frequency);
 
 	void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
-	void AnimationDraw(sf::RenderWindow& window);
-	void setDirection(const AnimationDirection& dir);
+	void AnimationDraw(sf::RenderWindow& window) const;
+	void setAnimationDirection(const AnimationDirection& dir);
 	//sf::IntRect getAnimationTextureRect() const;
-	[[nodiscard]] bool isAtTheEnd() const;
-	void AddSequence(const std::string& a_left, const std::string& a_right);
-	void SetSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
+	[[nodiscard]] bool isAnimationAtTheEnd() const;
+	void AddAnimationSequence(const std::string& a_left, const std::string& a_right);
+	void SetAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
 };
 #endif // LOCALANIMATIONMANAGER_HPP

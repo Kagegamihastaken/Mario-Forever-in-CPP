@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "Core/Interpolation.hpp"
-#include "Core/WindowFrame.hpp"
 
 bool isInterpolation = true;
 sf::Vector2f linearInterpolation(const sf::Vector2f start, const sf::Vector2f end, float alpha) {

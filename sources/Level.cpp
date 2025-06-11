@@ -381,6 +381,24 @@ void ReadData(std::string path) {
 }
 */
 void Obstaclebuilding() {
+	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)})) {
+		std::cout << "Cannot resize Obstacles Texture\n";
+		return;
+	}
+	ObstacleRTexture.clear(sf::Color::Transparent);
+	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
+	ObstaclesVA.resize(4);
+
+	ObstaclesVA[0].position = sf::Vector2f(0.f, 0.f);
+	ObstaclesVA[1].position = sf::Vector2f(LevelWidth, 0.f);
+	ObstaclesVA[2].position = sf::Vector2f(0.f, LevelHeight);
+	ObstaclesVA[3].position = sf::Vector2f(LevelWidth, LevelHeight);
+
+	ObstaclesVA[0].texCoords = sf::Vector2f(0.f, 0.f);
+	ObstaclesVA[1].texCoords = sf::Vector2f(LevelWidth, 0.f);
+	ObstaclesVA[2].texCoords = sf::Vector2f(0.f, LevelHeight);
+	ObstaclesVA[3].texCoords = sf::Vector2f(LevelWidth, LevelHeight);
+
 	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
 	//ObstaclesVA.resize(LevelData.size() * 6);
 	for (int i = 0; i < LevelData.size(); ++i) {
@@ -389,11 +407,14 @@ void Obstaclebuilding() {
 		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 3> &compare) {
 			return compare[0] == static_cast<int>(LevelData[i][0]);
 		}) - (ID_list.begin());
+		sf::Sprite obstaclesRender(ImageManager::GetTexture("Tile_"+std::to_string(posTextureIndex)));
+		obstaclesRender.setPosition({ LevelData[i][1], LevelData[i][2] });
+		ObstacleRTexture.draw(obstaclesRender);
 		// Then use the index of tile id property to add it to the list
 		//ObstaclesList.emplace_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(ImageManager::GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
-		ObstaclesList.push_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(tempTex) });
-		ObstaclesList.back().property.setTexture(ImageManager::GetTexture("Tile_"+std::to_string(posTextureIndex)), true);
-		ObstaclesList.back().property.setPosition({ LevelData[i][1], LevelData[i][2] });
+		//ObstaclesList.push_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(tempTex) });
+		//ObstaclesList.back().property.setTexture(ImageManager::GetTexture("Tile_"+std::to_string(posTextureIndex)), true);
+		//ObstaclesList.back().property.setPosition({ LevelData[i][1], LevelData[i][2] });
 		ObstaclesVertPosList.emplace_back(sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,sf::Vector2f({LevelData[i][1], LevelData[i][2] }));
 		ObstaclesHorzPosList.emplace_back(sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,sf::Vector2f({LevelData[i][1], LevelData[i][2] }));
 		//setHitbox(ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
@@ -413,9 +434,9 @@ void Obstaclebuilding() {
 		//vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
 		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
-	std::ranges::sort(ObstaclesList, [](const Obstacles& A, const Obstacles& B) {
-		return A.property.getPosition().x < B.property.getPosition().x;
-		});
+	//std::ranges::sort(ObstaclesList, [](const Obstacles& A, const Obstacles& B) {
+		//return A.property.getPosition().x < B.property.getPosition().x;
+		//});
 	std::ranges::sort(ObstaclesHorzPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
 		if (A.second.x < B.second.x) return true;
 		else if (A.second.x == B.second.x) return A.second.y < B.second.y;
@@ -426,6 +447,7 @@ void Obstaclebuilding() {
 		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
 		else return false;
 		});
+	ObstacleRTexture.display();
 }
 void Slopebuilding() {
 	std::ranges::sort(SlopeData, [](const std::array<float, 3>& a, const std::array<float, 3>& b) {return a[1] < b[1]; });

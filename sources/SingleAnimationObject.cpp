@@ -3,11 +3,11 @@
 
 #include "Core/WindowFrame.hpp"
 
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/enum.hpp"
 
-void LocalAnimationManager::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
+void SingleAnimationObject::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
 	m_startingIndexAnimation = startingIndexAnimation;
 	m_indexAnimation = startingIndexAnimation;
 	m_endingIndexAnimation = endingIndexAnimation;
@@ -17,11 +17,11 @@ void LocalAnimationManager::setAnimation(const int startingIndexAnimation, const
 	m_TimeRemainSave = 0.0f;
 	m_direction = AnimationDirection::ANIM_LEFT;
 }
-void LocalAnimationManager::AddSequence(const std::string& a_left, const std::string& a_right) {
+void SingleAnimationObject::AddAnimationSequence(const std::string& a_left, const std::string& a_right) {
 	m_LeftIndex.emplace_back(ImageManager::GetTexture(a_left));
 	m_RightIndex.emplace_back(ImageManager::GetTexture(a_right));
 }
-void LocalAnimationManager::SetSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right) {
+void SingleAnimationObject::SetAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right) {
 	if (s_left.size() != s_right.size()) {
 		std::cout << "Size of 2 directions must be equal\n";
 		return;
@@ -33,7 +33,7 @@ void LocalAnimationManager::SetSequence(const std::vector<std::string>& s_left, 
 	for (const auto& str : s_right)
 		m_RightIndex.emplace_back(ImageManager::GetTexture(str));
 }
-void LocalAnimationManager::SetRangeIndexAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
+void SingleAnimationObject::SetRangeIndexAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
 	if (m_startingIndexAnimation != startingIndexAnimation || m_endingIndexAnimation != endingIndexAnimation) {
 		m_startingIndexAnimation = startingIndexAnimation;
 		m_endingIndexAnimation = endingIndexAnimation;
@@ -50,19 +50,19 @@ void LocalAnimationManager::SetRangeIndexAnimation(const int startingIndexAnimat
 		m_TimeRemainSave = 0.0f;
 	}
 }
-void LocalAnimationManager::setIndexAnimation(const int indexAnimation) {
+void SingleAnimationObject::setIndexAnimation(const int indexAnimation) {
 	m_indexAnimation = indexAnimation;
 }
-void LocalAnimationManager::setStartingIndexAnimation(const int startingIndexAnimation) {
+void SingleAnimationObject::setStartingIndexAnimation(const int startingIndexAnimation) {
 	m_startingIndexAnimation = startingIndexAnimation;
 }
-void LocalAnimationManager::setEndingIndexAnimation(const int endingIndexAnimation) {
+void SingleAnimationObject::setEndingIndexAnimation(const int endingIndexAnimation) {
 	m_endingIndexAnimation = endingIndexAnimation;
 }
-void LocalAnimationManager::setFrequency(const int frequency) {
+void SingleAnimationObject::setFrequencyAnimation(const int frequency) {
 	m_frequency = frequency;
 }
-void LocalAnimationManager::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
+void SingleAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
 	//sprite.setTexture(*texture[this->indexAnimation], true);
 	//sprite.setTextureRect(sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey }));
 	m_TimeRan = m_TimeRemainSave + static_cast<float>(m_TimeRun.getElapsedTime().asMicroseconds()) / 1000.0f;
@@ -91,17 +91,17 @@ void LocalAnimationManager::AnimationUpdate(const sf::Vector2f& pos, const sf::V
 		m_LeftIndex[m_indexAnimation].setOrigin(origin);
 	}
 }
-void LocalAnimationManager::AnimationDraw(sf::RenderWindow& window) {
+void SingleAnimationObject::AnimationDraw(sf::RenderWindow& window) const {
 	if (m_direction == AnimationDirection::ANIM_RIGHT) window.draw(m_RightIndex[m_indexAnimation]);
 	else window.draw(m_LeftIndex[m_indexAnimation]);
 }
-void LocalAnimationManager::setDirection(const AnimationDirection& dir) {
+void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 	m_direction = dir;
 }
 //sf::IntRect LocalAnimationManager::getAnimationTextureRect() const {
 	//return sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey });
 //}
-bool LocalAnimationManager::isAtTheEnd() const {
+bool SingleAnimationObject::isAnimationAtTheEnd() const {
 	int temp = this->m_endingIndexAnimation;
 	temp = std::max(0, temp - 1);
 	return (this->m_indexAnimation == temp);

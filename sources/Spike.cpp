@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Object/Spike.hpp"
 #include "Core/ImageManager.hpp"
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
@@ -13,7 +13,7 @@
 
 std::vector<sf::Sprite> SpikeList;
 std::vector<SpikeID> SpikeIDList;
-std::vector<LocalAnimationManager> SpikeAnimationList;
+std::vector<SingleAnimationObject> SpikeAnimationList;
 std::vector<sf::FloatRect> SpikeHitboxList;
 static std::vector<std::string> PiranhaGroundAnimName;
 void SpikeInit() {
@@ -47,15 +47,15 @@ void DeleteSpike(const float x, const float y) {
 }
 void AddSpike(const SpikeID ID, float x, float y) {
 	sf::Sprite Init(tempTex);
-	LocalAnimationManager InitAnimation;
+	SingleAnimationObject InitAnimation;
 	switch (ID) {
 	case PIRANHA_GROUND:
 		InitAnimation.setAnimation(0, 3, 22);
-		InitAnimation.SetSequence(PiranhaGroundAnimName, PiranhaGroundAnimName);
+		InitAnimation.SetAnimationSequence(PiranhaGroundAnimName, PiranhaGroundAnimName);
 		break;
 	case SPIKE_NORMAL:
 		InitAnimation.setAnimation(0, 0, 100);
-		InitAnimation.AddSequence("NormalSpike", "NormalSpike");
+		InitAnimation.AddAnimationSequence("NormalSpike", "NormalSpike");
 		break;
 	}
 	SpikeHitboxList.push_back(sf::FloatRect({ 0, 0 }, { 32, 32 }));

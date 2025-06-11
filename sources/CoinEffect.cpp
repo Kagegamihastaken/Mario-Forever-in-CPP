@@ -36,7 +36,7 @@ void InterpolateCoinEffectPos(const float alpha) {
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation(0, 20, 70);
-	Init.coinEffectAnimation.SetSequence(CoinEffectAnimName, CoinEffectAnimName);
+	Init.coinEffectAnimation.SetAnimationSequence(CoinEffectAnimName, CoinEffectAnimName);
 	Init.property.setPosition({ static_cast<float>(round(x)), y });
 	Init.property.setOrigin({ 18, 31 });
 	Init.curr = Init.prev = Init.property.getPosition();
@@ -69,7 +69,7 @@ void DeleteAllCoinEffect() {
 }
 inline void CoinEffectStatusUpdate(const float deltaTime) {
 	for (auto & i : CoinEffectList) {
-		if (i.coinEffectAnimation.isAtTheEnd()) {
+		if (i.coinEffectAnimation.isAnimationAtTheEnd()) {
 			DeleteCoinEffect(i.curr.x, i.curr.y);
 			continue;
 		}

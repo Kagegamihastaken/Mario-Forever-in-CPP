@@ -8,23 +8,18 @@
 #include "headers/Core/Interpolation.hpp"
 #include "headers/Core/Loading/Loading.hpp"
 #include "headers/Core/ExternalHeaders/Kairos.hpp"
-#include "headers/Core/Interpolation.hpp"
-#include "headers/Core/WindowFrame.hpp"
 
 #include "Object/GoombaAI.hpp"
 
-#include "headers/Editor/Editor.hpp"
-
-#include "Core/Hash.hpp"
 #include "Core/Game.hpp"
 #include "config.h"
 //#include "imgui.h"
 //#include "imgui-SFML.h"
 #include <iostream>
 float alpha = 1.0f;
+//kairos::Timestep render;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
-// TODO: Implement REGEX;
 #ifdef DEVELOPMENT_BUILD
 int main() {
 #else
@@ -41,8 +36,25 @@ int WinMain() {
 	//sf::Clock deltaClock;
 	GameTextInit();
 	GameLoadLevel();
-	std::string fall;
+
+	sf::RectangleShape test(sf::Vector2f(32.0f, 32.0f));
+
+	ImageManager::AddImage("TempTexImage", "data/resources/testImage.png");
+	ImageManager::CreateTestImage("TempTexImage", "TempTexImageFixed");
+	ImageManager::AddTexture("TempTexImageFixed", "TempTexTexture");
+
+	tempTex.setSmooth(true);
+	test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"));
+
+	test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
+
+	//for (int i = 0; i <= 6; ++i) {
+	//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
+	//}
+	//render.setStep(1.0f / 300.0f);
+
 	while (window.isOpen()) {
+		bool Updated = false;
 		while (const std::optional event = window.pollEvent()) {
 			//ImGui::SFML::ProcessEvent(window, *event);
 			if (event->is<sf::Event::Closed>()) {
@@ -50,28 +62,12 @@ int WinMain() {
 				window.close();
 				IODeinit();
 			}
-			else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
-				if (mousePressed->button == sf::Mouse::Button::Left) {
-					AddGoombaAI(GoombaAIType::MUSHROOM, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+				if (keyPressed->code == sf::Keyboard::Key::Q) {
+					Updated = true;
 				}
 			}
-			else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-				if (keyPressed->code == sf::Keyboard::Key::F11) {
-					Window::WindowToggleFullscreen();
-					Window::ChangeScreenMode();
-				}
-				else if (keyPressed->code == sf::Keyboard::Key::F12) {
-					Window::WindowToggleSmooth();
-					Window::ChangeScreenMode();
-				}
-				else if (keyPressed->code == sf::Keyboard::Key::F10) {
-					Window::WindowSetScale(Window::WindowGetScale() + 1);
-					Window::ChangeScreenMode(2);
-				}
-				else if (keyPressed->code == sf::Keyboard::Key::F9) {
-					isInterpolation = !isInterpolation;
-				}
-			}
+			GameObjectRetrieveEvent(event);
 		}
 		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
 			ExitGateClock.reset();
@@ -84,6 +80,7 @@ int WinMain() {
 		fpsLite.update();
 		timestep.addFrame();
 		while (timestep.isUpdateRequired()) {
+		//if (Updated) {
 			GameObjectSetPrev();
 			GameObjectCollision();
 
@@ -96,6 +93,8 @@ int WinMain() {
 		else alpha = 1.0f;
 		GameObjectInterpolateMovement(alpha);
 		GameObjectAnimation();
+
+		test.setPosition(player.property.getPosition());
 		//ImGui::SFML::Update(window, deltaClock.restart());
 		//ImGui::ShowDemoWindow();
 
@@ -109,8 +108,14 @@ int WinMain() {
 		//rObject.clear();
 		//rObject.display();
 		//sf::Sprite Renderer(rObject.getTexture());
+		//render.addFrame();
 		window.clear();
 		GameObjectDraw();
+		//window.draw(test);
+		//if (render.isUpdateRequired()) {
+		//	window.clear();
+		//	GameObjectDraw();
+		//}
 		//window.draw(Renderer);
 		//ImGui::SFML::Render(window);
 		window.display();

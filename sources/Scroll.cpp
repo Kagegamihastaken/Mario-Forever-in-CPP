@@ -16,6 +16,7 @@ sf::View view;
 sf::View WindowView;
 float ViewX, ViewY;
 float ViewXOff, ViewYOff;
+static float OFFSET = 0.0f;
 float lastX = std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f));
 sf::View getLetterboxView(sf::View view, const int windowWidth, const int windowHeight) {
 	const float windowRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
@@ -39,24 +40,23 @@ sf::View getLetterboxView(sf::View view, const int windowWidth, const int window
 
 	else {
 		sizeY = windowRatio / viewRatio;
-		posY = (1 - sizeY) / 2.f;
 	}
-
+		posY = (1 - sizeY) / 2.f;
 	view.setViewport(sf::FloatRect({ posX, posY }, { sizeX, sizeY }));
 
 	return view;
 }
 void ViewInit() {
-	view = sf::View(sf::FloatRect({ 0, 0 }, { Width, Height }));
+	view = sf::View(sf::FloatRect({ 0, 0 }, { Width, Height}));
 }
 void setView() {
 	view = getLetterboxView(view, window.getSize().x, window.getSize().y);
-	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f), std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f) });
-	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f});
+	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f) + OFFSET, std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f) + OFFSET });
+	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f+ EditorInterpolatedPos.y});
 	//std::cout << player.property.getPosition().x << "\n";
 	//WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));
 }
-void moveView(float x, float y) {
+void moveView(const float x, const float y) {
 	view.setCenter({ view.getCenter().x + x, view.getCenter().y + y });
 }
 void setRotate(int degree) {

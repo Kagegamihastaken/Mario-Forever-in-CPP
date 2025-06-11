@@ -13,6 +13,7 @@ namespace Window {
     extern void WindowSetFullscreen(bool val);
     extern void WindowSetScale(int val);
     extern void ChangeScreenMode(unsigned int mode = 0);
+    extern void WindowEventUpdate(const std::optional<sf::Event>& event);
 }
 extern bool isDebug;
 extern sf::VideoMode videoMode;

@@ -1,5 +1,3 @@
-#include "Core/Game.hpp"
-
 #include "Block/Brick.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/ImageManager.hpp"
@@ -27,6 +25,7 @@
 #include "Core/Scene.hpp"
 #include "Editor/Editor.hpp"
 
+#include "Core/Game.hpp"
 
 void GameObjectInit() {
     InitTempTex();
@@ -51,6 +50,8 @@ void GameObjectInit() {
     BgInit();
     ExitGateInit();
     ViewInit();
+
+    EditorInit();
 }
 void GameTextInit() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
@@ -161,6 +162,20 @@ void GameObjectDeltaMovement(const float dt) {
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         EditorScreenMove(dt);
+        TilePosUpdate(dt);
+    }
+}
+void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
+    Window::WindowEventUpdate(event);
+    if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        SwitchTile(event);
+    }
+    else if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+            if (mousePressed->button == sf::Mouse::Button::Left) {
+                AddGoombaAI(GoombaAIType::MUSHROOM, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+            }
+        }
     }
 }
 void GameObjectInterpolateMovement(const float alpha) {
@@ -203,10 +218,14 @@ void GameObjectMiscUpdate() {
     updateFrame();
     updateView();
     UpdatePositionCharacter();
-    BgUpdatePos();
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        BgUpdatePos();
         HUDUpdate();
         //Update Position that stuck on scree
+    }
+    else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
+        BgGradientPosUpdate();
+        SelectedTilePosUpdate();
     }
 }
 void GameObjectEditorUpdate() {
@@ -215,8 +234,8 @@ void GameObjectEditorUpdate() {
     }
 }
 void GameObjectDraw() {
+    BgGradientDraw();
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-        BgGradientDraw();
         BgDraw();
         ExitGateDraw();
         MarioDraw();

@@ -13,5 +13,6 @@ extern void GameObjectMiscUpdate();
 extern void GameObjectDraw();
 extern void GameObjectEditorUpdate();
 extern void GameObjectAnimation();
+extern void GameObjectRetrieveEvent(const std::optional<sf::Event>& event);
 
 #endif //GAME_HPP

@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "../Core/Animate/LocalAnimationManager.hpp"
+#include "../Core/Animate/SingleAnimationObject.hpp"
 #include "../Core/Loading/enum.hpp"
 #include "../Core/ImageManager.hpp"
 
@@ -14,7 +14,7 @@ public:
 	sf::Vector2f curr = sf::Vector2f(0, 0);
 	sf::Vector2f prev = sf::Vector2f(0, 0);
 	sf::Sprite property = sf::Sprite(tempTex);
-	LocalAnimationManager coinEffectAnimation;
+	SingleAnimationObject coinEffectAnimation;
 	float velocity = -3.5f;
 };
 extern std::vector<CoinEffect> CoinEffectList;

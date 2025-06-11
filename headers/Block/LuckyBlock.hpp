@@ -5,7 +5,7 @@
 #include <vector>
 #include "Obstacles.hpp"
 #include "../Core/Loading/enum.hpp"
-#include "../Core/Animate/LocalAnimationManager.hpp"
+#include "../Core/Animate/SingleAnimationObject.hpp"
 
 extern std::vector<Obstacles> LuckyBlock;
 extern std::vector<LuckyBlockID> LuckyBlockIDList;

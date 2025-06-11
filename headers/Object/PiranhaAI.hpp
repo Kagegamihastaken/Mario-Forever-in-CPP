@@ -5,7 +5,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-#include "Core/Animate/LocalAnimationManager.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 
 extern void SetPrevPiranhaAIPos();
 extern void InterpolatePiranhaAIPos(float alpha);

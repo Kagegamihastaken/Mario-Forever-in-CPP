@@ -6,5 +6,5 @@ extern sf::VertexArray bgGradient;
 
 extern void BgGradientInitPos();
 extern void BgGradientDraw();
-
+extern void BgGradientPosUpdate();
 #endif
