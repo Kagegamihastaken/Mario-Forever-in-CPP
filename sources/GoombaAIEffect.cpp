@@ -166,17 +166,17 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		//}
 
 		bool NoAdd = false;
-		int be = find_min_iny(GoombaAIEffectList[i], ObstaclesVertPosList);
-		int nd = find_max_iny_dist(GoombaAIEffectList[i], ObstaclesVertPosList,
+		int be = find_min_iny(GoombaAIEffectList[i].curr, ObstaclesVertPosList);
+		int nd = find_max_iny_dist(GoombaAIEffectList[i].curr, ObstaclesVertPosList,
 		                           64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
 		bool ObstacleCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxBot),
 		                                             ObstaclesVertPosList, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-		be = find_min_iny(GoombaAIEffectList[i], BricksVertPosList);
-		nd = find_max_iny_dist(GoombaAIEffectList[i], BricksVertPosList, 64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
+		be = find_min_iny(GoombaAIEffectList[i].curr, BricksVertPosList);
+		nd = find_max_iny_dist(GoombaAIEffectList[i].curr, BricksVertPosList, 64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
 		bool BrickCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxBot), BricksVertPosList,
 		                                          CurrPosYCollide, NoAdd, be, nd, 80.0f);
-		be = find_min_iny(GoombaAIEffectList[i], LuckyVertPosList);
-		nd = find_max_iny_dist(GoombaAIEffectList[i], LuckyVertPosList, 64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
+		be = find_min_iny(GoombaAIEffectList[i].curr, LuckyVertPosList);
+		nd = find_max_iny_dist(GoombaAIEffectList[i].curr, LuckyVertPosList, 64.0f + (GoombaAIEffectYveloList[i]) * 16.0f);
 		bool LuckyCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxBot), LuckyVertPosList,
 		                                          CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
@@ -195,14 +195,14 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		}
 		// top update
 		NoAdd = false;
-		be = find_max_iny(GoombaAIEffectList[i], ObstaclesVertPosList);
-		nd = find_min_iny_dist(GoombaAIEffectList[i], ObstaclesVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
+		be = find_max_iny(GoombaAIEffectList[i].curr, ObstaclesVertPosList);
+		nd = find_min_iny_dist(GoombaAIEffectList[i].curr, ObstaclesVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
 		ObstacleCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxTop), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		be = find_max_iny(GoombaAIEffectList[i], BricksVertPosList);
-		nd = find_min_iny_dist(GoombaAIEffectList[i], BricksVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
+		be = find_max_iny(GoombaAIEffectList[i].curr, BricksVertPosList);
+		nd = find_min_iny_dist(GoombaAIEffectList[i].curr, BricksVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
 		BrickCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxTop), BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		be = find_max_iny(GoombaAIEffectList[i], LuckyVertPosList);
-		nd = find_min_iny_dist(GoombaAIEffectList[i], LuckyVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
+		be = find_max_iny(GoombaAIEffectList[i].curr, LuckyVertPosList);
+		nd = find_min_iny_dist(GoombaAIEffectList[i].curr, LuckyVertPosList, 64.0f - (GoombaAIEffectYveloList[i]) * 16.0f);
 		LuckyCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIEffectList[i].curr, GoombaAIEffectList[i].property.getOrigin(), GoombaAIEffectList[i].hitboxTop), LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		if ((ObstacleCollide || BrickCollide || LuckyCollide) && GoombaAIEffectYveloList[i] < 0.0f) {
 			GoombaAIEffectYveloList[i] = 0.0f;

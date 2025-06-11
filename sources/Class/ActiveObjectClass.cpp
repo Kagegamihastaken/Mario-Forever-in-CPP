@@ -25,4 +25,7 @@ namespace MFCPP {
     sf::Vector2f ActiveObject::getOrigin() const {
         return m_origin;
     }
+    void ActiveObject::move(const sf::Vector2f& pos) {
+        m_curr += pos;
+    }
 }

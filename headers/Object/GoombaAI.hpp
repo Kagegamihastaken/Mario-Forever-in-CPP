@@ -5,13 +5,11 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../Core/Loading/enum.hpp"
+#include "Core/Loading/enum.hpp"
+#include "Class/GoombaAIClass.hpp"
 #include "Mario.hpp"
 
-extern std::vector<MovableObject> GoombaAIList;
-extern std::vector<GoombaAIType> GoombaAITypeList;
-extern std::vector<std::pair<float, float>> GoombaAIHitboxList;
-extern std::vector<int> GoombaAISkinIDList;
+extern std::vector<MFCPP::GoombaAI> GoombaAIList;
 extern void GoombaAILoadRes();
 extern void SetPrevGoombaAIPos();
 extern void InterpolateGoombaAIPos(float alpha);

@@ -64,13 +64,13 @@ void CoinOnTouch() {
 	if (CoinList.empty() || EffectActive) return;
 	std::vector<sf::Vector2f> CoinPos{};
 	if (!MarioDirection) {
-		const int be = find_min_inx(player, CoinPosList);
-		const int nd = find_max_inx_dist(player, CoinPosList, 64.0f + (Xvelo) * 4.0f);
+		const int be = find_min_inx(player.curr, CoinPosList);
+		const int nd = find_max_inx_dist(player.curr, CoinPosList, 64.0f + (Xvelo) * 4.0f);
 		CoinPos = isAccurateCollideMaint(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxMain), CoinPosList, be, nd, 80.0f);
 	}
 	else {
-		const int be = find_max_inx(player, CoinPosList);
-		const int nd = find_min_inx_dist(player, CoinPosList, 64.0f + (Xvelo) * 4.0f);
+		const int be = find_max_inx(player.curr, CoinPosList);
+		const int nd = find_min_inx_dist(player.curr, CoinPosList, 64.0f + (Xvelo) * 4.0f);
 		CoinPos = isAccurateCollideMaint(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxMain), CoinPosList, nd, be, 80.0f);
 	}
 	for (const auto &i : CoinPos) {

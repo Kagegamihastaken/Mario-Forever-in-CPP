@@ -14,6 +14,7 @@ namespace MFCPP {
         [[nodiscard]] sf::Vector2f getInterpolatedPosition() const;
         void setOrigin(const sf::Vector2f& origin);
         [[nodiscard]] sf::Vector2f getOrigin() const;
+        void move(const sf::Vector2f& pos);
     private:
         sf::Vector2f          m_curr{};
         sf::Vector2f          m_prev{};

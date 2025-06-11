@@ -62,7 +62,7 @@ void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y
 	BrickAttList.emplace_back(att);
 	BrickIDList.emplace_back(ID);
 	BrickState.emplace_back(false);
-	BrickStateCount.emplace_back(0);
+	BrickStateCount.emplace_back(0.0f);
 	BricksHorzPosList.emplace_back( sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) );
 	UpDown.emplace_back(false);
 	Bricks.back().property.setPosition({ x, y });
@@ -157,7 +157,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 				DisabledBrick[i] = true;
 				BrickState[i] = true;
 				UpDown[i] = false;
-				BrickStateCount[i] = 0;
+				BrickStateCount[i] = 0.0f;
 				BrickHittedUpdate(i);
 			}
 		}
@@ -166,7 +166,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 		++CoinCount;
 		BrickState[i] = true;
 		UpDown[i] = false;
-		BrickStateCount[i] = 0;
+		BrickStateCount[i] = 0.0f;
 	}
 }
 void HitEvent(const float x, const float y) {
@@ -183,11 +183,11 @@ void HitEvent(const float x, const float y) {
 				}
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, BrickLoop)) {
-					if (GoombaAITypeList[j] != MUSHROOM) {
-						AddScoreEffect(SCORE_100, GoombaAIList[j].curr.x - 15.0f, GoombaAIList[j].curr.y - GoombaAIHitboxList[j].second);
-						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].curr.x, GoombaAIList[j].curr.y);
-						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].curr.x, GoombaAIList[j].curr.y);
+				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
+					if (GoombaAIList[j].GetType() != MUSHROOM) {
+						AddScoreEffect(SCORE_100, GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
+						AddGoombaAIEffect(GoombaAIList[j].GetType(), NONE, GoombaAIList[j].GetSkinID(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
+						DeleteGoombaAI(GoombaAIList[j].GetType(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
 						Sounds.PlaySound("Kick2");
 					}
 				}
@@ -196,7 +196,7 @@ void HitEvent(const float x, const float y) {
 			if (BrickAttList[i] == NORMAL && PowerState == 0) {
 				BrickState[i] = true;
 				UpDown[i] = false;
-				BrickStateCount[i] = 0;
+				BrickStateCount[i] = 0.0f;
 				Sounds.PlaySound("Bump");
 				break;
 			}

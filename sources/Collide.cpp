@@ -111,10 +111,10 @@ bool isAccurateCollideTopt(const MFCPP::CollisionObject& CollideObj, const std::
 	}
 	return isCollideTopBool;
 }
-int find_max_inx(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
+int find_max_inx(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.x - DEFAULT_OBJECT_WIDTH <= object.property.getPosition().x) {
+		if (const int m = l + (r - l) / 2; OL[m].second.x - DEFAULT_OBJECT_WIDTH <= object.x) {
 			l = m + 1;
 			out = m;
 		}
@@ -122,10 +122,10 @@ int find_max_inx(const MovableObject& object, const std::vector<std::pair<sf::Fl
 	}
 	return out;
 }
-int find_max_inx_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
+int find_max_inx_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.x - dist <= object.property.getPosition().x) {
+		if (const int m = l + (r - l) / 2; OL[m].second.x - dist <= object.x) {
 			l = m + 1;
 			out = m;
 		}
@@ -133,10 +133,10 @@ int find_max_inx_dist(const MovableObject& object, const std::vector<std::pair<s
 	}
 	return out;
 }
-int find_min_inx(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
+int find_min_inx(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.x + DEFAULT_OBJECT_WIDTH >= object.property.getPosition().x) {
+		if (const int m = l + (r - l) / 2; OL[m].second.x + DEFAULT_OBJECT_WIDTH >= object.x) {
 			r = m - 1;
 			out = m;
 		}
@@ -144,10 +144,10 @@ int find_min_inx(const MovableObject& object, const std::vector<std::pair<sf::Fl
 	}
 	return out;
 }
-int find_min_inx_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
+int find_min_inx_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.x + dist >= object.property.getPosition().x) {
+		if (const int m = l + (r - l) / 2; OL[m].second.x + dist >= object.x) {
 			r = m - 1;
 			out = m;
 		}
@@ -155,10 +155,10 @@ int find_min_inx_dist(const MovableObject& object, const std::vector<std::pair<s
 	}
 	return out;
 }
-int find_max_iny(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
+int find_max_iny(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.y - DEFAULT_OBJECT_WIDTH <= object.property.getPosition().y) {
+		if (const int m = l + (r - l) / 2; OL[m].second.y - DEFAULT_OBJECT_WIDTH <= object.y) {
 			l = m + 1;
 			out = m;
 		}
@@ -166,10 +166,10 @@ int find_max_iny(const MovableObject& object, const std::vector<std::pair<sf::Fl
 	}
 	return out;
 }
-int find_max_iny_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
+int find_max_iny_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.y - dist <= object.property.getPosition().y) {
+		if (const int m = l + (r - l) / 2; OL[m].second.y - dist <= object.y) {
 			l = m + 1;
 			out = m;
 		}
@@ -177,10 +177,10 @@ int find_max_iny_dist(const MovableObject& object, const std::vector<std::pair<s
 	}
 	return out;
 }
-int find_min_iny(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
+int find_min_iny(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.y + DEFAULT_OBJECT_WIDTH >= object.property.getPosition().y) {
+		if (const int m = l + (r - l) / 2; OL[m].second.y + DEFAULT_OBJECT_WIDTH >= object.y) {
 			r = m - 1;
 			out = m;
 		}
@@ -188,10 +188,10 @@ int find_min_iny(const MovableObject& object, const std::vector<std::pair<sf::Fl
 	}
 	return out;
 }
-int find_min_iny_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
+int find_min_iny_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const float dist) {
 	int l = 0, r = static_cast<int>(OL.size()) - 1, out = 0;
 	while (l <= r) {
-		if (const int m = l + (r - l) / 2; OL[m].second.y + dist >= object.property.getPosition().y) {
+		if (const int m = l + (r - l) / 2; OL[m].second.y + dist >= object.y) {
 			r = m - 1;
 			out = m;
 		}

@@ -19,13 +19,13 @@ extern std::vector<sf::Vector2f> isAccurateCollideMaint(const MFCPP::CollisionOb
 extern bool isAccurateCollideBott(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance);
 extern std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, int first, int last, float distance);
 extern bool isAccurateCollideTopt(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance);
-extern int find_max_inx(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
-extern int find_max_inx_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
-extern int find_min_inx(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
-extern int find_min_inx_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
-extern int find_max_iny(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
-extern int find_max_iny_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
-extern int find_min_iny(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
-extern int find_min_iny_dist(const MovableObject& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
+extern int find_max_inx(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
+extern int find_max_inx_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
+extern int find_min_inx(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
+extern int find_min_inx_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
+extern int find_max_iny(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
+extern int find_max_iny_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
+extern int find_min_iny(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL);
+extern int find_min_iny_dist(const sf::Vector2f& object, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float dist);
 
 #endif // COLLIDE_HPP

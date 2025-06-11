@@ -198,11 +198,11 @@ void LuckyHitEvent(const float x, const float y) {
 				}
 			}
 			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (isCollide(GoombaAIList[j].hitboxMain, GoombaAIList[j].property, LuckyLoop)) {
-					if (GoombaAITypeList[j] != MUSHROOM) {
-						if (GoombaAITypeList[j] == GOOMBA || GoombaAITypeList[j] == KOOPA || GoombaAITypeList[j] == SHELL || GoombaAITypeList[j] == SHELL_MOVING) AddScoreEffect(SCORE_100, GoombaAIList[j].property.getPosition().x - 15.0f, GoombaAIList[j].property.getPosition().y - GoombaAIHitboxList[j].second);
-						AddGoombaAIEffect(GoombaAITypeList[j], NONE, GoombaAISkinIDList[j], GoombaAIList[j].property.getPosition().x, GoombaAIList[j].property.getPosition().y);
-						DeleteGoombaAI(GoombaAITypeList[j], GoombaAIList[j].curr.x, GoombaAIList[j].curr.y);
+				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
+					if (GoombaAIList[j].GetType() != MUSHROOM) {
+						AddScoreEffect(SCORE_100, GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
+						AddGoombaAIEffect(GoombaAIList[j].GetType(), NONE, GoombaAIList[j].GetSkinID(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
+						DeleteGoombaAI(GoombaAIList[j].GetType(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
 						SoundManager::PlaySound("Kick2");
 					}
 				}
