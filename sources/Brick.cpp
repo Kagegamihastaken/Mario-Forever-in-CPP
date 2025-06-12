@@ -18,6 +18,7 @@
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include <vector>
+#include <set>
 
 std::vector<Obstacles> Bricks;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;
@@ -82,7 +83,7 @@ void BricksSort() {
 		else return false;
 		});
 }
-inline BrickID GetIDBrick(const float x, const float y) {
+BrickID GetIDBrick(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			return BrickIDList[i];
@@ -91,7 +92,7 @@ inline BrickID GetIDBrick(const float x, const float y) {
 	return BRICK_NORMAL;
 }
 
-inline BrickAtt GetBrickAtt(const float x, const float y) {
+BrickAtt GetBrickAtt(const float x, const float y) {
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
 			return BrickAttList[i];
@@ -161,7 +162,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 				BrickHittedUpdate(i);
 			}
 		}
-		Sounds.PlaySound("Coin");
+		SoundManager::PlaySound("Coin");
 		AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y + 32.0f);
 		++CoinCount;
 		BrickState[i] = true;
@@ -170,26 +171,24 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 	}
 }
 void HitEvent(const float x, const float y) {
+	std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
+	std::set<std::pair<float, float>> BrickDeleteSet;
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y && !BrickState[i]) {
 			sf::FloatRect BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
-			BrickLoop.position.y -= 32.0f;
+			BrickLoop.position.y -= 16.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x + 15.0f, CoinList[j].property.getPosition().y + 32.0f);
 					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
-					Sounds.PlaySound("Coin");
+					SoundManager::PlaySound("Coin");
 					++CoinCount;
 				}
 			}
-			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
-					if (GoombaAIList[j].GetType() != MUSHROOM) {
-						AddScoreEffect(SCORE_100, GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
-						AddGoombaAIEffect(GoombaAIList[j].GetType(), NONE, GoombaAIList[j].GetSkinID(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
-						DeleteGoombaAI(GoombaAIList[j].GetType(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
-						Sounds.PlaySound("Kick2");
-					}
+			for (auto & j : GoombaAIList) {
+				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
+					j.DeathBehaviour(SCORE_100);
+					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
 			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y, i);
@@ -197,25 +196,32 @@ void HitEvent(const float x, const float y) {
 				BrickState[i] = true;
 				UpDown[i] = false;
 				BrickStateCount[i] = 0.0f;
-				Sounds.PlaySound("Bump");
-				break;
+				SoundManager::PlaySound("Bump");
 			}
 			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
-				Sounds.PlaySound("Break");
+				SoundManager::PlaySound("Break");
 				AddBrickParticle(BrickIDList[i], Bricks[i].curr.x, Bricks[i].curr.y);
-				DeleteBrick(Bricks[i].curr.x, Bricks[i].curr.y);
+				BrickDeleteSet.insert({Bricks[i].curr.x, Bricks[i].curr.y});
 				Score += 50;
 			}
 		}
 	}
+	for (const auto &[fst, snd] : BrickDeleteSet)
+		DeleteBrick(fst, snd);
+	if (!GoombaAIDeleteSet.empty())
+		for (const auto &[fst, snd] : GoombaAIDeleteSet)
+			DeleteGoombaAI(fst, snd.first, snd.second);
 }
 void DeleteBrick(const float x, const float y) {
-	for (int i = 0; i < BricksVertPosList.size(); ++i) {
-		if (BricksVertPosList[i].second.x == x && BricksVertPosList[i].second.y == y) {
-			BricksVertPosList.erase(BricksVertPosList.begin() + i);
-			break;
-		}
-	}
+	std::erase_if(BricksVertPosList, [&](const std::pair<sf::FloatRect, sf::Vector2f>& A) ->bool {
+		return A.second.x == x && A.second.y == y;
+	});
+	//for (int i = 0; i < BricksVertPosList.size(); ++i) {
+	//	if (BricksVertPosList[i].second.x == x && BricksVertPosList[i].second.y == y) {
+	//		BricksVertPosList.erase(BricksVertPosList.begin() + i);
+	//		break;
+	//	}
+	//}
 	for (int i = 0; i < Bricks.size(); ++i) {
 		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y) {
 			Bricks.erase(Bricks.begin() + i);

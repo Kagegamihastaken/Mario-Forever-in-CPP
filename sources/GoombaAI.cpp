@@ -105,44 +105,44 @@ void InterpolateGoombaAIPos(const float alpha) {
 void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirection Dir = LEFT) {
 	switch (type) {
 		case GOOMBA:
-		GoombaAIList.push_back(MFCPP::GoombaAI(type, Dir, GoombaAICollisionType::YES, 1.0f,
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::YES, 1.0f,
 			sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
-			sf::Vector2f(15, 31), false, SkinID, 0.0f));
+			sf::Vector2f(15, 31), false, SkinID, 0.0f);
 		GoombaAIList.back().setAnimation(0, 1, 11);
 		GoombaAIList.back().SetAnimationSequence(GoombaAnimName, GoombaAnimName);
 		break;
 		case KOOPA:
-		GoombaAIList.push_back(MFCPP::GoombaAI(type, Dir, GoombaAICollisionType::YES, 1.0f,
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::YES, 1.0f,
 			sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
-			sf::Vector2f(16, 44), false, SkinID, 0.0f));
+			sf::Vector2f(16, 44), false, SkinID, 0.0f);
 		GoombaAIList.back().setAnimation(0, 1, 12);
 		GoombaAIList.back().SetAnimationSequence(KoopaLeftAnimName, KoopaRightAnimName);
 		break;
 		case MUSHROOM:
-		GoombaAIList.push_back(MFCPP::GoombaAI(type, Dir, GoombaAICollisionType::FULL, 2.0f,
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::FULL, 2.0f,
 			sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
-			sf::Vector2f(16, 31), true, SkinID, 0.0f));
+			sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
 		GoombaAIList.back().setAnimation(0, 0, 100);
 		GoombaAIList.back().SetAnimationSequence(MushroomAnimName, MushroomAnimName);
 		break;
 		case SHELL:
-		GoombaAIList.push_back(MFCPP::GoombaAI(type, Dir, GoombaAICollisionType::FULL, 0.0f,
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::FULL, 0.0f,
 			sf::FloatRect({0.0f, 0.0f}, {33.0f, 28.0f}), sf::Vector2f(x, y),
-			sf::Vector2f(16, 27), false, SkinID, 0.12f));
+			sf::Vector2f(16, 27), false, SkinID, 0.12f);
 		GoombaAIList.back().setAnimation(3, 3, 100);
 		GoombaAIList.back().SetAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
 		break;
 		case SHELL_MOVING:
-		GoombaAIList.push_back(MFCPP::GoombaAI(type, Dir, GoombaAICollisionType::YES, 5.0f,
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::YES, 5.0f,
 			sf::FloatRect({0.0f, 0.0f}, {33.0f, 28.0f}), sf::Vector2f(x, y),
-			sf::Vector2f(16, 27), false, SkinID, 0.6f));
+			sf::Vector2f(16, 27), false, SkinID, 0.6f);
 		GoombaAIList.back().setAnimation(0, 3, 54);
 		GoombaAIList.back().SetAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
 		break;
 		case SPINY:
-		GoombaAIList.push_back(MFCPP::GoombaAI(type, Dir, GoombaAICollisionType::NO, 1.0f,
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::NO, 1.0f,
 			sf::FloatRect({0.0f, 0.0f}, {33.0f, 32.0f}), sf::Vector2f(x, y),
-			sf::Vector2f(16, 29), false, SkinID, 0.6f));
+			sf::Vector2f(16, 29), false, SkinID, 0.6f);
 		GoombaAIList.back().setAnimation(0, 1, 14);
 		GoombaAIList.back().SetAnimationSequence(SpinyLeftAnimName, SpinyRightAnimName);
 		break;
@@ -152,12 +152,15 @@ void DeleteGoombaAIIndex(const int i) {
 	GoombaAIList.erase(GoombaAIList.begin() + i);
 }
 void DeleteGoombaAI(const GoombaAIType type, const float x, const float y) {
-	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (GoombaAIList[i].getCurrentPosition().x == x && GoombaAIList[i].getCurrentPosition().y == y && GoombaAIList[i].GetType() == type) {
-			DeleteGoombaAIIndex(i);
-			break;
-		}
-	}
+	std::erase_if(GoombaAIList, [&](const MFCPP::GoombaAI &i) ->bool {
+		return i.getCurrentPosition().x == x && i.getCurrentPosition().y == y && i.GetType() == type;
+	});
+	//for (int i = 0; i < GoombaAIList.size(); ++i) {
+	//	if (GoombaAIList[i].getCurrentPosition().x == x && GoombaAIList[i].getCurrentPosition().y == y && GoombaAIList[i].GetType() == type) {
+	//		DeleteGoombaAIIndex(i);
+	//		break;
+	//	}
+	//}
 }
 void DeleteAllGoombaAI() {
 	GoombaAIList.clear();
@@ -165,19 +168,19 @@ void DeleteAllGoombaAI() {
 void GoombaStatusUpdate(const float deltaTime) {
 	std::vector<sf::Vector2f> GoombaAIDeletionPositionList;
 	std::vector<GoombaAIType> GoombaAIDeletionTypeList;
-	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (isOutScreenYBottom(GoombaAIList[i].getCurrentPosition().y, 80)) {
-			GoombaAIDeletionPositionList.push_back(GoombaAIList[i].getCurrentPosition());
-			GoombaAIDeletionTypeList.push_back(GoombaAIList[i].GetType());
+	for (auto & i : GoombaAIList) {
+		if (isOutScreenYBottom(i.getCurrentPosition().y, 80)) {
+			GoombaAIDeletionPositionList.push_back(i.getCurrentPosition());
+			GoombaAIDeletionTypeList.push_back(i.GetType());
 		}
-		if (!isOutScreen(GoombaAIList[i].getCurrentPosition().x - GoombaAIList[i].getOrigin().x, GoombaAIList[i].getCurrentPosition().y, 32, 80)) {
-			if (GoombaAIList[i].IsDisabled()) GoombaAIList[i].SetDisabled(false);
+		if (!isOutScreen(i.getCurrentPosition().x - i.getOrigin().x, i.getCurrentPosition().y, 32, 80)) {
+			if (i.IsDisabled()) i.SetDisabled(false);
 		}
 		else continue;
-		if (GoombaAIList[i].IsAppeared() && !GoombaAIList[i].IsDisabled()) {
-			GoombaAIList[i].move(sf::Vector2f(0.0f, -0.5f * deltaTime));
-			GoombaAIList[i].SetAppearY(GoombaAIList[i].GetAppearY() + 0.5f * deltaTime);
-			if (GoombaAIList[i].GetAppearY() >= 32.0f) GoombaAIList[i].SetAppeared(false);
+		if (i.IsAppearing() && !i.IsDisabled()) {
+			i.move(sf::Vector2f(0.0f, -0.5f * deltaTime));
+			i.SetAppearY(i.GetAppearY() + 0.5f * deltaTime);
+			if (i.GetAppearY() >= 32.0f) i.SetAppearing(false);
 		}
 	}
 	if (GoombaAIDeletionPositionList.empty()) return;
@@ -186,30 +189,30 @@ void GoombaStatusUpdate(const float deltaTime) {
 void GoombaAICheckCollide() {
 	if (EffectActive) return;
 	const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
-	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (GoombaAIList[i].IsDisabled() || GoombaAIList[i].IsAppeared()) continue;
-		if (f_abs(player.curr.x - GoombaAIList[i].getCurrentPosition().x) >= 160.0f) continue;
-		if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(GoombaAIList[i].GetHitboxMain(), GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
-			if (GoombaAIList[i].GetCollisionType() == GoombaAICollisionType::YES) {
-				if ((GoombaAIList[i].GetInvincibleTimer().getElapsedTime().asSeconds() >= GoombaAIList[i].GetInvincibleTimerLimit() && GoombaAIList[i].GetInvincibleTimerLimit() > 0.0f) || GoombaAIList[i].GetInvincibleTimerLimit() == 0.0f) {
-					if (((GoombaAIList[i].getCurrentPosition().y - 16.0f) > player.curr.y) && Yvelo > 0.0f && !GoombaAIList[i].IsDisabled()) {
-						player.curr = {player.curr.x, GoombaAIList[i].getCurrentPosition().y - GoombaAIList[i].getOrigin().y - 1.0f};
+	for (auto & i : GoombaAIList) {
+		if (i.IsDisabled() || i.IsAppearing()) continue;
+		if (f_abs(player.curr.x - i.getCurrentPosition().x) >= 160.0f) continue;
+		if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(i.GetHitboxMain(), i.getCurrentPosition(), i.getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
+			if (i.GetCollisionType() == GoombaAICollisionType::YES) {
+				if ((i.GetInvincibleTimer().getElapsedTime().asSeconds() >= i.GetInvincibleTimerLimit() && i.GetInvincibleTimerLimit() > 0.0f) || i.GetInvincibleTimerLimit() == 0.0f) {
+					if (((i.getCurrentPosition().y - 16.0f) > player.curr.y) && Yvelo > 0.0f && !i.IsDisabled()) {
+						player.curr = {player.curr.x, i.getCurrentPosition().y - i.getOrigin().y - 1.0f};
 						if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
 						else Yvelo = -13.0f;
 						SoundManager::PlaySound("Stomp");
-						switch (GoombaAIList[i].GetType()) {
+						switch (i.GetType()) {
 						case GoombaAIType::GOOMBA:
-							AddScoreEffect(SCORE_100, GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
-							AddGoombaAIEffect(GoombaAIList[i].GetType(), COLLIDE, GoombaAIList[i].GetSkinID(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y);
+							AddScoreEffect(SCORE_100, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
+							AddGoombaAIEffect(i.GetType(), COLLIDE, i.GetSkinID(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 							break;
 						case GoombaAIType::KOOPA:
-							AddScoreEffect(SCORE_100, GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
-							AddGoombaAI(SHELL, GoombaAIList[i].GetSkinID(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y + 2.0f);
+							AddScoreEffect(SCORE_100, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
+							AddGoombaAI(SHELL, i.GetSkinID(), i.getCurrentPosition().x, i.getCurrentPosition().y + 2.0f);
 							break;
 						case GoombaAIType::SHELL_MOVING:
-							GoombaAIList[i].SetShellHitCount(0);
-							AddScoreEffect(SCORE_100, GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
-							AddGoombaAI(SHELL, GoombaAIList[i].GetSkinID(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y);
+							i.SetShellHitCount(0);
+							AddScoreEffect(SCORE_100, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
+							AddGoombaAI(SHELL, i.GetSkinID(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 							break;
 						case GoombaAIType::MUSHROOM:
 						case GoombaAIType::SHELL:
@@ -217,33 +220,33 @@ void GoombaAICheckCollide() {
 						default:
 							break;
 						}
-						DeleteGoombaAI(GoombaAIList[i].GetType(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y);
+						DeleteGoombaAI(i.GetType(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 						break;
 					}
 				}
 			}
-			if (GoombaAIList[i].GetCollisionType() == GoombaAICollisionType::YES || GoombaAIList[i].GetCollisionType() == GoombaAICollisionType::NO) {
-				if ((GoombaAIList[i].GetInvincibleTimer().getElapsedTime().asSeconds() >= GoombaAIList[i].GetInvincibleTimerLimit() && GoombaAIList[i].GetInvincibleTimerLimit() > 0.0f) || GoombaAIList[i].GetInvincibleTimerLimit() == 0.0f) {
-					if ((GoombaAIList[i].getCurrentPosition().y - 16.0f) < player.curr.y) {
+			if (i.GetCollisionType() == GoombaAICollisionType::YES || i.GetCollisionType() == GoombaAICollisionType::NO) {
+				if ((i.GetInvincibleTimer().getElapsedTime().asSeconds() >= i.GetInvincibleTimerLimit() && i.GetInvincibleTimerLimit() > 0.0f) || i.GetInvincibleTimerLimit() == 0.0f) {
+					if ((i.getCurrentPosition().y - 16.0f) < player.curr.y) {
 						PowerDown();
 						break;
 					}
 				}
 			}
-			else if (GoombaAIList[i].GetCollisionType() == GoombaAICollisionType::FULL) {
-				switch (GoombaAIList[i].GetType()) {
+			else if (i.GetCollisionType() == GoombaAICollisionType::FULL) {
+				switch (i.GetType()) {
 				case GoombaAIType::MUSHROOM:
 					SoundManager::PlaySound("Powerup");
-					AddScoreEffect(SCORE_1000, GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
+					AddScoreEffect(SCORE_1000, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
 					SetPowerState(1);
-					DeleteGoombaAI(GoombaAIList[i].GetType(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y);
+					DeleteGoombaAI(i.GetType(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 					break;
 				case GoombaAIType::SHELL:
-					if ((GoombaAIList[i].GetInvincibleTimer().getElapsedTime().asSeconds() > GoombaAIList[i].GetInvincibleTimerLimit() && GoombaAIList[i].GetInvincibleTimerLimit() > 0.0f) || GoombaAIList[i].GetInvincibleTimerLimit() == 0.0f) {
+					if ((i.GetInvincibleTimer().getElapsedTime().asSeconds() > i.GetInvincibleTimerLimit() && i.GetInvincibleTimerLimit() > 0.0f) || i.GetInvincibleTimerLimit() == 0.0f) {
 						SoundManager::PlaySound("Kick2");
-						if (GoombaAIList[i].getCurrentPosition().x >= player.curr.x) AddGoombaAI(SHELL_MOVING, GoombaAIList[i].GetSkinID(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y, RIGHT);
-						else AddGoombaAI(SHELL_MOVING, GoombaAIList[i].GetSkinID(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y, LEFT);
-						DeleteGoombaAI(GoombaAIList[i].GetType(), GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y);
+						if (i.getCurrentPosition().x >= player.curr.x) AddGoombaAI(SHELL_MOVING, i.GetSkinID(), i.getCurrentPosition().x, i.getCurrentPosition().y, RIGHT);
+						else AddGoombaAI(SHELL_MOVING, i.GetSkinID(), i.getCurrentPosition().x, i.getCurrentPosition().y, LEFT);
+						DeleteGoombaAI(i.GetType(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 					}
 					break;
 				case GoombaAIType::SHELL_MOVING:
@@ -265,27 +268,27 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 	std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 	int be, nd;
 	// Check if a GoombaAI collide with left or right
-	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (GoombaAIList[i].IsDisabled() || GoombaAIList[i].IsAppeared()) continue;
+	for (auto & i : GoombaAIList) {
+		if (i.IsDisabled() || i.IsAppearing()) continue;
 		//move
-		if (GoombaAIList[i].GetDirection() == LEFT) GoombaAIList[i].move(sf::Vector2f(- GoombaAIList[i].GetXvelo() * deltaTime, 0.0f));
-		else GoombaAIList[i].move(sf::Vector2f(GoombaAIList[i].GetXvelo() * deltaTime, 0.0f));
+		if (i.GetDirection() == LEFT) i.move(sf::Vector2f(- i.GetXvelo() * deltaTime, 0.0f));
+		else i.move(sf::Vector2f(i.GetXvelo() * deltaTime, 0.0f));
 		//shell moving break block
-		if (GoombaAIList[i].GetType() == SHELL_MOVING) {
+		if (i.GetType() == SHELL_MOVING) {
 			float CusCurrPosX = 0, CusCurrPosY = 0;
 			NoAdd = false;
-			if (GoombaAIList[i].GetDirection() == RIGHT) {
-				be = find_min_inx(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList);
-				nd = find_max_inx_dist(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-				BrickCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
+			if (i.GetDirection() == RIGHT) {
+				be = find_min_inx(i.getCurrentPosition(), BricksHorzPosList);
+				nd = find_max_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+				BrickCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
 			}
-			else if (GoombaAIList[i].GetDirection() == LEFT) {
-				be = find_max_inx(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList);
-				nd = find_min_inx_dist(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-				BrickCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
+			else if (i.GetDirection() == LEFT) {
+				be = find_max_inx(i.getCurrentPosition(), BricksHorzPosList);
+				nd = find_min_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+				BrickCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
 			}
 			if (BrickCollideRemove.first || BrickCollideRemove.second) {
-				GoombaAIList[i].SetDirection(static_cast<GoombaAIDirection>(!GoombaAIList[i].GetDirection()));
+				i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
 				const BrickID CurrBrickID = GetIDBrick(CusCurrPosX, CusCurrPosY);
 				switch (GetBrickAtt(CusCurrPosX, CusCurrPosY)) {
 				case NORMAL:
@@ -299,18 +302,18 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 				}
 			}
 			CusCurrPosX = 0, CusCurrPosY = 0;
-			if (GoombaAIList[i].GetDirection() == RIGHT) {
-				be = find_min_inx(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList);
-				nd = find_max_inx_dist(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-				LuckyCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
+			if (i.GetDirection() == RIGHT) {
+				be = find_min_inx(i.getCurrentPosition(), LuckyHorzPosList);
+				nd = find_max_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+				LuckyCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
 			}
-			else if (GoombaAIList[i].GetDirection() == LEFT) {
-				be = find_max_inx(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList);
-				nd = find_min_inx_dist(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-				LuckyCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
+			else if (i.GetDirection() == LEFT) {
+				be = find_max_inx(i.getCurrentPosition(), LuckyHorzPosList);
+				nd = find_min_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+				LuckyCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
 			}
 			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
-				GoombaAIList[i].SetDirection(static_cast<GoombaAIDirection>(!GoombaAIList[i].GetDirection()));
+				i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
 				LuckyHit(CusCurrPosX, CusCurrPosY - 32.0f, getLuckyIndex(CusCurrPosX, CusCurrPosY));
 			}
 		}
@@ -319,92 +322,92 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 		// 0 for right direction; 1 for left direction
 		NoAdd = false;
 		// Loop through obstacles
-		if (GoombaAIList[i].GetDirection() == RIGHT) {
-			be = find_min_inx(GoombaAIList[i].getCurrentPosition(), ObstaclesHorzPosList);
-			nd = find_max_inx_dist(GoombaAIList[i].getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-			ObstacleCollide = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-			be = find_min_inx(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList);
-			nd = find_max_inx_dist(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-			BrickCollide = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-			be = find_min_inx(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList);
-			nd = find_max_inx_dist(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-			LuckyCollide = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		if (i.GetDirection() == RIGHT) {
+			be = find_min_inx(i.getCurrentPosition(), ObstaclesHorzPosList);
+			nd = find_max_inx_dist(i.getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+			ObstacleCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			be = find_min_inx(i.getCurrentPosition(), BricksHorzPosList);
+			nd = find_max_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+			BrickCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			be = find_min_inx(i.getCurrentPosition(), LuckyHorzPosList);
+			nd = find_max_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+			LuckyCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		}
-		else if (GoombaAIList[i].GetDirection() == LEFT) {
-			be = find_max_inx(GoombaAIList[i].getCurrentPosition(), ObstaclesHorzPosList);
-			nd = find_min_inx_dist(GoombaAIList[i].getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-			ObstacleCollide = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-			be = find_max_inx(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList);
-			nd = find_min_inx_dist(GoombaAIList[i].getCurrentPosition(), BricksHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-			BrickCollide = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-			be = find_max_inx(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList);
-			nd = find_min_inx_dist(GoombaAIList[i].getCurrentPosition(), LuckyHorzPosList, 64.0f + (GoombaAIList[i].GetXvelo()) * 16.0f);
-			LuckyCollide = isAccurateCollideSidet(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxLeft(), GoombaAIList[i].GetHitboxRight()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		else if (i.GetDirection() == LEFT) {
+			be = find_max_inx(i.getCurrentPosition(), ObstaclesHorzPosList);
+			nd = find_min_inx_dist(i.getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+			ObstacleCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			be = find_max_inx(i.getCurrentPosition(), BricksHorzPosList);
+			nd = find_min_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+			BrickCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			be = find_max_inx(i.getCurrentPosition(), LuckyHorzPosList);
+			nd = find_min_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
+			LuckyCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		}
 
 		// Stop on wall
 		// Adjust Position if collide
 		if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-			GoombaAIList[i].SetDirection(static_cast<GoombaAIDirection>(!GoombaAIList[i].GetDirection()));
-			GoombaAIList[i].setCurrentPosition(sf::Vector2f(CurrPosXCollide + 32.0f - GoombaAIList[i].GetSize().position.x + GoombaAIList[i].getOrigin().x, GoombaAIList[i].getCurrentPosition().y));
+			i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
+			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide + 32.0f - i.GetSize().position.x + i.getOrigin().x, i.getCurrentPosition().y));
 		}
 		if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
-			GoombaAIList[i].SetDirection(static_cast<GoombaAIDirection>(!GoombaAIList[i].GetDirection()));
-			GoombaAIList[i].setCurrentPosition(sf::Vector2f(CurrPosXCollide - (1.0f + GoombaAIList[i].GetSize().position.x + (GoombaAIList[i].GetSize().size.x - GoombaAIList[i].getOrigin().x)), GoombaAIList[i].getCurrentPosition().y));
+			i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
+			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide - (1.0f + i.GetSize().position.x + (i.GetSize().size.x - i.getOrigin().x)), i.getCurrentPosition().y));
 		}
 	}
 }
 void GoombaAIVertYUpdate(const float deltaTime) {
 	bool isLanding;
 	float CurrPosYCollide;
-	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (GoombaAIList[i].IsDisabled() || GoombaAIList[i].IsAppeared()) continue;
+	for (auto & i : GoombaAIList) {
+		if (i.IsDisabled() || i.IsAppearing()) continue;
 		// bottom update
 
-		GoombaAIList[i].SetYvelo(GoombaAIList[i].GetYvelo() + (GoombaAIList[i].GetYvelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
-		GoombaAIList[i].move(sf::Vector2f(0.0f, GoombaAIList[i].GetYvelo() * deltaTime));
-		GoombaAIList[i].SetYvelo(GoombaAIList[i].GetYvelo() + (GoombaAIList[i].GetYvelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
+		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
+		i.move(sf::Vector2f(0.0f, i.GetYvelo() * deltaTime));
+		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
 		//}
 		bool NoAdd = false;
-		int be = find_min_iny(GoombaAIList[i].getCurrentPosition(), ObstaclesVertPosList);
-		int nd = find_max_iny_dist(GoombaAIList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f + (GoombaAIList[i].GetYvelo()) * 16.0f);
-		bool ObstacleCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxBot()), ObstaclesVertPosList,
+		int be = find_min_iny(i.getCurrentPosition(), ObstaclesVertPosList);
+		int nd = find_max_iny_dist(i.getCurrentPosition(), ObstaclesVertPosList, 64.0f + (i.GetYvelo()) * 16.0f);
+		bool ObstacleCollide = isAccurateCollideBott(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxBot()), ObstaclesVertPosList,
 		                                             CurrPosYCollide, NoAdd, be, nd, 80.0f);
-		be = find_min_iny(GoombaAIList[i].getCurrentPosition(), BricksVertPosList);
-		nd = find_max_iny_dist(GoombaAIList[i].getCurrentPosition(), BricksVertPosList, 64.0f + (GoombaAIList[i].GetYvelo()) * 16.0f);
-		bool BrickCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxBot()), BricksVertPosList, CurrPosYCollide,
+		be = find_min_iny(i.getCurrentPosition(), BricksVertPosList);
+		nd = find_max_iny_dist(i.getCurrentPosition(), BricksVertPosList, 64.0f + (i.GetYvelo()) * 16.0f);
+		bool BrickCollide = isAccurateCollideBott(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxBot()), BricksVertPosList, CurrPosYCollide,
 		                                          NoAdd, be, nd, 80.0f);
-		be = find_min_iny(GoombaAIList[i].getCurrentPosition(), LuckyVertPosList);
-		nd = find_max_iny_dist(GoombaAIList[i].getCurrentPosition(), LuckyVertPosList, 64.0f + (GoombaAIList[i].GetYvelo()) * 16.0f);
-		bool LuckyCollide = isAccurateCollideBott(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxBot()), LuckyVertPosList, CurrPosYCollide,
+		be = find_min_iny(i.getCurrentPosition(), LuckyVertPosList);
+		nd = find_max_iny_dist(i.getCurrentPosition(), LuckyVertPosList, 64.0f + (i.GetYvelo()) * 16.0f);
+		bool LuckyCollide = isAccurateCollideBott(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxBot()), LuckyVertPosList, CurrPosYCollide,
 		                                          NoAdd, be, nd, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
-			if (GoombaAIList[i].GetYvelo() >= 0.0f) {
-				GoombaAIList[i].SetYvelo(0.0f);
+			if (i.GetYvelo() >= 0.0f) {
+				i.SetYvelo(0.0f);
 				isLanding = true;
 			}
 			else {
-				GoombaAIList[i].SetYvelo(0.0f);
+				i.SetYvelo(0.0f);
 				isLanding = false;
 			}
 			//recolide
 			if (isLanding)
-				GoombaAIList[i].setCurrentPosition(sf::Vector2f(GoombaAIList[i].getCurrentPosition().x, CurrPosYCollide - (GoombaAIList[i].GetSize().size.y - GoombaAIList[i].getOrigin().y + GoombaAIList[i].GetSize().position.y)));
+				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - (i.GetSize().size.y - i.getOrigin().y + i.GetSize().position.y)));
 		}
 		// top update
 		NoAdd = false;
-		be = find_max_iny(GoombaAIList[i].getCurrentPosition(), ObstaclesVertPosList);
-		nd = find_min_iny_dist(GoombaAIList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f - (GoombaAIList[i].GetYvelo()) * 16.0f);
-		ObstacleCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxTop()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		be = find_max_iny(GoombaAIList[i].getCurrentPosition(), BricksVertPosList);
-		nd = find_min_iny_dist(GoombaAIList[i].getCurrentPosition(), BricksVertPosList, 64.0f - (GoombaAIList[i].GetYvelo()) * 16.0f);
-		BrickCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxTop()), BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		be = find_max_iny(GoombaAIList[i].getCurrentPosition(), LuckyVertPosList);
-		nd = find_min_iny_dist(GoombaAIList[i].getCurrentPosition(), LuckyVertPosList, 64.0f - (GoombaAIList[i].GetYvelo()) * 16.0f);
-		LuckyCollide = isAccurateCollideTopt(MFCPP::CollisionObject(GoombaAIList[i].getCurrentPosition(), GoombaAIList[i].getOrigin(), GoombaAIList[i].GetHitboxTop()), LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		if ((ObstacleCollide || BrickCollide || LuckyCollide) && GoombaAIList[i].GetYvelo() < 0.0f) {
-			GoombaAIList[i].SetYvelo(0.0f);
-			GoombaAIList[i].setCurrentPosition(sf::Vector2f(GoombaAIList[i].getCurrentPosition().x, CurrPosYCollide + (GoombaAIList[i].GetSize().size.y - GoombaAIList[i].getOrigin().y - GoombaAIList[i].GetSize().position.y)));
+		be = find_max_iny(i.getCurrentPosition(), ObstaclesVertPosList);
+		nd = find_min_iny_dist(i.getCurrentPosition(), ObstaclesVertPosList, 64.0f - (i.GetYvelo()) * 16.0f);
+		ObstacleCollide = isAccurateCollideTopt(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxTop()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		be = find_max_iny(i.getCurrentPosition(), BricksVertPosList);
+		nd = find_min_iny_dist(i.getCurrentPosition(), BricksVertPosList, 64.0f - (i.GetYvelo()) * 16.0f);
+		BrickCollide = isAccurateCollideTopt(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxTop()), BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		be = find_max_iny(i.getCurrentPosition(), LuckyVertPosList);
+		nd = find_min_iny_dist(i.getCurrentPosition(), LuckyVertPosList, 64.0f - (i.GetYvelo()) * 16.0f);
+		LuckyCollide = isAccurateCollideTopt(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxTop()), LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		if ((ObstacleCollide || BrickCollide || LuckyCollide) && i.GetYvelo() < 0.0f) {
+			i.SetYvelo(0.0f);
+			i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + (i.GetSize().size.y - i.getOrigin().y - i.GetSize().position.y)));
 		}
 	}
 }
@@ -453,12 +456,12 @@ void GoombaAICollisionUpdate() {
 	std::set<int> coll_set;
 	bool flag = false;
 	for (int i = 0; i < GoombaAIList.size(); ++i) {
-		if (GoombaAIList[i].IsAppeared() || GoombaAIList[i].IsDisabled() || GoombaAIList[i].GetType() == GoombaAIType::MUSHROOM) continue;
+		if (GoombaAIList[i].IsAppearing() || GoombaAIList[i].IsDisabled() || GoombaAIList[i].GetType() == GoombaAIType::MUSHROOM) continue;
 		const sf::FloatRect hitbox_loop = getGlobalHitbox(GoombaAIList[i].GetHitboxMain(), GoombaAIList[i].getCurrentPosition() ,GoombaAIList[i].getOrigin());
 		flag = false;
 		for (int j = 0; j < GoombaAIList.size(); ++j) {
 			if (f_abs(GoombaAIList[i].getCurrentPosition().x - GoombaAIList[j].getCurrentPosition().x) >= 160.0f) continue;
-			else if (GoombaAIList[j].IsAppeared() || i == j || GoombaAIList[j].GetType() == GoombaAIType::MUSHROOM) continue;
+			else if (GoombaAIList[j].IsAppearing() || i == j || GoombaAIList[j].GetType() == GoombaAIType::MUSHROOM) continue;
 			if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(GoombaAIHitbox, hitbox_loop)) {
 				if (GoombaAIList[j].GetType() != SHELL_MOVING && GoombaAIList[i].GetType() != SHELL_MOVING) {
 					if (GoombaAIList[j].IsDisabled()) {
@@ -513,21 +516,21 @@ void GoombaAICollisionUpdate() {
 	}
 }
 void GoombaAIUpdate() {
-	for (int i = 0; i < GoombaAIList.size(); ++i) {
+	for (auto & i : GoombaAIList) {
 		//if (GoombaAIDirectionList[i] == LEFT) GoombaAIList[i].property.setColor(sf::Color(255, 0, 0));
 		//else GoombaAIList[i].property.setColor(sf::Color(0, 0, 255));
-		if (GoombaAIList[i].IsDisabled()) continue;
-		if (!isOutScreen(GoombaAIList[i].getInterpolatedPosition().x - GoombaAIList[i].getOrigin().x, GoombaAIList[i].getInterpolatedPosition().y, 32, 80) && !GoombaAIList[i].IsDisabled()) {
-			if (GoombaAIList[i].GetDirection() == RIGHT) {
-				GoombaAIList[i].setAnimationDirection(AnimationDirection::ANIM_RIGHT);
+		if (i.IsDisabled()) continue;
+		if (!isOutScreen(i.getInterpolatedPosition().x - i.getOrigin().x, i.getInterpolatedPosition().y, 32, 80) && !i.IsDisabled()) {
+			if (i.GetDirection() == RIGHT) {
+				i.setAnimationDirection(AnimationDirection::ANIM_RIGHT);
 				//if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].first) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].first);
 			}
-			else if (GoombaAIList[i].GetDirection() == LEFT) {
-				GoombaAIList[i].setAnimationDirection(AnimationDirection::ANIM_LEFT);
+			else if (i.GetDirection() == LEFT) {
+				i.setAnimationDirection(AnimationDirection::ANIM_LEFT);
 				//if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].second) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].second);
 			}
-			GoombaAIList[i].AnimationUpdate(GoombaAIList[i].getInterpolatedPosition(), GoombaAIList[i].getOrigin());
-			GoombaAIList[i].AnimationDraw(window);
+			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+			i.AnimationDraw(window);
 			//window.draw(GoombaAIList[i].property);
 		}
 	}

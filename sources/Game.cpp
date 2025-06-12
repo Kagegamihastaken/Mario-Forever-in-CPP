@@ -173,7 +173,7 @@ void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
     else if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (mousePressed->button == sf::Mouse::Button::Left) {
-                AddGoombaAI(GoombaAIType::MUSHROOM, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+                AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
             }
         }
     }
@@ -209,7 +209,6 @@ void GameObjectCollision() {
         PiranhaAIStatusUpdate();
         MarioUpdateHitbox();
         SpikeStatusUpdate();
-
         CheckForDeath();
     }
 }

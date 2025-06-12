@@ -1,9 +1,13 @@
 #include "Class/GoombaAIClass.hpp"
 
+#include "Core/SoundManager.hpp"
+#include "Effect/ScoreEffect.hpp"
+#include "Effect/GoombaAIEffect.hpp"
+
 namespace MFCPP {
     GoombaAI::GoombaAI(const GoombaAIType type, const GoombaAIDirection dir, const GoombaAICollisionType collision_type, const float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
-        const sf::Vector2f& origin, const bool is_appeared, const unsigned skin_ID, const float invincible_timer_limit)
-        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appeared(is_appeared), m_skinID(skin_ID), m_invincible_timer_limit(invincible_timer_limit) {
+        const sf::Vector2f& origin, const bool is_appeared, const unsigned skin_ID, const float invincible_timer_limit, const bool can_death)
+        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_invincible_timer_limit(invincible_timer_limit), m_can_death(can_death) {
         setOrigin(origin);
         setCurrentPosition(pos);
         setPreviousPosition(pos);
@@ -57,11 +61,11 @@ namespace MFCPP {
     sf::FloatRect GoombaAI::GetSize() const {
         return m_size;
     }
-    void GoombaAI::SetAppeared(const bool& is_appeared) {
-        m_is_appeared = is_appeared;
+    void GoombaAI::SetAppearing(const bool& is_appeared) {
+        m_is_appearing = is_appeared;
     }
-    bool GoombaAI::IsAppeared() const {
-        return m_is_appeared;
+    bool GoombaAI::IsAppearing() const {
+        return m_is_appearing;
     }
     void GoombaAI::SetSkinID(const unsigned& skinID) {
         m_skinID = skinID;
@@ -139,4 +143,18 @@ namespace MFCPP {
     sf::FloatRect GoombaAI::GetHitboxBot() const {
         return m_hitbox_bot;
     }
+    void GoombaAI::SetCanDeath(bool val) {
+        m_can_death = val;
+    }
+    bool GoombaAI::IsCanDeath() const {
+        return m_can_death;
+    }
+
+    void GoombaAI::DeathBehaviour(const ScoreID score_id) const {
+        if (!IsCanDeath()) return;
+        AddScoreEffect(score_id, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+        AddGoombaAIEffect(GetType(), NONE, GetSkinID(), getCurrentPosition().x, getCurrentPosition().y);
+        SoundManager::PlaySound("Kick2");
+    }
+
 }

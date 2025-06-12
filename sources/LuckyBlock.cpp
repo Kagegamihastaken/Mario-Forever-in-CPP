@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Block/LuckyBlock.hpp"
+
+#include <iostream>
+
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Coin.hpp"
@@ -15,6 +18,7 @@
 #include "Core/Interpolation.hpp"
 
 #include <vector>
+#include <set>
 
 std::vector<Obstacles> LuckyBlock;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyVertPosList;
@@ -185,6 +189,7 @@ int getLuckyIndex(const float x, const float y) {
 	return -1;
 }
 void LuckyHitEvent(const float x, const float y) {
+	std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].property);
@@ -197,20 +202,19 @@ void LuckyHitEvent(const float x, const float y) {
 					++CoinCount;
 				}
 			}
-			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
-					if (GoombaAIList[j].GetType() != MUSHROOM) {
-						AddScoreEffect(SCORE_100, GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
-						AddGoombaAIEffect(GoombaAIList[j].GetType(), NONE, GoombaAIList[j].GetSkinID(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
-						DeleteGoombaAI(GoombaAIList[j].GetType(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
-						SoundManager::PlaySound("Kick2");
-					}
+			for (auto &j : GoombaAIList) {
+				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
+					j.DeathBehaviour(SCORE_100);
+					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
 			LuckyHit(LuckyLoop.position.x, LuckyLoop.position.y, i);
 			break;
 		}
 	}
+	if (!GoombaAIDeleteSet.empty())
+		for (const auto &[fst, snd] : GoombaAIDeleteSet)
+			DeleteGoombaAI(fst, snd.first, snd.second);
 }
 void DeleteLuckyBlock(const float x, const float y) {
 	for (int i = 0; i < LuckyVertPosList.size(); ++i) {

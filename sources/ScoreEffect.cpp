@@ -40,7 +40,7 @@ void InterpolateScoreEffectPos(const float alpha) {
 		ScoreEffectList[i].setPosition(linearInterpolation(ScoreEffectPrev[i], ScoreEffectCurr[i], alpha));
 	}
 }
-void AddScoreEffect(ScoreID id, float x, float y) {
+void AddScoreEffect(const ScoreID id, float x, float y) {
 	sf::Sprite Init(tempTex);
 	switch (id) {
 		case SCORE_100:
