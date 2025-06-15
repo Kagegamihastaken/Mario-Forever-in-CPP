@@ -140,6 +140,20 @@ void EditorEvent(const std::optional<sf::Event>& event) {
             case sf::Keyboard::Key::Space:
                 SoundManager::PlaySound("EDITOR_MENU");
                 EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
+                SelectTileDisplayUpdate();
+                break;
+            default: ;
+        }
+    }
+    else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+        switch (mousePressed->button) {
+            case sf::Mouse::Button::Left:
+                if (const int exist = CheckExistPos(); EDITOR_SELECTTILE && exist != -1) {
+                    SoundManager::PlaySound("EDITOR_CLOSE");
+                    CurrTileName = exist;
+                    EDITOR_SELECTILE_CLOCK.restart();
+                    EDITOR_SELECTTILE = false;
+                }
                 break;
             default: ;
         }
@@ -157,6 +171,8 @@ void EditorEvent(const std::optional<sf::Event>& event) {
 }
 void PlaceTile() {
     if (EDITOR_SELECTTILE) return;
+    else if (EDITOR_SELECTILE_CLOCK.getElapsedTime().asSeconds() < 0.15f) return;
+
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && window.hasFocus()) {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
             if (Tile.contains(sf::Vector2f(TileX, TileY))) {

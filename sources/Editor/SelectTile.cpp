@@ -4,9 +4,14 @@
 #include "Core/WindowFrame.hpp"
 
 #include <iostream>
+struct SelectTileData {
+    std::string name;
+    sf::Vector2f position;
+};
 
 static sf::VertexArray SelectTileBackground(sf::PrimitiveType::TriangleStrip, 4);
 bool EDITOR_SELECTTILE = false;
+sf::Clock EDITOR_SELECTILE_CLOCK;
 static sf::VertexArray SelectTileGrid(sf::PrimitiveType::TriangleStrip, 4);
 static float SelectTileGridAlpha = 0.0f;
 static bool SelectTileGridAlphaState = true;
@@ -25,6 +30,22 @@ static float SELECT_TILE_ALPHA_CHANGE = 7.0f;
 
 static float TilePosX, TilePosY;
 
+static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
+static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
+static std::vector<SelectTileData> TilePage = {
+    {"Tile_0", sf::Vector2f(0, 0)},
+    {"Tile_1", sf::Vector2f(32, 0)},
+    {"Tile_2", sf::Vector2f(64, 0)},
+    {"Tile_3", sf::Vector2f(0, 32)},
+    {"Tile_4", sf::Vector2f(32, 32)},
+    {"Tile_5", sf::Vector2f(64, 32)},
+    {"Tile_6", sf::Vector2f(96, 0)},
+    {"Tile_7", sf::Vector2f(128, 0)},
+    {"Tile_8", sf::Vector2f(160, 0)},
+    {"Tile_9", sf::Vector2f(128, 32)},
+    {"Tile_10", sf::Vector2f(160, 32)},
+};
+
 void SelectTileInit() {
     ImageManager::AddImage("SelectTileBackgroundImage", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
     ImageManager::AddTexture("SelectTileBackgroundImage", "EDITOR_SelectTileBackground");
@@ -41,12 +62,29 @@ void SelectTileInit() {
     SelectTileBackground[2].texCoords = sf::Vector2f(0.0f, 640.0f);
     SelectTileBackground[3].texCoords = sf::Vector2f(640.0f, 640.0f);
 
-    SelectTileGrid[0].texCoords = sf::Vector2f(0.0f, 0.0f);
-    SelectTileGrid[1].texCoords = sf::Vector2f(480.0f, 0.0f);
-    SelectTileGrid[2].texCoords = sf::Vector2f(0.0f, 352.0f);
-    SelectTileGrid[3].texCoords = sf::Vector2f(480.0f, 352.0f);
+    SelectTileGrid[0].texCoords = SelectTileRenderVA[0].texCoords = sf::Vector2f(0.0f, 0.0f);
+    SelectTileGrid[1].texCoords = SelectTileRenderVA[1].texCoords = sf::Vector2f(480.0f, 0.0f);
+    SelectTileGrid[2].texCoords = SelectTileRenderVA[2].texCoords = sf::Vector2f(0.0f, 352.0f);
+    SelectTileGrid[3].texCoords = SelectTileRenderVA[3].texCoords = sf::Vector2f(480.0f, 352.0f);
 
     SelectTileBox.setTexture(ImageManager::GetTexture("EDITOR_SelectTileBox"), true);
+}
+
+int CheckExistPos() {
+    for (int i = 0; i < TilePage.size(); ++i) {
+        if (TilePosX == TilePage[i].position.x && TilePosY == TilePage[i].position.y) return i;
+    }
+    return -1;
+}
+
+void SelectTileDisplayUpdate() {
+    SelectTileRender.clear(sf::Color::Transparent);
+    for (const auto &[name, position] : TilePage) {
+        sf::Sprite loop(ImageManager::GetTexture(name));
+        loop.setPosition(position);
+        SelectTileRender.draw(loop);
+    }
+    SelectTileRender.display();
 }
 
 void SelectTileAlphaUpdate(const float dt) {
@@ -63,10 +101,10 @@ void SelectTilePosUpdate() {
     SelectTileBackground[2].position = sf::Vector2f(EditorInterpolatedPos.x, EditorInterpolatedPos.y + 640.0f);
     SelectTileBackground[3].position = sf::Vector2f(EditorInterpolatedPos.x + 640.0f, EditorInterpolatedPos.y + 640.0f);
 
-    SelectTileGrid[0].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x, 96.0f + EditorInterpolatedPos.y);
-    SelectTileGrid[1].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x + SelectTileWidth, 96.0f + EditorInterpolatedPos.y);
-    SelectTileGrid[2].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x, 96.0f + EditorInterpolatedPos.y + SelectTileHeight);
-    SelectTileGrid[3].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x + SelectTileWidth, 96.0f + EditorInterpolatedPos.y + SelectTileHeight);
+    SelectTileGrid[0].position = SelectTileRenderVA[0].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x, 96.0f + EditorInterpolatedPos.y);
+    SelectTileGrid[1].position = SelectTileRenderVA[1].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x + SelectTileWidth, 96.0f + EditorInterpolatedPos.y);
+    SelectTileGrid[2].position = SelectTileRenderVA[2].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x, 96.0f + EditorInterpolatedPos.y + SelectTileHeight);
+    SelectTileGrid[3].position = SelectTileRenderVA[3].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x + SelectTileWidth, 96.0f + EditorInterpolatedPos.y + SelectTileHeight);
 
     if (!EDITOR_SELECTTILE) return;
 
@@ -86,6 +124,7 @@ void SelectTilePosUpdate() {
 void SelectTileDraw() {
     if (EDITOR_SELECTTILE) {
         window.draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
+        window.draw(SelectTileRenderVA, &SelectTileRender.getTexture());
         window.draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
         window.draw(SelectTileBox);
     }

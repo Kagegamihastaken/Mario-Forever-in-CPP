@@ -32,4 +32,5 @@ void SoundInit() {
 	SoundAdd("EDITOR_DELETE", "data/sounds/Editor/EDITOR_delete.wav");
 	SoundAdd("EDITOR_SWITCH", "data/sounds/Editor/EDITOR_switch.wav");
 	SoundAdd("EDITOR_MENU", "data/sounds/Editor/EDITOR_menu.wav");
+	SoundAdd("EDITOR_CLOSE", "data/sounds/Editor/EDITOR_close.wav");
 }
