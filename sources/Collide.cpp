@@ -27,9 +27,30 @@ bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::
 	return static_cast<bool>(getGlobalHitbox(hitbox, sprite).findIntersection(other));
 }
 
-// Mario && GoombaAI only
+std::pair<bool, bool> isAccurateCollideSideu(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
+	bool isCollideLeftBool = false, isCollideRightBool = false;
+	sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
+	//temporary
+	hitbox_intersect.size.y -= 6.0f;
+	for (int i = first; i <= last; ++i) {
+		if (f_abs(OL[i].second.y - CollideObj.GetPosition().y) > distance) continue;
+		sf::FloatRect hitbox_loop = getGlobalHitbox(OL[i].first, OL[i].second, {0,0});
+		// Check if collide
+		if (isCollide(hitbox_intersect, hitbox_loop)) {
+			if (hitbox_intersect.position.x >= hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x + hitbox_intersect.size.x >= hitbox_loop.position.x + 16.0f) isCollideLeftBool = true;
+			if (hitbox_intersect.position.x + hitbox_intersect.size.x < hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x < hitbox_loop.position.x + 16.0f) isCollideRightBool = true;
+
+			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
+				CurrPosXCollide = hitbox_loop.position.x;
+				CurrPosYCollide = hitbox_loop.position.y;
+				NoAdd = true;
+			}
+			break;
+		}
+	}
+	return { isCollideLeftBool, isCollideRightBool };
+}
 std::pair<bool, bool> isAccurateCollideSidet(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
-	if (NoAdd) return { false, false };
 	bool isCollideLeftBool = false, isCollideRightBool = false;
 	const sf::FloatRect hitbox_intersect_left = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	const sf::FloatRect hitbox_intersect_right = getGlobalHitbox(CollideObj.GetRightHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
@@ -39,21 +60,25 @@ std::pair<bool, bool> isAccurateCollideSidet(const MFCPP::CollisionObject& Colli
 		// Check if collide
 		if (isCollide(hitbox_intersect_left, hitbox_loop)) {
 			isCollideLeftBool = true;
-			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
-				CurrPosXCollide = hitbox_loop.position.x;
-				CurrPosYCollide = hitbox_loop.position.y;
-				NoAdd = true;
-			}
-			break;
+			//if (!NoAdd) {
+				if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
+					CurrPosXCollide = hitbox_loop.position.x;
+					CurrPosYCollide = hitbox_loop.position.y;
+					NoAdd = true;
+				}
+			//}
+			//break;
 		}
 		if (isCollide(hitbox_intersect_right, hitbox_loop)) {
 			isCollideRightBool = true;
-			if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
-				CurrPosXCollide = hitbox_loop.position.x;
-				CurrPosYCollide = hitbox_loop.position.y;
-				NoAdd = true;
-			}
-			break;
+			//if (!NoAdd) {
+				if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
+					CurrPosXCollide = hitbox_loop.position.x;
+					CurrPosYCollide = hitbox_loop.position.y;
+					NoAdd = true;
+				}
+			//}
+			//break;
 		}
 	}
 	return { isCollideLeftBool, isCollideRightBool };

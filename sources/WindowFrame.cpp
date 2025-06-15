@@ -41,6 +41,7 @@ sf::Texture CoinHUDTexture;
 sf::Sprite MarioHUD(tempTex);
 
 SingleAnimationObject CoinHUDAnim;
+float f_mod(const float a, const float b) { return static_cast<float>(static_cast<int>(a) % static_cast<int>(b));}
 float f_min(const float a, const float b) { return a < b ? a : b; }
 float f_max(const float a, const float b) { return a > b ? a : b; }
 float f_abs(const float a) { return a < 0 ? -a : a; }
@@ -128,13 +129,13 @@ namespace Window {
 }
 void windowInit() {
 	//window.setMinimumSize(std::optional<sf::Vector2u>({static_cast<unsigned>(Width), static_cast<unsigned>(Height)}));
-	for (std::size_t i = 0; i < Resolutions.size(); ++i)
-	{
-		sf::VideoMode mode = Resolutions[i];
-		std::cout << "Mode #" << i << ": "
-				  << mode.size.x << "x" << mode.size.y << " - "
-				  << mode.bitsPerPixel << " bpp" << std::endl;
-	}
+	//for (std::size_t i = 0; i < Resolutions.size(); ++i)
+	//{
+	//	sf::VideoMode mode = Resolutions[i];
+	//	std::cout << "Mode #" << i << ": "
+	//			  << mode.size.x << "x" << mode.size.y << " - "
+	//			  << mode.bitsPerPixel << " bpp" << std::endl;
+	//}
 	// Create Window
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);

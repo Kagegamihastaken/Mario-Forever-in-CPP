@@ -24,6 +24,7 @@
 #include "Text/Text.hpp"
 #include "Core/Scene.hpp"
 #include "Editor/Editor.hpp"
+#include "Editor/SelectTile.hpp"
 
 #include "Core/Game.hpp"
 
@@ -52,6 +53,7 @@ void GameObjectInit() {
     ViewInit();
 
     EditorInit();
+    SelectTileInit();
 }
 void GameTextInit() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
@@ -144,7 +146,6 @@ void GameObjectDeltaMovement(const float dt) {
         MarioVertXUpdate();
         MarioPosYUpdate(dt);
         MarioVertYUpdate();
-
         GoombaAIVertXUpdate(dt);
         GoombaAIVertYUpdate(dt);
         GoombaAIEffectVertYUpdate(dt);
@@ -163,12 +164,13 @@ void GameObjectDeltaMovement(const float dt) {
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         EditorScreenMove(dt);
         TilePosUpdate(dt);
+        SelectTileAlphaUpdate(dt);
     }
 }
 void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
     Window::WindowEventUpdate(event);
     if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
-        SwitchTile(event);
+        EditorEvent(event);
     }
     else if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
@@ -225,6 +227,7 @@ void GameObjectMiscUpdate() {
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         BgGradientPosUpdate();
         SelectedTilePosUpdate();
+        SelectTilePosUpdate();
     }
 }
 void GameObjectEditorUpdate() {
@@ -244,9 +247,9 @@ void GameObjectDraw() {
         SpikeUpdate();
         SlopeUpdate();
         CoinUpdate();
+        CoinEffectUpdate();
         BrickDraw();
         LuckyBlockDraw();
-        CoinEffectUpdate();
         ScoreEffectUpdate();
         BrickParticleUpdate();
         GoombaAIEffectUpdate();
@@ -256,6 +259,7 @@ void GameObjectDraw() {
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         DrawTile();
+        SelectTileDraw();
     }
     UpdateText();
 }

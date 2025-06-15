@@ -1,122 +1,119 @@
-#include <SFML/Graphics.hpp>
 #include "Text/Font.hpp"
 #include "Text/Text.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
-#include "Core/Loading/Loading.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/ImageManager.hpp"
+#include "Class/TextClass.hpp"
 
 #include <vector>
 #include <iostream>
 #include <string>
 
-std::vector<Text*> TextList;
-std::vector<TextMarginID> TextMarginList;
+MFCPP::TextList MFText;
 
 void loadFontRes() {
-	SetFontSize(645, 32, 15, 16);
+	MFText.SetFontSize(645, 32, 15, 16);
 	ImageManager::AddImage("FontImage", "data/resources/Font.png");
 	for (const auto &i : FontString) {
-		ImageManager::AddTexture("FontImage", sf::IntRect({ GetFontTexture(i).x, GetFontTexture(i).y }, { 15, 16 }), "Font_" + std::to_string(i));
+		ImageManager::AddTexture("FontImage", sf::IntRect(MFText.GetFontTexture(i), { 15, 16 }), "Font_" + std::to_string(i));
 	}
 	//FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 }
 void AddText(const std::string &id, const std::string &text, const TextMarginID margin, const float x, float y) {
 	//search for duplicates ID
 	bool isDuplicate = false;
-	for (const auto& i : TextList) {
-		if (i->id == id) {
+	for (const auto& i : MFText.List) {
+		if (i.getID() == id) {
 			isDuplicate = true;
 		}
 	}
 	if (!isDuplicate) {
 		// If not, proceed as usual
-
-		// LEAKED
-		const auto Init = new Text();
-		Init->x = x;
-		Init->y = y;
-		Init->id = id;
-		Init->textContent = text;
+		MFText.List.emplace_back();
+		MFText.List.back().setPosition(sf::Vector2f(x, y));
+		MFText.List.back().setID(id);
+		MFText.List.back().setText(text);
+		MFText.List.back().setMargin(margin);
 		int Counter = 0;
 		for (const auto& i : text) {
-			Init->text.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
-			Init->text[Counter].setPosition({ x + FontSizeX * Counter + Counter, y });
+			MFText.List.back().m_SpriteText.emplace_back(ImageManager::GetTexture("Font_" + std::to_string(i)));
+			//TextList.back().m_SpriteText.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
+			MFText.List.back().m_SpriteText[Counter].setPosition({ x + MFText.GetFontSize().x * Counter + Counter, y });
 			++Counter;
 		}
-		TextList.push_back(Init);
-		TextMarginList.push_back(margin);
 	}
 	else std::cout << "Cannot add text ID " << id << " (Duplicated ID)" << "\n";
 }
 void EditText(const std::string &NewText, const std::string &id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
-	for (const auto& i : TextList) {
-		if (i->id == id) {
+	for (const auto& i : MFText.List) {
+		if (i.getID() == id) {
 			isFounded = true;
 			break;
 		}
 		++IndexCounter;
 	}
 	if (isFounded) {
-		std::vector<sf::Sprite> Init;
-		int Counter = 0;
-		for (const auto& i : NewText) {
-			Init.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
-			Init[Counter].setPosition({ TextList[IndexCounter]->x + FontSizeX * Counter, TextList[IndexCounter]->y });
-			++Counter;
+		if (MFText.List[IndexCounter].getText() != NewText) {
+			MFText.List[IndexCounter].m_SpriteText.clear();
+			MFText.List[IndexCounter].setText(NewText);
+			//std::vector<sf::Sprite> Init;
+			int Counter = 0;
+			for (const auto& i : NewText) {
+				MFText.List[IndexCounter].m_SpriteText.emplace_back(ImageManager::GetTexture("Font_" + std::to_string(i)));
+				MFText.List[IndexCounter].m_SpriteText[Counter].setPosition({ MFText.List[IndexCounter].getPosition().x + MFText.GetFontSize().x * Counter, MFText.List[IndexCounter].getPosition().y });
+				++Counter;
+			}
+			//TextList[IndexCounter].text = Init;
 		}
-		TextList[IndexCounter]->text = Init;
-		TextList[IndexCounter]->textContent = NewText;
 	}
 	else std::cout << "Cannot edit text ID " << id << " (Not existed ID)" << "\n";
 }
-inline void EditPosition(const float NewX, const float NewY, const std::string &id) {
+void EditPosition(const float NewX, const float NewY, const std::string &id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
-	for (const auto& i : TextList) {
-		if (i->id == id) {
+	for (const auto& i : MFText.List) {
+		if (i.getID() == id) {
 			isFounded = true;
 			break;
 		}
 		++IndexCounter;
 	}
 	if (isFounded) {
-		TextList[IndexCounter]->x = NewX;
-		TextList[IndexCounter]->y = NewY;
+		MFText.List[IndexCounter].setPosition(sf::Vector2f(NewX, NewY));
 	}
 	else std::cout << "Cannot edit position ID " << id << " (Not existed ID)" << "\n";
 }
-inline void UpdatePositionCharacter() {
-	for (int i = 0; i < TextList.size(); ++i) {
-		const int iTextSize = static_cast<int>(TextList[i]->text.size());
+void UpdatePositionCharacter() {
+	for (int i = 0; i < MFText.List.size(); ++i) {
+		const int iTextSize = static_cast<int>(MFText.List[i].m_SpriteText.size());
 		for (int j = 0; j < iTextSize; ++j) {
-			if (TextMarginList[i] == LEFT_MARGIN) TextList[i]->text[j].setPosition({ TextList[i]->x + j + FontSizeX * j + view.getCenter().x - (Width / 2.0f), TextList[i]->y + view.getCenter().y - (Height / 2.0f) });
-			else if (TextMarginList[i] == RIGHT_MARGIN) TextList[i]->text[j].setPosition({ TextList[i]->x + view.getCenter().x - (Width / 2.0f) - (TextList[i]->text.size() - 1 - j) * FontSizeX - (iTextSize - 1 - j), TextList[i]->y + view.getCenter().y - (Height / 2.0f) });
+			if (MFText.List[i].getMargin() == LEFT_MARGIN) MFText.List[i].m_SpriteText[j].setPosition({ MFText.List[i].getPosition().x + static_cast<float>(j) + MFText.GetFontSize().x * j + view.getCenter().x - (Width / 2.0f), MFText.List[i].getPosition().y + view.getCenter().y - (Height / 2.0f) });
+			else if (MFText.List[i].getMargin() == RIGHT_MARGIN) MFText.List[i].m_SpriteText[j].setPosition({ MFText.List[i].getPosition().x + view.getCenter().x - (Width / 2.0f) - (MFText.List[i].m_SpriteText.size() - 1 - j) * MFText.GetFontSize().x - (iTextSize - 1 - j), MFText.List[i].getPosition().y + view.getCenter().y - (Height / 2.0f) });
 		}
 	}
 }
-inline void UpdateText() {
-	for (const auto& i : TextList) {
-		for (const auto& j : i->text) {
+void UpdateText() {
+	for (const auto& i : MFText.List) {
+		for (const auto& j : i.m_SpriteText) {
 			window.draw(j);
 		}
 	}
 }
-inline int getSizeText(const std::string &id) {
+int getSizeText(const std::string &id) {
 	bool isFounded = false;
 	int IndexCounter = 0;
-	for (const auto& i : TextList) {
-		if (i->id == id) {
+	for (const auto& i : MFText.List) {
+		if (i.getID() == id) {
 			isFounded = true;
 			break;
 		}
 		++IndexCounter;
 	}
 	if (isFounded) {
-		return static_cast<int>(TextList[IndexCounter]->textContent.size());
+		return static_cast<int>(MFText.List[IndexCounter].getText().size());
 	}
 	else {
 		std::cout << "Cannot get text ID " << id << " (Not existed ID)" << "\n";

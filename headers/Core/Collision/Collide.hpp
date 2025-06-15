@@ -14,6 +14,7 @@ extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vect
 extern bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::FloatRect& other);
 extern bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other);
 
+extern std::pair<bool, bool> isAccurateCollideSideu(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance);
 extern std::pair<bool, bool> isAccurateCollideSidet(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance);
 extern std::vector<sf::Vector2f> isAccurateCollideMaint(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const int& first, const int& last, const float& distance);
 extern bool isAccurateCollideBott(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, int first, int last, float distance);
