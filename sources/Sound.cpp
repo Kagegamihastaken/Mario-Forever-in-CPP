@@ -33,4 +33,5 @@ void SoundInit() {
 	SoundAdd("EDITOR_SWITCH", "data/sounds/Editor/EDITOR_switch.wav");
 	SoundAdd("EDITOR_MENU", "data/sounds/Editor/EDITOR_menu.wav");
 	SoundAdd("EDITOR_CLOSE", "data/sounds/Editor/EDITOR_close.wav");
+	SoundAdd("EDITOR_TAB_SELECT", "data/sounds/Editor/EDITOR_tab_select.wav");
 }

@@ -1,6 +1,9 @@
 #ifndef EDITOR_HPP
 #define EDITOR_HPP
 
+#include <optional>
+#include "SFML/Window/Event.hpp"
+
 extern sf::Vector2f EditorPos;
 extern sf::Vector2f EditorInterpolatedPos;
 

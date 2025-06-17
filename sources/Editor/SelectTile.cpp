@@ -2,12 +2,11 @@
 #include "Core/ImageManager.hpp"
 #include "Editor/Editor.hpp"
 #include "Core/WindowFrame.hpp"
+#include "Editor/SelectTile.hpp"
 
 #include <iostream>
-struct SelectTileData {
-    std::string name;
-    sf::Vector2f position;
-};
+
+#include "Editor/TabButton.hpp"
 
 static sf::VertexArray SelectTileBackground(sf::PrimitiveType::TriangleStrip, 4);
 bool EDITOR_SELECTTILE = false;
@@ -32,19 +31,34 @@ static float TilePosX, TilePosY;
 
 static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
 static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
-static std::vector<SelectTileData> TilePage = {
-    {"Tile_0", sf::Vector2f(0, 0)},
-    {"Tile_1", sf::Vector2f(32, 0)},
-    {"Tile_2", sf::Vector2f(64, 0)},
-    {"Tile_3", sf::Vector2f(0, 32)},
-    {"Tile_4", sf::Vector2f(32, 32)},
-    {"Tile_5", sf::Vector2f(64, 32)},
-    {"Tile_6", sf::Vector2f(96, 0)},
-    {"Tile_7", sf::Vector2f(128, 0)},
-    {"Tile_8", sf::Vector2f(160, 0)},
-    {"Tile_9", sf::Vector2f(128, 32)},
-    {"Tile_10", sf::Vector2f(160, 32)},
-};
+std::array<std::vector<SelectTileData>, 2> TilePage = {{
+    { // PAGE 1
+        {"Tile_0", sf::Vector2f(0, 0)},
+        {"Tile_1", sf::Vector2f(32, 0)},
+        {"Tile_2", sf::Vector2f(64, 0)},
+        {"Tile_3", sf::Vector2f(0, 32)},
+        {"Tile_4", sf::Vector2f(32, 32)},
+        {"Tile_5", sf::Vector2f(64, 32)},
+        {"Tile_6", sf::Vector2f(96, 0)},
+        {"Tile_7", sf::Vector2f(128, 0)},
+        {"Tile_8", sf::Vector2f(160, 0)},
+        {"Tile_9", sf::Vector2f(128, 32)},
+        {"Tile_10", sf::Vector2f(160, 32)}
+    },
+    { // PAGE 2
+            {"Coin_1", sf::Vector2f(0, 0)},
+            {"NormalLuckyBlock_1", sf::Vector2f(32, 0)},
+            {"EDITOR_MushroomLuckyblock", sf::Vector2f(64, 0)},
+            {"NormalBrick", sf::Vector2f(96, 0)},
+        }
+}};
+std::array<MFCPP::TabButton, 2> TabList{};
+
+int CurrSelectTile = 0;
+int PrevSelectTile = -1;
+int CurrPage = 0;
+int PrevPage = -1;
+int PreviewPage = CurrPage;
 
 void SelectTileInit() {
     ImageManager::AddImage("SelectTileBackgroundImage", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
@@ -53,6 +67,14 @@ void SelectTileInit() {
     ImageManager::AddTexture("SelectTileGridImage", "EDITOR_SelectTileGrid");
     ImageManager::AddImage("SelectTileBoxImage", "data/resources/Editor/EDITOR_SelectTileBox.png");
     ImageManager::AddTexture("SelectTileBoxImage", "EDITOR_SelectTileBox");
+    //TAB
+    ImageManager::AddImage("TileTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_TileTab.png");
+    ImageManager::AddTexture("TileTabImage", "EDITOR_TileTab");
+    ImageManager::AddImage("BonusTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
+    ImageManager::AddTexture("BonusTabImage", "EDITOR_BonusTab");
+
+    TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
+    TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
 
     SelectTileWidth = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
     SelectTileHeight = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
@@ -71,15 +93,15 @@ void SelectTileInit() {
 }
 
 int CheckExistPos() {
-    for (int i = 0; i < TilePage.size(); ++i) {
-        if (TilePosX == TilePage[i].position.x && TilePosY == TilePage[i].position.y) return i;
+    for (int i = 0; i < TilePage[PreviewPage].size(); ++i) {
+        if (TilePosX == TilePage[PreviewPage][i].position.x && TilePosY == TilePage[PreviewPage][i].position.y) return i;
     }
     return -1;
 }
 
 void SelectTileDisplayUpdate() {
     SelectTileRender.clear(sf::Color::Transparent);
-    for (const auto &[name, position] : TilePage) {
+    for (const auto &[name, position] : TilePage[PreviewPage]) {
         sf::Sprite loop(ImageManager::GetTexture(name));
         loop.setPosition(position);
         SelectTileRender.draw(loop);
@@ -106,14 +128,17 @@ void SelectTilePosUpdate() {
     SelectTileGrid[2].position = SelectTileRenderVA[2].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x, 96.0f + EditorInterpolatedPos.y + SelectTileHeight);
     SelectTileGrid[3].position = SelectTileRenderVA[3].position = sf::Vector2f(128.0f + EditorInterpolatedPos.x + SelectTileWidth, 96.0f + EditorInterpolatedPos.y + SelectTileHeight);
 
+    TabList[0].setPosition(sf::Vector2f(128.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
+    TabList[1].setPosition(sf::Vector2f(170.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
+
     if (!EDITOR_SELECTTILE) return;
 
     const float ModX = f_mod(SelectTileBackground[0].position.x, 32.0f);
     const float ModY = f_mod(SelectTileBackground[0].position.y, 32.0f);
     const float BoxTileX = SelectTileBackground[0].position.x - ModX;
     const float BoxTileY = SelectTileBackground[0].position.y - ModY;
-    SelectTileX = std::floor((std::max(std::min(MouseX, 120.0f + SelectTileWidth), 128.0f) + BoxTileX < 0 ? 0 : std::max(std::min(MouseX, 120.0f + SelectTileWidth), 128.0f) + BoxTileX) / 32.0f) * 32.0f + ModX;
-    SelectTileY = std::floor((std::max(std::min(MouseY, 96.0f + SelectTileHeight - 32.0f), 96.0f) + BoxTileY < 0 ? 0 : std::max(std::min(MouseY, 96.0f + SelectTileHeight - 32.0f), 96.0f) + BoxTileY) / 32.0f) * 32.0f + ModY;
+    SelectTileX = std::floor((MouseX + BoxTileX < 0 ? 0 : MouseX + BoxTileX) / 32.0f) * 32.0f + ModX;
+    SelectTileY = std::floor((MouseY + BoxTileY < 0 ? 0 : MouseY + BoxTileY) / 32.0f) * 32.0f + ModY;
     //Update Tile Select Position
     TilePosX = SelectTileX - BoxTileX - ModX - 128.0f;
     TilePosY = SelectTileY - BoxTileY - ModY - 96.0f;
@@ -122,10 +147,13 @@ void SelectTilePosUpdate() {
 }
 
 void SelectTileDraw() {
-    if (EDITOR_SELECTTILE) {
-        window.draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
-        window.draw(SelectTileRenderVA, &SelectTileRender.getTexture());
-        window.draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
-        window.draw(SelectTileBox);
-    }
+    if (!EDITOR_SELECTTILE) return;
+
+    window.draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
+    window.draw(SelectTileRenderVA, &SelectTileRender.getTexture());
+    window.draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
+
+    for (const auto &i : TabList)
+        window.draw(i);
+    if (TilePosX >= 0 && TilePosY >= 0) window.draw(SelectTileBox);
 }

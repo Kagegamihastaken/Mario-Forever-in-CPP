@@ -1,8 +1,5 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include <utility>
 #include <array>
-#include <iostream>
 
 #include "Object/Mario.hpp"
 #include "Block/Obstacles.hpp"
@@ -511,7 +508,7 @@ void CheckForDeath() {
 }
 void MarioDraw() {
 	// check power state here
-	if (AppearingTimer.getElapsedTime().asMilliseconds() > (3000.0f / 91.0f) * 15.0f) MarioAppearing = false;
+	if (static_cast<float>(AppearingTimer.getElapsedTime().asMilliseconds()) > (3000.0f / 91.0f) * 15.0f) MarioAppearing = false;
 	if (PowerState != lastPowerState) {
 		MarioAppearing = true;
 		AppearingTimer.restart();

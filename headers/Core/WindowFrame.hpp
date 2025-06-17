@@ -4,6 +4,9 @@
 #define WINDOWFRAME_HPP
 
 #include <SFML/Audio.hpp>
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
 #include "ExternalHeaders/Kairos.hpp"
 namespace Window {
     extern int WindowGetScale();

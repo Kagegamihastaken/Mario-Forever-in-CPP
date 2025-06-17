@@ -1,7 +1,8 @@
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <unordered_set>
 #include "Editor/Editor.hpp"
 #include "Editor/SelectTile.hpp"
+#include "Editor/TabButton.hpp"
 
 #include <iostream>
 
@@ -39,23 +40,8 @@ static float TEST_LevelWidth = 10016.0f;
 static float TEST_LevelHeight = 480.0f;
 
 static sf::Sprite SelectedBlock(tempTex);
-static int CurrTileName = 0;
-static int PrevTileName = -1;
 
 std::unordered_set<RenderTile, RenderTileHash, RenderTileEqual> Tile;
-static constexpr std::array<std::string, 11> TileName{
-    "Tile_0",
-    "Tile_1",
-    "Tile_2",
-    "Tile_3",
-    "Tile_4",
-    "Tile_5",
-    "Tile_6",
-    "Tile_7",
-    "Tile_8",
-    "Tile_9",
-    "Tile_10"
-};
 static float TileX;
 static float TileY;
 
@@ -89,7 +75,16 @@ void EditorInit() {
     ImageManager::AddImage("GridImage", "data/resources/Editor/EDITOR_Grid.png");
     ImageManager::AddTexture("GridImage", "EDITOR_Grid", true);
 
+    ImageManager::AddImage("MushroomLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
+    ImageManager::AddTexture("MushroomLuckyblockImage", "EDITOR_MushroomLuckyblock");
+
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
+}
+void IncreaseTile() {
+    CurrSelectTile = (CurrSelectTile + 1) % static_cast<int>(TilePage[CurrPage].size());
+}
+void DecreaseTile() {
+    CurrSelectTile = CurrSelectTile - 1 < 0 ? static_cast<int>(TilePage[CurrPage].size()) - 1 : CurrSelectTile - 1;
 }
 void SelectedTilePosUpdate() {
     SelectedBlock.setPosition(sf::Vector2f(EditorInterpolatedPos.x + 16, EditorInterpolatedPos.y + 16));
@@ -111,9 +106,10 @@ void TilePosUpdate(const float dt) {
     AlphaUpdate(SelectBoxAlpha, SelectBoxAlphaState, SELECTBOXALPHA_MIN, SELECTBOXALPHA_MAX, SELECTBOXALPHA_CHANGE, dt);
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
 
-    if (PrevTileName != CurrTileName) {
-        SelectedBlock.setTexture(ImageManager::GetTexture(TileName[CurrTileName]), true);
-        PrevTileName = CurrTileName;
+    if (PrevSelectTile != CurrSelectTile || PrevPage != CurrPage) {
+        SelectedBlock.setTexture(ImageManager::GetTexture(TilePage[CurrPage][CurrSelectTile].name), true);
+        PrevSelectTile = CurrSelectTile;
+        PrevPage = CurrPage;
     }
     SelectBox.setColor(sf::Color(255, 255, 255, static_cast<int>(SelectBoxAlpha)));
     Grid[0].color = sf::Color(255, 255, 255, static_cast<int>(GridAlpha));
@@ -127,30 +123,45 @@ void EditorEvent(const std::optional<sf::Event>& event) {
         switch (keyPressed->code) {
             case sf::Keyboard::Key::Num2:
                 if (!EDITOR_SELECTTILE) {
-                    CurrTileName = (CurrTileName + 1) % static_cast<int>(TileName.size());
+                    IncreaseTile();
                     SoundManager::PlaySound("EDITOR_SWITCH");
                 }
                 break;
             case sf::Keyboard::Key::Num1:
                 if (!EDITOR_SELECTTILE) {
-                    CurrTileName = CurrTileName - 1 < 0 ? static_cast<int>(TileName.size()) - 1 : CurrTileName - 1;
+                    DecreaseTile();
                     SoundManager::PlaySound("EDITOR_SWITCH");
                 }
                 break;
             case sf::Keyboard::Key::Space:
                 SoundManager::PlaySound("EDITOR_MENU");
                 EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
+                if (EDITOR_SELECTTILE) PreviewPage = CurrPage;
                 SelectTileDisplayUpdate();
                 break;
             default: ;
         }
     }
     else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+        bool isClickedTab = false;
         switch (mousePressed->button) {
             case sf::Mouse::Button::Left:
+                for (int i = 0; i < TabList.size(); ++i) {
+                    if (TabList[i].isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY))) {
+                        PreviewPage = i;
+                        isClickedTab = true;
+                        break;
+                    }
+                }
+                if (isClickedTab) {
+                    SelectTileDisplayUpdate();
+                    SoundManager::PlaySound("EDITOR_TAB_SELECT");
+                }
                 if (const int exist = CheckExistPos(); EDITOR_SELECTTILE && exist != -1) {
                     SoundManager::PlaySound("EDITOR_CLOSE");
-                    CurrTileName = exist;
+                    CurrSelectTile = exist;
+
+                    CurrPage = PreviewPage;
                     EDITOR_SELECTILE_CLOCK.restart();
                     EDITOR_SELECTTILE = false;
                 }
@@ -160,11 +171,11 @@ void EditorEvent(const std::optional<sf::Event>& event) {
     }
     else if (const auto* mouse = event->getIf<sf::Event::MouseWheelScrolled>()) {
         if (mouse->delta < 0) {
-            CurrTileName = (CurrTileName + 1) % static_cast<int>(TileName.size());
+            IncreaseTile();
             SoundManager::PlaySound("EDITOR_SWITCH");
         }
         else if (mouse->delta > 0) {
-            CurrTileName = CurrTileName - 1 < 0 ? static_cast<int>(TileName.size()) - 1 : CurrTileName - 1;
+            DecreaseTile();
             SoundManager::PlaySound("EDITOR_SWITCH");
         }
     }
@@ -192,7 +203,7 @@ void PlaceTile() {
             if (!Tile.contains(sf::Vector2f(TileX, TileY))) {
                 //std::cout << "Placed\n";
                 SoundManager::PlaySound("EDITOR_PLACE");
-                Tile.insert(RenderTile(ImageManager::GetTexture(TileName[CurrTileName]), sf::Vector2f(TileX, TileY)));
+                Tile.insert(RenderTile(ImageManager::GetTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY)));
             }
             //else std::cout << "Already Placed\n";
             lastPlaceX = TileX;
@@ -216,6 +227,7 @@ void EditorScreenMove(const float dt) {
 }
 
 void DrawTile() {
+    if (EDITOR_SELECTTILE) return;
     for (const auto &i : Tile) {
         if (!isOutScreen(i.getPosition().x, i.getPosition().y, 32, 32)) {
             window.draw(i);

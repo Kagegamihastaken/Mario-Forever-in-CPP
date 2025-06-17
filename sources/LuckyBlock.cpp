@@ -1,8 +1,5 @@
-#include <SFML/Graphics.hpp>
 #include "Block/LuckyBlock.hpp"
-
 #include <iostream>
-
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Coin.hpp"
@@ -10,9 +7,7 @@
 #include "Effect/CoinEffect.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Object/GoombaAI.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Core/Sound.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
