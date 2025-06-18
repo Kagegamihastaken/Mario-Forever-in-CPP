@@ -31,7 +31,7 @@ static float TilePosX, TilePosY;
 
 static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
 static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
-std::array<std::vector<SelectTileData>, 2> TilePage = {{
+std::array<std::vector<SelectTileData>, 4> TilePage = {{
     { // PAGE 1
         {"Tile_0", sf::Vector2f(0, 0)},
         {"Tile_1", sf::Vector2f(32, 0)},
@@ -46,19 +46,36 @@ std::array<std::vector<SelectTileData>, 2> TilePage = {{
         {"Tile_10", sf::Vector2f(160, 32)}
     },
     { // PAGE 2
-            {"Coin_1", sf::Vector2f(0, 0)},
-            {"NormalLuckyBlock_1", sf::Vector2f(32, 0)},
+            {"Coin_0", sf::Vector2f(0, 0)},
+            {"EDITOR_CoinLuckyblock", sf::Vector2f(32, 0)},
             {"EDITOR_MushroomLuckyblock", sf::Vector2f(64, 0)},
             {"NormalBrick", sf::Vector2f(96, 0)},
-        }
+            {"EDITOR_CoinBrick", sf::Vector2f(128, 0)},
+        },
+    { // PAGE 3
+        {"Goomba_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f)},
+        {"GreenKoopaLeft_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f)},
+        {"RedSpinyLeft_0", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f)},
+        {"GreenKoopaShell_3", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f)},
+        {"PiranhaGreen_0", sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(16.0f, 27.0f)},
+        {"PiranhaGreenGround_0", sf::Vector2f(0, 32)},
+        {"NormalSpike", sf::Vector2f(32, 32)}
+    },
+    { // PAGE 4
+        {"SmallMarioRight_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
+        {"ExitGateIndicator_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
+        {"ExitGateBack", sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)}
+    }
 }};
-std::array<MFCPP::TabButton, 2> TabList{};
+std::array<MFCPP::TabButton, 4> TabList{};
 
 int CurrSelectTile = 0;
 int PrevSelectTile = -1;
 int CurrPage = 0;
 int PrevPage = -1;
 int PreviewPage = CurrPage;
+
+const int LevelTab = 3;
 
 void SelectTileInit() {
     ImageManager::AddImage("SelectTileBackgroundImage", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
@@ -72,9 +89,15 @@ void SelectTileInit() {
     ImageManager::AddTexture("TileTabImage", "EDITOR_TileTab");
     ImageManager::AddImage("BonusTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
     ImageManager::AddTexture("BonusTabImage", "EDITOR_BonusTab");
+    ImageManager::AddImage("EnemyTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
+    ImageManager::AddTexture("EnemyTabImage", "EDITOR_EnemyTab");
+    ImageManager::AddImage("LevelTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
+    ImageManager::AddTexture("LevelTabImage", "EDITOR_LevelTab");
 
     TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
     TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
+    TabList[2].setTexture(*ImageManager::GetReturnTexture("EDITOR_EnemyTab"));
+    TabList[3].setTexture(*ImageManager::GetReturnTexture("EDITOR_LevelTab"));
 
     SelectTileWidth = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
     SelectTileHeight = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
@@ -101,8 +124,9 @@ int CheckExistPos() {
 
 void SelectTileDisplayUpdate() {
     SelectTileRender.clear(sf::Color::Transparent);
-    for (const auto &[name, position] : TilePage[PreviewPage]) {
+    for (const auto & [name, position, texPos, origin] : TilePage[PreviewPage]) {
         sf::Sprite loop(ImageManager::GetTexture(name));
+        loop.setTextureRect(sf::IntRect(texPos, {std::min(static_cast<int>(loop.getGlobalBounds().size.x - texPos.x), 32), std::min(static_cast<int>(loop.getGlobalBounds().size.y - texPos.y), 32)}));
         loop.setPosition(position);
         SelectTileRender.draw(loop);
     }
@@ -130,6 +154,8 @@ void SelectTilePosUpdate() {
 
     TabList[0].setPosition(sf::Vector2f(128.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
     TabList[1].setPosition(sf::Vector2f(170.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
+    TabList[2].setPosition(sf::Vector2f(212.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
+    TabList[3].setPosition(sf::Vector2f(254.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
 
     if (!EDITOR_SELECTTILE) return;
 

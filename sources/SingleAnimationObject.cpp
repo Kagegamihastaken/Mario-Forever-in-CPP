@@ -18,8 +18,8 @@ void SingleAnimationObject::setAnimation(const int startingIndexAnimation, const
 	m_direction = AnimationDirection::ANIM_LEFT;
 }
 void SingleAnimationObject::AddAnimationSequence(const std::string& a_left, const std::string& a_right) {
-	m_LeftIndex.emplace_back(ImageManager::GetTexture(a_left));
-	m_RightIndex.emplace_back(ImageManager::GetTexture(a_right));
+	m_LeftIndex.emplace_back(*ImageManager::GetReturnTexture(a_left));
+	m_RightIndex.emplace_back(*ImageManager::GetReturnTexture(a_right));
 }
 void SingleAnimationObject::SetAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right) {
 	if (s_left.size() != s_right.size()) {

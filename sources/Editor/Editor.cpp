@@ -41,9 +41,16 @@ static float TEST_LevelHeight = 480.0f;
 
 static sf::Sprite SelectedBlock(tempTex);
 
+//Tile
 std::unordered_set<RenderTile, RenderTileHash, RenderTileEqual> Tile;
 static float TileX;
 static float TileY;
+// NOTE: Object below only have 1 at a time
+// Mario
+
+static sf::Sprite EDITOR_Mario(tempTex); // 128, 320
+static sf::Sprite EDITOR_ExitGateIndicator(tempTex); // 256, 320
+static sf::Sprite EDITOR_ExitGate(tempTex); // 384, 320
 
 void SetPrevEditor() {
     EditorPrevPos = EditorPos;
@@ -77,8 +84,24 @@ void EditorInit() {
 
     ImageManager::AddImage("MushroomLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
     ImageManager::AddTexture("MushroomLuckyblockImage", "EDITOR_MushroomLuckyblock");
+    ImageManager::AddImage("CoinLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Luckyblock.png");
+    ImageManager::AddTexture("CoinLuckyblockImage", "EDITOR_CoinLuckyblock");
+    ImageManager::AddImage("CoinBrickImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
+    ImageManager::AddTexture("CoinBrickImage", "EDITOR_CoinBrick");
 
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
+
+    EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
+    EDITOR_Mario.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][0].name), true);
+    EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][0].name)->getSize().y - 32.0f));
+
+    EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(256, 320));
+    EDITOR_ExitGateIndicator.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][1].name), true);
+    EDITOR_ExitGateIndicator.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][1].name)->getSize().y - 32.0f));
+
+    EDITOR_ExitGate.setPosition(sf::Vector2f(384, 320));
+    EDITOR_ExitGate.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][2].name), true);
+    EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][2].name)->getSize().y - 32.0f));
 }
 void IncreaseTile() {
     CurrSelectTile = (CurrSelectTile + 1) % static_cast<int>(TilePage[CurrPage].size());
@@ -108,6 +131,7 @@ void TilePosUpdate(const float dt) {
 
     if (PrevSelectTile != CurrSelectTile || PrevPage != CurrPage) {
         SelectedBlock.setTexture(ImageManager::GetTexture(TilePage[CurrPage][CurrSelectTile].name), true);
+        SelectedBlock.setTextureRect(sf::IntRect(TilePage[CurrPage][CurrSelectTile].texPos, {std::min(static_cast<int>(SelectedBlock.getGlobalBounds().size.x - TilePage[CurrPage][CurrSelectTile].texPos.x), 32), std::min(static_cast<int>(SelectedBlock.getGlobalBounds().size.y - TilePage[CurrPage][CurrSelectTile].texPos.y), 32)}));
         PrevSelectTile = CurrSelectTile;
         PrevPage = CurrPage;
     }
@@ -143,19 +167,21 @@ void EditorEvent(const std::optional<sf::Event>& event) {
         }
     }
     else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
-        bool isClickedTab = false;
         switch (mousePressed->button) {
             case sf::Mouse::Button::Left:
-                for (int i = 0; i < TabList.size(); ++i) {
-                    if (TabList[i].isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY))) {
-                        PreviewPage = i;
-                        isClickedTab = true;
-                        break;
+                if (EDITOR_SELECTTILE) {
+                    bool isClickedTab = false;
+                    for (int i = 0; i < TabList.size(); ++i) {
+                        if (TabList[i].isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY))) {
+                            PreviewPage = i;
+                            isClickedTab = true;
+                            break;
+                        }
                     }
-                }
-                if (isClickedTab) {
-                    SelectTileDisplayUpdate();
-                    SoundManager::PlaySound("EDITOR_TAB_SELECT");
+                    if (isClickedTab) {
+                        SelectTileDisplayUpdate();
+                        SoundManager::PlaySound("EDITOR_TAB_SELECT");
+                    }
                 }
                 if (const int exist = CheckExistPos(); EDITOR_SELECTTILE && exist != -1) {
                     SoundManager::PlaySound("EDITOR_CLOSE");
@@ -186,10 +212,12 @@ void PlaceTile() {
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && window.hasFocus()) {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
-            if (Tile.contains(sf::Vector2f(TileX, TileY))) {
-                //std::cout << "Found!\n";
-                SoundManager::PlaySound("EDITOR_DELETE");
-                Tile.erase(sf::Vector2f(TileX, TileY));
+            if (CurrPage != LevelTab) {
+                if (Tile.contains(sf::Vector2f(TileX, TileY))) {
+                    //std::cout << "Found!\n";
+                    SoundManager::PlaySound("EDITOR_DELETE");
+                    Tile.erase(sf::Vector2f(TileX, TileY));
+                }
             }
             //else std::cout << "Not Found!\n";
             lastDeleteX = TileX;
@@ -200,10 +228,29 @@ void PlaceTile() {
     }
     else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)&& window.hasFocus()) {
         if ((lastPlaceX != TileX || lastPlaceY != TileY) || (lastDeleteX == TileX && lastDeleteY == TileY)) {
-            if (!Tile.contains(sf::Vector2f(TileX, TileY))) {
-                //std::cout << "Placed\n";
-                SoundManager::PlaySound("EDITOR_PLACE");
-                Tile.insert(RenderTile(ImageManager::GetTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY)));
+            if (CurrPage != LevelTab) {
+                if (TileX == EDITOR_Mario.getPosition().x && TileY == EDITOR_Mario.getPosition().y) return;
+                else if (TileX == EDITOR_ExitGateIndicator.getPosition().x && TileY == EDITOR_ExitGateIndicator.getPosition().y) return;
+                if (!Tile.contains(sf::Vector2f(TileX, TileY))) {
+                    //std::cout << "Placed\n";
+                    SoundManager::PlaySound("EDITOR_PLACE");
+                    RenderTile tile(*ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage);
+                    tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
+                    Tile.insert(tile);
+                }
+            }
+            else {
+                switch (CurrSelectTile) {
+                    case 0:
+                        EDITOR_Mario.setPosition(sf::Vector2f(TileX, TileY));
+                        break;
+                    case 1:
+                        EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(TileX, TileY));
+                        break;
+                    case 2:
+                        EDITOR_ExitGate.setPosition(sf::Vector2f(TileX, TileY));
+                    default: ;
+                }
             }
             //else std::cout << "Already Placed\n";
             lastPlaceX = TileX;
@@ -228,11 +275,14 @@ void EditorScreenMove(const float dt) {
 
 void DrawTile() {
     if (EDITOR_SELECTTILE) return;
+    window.draw(EDITOR_ExitGate);
     for (const auto &i : Tile) {
         if (!isOutScreen(i.getPosition().x, i.getPosition().y, 32, 32)) {
             window.draw(i);
         }
     }
+    window.draw(EDITOR_Mario);
+    window.draw(EDITOR_ExitGateIndicator);
     window.draw(SelectBox);
     window.draw(Grid, ImageManager::GetReturnTexture("EDITOR_Grid"));
     window.draw(SelectedBlock);
