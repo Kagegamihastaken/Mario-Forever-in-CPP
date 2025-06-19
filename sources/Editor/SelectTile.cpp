@@ -31,35 +31,35 @@ static float TilePosX, TilePosY;
 
 static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
 static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
-std::array<std::vector<SelectTileData>, 4> TilePage = {{
+const std::array<std::vector<SelectTileData>, 4> TilePage = {{
     { // PAGE 1
-        {"Tile_0", sf::Vector2f(0, 0)},
-        {"Tile_1", sf::Vector2f(32, 0)},
-        {"Tile_2", sf::Vector2f(64, 0)},
-        {"Tile_3", sf::Vector2f(0, 32)},
-        {"Tile_4", sf::Vector2f(32, 32)},
-        {"Tile_5", sf::Vector2f(64, 32)},
-        {"Tile_6", sf::Vector2f(96, 0)},
-        {"Tile_7", sf::Vector2f(128, 0)},
-        {"Tile_8", sf::Vector2f(160, 0)},
-        {"Tile_9", sf::Vector2f(128, 32)},
-        {"Tile_10", sf::Vector2f(160, 32)}
+        {"Tile_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 0},
+        {"Tile_1", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 1},
+        {"Tile_2", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 2},
+        {"Tile_3", sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 3},
+        {"Tile_4", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 4},
+        {"Tile_5", sf::Vector2f(64, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 5},
+        {"Tile_6", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 6},
+        {"Tile_7", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 7},
+        {"Tile_8", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 8},
+        {"Tile_9", sf::Vector2f(128, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 9},
+        {"Tile_10", sf::Vector2f(160, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 10}
     },
     { // PAGE 2
-            {"Coin_0", sf::Vector2f(0, 0)},
-            {"EDITOR_CoinLuckyblock", sf::Vector2f(32, 0)},
-            {"EDITOR_MushroomLuckyblock", sf::Vector2f(64, 0)},
-            {"NormalBrick", sf::Vector2f(96, 0)},
-            {"EDITOR_CoinBrick", sf::Vector2f(128, 0)},
+            {"Coin_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
+            {"EDITOR_CoinLuckyblock", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
+            {"EDITOR_MushroomLuckyblock", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
+            {"NormalBrick", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
+            {"EDITOR_CoinBrick", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
         },
     { // PAGE 3
-        {"Goomba_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f)},
-        {"GreenKoopaLeft_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f)},
-        {"RedSpinyLeft_0", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f)},
-        {"GreenKoopaShell_3", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f)},
-        {"PiranhaGreen_0", sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(16.0f, 27.0f)},
-        {"PiranhaGreenGround_0", sf::Vector2f(0, 32)},
-        {"NormalSpike", sf::Vector2f(32, 32)}
+        {"Goomba_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
+        {"GreenKoopaLeft_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 0},
+        {"RedSpinyLeft_0", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
+        {"GreenKoopaShell_3", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
+        {"PiranhaGreen_0", sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
+        {"PiranhaGreenGround_0", sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
+        {"NormalSpike", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 1, 0}
     },
     { // PAGE 4
         {"SmallMarioRight_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
@@ -124,10 +124,10 @@ int CheckExistPos() {
 
 void SelectTileDisplayUpdate() {
     SelectTileRender.clear(sf::Color::Transparent);
-    for (const auto & [name, position, texPos, origin] : TilePage[PreviewPage]) {
-        sf::Sprite loop(ImageManager::GetTexture(name));
-        loop.setTextureRect(sf::IntRect(texPos, {std::min(static_cast<int>(loop.getGlobalBounds().size.x - texPos.x), 32), std::min(static_cast<int>(loop.getGlobalBounds().size.y - texPos.y), 32)}));
-        loop.setPosition(position);
+    for (const auto &i : TilePage[PreviewPage]) {
+        sf::Sprite loop(ImageManager::GetTexture(i.name));
+        loop.setTextureRect(sf::IntRect(i.texPos, {std::min(static_cast<int>(loop.getGlobalBounds().size.x - i.texPos.x), 32), std::min(static_cast<int>(loop.getGlobalBounds().size.y - i.texPos.y), 32)}));
+        loop.setPosition(i.position);
         SelectTileRender.draw(loop);
     }
     SelectTileRender.display();

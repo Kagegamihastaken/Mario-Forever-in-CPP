@@ -79,6 +79,7 @@ int WinMain() {
 		GameObjectEditText();
 		fpsLite.update();
 		timestep.addFrame();
+
 		while (timestep.isUpdateRequired()) {
 		//if (Updated) {
 			GameObjectSetPrev();
@@ -88,7 +89,6 @@ int WinMain() {
 
 			InvincibleStateUpdate();
 		}
-
 		if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
 		else alpha = 1.0f;
 		GameObjectInterpolateMovement(alpha);

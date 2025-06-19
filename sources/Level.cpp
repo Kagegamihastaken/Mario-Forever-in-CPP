@@ -19,6 +19,7 @@
 #include "Core/Music.hpp"
 #include "Core/Background/Bg.hpp"
 #include "Object/ExitGate.hpp"
+#include "Editor/SelectTile.hpp"
 
 #include <utility>
 #include <vector>
@@ -40,6 +41,7 @@ std::vector<std::array<float, 5>> EnemyData;
 std::array<float, 4> ExitGateData;
 std::array<float, 2> PlayerData;
 std::pair<int, std::string> MusicData;
+/*
 void NPCDATAREAD(std::string line) {
 	std::array<float, 5> temp{};
 	bool flag = false;
@@ -94,62 +96,80 @@ void BONUSDATAREAD(std::string line) {
 	}
 	if (flag) BonusData.push_back(temp);
 }
-void TILEDATAREAD(std::string line) {
+*/
+void TILEDATAREAD(const std::string& line) {
 	//TILE
-	std::array<float, 3> temp{};
+	std::array<int, 4> temp{};
 	bool flag = false;
-	for (auto match : ctre::search_all<"(TILE_ID|TILE_X|TILE_Y)=(\\S*)">(line)) {
-		if (match.get<1>() == "TILE_ID") {
-			temp[0] = match.get<2>().to_number<float>();
+	for (auto match : ctre::search_all<"(EI|EP|EX|EY)=(\\S*)">(line)) {
+		if (match.get<1>() == "EI") {
+			temp[0] = match.get<2>().to_number<int>();
 			if (!flag) flag = true;
 		}
-		else if (match.get<1>() == "TILE_X") {
-			temp[1] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EP") {
+			temp[1] = match.get<2>().to_number<int>();
 			if (!flag) flag = true;
 		}
-		else if (match.get<1>() == "TILE_Y") {
-			temp[2] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EX") {
+			temp[2] = match.get<2>().to_number<int>();
+			if (!flag) flag = true;
+		}
+		else if (match.get<1>() == "EY") {
+			temp[3] = match.get<2>().to_number<int>();
 			if (!flag) flag = true;
 		}
 	}
-	if (flag) LevelData.push_back(temp);
+	if (flag) {
+		switch (const SelectTileData* ReadTile = &TilePage[temp[1]][temp[0]]; ReadTile->categoryID) {
+			case 0:
+				LevelData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(temp[2]), static_cast<float>(temp[3])});
+				break;
+			case 1:
+				BonusData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), static_cast<float>(temp[2]), static_cast<float>(temp[3])});
+				break;
+			case 2:
+				EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), static_cast<float>(temp[2]), static_cast<float>(temp[3])});
+				break;
+			default: ;
+		}
+	}
 }
-void LEVELDATAREAD(std::string line) {
+void LEVELDATAREAD(const std::string& line) {
 	//BG
-	for (auto match : ctre::search_all<"(BG_FIRST_COLOR|BG_SECOND_COLOR)=(\\S*)">(line)) {
-		if (match.get<1>() == "BG_FIRST_COLOR") {
+	for (auto match : ctre::search_all<"(BGFC|BGSC)=(\\S*)">(line)) {
+		if (match.get<1>() == "BGFC") {
 			bgGradient[0].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
 			bgGradient[1].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
 		}
-		else if (match.get<1>() == "BG_SECOND_COLOR") {
+		else if (match.get<1>() == "BGSC") {
 			bgGradient[2].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
 			bgGradient[3].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
 		}
 	}
 	//EXIT
-	for (auto match : ctre::search_all<"(EXIT_INDICATOR_X|EXIT_INDICATOR_Y|EXIT_GATE_X|EXIT_GATE_Y)=(\\S*)">(line)) {
-		if (match.get<1>() == "EXIT_INDICATOR_X") ExitGateData[0] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "EXIT_INDICATOR_Y") ExitGateData[1] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "EXIT_GATE_X") ExitGateData[2] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "EXIT_GATE_Y") ExitGateData[3] = match.get<2>().to_number<float>();
+	for (auto match : ctre::search_all<"(EGIX|EGIY|EGX|EGY)=(\\S*)">(line)) {
+		if (match.get<1>() == "EGIX") ExitGateData[0] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EGIY") ExitGateData[1] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EGX") ExitGateData[2] = match.get<2>().to_number<float>();
+		else if (match.get<1>() == "EGY") ExitGateData[3] = match.get<2>().to_number<float>();
 	}
 	//LEVELDATA
-	for (auto match : ctre::search_all<"(LEVEL_WIDTH|LEVEL_HEIGHT)=(\\S*)">(line)) {
-		if (match.get<1>() == "LEVEL_WIDTH") LevelWidth = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "LEVEL_HEIGHT") LevelHeight = match.get<2>().to_number<float>();
+	for (auto match : ctre::search_all<"(LVLW|LVLH)=(\\S*)">(line)) {
+		if (match.get<1>() == "LVLW") LevelWidth = match.get<2>().to_number<int>();
+		else if (match.get<1>() == "LVLH") LevelHeight = match.get<2>().to_number<int>();
 	}
 	//MARIOPOS
-	for (auto match : ctre::search_all<"(MARIO_X|MARIO_Y)=(\\S*)">(line)) {
-		if (match.get<1>() == "MARIO_X") PlayerData[0] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "MARIO_Y") PlayerData[1] = match.get<2>().to_number<float>();
+	for (auto match : ctre::search_all<"(MX|MY)=(\\S*)">(line)) {
+		if (match.get<1>() == "MX") PlayerData[0] = match.get<2>().to_number<int>();
+		else if (match.get<1>() == "MY") PlayerData[1] = match.get<2>().to_number<int>();
 	}
 	//MUSIC
-	for (auto match : ctre::search_all<"(MUSIC_TYPE|MUSIC_NAME)=(\\S*)">(line)) {
-		if (match.get<1>() == "MUSIC_TYPE") MusicData.first = match.get<2>().to_number<int>();
-		else if (match.get<1>() == "MUSIC_NAME") MusicData.second = match.get<2>().to_string();
+	for (auto match : ctre::search_all<"(MUSICT|MUSICN)=(\\S*)">(line)) {
+		if (match.get<1>() == "MUSICT") MusicData.first = match.get<2>().to_number<int>();
+		else if (match.get<1>() == "MUSICN") MusicData.second = match.get<2>().to_string();
 	}
 }
-void ReadData(std::string path) {
+void ReadData(const std::string& path) {
 	std::string lvldat;
 	LoadLvl(lvldat, std::move(path));
 	std::stringstream input_view(lvldat);
@@ -159,15 +179,16 @@ void ReadData(std::string path) {
 	bool flag = false;
 	while (std::getline(input_view, line)) {
 		flag = false;
-		for (auto match : ctre::search_all<"(\\[LEVEL_DATA\\]|\\[TILE_DATA\\]|\\[BONUS_DATA\\]|\\[NPC_DATA\\])">(line)) {
-			if (match.get<0>() == "[LEVEL_DATA]") {
+		for (auto match : ctre::search_all<"(\\[LVL\\]|\\[TILE\\])">(line)) {
+			if (match.get<0>() == "[LVL]") {
 				ReadMode = 0;
 				flag = true;
 			}
-			else if (match.get<0>() == "[TILE_DATA]") {
+			else if (match.get<0>() == "[TILE]") {
 				ReadMode = 1;
 				flag = true;
 			}
+			/*
 			else if (match.get<0>() == "[BONUS_DATA]") {
 				ReadMode = 2;
 				flag = true;
@@ -176,14 +197,17 @@ void ReadData(std::string path) {
 				ReadMode = 3;
 				flag = true;
 			}
+			*/
 		}
 		if (flag) continue;
 
 		switch (ReadMode) {
 			case 0: LEVELDATAREAD(line); break;
 			case 1: TILEDATAREAD(line); break;
+			/*
 			case 2: BONUSDATAREAD(line); break;
 			case 3: NPCDATAREAD(line); break;
+			*/
 			default: ;
 		}
 	}

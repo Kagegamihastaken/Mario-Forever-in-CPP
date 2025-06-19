@@ -8,7 +8,7 @@ extern void Obstaclebuilding();
 extern void Objectbuilding();
 extern void Slopebuilding();
 extern void ExitGateBuilding();
-extern void ReadData(std::string path);
+extern void ReadData(const std::string& path);
 extern float LevelWidth, LevelHeight;
 
 #endif // !LEVEL_HPP

@@ -28,6 +28,7 @@ bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::
 }
 
 std::pair<bool, bool> isAccurateCollideSideu(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
+	if (OL.empty()) return {false, false};
 	bool isCollideLeftBool = false, isCollideRightBool = false;
 	sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	//temporary
@@ -51,6 +52,7 @@ std::pair<bool, bool> isAccurateCollideSideu(const MFCPP::CollisionObject& Colli
 	return { isCollideLeftBool, isCollideRightBool };
 }
 std::pair<bool, bool> isAccurateCollideSidet(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
+	if (OL.empty()) return {false, false};
 	bool isCollideLeftBool = false, isCollideRightBool = false;
 	const sf::FloatRect hitbox_intersect_left = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	const sf::FloatRect hitbox_intersect_right = getGlobalHitbox(CollideObj.GetRightHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
@@ -84,6 +86,7 @@ std::pair<bool, bool> isAccurateCollideSidet(const MFCPP::CollisionObject& Colli
 	return { isCollideLeftBool, isCollideRightBool };
 }
 std::vector<sf::Vector2f> isAccurateCollideMaint(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OL, const int& first, const int& last, const float& distance) {
+	if (OL.empty()) return {};
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	std::vector<sf::Vector2f> result;
 	if (!OL.empty()) result.reserve(OL.size() / 4);
@@ -96,6 +99,7 @@ std::vector<sf::Vector2f> isAccurateCollideMaint(const MFCPP::CollisionObject& C
 }
 //Y
 bool isAccurateCollideBott(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
+	if (OLVert.empty()) return false;
 	if (NoAdd) return false;
 	bool isCollideBotBool = false;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
@@ -111,6 +115,7 @@ bool isAccurateCollideBott(const MFCPP::CollisionObject& CollideObj, const std::
 	return isCollideBotBool;
 }
 std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, const int first, const int last, const float distance) {
+	if (OLVert.empty()) return {};
 	std::vector<std::pair<float, float>> result;
 	if (!OLVert.empty()) result.reserve(OLVert.size() / 4);
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
@@ -121,6 +126,7 @@ std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::Collision
 	return result;
 }
 bool isAccurateCollideTopt(const MFCPP::CollisionObject& CollideObj, const std::vector<std::pair<sf::FloatRect, sf::Vector2f>>& OLVert, float& CurrPosYCollide, bool& NoAdd, const int first, const int last, const float distance) {
+	if (OLVert.empty()) return false;
 	if (NoAdd) return false;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	bool isCollideTopBool = false;

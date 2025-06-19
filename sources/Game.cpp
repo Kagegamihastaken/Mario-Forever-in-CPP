@@ -28,6 +28,8 @@
 
 #include "Core/Game.hpp"
 
+#include <iostream>
+
 void GameObjectInit() {
     InitTempTex();
     loadSlopeRes();

@@ -10,10 +10,14 @@ struct SelectTileData {
     sf::Vector2i texPos = sf::Vector2i(0, 0);
     //other
     sf::Vector2f origin = sf::Vector2f(0.0f, 0.0f);
+    int categoryID;
+    int objectID;
+    int customID1 = 0;
+    int customID2 = 0;
 };
 extern bool EDITOR_SELECTTILE;
 extern sf::Clock EDITOR_SELECTILE_CLOCK;
-extern std::array<std::vector<SelectTileData>, 4> TilePage;
+extern const std::array<std::vector<SelectTileData>, 4> TilePage;
 extern std::array<MFCPP::TabButton, 4> TabList;
 
 extern int CurrSelectTile;
