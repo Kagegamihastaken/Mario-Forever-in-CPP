@@ -1,13 +1,14 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
+#include "Core/SimpleSprite.hpp"
 #include "Core/Loading/enum.hpp"
 
 class SingleAnimationObject {
 	std::string m_lastAnim = "";
-	std::vector<sf::Sprite> m_LeftIndex;
-	std::vector<sf::Sprite> m_RightIndex;
+	std::vector<MFCPP::SimpleSprite> m_LeftIndex;
+	std::vector<MFCPP::SimpleSprite> m_RightIndex;
 
 	int m_indexAnimation = 0;
 	int m_startingIndexAnimation = 0;

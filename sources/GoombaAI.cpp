@@ -280,12 +280,12 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 			if (i.GetDirection() == RIGHT) {
 				be = find_min_inx(i.getCurrentPosition(), BricksHorzPosList);
 				nd = find_max_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-				BrickCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
+				BrickCollideRemove = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
 			}
 			else if (i.GetDirection() == LEFT) {
 				be = find_max_inx(i.getCurrentPosition(), BricksHorzPosList);
 				nd = find_min_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-				BrickCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
+				BrickCollideRemove = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BricksHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
 			}
 			if (BrickCollideRemove.first || BrickCollideRemove.second) {
 				i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
@@ -305,12 +305,12 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 			if (i.GetDirection() == RIGHT) {
 				be = find_min_inx(i.getCurrentPosition(), LuckyHorzPosList);
 				nd = find_max_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-				LuckyCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
+				LuckyCollideRemove = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, be, nd, 80.0f);
 			}
 			else if (i.GetDirection() == LEFT) {
 				be = find_max_inx(i.getCurrentPosition(), LuckyHorzPosList);
 				nd = find_min_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-				LuckyCollideRemove = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
+				LuckyCollideRemove = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyHorzPosList, CusCurrPosX, CusCurrPosY, NoAdd, nd, be, 80.0f);
 			}
 			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
 				i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
@@ -325,35 +325,35 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 		if (i.GetDirection() == RIGHT) {
 			be = find_min_inx(i.getCurrentPosition(), ObstaclesHorzPosList);
 			nd = find_max_inx_dist(i.getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-			ObstacleCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 			be = find_min_inx(i.getCurrentPosition(), BricksHorzPosList);
 			nd = find_max_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-			BrickCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 			be = find_min_inx(i.getCurrentPosition(), LuckyHorzPosList);
 			nd = find_max_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-			LuckyCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		}
 		else if (i.GetDirection() == LEFT) {
 			be = find_max_inx(i.getCurrentPosition(), ObstaclesHorzPosList);
 			nd = find_min_inx_dist(i.getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-			ObstacleCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 			be = find_max_inx(i.getCurrentPosition(), BricksHorzPosList);
 			nd = find_min_inx_dist(i.getCurrentPosition(), BricksHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-			BrickCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 			be = find_max_inx(i.getCurrentPosition(), LuckyHorzPosList);
 			nd = find_min_inx_dist(i.getCurrentPosition(), LuckyHorzPosList, 64.0f + (i.GetXvelo()) * 16.0f);
-			LuckyCollide = isAccurateCollideSidet(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxLeft(), i.GetHitboxRight()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		}
 
 		// Stop on wall
 		// Adjust Position if collide
 		if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
 			i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
-			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide + 32.0f - i.GetSize().position.x + i.getOrigin().x, i.getCurrentPosition().y));
+			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide + 32.0f + i.getOrigin().x, i.getCurrentPosition().y));
 		}
 		if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
 			i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
-			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide - (1.0f + i.GetSize().position.x + (i.GetSize().size.x - i.getOrigin().x)), i.getCurrentPosition().y));
+			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide - (1.0f + (i.GetSize().size.x - i.getOrigin().x)), i.getCurrentPosition().y));
 		}
 	}
 }
@@ -371,15 +371,15 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 		bool NoAdd = false;
 		int be = find_min_iny(i.getCurrentPosition(), ObstaclesVertPosList);
 		int nd = find_max_iny_dist(i.getCurrentPosition(), ObstaclesVertPosList, 64.0f + (i.GetYvelo()) * 16.0f);
-		bool ObstacleCollide = isAccurateCollideBott(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxBot()), ObstaclesVertPosList,
+		bool ObstacleCollide = isAccurateCollideBot(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), ObstaclesVertPosList,
 		                                             CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		be = find_min_iny(i.getCurrentPosition(), BricksVertPosList);
 		nd = find_max_iny_dist(i.getCurrentPosition(), BricksVertPosList, 64.0f + (i.GetYvelo()) * 16.0f);
-		bool BrickCollide = isAccurateCollideBott(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxBot()), BricksVertPosList, CurrPosYCollide,
+		bool BrickCollide = isAccurateCollideBot(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BricksVertPosList, CurrPosYCollide,
 		                                          NoAdd, be, nd, 80.0f);
 		be = find_min_iny(i.getCurrentPosition(), LuckyVertPosList);
 		nd = find_max_iny_dist(i.getCurrentPosition(), LuckyVertPosList, 64.0f + (i.GetYvelo()) * 16.0f);
-		bool LuckyCollide = isAccurateCollideBott(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxBot()), LuckyVertPosList, CurrPosYCollide,
+		bool LuckyCollide = isAccurateCollideBot(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyVertPosList, CurrPosYCollide,
 		                                          NoAdd, be, nd, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
 			if (i.GetYvelo() >= 0.0f) {
@@ -392,22 +392,22 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 			}
 			//recolide
 			if (isLanding)
-				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - (i.GetSize().size.y - i.getOrigin().y + i.GetSize().position.y)));
+				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - (i.GetSize().size.y - i.getOrigin().y)));
 		}
 		// top update
 		NoAdd = false;
 		be = find_max_iny(i.getCurrentPosition(), ObstaclesVertPosList);
 		nd = find_min_iny_dist(i.getCurrentPosition(), ObstaclesVertPosList, 64.0f - (i.GetYvelo()) * 16.0f);
-		ObstacleCollide = isAccurateCollideTopt(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxTop()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		ObstacleCollide = isAccurateCollideTop(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		be = find_max_iny(i.getCurrentPosition(), BricksVertPosList);
 		nd = find_min_iny_dist(i.getCurrentPosition(), BricksVertPosList, 64.0f - (i.GetYvelo()) * 16.0f);
-		BrickCollide = isAccurateCollideTopt(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxTop()), BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		BrickCollide = isAccurateCollideTop(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BricksVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 		be = find_max_iny(i.getCurrentPosition(), LuckyVertPosList);
 		nd = find_min_iny_dist(i.getCurrentPosition(), LuckyVertPosList, 64.0f - (i.GetYvelo()) * 16.0f);
-		LuckyCollide = isAccurateCollideTopt(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxTop()), LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		if ((ObstacleCollide || BrickCollide || LuckyCollide) && i.GetYvelo() < 0.0f) {
+		LuckyCollide = isAccurateCollideTop(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		if (ObstacleCollide || BrickCollide || LuckyCollide) {
 			i.SetYvelo(0.0f);
-			i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + (i.GetSize().size.y - i.getOrigin().y - i.GetSize().position.y)));
+			i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + (32.0f + i.getOrigin().y)));
 		}
 	}
 }
@@ -529,7 +529,7 @@ void GoombaAIUpdate() {
 				i.setAnimationDirection(AnimationDirection::ANIM_LEFT);
 				//if (GoombaAIList[i].property.getOrigin() != GoombaAIOriginList[i].second) GoombaAIList[i].property.setOrigin(GoombaAIOriginList[i].second);
 			}
-			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+			i.AnimationUpdate(i.getInterpolatedPosition(), sf::Vector2f(i.getOrigin().x, i.getOrigin().y));
 			i.AnimationDraw(window);
 			//window.draw(GoombaAIList[i].property);
 		}

@@ -18,10 +18,6 @@ namespace MFCPP {
         bool                   m_is_appearing{};
         unsigned               m_skinID{};
         sf::FloatRect          m_hitbox_main{};
-        sf::FloatRect          m_hitbox_left{};
-        sf::FloatRect          m_hitbox_right{};
-        sf::FloatRect          m_hitbox_top{};
-        sf::FloatRect          m_hitbox_bot{};
         bool                   m_can_death{};
         //Dont touch
         bool                   m_disabled{};
@@ -52,14 +48,6 @@ namespace MFCPP {
         [[nodiscard]] unsigned GetSkinID() const;
         void SetHitboxMain(const sf::FloatRect& hitbox_main);
         [[nodiscard]] sf::FloatRect GetHitboxMain() const;
-        void SetHitboxLeft(const sf::FloatRect& hitbox_left);
-        [[nodiscard]] sf::FloatRect GetHitboxLeft() const;
-        void SetHitboxRight(const sf::FloatRect& hitbox_right);
-        [[nodiscard]] sf::FloatRect GetHitboxRight() const;
-        void SetHitboxTop(const sf::FloatRect& hitbox_top);
-        [[nodiscard]] sf::FloatRect GetHitboxTop() const;
-        void SetHitboxBot(const sf::FloatRect& hitbox_bot);
-        [[nodiscard]] sf::FloatRect GetHitboxBot() const;
         //Dont touch
         void SetDisabled(const bool& disabled);
         [[nodiscard]] bool IsDisabled() const;

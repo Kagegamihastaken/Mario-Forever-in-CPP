@@ -7,7 +7,7 @@
 namespace MFCPP {
     GoombaAI::GoombaAI(const GoombaAIType type, const GoombaAIDirection dir, const GoombaAICollisionType collision_type, const float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
         const sf::Vector2f& origin, const bool is_appeared, const unsigned skin_ID, const float invincible_timer_limit, const bool can_death)
-        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_invincible_timer_limit(invincible_timer_limit), m_can_death(can_death) {
+        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_can_death(can_death), m_invincible_timer_limit(invincible_timer_limit) {
         setOrigin(origin);
         setCurrentPosition(pos);
         setPreviousPosition(pos);
@@ -19,11 +19,7 @@ namespace MFCPP {
         m_shell_hit_count = 0;
         m_collide_with = { false, -1 };
         //hitbox
-        m_hitbox_main = sf::FloatRect({ 0.0f + size.position.x, 0.0f + size.position.y }, { size.size.x, size.size.y });
-        m_hitbox_top = sf::FloatRect({ 1.0f + size.position.x, 0.0f + size.position.y }, { size.size.x - 2.0f, 2.0f });
-        m_hitbox_bot = sf::FloatRect({ 1.0f + size.position.x, size.size.y - 2.0f + size.position.y }, { size.size.x - 2.0f, 2.0f });
-        m_hitbox_right = sf::FloatRect({ size.size.x - 2.0f + size.position.x, 2.0f + size.position.y }, { 2.0f, size.size.y - 9.0f });
-        m_hitbox_left = sf::FloatRect({ 0.0f + size.position.x, 2.0f + size.position.y }, { 2.0f, size.size.y - 9.0f });
+        m_hitbox_main = sf::FloatRect({ 0.0f, 0.0f }, { size.size.x, size.size.y });
     }
     void GoombaAI::SetType(const GoombaAIType& type) {
         m_type = type;
@@ -118,30 +114,6 @@ namespace MFCPP {
     }
     sf::FloatRect GoombaAI::GetHitboxMain() const {
         return m_hitbox_main;
-    }
-    void GoombaAI::SetHitboxLeft(const sf::FloatRect& hitbox_left) {
-        m_hitbox_left = hitbox_left;
-    }
-    sf::FloatRect GoombaAI::GetHitboxLeft() const {
-        return m_hitbox_left;
-    }
-    void GoombaAI::SetHitboxRight(const sf::FloatRect& hitbox_right) {
-        m_hitbox_right = hitbox_right;
-    }
-    sf::FloatRect GoombaAI::GetHitboxRight() const {
-        return m_hitbox_right;
-    }
-    void GoombaAI::SetHitboxTop(const sf::FloatRect& hitbox_top) {
-        m_hitbox_top = hitbox_top;
-    }
-    sf::FloatRect GoombaAI::GetHitboxTop() const {
-        return m_hitbox_top;
-    }
-    void GoombaAI::SetHitboxBot(const sf::FloatRect& hitbox_bot) {
-        m_hitbox_bot = hitbox_bot;
-    }
-    sf::FloatRect GoombaAI::GetHitboxBot() const {
-        return m_hitbox_bot;
     }
     void GoombaAI::SetCanDeath(bool val) {
         m_can_death = val;

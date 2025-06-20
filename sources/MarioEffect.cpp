@@ -44,7 +44,7 @@ void ActiveMarioEffect() {
 		Music.StopAllOGGMusic();
 		Music.PlayMODMusic("MarioDeath");
 		EffectActive = true;
-		playerEffect.setPosition({ player.property.getPosition().x - 10.0f, player.property.getPosition().y - 23.0f });
+		playerEffect.setPosition({ player.property.getPosition().x - 14.0f, player.property.getPosition().y - 30.0f });
 		MarioEffectCurr = MarioEffectPrev = playerEffect.getPosition();
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;

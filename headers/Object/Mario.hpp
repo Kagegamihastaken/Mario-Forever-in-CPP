@@ -18,6 +18,9 @@ public:
 	sf::Vector2f curr;
 	sf::Vector2f prev;
 	sf::Sprite property = sf::Sprite(tempTex);
+
+	sf::FloatRect hitboxWall;
+	sf::FloatRect hitboxFloor;
 };
 extern void MarioUpdateAnimation();
 extern MovableObject player;

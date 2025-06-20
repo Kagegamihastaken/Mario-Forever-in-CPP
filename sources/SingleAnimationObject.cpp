@@ -29,9 +29,9 @@ void SingleAnimationObject::SetAnimationSequence(const std::vector<std::string>&
 	m_LeftIndex.clear();
 	m_RightIndex.clear();
 	for (const auto& str : s_left)
-		m_LeftIndex.emplace_back(ImageManager::GetTexture(str));
+		m_LeftIndex.emplace_back(*ImageManager::GetReturnTexture(str));
 	for (const auto& str : s_right)
-		m_RightIndex.emplace_back(ImageManager::GetTexture(str));
+		m_RightIndex.emplace_back(*ImageManager::GetReturnTexture(str));
 }
 void SingleAnimationObject::SetRangeIndexAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
 	if (m_startingIndexAnimation != startingIndexAnimation || m_endingIndexAnimation != endingIndexAnimation) {
