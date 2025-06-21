@@ -54,9 +54,9 @@ namespace MFCPP {
         float         m_Yvelo{};
         bool          m_isFalling{};
         float         m_lastY{};
+        sf::Clock     m_JumpClock;
 
         sf::FloatRect m_hitbox{};
-        sf::Clock     m_JumpClock;
         float         m_stop_duration{};
         float         m_speed{};
     };

@@ -170,7 +170,7 @@ void BroAIVertYUpdate(const float deltaTime) {
                 default: break;
             }
         }
-        if (BroAIList[i].isFalling() && BroAIList[i].getCurrentPosition().y > BroAIList[i].getLastY() + 90.f) {
+        if (BroAIList[i].isFalling() && BroAIList[i].getCurrentPosition().y > BroAIList[i].getLastY() + 32.f) {
             BroAIList[i].setLastY(-1.f);
             BroAIList[i].setFalling(false);
         }
@@ -180,9 +180,9 @@ void BroAIVertYUpdate(const float deltaTime) {
         BroAIList[i].setYVelo(BroAIList[i].getYVelo() + (BroAIList[i].getYVelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.175f));
         //}
         bool NoAdd = false;
-        const int be = find_min_iny(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList);
-        const int nd = find_max_iny_dist(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f + (BroAIList[i].getYVelo()) * 16.0f);
-        const bool ObstacleCollide = isAccurateCollideBot(MFCPP::CollisionObject(BroAIList[i].getCurrentPosition(), BroAIList[i].getOrigin(), BroAIList[i].getHitbox()), ObstaclesVertPosList,
+        int be = find_min_iny(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList);
+        int nd = find_max_iny_dist(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f + (BroAIList[i].getYVelo()) * 16.0f);
+        bool ObstacleCollide = isAccurateCollideBot(MFCPP::CollisionObject(BroAIList[i].getCurrentPosition(), BroAIList[i].getOrigin(), BroAIList[i].getHitbox()), ObstaclesVertPosList,
                                 CurrPosYCollide, NoAdd, be, nd, 80.0f);
         if (ObstacleCollide) {
             if (BroAIList[i].getYVelo() >= 0.0f) {
@@ -219,6 +219,15 @@ void BroAIVertYUpdate(const float deltaTime) {
                     }
                 }
             }
+        }
+
+        NoAdd = false;
+        be = find_max_iny(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList);
+        nd = find_min_iny_dist(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f - (BroAIList[i].getYVelo()) * 16.0f);
+        ObstacleCollide = isAccurateCollideTop(MFCPP::CollisionObject(BroAIList[i].getCurrentPosition(), BroAIList[i].getOrigin(), BroAIList[i].getHitbox()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+        if (ObstacleCollide) {
+            BroAIList[i].setYVelo(0.0f);
+            BroAIList[i].setCurrentPosition(sf::Vector2f(BroAIList[i].getCurrentPosition().x, CurrPosYCollide + (32.0f + BroAIList[i].getOrigin().y)));
         }
     }
 }
