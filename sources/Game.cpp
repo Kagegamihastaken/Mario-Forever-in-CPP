@@ -25,6 +25,7 @@
 #include "Core/Scene.hpp"
 #include "Editor/Editor.hpp"
 #include "Editor/SelectTile.hpp"
+#include "Object/BroAI.hpp"
 
 #include "Core/Game.hpp"
 
@@ -42,6 +43,7 @@ void GameObjectInit() {
     LoadBricks();
     LoadLuckyBlock();
     GoombaAILoadRes();
+    BroAILoadRes();
     CoinEffectInit();
     CoinInit();
     ScoreEffectInit();
@@ -136,6 +138,7 @@ void GameObjectSetPrev() {
         SetPrevExitGatePos();
         SetPrevBricksPos();
         SetPrevLuckyBlockPos();
+        SetPrevBroAIPos();
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         SetPrevEditor();
@@ -150,6 +153,8 @@ void GameObjectDeltaMovement(const float dt) {
         MarioVertYUpdate();
         GoombaAIVertXUpdate(dt);
         GoombaAIVertYUpdate(dt);
+        BroAIVertXUpdate(dt);
+        BroAIVertYUpdate(dt);
         GoombaAIEffectVertYUpdate(dt);
         PiranhaAIMovementUpdate(dt);
 
@@ -177,7 +182,8 @@ void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
     else if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (mousePressed->button == sf::Mouse::Button::Left) {
-                AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+                AddBroAI(MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
+                //AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
             }
         }
     }
@@ -195,6 +201,7 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateExitGatePos(alpha);
         InterpolateBricksPos(alpha);
         InterpolateLuckyBlockPos(alpha);
+        InterpolateBroAIPos(alpha);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         InterpolateEditorPos(alpha);
@@ -244,6 +251,7 @@ void GameObjectDraw() {
         ExitGateDraw();
         MarioDraw();
         GoombaAIUpdate();
+        BroAIDraw();
         PiranhaAIUpdate();
         ObstaclesUpdate();
         SpikeUpdate();

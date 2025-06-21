@@ -2,8 +2,10 @@
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include "Core/SimpleSprite.hpp"
 #include "Core/Loading/enum.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 
 class SingleAnimationObject {
 	std::string m_lastAnim = "";
@@ -33,5 +35,6 @@ public:
 	[[nodiscard]] bool isAnimationAtTheEnd() const;
 	void AddAnimationSequence(const std::string& a_left, const std::string& a_right);
 	void SetAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
+	void SetAnimationSequence(const std::vector<std::string>& s_left);
 };
 #endif // LOCALANIMATIONMANAGER_HPP

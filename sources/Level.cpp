@@ -31,6 +31,7 @@
 
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/BgGradient.hpp"
+#include "Object/BroAI.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::array<float, 2>> BgData;
@@ -528,6 +529,7 @@ void Objectbuilding() {
 	DeleteAllCoin();
 	DeleteAllLuckyBlock();
 	DeleteAllGoombaAI();
+	DeleteAllBroAI();
 	ClearPiranhaAI();
 	DeleteAllSpike();
 	//(Re)build Objects

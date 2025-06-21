@@ -41,8 +41,6 @@ static std::vector<std::string> ExitIndicatorAnimName;
 static constexpr int EXIT_INDICATOR_IMAGE_WIDTH = 93;
 static constexpr int EXIT_INDICATOR_WIDTH = 31;
 static constexpr int EXIT_INDICATOR_HEIGHT = 32;
-std::random_device seed;
-std::uniform_real_distribution<float> dis(123.75f, 146.25f);
 
 void ExitGateInit() {
 	ImageManager::AddImage("ExitGateBackImage", "data/resources/ExitGateBack.png");
@@ -106,7 +104,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			ExitGateForeEffect.setPosition(ExitGateFore.getPosition());
 			ExitGateForeEffectCurr = ExitGateForeEffectPrev = ExitGateFore.getPosition();
 
-			ExitGateForeEffectSpeed = dis(seed) * M_PI / 180.0f;
+			ExitGateForeEffectSpeed = RandomFloatNumberGenerator(123.75f, 146.25f) * M_PI / 180.0f;
 			ExitGateForeActive = false;
 			ExitGateForeRender = false;
 		}

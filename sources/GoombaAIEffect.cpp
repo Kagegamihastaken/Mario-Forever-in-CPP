@@ -155,7 +155,6 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		bool LuckyCollide = isAccurateCollideBot(MFCPP::CollisionObject(GoombaAIEffectList[i].getCurrentPosition(), GoombaAIEffectList[i].getOrigin(), GoombaAIEffectList[i].getHitbox()), LuckyVertPosList,
 		                                          CurrPosYCollide, NoAdd, be, nd, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
-			std::cout << "Hi\n";
 			if (GoombaAIEffectList[i].getYVelo() >= 0.0f) {
 				GoombaAIEffectList[i].setYVelo(0.f);
 				isLanding = true;

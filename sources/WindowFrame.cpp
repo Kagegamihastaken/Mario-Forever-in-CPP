@@ -28,6 +28,7 @@ sf::VideoMode x1({ static_cast<unsigned int>(Width), static_cast<unsigned int>(H
 sf::VideoMode x15({ static_cast<unsigned int>(Width * 1.5f), static_cast<unsigned int>(Height* 1.5f) });
 sf::VideoMode x2({ static_cast<unsigned int>(Width * 2.0f), static_cast<unsigned int>(Height* 2.0f) });
 const std::vector<sf::VideoMode> Resolutions = sf::VideoMode::getFullscreenModes();
+std::random_device seed;
 
 kairos::Stopwatch Gclock;
 kairos::Timestep timestep;
@@ -41,6 +42,17 @@ sf::Texture CoinHUDTexture;
 sf::Sprite MarioHUD(tempTex);
 
 SingleAnimationObject CoinHUDAnim;
+int RandomIntNumberGenerator(const int a, const int b) {
+	//std::uniform_real_distribution<float> dis(123.75f, 146.25f);
+	std::uniform_int_distribution<int> dis(a, b);
+	return dis(seed);
+}
+float RandomFloatNumberGenerator(const float a, const float b) {
+	//std::uniform_real_distribution<float> dis(123.75f, 146.25f);
+	std::uniform_real_distribution<float> dis(a, b);
+	return dis(seed);
+}
+
 float f_mod(const float a, const float b) { return static_cast<float>(static_cast<int>(a) % static_cast<int>(b));}
 float f_min(const float a, const float b) { return a < b ? a : b; }
 float f_max(const float a, const float b) { return a > b ? a : b; }

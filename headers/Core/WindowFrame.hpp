@@ -3,6 +3,7 @@
 #ifndef WINDOWFRAME_HPP
 #define WINDOWFRAME_HPP
 
+#include <random>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -30,6 +31,7 @@ extern kairos::Timestep timestep;
 extern kairos::FpsLite fpsLite;
 extern void updateFrame();
 extern void HUDUpdate();
+extern std::random_device seed;
 extern float Width;
 extern float Height;
 extern float MouseX;
@@ -43,5 +45,7 @@ extern float f_min(float a, float b);
 extern float f_max(float a, float b);
 extern float f_abs(float a);
 extern float f_round(float val);
+extern int RandomIntNumberGenerator(int a, int b);
+extern float RandomFloatNumberGenerator(float a, float b);
 
 #endif // WINDOWFRAME_HPP
