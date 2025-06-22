@@ -107,6 +107,10 @@ void EditorInit() {
     ImageManager::AddTexture("CoinLuckyblockImage", "EDITOR_CoinLuckyblock");
     ImageManager::AddImage("CoinBrickImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
     ImageManager::AddTexture("CoinBrickImage", "EDITOR_CoinBrick");
+    ImageManager::AddImage("HammerBroCanMoveImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
+    ImageManager::AddTexture("HammerBroCanMoveImage", "EDITOR_HammerBroCanMove");
+    ImageManager::AddImage("HammerBroCannotMoveImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
+    ImageManager::AddTexture("HammerBroCannotMoveImage", "EDITOR_HammerBroCannotMove");
 
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
 

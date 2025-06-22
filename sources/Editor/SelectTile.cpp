@@ -59,7 +59,9 @@ const std::array<std::vector<SelectTileData>, 4> TilePage = {{
         {"GreenKoopaShell_3", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
         {"PiranhaGreen_0", sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
         {"PiranhaGreenGround_0", sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
-        {"NormalSpike", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 1, 0}
+        {"NormalSpike", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
+        {"EDITOR_HammerBroCanMove", sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
+        {"EDITOR_HammerBroCannotMove", sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
     },
     { // PAGE 4
         {"SmallMarioRight_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},

@@ -32,6 +32,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/BgGradient.hpp"
 #include "Object/BroAI.hpp"
+#include "Projectiles/BroAIProjectile.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::array<float, 2>> BgData;
@@ -503,6 +504,7 @@ void ExitGateBuilding() {
 void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
+	/*
 	if (MusicData.first == 0) {
 		if (Music.IsMODMusicPlaying(MusicData.second)) Music.StopMODMusic(MusicData.second);
 		Music.SetMODLoop(MusicData.second, true);
@@ -513,7 +515,8 @@ void Objectbuilding() {
 		Music.SetOGGLoop(MusicData.second, true);
 		Music.PlayOGGMusic(MusicData.second);
 	}
-	player.property.setPosition({ PlayerData[0], PlayerData[1] });
+	*/
+	player.property.setPosition({ PlayerData[0], PlayerData[1] + 7.f });
 	player.curr = player.prev = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;
 	//rTexture.resize(sf::Vector2u({ static_cast<unsigned int>(LevelWidth) * 2, static_cast<unsigned int>(LevelHeight) * 2 }));
@@ -524,6 +527,7 @@ void Objectbuilding() {
 	DeleteAllCoinEffect();
 	DeleteAllGoombaAIEffect();
 	DeleteAllScoreEffect();
+	DeleteAllBroAIProjectile();
 	//Delete Objects
 	DeleteAllBrick();
 	DeleteAllCoin();
@@ -542,9 +546,21 @@ void Objectbuilding() {
 	}
 	if (!EnemyData.empty()) {
 		for (const auto& i : EnemyData) {
-			if (i[0] == 0) AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
-			else if (i[0] == 1) AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);
-			else if (i[0] == 2) AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);
+			switch (static_cast<int>(i[0])) {
+				case 0:
+					AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
+					break;
+				case 1:
+					AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);
+					break;
+				case 2:
+					AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);
+					break;
+				case 3:
+					AddBroAI(static_cast<BroAIType>(i[1]), static_cast<BroAIMovementType>(i[2]), i[3], i[4]);
+					break;
+				default: ;
+			}
 		}
 	}
 	BricksSort();

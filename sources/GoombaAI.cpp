@@ -109,42 +109,42 @@ void AddGoombaAI(GoombaAIType type, int SkinID, float x, float y, GoombaAIDirect
 			sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
 			sf::Vector2f(15, 31), false, SkinID, 0.0f);
 		GoombaAIList.back().setAnimation(0, 1, 11);
-		GoombaAIList.back().SetAnimationSequence(GoombaAnimName, GoombaAnimName);
+		GoombaAIList.back().setAnimationSequence(GoombaAnimName, GoombaAnimName);
 		break;
 		case KOOPA:
 		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::YES, 1.0f,
 			sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
 			sf::Vector2f(16, 44), false, SkinID, 0.0f);
 		GoombaAIList.back().setAnimation(0, 1, 12);
-		GoombaAIList.back().SetAnimationSequence(KoopaLeftAnimName, KoopaRightAnimName);
+		GoombaAIList.back().setAnimationSequence(KoopaLeftAnimName, KoopaRightAnimName);
 		break;
 		case MUSHROOM:
 		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::FULL, 2.0f,
-			sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
+			sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 			sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
 		GoombaAIList.back().setAnimation(0, 0, 100);
-		GoombaAIList.back().SetAnimationSequence(MushroomAnimName, MushroomAnimName);
+		GoombaAIList.back().setAnimationSequence(MushroomAnimName, MushroomAnimName);
 		break;
 		case SHELL:
 		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::FULL, 0.0f,
 			sf::FloatRect({0.0f, 0.0f}, {33.0f, 28.0f}), sf::Vector2f(x, y),
 			sf::Vector2f(16, 27), false, SkinID, 0.12f);
 		GoombaAIList.back().setAnimation(3, 3, 100);
-		GoombaAIList.back().SetAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
+		GoombaAIList.back().setAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
 		break;
 		case SHELL_MOVING:
 		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::YES, 5.0f,
 			sf::FloatRect({0.0f, 0.0f}, {33.0f, 28.0f}), sf::Vector2f(x, y),
 			sf::Vector2f(16, 27), false, SkinID, 0.6f);
 		GoombaAIList.back().setAnimation(0, 3, 54);
-		GoombaAIList.back().SetAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
+		GoombaAIList.back().setAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
 		break;
 		case SPINY:
 		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::NO, 1.0f,
 			sf::FloatRect({0.0f, 0.0f}, {33.0f, 32.0f}), sf::Vector2f(x, y),
 			sf::Vector2f(16, 29), false, SkinID, 0.6f);
 		GoombaAIList.back().setAnimation(0, 1, 14);
-		GoombaAIList.back().SetAnimationSequence(SpinyLeftAnimName, SpinyRightAnimName);
+		GoombaAIList.back().setAnimationSequence(SpinyLeftAnimName, SpinyRightAnimName);
 		break;
 	}
 }
@@ -353,7 +353,7 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 		}
 		if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
 			i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
-			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide - (1.0f + (i.GetSize().size.x - i.getOrigin().x)), i.getCurrentPosition().y));
+			i.setCurrentPosition(sf::Vector2f(CurrPosXCollide - (i.GetSize().size.x - i.getOrigin().x), i.getCurrentPosition().y));
 		}
 	}
 }

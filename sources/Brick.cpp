@@ -163,7 +163,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 			}
 		}
 		SoundManager::PlaySound("Coin");
-		AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y + 32.0f);
+		AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y);
 		++CoinCount;
 		BrickState[i] = true;
 		UpDown[i] = false;
@@ -175,7 +175,7 @@ void HitEvent(const float x, const float y) {
 	std::set<std::pair<float, float>> BrickDeleteSet;
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y && !BrickState[i]) {
-			sf::FloatRect BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].property);
+			sf::FloatRect BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].curr, sf::Vector2f(0.f, 0.f));
 			BrickLoop.position.y -= 16.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
@@ -191,7 +191,7 @@ void HitEvent(const float x, const float y) {
 					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
-			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y, i);
+			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y + 16.f, i);
 			if (BrickAttList[i] == NORMAL && PowerState == 0) {
 				BrickState[i] = true;
 				UpDown[i] = false;

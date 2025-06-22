@@ -51,7 +51,7 @@ void AddSpike(const SpikeID ID, float x, float y) {
 	switch (ID) {
 	case PIRANHA_GROUND:
 		InitAnimation.setAnimation(0, 3, 22);
-		InitAnimation.SetAnimationSequence(PiranhaGroundAnimName, PiranhaGroundAnimName);
+		InitAnimation.setAnimationSequence(PiranhaGroundAnimName, PiranhaGroundAnimName);
 		break;
 	case SPIKE_NORMAL:
 		InitAnimation.setAnimation(0, 0, 100);

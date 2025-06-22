@@ -108,6 +108,7 @@ void BrickParticleStatusUpdate(const float deltaTime) {
 			if (!BrickParticleDisabledList[i][j]) {
 				BrickParticleVelo[i][j].second += 0.5f * deltaTime * 0.3f;
 				BrickParticleCurr[i][j] = { BrickParticleCurr[i][j].x + BrickParticleVelo[i][j].first * deltaTime, BrickParticleCurr[i][j].y + BrickParticleVelo[i][j].second * deltaTime };
+				// TODO: Add imterpolation to rotate
 				if (BrickParticleVelo[i][j].first > 0) BrickParticleList[i][j].rotate(sf::degrees(10.0f * deltaTime));
 				else if (BrickParticleVelo[i][j].first < 0) BrickParticleList[i][j].rotate(sf::degrees(-10.0f * deltaTime));
 				BrickParticleVelo[i][j].second += 0.5f * deltaTime * 0.3f;

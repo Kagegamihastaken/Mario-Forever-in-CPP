@@ -2,6 +2,9 @@
 #include <array>
 
 #include "Object/Mario.hpp"
+
+#include <iostream>
+
 #include "Block/Obstacles.hpp"
 #include "Block/Brick.hpp"
 #include "Core/WindowFrame.hpp"
@@ -64,10 +67,10 @@ static std::vector<std::string> BigMarioRight;
 void UpdateSequenceAnimation() {
 	switch (PowerState) {
 		case 0:
-			MarioAnimation.SetAnimationSequence(SmallMarioLeft, SmallMarioRight);
+			MarioAnimation.setAnimationSequence(SmallMarioLeft, SmallMarioRight);
 			break;
 		case 1:
-			MarioAnimation.SetAnimationSequence(BigMarioLeft, BigMarioRight);
+			MarioAnimation.setAnimationSequence(BigMarioLeft, BigMarioRight);
 			break;
 		default: ;
 	}
@@ -193,54 +196,53 @@ void MarioVertXUpdate() {
 		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 		float CurrPosXCollide = 0, CurrPosYCollide = 0;
 		bool NoAdd = false;
-
-		if (!MarioDirection) {
-			be = find_min_inx(player.curr, ObstaclesHorzPosList);
-			nd = find_max_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-			be = find_min_inx(player.curr, BricksHorzPosList);
-			nd = find_max_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-			be = find_min_inx(player.curr, LuckyHorzPosList);
-			nd = find_max_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-		}
-		else {
-			be = find_max_inx(player.curr, ObstaclesHorzPosList);
-			nd = find_min_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-			be = find_max_inx(player.curr, BricksHorzPosList);
-			nd = find_min_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-			be = find_max_inx(player.curr, LuckyHorzPosList);
-			nd = find_min_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		}
-		//snap back
-		if (MarioDirection) {
-			if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
-				//std::cout << player.curr.x << "\n";
+			if (!MarioDirection) {
+				be = find_min_inx(player.curr, ObstaclesHorzPosList);
+				nd = find_max_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
+				ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+				be = find_min_inx(player.curr, BricksHorzPosList);
+				nd = find_max_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
+				BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+				be = find_min_inx(player.curr, LuckyHorzPosList);
+				nd = find_max_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
+				LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
 			}
-			else if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
-				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide - (1.0f + 2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
-				//std::cout << player.curr.x << "\n";
+			else {
+				be = find_max_inx(player.curr, ObstaclesHorzPosList);
+				nd = find_min_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
+				ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+				be = find_max_inx(player.curr, BricksHorzPosList);
+				nd = find_min_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
+				BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+				be = find_max_inx(player.curr, LuckyHorzPosList);
+				nd = find_min_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
+				LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
 			}
-		}
-		else {
-			if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
-				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide - (1.0f + 2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
-				//std::cout << player.curr.x << "\n";
+			//snap back
+			if (MarioDirection) {
+				if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+					Xvelo = 0.0f;
+					player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
+					//std::cout << player.curr.x << "\n";
+				}
+				else if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+					Xvelo = 0.0f;
+					player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+					//std::cout << player.curr.x << "\n";
+				}
 			}
-			else if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
-				//std::cout << player.curr.x << "\n";
+			else {
+				if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+					Xvelo = 0.0f;
+					player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+					//std::cout << player.curr.x << "\n";
+				}
+				else if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+					Xvelo = 0.0f;
+					player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
+					//std::cout << player.curr.x << "\n";
+				}
 			}
-		}
 	}
 }
 void MarioPosYUpdate(const float deltaTime) {
@@ -338,19 +340,12 @@ void MarioVertYUpdate() {
 			bool isLanding;
 			MarioCurrentFalling = false;
 			if (Yvelo >= 0.0f) {
-				isLanding = true;
+				player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y) };
 				Yvelo = 0.0f;
 			}
-			else {
-				isLanding = false;
-				Yvelo = 0.0f;
-			}
-			if (isLanding) {
 				//if (SlopeCollide) player.curr = { player.curr.x, slopey - (52.0f - player.property.getOrigin().y + 10.0f) };
 				//if (player.curr.y + 7.0f >= CurrPosYCollide) player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) };
-				player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y) };
 				//else player.curr = { player.curr.x, slopey - (52.0f - player.property.getOrigin().y + 10.0f) };
-			}
 		}
 		// top update
 		NoAdd = false;
@@ -364,12 +359,14 @@ void MarioVertYUpdate() {
 		const int lu_nd = find_min_iny_dist(player.curr, LuckyVertPosList, 64.0f - (Yvelo) * 16.0f);
 		LuckyCollide = isAccurateCollideTop(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), LuckyVertPosList, CurrPosYCollide, NoAdd, lu_nd, lu_be, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
-			Yvelo = 0.0f;
 			//snap back
-			if (PowerState > 0 && !MarioCrouchDown)
-				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
-			else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
-				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
+			if (Yvelo < 0.0f) {
+				if (PowerState > 0 && !MarioCrouchDown)
+					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
+				else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
+					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
+			}
+			Yvelo = 0.0f;
 			// Start event Brick
 			if (BrickCollide) {
 				if (const std::vector<std::pair<float, float> > BrickPos = isCollideTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxTop), BricksVertPosList, br_nd, br_be, 80.0f); !BrickPos.empty()) {
@@ -427,7 +424,7 @@ void MarioUpdateAnimation() {
 					MarioAnimation.setAnimation(3, 3, 100);
 					lastMarioState = MarioState;
 				}
-				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(!MarioDirection));
+				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 				MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 			}
 			else if (Yvelo == 0.0f && !(!MarioCurrentFalling && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0)) {
@@ -437,7 +434,7 @@ void MarioUpdateAnimation() {
 						MarioAnimation.setAnimation(2, 2, 0);
 						lastMarioState = MarioState;
 					}
-					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(!MarioDirection));
+					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 					MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 				}
 				else {
@@ -446,7 +443,7 @@ void MarioUpdateAnimation() {
 						MarioAnimation.setAnimation(0, 2);
 						lastMarioState = MarioState;
 					}
-					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(!MarioDirection));
+					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 					MarioAnimation.setFrequencyAnimation(f_max(12.0f, f_min(Xvelo * 6.0f, 45.0f)));
 					//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 					MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
@@ -458,7 +455,7 @@ void MarioUpdateAnimation() {
 					MarioAnimation.setAnimation(4, 4);
 					lastMarioState = MarioState;
 				}
-				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(!MarioDirection));
+				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 				MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 			}
 		}
@@ -468,7 +465,7 @@ void MarioUpdateAnimation() {
 				MarioAnimation.setAnimation(5, 7, 100);
 				lastMarioState = MarioState;
 			}
-			MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(!MarioDirection));
+			MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 			MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 		}
 	}

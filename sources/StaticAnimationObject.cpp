@@ -11,7 +11,13 @@ namespace MFCPP {
     void StaticAnimationObject::setColor(const sf::Color& color) {
         m_index.setColor(color);
     }
+    void StaticAnimationObject::setRotation(const sf::Angle angle) {
+        m_index.setRotation(angle);
+    }
     void StaticAnimationObject::AnimationDraw(sf::RenderWindow& window) const {
         window.draw(m_index);
+    }
+    sf::Angle StaticAnimationObject::getRotation() const {
+        return m_index.getRotation();
     }
 }

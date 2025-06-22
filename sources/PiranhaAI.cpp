@@ -49,7 +49,7 @@ void AddPiranha(const PiranhaID ID, const float x, const float y) {
 	switch (ID) {
 		case GREEN:
 			PiranhaAIList.back().setAnimation(0, 1, 14);
-			PiranhaAIList.back().SetAnimationSequence(PiranhaAnimName, PiranhaAnimName);
+			PiranhaAIList.back().setAnimationSequence(PiranhaAnimName, PiranhaAnimName);
 			PiranhaAIList.back().setSpeed(1.0f);
 			PiranhaAIList.back().setStopTime(1.4f);
 			PiranhaAIList.back().setDistanceAppear(80.0f);

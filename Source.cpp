@@ -79,14 +79,11 @@ int WinMain() {
 		GameObjectEditText();
 		fpsLite.update();
 		timestep.addFrame();
-
-		while (timestep.isUpdateRequired()) {
 		//if (Updated) {
+		while (timestep.isUpdateRequired()) {
 			GameObjectSetPrev();
-			GameObjectCollision();
-
 			GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
-
+			GameObjectCollision();
 			InvincibleStateUpdate();
 		}
 		if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();

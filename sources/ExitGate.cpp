@@ -66,7 +66,7 @@ void ExitGateInit() {
 	ExitGateClock.reset();
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50);
-	ExitGateIndicatorAnimation.SetAnimationSequence(ExitIndicatorAnimName, ExitIndicatorAnimName);
+	ExitGateIndicatorAnimation.setAnimationSequence(ExitIndicatorAnimName, ExitIndicatorAnimName);
 	ExitGateIndicator.setOrigin({ 0.0f, 31.0f });
 }
 void SetPrevExitGatePos() {

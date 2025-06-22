@@ -28,4 +28,25 @@ namespace MFCPP {
     void ActiveObject::move(const sf::Vector2f& pos) {
         m_curr += pos;
     }
+    void ActiveObject::setCurrentAngle(const sf::Angle& angle) {
+        m_curr_angle = angle;
+    }
+    sf::Angle ActiveObject::getCurrentAngle() const {
+        return m_curr_angle;
+    }
+    void ActiveObject::setPreviousAngle(const sf::Angle& angle) {
+        m_prev_angle = angle;
+    }
+    sf::Angle ActiveObject::getPreviousAngle() const {
+        return m_prev_angle;
+    }
+    void ActiveObject::rotate(const sf::Angle& angle) {
+        m_curr_angle += angle;
+    }
+    sf::Angle ActiveObject::getInterpolatedAngle() const {
+        return m_interpalated_angle;
+    }
+    void ActiveObject::setInterpolatedAngle(const sf::Angle& angle) {
+        m_interpalated_angle = angle;
+    }
 }

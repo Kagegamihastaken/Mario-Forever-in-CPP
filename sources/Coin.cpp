@@ -29,7 +29,7 @@ void CoinInit() {
 		CoinAnimName.emplace_back("Coin_" + std::to_string(i));
 	}
 	CoinAnimation.setAnimation(0, 2, 20);
-	CoinAnimation.SetAnimationSequence(CoinAnimName, CoinAnimName);
+	CoinAnimation.setAnimationSequence(CoinAnimName, CoinAnimName);
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	Coin operate;

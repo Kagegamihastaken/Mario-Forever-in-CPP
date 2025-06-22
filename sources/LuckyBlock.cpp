@@ -54,7 +54,7 @@ void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, floa
 	switch (ID) {
 	case LUCKY_BLOCK:
 		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalLuckyBlock_0")) });
-		LuckyIdle.back().SetAnimationSequence(NormLuckyBlockAnimName, NormLuckyBlockAnimName);
+		LuckyIdle.back().setAnimationSequence(NormLuckyBlockAnimName, NormLuckyBlockAnimName);
 		break;
 	case TREE_LUCKY_BLOCK:
 		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("TreeLuckyBlock")) });
@@ -160,12 +160,12 @@ void LuckyHit(const float x, const float y, const int i) {
 		switch (LuckyBlockAttList[i]) {
 		case LUCKY_COIN:
 			SoundManager::PlaySound("Coin");
-			AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y + 32.0f);
+			AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y);
 			++CoinCount;
 			break;
 		case LUCKY_MUSHROOM:
 			SoundManager::PlaySound("Vine");
-			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y + 63.0f, RIGHT);
+			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y, RIGHT);
 			break;
 		}
 		LuckyBlockHittedUpdate(i);
@@ -187,8 +187,8 @@ void LuckyHitEvent(const float x, const float y) {
 	std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
-			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].property);
-			LuckyLoop.position.y -= 32.0f;
+			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].curr, sf::Vector2f(0.f, 0.f));
+			LuckyLoop.position.y -= 16.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, LuckyLoop)) {
 					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x + 15.0f, CoinList[j].property.getPosition().y + 32.0f);
@@ -203,7 +203,7 @@ void LuckyHitEvent(const float x, const float y) {
 					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
-			LuckyHit(LuckyLoop.position.x, LuckyLoop.position.y, i);
+			LuckyHit(LuckyLoop.position.x, LuckyLoop.position.y + 16.f, i);
 			break;
 		}
 	}

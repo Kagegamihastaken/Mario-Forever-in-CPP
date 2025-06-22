@@ -36,7 +36,7 @@ void InterpolateCoinEffectPos(const float alpha) {
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffect Init;
 	Init.coinEffectAnimation.setAnimation(0, 20, 70);
-	Init.coinEffectAnimation.SetAnimationSequence(CoinEffectAnimName, CoinEffectAnimName);
+	Init.coinEffectAnimation.setAnimationSequence(CoinEffectAnimName, CoinEffectAnimName);
 	Init.property.setPosition({ static_cast<float>(round(x)), y });
 	Init.property.setOrigin({ 18, 31 });
 	Init.curr = Init.prev = Init.property.getPosition();

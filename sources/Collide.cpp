@@ -3,6 +3,9 @@
 
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
+
+#include <iostream>
+
 #include "Class/CollisionObjectClass.hpp"
 
 static constexpr float DEFAULT_OBJECT_WIDTH = 32.0f;
@@ -150,7 +153,7 @@ bool isAccurateCollideTop(const MFCPP::CollisionObject& CollideObj, const std::v
 		if (f_abs(OLVert[i].second.x - CollideObj.GetPosition().x) > distance) continue;
 		//if (SaveList.size() > 0) hitbox_loop.position.y = SaveList[i].second;
 		if (isCollide(hitbox_intersect, hitbox_loop)) {
-			if (hitbox_intersect.position.y >= hitbox_loop.position.y + 16.0f) {
+			if (hitbox_intersect.position.y >= hitbox_loop.position.y + 16.0f && hitbox_intersect.position.y <= hitbox_loop.position.y + 32.0f) {
 				isCollideTopBool = true;
 				CurrPosYCollide = hitbox_loop.position.y;
 				break;

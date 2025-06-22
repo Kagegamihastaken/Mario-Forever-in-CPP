@@ -19,6 +19,7 @@ class SingleAnimationObject {
 	sf::Clock m_TimeRun;
 	float m_TimeRan = 0.0f;
 	float m_TimeRemainSave = 0.0f;
+	sf::Angle m_angle = sf::degrees(0.f);
 	AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 public:
 	void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
@@ -33,8 +34,10 @@ public:
 	void setAnimationDirection(const AnimationDirection& dir);
 	//sf::IntRect getAnimationTextureRect() const;
 	[[nodiscard]] bool isAnimationAtTheEnd() const;
+	[[nodiscard]] AnimationDirection getAnimationDirection() const;
 	void AddAnimationSequence(const std::string& a_left, const std::string& a_right);
-	void SetAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
-	void SetAnimationSequence(const std::vector<std::string>& s_left);
+	void setAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
+	void setAnimationSequence(const std::vector<std::string>& s_left);
+	void setRotation(sf::Angle angle);
 };
 #endif // LOCALANIMATIONMANAGER_HPP

@@ -26,6 +26,7 @@
 #include "Editor/Editor.hpp"
 #include "Editor/SelectTile.hpp"
 #include "Object/BroAI.hpp"
+#include "Projectiles/BroAIProjectile.hpp"
 
 #include "Core/Game.hpp"
 
@@ -43,6 +44,7 @@ void GameObjectInit() {
     LoadBricks();
     LoadLuckyBlock();
     GoombaAILoadRes();
+    BroAIProjectileInit();
     BroAILoadRes();
     CoinEffectInit();
     CoinInit();
@@ -139,6 +141,7 @@ void GameObjectSetPrev() {
         SetPrevBricksPos();
         SetPrevLuckyBlockPos();
         SetPrevBroAIPos();
+        SetPrevBroAIProjectilePos();
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         SetPrevEditor();
@@ -147,6 +150,7 @@ void GameObjectSetPrev() {
 void GameObjectDeltaMovement(const float dt) {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         KeyboardMovement(dt);
+        MarioUpdateHitbox();
         MarioPosXUpdate(dt);
         MarioVertXUpdate();
         MarioPosYUpdate(dt);
@@ -155,9 +159,12 @@ void GameObjectDeltaMovement(const float dt) {
         GoombaAIVertYUpdate(dt);
         BroAIVertXUpdate(dt);
         BroAIVertYUpdate(dt);
+        BroAIShootUpdate(dt);
         GoombaAIEffectVertYUpdate(dt);
-        PiranhaAIMovementUpdate(dt);
+        BroAIProjectileMovementUpdate(dt);
+        BroAIProjectileSpin(dt);
 
+        PiranhaAIMovementUpdate(dt);
         GoombaStatusUpdate(dt);
         GoombaAIEffectStatusUpdate(dt);
         CoinEffectStatusUpdate(dt);
@@ -182,7 +189,7 @@ void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
     else if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (mousePressed->button == sf::Mouse::Button::Left) {
-                AddBroAI(MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
+                AddBroAI(BroAIType::HAMMER_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
                 //AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
             }
         }
@@ -202,6 +209,7 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateBricksPos(alpha);
         InterpolateLuckyBlockPos(alpha);
         InterpolateBroAIPos(alpha);
+        InterpolateBroAIProjectilePos(alpha);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         InterpolateEditorPos(alpha);
@@ -214,13 +222,15 @@ void GameObjectAnimation() {
 }
 void GameObjectCollision() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        BroAIProjectileCollision();
+        BroAIStatusUpdate();
         GoombaAICollisionUpdate();
         GoombaAICheckCollide();
         CoinOnTouch();
         PiranhaAIStatusUpdate();
-        MarioUpdateHitbox();
         SpikeStatusUpdate();
         CheckForDeath();
+        BroAIProjectileStatusUpdate();
     }
 }
 void GameObjectMiscUpdate() {
@@ -249,11 +259,11 @@ void GameObjectDraw() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         BgDraw();
         ExitGateDraw();
-        MarioDraw();
         GoombaAIUpdate();
         BroAIDraw();
         PiranhaAIUpdate();
         ObstaclesUpdate();
+        MarioDraw();
         SpikeUpdate();
         SlopeUpdate();
         CoinUpdate();
@@ -263,6 +273,7 @@ void GameObjectDraw() {
         ScoreEffectUpdate();
         BrickParticleUpdate();
         GoombaAIEffectUpdate();
+        BroAIProjectileDraw();
         MarioEffectDraw();
         ExitGateEffectDraw();
         FrameDraw();

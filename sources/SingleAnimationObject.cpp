@@ -21,7 +21,7 @@ void SingleAnimationObject::AddAnimationSequence(const std::string& a_left, cons
 	m_LeftIndex.emplace_back(*ImageManager::GetReturnTexture(a_left));
 	m_RightIndex.emplace_back(*ImageManager::GetReturnTexture(a_right));
 }
-void SingleAnimationObject::SetAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right) {
+void SingleAnimationObject::setAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right) {
 	if (s_left.size() != s_right.size()) {
 		std::cout << "Size of 2 directions must be equal\n";
 		return;
@@ -33,7 +33,7 @@ void SingleAnimationObject::SetAnimationSequence(const std::vector<std::string>&
 	for (const auto& str : s_right)
 		m_RightIndex.emplace_back(*ImageManager::GetReturnTexture(str));
 }
-void SingleAnimationObject::SetAnimationSequence(const std::vector<std::string>& s_left) {
+void SingleAnimationObject::setAnimationSequence(const std::vector<std::string>& s_left) {
 	m_LeftIndex.clear();
 	m_RightIndex.clear();
 	for (const auto& str : s_left) {
@@ -91,10 +91,12 @@ void SingleAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::V
 	}
 
 	if (m_direction == AnimationDirection::ANIM_RIGHT) {
+		m_RightIndex[m_indexAnimation].setRotation(m_angle);
 		m_RightIndex[m_indexAnimation].setPosition(pos);
 		m_RightIndex[m_indexAnimation].setOrigin(origin);
 	}
 	else {
+		m_LeftIndex[m_indexAnimation].setRotation(m_angle);
 		m_LeftIndex[m_indexAnimation].setPosition(pos);
 		m_LeftIndex[m_indexAnimation].setOrigin(origin);
 	}
@@ -111,6 +113,11 @@ void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir)
 //}
 bool SingleAnimationObject::isAnimationAtTheEnd() const {
 	int temp = this->m_endingIndexAnimation;
-	temp = std::max(0, temp - 1);
 	return (this->m_indexAnimation == temp);
+}
+void SingleAnimationObject::setRotation(const sf::Angle angle) {
+	m_angle = angle;
+}
+AnimationDirection SingleAnimationObject::getAnimationDirection() const {
+	return m_direction;
 }

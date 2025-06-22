@@ -161,7 +161,7 @@ void windowInit() {
 	}
 	CoinHUD.setTexture(ImageManager::GetTexture("CoinHUD_0"), true);
 	CoinHUDAnim.setAnimation(0, 2, 16);
-	CoinHUDAnim.SetAnimationSequence(CoinHUDAnimName, CoinHUDAnimName);
+	CoinHUDAnim.setAnimationSequence(CoinHUDAnimName, CoinHUDAnimName);
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
 	//rObject.setRepeated(true);
