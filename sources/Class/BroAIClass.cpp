@@ -1,5 +1,8 @@
 #include "Class/BroAIClass.hpp"
 
+#include "Effect/BroAIEffect.hpp"
+#include "Effect/ScoreEffect.hpp"
+
 namespace MFCPP {
     BroAI::BroAI(const BroAIType type, const BroAIMovementType movementType, const float speed, const float stop_duration, const float launch_interval, const int launch_count, const float launch_interval_between, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_launch_count(launch_count), m_launch_interval_between(launch_interval_between), m_movementType(movementType), m_stop_duration(stop_duration), m_speed(speed), m_launch_interval(launch_interval), m_type(type) {
         setOrigin(origin);
@@ -197,5 +200,9 @@ namespace MFCPP {
     }
     BroAIType BroAI::getType() const {
         return m_type;
+    }
+    void BroAI::DeathBehaviour(const ScoreID score_id) {
+        AddScoreEffect(score_id, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+        AddBroAIEffect(getType(), static_cast<bool>(getAnimationDirection()), getCurrentPosition().x, getCurrentPosition().y);
     }
 }

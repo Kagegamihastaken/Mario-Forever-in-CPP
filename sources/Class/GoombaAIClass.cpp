@@ -115,7 +115,7 @@ namespace MFCPP {
     sf::FloatRect GoombaAI::GetHitboxMain() const {
         return m_hitbox_main;
     }
-    void GoombaAI::SetCanDeath(bool val) {
+    void GoombaAI::SetCanDeath(const bool val) {
         m_can_death = val;
     }
     bool GoombaAI::IsCanDeath() const {

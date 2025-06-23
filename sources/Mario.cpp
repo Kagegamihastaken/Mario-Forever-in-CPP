@@ -359,14 +359,6 @@ void MarioVertYUpdate() {
 		const int lu_nd = find_min_iny_dist(player.curr, LuckyVertPosList, 64.0f - (Yvelo) * 16.0f);
 		LuckyCollide = isAccurateCollideTop(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), LuckyVertPosList, CurrPosYCollide, NoAdd, lu_nd, lu_be, 80.0f);
 		if (ObstacleCollide || BrickCollide || LuckyCollide) {
-			//snap back
-			if (Yvelo < 0.0f) {
-				if (PowerState > 0 && !MarioCrouchDown)
-					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
-				else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
-					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
-			}
-			Yvelo = 0.0f;
 			// Start event Brick
 			if (BrickCollide) {
 				if (const std::vector<std::pair<float, float> > BrickPos = isCollideTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxTop), BricksVertPosList, br_nd, br_be, 80.0f); !BrickPos.empty()) {
@@ -382,6 +374,14 @@ void MarioVertYUpdate() {
 					}
 				}
 			}
+			//snap back
+			if (Yvelo < 0.0f) {
+				if (PowerState > 0 && !MarioCrouchDown)
+					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
+				else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
+					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
+			}
+			Yvelo = 0.0f;
 		}
 	}
 }

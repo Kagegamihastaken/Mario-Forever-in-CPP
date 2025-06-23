@@ -5,6 +5,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Loading/enum.hpp"
+#include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
 std::vector<MFCPP::BroAIProjectile> BroAIProjectileList;
@@ -36,6 +37,7 @@ void DeleteAllBroAIProjectile() {
     BroAIProjectileList.clear();
 }
 void BroAIProjectileCollision() {
+    if (EffectActive) return;
     if (BroAIProjectileList.empty()) return;
     const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
     for (int i = 0; i < BroAIProjectileList.size(); ++i) {
@@ -58,7 +60,7 @@ void BroAIProjectileSpin(const float deltaTime) {
 void AddBroAIProjectile(const bool direction, const BroAIProjectileType type, const float x, const float y) {
     switch (type) {
         case BroAIProjectileType::HAMMER:
-            BroAIProjectileList.emplace_back(direction, type, HAMMER_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {24.f, 33.f}), sf::Vector2f(x, y), sf::Vector2f(13, 18));
+            BroAIProjectileList.emplace_back(direction, type, HAMMER_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {24.f, 24.f}), sf::Vector2f(x, y), sf::Vector2f(13, 18));
             if (direction) BroAIProjectileList.back().setTexture("HammerLeft");
             else BroAIProjectileList.back().setTexture("HammerRight");
             break;

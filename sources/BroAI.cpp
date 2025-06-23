@@ -11,6 +11,9 @@
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Collision/Collide.hpp"
+#include "Effect/BroAIEffect.hpp"
+#include "Effect/MarioEffect.hpp"
+#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 
@@ -83,8 +86,35 @@ void BroAIStatusUpdate() {
     for (int i = 0; i < BroAIList.size(); ++i) {
         if (!isOutScreen(BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y, 64.0f, 64.0f))
             if (BroAIList[i].isDisabled()) BroAIList[i].setDisabled(false);
-        if (BroAIList[i].getCurrentPosition().x > player.curr.x) BroAIList[i].setAnimationDirection(ANIM_LEFT);
-        else if (BroAIList[i].getCurrentPosition().x < player.curr.x) BroAIList[i].setAnimationDirection(ANIM_RIGHT);
+        if (!EffectActive) {
+            if (BroAIList[i].getCurrentPosition().x > player.curr.x) BroAIList[i].setAnimationDirection(ANIM_LEFT);
+            else if (BroAIList[i].getCurrentPosition().x < player.curr.x) BroAIList[i].setAnimationDirection(ANIM_RIGHT);
+        }
+        else BroAIList[i].setAnimationDirection(ANIM_LEFT);
+    }
+}
+void BroAICheckCollide() {
+    if (EffectActive) return;
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    for (int i = 0; i < BroAIList.size(); ++i) {
+        if (BroAIList[i].isDisabled()) continue;
+        if (f_abs(player.curr.x - BroAIList[i].getCurrentPosition().x) >= 160.f) continue;
+        if (const sf::FloatRect loopHitbox = getGlobalHitbox(BroAIList[i].getHitbox(), BroAIList[i].getCurrentPosition(), BroAIList[i].getOrigin()); isCollide(loopHitbox, hitbox_mario)) {
+            if ((BroAIList[i].getCurrentPosition().y - 16.f > player.curr.y) && Yvelo > 0.f) {
+                //player.curr = {player.curr.x, BroAIList[i].getCurrentPosition().y - BroAIList[i].getOrigin().y - 1.f};
+                if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
+                else Yvelo = -13.0f;
+                SoundManager::PlaySound("Stomp");
+                BroAIList[i].DeathBehaviour(SCORE_200);
+                AddBroAIEffect(BroAIList[i].getType(), static_cast<bool>(BroAIList[i].getAnimationDirection()), BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y);
+                DeleteBroAI(BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y);
+                break;
+            }
+            else if (BroAIList[i].getCurrentPosition().y - 16.0f < player.curr.y) {
+                PowerDown();
+                break;
+            }
+        }
     }
 }
 void BroAIShootUpdate(const float deltaTime) {
@@ -315,7 +345,9 @@ void BroAIVertYUpdate(const float deltaTime) {
 }
 void BroAIDraw() {
     for (auto &i : BroAIList) {
-        i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-        i.AnimationDraw(window);
+        if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 32.f, 32.f)) {
+            i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+            i.AnimationDraw(window);
+        }
     }
 }

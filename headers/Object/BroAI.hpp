@@ -1,8 +1,12 @@
 #ifndef BROAI_HPP
 #define BROAI_HPP
 
+#include <vector>
+
+#include "Class/BroAIClass.hpp"
 #include "Core/Loading/enum.hpp"
 
+extern std::vector<MFCPP::BroAI> BroAIList;
 extern void BroAILoadRes();
 extern void BroAIDraw();
 extern void AddBroAI(BroAIType type, BroAIMovementType movementType, float x, float y);
@@ -14,5 +18,6 @@ extern void DeleteBroAI(float x, float y);
 extern void DeleteAllBroAI();
 extern void BroAIShootUpdate(float deltaTime);
 extern void BroAIStatusUpdate();
+extern void BroAICheckCollide();
 
 #endif //BROAI_HPP

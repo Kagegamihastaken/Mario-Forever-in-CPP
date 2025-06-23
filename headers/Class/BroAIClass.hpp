@@ -65,6 +65,7 @@ namespace MFCPP {
         [[nodiscard]] bool isDisabled() const;
         void setType(BroAIType val);
         [[nodiscard]] BroAIType getType() const;
+        void DeathBehaviour(ScoreID score_id);
 
     private:
         float             m_fixed_walking_value{};

@@ -20,6 +20,9 @@
 #include <vector>
 #include <set>
 
+#include "Effect/BroAIEffect.hpp"
+#include "Object/BroAI.hpp"
+
 std::vector<Obstacles> Bricks;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;
 std::vector<bool> BrickState;
@@ -172,6 +175,7 @@ void MultiBrickCoin(const float x, const float y, const int i) {
 }
 void HitEvent(const float x, const float y) {
 	std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
+	std::set<std::pair<float, float>> BroAIDeleteSet;
 	std::set<std::pair<float, float>> BrickDeleteSet;
 	for (int i = 0; i < Bricks.size(); i++) {
 		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y && !BrickState[i]) {
@@ -189,6 +193,13 @@ void HitEvent(const float x, const float y) {
 				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
 					j.DeathBehaviour(SCORE_100);
 					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
+				}
+			}
+			for (auto & j : BroAIList) {
+				if (sf::FloatRect BroAICollide = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(BroAICollide, BrickLoop)) {
+					j.DeathBehaviour(SCORE_200);
+					SoundManager::PlaySound("Kick2");
+					BroAIDeleteSet.insert({j.getCurrentPosition().x, j.getCurrentPosition().y});
 				}
 			}
 			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y + 16.f, i);
@@ -211,6 +222,9 @@ void HitEvent(const float x, const float y) {
 	if (!GoombaAIDeleteSet.empty())
 		for (const auto &[fst, snd] : GoombaAIDeleteSet)
 			DeleteGoombaAI(fst, snd.first, snd.second);
+	if (!BroAIDeleteSet.empty())
+		for (const auto &[fst, snd] : BroAIDeleteSet)
+			DeleteBroAI(fst, snd);
 }
 void DeleteBrick(const float x, const float y) {
 	std::erase_if(BricksVertPosList, [&](const std::pair<sf::FloatRect, sf::Vector2f>& A) ->bool {

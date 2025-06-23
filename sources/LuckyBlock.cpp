@@ -15,6 +15,8 @@
 #include <vector>
 #include <set>
 
+#include "Object/BroAI.hpp"
+
 std::vector<Obstacles> LuckyBlock;
 std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyVertPosList;
 std::vector<LuckyBlockID> LuckyBlockIDList;
@@ -185,6 +187,7 @@ int getLuckyIndex(const float x, const float y) {
 }
 void LuckyHitEvent(const float x, const float y) {
 	std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
+	std::set<std::pair<float, float>> BroAIDeleteSet;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].curr, sf::Vector2f(0.f, 0.f));
@@ -203,6 +206,13 @@ void LuckyHitEvent(const float x, const float y) {
 					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
+			for (auto & j : BroAIList) {
+				if (sf::FloatRect BroAICollide = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(BroAICollide, LuckyLoop)) {
+					j.DeathBehaviour(SCORE_200);
+					SoundManager::PlaySound("Kick2");
+					BroAIDeleteSet.insert({j.getCurrentPosition().x, j.getCurrentPosition().y});
+				}
+			}
 			LuckyHit(LuckyLoop.position.x, LuckyLoop.position.y + 16.f, i);
 			break;
 		}
@@ -210,6 +220,9 @@ void LuckyHitEvent(const float x, const float y) {
 	if (!GoombaAIDeleteSet.empty())
 		for (const auto &[fst, snd] : GoombaAIDeleteSet)
 			DeleteGoombaAI(fst, snd.first, snd.second);
+	if (!BroAIDeleteSet.empty())
+		for (const auto &[fst, snd] : BroAIDeleteSet)
+			DeleteBroAI(fst, snd);
 }
 void DeleteLuckyBlock(const float x, const float y) {
 	for (int i = 0; i < LuckyVertPosList.size(); ++i) {

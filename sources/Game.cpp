@@ -32,6 +32,8 @@
 
 #include <iostream>
 
+#include "Effect/BroAIEffect.hpp"
+
 void GameObjectInit() {
     InitTempTex();
     loadSlopeRes();
@@ -46,6 +48,7 @@ void GameObjectInit() {
     GoombaAILoadRes();
     BroAIProjectileInit();
     BroAILoadRes();
+    BroAIEffectInit();
     CoinEffectInit();
     CoinInit();
     ScoreEffectInit();
@@ -142,6 +145,7 @@ void GameObjectSetPrev() {
         SetPrevLuckyBlockPos();
         SetPrevBroAIPos();
         SetPrevBroAIProjectilePos();
+        SetPrevBroAIEffectPos();
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         SetPrevEditor();
@@ -163,9 +167,11 @@ void GameObjectDeltaMovement(const float dt) {
         GoombaAIEffectVertYUpdate(dt);
         BroAIProjectileMovementUpdate(dt);
         BroAIProjectileSpin(dt);
+        BroAIEffectVertYUpdate(dt);
 
         PiranhaAIMovementUpdate(dt);
         GoombaStatusUpdate(dt);
+        BroAIEffectStatusUpdate(dt);
         GoombaAIEffectStatusUpdate(dt);
         CoinEffectStatusUpdate(dt);
         ScoreEffectStatusUpdate(dt);
@@ -210,6 +216,7 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateLuckyBlockPos(alpha);
         InterpolateBroAIPos(alpha);
         InterpolateBroAIProjectilePos(alpha);
+        InterpolateBroAIEffectPos(alpha);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         InterpolateEditorPos(alpha);
@@ -224,13 +231,14 @@ void GameObjectCollision() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         BroAIProjectileCollision();
         BroAIStatusUpdate();
-        GoombaAICollisionUpdate();
         GoombaAICheckCollide();
+        GoombaAICollisionUpdate();
         CoinOnTouch();
         PiranhaAIStatusUpdate();
         SpikeStatusUpdate();
         CheckForDeath();
         BroAIProjectileStatusUpdate();
+        BroAICheckCollide();
     }
 }
 void GameObjectMiscUpdate() {
@@ -273,6 +281,7 @@ void GameObjectDraw() {
         ScoreEffectUpdate();
         BrickParticleUpdate();
         GoombaAIEffectUpdate();
+        BroAIEffectUpdate();
         BroAIProjectileDraw();
         MarioEffectDraw();
         ExitGateEffectDraw();
