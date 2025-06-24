@@ -189,13 +189,13 @@ void HitEvent(const float x, const float y) {
 					++CoinCount;
 				}
 			}
-			for (auto & j : GoombaAIList) {
+			for (const auto & j : GoombaAIList) {
 				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
 					j.DeathBehaviour(SCORE_100);
 					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
-			for (auto & j : BroAIList) {
+			for (const auto & j : BroAIList) {
 				if (sf::FloatRect BroAICollide = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(BroAICollide, BrickLoop)) {
 					j.DeathBehaviour(SCORE_200);
 					SoundManager::PlaySound("Kick2");

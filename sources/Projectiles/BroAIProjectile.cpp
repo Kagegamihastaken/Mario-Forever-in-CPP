@@ -29,8 +29,10 @@ void InterpolateBroAIProjectilePos(const float alpha) {
 }
 void DeleteBroAIProjectile(const float x, const float y) {
     for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (BroAIProjectileList[i].getCurrentPosition().x == x && BroAIProjectileList[i].getCurrentPosition().y == y)
+        if (BroAIProjectileList[i].getCurrentPosition().x == x && BroAIProjectileList[i].getCurrentPosition().y == y) {
             BroAIProjectileList.erase(BroAIProjectileList.begin() + i);
+            break;
+        }
     }
 }
 void DeleteAllBroAIProjectile() {

@@ -19,7 +19,7 @@ enum TextMarginID { LEFT_MARGIN, RIGHT_MARGIN };
 enum AnimationDirection {ANIM_RIGHT, ANIM_LEFT};
 
 //enum for GoombsAI
-enum GoombaAIType { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY };
+enum GoombaAIType { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER };
 enum GoombaAIDirection { LEFT, RIGHT };
 enum GoombaAICollisionType { YES, NO, FULL };
 //enum for goombaAIEffect
@@ -35,5 +35,8 @@ enum BroAIType {HAMMER_BRO};
 enum BroAIMovementType {CAN_JUMP, CANNOT_JUMP};
 enum BroAIProjectileType {HAMMER};
 enum BroAIProjectileBehavior {HAMMER_BEHAVIOUR};
+//enum for MarioProjectile
+enum MarioProjectileType {FIREBALL};
+enum MarioProjectileBehavior {FIREBALL_BEHAVIOUR};
 
 #endif // ENUM_HPP

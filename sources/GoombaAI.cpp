@@ -51,6 +51,10 @@ static std::vector<std::string> SpinyRightAnimName;
 static int RED_SPINY_IMAGE_WIDTH = 66;
 static int RED_SPINY_WIDTH = 33;
 static int RED_SPINY_HEIGHT = 32;
+static std::vector<std::string> FireFlowerAnimName;
+static int FIRE_FLOWER_IMAGE_WIDTH = 128;
+static int FIRE_FLOWER_WIDTH = 32;
+static int FIRE_FLOWER_HEIGHT = 32;
 
 
 void GoombaAILoadRes() {
@@ -84,7 +88,11 @@ void GoombaAILoadRes() {
 		SpinyLeftAnimName.push_back("RedSpinyLeft_" + std::to_string(i));
 		SpinyRightAnimName.push_back("RedSpinyRight_" + std::to_string(i));
 	}
-
+	ImageManager::AddImage("FireFlowerImage", "data/resources/FireFlower.png");
+	for (int i = 0; i < FIRE_FLOWER_IMAGE_WIDTH / FIRE_FLOWER_WIDTH; ++i) {
+		ImageManager::AddTexture("FireFlowerImage", sf::IntRect({i * FIRE_FLOWER_WIDTH, 0}, {FIRE_FLOWER_WIDTH, FIRE_FLOWER_HEIGHT}), "FireFlower_" + std::to_string(i));
+		FireFlowerAnimName.push_back("FireFlower_" + std::to_string(i));
+	}
 	//GoombaAITextureManager.LoadingAnimatedTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
 	//GoombaAITextureManager.LoadingAnimatedTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
 	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
@@ -147,6 +155,13 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			sf::Vector2f(16, 29), false, SkinID, 0.6f);
 		GoombaAIList.back().setAnimation(0, 1, 14);
 		GoombaAIList.back().setAnimationSequence(SpinyLeftAnimName, SpinyRightAnimName);
+		break;
+		case FIRE_FLOWER:
+		GoombaAIList.emplace_back(type, Dir, GoombaAICollisionType::FULL, 0.0f,
+			sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
+			sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
+		GoombaAIList.back().setAnimation(0, 3, 27);
+		GoombaAIList.back().setAnimationSequence(FireFlowerAnimName);
 		break;
 		default: ;
 	}
@@ -222,6 +237,7 @@ void GoombaAICheckCollide() {
 						case GoombaAIType::MUSHROOM:
 						case GoombaAIType::SHELL:
 						case GoombaAIType::SPINY:
+						case GoombaAIType::FIRE_FLOWER:
 						default: ;
 						}
 						break;
@@ -252,11 +268,17 @@ void GoombaAICheckCollide() {
 						else AddGoombaAI(SHELL_MOVING, i.GetSkinID(), i.getCurrentPosition().x, i.getCurrentPosition().y, LEFT);
 					}
 					break;
+				case GoombaAIType::FIRE_FLOWER:
+					SoundManager::PlaySound("Powerup");
+					AddScoreEffect(SCORE_1000, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
+					SetPowerState(2);
+					DeleteGoombaAI(i.GetType(), i.getCurrentPosition().x, i.getCurrentPosition().y);
+					break;
 				case GoombaAIType::SHELL_MOVING:
 				case GoombaAIType::GOOMBA:
 				case GoombaAIType::KOOPA:
 				case GoombaAIType::SPINY:
-					default: ;
+				default: ;
 				}
 				break;
 			}
@@ -511,7 +533,7 @@ void GoombaAICollisionUpdate() {
 			GoombaAIList[i].SetCollideWith({false, -1});
 		}
 		if (GoombaAIList[i].GetType() == SHELL_MOVING) {
-			for (auto & j : BroAIList) {
+			for (const auto & j : BroAIList) {
 				if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(BroAIHitbox, hitbox_loop)) {
 					Kicking(i, sf::Vector2f(j.getCurrentPosition().x, j.getCurrentPosition().y), j.getOrigin().y);
 					AddBroAIEffect(j.getType(), static_cast<bool>(j.getAnimationDirection()), j.getCurrentPosition().x, j.getCurrentPosition().y);

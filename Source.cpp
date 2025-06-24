@@ -101,6 +101,7 @@ int WinMain() {
 		//ImGui::Button("Look at this pretty button");
 		//ImGui::End();
 		GameObjectMiscUpdate();
+		GameCleanUp();
 		//draw
 		//rObject.clear();
 		//rObject.display();

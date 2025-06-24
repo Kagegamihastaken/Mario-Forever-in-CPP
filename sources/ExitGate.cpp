@@ -16,6 +16,8 @@
 #include <random>
 #include <cmath>
 
+#include "Projectiles/MarioProjectile.hpp"
+
 SingleAnimationObject ExitGateIndicatorAnimation;
 sf::Sprite ExitGateBack(tempTex);
 sf::Sprite ExitGateFore(tempTex);
@@ -87,6 +89,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			Music.StopAllOGGMusic();
 			Music.PlayOGGMusic("LevelComplete");
 			ExitGateForeActive = false;
+			LevelEndMarioProjectileCleanup();
 		}
 		if (isCollide(getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin()), getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore))) {
 			if (ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 30.0f) AddScoreEffect(SCORE_10000, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
@@ -103,6 +106,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			Music.PlayOGGMusic("LevelComplete");
 			ExitGateForeEffect.setPosition(ExitGateFore.getPosition());
 			ExitGateForeEffectCurr = ExitGateForeEffectPrev = ExitGateFore.getPosition();
+			LevelEndMarioProjectileCleanup();
 
 			ExitGateForeEffectSpeed = RandomFloatNumberGenerator(123.75f, 146.25f) * M_PI / 180.0f;
 			ExitGateForeActive = false;

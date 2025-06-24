@@ -83,7 +83,11 @@ void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const 
     }
 }
 void BroAIStatusUpdate() {
+    std::vector<sf::Vector2f> BroAIDeletionPositionList;
     for (int i = 0; i < BroAIList.size(); ++i) {
+        if (isOutScreenYBottom(BroAIList[i].getCurrentPosition().y, 80.f)) {
+            BroAIDeletionPositionList.push_back(BroAIList[i].getCurrentPosition());
+        }
         if (!isOutScreen(BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y, 64.0f, 64.0f))
             if (BroAIList[i].isDisabled()) BroAIList[i].setDisabled(false);
         if (!EffectActive) {
@@ -92,6 +96,8 @@ void BroAIStatusUpdate() {
         }
         else BroAIList[i].setAnimationDirection(ANIM_LEFT);
     }
+    if (BroAIDeletionPositionList.empty()) return;
+    for (int i = 0; i < BroAIDeletionPositionList.size(); ++i) DeleteBroAI(BroAIDeletionPositionList[i].x, BroAIDeletionPositionList[i].y);
 }
 void BroAICheckCollide() {
     if (EffectActive) return;

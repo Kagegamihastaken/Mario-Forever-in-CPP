@@ -201,7 +201,7 @@ namespace MFCPP {
     BroAIType BroAI::getType() const {
         return m_type;
     }
-    void BroAI::DeathBehaviour(const ScoreID score_id) {
+    void BroAI::DeathBehaviour(const ScoreID score_id) const {
         AddScoreEffect(score_id, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
         AddBroAIEffect(getType(), static_cast<bool>(getAnimationDirection()), getCurrentPosition().x, getCurrentPosition().y);
     }

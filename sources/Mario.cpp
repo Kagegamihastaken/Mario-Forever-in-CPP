@@ -22,48 +22,9 @@
 #include "Core/Music.hpp"
 #include "Core/Interpolation.hpp"
 #include "Class/CollisionObjectClass.hpp"
+#include "Projectiles/MarioProjectile.hpp"
 
-//define here
-SingleAnimationObject MarioAnimation;
-MovableObject player;
-float Xvelo = 0.0f;
-float Yvelo = 0.0f;
-bool FirstMarioDirection = false;
-bool MarioDirection = FirstMarioDirection;
-bool MarioCurrentFalling = true;
-bool PreJump = false;
-bool Holding;
-bool MarioCrouchDown = false;
-float player_speed;
-int MarioState = 0;
-static int lastMarioState = -1;
-int PowerState = 0;
-static int lastPowerState = 0;
-
-int Lives = 4;
-
-static bool OverSpeed = false;
-long long int Score = 0;
-static sf::Clock AppearingTimer;
-static sf::Clock InvincibleTimer;
-bool Invincible = false;
-bool InvincibleState = false;
-bool MarioAppearing = false;
-
-bool CanControlMario = true;
-// 0 for right; 1 for left
 //texture loading
-sf::Texture SmallMario;
-sf::Texture BigMario;
-static constexpr int MARIO_IMAGE_WIDTH = 248;
-static constexpr int MARIO_WIDTH = 31;
-static constexpr int MARIO_HEIGHT = 59;
-
-static std::vector<std::string> SmallMarioLeft;
-static std::vector<std::string> SmallMarioRight;
-static std::vector<std::string> BigMarioLeft;
-static std::vector<std::string> BigMarioRight;
-
 void UpdateSequenceAnimation() {
 	switch (PowerState) {
 		case 0:
@@ -72,6 +33,8 @@ void UpdateSequenceAnimation() {
 		case 1:
 			MarioAnimation.setAnimationSequence(BigMarioLeft, BigMarioRight);
 			break;
+		case 2:
+			MarioAnimation.setAnimationSequence(FireMarioLeft, FireMarioRight);
 		default: ;
 	}
 }
@@ -86,6 +49,7 @@ void loadMarioRes() {
 	player.property.setOrigin({ 11, 51 });
 	ImageManager::AddImage("SmallMarioImage", "data/resources/SmallMario.png");
 	ImageManager::AddImage("BigMarioImage", "data/resources/BigMario.png");
+	ImageManager::AddImage("FireMarioImage", "data/resources/FireMario.png");
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
 		//SmallMario
 		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioRight_" + std::to_string(i));
@@ -97,6 +61,11 @@ void loadMarioRes() {
 		BigMarioRight.push_back("BigMarioRight_" + std::to_string(i));
 		ImageManager::AddTexture("BigMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "BigMarioLeft_" + std::to_string(i), false, true);
 		BigMarioLeft.push_back("BigMarioLeft_" + std::to_string(i));
+
+		ImageManager::AddTexture("FireMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "FireMarioRight_" + std::to_string(i));
+		FireMarioRight.push_back("FireMarioRight_" + std::to_string(i));
+		ImageManager::AddTexture("FireMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "FireMarioLeft_" + std::to_string(i), false, true);
+		FireMarioLeft.push_back("FireMarioLeft_" + std::to_string(i));
 	}
 	UpdateSequenceAnimation();
 }
@@ -171,6 +140,18 @@ void KeyboardMovement(const float deltaTime) {
 		Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.625f * deltaTime);
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 	}
+	//Fire
+	if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding && FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2) {
+		SoundManager::PlaySound("Fireball");
+		FireTimeCounting = 0.f;
+		switch (PowerState) {
+			case 2:
+				AddMarioProjectile(MarioDirection, FIREBALL, player.curr.x + (4.f * (MarioDirection ? -1.f : 1.f)), player.curr.y - 23.f);
+			default: ;
+		}
+	}
+	isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 }
 void MarioPosXUpdate(const float deltaTime) {
 	if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
@@ -196,53 +177,53 @@ void MarioVertXUpdate() {
 		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 		float CurrPosXCollide = 0, CurrPosYCollide = 0;
 		bool NoAdd = false;
-			if (!MarioDirection) {
-				be = find_min_inx(player.curr, ObstaclesHorzPosList);
-				nd = find_max_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
-				ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-				be = find_min_inx(player.curr, BricksHorzPosList);
-				nd = find_max_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
-				BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-				be = find_min_inx(player.curr, LuckyHorzPosList);
-				nd = find_max_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
-				LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		if (!MarioDirection) {
+			be = find_min_inx(player.curr, ObstaclesHorzPosList);
+			nd = find_max_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
+			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			be = find_min_inx(player.curr, BricksHorzPosList);
+			nd = find_max_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
+			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+			be = find_min_inx(player.curr, LuckyHorzPosList);
+			nd = find_max_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
+			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
+		}
+		else {
+			be = find_max_inx(player.curr, ObstaclesHorzPosList);
+			nd = find_min_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
+			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			be = find_max_inx(player.curr, BricksHorzPosList);
+			nd = find_min_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
+			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			be = find_max_inx(player.curr, LuckyHorzPosList);
+			nd = find_min_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
+			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+		}
+		//snap back
+		if (MarioDirection) {
+			if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+				Xvelo = 0.0f;
+				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
+				//std::cout << player.curr.x << "\n";
 			}
-			else {
-				be = find_max_inx(player.curr, ObstaclesHorzPosList);
-				nd = find_min_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
-				ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-				be = find_max_inx(player.curr, BricksHorzPosList);
-				nd = find_min_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
-				BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-				be = find_max_inx(player.curr, LuckyHorzPosList);
-				nd = find_min_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
-				LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
+			else if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+				Xvelo = 0.0f;
+				player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+				//std::cout << player.curr.x << "\n";
 			}
-			//snap back
-			if (MarioDirection) {
-				if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-					Xvelo = 0.0f;
-					player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
-					//std::cout << player.curr.x << "\n";
-				}
-				else if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
-					Xvelo = 0.0f;
-					player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
-					//std::cout << player.curr.x << "\n";
-				}
+		}
+		else {
+			if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+				Xvelo = 0.0f;
+				player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+				//std::cout << player.curr.x << "\n";
 			}
-			else {
-				if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
-					Xvelo = 0.0f;
-					player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
-					//std::cout << player.curr.x << "\n";
-				}
-				else if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
-					Xvelo = 0.0f;
-					player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
-					//std::cout << player.curr.x << "\n";
-				}
+			else if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+				Xvelo = 0.0f;
+				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
+				//std::cout << player.curr.x << "\n";
 			}
+		}
 	}
 }
 void MarioPosYUpdate(const float deltaTime) {
@@ -425,19 +406,17 @@ void MarioUpdateAnimation() {
 					lastMarioState = MarioState;
 				}
 				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
-				MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 			}
-			else if (Yvelo == 0.0f && !(!MarioCurrentFalling && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0)) {
-				if (Xvelo == 0.0f) {
+			else if (Yvelo == 0.f && !(!MarioCurrentFalling && MarioCrouchDown && PowerState > 0)) {
+				if (Xvelo == 0.f && FireTimeCounting >= FireTime) {
 					MarioState = 0;
 					if (lastMarioState != MarioState) {
 						MarioAnimation.setAnimation(2, 2, 0);
 						lastMarioState = MarioState;
 					}
 					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
-					MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 				}
-				else {
+				else if (Xvelo != 0.f && FireTimeCounting >= FireTime){
 					MarioState = 1;
 					if (lastMarioState != MarioState) {
 						MarioAnimation.setAnimation(0, 2);
@@ -446,34 +425,46 @@ void MarioUpdateAnimation() {
 					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 					MarioAnimation.setFrequencyAnimation(f_max(12.0f, f_min(Xvelo * 6.0f, 45.0f)));
 					//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
-					MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
+				}
+				else if (FireTimeCounting < FireTime && PowerState > 1) {
+					MarioState = 5;
+					if (lastMarioState != MarioState) {
+						MarioAnimation.setAnimation(9, 9, 0);
+						lastMarioState = MarioState;
+					}
+					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 				}
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0) {
+			else if (MarioCrouchDown && PowerState > 0) {
 				MarioState = 3;
 				if (lastMarioState != MarioState) {
 					MarioAnimation.setAnimation(4, 4);
 					lastMarioState = MarioState;
 				}
 				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
-				MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 			}
 		}
 		else {
 			MarioState = 4;
 			if (lastMarioState != MarioState) {
-				MarioAnimation.setAnimation(5, 7, 100);
+				MarioAnimation.setAnimation(5, 7 + (PowerState > 1 ? 1 : 0), 100);
 				lastMarioState = MarioState;
 			}
 			MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
-			MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 		}
 	}
 }
 void PowerDown() {
 	if (!Invincible) {
-		if (PowerState == 1) {
-			Sounds.PlaySound("Pipe");
+		if (PowerState > 1) {
+			SoundManager::PlaySound("Pipe");
+			SetPowerState(1);
+			Invincible = true;
+			InvincibleTimer.restart();
+			InvincibleState = false;
+		}
+		else if (PowerState == 1) {
+			SoundManager::PlaySound("Pipe");
 			SetPowerState(0);
 			Invincible = true;
 			InvincibleTimer.restart();
@@ -515,6 +506,7 @@ void MarioDraw() {
 		lastPowerState = PowerState;
 	}
 	//then draw
+	MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 	if (InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) Invincible = false;
 	if (!Invincible) {
 		if (CanControlMario) MarioAnimation.AnimationDraw(window);

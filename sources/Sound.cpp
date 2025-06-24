@@ -28,6 +28,7 @@ void SoundInit() {
 	SoundAdd("Kick8", "data/sounds/kick8.wav");
 	SoundAdd("1UP", "data/sounds/1up.wav");
 	SoundAdd("Hammer", "data/sounds/hammer.wav");
+	SoundAdd("Fireball", "data/sounds/fireball.wav");
 	//Editor
 	SoundAdd("EDITOR_PLACE", "data/sounds/Editor/EDITOR_place.wav");
 	SoundAdd("EDITOR_DELETE", "data/sounds/Editor/EDITOR_delete.wav");

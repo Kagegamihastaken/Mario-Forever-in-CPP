@@ -167,7 +167,8 @@ void LuckyHit(const float x, const float y, const int i) {
 			break;
 		case LUCKY_MUSHROOM:
 			SoundManager::PlaySound("Vine");
-			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y, RIGHT);
+			//Temporary
+			AddGoombaAI(FIRE_FLOWER, 0, x + 16.0f, y, RIGHT);
 			break;
 		}
 		LuckyBlockHittedUpdate(i);
@@ -200,13 +201,13 @@ void LuckyHitEvent(const float x, const float y) {
 					++CoinCount;
 				}
 			}
-			for (auto &j : GoombaAIList) {
+			for (const auto &j : GoombaAIList) {
 				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
 					j.DeathBehaviour(SCORE_100);
 					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
 				}
 			}
-			for (auto & j : BroAIList) {
+			for (const auto & j : BroAIList) {
 				if (sf::FloatRect BroAICollide = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(BroAICollide, LuckyLoop)) {
 					j.DeathBehaviour(SCORE_200);
 					SoundManager::PlaySound("Kick2");
