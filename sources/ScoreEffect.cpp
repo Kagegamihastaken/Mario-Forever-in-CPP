@@ -125,7 +125,7 @@ inline void ScoreEffectStatusUpdate(float deltaTime) {
 		}
 	}
 }
-inline void ScoreEffectUpdate() {
+inline void ScoreEffectDraw() {
 	if (ScoreEffectList.empty()) return;
 	for (const auto & i : ScoreEffectList) {
 		window.draw(i);

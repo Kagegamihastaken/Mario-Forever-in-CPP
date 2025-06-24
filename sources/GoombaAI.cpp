@@ -257,7 +257,7 @@ void GoombaAICheckCollide() {
 				case GoombaAIType::MUSHROOM:
 					SoundManager::PlaySound("Powerup");
 					AddScoreEffect(SCORE_1000, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
-					SetPowerState(1);
+					if (PowerState == 0) SetPowerState(1);
 					DeleteGoombaAI(i.GetType(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 					break;
 				case GoombaAIType::SHELL:
@@ -271,7 +271,8 @@ void GoombaAICheckCollide() {
 				case GoombaAIType::FIRE_FLOWER:
 					SoundManager::PlaySound("Powerup");
 					AddScoreEffect(SCORE_1000, i.getCurrentPosition().x, i.getCurrentPosition().y - i.getOrigin().y);
-					SetPowerState(2);
+					if (PowerState > 0) SetPowerState(2);
+					else if (PowerState == 0) SetPowerState(1);
 					DeleteGoombaAI(i.GetType(), i.getCurrentPosition().x, i.getCurrentPosition().y);
 					break;
 				case GoombaAIType::SHELL_MOVING:
@@ -553,7 +554,7 @@ void GoombaAICollisionUpdate() {
 			DeleteBroAI(fst, snd);
 	}
 }
-void GoombaAIUpdate() {
+void GoombaAIDraw() {
 	for (auto & i : GoombaAIList) {
 		//if (GoombaAIDirectionList[i] == LEFT) GoombaAIList[i].property.setColor(sf::Color(255, 0, 0));
 		//else GoombaAIList[i].property.setColor(sf::Color(0, 0, 255));

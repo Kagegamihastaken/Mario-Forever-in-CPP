@@ -118,7 +118,7 @@ void PiranhaAIStatusUpdate() {
 		if (sf::FloatRect PiranhaHitbox = getGlobalHitbox(i.getHitbox(), i.getCurrentPosition(), i.getOrigin()); isCollide(PiranhaHitbox, playerHitbox)) PowerDown();
 	}
 }
-void PiranhaAIUpdate() {
+void PiranhaAIDraw() {
 	for (auto & i : PiranhaAIList) {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64) && !i.isDisabled()) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());

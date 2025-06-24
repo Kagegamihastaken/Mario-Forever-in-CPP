@@ -162,7 +162,7 @@ void DeleteAllBrickParticle() {
 	BrickParticleCurr.clear();
 	BrickParticlePrev.clear();
 }
-void BrickParticleUpdate() {
+void BrickParticleDraw() {
 	if (BrickParticleList.empty()) return;
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {

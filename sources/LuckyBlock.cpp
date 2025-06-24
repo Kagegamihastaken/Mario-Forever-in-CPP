@@ -168,8 +168,16 @@ void LuckyHit(const float x, const float y, const int i) {
 		case LUCKY_MUSHROOM:
 			SoundManager::PlaySound("Vine");
 			//Temporary
-			AddGoombaAI(FIRE_FLOWER, 0, x + 16.0f, y, RIGHT);
+			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y, RIGHT);
 			break;
+		case LUCKY_FIRE_FLOWER:
+			SoundManager::PlaySound("Vine");
+			if (PowerState == 0)
+				AddGoombaAI(MUSHROOM, 0, x + 16.0f, y, RIGHT);
+			else
+				AddGoombaAI(FIRE_FLOWER, 0, x + 16.0f, y, RIGHT);
+			break;
+		default: ;
 		}
 		LuckyBlockHittedUpdate(i);
 		LuckyBlockState[i] = true;

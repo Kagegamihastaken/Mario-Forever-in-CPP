@@ -9,7 +9,7 @@ extern void AddBroAIEffect(BroAIType type, bool dir, float x, float y);
 extern void DeleteBroAIEffect(float x, float y);
 extern void DeleteAllBroAIEffect();
 extern void BroAIEffectStatusUpdate(float deltaTime);
-extern void BroAIEffectUpdate();
+extern void BroAIEffectDraw();
 extern void BroAIEffectVertYUpdate(float deltaTime);
 
 #endif //BROAIEFFECT_HPP

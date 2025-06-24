@@ -31,8 +31,11 @@
 
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/BgGradient.hpp"
+#include "Effect/BroAIEffect.hpp"
+#include "Effect/FireballExplosion.hpp"
 #include "Object/BroAI.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
+#include "Projectiles/MarioProjectile.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::array<float, 2>> BgData;
@@ -528,6 +531,9 @@ void Objectbuilding() {
 	DeleteAllGoombaAIEffect();
 	DeleteAllScoreEffect();
 	DeleteAllBroAIProjectile();
+	DeleteAllMarioProjectile();
+	DeleteAllBroAIEffect();
+	DeleteAllFireballExplosion();
 	//Delete Objects
 	DeleteAllBrick();
 	DeleteAllCoin();

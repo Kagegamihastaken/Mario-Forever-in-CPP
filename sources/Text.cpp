@@ -95,7 +95,7 @@ void UpdatePositionCharacter() {
 		}
 	}
 }
-void UpdateText() {
+void TextDraw() {
 	for (const auto& i : MFText.List) {
 		for (const auto& j : i.m_SpriteText) {
 			window.draw(j);

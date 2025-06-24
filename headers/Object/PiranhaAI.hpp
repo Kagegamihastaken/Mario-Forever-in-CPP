@@ -12,7 +12,7 @@ extern void InterpolatePiranhaAIPos(float alpha);
 extern void AddPiranha(PiranhaID ID, float x, float y);
 extern void PiranhaAIInit();
 extern void PiranhaAIStatusUpdate();
-extern void PiranhaAIUpdate();
+extern void PiranhaAIDraw();
 extern void PiranhaAIMovementUpdate(float deltaTime);
 extern void DeletePiranhaAI(float x, float y);
 extern void ClearPiranhaAI();

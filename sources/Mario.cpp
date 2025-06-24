@@ -131,6 +131,21 @@ void KeyboardMovement(const float deltaTime) {
 		else player_speed = 4.375f;
 
 		if (!MarioCurrentFalling && PreJump) PreJump = false;
+
+		//Fire
+		if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding) {
+			if (FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2 && !MarioCrouchDown) {
+				SoundManager::PlaySound("Fireball");
+				FireTimeCounting = 0.f;
+				switch (PowerState) {
+					case 2:
+						AddMarioProjectile(MarioDirection, FIREBALL, player.curr.x + (4.f * (MarioDirection ? -1.f : 1.f)), player.curr.y - 23.f);
+					default: ;
+				}
+			}
+		}
+		isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 	}
 	else if (LevelCompleteEffect) {
 		if (MarioDirection) MarioDirection = false;
@@ -140,18 +155,6 @@ void KeyboardMovement(const float deltaTime) {
 		Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.625f * deltaTime);
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 	}
-	//Fire
-	if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding && FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2) {
-		SoundManager::PlaySound("Fireball");
-		FireTimeCounting = 0.f;
-		switch (PowerState) {
-			case 2:
-				AddMarioProjectile(MarioDirection, FIREBALL, player.curr.x + (4.f * (MarioDirection ? -1.f : 1.f)), player.curr.y - 23.f);
-			default: ;
-		}
-	}
-	isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 }
 void MarioPosXUpdate(const float deltaTime) {
 	if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };

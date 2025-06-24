@@ -15,7 +15,7 @@ extern void DeleteAllSpike();
 extern void DeleteSpike(float x, float y);
 extern void SpikeInit();
 extern void AddSpike(SpikeID ID, float x, float y);
-extern void SpikeUpdate();
+extern void SpikeDraw();
 extern void SpikeStatusUpdate();
 
 #endif

@@ -108,7 +108,7 @@ void GoombaAIEffectStatusUpdate(const float deltaTime) {
 		}
 	}
 }
-void GoombaAIEffectUpdate() {
+void GoombaAIEffectDraw() {
 	if (GoombaAIEffectList.empty()) return;
 	for (auto & i : GoombaAIEffectList) {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64)) {

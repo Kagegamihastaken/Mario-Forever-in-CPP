@@ -22,5 +22,5 @@ extern std::vector<std::array<int, 3>> ID_list;
 extern std::vector<Obstacles> ObstaclesList;
 extern ImageManager ObstaclesTextureManager;
 extern void loadObstacleRes();
-extern void ObstaclesUpdate();
+extern void ObstaclesDraw();
 #endif // OBSTACLES_HPP

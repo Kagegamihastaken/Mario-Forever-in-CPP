@@ -27,6 +27,7 @@
 #include "Editor/SelectTile.hpp"
 #include "Object/BroAI.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
+#include "Effect/FireballExplosion.hpp"
 
 #include "Core/Game.hpp"
 
@@ -62,6 +63,7 @@ void GameObjectInit() {
     BgInit();
     ExitGateInit();
     ViewInit();
+    FireballExplosionInit();
 
     EditorInit();
     SelectTileInit();
@@ -247,6 +249,7 @@ void GameObjectCollision() {
         BroAIProjectileStatusUpdate();
         MarioProjectileStatusUpdate();
         BroAICheckCollide();
+        FireballExplosionStatusUpdate();
     }
 }
 void GameObjectMiscUpdate() {
@@ -275,23 +278,24 @@ void GameObjectDraw() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         BgDraw();
         ExitGateDraw();
-        GoombaAIUpdate();
+        GoombaAIDraw();
         BroAIDraw();
-        PiranhaAIUpdate();
-        ObstaclesUpdate();
+        PiranhaAIDraw();
+        ObstaclesDraw();
         BrickDraw();
         LuckyBlockDraw();
         MarioDraw();
-        SpikeUpdate();
-        SlopeUpdate();
-        CoinUpdate();
-        CoinEffectUpdate();
-        ScoreEffectUpdate();
-        BrickParticleUpdate();
-        GoombaAIEffectUpdate();
-        BroAIEffectUpdate();
+        SpikeDraw();
+        SlopeDraw();
+        CoinDraw();
+        CoinEffectDraw();
+        ScoreEffectDraw();
+        BrickParticleDraw();
+        GoombaAIEffectDraw();
+        BroAIEffectDraw();
         BroAIProjectileDraw();
         MarioProjectileDraw();
+        FireballExplosionDraw();
         MarioEffectDraw();
         ExitGateEffectDraw();
         FrameDraw();
@@ -300,7 +304,7 @@ void GameObjectDraw() {
         DrawTile();
         SelectTileDraw();
     }
-    UpdateText();
+    TextDraw();
 }
 void GameCleanUp() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {

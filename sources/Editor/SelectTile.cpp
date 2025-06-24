@@ -49,8 +49,9 @@ const std::array<std::vector<SelectTileData>, 4> TilePage = {{
             {"Coin_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
             {"EDITOR_CoinLuckyblock", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
             {"EDITOR_MushroomLuckyblock", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
-            {"NormalBrick", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
-            {"EDITOR_CoinBrick", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
+            {"NormalBrick", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
+            {"EDITOR_CoinBrick", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
+            {"EDITOR_FireFlowerLuckyblock", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
         },
     { // PAGE 3
         {"Goomba_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},

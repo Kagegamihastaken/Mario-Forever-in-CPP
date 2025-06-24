@@ -5,17 +5,12 @@
 #include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Class/CoinEffectClass.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-std::vector<CoinEffect> CoinEffectList;
-std::vector<CoinID> CoinEffectIDList;
-std::vector<CoinAtt> CoinEffectAttList;
-static std::vector<std::string> CoinEffectAnimName;
-static constexpr int COINEFFECT_IMAGE_WIDTH = 777;
-static constexpr int COINEFFECT_WIDTH = 37;
-static constexpr int COINEFFECT_HEIGHT = 32;
+std::vector<MFCPP::CoinEffect> CoinEffectList;
 void CoinEffectInit() {
 	ImageManager::AddImage("CoinEffectImage", "data/resources/CoinEffect.png");
 	for (int i = 0; i < COINEFFECT_IMAGE_WIDTH / COINEFFECT_WIDTH; ++i) {
@@ -24,39 +19,28 @@ void CoinEffectInit() {
 	}
 }
 void SetPrevCoinEffectPos() {
-	for (auto & i : CoinEffectList) {
-		i.prev = i.curr;
-	}
+	for (auto & i : CoinEffectList)
+		i.setPreviousPosition(i.getCurrentPosition());
+
 }
 void InterpolateCoinEffectPos(const float alpha) {
-	for (auto & i : CoinEffectList) {
-		i.property.setPosition(linearInterpolation(i.prev, i.curr, alpha));
-	}
+	for (auto & i : CoinEffectList)
+		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 }
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
-	CoinEffect Init;
-	Init.coinEffectAnimation.setAnimation(0, 20, 70);
-	Init.coinEffectAnimation.setAnimationSequence(CoinEffectAnimName, CoinEffectAnimName);
-	Init.property.setPosition({ static_cast<float>(round(x)), y });
-	Init.property.setOrigin({ 18, 31 });
-	Init.curr = Init.prev = Init.property.getPosition();
-	CoinEffectList.push_back(Init);
-	CoinEffectIDList.push_back(ID);
-	CoinEffectAttList.push_back(att);
+	CoinEffectList.emplace_back(ID, att, sf::Vector2f(x, y), sf::Vector2f(18.f, 31.f));
+	CoinEffectList.back().setAnimation(0, 20, 70);
+	CoinEffectList.back().setAnimationSequence(CoinEffectAnimName, CoinEffectAnimName);
 }
 void DeleteCoinEffect(const int i) {
-	const sf::Vector2f pos = CoinEffectList[i].property.getPosition();
+	const sf::Vector2f pos = CoinEffectList[i].getCurrentPosition();
 	CoinEffectList.erase(CoinEffectList.begin() + i);
-	CoinEffectIDList.erase(CoinEffectIDList.begin() + i);
-	CoinEffectAttList.erase(CoinEffectAttList.begin() + i);
 	AddScoreEffect(SCORE_200, pos.x, pos.y);
 }
 void DeleteCoinEffect(const float x, const float y) {
 	for (int i = 0; i < CoinEffectList.size(); ++i) {
-		if (CoinEffectList[i].curr.x == x && CoinEffectList[i].curr.y == y) {
+		if (CoinEffectList[i].getCurrentPosition().x == x && CoinEffectList[i].getCurrentPosition().y == y) {
 			CoinEffectList.erase(CoinEffectList.begin() + i);
-			CoinEffectIDList.erase(CoinEffectIDList.begin() + i);
-			CoinEffectAttList.erase(CoinEffectAttList.begin() + i);
 			AddScoreEffect(SCORE_200, x, y);
 			break;
 		}
@@ -64,26 +48,25 @@ void DeleteCoinEffect(const float x, const float y) {
 }
 void DeleteAllCoinEffect() {
 	CoinEffectList.clear();
-	CoinEffectIDList.clear();
-	CoinEffectAttList.clear();
 }
-inline void CoinEffectStatusUpdate(const float deltaTime) {
+void CoinEffectStatusUpdate(const float deltaTime) {
 	for (auto & i : CoinEffectList) {
-		if (i.coinEffectAnimation.isAnimationAtTheEnd()) {
-			DeleteCoinEffect(i.curr.x, i.curr.y);
+		if (i.isAnimationAtTheEnd()) {
+			DeleteCoinEffect(i.getCurrentPosition().x, i.getCurrentPosition().y);
 			continue;
 		}
-		i.curr = { i.curr.x, i.curr.y + i.velocity * deltaTime };
-		if (i.velocity < 0.0f) i.velocity += 0.125f * deltaTime;
-		else i.velocity = 0.0f;
+		i.move(sf::Vector2f(0.f, i.getYVelo() * deltaTime));
+		//i.curr = { i.curr.x, i.curr.y + i.velocity * deltaTime };
+		if (i.getYVelo() < 0.0f) i.setYVelo(i.getYVelo() + 0.125f * deltaTime);
+		else i.setYVelo(0.f);
 	}
 }
-inline void CoinEffectUpdate() {
+void CoinEffectDraw() {
 	if (CoinEffectList.empty()) return;
 	for (auto& i : CoinEffectList) {
-		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-			i.coinEffectAnimation.AnimationUpdate(i.property.getPosition(), i.property.getOrigin());
-			i.coinEffectAnimation.AnimationDraw(window);
+		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 32, 32)) {
+			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+			i.AnimationDraw(window);
 		}
 	}
 }

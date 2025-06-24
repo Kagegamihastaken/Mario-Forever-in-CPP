@@ -20,7 +20,7 @@ extern int CoinCount;
 extern std::vector<Coin> CoinList;
 extern void CoinInit();
 extern void AddCoin(CoinID ID, CoinAtt att, float x, float y);
-extern void CoinUpdate();
+extern void CoinDraw();
 extern void CoinOnTouch();
 extern void DeleteAllCoin();
 extern void DeleteLuckyBlock(float x, float y);

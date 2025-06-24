@@ -55,7 +55,7 @@ void BroAIEffectStatusUpdate(const float deltaTime) {
 			BroAIEffectList[i].getCurrentPosition().x, BroAIEffectList[i].getCurrentPosition().y);
 	}
 }
-void BroAIEffectUpdate() {
+void BroAIEffectDraw() {
 	if (BroAIEffectList.empty()) return;
 	for (auto & i : BroAIEffectList) {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64)) {

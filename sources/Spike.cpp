@@ -73,7 +73,7 @@ void SpikeStatusUpdate() {
 		}
 	}
 }
-void SpikeUpdate() {
+void SpikeDraw() {
 	for (int i = 0; i < SpikeList.size(); ++i) {
 		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
 			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());

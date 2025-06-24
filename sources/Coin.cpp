@@ -80,7 +80,7 @@ void CoinOnTouch() {
 		DeleteCoin(i.x, i.y);
 	}
 }
-inline void CoinUpdate() {
+inline void CoinDraw() {
 	if (CoinCount > 99) {
 		CoinCount = 0;
 		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);

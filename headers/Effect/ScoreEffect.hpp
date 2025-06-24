@@ -12,5 +12,5 @@ extern void AddScoreEffect(ScoreID id, float x, float y);
 extern void DeleteScoreEffect(int i, float deltaTime);
 extern void DeleteAllScoreEffect();
 extern void ScoreEffectStatusUpdate(float deltaTime);
-extern void ScoreEffectUpdate();
+extern void ScoreEffectDraw();
 #endif

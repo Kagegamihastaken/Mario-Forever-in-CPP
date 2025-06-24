@@ -111,6 +111,8 @@ void EditorInit() {
     ImageManager::AddTexture("HammerBroCanMoveImage", "EDITOR_HammerBroCanMove");
     ImageManager::AddImage("HammerBroCannotMoveImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
     ImageManager::AddTexture("HammerBroCannotMoveImage", "EDITOR_HammerBroCannotMove");
+    ImageManager::AddImage("FireFlowerLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
+    ImageManager::AddTexture("FireFlowerLuckyblockImage", "EDITOR_FireFlowerLuckyblock");
 
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
 

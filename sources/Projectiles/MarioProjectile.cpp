@@ -12,6 +12,7 @@
 #include <set>
 
 #include "Core/SoundManager.hpp"
+#include "Effect/FireballExplosion.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/BroAI.hpp"
 #include "Object/GoombaAI.hpp"
@@ -42,7 +43,8 @@ void InterpolateMarioProjectilePos(const float alpha) {
         i.setInterpolatedAngle(linearInterpolation(i.getPreviousAngle(), i.getCurrentAngle(), alpha));
     }
 }
-void DeleteMarioProjectile(const int i) {
+void DeleteMarioProjectile(const int i, const bool out = false) {
+    if (!MarioProjectileList[i].willBeDestroyed() && !out) AddFireballExplosion(MarioProjectileList[i].getCurrentPosition().x, MarioProjectileList[i].getCurrentPosition().y);
     MarioProjectileList[i].willDestroy(true);
 }
 void DeleteMarioProjectile(const float x, const float y) {
@@ -95,7 +97,7 @@ void MarioProjectileCollision() {
 void MarioProjectileStatusUpdate() {
     for (int i = 0; i < MarioProjectileList.size(); ++i) {
         if (isOutScreen(MarioProjectileList[i].getInterpolatedPosition().x, MarioProjectileList[i].getInterpolatedPosition().y, 32.f, 32.f)) {
-            DeleteMarioProjectile(i);
+            DeleteMarioProjectile(i, true);
             //DeleteMarioProjectile(MarioProjectileList[i].getCurrentPosition().x, MarioProjectileList[i].getCurrentPosition().y);
         }
     }

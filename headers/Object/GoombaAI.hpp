@@ -19,7 +19,7 @@ extern void GoombaStatusUpdate(float deltaTime);
 extern void GoombaAIVertYUpdate(float deltaTime);
 extern void GoombaAIVertXUpdate(float deltaTime);
 extern void GoombaAICheckCollide();
-extern void GoombaAIUpdate();
+extern void GoombaAIDraw();
 extern void DeleteAllGoombaAI();
 extern void GoombaAICollisionUpdate();
 

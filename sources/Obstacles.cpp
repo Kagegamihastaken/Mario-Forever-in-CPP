@@ -39,7 +39,7 @@ void loadObstacleRes() {
 	}
 	//ObstaclesTexture = ImageManager::GetTexture("Tileset");
 }
-void ObstaclesUpdate() {
+void ObstaclesDraw() {
 	//sf::RenderStates states;
 	//sf::Transformable trans;
 	//states.transform *= trans.getTransform();

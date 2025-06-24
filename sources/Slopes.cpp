@@ -37,7 +37,7 @@ int getSlopesIndex(const float x, const float y) {
 	}
 	return -1;
 }
-void SlopeUpdate() {
+void SlopeDraw() {
 	for (const auto& i : SlopesList) {
 		if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
 			window.draw(i.property);
