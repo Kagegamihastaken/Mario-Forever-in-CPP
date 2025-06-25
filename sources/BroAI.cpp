@@ -1,7 +1,4 @@
 #include "Object/BroAI.hpp"
-
-#include <iostream>
-
 #include "Block/Brick.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Class/BroAIClass.hpp"
@@ -13,7 +10,6 @@
 #include "Core/Collision/Collide.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 
@@ -293,9 +289,8 @@ void BroAIVertYUpdate(const float deltaTime) {
             BroAIList[i].setFalling(false);
         }
 
-        BroAIList[i].setYVelo(BroAIList[i].getYVelo() + (BroAIList[i].getYVelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.175f));
         BroAIList[i].move(sf::Vector2f(0.0f, BroAIList[i].getYVelo() * deltaTime));
-        BroAIList[i].setYVelo(BroAIList[i].getYVelo() + (BroAIList[i].getYVelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.175f));
+        BroAIList[i].setYVelo(BroAIList[i].getYVelo() + (BroAIList[i].getYVelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.175f));
         //}
         bool NoAdd = false;
         int be = find_min_iny(BroAIList[i].getCurrentPosition(), ObstaclesVertPosList);

@@ -1,8 +1,6 @@
 #ifndef BROAI_HPP
 #define BROAI_HPP
 
-#include <vector>
-
 #include "Class/BroAIClass.hpp"
 #include "Core/Loading/enum.hpp"
 

@@ -1,6 +1,3 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-
 #include "Core/Loading/enum.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Core/WindowFrame.hpp"
@@ -115,7 +112,7 @@ void DeleteAllScoreEffect() {
 	ScoreEffectCurr.clear();
 	ScoreEffectPrev.clear();
 }
-inline void ScoreEffectStatusUpdate(float deltaTime) {
+void ScoreEffectStatusUpdate(const float deltaTime) {
 	for (int i = 0; i < ScoreEffectList.size(); ++i) {
 		ScoreEffectCurr[i] = { ScoreEffectCurr[i].x, ScoreEffectCurr[i].y + ScoreEffectVelocity[i] * deltaTime };
 		if (ScoreEffectVelocity[i] < 0.0f) ScoreEffectVelocity[i] += 0.025f * deltaTime;
@@ -125,7 +122,7 @@ inline void ScoreEffectStatusUpdate(float deltaTime) {
 		}
 	}
 }
-inline void ScoreEffectDraw() {
+void ScoreEffectDraw() {
 	if (ScoreEffectList.empty()) return;
 	for (const auto & i : ScoreEffectList) {
 		window.draw(i);

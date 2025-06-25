@@ -1,8 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-
 #include "Effect/BroAIEffect.hpp"
-
 #include "Core/Loading/enum.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Class/BroAIEffectClass.hpp"
@@ -51,7 +47,7 @@ void DeleteAllBroAIEffect() {
 void BroAIEffectStatusUpdate(const float deltaTime) {
 	if (BroAIEffectList.empty()) return;
 	for (int i = 0; i < BroAIEffectList.size(); ++i) {
-		if (isOutScreenYBottom(BroAIEffectList[i].getInterpolatedPosition().y, 64)) DeleteBroAIEffect(
+		if (isOutScreenYBottom(BroAIEffectList[i].getInterpolatedPosition().y, 80)) DeleteBroAIEffect(
 			BroAIEffectList[i].getCurrentPosition().x, BroAIEffectList[i].getCurrentPosition().y);
 	}
 }
@@ -66,10 +62,7 @@ void BroAIEffectDraw() {
 }
 void BroAIEffectVertYUpdate(const float deltaTime) {
 	for (int i = 0; i < BroAIEffectList.size(); ++i) {
-		BroAIEffectList[i].setYVelo(BroAIEffectList[i].getYVelo() + 0.5f * deltaTime * 0.15f);
-		BroAIEffectList[i].setCurrentPosition(sf::Vector2f(BroAIEffectList[i].getCurrentPosition().x,
-			                                                      BroAIEffectList[i].getCurrentPosition().y +
-			                                                      BroAIEffectList[i].getYVelo() * deltaTime));
-		BroAIEffectList[i].setYVelo(BroAIEffectList[i].getYVelo() + 0.5f * deltaTime * 0.15f);
+		BroAIEffectList[i].move(sf::Vector2f(0.f, BroAIEffectList[i].getYVelo() * deltaTime));
+		BroAIEffectList[i].setYVelo(BroAIEffectList[i].getYVelo() + 1.f * deltaTime * 0.15f);
 	}
 }

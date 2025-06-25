@@ -3,11 +3,8 @@
 #ifndef GOOMBAAI_HPP
 #define GOOMBAAI_HPP
 
-#include <SFML/Graphics.hpp>
-
 #include "Core/Loading/enum.hpp"
 #include "Class/GoombaAIClass.hpp"
-#include "Mario.hpp"
 
 extern std::vector<MFCPP::GoombaAI> GoombaAIList;
 extern void GoombaAILoadRes();

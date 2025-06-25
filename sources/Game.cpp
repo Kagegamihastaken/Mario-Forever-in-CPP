@@ -28,11 +28,7 @@
 #include "Object/BroAI.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Effect/FireballExplosion.hpp"
-
 #include "Core/Game.hpp"
-
-#include <iostream>
-
 #include "Effect/BroAIEffect.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 

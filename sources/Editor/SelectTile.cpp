@@ -1,11 +1,7 @@
-#include <SFML/Graphics.hpp>
 #include "Core/ImageManager.hpp"
 #include "Editor/Editor.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Editor/SelectTile.hpp"
-
-#include <iostream>
-
 #include "Editor/TabButton.hpp"
 
 static sf::VertexArray SelectTileBackground(sf::PrimitiveType::TriangleStrip, 4);

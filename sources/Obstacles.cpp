@@ -1,12 +1,6 @@
-#include <SFML/Graphics.hpp>
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
-#include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
-
-#include <vector>
-#include <array>
-#include <iostream>
 
 //Obstacles define
 sf::VertexArray ObstaclesVA;

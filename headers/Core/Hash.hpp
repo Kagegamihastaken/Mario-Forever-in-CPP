@@ -1,10 +1,7 @@
 #ifndef FLOATHASH_HPP
 #define FLOATHASH_HPP
 
-#include <SFML/System/Vector2.hpp>
-#include <boost/container_hash/hash.hpp>
 #include "Editor/RenderTile.hpp"
-#include "Class/PiranhaAIClass.hpp"
 
 struct RenderTileHash {
     std::size_t operator()(const RenderTile& p) const {

@@ -3,12 +3,7 @@
 #ifndef MUSIC_MANAGER_HPP
 #define MUSIC_MANAGER_HPP
 
-#include <map>
-#include <string>
-#include <SFML/Audio.hpp>
-#include "ExternalHeaders/sfMod/sfMod.hpp"
-#include <vector>
-#include <modplug.h>
+#include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 
 class MusicManager {
 private:

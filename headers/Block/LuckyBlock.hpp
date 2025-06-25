@@ -2,10 +2,8 @@
 #ifndef LUCKYBLOCK_HPP
 #define LUCKYBLOCK_HPP
 
-#include <vector>
 #include "Obstacles.hpp"
-#include "../Core/Loading/enum.hpp"
-#include "../Core/Animate/SingleAnimationObject.hpp"
+#include "Core/Loading/enum.hpp"
 
 extern std::vector<Obstacles> LuckyBlock;
 extern std::vector<LuckyBlockID> LuckyBlockIDList;

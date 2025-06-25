@@ -1,7 +1,6 @@
 #ifndef PIRANHAAICLASS_HPP
 #define PIRANHAAICLASS_HPP
 
-#include <SFML/Graphics.hpp>
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Class/ActiveObjectClass.hpp"
 #include "Core/Loading/enum.hpp"

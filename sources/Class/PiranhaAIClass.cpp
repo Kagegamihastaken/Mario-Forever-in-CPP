@@ -1,4 +1,5 @@
 #include "Class/PiranhaAIClass.hpp"
+
 namespace MFCPP {
 	void PiranhaAI::setID(const PiranhaID ID) {
 		m_ID = ID;

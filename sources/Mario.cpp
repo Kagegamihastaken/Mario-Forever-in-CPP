@@ -1,10 +1,4 @@
-#include <utility>
-#include <array>
-
 #include "Object/Mario.hpp"
-
-#include <iostream>
-
 #include "Block/Obstacles.hpp"
 #include "Block/Brick.hpp"
 #include "Core/WindowFrame.hpp"
@@ -12,8 +6,6 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/ImageManager.hpp"
 #include "Block/LuckyBlock.hpp"
-#include "Block/Slopes.hpp"
-#include "Core/Loading/Loading.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Sound.hpp"
 #include "Core/Level.hpp"

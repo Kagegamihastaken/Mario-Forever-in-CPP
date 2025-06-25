@@ -1,6 +1,5 @@
 #define _USE_MATH_DEFINES
-#include <SFML/Graphics.hpp>
-
+#include <math.h>
 #include "Object/ExitGate.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
@@ -10,12 +9,7 @@
 #include "Core/Music.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
-
 #include "Core/Loading/enum.hpp"
-
-#include <random>
-#include <cmath>
-
 #include "Projectiles/MarioProjectile.hpp"
 
 SingleAnimationObject ExitGateIndicatorAnimation;
@@ -25,10 +19,10 @@ sf::Sprite ExitGateForeEffect(tempTex);
 sf::Sprite ExitGateIndicator(tempTex);
 sf::Clock ExitGateClock;
 
-auto ExitGateForeCurr = sf::Vector2f(0.0f, 0.0f);
-auto ExitGateForePrev = sf::Vector2f(0.0f, 0.0f);
-auto ExitGateForeEffectCurr = sf::Vector2f(0.0f, 0.0f);
-auto ExitGateForeEffectPrev = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForeCurr = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForePrev = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForeEffectCurr = sf::Vector2f(0.0f, 0.0f);
+sf::Vector2f ExitGateForeEffectPrev = sf::Vector2f(0.0f, 0.0f);
 
 constexpr float ExitGateForeYLimit = 222.0f;
 float ExitGateForeY = 0.0f;
@@ -132,10 +126,9 @@ void ExitGateStatusUpdate(const float deltaTime) {
 		ExitGateForeCurr = { ExitGateForeCurr.x, ExitGateBack.getPosition().y - 250.0f + ExitGateForeY };
 	}
 	else if (!ExitGateForeRender) {
-		ExitGateForeEffectYSpeed += 0.5f * deltaTime * 0.2f;
 		ExitGateForeEffectCurr = { ExitGateForeEffectCurr.x - sin(ExitGateForeEffectSpeed) * 5.0f * deltaTime, ExitGateForeEffectCurr.y + (cos(ExitGateForeEffectSpeed) * 5.0f + ExitGateForeEffectYSpeed) * deltaTime };
 		//ExitGateForeEffect.move({ 0.0f - sin(ExitGateForeEffectSpeed) * 5.0f * deltaTime, (cos(ExitGateForeEffectSpeed) * 5.0f + ExitGateForeEffectYSpeed) * deltaTime });
-		ExitGateForeEffectYSpeed += 0.5f * deltaTime * 0.2f;
+		ExitGateForeEffectYSpeed += 1.f * deltaTime * 0.2f;
 		ExitGateForeEffect.rotate(sf::degrees(-25.0f * deltaTime));
 	}
 }

@@ -1,9 +1,4 @@
-#include <SFML/Graphics.hpp>
 #include "Text/Font.hpp"
-
-#include <string>
-#include <algorithm>
-
 const std::string FontString = R"( !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`{|})";
 
 void Font::SetFontSize(const int TextSizeX, const int TextSizeY, const int sizeX, const int sizeY) {

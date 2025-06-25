@@ -1,5 +1,3 @@
-#include <SFML/Graphics.hpp>
-
 #include "Core/Background/Bg.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/ImageManager.hpp"
@@ -26,7 +24,7 @@ void BgInit() {
 	ImageManager::AddTexture("GreenBackImage", "GreenBack", true);
 
 	buffer.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
-	buffer.create(4);
+	if (!buffer.create(4)) std::cerr << "Cannot create buffer\n";
 }
 void AddBg(const int type, const int parallax) {
 	switch (type) {

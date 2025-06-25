@@ -1,5 +1,3 @@
-#include <SFML/Graphics.hpp>
-
 #include "Core/Interpolation.hpp"
 
 bool isInterpolation = true;

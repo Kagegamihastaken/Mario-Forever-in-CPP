@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/Loading.hpp"
 

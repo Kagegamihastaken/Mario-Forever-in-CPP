@@ -3,10 +3,6 @@
 #ifndef TEXTURE_MANAGER_HPP
 #define TEXTURE_MANAGER_HPP
 
-#include <map>
-#include <string>
-#include <SFML/Graphics.hpp>
-#include <vector>
 extern sf::Texture tempTex;
 extern void InitTempTex();
 class ImageManager {

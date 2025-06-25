@@ -3,7 +3,6 @@
 #ifndef COINEFFECT_HPP
 #define COINEFFECT_HPP
 
-#include <vector>
 #include "Core/Loading/enum.hpp"
 #include "Class/CoinEffectClass.hpp"
 extern std::vector<MFCPP::CoinEffect> CoinEffectList;

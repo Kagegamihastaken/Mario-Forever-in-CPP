@@ -20,15 +20,6 @@
 #include "Core/Background/Bg.hpp"
 #include "Object/ExitGate.hpp"
 #include "Editor/SelectTile.hpp"
-
-#include <utility>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <array>
-#include <ctre.hpp>
-
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/BgGradient.hpp"
 #include "Effect/BroAIEffect.hpp"
@@ -507,7 +498,7 @@ void ExitGateBuilding() {
 void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
-	/*
+
 	if (MusicData.first == 0) {
 		if (Music.IsMODMusicPlaying(MusicData.second)) Music.StopMODMusic(MusicData.second);
 		Music.SetMODLoop(MusicData.second, true);
@@ -518,7 +509,7 @@ void Objectbuilding() {
 		Music.SetOGGLoop(MusicData.second, true);
 		Music.PlayOGGMusic(MusicData.second);
 	}
-	*/
+
 	player.property.setPosition({ PlayerData[0], PlayerData[1] + 7.f });
 	player.curr = player.prev = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;

@@ -1,11 +1,5 @@
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <string>
-#include <physfs.h>
 #include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "Core/Loading/Loading.hpp"
-#include <iostream>
 void IOInit() {
 	PHYSFS_init(nullptr);
 	PHYSFS_mount("data.zip", "/", 1);

@@ -1,7 +1,6 @@
 #ifndef SELECTTILE_HPP
 #define SELECTTILE_HPP
 
-#include <SFML/System/Clock.hpp>
 #include "Editor/TabButton.hpp"
 
 struct SelectTileData {

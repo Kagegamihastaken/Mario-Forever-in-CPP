@@ -3,10 +3,7 @@
 #ifndef LOADING_HPP
 #define LOADING_HPP
 
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include "../ExternalHeaders/sfMod/sfMod.hpp"
+#include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 
 extern void IOInit();
 extern void IODeinit();

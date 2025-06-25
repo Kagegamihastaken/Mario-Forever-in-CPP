@@ -3,7 +3,7 @@
 #ifndef SCOREEFFECT_HPP
 #define SCOREEFFECT_HPP
 
-#include "../Core/Loading/enum.hpp"
+#include "Core/Loading/enum.hpp"
 
 extern std::vector<sf::Sprite> ScoreEffectList;
 extern void SetPrevScoreEffectPos();

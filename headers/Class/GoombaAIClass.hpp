@@ -1,7 +1,6 @@
 #ifndef GOOMBAAICLASS_HPP
 #define GOOMBAAICLASS_HPP
 
-#include <SFML/Graphics.hpp>
 #include "Class/ActiveObjectClass.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Loading/enum.hpp"

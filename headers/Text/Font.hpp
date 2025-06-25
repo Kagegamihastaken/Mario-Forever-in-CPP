@@ -3,8 +3,6 @@
 #ifndef FONT_HPP
 #define FONT_HPP
 
-#include <SFML/Graphics.hpp>
-
 class Font {
 public:
     void SetFontSize(int TextSizeX, int TextSizeY, int sizeX, int sizeY);

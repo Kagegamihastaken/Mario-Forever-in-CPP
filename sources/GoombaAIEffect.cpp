@@ -1,12 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <array>
-#include <vector>
-
 #include "Effect/GoombaAIEffect.hpp"
-
-#include <iostream>
-
-#include "Object/Mario.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/WindowFrame.hpp"
@@ -122,11 +114,8 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 	float CurrPosYCollide;
 	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
 		if (GoombaAIEffectList[i].getID() == GoombaAIEffectID::NONE) {
-			GoombaAIEffectList[i].setYVelo(GoombaAIEffectList[i].getYVelo() + 0.5f * deltaTime * 0.15f);
-			GoombaAIEffectList[i].setCurrentPosition(sf::Vector2f(GoombaAIEffectList[i].getCurrentPosition().x,
-			                                                      GoombaAIEffectList[i].getCurrentPosition().y +
-			                                                      GoombaAIEffectList[i].getYVelo() * deltaTime));
-			GoombaAIEffectList[i].setYVelo(GoombaAIEffectList[i].getYVelo() + 0.5f * deltaTime * 0.15f);
+			GoombaAIEffectList[i].move(sf::Vector2f(0.f, GoombaAIEffectList[i].getYVelo() * deltaTime));
+			GoombaAIEffectList[i].setYVelo(GoombaAIEffectList[i].getYVelo() + 1.f * deltaTime * 0.15f);
 			continue;
 		}
 		// bottom update
@@ -135,9 +124,8 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		//BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
 		//LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
 		//if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
-		GoombaAIEffectList[i].setYVelo(GoombaAIEffectList[i].getYVelo() + (GoombaAIEffectList[i].getYVelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
-		GoombaAIEffectList[i].setCurrentPosition(sf::Vector2f(GoombaAIEffectList[i].getCurrentPosition().x,GoombaAIEffectList[i].getCurrentPosition().y + GoombaAIEffectList[i].getYVelo() * deltaTime));
-		GoombaAIEffectList[i].setYVelo(GoombaAIEffectList[i].getYVelo() + (GoombaAIEffectList[i].getYVelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
+		GoombaAIEffectList[i].move(sf::Vector2f(0.f,GoombaAIEffectList[i].getYVelo() * deltaTime));
+		GoombaAIEffectList[i].setYVelo(GoombaAIEffectList[i].getYVelo() + (GoombaAIEffectList[i].getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.3f));
 		//}
 
 		bool NoAdd = false;

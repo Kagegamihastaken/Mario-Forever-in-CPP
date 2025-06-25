@@ -1,11 +1,6 @@
 #ifndef SIMPLESPRITE_HPP
 #define SIMPLESPRITE_HPP
 
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/Texture.hpp>
-
 namespace MFCPP {
     class SimpleSprite : public sf::Drawable, public sf::Transformable {
     public:

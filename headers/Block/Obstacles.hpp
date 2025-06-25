@@ -3,8 +3,7 @@
 #ifndef OBSTACLES_HPP
 #define OBSTACLES_HPP
 
-#include "../Core/ImageManager.hpp"
-#include <SFML/Graphics.hpp>
+#include "Core/ImageManager.hpp"
 
 class Obstacles {
 public:

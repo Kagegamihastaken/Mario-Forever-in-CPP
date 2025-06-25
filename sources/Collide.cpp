@@ -1,11 +1,5 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-
-#include <iostream>
-
 #include "Class/CollisionObjectClass.hpp"
 
 static constexpr float DEFAULT_OBJECT_WIDTH = 32.0f;

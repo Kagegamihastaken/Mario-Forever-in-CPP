@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
@@ -6,8 +5,6 @@
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
-
-#include <iostream>
 
 #if defined _DEBUG
 bool isDebug = true;

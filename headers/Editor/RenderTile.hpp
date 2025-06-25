@@ -1,8 +1,7 @@
 #ifndef RENDERTILE_HPP
 #define RENDERTILE_HPP
-#include <SFML/Graphics.hpp>
 
-class RenderTile : public sf::Drawable, public sf::Transformable {
+class RenderTile final : public sf::Drawable, public sf::Transformable {
 public:
     RenderTile(const sf::Texture& texture, const sf::IntRect& rect);
     RenderTile(const sf::Texture& texture, const sf::Vector2f& position, int page = 0, int id = 0);

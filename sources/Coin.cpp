@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "Object/Coin.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
@@ -10,7 +9,6 @@
 #include "Effect/MarioEffect.hpp"
 #include "Core/ImageManager.hpp"
 
-#include <vector>
 std::vector<CoinID> CoinIDList;
 std::vector<Coin> CoinList;
 std::vector<CoinAtt> CoinAttList;
@@ -80,7 +78,7 @@ void CoinOnTouch() {
 		DeleteCoin(i.x, i.y);
 	}
 }
-inline void CoinDraw() {
+void CoinDraw() {
 	if (CoinCount > 99) {
 		CoinCount = 0;
 		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);

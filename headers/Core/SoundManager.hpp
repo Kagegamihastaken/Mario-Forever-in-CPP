@@ -3,11 +3,6 @@
 #ifndef SOUND_MANAGER_HPP
 #define SOUND_MANAGER_HPP
 
-#include <map>
-#include <string>
-#include <SFML/Audio.hpp>
-#include <vector>
-
 class SoundManager {
 private:
 	static std::map<std::string, sf::Sound> m_sounds;

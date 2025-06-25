@@ -1,5 +1,4 @@
 #include "Block/LuckyBlock.hpp"
-#include <iostream>
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Coin.hpp"
@@ -11,10 +10,6 @@
 #include "Core/Sound.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
-
-#include <vector>
-#include <set>
-
 #include "Object/BroAI.hpp"
 
 std::vector<Obstacles> LuckyBlock;

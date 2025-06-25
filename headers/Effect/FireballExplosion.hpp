@@ -1,7 +1,5 @@
 #ifndef FIREBALLEXPLOSION_HPP
 #define FIREBALLEXPLOSION_HPP
-#include <string>
-#include <vector>
 #include "Class/FireballExplosionClass.hpp"
 
 extern std::vector<MFCPP::FireballExplosion> FireballExplosionList;

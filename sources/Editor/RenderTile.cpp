@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "Editor/RenderTile.hpp"
 
 RenderTile::RenderTile(const sf::Vector2f &position) {

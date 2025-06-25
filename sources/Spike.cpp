@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "Object/Spike.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
@@ -6,10 +5,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Object/Mario.hpp"
-
 #include "Core/Loading/enum.hpp"
-
-#include <vector>
 
 std::vector<sf::Sprite> SpikeList;
 std::vector<SpikeID> SpikeIDList;

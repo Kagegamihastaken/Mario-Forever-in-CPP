@@ -1,7 +1,3 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <array>
-
 #include "Block/Slopes.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/Scroll.hpp"

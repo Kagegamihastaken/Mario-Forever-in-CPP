@@ -1,11 +1,8 @@
 #ifndef SPIKE_HPP
 #define SPIKE_HPP
 
-#include "../Core/Loading/enum.hpp"
-#include "../Core/Animate/SingleAnimationObject.hpp"
-
-#include <vector>
-#include <string>
+#include "Core/Loading/enum.hpp"
+#include "Core/Animate/SingleAnimationObject.hpp"
 
 extern std::vector<sf::Sprite> SpikeList;
 extern std::vector<SpikeID> SpikeIDList;

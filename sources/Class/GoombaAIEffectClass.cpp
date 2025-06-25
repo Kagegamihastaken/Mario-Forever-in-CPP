@@ -1,7 +1,5 @@
 #include "Class/GoombaAIEffectClass.hpp"
 
-#include <iostream>
-
 namespace MFCPP {
     GoombaAIEffect::GoombaAIEffect(const GoombaAIEffectID id, const int SkinID, const float Yvelo, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin)
         : m_id(id), m_Yvelo(Yvelo), m_hitbox(hitbox), m_skinID(SkinID) {

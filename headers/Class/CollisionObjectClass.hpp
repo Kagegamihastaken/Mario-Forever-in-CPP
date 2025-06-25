@@ -1,7 +1,6 @@
 #ifndef COLLISIONOBJECT_HPP
 #define COLLISIONOBJECT_HPP
 
-#include <SFML/Graphics.hpp>
 namespace MFCPP {
     class CollisionObject {
     public:

@@ -1,5 +1,4 @@
 #include "Class/BroAIClass.hpp"
-
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 

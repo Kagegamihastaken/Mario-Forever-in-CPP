@@ -3,9 +3,6 @@
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
-#include <SFML/Graphics.hpp>
-#include <vector>
-
 #include "Core/Loading/enum.hpp"
 
 extern void loadFontRes();

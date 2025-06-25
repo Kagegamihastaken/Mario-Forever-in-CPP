@@ -1,13 +1,8 @@
-#include <SFML/Graphics.hpp>
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Level.hpp"
 #include "Editor/Editor.hpp"
-
-#include <algorithm>
-#include <iostream>
-
 #include "Core/Scene.hpp"
 #include "Core/Loading/enum.hpp"
 

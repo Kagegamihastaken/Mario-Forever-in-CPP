@@ -1,13 +1,12 @@
 #ifndef EDITOR_HPP
 #define EDITOR_HPP
 
-#include <optional>
 #include "SFML/Window/Event.hpp"
 
 extern sf::Vector2f EditorPos;
 extern sf::Vector2f EditorInterpolatedPos;
 
-extern void AlphaUpdate(float& alpha, bool& state, const float min, const float max, const float change, const float dt);
+extern void AlphaUpdate(float& alpha, bool& state, float min, float max, float change, float dt);
 extern void PlaceTile();
 extern void DrawTile();
 extern void EditorScreenMove(float dt);

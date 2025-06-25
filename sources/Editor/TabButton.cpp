@@ -1,5 +1,3 @@
-#include <SFML/Graphics/RenderStates.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include "Editor/TabButton.hpp"
 
 namespace MFCPP {

@@ -6,10 +6,6 @@
 #include "Core/ImageManager.hpp"
 #include "Class/TextClass.hpp"
 
-#include <vector>
-#include <iostream>
-#include <string>
-
 MFCPP::TextList MFText;
 
 void loadFontRes() {

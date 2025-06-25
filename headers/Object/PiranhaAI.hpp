@@ -2,10 +2,6 @@
 #define PIRANHAAI_HPP
 
 #include "Core/Loading/enum.hpp"
-#include <vector>
-#include <SFML/Graphics.hpp>
-
-#include "Core/Animate/SingleAnimationObject.hpp"
 
 extern void SetPrevPiranhaAIPos();
 extern void InterpolatePiranhaAIPos(float alpha);

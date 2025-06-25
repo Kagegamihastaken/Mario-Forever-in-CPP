@@ -3,9 +3,9 @@
 #ifndef MARIO_HPP
 #define MARIO_HPP
 
-#include "../Core/ImageManager.hpp"
+#include "config.h"
+#include "Core/ImageManager.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
-#include "Editor/RenderTile.hpp"
 
 class MovableObject {
 public:
@@ -83,7 +83,7 @@ inline static int lastMarioState = -1;
 inline int PowerState = 0;
 inline static int lastPowerState = 0;
 
-inline int Lives = 4;
+inline int Lives = PLAYER_LIVES;
 
 static bool OverSpeed = false;
 inline long long int Score = 0;

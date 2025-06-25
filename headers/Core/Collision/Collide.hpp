@@ -4,7 +4,6 @@
 #define COLLIDE_HPP
 
 #include "Object/Mario.hpp"
-#include "Block/Obstacles.hpp"
 #include "Class/CollisionObjectClass.hpp"
 
 extern void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox);

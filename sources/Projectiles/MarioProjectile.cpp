@@ -7,10 +7,6 @@
 #include "Core/Scroll.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Loading/enum.hpp"
-#include "Effect/MarioEffect.hpp"
-//#include "Object/Mario.hpp"
-#include <set>
-
 #include "Core/SoundManager.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Effect/ScoreEffect.hpp"

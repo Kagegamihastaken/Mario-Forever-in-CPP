@@ -2,7 +2,6 @@
 #define STATICANIMATIONOBJECT_HPP
 
 #include "Core/SimpleSprite.hpp"
-#include <SFML/Graphics/RenderWindow.hpp>
 
 namespace MFCPP {
     class StaticAnimationObject {

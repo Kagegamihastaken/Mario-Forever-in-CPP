@@ -3,11 +3,8 @@
 #ifndef Coin_HPP
 #define Coin_HPP
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
-#include "../Core/Loading/enum.hpp"
-#include "../Core/ImageManager.hpp"
+#include "Core/Loading/enum.hpp"
+#include "Core/ImageManager.hpp"
 
 class Coin {
 public:

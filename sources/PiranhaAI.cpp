@@ -8,8 +8,6 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Interpolation.hpp"
 #include "Class/PiranhaAIClass.hpp"
-#include <vector>
-#include <iostream>
 static std::vector<std::string> PiranhaAnimName;
 static constexpr int PIRANHA_IMAGE_WIDTH = 128;
 static constexpr int PIRANHA_WIDTH = 64;

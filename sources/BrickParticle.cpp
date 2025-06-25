@@ -1,7 +1,3 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <array>
-
 #include "Core/Loading/enum.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Core/Scroll.hpp"
@@ -106,12 +102,11 @@ void BrickParticleStatusUpdate(const float deltaTime) {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {
 		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
 			if (!BrickParticleDisabledList[i][j]) {
-				BrickParticleVelo[i][j].second += 0.5f * deltaTime * 0.3f;
 				BrickParticleCurr[i][j] = { BrickParticleCurr[i][j].x + BrickParticleVelo[i][j].first * deltaTime, BrickParticleCurr[i][j].y + BrickParticleVelo[i][j].second * deltaTime };
 				// TODO: Add imterpolation to rotate
 				if (BrickParticleVelo[i][j].first > 0) BrickParticleList[i][j].rotate(sf::degrees(10.0f * deltaTime));
 				else if (BrickParticleVelo[i][j].first < 0) BrickParticleList[i][j].rotate(sf::degrees(-10.0f * deltaTime));
-				BrickParticleVelo[i][j].second += 0.5f * deltaTime * 0.3f;
+				BrickParticleVelo[i][j].second += 1.f * deltaTime * 0.3f;
 			}
 		}
 		while (true) {

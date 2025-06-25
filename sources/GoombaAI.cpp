@@ -1,8 +1,3 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <vector>
-#include <set>
-
 #include "Object/GoombaAI.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/Loading/Loading.hpp"
@@ -389,9 +384,8 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 		if (i.IsDisabled() || i.IsAppearing()) continue;
 		// bottom update
 
-		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
 		i.move(sf::Vector2f(0.0f, i.GetYvelo() * deltaTime));
-		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f));
+		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f));
 		//}
 		bool NoAdd = false;
 		int be = find_min_iny(i.getCurrentPosition(), ObstaclesVertPosList);

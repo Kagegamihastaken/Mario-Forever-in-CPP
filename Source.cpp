@@ -1,34 +1,28 @@
-//include
-#include <SFML/Graphics.hpp>
-#include "headers/Core/WindowFrame.hpp"
-#include "headers/Object/Coin.hpp"
-#include "headers/Core/Sound.hpp"
-#include "headers/Effect/MarioEffect.hpp"
-#include "headers/Object/ExitGate.hpp"
-#include "headers/Core/Interpolation.hpp"
-#include "headers/Core/Loading/Loading.hpp"
-#include "headers/Core/ExternalHeaders/Kairos.hpp"
-
-#include "Object/GoombaAI.hpp"
-
+#include "Core/WindowFrame.hpp"
+#include "Core/Sound.hpp"
+#include "Effect/MarioEffect.hpp"
+#include "Object/ExitGate.hpp"
+#include "Core/Interpolation.hpp"
+#include "Core/Loading/Loading.hpp"
+#include "Core/ExternalHeaders/Kairos.hpp"
+#include "Object/Mario.hpp"
 #include "Core/Game.hpp"
 #include "config.h"
 //#include "imgui.h"
 //#include "imgui-SFML.h"
-#include <iostream>
 float alpha = 1.0f;
 //kairos::Timestep render;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
-#ifdef DEVELOPMENT_BUILD
-int main() {
-#else
+#if DEVELOPMENT_BUILD
 int WinMain() {
-#endif
-#ifdef DEVELOPMENT_BUILD
-	std::cout << "DEVELOP!" << "\n";
 #else
+int main() {
+#endif
+#if DEVELOPMENT_BUILD
 	std::cout << "RELEASE!" << "\n";
+#else
+	std::cout << "DEVELOP!" << "\n";
 #endif
 	IOInit();
 	GameObjectInit();

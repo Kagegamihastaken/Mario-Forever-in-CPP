@@ -32,8 +32,6 @@
 #include <modplug.h>
 #include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 
-#include <fstream>
-
 namespace sfmod
 {
 	ModPlug_Settings settings;

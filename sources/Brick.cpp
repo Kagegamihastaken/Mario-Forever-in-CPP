@@ -1,5 +1,3 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include "Block/Brick.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
@@ -7,20 +5,13 @@
 #include "Core/Scroll.hpp"
 #include "Effect/CoinEffect.hpp"
 #include "Core/Loading/enum.hpp"
-#include "Core/Loading/Loading.hpp"
 #include "Object/Mario.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Object/GoombaAI.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Sound.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
-#include <vector>
-#include <set>
-
-#include "Effect/BroAIEffect.hpp"
 #include "Object/BroAI.hpp"
 
 std::vector<Obstacles> Bricks;

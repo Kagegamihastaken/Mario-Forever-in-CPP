@@ -2,10 +2,6 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/ImageManager.hpp"
-#include "Core/Interpolation.hpp"
-#include <SFML/Graphics.hpp>
-#include <vector>
-
 #include "Class/FireballExplosionClass.hpp"
 
 std::vector<MFCPP::FireballExplosion> FireballExplosionList;

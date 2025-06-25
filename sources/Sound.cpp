@@ -1,5 +1,3 @@
-#include <SFML/Audio.hpp>
-
 #include "Core/SoundManager.hpp"
 #include "Core/Sound.hpp"
 #include "Core/Loading/Loading.hpp"

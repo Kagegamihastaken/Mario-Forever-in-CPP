@@ -3,9 +3,8 @@
 #ifndef BRICK_HPP
 #define BRICK_HPP
 
-#include <vector>
 #include "Obstacles.hpp"
-#include "../Core/Loading/enum.hpp"
+#include "Core/Loading/enum.hpp"
 
 extern std::vector<Obstacles> Bricks;
 extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;

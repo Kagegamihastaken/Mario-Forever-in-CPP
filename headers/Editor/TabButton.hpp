@@ -1,13 +1,8 @@
 #ifndef TABBUTTON_HPP
 #define TABBUTTON_HPP
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/Texture.hpp>
-
 namespace MFCPP {
-    class TabButton : public sf::Drawable, public sf::Transformable {
+    class TabButton final : public sf::Drawable, public sf::Transformable {
     public:
         TabButton();
         void setTexture(const sf::Texture& tex);

@@ -1,8 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-
 #include "Core/WindowFrame.hpp"
-
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/enum.hpp"

@@ -1,10 +1,6 @@
 #ifndef TEXTCLASS_HPP
 #define TEXTCLASS_HPP
 
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <string>
-#include <vector>
 #include "Core/Loading/enum.hpp"
 #include "Text/Font.hpp"
 

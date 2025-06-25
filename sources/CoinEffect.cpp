@@ -2,13 +2,9 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include "Class/CoinEffectClass.hpp"
-
-#include <SFML/Graphics.hpp>
-#include <vector>
 
 std::vector<MFCPP::CoinEffect> CoinEffectList;
 void CoinEffectInit() {

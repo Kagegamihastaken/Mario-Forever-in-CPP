@@ -1,15 +1,6 @@
-#include <SFML/System/Vector2.hpp>
-#include <unordered_set>
 #include "Editor/Editor.hpp"
-
-#include <fstream>
-#include <ctre.hpp>
-
 #include "Editor/SelectTile.hpp"
 #include "Editor/TabButton.hpp"
-
-#include <iostream>
-
 #include "Core/WindowFrame.hpp"
 #include "Core/Hash.hpp"
 #include "Core/ImageManager.hpp"

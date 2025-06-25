@@ -1,5 +1,4 @@
 #include "Class/GoombaAIClass.hpp"
-
 #include "Core/SoundManager.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Effect/GoombaAIEffect.hpp"

@@ -1,11 +1,10 @@
-#include <SFML/Graphics.hpp>
-
 #include "Core/Background/BgGradient.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Level.hpp"
 
-auto bgGradient = sf::VertexArray(sf::PrimitiveType::TriangleStrip, 4);
+// NOTE: Cannot change to auto, will found way to work
+sf::VertexArray bgGradient(sf::PrimitiveType::TriangleStrip, 4);
 void BgGradientInitPos() {
 
 	bgGradient[0].position = sf::Vector2f(0, 0);

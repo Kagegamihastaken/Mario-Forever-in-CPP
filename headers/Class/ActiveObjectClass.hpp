@@ -1,8 +1,6 @@
 #ifndef ACTIVEOBJECTCLASS_HPP
 #define ACTIVEOBJECTCLASS_HPP
 
-#include <SFML/Graphics.hpp>
-
 namespace MFCPP {
     class ActiveObject {
     public:

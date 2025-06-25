@@ -1,11 +1,8 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
-#include <SFML/System/Clock.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include "Core/SimpleSprite.hpp"
 #include "Core/Loading/enum.hpp"
-#include <SFML/Graphics/Sprite.hpp>
 
 class SingleAnimationObject {
 	std::string m_lastAnim = "";
