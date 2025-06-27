@@ -399,6 +399,8 @@ void MarioUpdateAnimation() {
 	}
 }
 void PowerDown() {
+	if (LevelCompleteEffect) return;
+
 	if (!Invincible) {
 		if (PowerState > 1) {
 			SoundManager::PlaySound("Pipe");

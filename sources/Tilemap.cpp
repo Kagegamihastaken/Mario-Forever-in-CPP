@@ -8,8 +8,8 @@ namespace MFCPP {
     void setTileMapSize(const float LevelX, const float LevelY) {
         ObstaclesTilemap.clear();
         CollectableMap.clear();
-        tileMapSizeX = static_cast<int>(LevelX / tileSizeX) + 2;
-        tileMapSizeY = static_cast<int>(LevelY / tileSizeY) + 2;
+        tileMapSizeX = static_cast<int>(LevelX / tileSizeX) + 5;
+        tileMapSizeY = static_cast<int>(LevelY / tileSizeY) + 5;
     }
     int getTilemap(const int x, const int y) {
         return x + y * tileMapSizeX;

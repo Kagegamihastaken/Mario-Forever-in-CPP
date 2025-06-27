@@ -298,10 +298,10 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 		if (i.GetType() == SHELL_MOVING) {
 			NoAdd = false;
 			if (i.GetDirection() == RIGHT) {
-				BrickCollideRemove = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BrickCurrPosX, BrickCurrPosY, NoAdd, 1);
+				BrickCollideRemove = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), BrickCurrPosX, BrickCurrPosY, NoAdd, 1);
 			}
 			else if (i.GetDirection() == LEFT) {
-				BrickCollideRemove = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), BrickCurrPosX, BrickCurrPosY, NoAdd, 1);
+				BrickCollideRemove = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), BrickCurrPosX, BrickCurrPosY, NoAdd, 1);
 			}
 			if (BrickCollideRemove.first || BrickCollideRemove.second) {
 				const BrickID CurrBrickID = GetIDBrick(BrickCurrPosX, BrickCurrPosY);
@@ -319,10 +319,10 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 				}
 			}
 			if (i.GetDirection() == RIGHT) {
-				LuckyCollideRemove = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyCurrPosX, LuckyCurrPosY, NoAdd, 2);
+				LuckyCollideRemove = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), LuckyCurrPosX, LuckyCurrPosY, NoAdd, 2);
 			}
 			else if (i.GetDirection() == LEFT) {
-				LuckyCollideRemove = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), LuckyCurrPosX, LuckyCurrPosY, NoAdd, 2);
+				LuckyCollideRemove = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), LuckyCurrPosX, LuckyCurrPosY, NoAdd, 2);
 			}
 			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
 				//i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
@@ -335,7 +335,7 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 		NoAdd = false;
 		// Loop through obstacles
 		auto [fst, snd] = QuickCheckOnlyObstaclesSideCollision(
-			MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()),
+			MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()),
 			static_cast<bool>(i.GetDirection()), CurrPosXCollide, CurrPosYCollide, NoAdd);
 		if (i.GetDirection() == RIGHT) {
 			if (BrickCollideRemove.first || BrickCollideRemove.second) {
@@ -343,14 +343,14 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 				CurrPosXCollide = BrickCurrPosX;
 			}
 			else {
-				BrickCollide = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
+				BrickCollide = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
 			}
 			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
 				LuckyCollide = LuckyCollideRemove;
 				CurrPosXCollide = LuckyCurrPosX;
 			}
 			else
-				LuckyCollide = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
+				LuckyCollide = CheckCollisionRight(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
 		}
 		else if (i.GetDirection() == LEFT) {
 			if (BrickCollideRemove.first || BrickCollideRemove.second) {
@@ -358,14 +358,14 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 				CurrPosXCollide = BrickCurrPosX;
 			}
 			else {
-				BrickCollide = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
+				BrickCollide = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
 			}
 			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
 				LuckyCollide = LuckyCollideRemove;
 				CurrPosXCollide = LuckyCurrPosX;
 			}
 			else
-				LuckyCollide = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
+				LuckyCollide = CheckCollisionLeft(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxWall()), CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
 		}
 
 		// Stop on wall
@@ -475,12 +475,14 @@ void GoombaAICollisionUpdate() {
 					}
 				}
 				else if (GoombaAIList[i].GetType() == SHELL_MOVING && GoombaAIList[j].GetType() != SHELL_MOVING) {
+					if (isOutScreen(GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y, 96, 96)) break;
 					Kicking(i, sf::Vector2f(GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y), GoombaAIList[j].getOrigin().y);
 					AddGoombaAIEffect(GoombaAIList[j].GetType(), NONE, GoombaAIList[j].GetSkinID(), GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y);
 					DeleteGoombaAIIndex(j);
 					break;
 				}
 				else if (GoombaAIList[i].GetType() == SHELL_MOVING && GoombaAIList[j].GetType() == SHELL_MOVING) {
+					if (isOutScreen(GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y, 96, 96)) break;
 					SoundManager::PlaySound("Kick2");
 					AddScoreEffect(SCORE_100, GoombaAIList[j].getCurrentPosition().x, GoombaAIList[j].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
 					AddScoreEffect(SCORE_100, GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y - GoombaAIList[i].getOrigin().y);
@@ -497,6 +499,7 @@ void GoombaAICollisionUpdate() {
 		}
 		if (GoombaAIList[i].GetType() == SHELL_MOVING) {
 			for (int j = 0; j < BroAIList.size(); ++j)  {
+				if (isOutScreen(GoombaAIList[i].getCurrentPosition().x, GoombaAIList[i].getCurrentPosition().y, 96, 96)) break;
 				if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(BroAIList[j].getHitbox(), BroAIList[j].getCurrentPosition(), BroAIList[j].getOrigin()); isCollide(BroAIHitbox, hitbox_loop)) {
 					Kicking(i, sf::Vector2f(BroAIList[j].getCurrentPosition().x, BroAIList[j].getCurrentPosition().y), BroAIList[j].getOrigin().y);
 					AddBroAIEffect(BroAIList[j].getType(), static_cast<bool>(BroAIList[j].getAnimationDirection()), BroAIList[j].getCurrentPosition().x, BroAIList[j].getCurrentPosition().y);

@@ -13,13 +13,10 @@ static constexpr int PIRANHA_IMAGE_WIDTH = 128;
 static constexpr int PIRANHA_WIDTH = 64;
 static constexpr int PIRANHA_HEIGHT = 64;
 std::vector<MFCPP::PiranhaAI> PiranhaAIList;
-void DeletePiranhaAI(const float x, const float y) {
-	for (unsigned int i = 0; i < PiranhaAIList.size(); ++i) {
-		if (PiranhaAIList[i].getCurrentPosition().x == x && PiranhaAIList[i].getCurrentPosition().y == y) {
-			PiranhaAIList.erase(PiranhaAIList.begin() + i);
-			break;
-		}
-	}
+static bool PiranhaAIDeleteGate = false;
+void DeletePiranhaAIIndex(const int i) {
+	PiranhaAIList[i].willDestroy(true);
+	PiranhaAIDeleteGate = true;
 }
 void ClearPiranhaAI() {
 	PiranhaAIList.clear();
@@ -34,11 +31,13 @@ void PiranhaAIInit() {
 }
 void SetPrevPiranhaAIPos() {
 	for (auto &i : PiranhaAIList) {
+		if (i.willBeDestroyed()) continue;
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolatePiranhaAIPos(const float alpha) {
 	for (auto &i : PiranhaAIList) {
+		if (i.willBeDestroyed()) continue;
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
@@ -68,6 +67,8 @@ void AddPiranha(const PiranhaID ID, const float x, const float y) {
 }
 void PiranhaAIMovementUpdate(const float deltaTime) {
 	for (auto & i : PiranhaAIList) {
+		if (i.willBeDestroyed()) continue;
+
 		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64, 64) && !i.isDisabled()) {
 			if (!i.getStop()) {
 				if (!i.getState()) {
@@ -109,6 +110,8 @@ void PiranhaAIStatusUpdate() {
 	if (PiranhaAIList.empty()) return;
 	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
 	for (auto & i : PiranhaAIList) {
+		if (i.willBeDestroyed()) continue;
+
 		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64, 64)) {
 			if (i.isDisabled()) i.setDisabled(false);
 		}
@@ -121,11 +124,15 @@ void PiranhaAIDraw() {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64) && !i.isDisabled()) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
 			i.AnimationDraw(window);
-			//i.m_animation.getCurrentAnimationName();
-			//i.setTexture(ImageManager::GetTexture(i.m_animation.getCurrentAnimationName()));
-			//i.setTextureRect(i.m_animation.getAnimationTextureRect());
-			//i.m_animation.silentupdate();
-			//window.draw(i);
 		}
 	}
+}
+void PiranhaAICleanup() {
+	if (!PiranhaAIDeleteGate) return;
+	int i = 0;
+	while (i < PiranhaAIList.size()) {
+		if (!PiranhaAIList[i].willBeDestroyed()) ++i;
+		else PiranhaAIList.erase(PiranhaAIList.begin() + i);
+	}
+	PiranhaAIDeleteGate = false;
 }

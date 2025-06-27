@@ -10,6 +10,7 @@
 #include "Effect/ScoreEffect.hpp"
 #include "Object/BroAI.hpp"
 #include "Object/GoombaAI.hpp"
+#include "Object/PiranhaAI.hpp"
 
 std::vector<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;
@@ -78,6 +79,18 @@ void MarioProjectileCollision() {
                     BroAIList[j].DeathBehaviour(SCORE_200);
                     SoundManager::PlaySound("Kick2");
                     DeleteBroAIIndex(j);
+                    break;
+                }
+            }
+        }
+        //Piranha
+        if (!MarioProjectileList[i].willBeDestroyed()) {
+            for (int j = 0; j < PiranhaAIList.size(); ++j) {
+                if (sf::FloatRect loopHitbox = getGlobalHitbox(PiranhaAIList[j].getHitbox(), PiranhaAIList[j].getCurrentPosition(), PiranhaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                    DeleteMarioProjectile(i);
+                    AddScoreEffect(SCORE_100, PiranhaAIList[j].getCurrentPosition().x, PiranhaAIList[j].getCurrentPosition().y - PiranhaAIList[j].getOrigin().y);
+                    SoundManager::PlaySound("Kick2");
+                    DeletePiranhaAIIndex(j);
                     break;
                 }
             }

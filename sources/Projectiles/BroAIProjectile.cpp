@@ -48,7 +48,7 @@ void BroAIProjectileCollision() {
 }
 void BroAIProjectileStatusUpdate() {
     for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (isOutScreenY(BroAIProjectileList[i].getInterpolatedPosition().y, 64.f)) {
+        if (isOutScreenYBottom(BroAIProjectileList[i].getInterpolatedPosition().y, 64.f)) {
             DeleteBroAIProjectile(BroAIProjectileList[i].getCurrentPosition().x, BroAIProjectileList[i].getCurrentPosition().y);
         }
     }

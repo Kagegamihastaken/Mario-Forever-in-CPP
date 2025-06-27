@@ -311,5 +311,6 @@ void GameCleanUp() {
         GoombaAIEffectCleanup();
         BroAICleanup();
         BroAIEffectCleanup();
+        PiranhaAICleanup();
     }
 }

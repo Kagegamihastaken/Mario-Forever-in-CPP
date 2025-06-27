@@ -17,6 +17,7 @@ namespace MFCPP {
         bool                   m_is_appearing{};
         unsigned               m_skinID{};
         sf::FloatRect          m_hitbox_main{};
+        sf::FloatRect          m_hitbox_wall{};
         bool                   m_can_death{};
         //Dont touch
         bool                   m_disabled{};
@@ -65,6 +66,8 @@ namespace MFCPP {
         void SetCollideWithRight(int val);
 
         void DeathBehaviour(ScoreID score_id) const;
+        void SetHitboxWall(const sf::FloatRect& val);
+        [[nodiscard]] sf::FloatRect GetHitboxWall() const;
     };
 }
 

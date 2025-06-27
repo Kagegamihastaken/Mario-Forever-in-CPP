@@ -19,6 +19,7 @@ namespace MFCPP {
         m_collide_with = { false, -1 };
         //hitbox
         m_hitbox_main = sf::FloatRect({ 0.0f, 0.0f }, { size.size.x, size.size.y });
+        m_hitbox_wall = sf::FloatRect({ 0.0f, 0.0f }, { size.size.x, size.size.y - 6.f });
     }
     void GoombaAI::SetType(const GoombaAIType& type) {
         m_type = type;
@@ -127,5 +128,10 @@ namespace MFCPP {
         AddGoombaAIEffect(GetType(), NONE, GetSkinID(), getCurrentPosition().x, getCurrentPosition().y);
         SoundManager::PlaySound("Kick2");
     }
-
+    void GoombaAI::SetHitboxWall(const sf::FloatRect& val) {
+        m_hitbox_wall = val;
+    }
+    sf::FloatRect GoombaAI::GetHitboxWall() const {
+        return m_hitbox_wall;
+    }
 }
