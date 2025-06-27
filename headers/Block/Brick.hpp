@@ -7,10 +7,8 @@
 #include "Core/Loading/enum.hpp"
 
 extern std::vector<Obstacles> Bricks;
-extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksVertPosList;
 extern std::vector<BrickID> BrickIDList;
 extern ImageManager BrickTextureManager;
-extern std::vector<std::pair<sf::FloatRect, sf::Vector2f>> BricksHorzPosList;
 extern void AddBrick(BrickID ID, BrickAtt att, float x, float y);
 extern void BricksSort();
 extern void SetPrevBricksPos();

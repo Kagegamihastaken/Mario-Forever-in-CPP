@@ -4,9 +4,6 @@
 
 //Obstacles define
 sf::VertexArray ObstaclesVA;
-std::vector<Obstacles> ObstaclesList;
-std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesHorzPosList;
-std::vector<std::pair<sf::FloatRect, sf::Vector2f>> ObstaclesVertPosList;
 sf::RenderTexture ObstacleRTexture;
 //sf::Texture ObstaclesTexture;
 //set ID for each texture obstacle

@@ -13,5 +13,6 @@ extern void DeleteAllGoombaAIEffect();
 extern void GoombaAIEffectDraw();
 extern void GoombaAIEffectVertYUpdate(float deltaTime);
 extern void GoombaAIEffectStatusUpdate(float deltaTime);
+extern void GoombaAIEffectCleanup();
 
 #endif // !GOOMBAAIEFFECT_HPP

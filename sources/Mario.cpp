@@ -125,19 +125,6 @@ void KeyboardMovement(const float deltaTime) {
 		if (!MarioCurrentFalling && PreJump) PreJump = false;
 
 		//Fire
-		if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding) {
-			if (FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2 && !MarioCrouchDown) {
-				SoundManager::PlaySound("Fireball");
-				FireTimeCounting = 0.f;
-				switch (PowerState) {
-					case 2:
-						AddMarioProjectile(MarioDirection, FIREBALL, player.curr.x + (4.f * (MarioDirection ? -1.f : 1.f)), player.curr.y - 23.f);
-					default: ;
-				}
-			}
-		}
-		isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 	}
 	else if (LevelCompleteEffect) {
 		if (MarioDirection) MarioDirection = false;
@@ -147,6 +134,20 @@ void KeyboardMovement(const float deltaTime) {
 		Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.625f * deltaTime);
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 	}
+
+	if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding && CanControlMario && !LevelCompleteEffect) {
+		if (FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2 && !MarioCrouchDown) {
+			SoundManager::PlaySound("Fireball");
+			FireTimeCounting = 0.f;
+			switch (PowerState) {
+				case 2:
+					AddMarioProjectile(MarioDirection, FIREBALL, player.curr.x + (4.f * (MarioDirection ? -1.f : 1.f)), player.curr.y - 23.f);
+				default: ;
+			}
+		}
+	}
+	isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 }
 void MarioPosXUpdate(const float deltaTime) {
 	if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
@@ -169,51 +170,30 @@ void MarioPosXUpdate(const float deltaTime) {
 void MarioVertXUpdate() {
 	if (CanControlMario) {
 		int be, nd;
-		std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
 		float CurrPosXCollide = 0, CurrPosYCollide = 0;
 		bool NoAdd = false;
-		if (!MarioDirection) {
-			be = find_min_inx(player.curr, ObstaclesHorzPosList);
-			nd = find_max_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-			be = find_min_inx(player.curr, BricksHorzPosList);
-			nd = find_max_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-			be = find_min_inx(player.curr, LuckyHorzPosList);
-			nd = find_max_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-		}
-		else {
-			be = find_max_inx(player.curr, ObstaclesHorzPosList);
-			nd = find_min_inx_dist(player.curr, ObstaclesHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-			be = find_max_inx(player.curr, BricksHorzPosList);
-			nd = find_min_inx_dist(player.curr, BricksHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-			be = find_max_inx(player.curr, LuckyHorzPosList);
-			nd = find_min_inx_dist(player.curr, LuckyHorzPosList, 64.0f + (Xvelo) * 4.0f);
-			LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		}
+		const auto [fst, snd] = QuickCheckSideCollision(
+			MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), MarioDirection, CurrPosXCollide, CurrPosYCollide);
 		//snap back
 		if (MarioDirection) {
-			if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+			if (fst) {
 				Xvelo = 0.0f;
 				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
 				//std::cout << player.curr.x << "\n";
 			}
-			else if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+			else if (snd) {
 				Xvelo = 0.0f;
 				player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
 				//std::cout << player.curr.x << "\n";
 			}
 		}
 		else {
-			if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second) {
+			if (snd) {
 				Xvelo = 0.0f;
 				player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
 				//std::cout << player.curr.x << "\n";
 			}
-			else if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first) {
+			else if (fst) {
 				Xvelo = 0.0f;
 				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
 				//std::cout << player.curr.x << "\n";
@@ -235,22 +215,6 @@ void MarioVertYUpdate() {
 	//std::cout << Yvelo << "\n";
 	if (CanControlMario) {
 		float CurrPosYCollide;
-		bool NoAdd = false;
-		//}
-		//player.curr = { player.curr.x, player.curr.y + 1.0f };
-
-		int be = find_min_iny(player.curr, ObstaclesVertPosList);
-		int nd = find_max_iny_dist(player.curr, ObstaclesVertPosList, 64.0f + (Yvelo) * 16.0f);
-		bool ObstacleCollide = isAccurateCollideBot(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), ObstaclesVertPosList, CurrPosYCollide, NoAdd, be,
-		                                             nd, 80.0f);
-		be = find_min_iny(player.curr, BricksVertPosList);
-		nd = find_max_iny_dist(player.curr, BricksVertPosList, 64.0f + (Yvelo) * 16.0f);
-		bool BrickCollide = isAccurateCollideBot(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), BricksVertPosList, CurrPosYCollide, NoAdd, be, nd,
-		                                          80.0f);
-		be = find_min_iny(player.curr, LuckyVertPosList);
-		nd = find_max_iny_dist(player.curr, LuckyVertPosList, 64.0f + (Yvelo) * 16.0f);
-		bool LuckyCollide = isAccurateCollideBot(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), LuckyVertPosList, CurrPosYCollide, NoAdd, be, nd,
-		                                          80.0f);
 		//bool SlopeCollide = false;
 		//float slopey = -1;
 		//const sf::FloatRect mario_hitbox = getGlobalHitbox(sf::FloatRect({0, 0}, {1, 1}), sf::Vector2f(MouseX, MouseY), {0, 0});
@@ -309,11 +273,8 @@ void MarioVertYUpdate() {
 			//slopey = slopeymin + i;
 			//std::cout << i << "\n";
 		//}
-
-
 		//recolide
-		if (ObstacleCollide || BrickCollide || LuckyCollide) {
-			bool isLanding;
+		if (QuickCheckBotCollision(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), CurrPosYCollide)) {
 			MarioCurrentFalling = false;
 			if (Yvelo >= 0.0f) {
 				player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y) };
@@ -324,39 +285,27 @@ void MarioVertYUpdate() {
 				//else player.curr = { player.curr.x, slopey - (52.0f - player.property.getOrigin().y + 10.0f) };
 		}
 		// top update
-		NoAdd = false;
-		be = find_max_iny(player.curr, ObstaclesVertPosList);
-		nd = find_min_iny_dist(player.curr, ObstaclesVertPosList, 64.0f - (Yvelo) * 16.0f);
-		ObstacleCollide = isAccurateCollideTop(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-		const int br_be = find_max_iny(player.curr, BricksVertPosList);
-		const int br_nd = find_min_iny_dist(player.curr, BricksVertPosList, 64.0f - (Yvelo) * 16.0f);
-		BrickCollide = isAccurateCollideTop(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), BricksVertPosList, CurrPosYCollide, NoAdd, br_nd, br_be, 80.0f);
-		const int lu_be = find_max_iny(player.curr, LuckyVertPosList);
-		const int lu_nd = find_min_iny_dist(player.curr, LuckyVertPosList, 64.0f - (Yvelo) * 16.0f);
-		LuckyCollide = isAccurateCollideTop(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), LuckyVertPosList, CurrPosYCollide, NoAdd, lu_nd, lu_be, 80.0f);
-		if (ObstacleCollide || BrickCollide || LuckyCollide) {
+		bool NoAdd = false;
+		const bool ObstacleCollision = QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosYCollide, NoAdd);
+		const std::vector<std::pair<float, float>> BrickCollision = CheckCollisionTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosYCollide, NoAdd, 1);
+		const std::vector<std::pair<float, float>> LuckyCollision = CheckCollisionTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosYCollide, NoAdd, 2);
+		if (ObstacleCollision || !BrickCollision.empty() || !LuckyCollision.empty()) {
 			// Start event Brick
-			if (BrickCollide) {
-				if (const std::vector<std::pair<float, float> > BrickPos = isCollideTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxTop), BricksVertPosList, br_nd, br_be, 80.0f); !BrickPos.empty()) {
-					for (const auto&[fst, snd] : BrickPos) {
-						HitEvent(fst, snd);
-					}
+			if (!BrickCollision.empty()) {
+				for (const auto&[fst, snd] : BrickCollision) {
+					HitEvent(fst, snd);
 				}
 			}
-			if (LuckyCollide) {
-				if (const std::vector<std::pair<float, float> > LuckyPos = isCollideTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxTop), LuckyVertPosList, lu_nd, lu_be, 80.0f); !LuckyPos.empty()) {
-					for (const auto&[fst, snd] : LuckyPos) {
-						LuckyHitEvent(fst, snd);
-					}
+			if (!LuckyCollision.empty()) {
+				for (const auto&[fst, snd] : LuckyCollision) {
+					LuckyHitEvent(fst, snd);
 				}
 			}
 			//snap back
-			if (Yvelo < 0.0f) {
-				if (PowerState > 0 && !MarioCrouchDown)
-					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
-				else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
-					player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
-			}
+			if (PowerState > 0 && !MarioCrouchDown)
+				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
+			else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
+				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
 			Yvelo = 0.0f;
 		}
 	}

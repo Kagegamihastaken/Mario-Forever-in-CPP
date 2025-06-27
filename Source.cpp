@@ -8,6 +8,10 @@
 #include "Object/Mario.hpp"
 #include "Core/Game.hpp"
 #include "config.h"
+
+#include <windows.h>
+#include "resource.h"
+
 //#include "imgui.h"
 //#include "imgui-SFML.h"
 float alpha = 1.0f;

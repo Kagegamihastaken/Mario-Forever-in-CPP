@@ -2,7 +2,6 @@
 #include <windows.h>
 #include "resource.h"
 
-// If you're using an icon
 IDI_ICON1 ICON "icon1.ico"
 
 // The version is now managed by CMake
@@ -22,7 +21,7 @@ BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
             VALUE "CompanyName",      "MFCPP"
-            VALUE "FileDescription",  "A MF Game made by MFCPP Engine"
+            VALUE "FileDescription",  "MFCPP Game"
             VALUE "FileVersion",      "@PROJECT_VERSION@"
             VALUE "InternalName",     "@PROJECT_NAME@"
             VALUE "LegalCopyright",   "Copyright (C) 6969"

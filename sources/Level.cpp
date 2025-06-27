@@ -27,6 +27,7 @@
 #include "Object/BroAI.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Projectiles/MarioProjectile.hpp"
+#include "Core/Tilemap.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::array<float, 2>> BgData;
@@ -405,6 +406,10 @@ void Obstaclebuilding() {
 		std::cout << "Cannot resize Obstacles Texture\n";
 		return;
 	}
+
+	MFCPP::setTileMapSize(LevelWidth, LevelHeight);
+	MFCPP::printTileMapSize();
+
 	ObstacleRTexture.clear(sf::Color::Transparent);
 	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 	ObstaclesVA.resize(4);
@@ -422,6 +427,8 @@ void Obstaclebuilding() {
 	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
 	//ObstaclesVA.resize(LevelData.size() * 6);
 	for (int i = 0; i < LevelData.size(); ++i) {
+		MFCPP::setIndexTilemapCollision(LevelData[i][1], LevelData[i][2], true);
+		MFCPP::setIndexTilemapID(LevelData[i][1], LevelData[i][2], 0);
 		//for (const auto& i : LevelData) {
 			// Find the tile id
 		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 3> &compare) {
@@ -435,8 +442,6 @@ void Obstaclebuilding() {
 		//ObstaclesList.push_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(tempTex) });
 		//ObstaclesList.back().property.setTexture(ImageManager::GetTexture("Tile_"+std::to_string(posTextureIndex)), true);
 		//ObstaclesList.back().property.setPosition({ LevelData[i][1], LevelData[i][2] });
-		ObstaclesVertPosList.emplace_back(sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,sf::Vector2f({LevelData[i][1], LevelData[i][2] }));
-		ObstaclesHorzPosList.emplace_back(sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }) ,sf::Vector2f({LevelData[i][1], LevelData[i][2] }));
 		//setHitbox(ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
 
 		//sf::Vertex* vertex = &ObstaclesVA[i * 6];
@@ -454,19 +459,6 @@ void Obstaclebuilding() {
 		//vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
 		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
-	//std::ranges::sort(ObstaclesList, [](const Obstacles& A, const Obstacles& B) {
-		//return A.property.getPosition().x < B.property.getPosition().x;
-		//});
-	std::ranges::sort(ObstaclesHorzPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
-		if (A.second.x < B.second.x) return true;
-		else if (A.second.x == B.second.x) return A.second.y < B.second.y;
-		else return false;
-		});
-	std::ranges::sort(ObstaclesVertPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
-		if (A.second.y < B.second.y) return true;
-		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
-		else return false;
-		});
 	ObstacleRTexture.display();
 }
 void Slopebuilding() {
@@ -536,9 +528,21 @@ void Objectbuilding() {
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
-			if (i[0] == 1) AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
-			else if (i[0] == 2) AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
-			else if (i[0] == 3) AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+			if (i[0] == 1) {
+				AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
+				MFCPP::setIndexCollectableMapID(i[3], i[4], 0);
+				MFCPP::setIndexCollectableMapCollision(i[3], i[4], true);
+			}
+			else if (i[0] == 2) {
+				MFCPP::setIndexTilemapCollision(i[3], i[4], true);
+				MFCPP::setIndexTilemapID(i[3], i[4], 1);
+				AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
+			}
+			else if (i[0] == 3) {
+				MFCPP::setIndexTilemapCollision(i[3], i[4], true);
+				MFCPP::setIndexTilemapID(i[3], i[4], 2);
+				AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+			}
 		}
 	}
 	if (!EnemyData.empty()) {

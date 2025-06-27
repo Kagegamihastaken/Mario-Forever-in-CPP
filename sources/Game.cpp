@@ -29,6 +29,8 @@
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Core/Game.hpp"
+
+#include "Core/Collision/Collide.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
@@ -79,7 +81,6 @@ void GameTextInit() {
         //AddText("_FALL", "", LEFT_MARGIN, 0.0f, 48.0f);
         //AddText("_MARIOXY", "", RIGHT_MARGIN, 624.0f, 448.0f);
         //AddText("_FALLING", "", LEFT_MARGIN, 0.0f, 80.0f);
-        //AddText("_PREJUMP", "", LEFT_MARGIN, 0.0f, 96.0f);
         if (isDebug) {
             AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
             AddText("_VIEWXY", "", RIGHT_MARGIN, 624.0f, 432.0f);
@@ -115,7 +116,6 @@ void GameObjectEditText() {
         //EditText(std::to_string(GoombaAIList.size()), "_FALL");
         //EditText("Holding: " + std::string((Holding ? "TRUE" : "FALSE")), "_HOLDING");
         //EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
-        //EditText("PreJump: " + (PreJump ? std::string("TRUE") : std::string("FALSE")), "_PREJUMP");
         if (isDebug) {
             std::string appe;
             EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
@@ -198,9 +198,10 @@ void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
     else if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (mousePressed->button == sf::Mouse::Button::Left) {
-                //AddBroAI(BroAIType::HAMMER_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
-                AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);
+                AddBroAI(BroAIType::HAMMER_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
             }
+            else if (mousePressed->button == sf::Mouse::Button::Right) {
+                AddGoombaAI(GoombaAIType::SHELL_MOVING, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);}
         }
     }
 }
@@ -304,6 +305,11 @@ void GameObjectDraw() {
 }
 void GameCleanUp() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        //TODO: Change to Class and fix more
+        GoombaAICleanup();
         MarioProjectileCleanup();
+        GoombaAIEffectCleanup();
+        BroAICleanup();
+        BroAIEffectCleanup();
     }
 }

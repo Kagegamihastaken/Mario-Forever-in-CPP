@@ -19,5 +19,7 @@ extern void GoombaAICheckCollide();
 extern void GoombaAIDraw();
 extern void DeleteAllGoombaAI();
 extern void GoombaAICollisionUpdate();
+extern void GoombaAICleanup();
+extern void DeleteGoombaAIIndex(int i);
 
 #endif // GOOMBAAI_HPP

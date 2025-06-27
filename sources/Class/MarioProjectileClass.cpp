@@ -9,7 +9,6 @@ namespace MFCPP {
         setOrigin(origin);
         m_Xvelo = 8.125f;
         m_Yvelo = 0.f;
-        m_destroy = false;
     }
     void MarioProjectile::setYVelo(const float val) {
         m_Yvelo = val;
@@ -43,11 +42,5 @@ namespace MFCPP {
     }
     sf::FloatRect MarioProjectile::getHitbox() const {
         return m_hitbox;
-    }
-    void MarioProjectile::willDestroy(const bool val) {
-        m_destroy = val;
-    }
-    bool MarioProjectile::willBeDestroyed() const {
-        return m_destroy;
     }
 }

@@ -21,8 +21,6 @@ namespace MFCPP {
         [[nodiscard]] MarioProjectileBehavior getBehaviour() const;
         void setHitbox(const sf::FloatRect& hitbox);
         [[nodiscard]] sf::FloatRect getHitbox() const;
-        void willDestroy(bool val);
-        [[nodiscard]] bool willBeDestroyed() const;
     private:
         float                   m_Xvelo;
         float                   m_Yvelo;
@@ -30,7 +28,6 @@ namespace MFCPP {
         MarioProjectileType     m_type;
         MarioProjectileBehavior m_behaviour;
         sf::FloatRect           m_hitbox;
-        bool                    m_destroy;
     };
 }
 

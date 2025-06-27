@@ -11,5 +11,6 @@ extern void DeleteAllBroAIEffect();
 extern void BroAIEffectStatusUpdate(float deltaTime);
 extern void BroAIEffectDraw();
 extern void BroAIEffectVertYUpdate(float deltaTime);
+extern void BroAIEffectCleanup();
 
 #endif //BROAIEFFECT_HPP

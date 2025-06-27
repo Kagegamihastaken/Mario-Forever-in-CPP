@@ -4,6 +4,7 @@
 namespace MFCPP {
     class ActiveObject {
     public:
+        ActiveObject();
         void setCurrentPosition(const sf::Vector2f& position);
         [[nodiscard]] sf::Vector2f getCurrentPosition() const;
         void setPreviousPosition(const sf::Vector2f& position);
@@ -20,6 +21,8 @@ namespace MFCPP {
         void rotate(const sf::Angle& angle);
         [[nodiscard]] sf::Angle getInterpolatedAngle() const;
         void setInterpolatedAngle(const sf::Angle& angle);
+        void willDestroy(bool val);
+        [[nodiscard]] bool willBeDestroyed() const;
     private:
         sf::Vector2f m_curr{};
         sf::Vector2f m_prev{};
@@ -28,6 +31,7 @@ namespace MFCPP {
         sf::Angle    m_curr_angle{};
         sf::Angle    m_prev_angle{};
         sf::Angle    m_interpalated_angle{};
+        bool         m_destroy{};
     };
 }
 

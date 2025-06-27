@@ -1,6 +1,9 @@
 #include "Class/ActiveObjectClass.hpp"
 
 namespace MFCPP {
+    ActiveObject::ActiveObject() {
+        m_destroy = false;
+    };
     void ActiveObject::setCurrentPosition(const sf::Vector2f& position) {
         m_curr = position;
     }
@@ -48,5 +51,11 @@ namespace MFCPP {
     }
     void ActiveObject::setInterpolatedAngle(const sf::Angle& angle) {
         m_interpalated_angle = angle;
+    }
+    void ActiveObject::willDestroy(const bool val) {
+        m_destroy = val;
+    }
+    bool ActiveObject::willBeDestroyed() const {
+        return m_destroy;
     }
 }

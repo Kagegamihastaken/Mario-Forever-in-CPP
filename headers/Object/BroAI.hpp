@@ -17,5 +17,7 @@ extern void DeleteAllBroAI();
 extern void BroAIShootUpdate(float deltaTime);
 extern void BroAIStatusUpdate();
 extern void BroAICheckCollide();
+extern void BroAICleanup();
+extern void DeleteBroAIIndex(int i);
 
 #endif //BROAI_HPP

@@ -1,5 +1,3 @@
-#include "Block/Brick.hpp"
-#include "Block/LuckyBlock.hpp"
 #include "Class/MarioProjectileClass.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
@@ -14,6 +12,7 @@
 #include "Object/GoombaAI.hpp"
 
 std::vector<MFCPP::MarioProjectile> MarioProjectileList;
+static bool MarioProjectileDeleteGate = false;
 
 void MarioProjectileInit() {
     ImageManager::AddImage("FireballImage", "data/resources/Projectiles/Fireball.png");
@@ -21,7 +20,7 @@ void MarioProjectileInit() {
     ImageManager::AddTexture("FireballImage", "FireballLeft", false, true);
 }
 int getAmountProjectile() {
-    return MarioProjectileList.size();
+    return static_cast<int>(MarioProjectileList.size());
 }
 void SetPrevMarioProjectilePos() {
     for (auto & i : MarioProjectileList) {
@@ -42,6 +41,7 @@ void InterpolateMarioProjectilePos(const float alpha) {
 void DeleteMarioProjectile(const int i, const bool out = false) {
     if (!MarioProjectileList[i].willBeDestroyed() && !out) AddFireballExplosion(MarioProjectileList[i].getCurrentPosition().x, MarioProjectileList[i].getCurrentPosition().y);
     MarioProjectileList[i].willDestroy(true);
+    MarioProjectileDeleteGate = true;
 }
 void DeleteMarioProjectile(const float x, const float y) {
     for (int i = 0; i < MarioProjectileList.size(); ++i) {
@@ -54,41 +54,35 @@ void DeleteAllMarioProjectile() {
     MarioProjectileList.clear();
 }
 void MarioProjectileCollision() {
-    std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
-    std::set<std::pair<float, float>> BroAIDeleteSet;
     if (MarioProjectileList.empty()) return;
     for (int i = 0; i < MarioProjectileList.size(); ++i) {
         const sf::FloatRect playerHitbox = getGlobalHitbox(MarioProjectileList[i].getHitbox(), MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin());
         //GoombaAI
         if (!MarioProjectileList[i].willBeDestroyed()) {
-            for (const auto &j : GoombaAIList) {
-                if (sf::FloatRect loopHitbox = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                    DeleteMarioProjectile(i);
-                    j.DeathBehaviour(SCORE_100);
-                    if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
-                    break;
+            for (int j = 0; j < GoombaAIList.size(); ++j) {
+                if (sf::FloatRect loopHitbox = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                    if (GoombaAIList[j].IsCanDeath()) {
+                        DeleteMarioProjectile(i);
+                        GoombaAIList[j].DeathBehaviour(SCORE_100);
+                        DeleteGoombaAIIndex(j);
+                        break;
+                    }
                 }
             }
         }
         //BroAI
         if (!MarioProjectileList[i].willBeDestroyed()) {
-            for (const auto& j : BroAIList) {
-                if (sf::FloatRect loopHitbox = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+            for (int j = 0; j < BroAIList.size(); ++j) {
+                if (sf::FloatRect loopHitbox = getGlobalHitbox(BroAIList[j].getHitbox(), BroAIList[j].getCurrentPosition(), BroAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
                     DeleteMarioProjectile(i);
-                    j.DeathBehaviour(SCORE_200);
+                    BroAIList[j].DeathBehaviour(SCORE_200);
                     SoundManager::PlaySound("Kick2");
-                    BroAIDeleteSet.insert({j.getCurrentPosition().x, j.getCurrentPosition().y});
+                    DeleteBroAIIndex(j);
                     break;
                 }
             }
         }
     }
-    if (!GoombaAIDeleteSet.empty())
-        for (const auto &[fst, snd] : GoombaAIDeleteSet)
-            DeleteGoombaAI(fst, snd.first, snd.second);
-    if (!BroAIDeleteSet.empty())
-        for (const auto &[fst, snd] : BroAIDeleteSet)
-            DeleteBroAI(fst, snd);
 }
 void MarioProjectileStatusUpdate() {
     for (int i = 0; i < MarioProjectileList.size(); ++i) {
@@ -132,73 +126,24 @@ static void FireballYUpdate(const int i, const float deltaTime) {
     if (MarioProjectileList[i].getYVelo() > 10.0f) MarioProjectileList[i].setYVelo(10.0f);
 
     float CurrPosYCollide;
-    bool NoAdd = false;
-    int be = find_min_iny(MarioProjectileList[i].getCurrentPosition(), ObstaclesVertPosList);
-    int nd = find_max_iny_dist(MarioProjectileList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f + (MarioProjectileList[i].getYVelo()) * 16.0f);
-    bool ObstacleCollide = isAccurateCollideBot(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, be,
-                                                    nd, 80.0f);
-    be = find_min_iny(MarioProjectileList[i].getCurrentPosition(), BricksVertPosList);
-    nd = find_max_iny_dist(MarioProjectileList[i].getCurrentPosition(), BricksVertPosList, 64.0f + (MarioProjectileList[i].getYVelo()) * 16.0f);
-    bool BrickCollide = isAccurateCollideBot(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), BricksVertPosList, CurrPosYCollide, NoAdd, be, nd,
-                                            80.0f);
-    be = find_min_iny(MarioProjectileList[i].getCurrentPosition(), LuckyVertPosList);
-    nd = find_max_iny_dist(MarioProjectileList[i].getCurrentPosition(), LuckyVertPosList, 64.0f + (MarioProjectileList[i].getYVelo()) * 16.0f);
-    bool LuckyCollide = isAccurateCollideBot(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), LuckyVertPosList, CurrPosYCollide, NoAdd, be, nd,
-                                            80.0f);
     //recolide
-    if (ObstacleCollide || BrickCollide || LuckyCollide) {
+    if (QuickCheckBotCollision(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), CurrPosYCollide)) {
         MarioProjectileList[i].setCurrentPosition(sf::Vector2f(MarioProjectileList[i].getCurrentPosition().x, CurrPosYCollide - (MarioProjectileList[i].getHitbox().size.y - MarioProjectileList[i].getOrigin().y)));
         MarioProjectileList[i].setYVelo(-5.f);
     }
-    // top update
-    // NoAdd = false;
-    be = find_max_iny(MarioProjectileList[i].getCurrentPosition(), ObstaclesVertPosList);
-    nd = find_min_iny_dist(MarioProjectileList[i].getCurrentPosition(), ObstaclesVertPosList, 64.0f - (MarioProjectileList[i].getYVelo()) * 16.0f);
-    ObstacleCollide = isAccurateCollideTop(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), ObstaclesVertPosList, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-    const int br_be = find_max_iny(MarioProjectileList[i].getCurrentPosition(), BricksVertPosList);
-    const int br_nd = find_min_iny_dist(MarioProjectileList[i].getCurrentPosition(), BricksVertPosList, 64.0f - (MarioProjectileList[i].getYVelo()) * 16.0f);
-    BrickCollide = isAccurateCollideTop(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), BricksVertPosList, CurrPosYCollide, NoAdd, br_nd, br_be, 80.0f);
-    const int lu_be = find_max_iny(MarioProjectileList[i].getCurrentPosition(), LuckyVertPosList);
-    const int lu_nd = find_min_iny_dist(MarioProjectileList[i].getCurrentPosition(), LuckyVertPosList, 64.0f - (MarioProjectileList[i].getYVelo()) * 16.0f);
-    LuckyCollide = isAccurateCollideTop(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), LuckyVertPosList, CurrPosYCollide, NoAdd, lu_nd, lu_be, 80.0f);
-    if (ObstacleCollide || BrickCollide || LuckyCollide)
+    if (QuickCheckTopCollision(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), CurrPosYCollide))
         DeleteMarioProjectile(i);
 }
 static void FireballXUpdate(const int i, const float deltaTime) {
-
     if (MarioProjectileList[i].getDirection()) MarioProjectileList[i].move(sf::Vector2f( - MarioProjectileList[i].getXVelo() * deltaTime, 0.f));
     else MarioProjectileList[i].move(sf::Vector2f( MarioProjectileList[i].getXVelo() * deltaTime, 0.f));
 
-    int be, nd;
-    std::pair<bool, bool> ObstacleCollide, BrickCollide, LuckyCollide;
     float CurrPosXCollide = 0, CurrPosYCollide = 0;
-    bool NoAdd = false;
-    if (!MarioDirection) {
-        be = find_min_inx(MarioProjectileList[i].getCurrentPosition(), ObstaclesHorzPosList);
-        nd = find_max_inx_dist(MarioProjectileList[i].getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (MarioProjectileList[i].getXVelo()) * 4.0f);
-        ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-        be = find_min_inx(MarioProjectileList[i].getCurrentPosition(), BricksHorzPosList);
-        nd = find_max_inx_dist(MarioProjectileList[i].getCurrentPosition(), BricksHorzPosList, 64.0f + (MarioProjectileList[i].getXVelo()) * 4.0f);
-        BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-        be = find_min_inx(MarioProjectileList[i].getCurrentPosition(), LuckyHorzPosList);
-        nd = find_max_inx_dist(MarioProjectileList[i].getCurrentPosition(), LuckyHorzPosList, 64.0f + (MarioProjectileList[i].getXVelo()) * 4.0f);
-        LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, be, nd, 80.0f);
-    }
-    else {
-        be = find_max_inx(MarioProjectileList[i].getCurrentPosition(), ObstaclesHorzPosList);
-        nd = find_min_inx_dist(MarioProjectileList[i].getCurrentPosition(), ObstaclesHorzPosList, 64.0f + (MarioProjectileList[i].getXVelo()) * 4.0f);
-        ObstacleCollide = isAccurateCollideSide(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), ObstaclesHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-        be = find_max_inx(MarioProjectileList[i].getCurrentPosition(), BricksHorzPosList);
-        nd = find_min_inx_dist(MarioProjectileList[i].getCurrentPosition(), BricksHorzPosList, 64.0f + (MarioProjectileList[i].getXVelo()) * 4.0f);
-        BrickCollide = isAccurateCollideSide(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), BricksHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-        be = find_max_inx(MarioProjectileList[i].getCurrentPosition(), LuckyHorzPosList);
-        nd = find_min_inx_dist(MarioProjectileList[i].getCurrentPosition(), LuckyHorzPosList, 64.0f + (MarioProjectileList[i].getXVelo()) * 4.0f);
-        LuckyCollide = isAccurateCollideSide(MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(), MarioProjectileList[i].getHitbox()), LuckyHorzPosList, CurrPosXCollide, CurrPosYCollide, NoAdd, nd, be, 80.0f);
-    }
-    //snap back
-    if (ObstacleCollide.first || BrickCollide.first || LuckyCollide.first)
-        DeleteMarioProjectile(i);
-    else if (ObstacleCollide.second || BrickCollide.second || LuckyCollide.second)
+    const auto [fst, snd] = QuickCheckSideCollision(
+        MFCPP::CollisionObject(MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin(),
+                               MarioProjectileList[i].getHitbox()), MarioDirection,
+        CurrPosXCollide, CurrPosYCollide);
+    if (fst || snd)
         DeleteMarioProjectile(i);
 }
 
@@ -225,9 +170,11 @@ void MarioProjectileDraw() {
     }
 }
 void MarioProjectileCleanup() {
+    if (!MarioProjectileDeleteGate) return;
     int i = 0;
     while (i < MarioProjectileList.size()) {
         if (!MarioProjectileList[i].willBeDestroyed()) ++i;
         else MarioProjectileList.erase(MarioProjectileList.begin() + i);
     }
+    MarioProjectileDeleteGate = false;
 }

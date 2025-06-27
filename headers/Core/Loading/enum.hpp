@@ -20,7 +20,7 @@ enum AnimationDirection {ANIM_RIGHT, ANIM_LEFT};
 
 //enum for GoombsAI
 enum GoombaAIType { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER };
-enum GoombaAIDirection { LEFT, RIGHT };
+enum GoombaAIDirection { RIGHT, LEFT };
 enum GoombaAICollisionType { YES, NO, FULL };
 //enum for goombaAIEffect
 enum GoombaAIEffectID { NONE, COLLIDE };

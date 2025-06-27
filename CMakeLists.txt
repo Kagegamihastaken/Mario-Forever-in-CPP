@@ -105,6 +105,7 @@ target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <SFML/Audio.hpp> <SFML/Graphics.hpp> <vector> <map> <optional>
     <string> <set> <array> <iostream> <algorithm>
     <random> <utility> <ctre.hpp> <physfs.h> <fstream>
+    <unordered_map>
     #Boost category
     <boost/container_hash/hash.hpp>
 )
@@ -168,7 +169,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE gdi32 user32 shell32 ole32 uuid)
     if(MINGW)
-        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++)
+        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++)
         if (NOT DEVELOPMENT_BUILD)
             target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -Wl,-subsystem,windows)
         endif()
