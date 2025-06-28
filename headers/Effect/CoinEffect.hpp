@@ -4,7 +4,7 @@
 #define COINEFFECT_HPP
 
 #include "Core/Loading/enum.hpp"
-#include "Class/CoinEffectClass.hpp"
+#include "Core/Class/CoinEffectClass.hpp"
 extern std::vector<MFCPP::CoinEffect> CoinEffectList;
 extern void SetPrevCoinEffectPos();
 extern void InterpolateCoinEffectPos(float alpha);

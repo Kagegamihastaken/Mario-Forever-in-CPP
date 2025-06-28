@@ -1,4 +1,4 @@
-#include "Class/BroAIProjectileClass.hpp"
+#include "Core/Class/BroAIProjectileClass.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/WindowFrame.hpp"

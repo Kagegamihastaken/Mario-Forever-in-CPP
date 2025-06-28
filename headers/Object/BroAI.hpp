@@ -1,7 +1,7 @@
 #ifndef BROAI_HPP
 #define BROAI_HPP
 
-#include "Class/BroAIClass.hpp"
+#include "Core/Class/BroAIClass.hpp"
 #include "Core/Loading/enum.hpp"
 
 extern std::vector<MFCPP::BroAI> BroAIList;

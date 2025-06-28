@@ -1,6 +1,6 @@
 #ifndef FIREBALLEXPLOSION_HPP
 #define FIREBALLEXPLOSION_HPP
-#include "Class/FireballExplosionClass.hpp"
+#include "Core/Class/FireballExplosionClass.hpp"
 
 extern std::vector<MFCPP::FireballExplosion> FireballExplosionList;
 extern void FireballExplosionInit();

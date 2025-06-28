@@ -1,7 +1,7 @@
 #ifndef PIRANHAAI_HPP
 #define PIRANHAAI_HPP
 
-#include "Class/PiranhaAIClass.hpp"
+#include "Core/Class/PiranhaAIClass.hpp"
 #include "Core/Loading/enum.hpp"
 
 extern std::vector<MFCPP::PiranhaAI> PiranhaAIList;

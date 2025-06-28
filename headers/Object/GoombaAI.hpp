@@ -4,7 +4,7 @@
 #define GOOMBAAI_HPP
 
 #include "Core/Loading/enum.hpp"
-#include "Class/GoombaAIClass.hpp"
+#include "Core/Class/GoombaAIClass.hpp"
 
 extern std::vector<MFCPP::GoombaAI> GoombaAIList;
 extern void GoombaAILoadRes();

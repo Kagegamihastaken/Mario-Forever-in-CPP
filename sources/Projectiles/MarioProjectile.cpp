@@ -1,4 +1,4 @@
-#include "Class/MarioProjectileClass.hpp"
+#include "Core/Class/MarioProjectileClass.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/WindowFrame.hpp"
@@ -11,6 +11,7 @@
 #include "Object/BroAI.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Object/PiranhaAI.hpp"
+#include "Object/Mario.hpp"
 
 std::vector<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;

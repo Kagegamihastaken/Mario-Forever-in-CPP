@@ -3,8 +3,7 @@
 #ifndef COLLIDE_HPP
 #define COLLIDE_HPP
 
-#include "Object/Mario.hpp"
-#include "Class/CollisionObjectClass.hpp"
+#include "Core/Class/CollisionObjectClass.hpp"
 
 extern void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox);
 extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Sprite& sprite);

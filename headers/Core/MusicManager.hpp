@@ -17,6 +17,8 @@ public:
 	static void SetOGGLoop(const std::string &name, bool loop);
 	static void StopOGGMusic(const std::string &name);
 	static void StopAllOGGMusic();
+	static void SetMODMusicVolume(const std::string &name, unsigned volume);
+	static void SetOGGMusicVolume(const std::string &name, unsigned volume);
 
 	static void AddMODMusic(const std::string &name, const std::string &path);
 	static void StopMODMusic(const std::string &name);
