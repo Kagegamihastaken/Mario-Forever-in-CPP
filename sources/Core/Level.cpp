@@ -409,7 +409,6 @@ void Obstaclebuilding() {
 	}
 
 	MFCPP::setTileMapSize(LevelWidth, LevelHeight);
-	MFCPP::printTileMapSize();
 
 	ObstacleRTexture.clear(sf::Color::Transparent);
 	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::TriangleStrip);

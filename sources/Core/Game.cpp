@@ -29,8 +29,6 @@
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Core/Game.hpp"
-
-#include "Core/Collision/Collide.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
@@ -106,8 +104,9 @@ void GameLoadLevel() {
 void GameObjectEditText() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         //EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
-        EditText(std::to_string(Lives), "_LIVE");
-        EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
+        EditText(fmt::format("{}", Lives), "_LIVE");
+        EditText(fmt::format("FPS: {}", static_cast<int>(fpsLite.getFps())), "_FPS");
+        //EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
         //EditText(std::to_string(Xvelo) + " VX", "_CODX");
         //EditText(std::to_string(Yvelo) + " VY", "_CODY");
         //EditText(std::to_string((int)player.property.getPosition().x) + "/" + std::to_string((int)player.property.getPosition().y) + "  M", "_MARIOXY");
@@ -117,16 +116,15 @@ void GameObjectEditText() {
         //EditText("Holding: " + std::string((Holding ? "TRUE" : "FALSE")), "_HOLDING");
         //EditText("Falling: " + (MarioCurrentFalling ? std::string("TRUE") : std::string("FALSE")), "_FALLING");
         if (isDebug) {
-            std::string appe;
             EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
             EditText(std::to_string(static_cast<int>(ViewX)) + "/" + std::to_string(static_cast<int>(ViewY)) + "  V", "_VIEWXY");
-            EditText("Appear: " + appe, "_APPE");
+            //EditText("Appear: " + appe, "_APPE");
         }
-        EditText(std::to_string(CoinCount), "_COIN");
-        EditText(std::to_string(Score), "_SCORE");
+        EditText(fmt::format("{}", CoinCount), "_COIN");
+        EditText(fmt::format("{}", Score), "_SCORE");
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
-        EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
+        EditText(fmt::format("FPS: {}", static_cast<int>(fpsLite.getFps())), "_FPS");
         EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
     }
 }

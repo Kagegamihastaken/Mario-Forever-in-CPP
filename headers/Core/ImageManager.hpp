@@ -18,7 +18,7 @@ public:
 	static void AddTexture(const std::string &img_name, const std::string& name_tex, const bool& isRepeated = false, const bool& isFlipped = false);
 	static sf::Texture& GetTexture(const std::string &name);
 	static sf::Texture* GetReturnTexture(const std::string& name);
-	static void Clearup();
+	static void Cleanup();
 	static void CreateTestImage(const std::string& name, const std::string& new_name);
 };
 

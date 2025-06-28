@@ -8,7 +8,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-set(DEVELOPMENT_BUILD OFF)
+#TODO FORCE DEVELOPMENT_BUILD ON WHEN BUILD WITH RelWithDebInfo
+set(DEVELOPMENT_BUILD ON)
 
 #Game Config
 set(PLAYER_LIVES 4)
@@ -38,9 +39,21 @@ FetchContent_Declare(physfs
         GIT_SHALLOW ON
         SYSTEM
 )
+FetchContent_Declare(cpptrace
+        GIT_REPOSITORY https://github.com/jeremy-rifkin/cpptrace.git
+        GIT_TAG v1.0.2  # You can specify a specific version/tag
+        GIT_SHALLOW ON
+        SYSTEM
+)
 FetchContent_Declare(libmodplug
         GIT_REPOSITORY https://github.com/Konstanty/libmodplug.git
         GIT_TAG master # Pinned from master
+        GIT_SHALLOW ON
+        SYSTEM
+)
+FetchContent_Declare(fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG 11.2.0 # Using a recent stable version
         GIT_SHALLOW ON
         SYSTEM
 )
@@ -64,7 +77,7 @@ FetchContent_Declare(Boost
 )
 #sfml
 message("Making dependencies available...")
-FetchContent_MakeAvailable(SFML CTRE physfs)
+FetchContent_MakeAvailable(SFML CTRE physfs fmt cpptrace)
 #libmodplug
 set(MODPLUG_STATIC ON)
 set(MODPLUG_BUILD_SHARED OFF)
@@ -105,7 +118,7 @@ target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <SFML/Audio.hpp> <SFML/Graphics.hpp> <vector> <map> <optional>
     <string> <set> <array> <iostream> <algorithm>
     <random> <utility> <ctre.hpp> <physfs.h> <fstream>
-    <unordered_map>
+    <unordered_map> <fmt/core.h> <fmt/base.h> <fmt/color.h> <exception>
     #Boost category
     <boost/container_hash/hash.hpp>
 )
@@ -126,7 +139,10 @@ if(WIN32)
     target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/Resource.rc")
 endif()
 # Set compiler definitions
-target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE MODPLUG_STATIC HAVE_X87)
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+        MODPLUG_STATIC
+        HAVE_X87
+)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -ffunction-sections -fdata-sections)
@@ -162,7 +178,9 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Main
     SFML::Audio SFML::Graphics SFML::System SFML::Window
-    physfs-static modplug ctre::ctre ImGui-SFML::ImGui-SFML Boost::container_hash
+    physfs-static modplug ctre::ctre ImGui-SFML::ImGui-SFML
+    Boost::container_hash
+    fmt::fmt cpptrace::cpptrace
 )
 
 # Link platform-specific system libraries
@@ -177,18 +195,18 @@ if(WIN32)
 endif()
 
 # --- Post-Build and Debugger Settings ---
-add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/data.zip"
-        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>
-        COMMENT "Copying data.zip to build directory..."
-)
-add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_CURRENT_SOURCE_DIR}/musics"
-        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/musics"
-        COMMENT "Copying music files to build directory..."
-)
+#add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        "${CMAKE_CURRENT_SOURCE_DIR}/data.zip"
+#        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>
+#        COMMENT "Copying data.zip to build directory..."
+#)
+#add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory
+#        "${CMAKE_CURRENT_SOURCE_DIR}/musics"
+#        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/musics"
+#        COMMENT "Copying music files to build directory..."
+#)
 
 # Set the working directory for debugging in Visual Studio
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")

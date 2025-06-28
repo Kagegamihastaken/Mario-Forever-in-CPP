@@ -8,9 +8,8 @@
 #include "Object/Mario.hpp"
 #include "Core/Game.hpp"
 #include "config.h"
-
-#include <windows.h>
-#include "resource.h"
+#include "Core/Logging.hpp"
+#include <cpptrace/from_current.hpp>
 
 //#include "imgui.h"
 //#include "imgui-SFML.h"
@@ -23,98 +22,122 @@ int WinMain() {
 #else
 int main() {
 #endif
+	CPPTRACE_TRY {
 #if DEVELOPMENT_BUILD
-	std::cout << "RELEASE!" << "\n";
+		MFCPP::Log::InfoPrint("Current build in Release Mode");
 #else
-	std::cout << "DEVELOP!" << "\n";
+		MFCPP::Log::InfoPrint("Current build in Development Mode");
 #endif
-	IOInit();
-	GameObjectInit();
-	//ImGui::SFML::Init(window);
-	//sf::Clock deltaClock;
-	GameTextInit();
-	GameLoadLevel();
+		IOInit();
+		GameObjectInit();
+		//ImGui::SFML::Init(window);
+		//sf::Clock deltaClock;
+		GameTextInit();
+		GameLoadLevel();
 
-	sf::RectangleShape test(sf::Vector2f(32.0f, 32.0f));
 
-	ImageManager::AddImage("TempTexImage", "data/resources/testImage.png");
-	ImageManager::CreateTestImage("TempTexImage", "TempTexImageFixed");
-	ImageManager::AddTexture("TempTexImageFixed", "TempTexTexture");
+		//sf::RectangleShape test(sf::Vector2f(32.0f, 32.0f));
 
-	tempTex.setSmooth(true);
-	test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"));
+		//ImageManager::AddImage("TempTexImage", "data/resources/testImage.png");
+		//ImageManager::CreateTestImage("TempTexImage", "TempTexImageFixed");
+		//ImageManager::AddTexture("TempTexImageFixed", "TempTexTexture");
 
-	test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
+		//tempTex.setSmooth(true);
+		//test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"));
 
-	//for (int i = 0; i <= 6; ++i) {
-	//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
-	//}
-	//render.setStep(1.0f / 300.0f);
+		//test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
 
-	while (window.isOpen()) {
-		bool Updated = false;
-		while (const std::optional event = window.pollEvent()) {
-			//ImGui::SFML::ProcessEvent(window, *event);
-			if (event->is<sf::Event::Closed>()) {
+		//for (int i = 0; i <= 6; ++i) {
+		//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
+		//}
+		//render.setStep(1.0f / 300.0f);
+		std::vector<int> vec(3);
+		while (window.isOpen()) {
+			//bool Updated = false;
+			while (const std::optional event = window.pollEvent()) {
+				//ImGui::SFML::ProcessEvent(window, *event);
+				if (event->is<sf::Event::Closed>()) {
+					SoundManager::ClearUp();
+					window.close();
+					IODeinit();
+				}
+				/*
+				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+					if (keyPressed->code == sf::Keyboard::Key::Q) {
+						fmt::print("{}", vec.at(89));
+					}
+				}
+				*/
+				GameObjectRetrieveEvent(event);
+			}
+			if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
+				ExitGateClock.reset();
 				SoundManager::ClearUp();
 				window.close();
 				IODeinit();
 			}
-			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-				if (keyPressed->code == sf::Keyboard::Key::Q) {
-					Updated = true;
-				}
+			GameObjectEditorUpdate();
+			GameObjectEditText();
+			fpsLite.update();
+			timestep.addFrame();
+			//if (Updated) {
+			while (timestep.isUpdateRequired()) {
+				GameObjectSetPrev();
+				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
+				GameObjectCollision();
+				InvincibleStateUpdate();
 			}
-			GameObjectRetrieveEvent(event);
-		}
-		if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
-			ExitGateClock.reset();
-			SoundManager::ClearUp();
-			window.close();
-			IODeinit();
-		}
-		GameObjectEditorUpdate();
-		GameObjectEditText();
-		fpsLite.update();
-		timestep.addFrame();
-		//if (Updated) {
-		while (timestep.isUpdateRequired()) {
-			GameObjectSetPrev();
-			GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
-			GameObjectCollision();
-			InvincibleStateUpdate();
-		}
-		if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
-		else alpha = 1.0f;
-		GameObjectInterpolateMovement(alpha);
-		GameObjectAnimation();
+			if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
+			else alpha = 1.0f;
+			GameObjectInterpolateMovement(alpha);
+			GameObjectAnimation();
 
-		test.setPosition(player.property.getPosition());
-		//ImGui::SFML::Update(window, deltaClock.restart());
-		//ImGui::ShowDemoWindow();
+			//test.setPosition(player.property.getPosition());
+			//ImGui::SFML::Update(window, deltaClock.restart());
+			//ImGui::ShowDemoWindow();
 
-		//ImGui::Begin("Hello, world!");
-		//ImGui::Text("This is some useful text.");
+			//ImGui::Begin("Hello, world!");
+			//ImGui::Text("This is some useful text.");
 
-		//ImGui::Button("Look at this pretty button");
-		//ImGui::End();
-		GameObjectMiscUpdate();
-		GameCleanUp();
-		//draw
-		//rObject.clear();
-		//rObject.display();
-		//sf::Sprite Renderer(rObject.getTexture());
-		//render.addFrame();
-		window.clear();
-		GameObjectDraw();
-		//window.draw(test);
-		//if (render.isUpdateRequired()) {
-		//	window.clear();
-		//	GameObjectDraw();
-		//}
-		//window.draw(Renderer);
-		//ImGui::SFML::Render(window);
-		window.display();
+			//ImGui::Button("Look at this pretty button");
+			//ImGui::End();
+			GameObjectMiscUpdate();
+			GameCleanUp();
+			//draw
+			//rObject.clear();
+			//rObject.display();
+			//sf::Sprite Renderer(rObject.getTexture());
+			//render.addFrame();
+			window.clear();
+			GameObjectDraw();
+			//window.draw(test);
+			//if (render.isUpdateRequired()) {
+			//	window.clear();
+			//	GameObjectDraw();
+			//}
+			//window.draw(Renderer);
+			//ImGui::SFML::Render(window);
+			window.display();
+		}
+	} CPPTRACE_CATCH (const std::exception& e) {
+		MFCPP::Log::ExceptionPrint(&e);
+		const cpptrace::stacktrace& trace = cpptrace::from_current_exception();
+		MFCPP::Log::ErrorColorPrint("--- Stack Trace (most recent call first) ---");
+		for (const auto & frame : trace.frames) {
+			if (frame.symbol.empty() || !frame.line.has_value()) continue;
+
+			MFCPP::Log::ErrorColorPrint(
+				fmt::format(
+					"	at {}({}:{}:{})",
+					frame.symbol,
+					frame.filename,
+					frame.line.value_or(0),
+					frame.column.value_or(0)
+				)
+			);
+		}
+		//cpptrace::from_current_exception().print();
+		std::exit(EXIT_FAILURE);
 	}
 	//ImGui::SFML::Shutdown();
 }

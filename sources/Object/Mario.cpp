@@ -44,7 +44,7 @@ void loadMarioRes() {
 	ImageManager::AddImage("FireMarioImage", "data/resources/FireMario.png");
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
 		//SmallMario
-		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioRight_" + std::to_string(i));
+		ImageManager::AddTexture("SmallMarioImge", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioRight_" + std::to_string(i));
 		SmallMarioRight.push_back("SmallMarioRight_" + std::to_string(i));
 		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioLeft_" + std::to_string(i), false, true);
 		SmallMarioLeft.push_back("SmallMarioLeft_" + std::to_string(i));

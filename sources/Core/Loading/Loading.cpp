@@ -1,8 +1,11 @@
 #include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "Core/Loading/Loading.hpp"
+
+#include <fmt/core.h>
+
 void IOInit() {
 	PHYSFS_init(nullptr);
-	PHYSFS_mount("data.zip", "/", 1);
+	if (PHYSFS_mount("data.zip", "/", 1) == 0) throw std::runtime_error("PhysFS: Cannot mount data.zip");
 }
 void IODeinit() {
 	PHYSFS_deinit();
@@ -11,6 +14,7 @@ std::vector<uint8_t> Loadbyte(const std::string &fileName)
 {
 	std::vector<uint8_t> vec;
 	if (PHYSFS_isInit()) {
+		if (!PHYSFS_exists(fileName.c_str())) throw std::runtime_error(fmt::format("PhysFS: File {} doesn't exist", fileName));
 		if (PHYSFS_File* fp = PHYSFS_openRead(fileName.c_str())) {
 			std::vector<uint8_t> buffer(1024);
 			do {
@@ -20,16 +24,17 @@ std::vector<uint8_t> Loadbyte(const std::string &fileName)
 			PHYSFS_close(fp);
 		}
 	}
+	else throw std::runtime_error("PhysFS: Load data before initializing, call IOInit() first");
 	return vec;
 }
 void LoadTexture(sf::Texture& texture, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
-	texture.loadFromMemory(vec.data(), vec.size());
+	if (!texture.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
 	vec.clear();
 }
 void LoadAudio(sf::SoundBuffer& soundBuffer, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
-	soundBuffer.loadFromMemory(vec.data(), vec.size());
+	if (!soundBuffer.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
 	vec.clear();
 }
 void LoadLvl(std::string& lvl, const std::string &path) {
@@ -38,15 +43,15 @@ void LoadLvl(std::string& lvl, const std::string &path) {
 	vec.clear();
 }
 void LoadMOD(sfmod::Mod& music, const std::string &path) {
-	std::vector<uint8_t> vec = Loadbyte(path);
-	music.loadFromFile(path);
-	vec.clear();
+	//std::vector<uint8_t> vec = Loadbyte(path);
+	if (!music.loadFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
+	//vec.clear();
 	//music.loadFromMemory(vec.data(), vec.size());
 }
 void LoadOGG(sf::Music& music, const std::string &path) {
-	std::vector<uint8_t> vec = Loadbyte(path);
-	music.openFromFile(path);
-	vec.clear();
+	//std::vector<uint8_t> vec = Loadbyte(path);
+	if (!music.openFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
+	//vec.clear();
 	//music.openFromMemory(vec.data(), vec.size());
 }
 int ReadStrLine(const std::string& lvldata, std::string& out, const int resume = 0) {
@@ -63,6 +68,6 @@ int ReadStrLine(const std::string& lvldata, std::string& out, const int resume =
 }
 void LoadImageFile(sf::Image& image, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
-	if (!image.loadFromMemory(vec.data(), vec.size())) std::cout << "Failed to load image from: " + path + "\n";
+	if (!image.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
 	vec.clear();
 }
