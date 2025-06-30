@@ -4,6 +4,7 @@
 #include <fmt/core.h>
 
 void IOInit() {
+
 	PHYSFS_init(nullptr);
 	if (PHYSFS_mount("data.zip", "/", 1) == 0) throw std::runtime_error("PhysFS: Cannot mount data.zip");
 }
@@ -44,12 +45,14 @@ void LoadLvl(std::string& lvl, const std::string &path) {
 }
 void LoadMOD(sfmod::Mod& music, const std::string &path) {
 	//std::vector<uint8_t> vec = Loadbyte(path);
+	//if (!music.loadFromMemory(vec.data(), sizeof(uint8_t) * vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
 	if (!music.loadFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
 	//vec.clear();
 	//music.loadFromMemory(vec.data(), vec.size());
 }
 void LoadOGG(sf::Music& music, const std::string &path) {
 	//std::vector<uint8_t> vec = Loadbyte(path);
+	//if (!music.openFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
 	if (!music.openFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
 	//vec.clear();
 	//music.openFromMemory(vec.data(), vec.size());

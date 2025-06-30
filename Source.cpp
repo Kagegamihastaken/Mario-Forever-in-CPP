@@ -9,6 +9,7 @@
 #include "Core/Game.hpp"
 #include "config.h"
 #include "Core/Logging.hpp"
+#include "Core/Loading/Handler.hpp"
 #include <cpptrace/from_current.hpp>
 
 //#include "imgui.h"
@@ -18,24 +19,25 @@ float alpha = 1.0f;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
 #if DEVELOPMENT_BUILD
-int WinMain() {
-#else
 int main() {
+#else
+int WinMain() {
 #endif
+	MFCPP::HandlerInit();
 	CPPTRACE_TRY {
 #if DEVELOPMENT_BUILD
-		MFCPP::Log::InfoPrint("Current build in Release Mode");
-#else
 		MFCPP::Log::InfoPrint("Current build in Development Mode");
+#else
+		MFCPP::Log::InfoPrint("Current build in Release Mode");
 #endif
+		MFCPP::Log::InfoPrint(fmt::format("Version: {}", PROJECT_VERSION));
+
 		IOInit();
 		GameObjectInit();
 		//ImGui::SFML::Init(window);
 		//sf::Clock deltaClock;
 		GameTextInit();
 		GameLoadLevel();
-
-
 		//sf::RectangleShape test(sf::Vector2f(32.0f, 32.0f));
 
 		//ImageManager::AddImage("TempTexImage", "data/resources/testImage.png");
@@ -57,24 +59,20 @@ int main() {
 			while (const std::optional event = window.pollEvent()) {
 				//ImGui::SFML::ProcessEvent(window, *event);
 				if (event->is<sf::Event::Closed>()) {
-					SoundManager::ClearUp();
+					MFCPP::Log::InfoPrint("Closing...");
 					window.close();
-					IODeinit();
 				}
-				/*
 				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
 					if (keyPressed->code == sf::Keyboard::Key::Q) {
-						fmt::print("{}", vec.at(89));
+						MFCPP::Log::InfoPrint("Pressed Q");
+						//Updated = true;
 					}
 				}
-				*/
 				GameObjectRetrieveEvent(event);
 			}
 			if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
 				ExitGateClock.reset();
-				SoundManager::ClearUp();
 				window.close();
-				IODeinit();
 			}
 			GameObjectEditorUpdate();
 			GameObjectEditText();
@@ -119,25 +117,13 @@ int main() {
 			//ImGui::SFML::Render(window);
 			window.display();
 		}
-	} CPPTRACE_CATCH (const std::exception& e) {
+	} CPPTRACE_CATCH (std::exception& e) {
 		MFCPP::Log::ExceptionPrint(&e);
-		const cpptrace::stacktrace& trace = cpptrace::from_current_exception();
-		MFCPP::Log::ErrorColorPrint("--- Stack Trace (most recent call first) ---");
-		for (const auto & frame : trace.frames) {
-			if (frame.symbol.empty() || !frame.line.has_value()) continue;
-
-			MFCPP::Log::ErrorColorPrint(
-				fmt::format(
-					"	at {}({}:{}:{})",
-					frame.symbol,
-					frame.filename,
-					frame.line.value_or(0),
-					frame.column.value_or(0)
-				)
-			);
-		}
-		//cpptrace::from_current_exception().print();
+		MFCPP::Log::printCurrentTrace();
 		std::exit(EXIT_FAILURE);
 	}
+	SoundManager::ClearUp();
+	IODeinit();
+	std::exit(EXIT_SUCCESS);
 	//ImGui::SFML::Shutdown();
 }

@@ -61,12 +61,12 @@ void MarioProjectileCollision() {
         const sf::FloatRect playerHitbox = getGlobalHitbox(MarioProjectileList[i].getHitbox(), MarioProjectileList[i].getCurrentPosition(), MarioProjectileList[i].getOrigin());
         //GoombaAI
         if (!MarioProjectileList[i].willBeDestroyed()) {
-            for (int j = 0; j < GoombaAIList.size(); ++j) {
-                if (sf::FloatRect loopHitbox = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                    if (GoombaAIList[j].IsCanDeath()) {
+            for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
+                if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                    if (jt->IsCanDeath()) {
                         DeleteMarioProjectile(i);
-                        GoombaAIList[j].DeathBehaviour(SCORE_100);
-                        DeleteGoombaAIIndex(j);
+                        jt->DeathBehaviour(SCORE_100);
+                        DeleteGoombaAIIndex(jt);
                         break;
                     }
                 }

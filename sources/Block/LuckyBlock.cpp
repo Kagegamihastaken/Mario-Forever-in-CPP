@@ -191,7 +191,6 @@ int getLuckyIndex(const float x, const float y) {
 	return -1;
 }
 void LuckyHitEvent(const float x, const float y) {
-	std::set<std::pair<GoombaAIType, std::pair<float, float>>> GoombaAIDeleteSet;
 	std::set<std::pair<float, float>> BroAIDeleteSet;
 	for (int i = 0; i < LuckyBlock.size(); i++) {
 		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
@@ -205,10 +204,10 @@ void LuckyHitEvent(const float x, const float y) {
 					++CoinCount;
 				}
 			}
-			for (const auto &j : GoombaAIList) {
-				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(j.GetHitboxMain(), j.getCurrentPosition(), j.getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
-					j.DeathBehaviour(SCORE_100);
-					if (j.IsCanDeath()) GoombaAIDeleteSet.insert({j.GetType(), {j.getCurrentPosition().x, j.getCurrentPosition().y}});
+			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
+				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
+					jt->DeathBehaviour(SCORE_100);
+					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
 			}
 			for (const auto & j : BroAIList) {
@@ -222,9 +221,6 @@ void LuckyHitEvent(const float x, const float y) {
 			break;
 		}
 	}
-	if (!GoombaAIDeleteSet.empty())
-		for (const auto &[fst, snd] : GoombaAIDeleteSet)
-			DeleteGoombaAI(fst, snd.first, snd.second);
 	if (!BroAIDeleteSet.empty())
 		for (const auto &[fst, snd] : BroAIDeleteSet)
 			DeleteBroAI(fst, snd);

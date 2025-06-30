@@ -95,7 +95,7 @@ void BONUSDATAREAD(std::string line) {
 	if (flag) BonusData.push_back(temp);
 }
 */
-void TILEDATAREAD(const std::string& line) {
+void TILEDATAREAD(const std::string_view line) {
 	//TILE
 	std::array<int, 4> temp{};
 	bool flag = false;
@@ -167,9 +167,9 @@ void LEVELDATAREAD(const std::string& line) {
 		else if (match.get<1>() == "MUSICN") MusicData.second = match.get<2>().to_string();
 	}
 }
-void ReadData(const std::string& path) {
+void ReadData(const std::string_view path) {
 	std::string lvldat;
-	LoadLvl(lvldat, std::move(path));
+	LoadLvl(lvldat, path.data());
 	std::stringstream input_view(lvldat);
 	std::string line;
 	int ReadMode = 0;
@@ -564,6 +564,5 @@ void Objectbuilding() {
 			}
 		}
 	}
-	BricksSort();
 	LuckyBlockSort();
 }

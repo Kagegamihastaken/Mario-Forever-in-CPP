@@ -310,5 +310,6 @@ void GameCleanUp() {
         BroAICleanup();
         BroAIEffectCleanup();
         PiranhaAICleanup();
+        BrickCleanup();
     }
 }

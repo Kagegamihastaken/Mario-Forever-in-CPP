@@ -3,29 +3,31 @@
 
 #include "Core/Class/ActiveObjectClass.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
     class GoombaAI final : public ActiveObject, public SingleAnimationObject {
     private:
-        GoombaAIType           m_type{};
-        GoombaAIDirection      m_direction{};
-        GoombaAICollisionType  m_collision_type{};
-        float                  m_Xvelo{};
-        float                  m_Yvelo{};
-        sf::FloatRect          m_size{};
-        bool                   m_is_appearing{};
-        unsigned               m_skinID{};
-        sf::FloatRect          m_hitbox_main{};
-        sf::FloatRect          m_hitbox_wall{};
-        bool                   m_can_death{};
+        GoombaAIType                        m_type{};
+        GoombaAIDirection                   m_direction{};
+        GoombaAICollisionType               m_collision_type{};
+        float                               m_Xvelo{};
+        float                               m_Yvelo{};
+        sf::FloatRect                       m_size{};
+        bool                                m_is_appearing{};
+        unsigned                            m_skinID{};
+        sf::FloatRect                       m_hitbox_main{};
+        sf::FloatRect                       m_hitbox_wall{};
+        bool                                m_can_death{};
         //Dont touch
-        bool                   m_disabled{};
-        float                  m_appear_y{}; //for m_is_appeared = true
-        sf::Clock              m_invincible_timer{};
-        float                  m_invincible_timer_limit{};
-        int                    m_shell_hit_count{};
-        std::pair<bool, int>   m_collide_with{};
+        bool                                m_disabled{};
+        float                               m_appear_y{}; //for m_is_appeared = true
+        sf::Clock                           m_invincible_timer{};
+        float                               m_invincible_timer_limit{};
+        int                                 m_shell_hit_count{};
+        std::pair<bool, boost::uuids::uuid> m_collide_with{};
+        boost::uuids::uuid                  m_uuid{};
     public:
         GoombaAI(GoombaAIType type, GoombaAIDirection dir, GoombaAICollisionType collision_type, float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
         const sf::Vector2f& origin, bool is_appeared, unsigned skin_ID, float invincible_timer_limit, bool can_death = true);
@@ -58,12 +60,13 @@ namespace MFCPP {
         [[nodiscard]] float GetInvincibleTimerLimit() const;
         void SetShellHitCount(const int& shell_hit_count);
         [[nodiscard]] int GetShellHitCount() const;
-        void SetCollideWith(const std::pair<bool, int>& collide_with);
-        [[nodiscard]] std::pair<bool, int> GetCollideWith() const;
+        void SetCollideWith(const std::pair<bool, boost::uuids::uuid>& collide_with);
+        [[nodiscard]] std::pair<bool, boost::uuids::uuid> GetCollideWith() const;
         void SetCanDeath(bool val);
         [[nodiscard]] bool IsCanDeath() const;
         void SetCollideWithLeft(bool val);
-        void SetCollideWithRight(int val);
+        void SetCollideWithRight(const boost::uuids::uuid& val);
+        [[nodiscard]] boost::uuids::uuid GetUUID() const;
 
         void DeathBehaviour(ScoreID score_id) const;
         void SetHitboxWall(const sf::FloatRect& val);

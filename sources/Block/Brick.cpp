@@ -1,5 +1,4 @@
 #include "Block/Brick.hpp"
-#include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Coin.hpp"
 #include "Core/Scroll.hpp"
@@ -15,17 +14,8 @@
 #include "Core/Tilemap.hpp"
 #include "Object/BroAI.hpp"
 
-std::vector<Obstacles> Bricks;
-std::vector<bool> BrickState;
-std::vector<float> BrickStateCount;
-std::vector<bool> UpDown;
-std::vector<BrickID> BrickIDList;
-std::vector<BrickAtt> BrickAttList;
-std::vector<float>    BrickYList;
-//multicoin attribute
-std::vector<sf::Clock> BrickClock;
-std::vector<bool> BrickHitted;
-std::vector<bool> DisabledBrick;
+plf::colony<MFCPP::Brick> Bricks;
+static bool BrickDeleteGate = false;
 void LoadBricks() {
 	// Loading Texture
 	ImageManager::AddImage("BrickImage", "data/resources/Brick.png");
@@ -37,133 +27,113 @@ void LoadBricks() {
 }
 void SetPrevBricksPos() {
 	for (auto & Brick : Bricks) {
-		Brick.prev = Brick.curr;
+		Brick.setPreviousPosition(Brick.getCurrentPosition());
 	}
 }
 void InterpolateBricksPos(const float alpha) {
 	for (auto & Brick : Bricks) {
-		Brick.property.setPosition(linearInterpolation(Brick.prev, Brick.curr, alpha));
+		Brick.setInterpolatedPosition(linearInterpolation(Brick.getPreviousPosition(), Brick.getCurrentPosition(), alpha));
 	}
 }
 void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y) {
+	const auto it = Bricks.emplace(ID, att, sf::Vector2f(x, y));
 	switch (ID) {
 	case BRICK_GRAY:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("GrayBrick"))});
+		it->setTexture("GrayBrick");
 		break;
 	case BRICK_NORMAL:
-		Bricks.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalBrick"))});
+		it->setTexture("NormalBrick");
 		break;
 	}
-	BrickAttList.emplace_back(att);
-	BrickIDList.emplace_back(ID);
-	BrickState.emplace_back(false);
-	BrickStateCount.emplace_back(0.0f);
-	BrickYList.push_back(y);
-	UpDown.emplace_back(false);
-	Bricks.back().property.setPosition({ x, y });
-	Bricks.back().curr = Bricks.back().prev = Bricks.back().property.getPosition();
-	setHitbox(Bricks[Bricks.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
-	//multicoin attribute
-	BrickClock.emplace_back();
-	BrickHitted.push_back(false);
-	DisabledBrick.push_back(false);
 }
-void BricksSort() {
-}
-BrickID GetIDBrick(const float x, const float y) {
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
-			return BrickIDList[i];
-		}
-	}
-	return BRICK_NORMAL;
-}
-
-BrickAtt GetBrickAtt(const float x, const float y) {
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (Bricks[i].property.getPosition().x == x && Bricks[i].property.getPosition().y == y) {
-			return BrickAttList[i];
-		}
-	}
-	return NORMAL;
-}
-void BrickHittedUpdate(const int index) {
-	if (BrickIDList[index] == BRICK_GRAY) Bricks[index].property.setTexture(ImageManager::GetTexture("GrayHittedBrick"));
-	else if (BrickIDList[index] == BRICK_NORMAL) Bricks[index].property.setTexture(ImageManager::GetTexture("NormalHittedBrick"));
+void BrickHittedUpdate(const plf::colony<MFCPP::Brick>::colony_iterator<false>& it) {
+	if (it->getID() == BRICK_GRAY) it->setTexture("GrayHittedBrick");
+	else if (it->getID() == BRICK_NORMAL) it->setTexture("NormalHittedBrick");
 }
 void BrickDraw() {
 	for (auto & Brick : Bricks) {
-		if (!isOutScreen(Brick.property.getPosition().x, Brick.property.getPosition().y, 32, 32)) {
-			window.draw(Brick.property);
+		if (!isOutScreen(Brick.getInterpolatedPosition().x, Brick.getInterpolatedPosition().y, 32, 32)) {
+			Brick.AnimationUpdate(Brick.getInterpolatedPosition(), Brick.getOrigin());
+			Brick.AnimationDraw(window);
 		}
 	}
 }
 void BrickUpdate(const float deltaTime) {
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (BrickState[i]) {
-			if (!UpDown[i]) {
-				if (BrickStateCount[i] < 11.0f) {
-					Bricks[i].curr = { Bricks[i].curr.x, Bricks[i].curr.y - (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime };
-					BrickStateCount[i] += (BrickStateCount[i] < 6.0f ? 3.0f : (BrickStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
+	for (auto &i : Bricks) {
+		if (i.getState()) {
+			if (!i.getUpDown()) {
+				if (i.getStateCount() < 11.0f) {
+					i.move(sf::Vector2f(0.f, - (i.getStateCount() < 6.0f ? 3.0f : (i.getStateCount() < 10.0f ? 2.0f : 1.0f)) * deltaTime));
+					i.setStateCount(i.getStateCount() + (i.getStateCount() < 6.0f ? 3.0f : (i.getStateCount() < 10.0f ? 2.0f : 1.0f)) * deltaTime);
 				}
 				else {
-					BrickStateCount[i] = 11.0f;
-					UpDown[i] = true;
+					i.setStateCount(11.f);
+					i.setUpDown(true);
 				}
 			}
 			else {
-				if (BrickStateCount[i] > 0.0f) {
-					Bricks[i].curr = { Bricks[i].curr.x, Bricks[i].curr.y + (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime };
-					BrickStateCount[i] -= (BrickStateCount[i] > 10.0f ? 1.0f : (BrickStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
+				if (i.getStateCount() > 0.0f) {
+					i.move(sf::Vector2f(0.f, (i.getStateCount() > 10.0f ? 1.0f : (i.getStateCount() > 6.0f ? 2.0f : 3.0f)) * deltaTime));
+					i.setStateCount(i.getStateCount() - (i.getStateCount() > 10.0f ? 1.0f : (i.getStateCount() > 6.0f ? 2.0f : 3.0f)) * deltaTime);
 				}
 				else {
-					Bricks[i].curr = { Bricks[i].curr.x, BrickYList[i] };
-					BrickStateCount[i] = 0.0f;
-					UpDown[i] = false;
-					BrickState[i] = false;
+					i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, i.getYPos()));
+					i.setStateCount(0.f);
+					i.setUpDown(false);
+					i.setState(false);
 				}
 			}
 		}
 	}
 }
-int getBrickIndex(const float x, const float y) {
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y) {
-			return i;
-		}
-	}
-	return 0;
-}
-void MultiBrickCoin(const float x, const float y, const int i) {
-	if (BrickAttList[i] == MULTICOIN && !DisabledBrick[i]) {
-		if (!BrickHitted[i]) {
-			BrickHitted[i] = true;
-			BrickClock[i].restart();
+void MultiBrickCoin(const float x, const float y, const plf::colony<MFCPP::Brick>::colony_iterator<false>& it) {
+	if (it->getAtt() == MULTICOIN && !it->getDisabled()) {
+		if (!it->getWasHit()) {
+			it->setWasHit(true);
+			it->restartClock();
 		}
 		else {
-			if (BrickClock[i].getElapsedTime().asSeconds() > 6.0f && BrickAttList[i] == MULTICOIN) {
-				DisabledBrick[i] = true;
-				BrickState[i] = true;
-				UpDown[i] = false;
-				BrickStateCount[i] = 0.0f;
-				BrickHittedUpdate(i);
+			if (it->getClock().getElapsedTime().asSeconds() > 6.0f && it->getAtt() == MULTICOIN) {
+				it->setDisabled(true);
+				it->setState(true);
+				it->setUpDown(false);
+				it->setStateCount(0.f);
+				BrickHittedUpdate(it);
 			}
 		}
 		SoundManager::PlaySound("Coin");
 		AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y);
 		++CoinCount;
-		BrickState[i] = true;
-		UpDown[i] = false;
-		BrickStateCount[i] = 0.0f;
+		it->setState(true);
+		it->setUpDown(false);
+		it->setStateCount(0.f);
+	}
+}
+void BrickBreak(const float x, const float y) {
+	for (auto it = Bricks.begin(); it != Bricks.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
+			switch (it->getAtt()) {
+				case NORMAL:
+					//i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
+					SoundManager::PlaySound("Break");
+					AddBrickParticle(it->getID(), x, y);
+					DeleteBrick(x, y);
+					MFCPP::setIndexTilemapCollision(x, y, false);
+					Score += 50;
+					break;
+				case MULTICOIN:
+					MultiBrickCoin(x, y, it);
+					break;
+				default: ;
+			}
+		}
 	}
 }
 void HitEvent(const float x, const float y) {
-	std::set<int> GoombaAIDeleteSet;
 	std::set<int> BroAIDeleteSet;
-	std::set<std::pair<float, float>> BrickDeleteSet;
-	for (int i = 0; i < Bricks.size(); i++) {
-		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y && !BrickState[i]) {
-			sf::FloatRect BrickLoop = getGlobalHitbox(Bricks[i].hitbox, Bricks[i].curr, sf::Vector2f(0.f, 0.f));
+	for (auto i = Bricks.begin(); i != Bricks.end(); ++i) {
+		if (i->getCurrentPosition().x == x && i->getCurrentPosition().y == y && !i->getState()) {
+			sf::FloatRect BrickLoop = getGlobalHitbox(sf::FloatRect({0.f , 0.f}, {32.f, 32.f}), i->getCurrentPosition(), i->getOrigin());
 			BrickLoop.position.y -= 16.0f;
 			for (int j = 0; j < CoinList.size(); ++j) {
 				if (isCollide(CoinList[j].hitbox, CoinList[j].property, BrickLoop)) {
@@ -173,10 +143,10 @@ void HitEvent(const float x, const float y) {
 					++CoinCount;
 				}
 			}
-			for (int j = 0; j < GoombaAIList.size(); ++j) {
-				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(GoombaAIList[j].GetHitboxMain(), GoombaAIList[j].getCurrentPosition(), GoombaAIList[j].getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
-					GoombaAIList[j].DeathBehaviour(SCORE_100);
-					if (GoombaAIList[j].IsCanDeath()) GoombaAIDeleteSet.insert(j);
+			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
+				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
+					jt->DeathBehaviour(SCORE_100);
+					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
 			}
 			for (int j = 0; j < BroAIList.size(); ++j) {
@@ -187,64 +157,45 @@ void HitEvent(const float x, const float y) {
 				}
 			}
 			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y + 16.f, i);
-			if (BrickAttList[i] == NORMAL && PowerState == 0) {
-				BrickState[i] = true;
-				UpDown[i] = false;
-				BrickStateCount[i] = 0.0f;
+			if (i->getAtt() == NORMAL && PowerState == 0) {
+				i->setState(true);
+				i->setUpDown(false);
+				i->setStateCount(0.f);
 				SoundManager::PlaySound("Bump");
 			}
-			else if (BrickAttList[i] == NORMAL && PowerState > 0) {
+			else if (i->getAtt() == NORMAL && PowerState > 0) {
 				SoundManager::PlaySound("Break");
-				AddBrickParticle(BrickIDList[i], Bricks[i].curr.x, Bricks[i].curr.y);
-				BrickDeleteSet.insert({Bricks[i].curr.x, Bricks[i].curr.y});
+				AddBrickParticle(i->getID(), i->getCurrentPosition().x, i->getCurrentPosition().y);
+				DeleteBrickIndex(i);
+				MFCPP::setIndexTilemapCollision(i->getCurrentPosition().x, i->getCurrentPosition().y, false);
 				Score += 50;
 			}
 		}
 	}
-	for (const auto &[fst, snd] : BrickDeleteSet) {
-		DeleteBrick(fst, snd);
-		MFCPP::setIndexTilemapCollision(fst, snd, false);
-	}
-	if (!GoombaAIDeleteSet.empty())
-		for (const auto &i : GoombaAIDeleteSet)
-			DeleteGoombaAIIndex(i);
 	if (!BroAIDeleteSet.empty())
 		for (const auto &i : BroAIDeleteSet)
 			DeleteBroAIIndex(i);
 }
+void DeleteBrickIndex(const plf::colony<MFCPP::Brick>::colony_iterator<false>& it) {
+	it->willDestroy(true);
+	BrickDeleteGate = true;
+}
 void DeleteBrick(const float x, const float y) {;
-	//for (int i = 0; i < BricksVertPosList.size(); ++i) {
-	//	if (BricksVertPosList[i].second.x == x && BricksVertPosList[i].second.y == y) {
-	//		BricksVertPosList.erase(BricksVertPosList.begin() + i);
-	//		break;
-	//	}
-	//}
-	for (int i = 0; i < Bricks.size(); ++i) {
-		if (Bricks[i].curr.x == x && Bricks[i].curr.y == y) {
-			Bricks.erase(Bricks.begin() + i);
-			BrickAttList.erase(BrickAttList.begin() + i);
-			BrickIDList.erase(BrickIDList.begin() + i);
-			BrickState.erase(BrickState.begin() + i);
-			BrickStateCount.erase(BrickStateCount.begin() + i);
-			UpDown.erase(UpDown.begin() + i);
-			BrickClock.erase(BrickClock.begin() + i);
-			BrickHitted.erase(BrickHitted.begin() + i);
-			DisabledBrick.erase(DisabledBrick.begin() + i);
-			BrickYList.erase(BrickYList.begin() + i);
-			break;
+	for (auto it = Bricks.begin(); it != Bricks.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
+			DeleteBrickIndex(it);
 		}
 	}
 }
 void DeleteAllBrick() {
 	Bricks.clear();
-	BrickYList.clear();
-	BrickAttList.clear();
-	BrickIDList.clear();
-	BrickState.clear();
-	BrickStateCount.clear();
-	BrickHitted.clear();
-	UpDown.clear();
-	BrickClock.clear();
-	BrickHitted.clear();
-	DisabledBrick.clear();
+}
+void BrickCleanup() {
+	if (!BrickDeleteGate) return;
+	auto it = Bricks.begin();
+	while (it != Bricks.end()) {
+		if (!it->willBeDestroyed()) ++it;
+		else it = Bricks.erase(it);
+	}
+	BrickDeleteGate = false;
 }

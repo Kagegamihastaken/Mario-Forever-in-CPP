@@ -5,8 +5,9 @@
 
 #include "Core/Loading/enum.hpp"
 #include "Core/Class/GoombaAIClass.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
-extern std::vector<MFCPP::GoombaAI> GoombaAIList;
+extern plf::colony<MFCPP::GoombaAI> GoombaAIList;
 extern void GoombaAILoadRes();
 extern void SetPrevGoombaAIPos();
 extern void InterpolateGoombaAIPos(float alpha);
@@ -20,6 +21,6 @@ extern void GoombaAIDraw();
 extern void DeleteAllGoombaAI();
 extern void GoombaAICollisionUpdate();
 extern void GoombaAICleanup();
-extern void DeleteGoombaAIIndex(int i);
+extern void DeleteGoombaAIIndex(const plf::colony<MFCPP::GoombaAI>::colony_iterator<false>& it);
 
 #endif // GOOMBAAI_HPP

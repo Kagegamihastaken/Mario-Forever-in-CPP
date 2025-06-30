@@ -3,14 +3,12 @@
 #ifndef BRICK_HPP
 #define BRICK_HPP
 
-#include "Obstacles.hpp"
+#include "Core/Class/BrickClass.hpp"
 #include "Core/Loading/enum.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
-extern std::vector<Obstacles> Bricks;
-extern std::vector<BrickID> BrickIDList;
-extern ImageManager BrickTextureManager;
+extern plf::colony<MFCPP::Brick> Bricks;
 extern void AddBrick(BrickID ID, BrickAtt att, float x, float y);
-extern void BricksSort();
 extern void SetPrevBricksPos();
 extern void InterpolateBricksPos(float alpha);
 extern void BrickUpdate(float deltaTime);
@@ -18,10 +16,10 @@ extern void BrickDraw();
 extern void HitEvent(float x, float y);
 extern void DeleteBrick(float x, float y);
 extern void LoadBricks();
-extern BrickID GetIDBrick(float x, float y);
-extern BrickAtt GetBrickAtt(float x, float y);
-extern int getBrickIndex(float x, float y);
-extern void MultiBrickCoin(float x, float y, int i);
+extern void BrickBreak(float x, float y);
+extern void MultiBrickCoin(float x, float y, const plf::colony<MFCPP::Brick>::colony_iterator<false>& it);
 extern void DeleteAllBrick();
+extern void DeleteBrickIndex(const plf::colony<MFCPP::Brick>::colony_iterator<false>& it);
+extern void BrickCleanup();
 
 #endif // BRICK_HPP

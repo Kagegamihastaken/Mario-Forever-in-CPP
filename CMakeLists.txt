@@ -10,6 +10,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 #TODO FORCE DEVELOPMENT_BUILD ON WHEN BUILD WITH RelWithDebInfo
 set(DEVELOPMENT_BUILD ON)
+set(LOGGING_ENABLE OFF)
 
 #Game Config
 set(PLAYER_LIVES 4)
@@ -35,25 +36,25 @@ FetchContent_Declare(CTRE
 )
 FetchContent_Declare(physfs
         GIT_REPOSITORY https://github.com/icculus/physfs.git
-        GIT_TAG release-3.2.0  # You can specify a specific version/tag
+        GIT_TAG release-3.2.0
         GIT_SHALLOW ON
         SYSTEM
 )
 FetchContent_Declare(cpptrace
         GIT_REPOSITORY https://github.com/jeremy-rifkin/cpptrace.git
-        GIT_TAG v1.0.2  # You can specify a specific version/tag
+        GIT_TAG v1.0.2
         GIT_SHALLOW ON
         SYSTEM
 )
 FetchContent_Declare(libmodplug
         GIT_REPOSITORY https://github.com/Konstanty/libmodplug.git
-        GIT_TAG master # Pinned from master
+        GIT_TAG master
         GIT_SHALLOW ON
         SYSTEM
 )
 FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-        GIT_TAG 11.2.0 # Using a recent stable version
+        GIT_TAG 11.2.0
         GIT_SHALLOW ON
         SYSTEM
 )
@@ -92,7 +93,7 @@ option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" OFF)
 option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" OFF)
 FetchContent_MakeAvailable(imgui-sfml)
 
-set(BOOST_INCLUDE_LIBRARIES container_hash)
+set(BOOST_INCLUDE_LIBRARIES container_hash uuid)
 set(BOOST_ENABLE_CMAKE ON)
 FetchContent_MakeAvailable(Boost)
 
@@ -119,8 +120,9 @@ target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <string> <set> <array> <iostream> <algorithm>
     <random> <utility> <ctre.hpp> <physfs.h> <fstream>
     <unordered_map> <fmt/core.h> <fmt/base.h> <fmt/color.h> <exception>
+    <fmt/format.h>
     #Boost category
-    <boost/container_hash/hash.hpp>
+    <boost/container_hash/hash.hpp> <boost/uuid.hpp>
 )
 # --- Target-Specific Properties ---
 if(WIN32)
@@ -153,7 +155,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O3>)
     else()
         message(STATUS "Development Build detected. Applying -O2.")
-        target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O2>)
+        target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O3>)
     endif()
 endif()
 
@@ -179,7 +181,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Main
     SFML::Audio SFML::Graphics SFML::System SFML::Window
     physfs-static modplug ctre::ctre ImGui-SFML::ImGui-SFML
-    Boost::container_hash
+    Boost::container_hash Boost::uuid
     fmt::fmt cpptrace::cpptrace
 )
 

@@ -1,4 +1,6 @@
 #include "Core/WindowFrame.hpp"
+
+#include "config.h"
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"
@@ -11,7 +13,7 @@ bool isDebug = true;
 #else
 bool isDebug = false;
 #endif
-float Width = 640.0f, Height = 480.0f;
+float Width = GAME_WIDTH, Height = GAME_HEIGHT;
 sf::RenderWindow window;
 sf::RenderTexture rObject({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 static bool OPTION_SMOOTH = true;

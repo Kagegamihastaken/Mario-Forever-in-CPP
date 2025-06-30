@@ -16,7 +16,8 @@ namespace MFCPP {
         m_appear_y = 0.0f;
         m_invincible_timer.restart();
         m_shell_hit_count = 0;
-        m_collide_with = { false, -1 };
+        m_uuid = boost::uuids::random_generator()();
+        m_collide_with = { false, m_uuid};
         //hitbox
         m_hitbox_main = sf::FloatRect({ 0.0f, 0.0f }, { size.size.x, size.size.y });
         m_hitbox_wall = sf::FloatRect({ 0.0f, 0.0f }, { size.size.x, size.size.y - 6.f });
@@ -97,16 +98,16 @@ namespace MFCPP {
     int GoombaAI::GetShellHitCount() const {
         return m_shell_hit_count;
     }
-    void GoombaAI::SetCollideWith(const std::pair<bool, int>& collide_with) {
+    void GoombaAI::SetCollideWith(const std::pair<bool, boost::uuids::uuid>& collide_with) {
         m_collide_with = collide_with;
     }
     void GoombaAI::SetCollideWithLeft(const bool val) {
         m_collide_with.first = val;
     }
-    void GoombaAI::SetCollideWithRight(const int val) {
+    void GoombaAI::SetCollideWithRight(const boost::uuids::uuid& val) {
         m_collide_with.second = val;
     }
-    std::pair<bool, int> GoombaAI::GetCollideWith() const {
+    std::pair<bool, boost::uuids::uuid> GoombaAI::GetCollideWith() const {
         return m_collide_with;
     }
     void GoombaAI::SetHitboxMain(const sf::FloatRect& hitbox_main) {
@@ -133,5 +134,8 @@ namespace MFCPP {
     }
     sf::FloatRect GoombaAI::GetHitboxWall() const {
         return m_hitbox_wall;
+    }
+    boost::uuids::uuid GoombaAI::GetUUID() const {
+        return m_uuid;
     }
 }

@@ -12,7 +12,7 @@ namespace MFCPP {
         tileMapSizeY = static_cast<int>(LevelY / tileSizeY) + 5;
     }
     int getTilemap(const int x, const int y) {
-        return x + y * tileMapSizeX;
+        return x + std::max(0, y) * tileMapSizeX;
     }
 
     void setIndexCollectableMapID(const float x, const float y, const unsigned val) {

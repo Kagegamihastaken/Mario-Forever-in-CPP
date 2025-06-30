@@ -1,5 +1,4 @@
 #include "Object/Mario.hpp"
-#include "Block/Obstacles.hpp"
 #include "Block/Brick.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
@@ -44,7 +43,7 @@ void loadMarioRes() {
 	ImageManager::AddImage("FireMarioImage", "data/resources/FireMario.png");
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
 		//SmallMario
-		ImageManager::AddTexture("SmallMarioImge", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioRight_" + std::to_string(i));
+		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioRight_" + std::to_string(i));
 		SmallMarioRight.push_back("SmallMarioRight_" + std::to_string(i));
 		ImageManager::AddTexture("SmallMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "SmallMarioLeft_" + std::to_string(i), false, true);
 		SmallMarioLeft.push_back("SmallMarioLeft_" + std::to_string(i));
@@ -279,6 +278,7 @@ void MarioVertYUpdate() {
 			if (Yvelo >= 0.0f) {
 				player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y) };
 				Yvelo = 0.0f;
+				return;
 			}
 				//if (SlopeCollide) player.curr = { player.curr.x, slopey - (52.0f - player.property.getOrigin().y + 10.0f) };
 				//if (player.curr.y + 7.0f >= CurrPosYCollide) player.curr = { player.curr.x, CurrPosYCollide - (52.0f - player.property.getOrigin().y + 7.0f) };
@@ -307,6 +307,7 @@ void MarioVertYUpdate() {
 			else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
 				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
 			Yvelo = 0.0f;
+			return;
 		}
 	}
 }
