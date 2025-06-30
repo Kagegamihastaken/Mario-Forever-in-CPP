@@ -1,6 +1,7 @@
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/Logging.hpp"
+#include "Core/Exception.hpp"
 
 std::map<std::string, sf::Image> ImageManager::m_images;
 std::map<std::string, sf::Texture*> ImageManager::m_textures;
@@ -26,7 +27,7 @@ void ImageManager::Cleanup() {
 void ImageManager::AddTexture(const std::string &img_name, const sf::IntRect &tex_rect, const std::string &name_tex,
                               const bool &isRepeated, const bool &isFlipped) {
 	if (!m_images.contains(img_name))
-		throw std::runtime_error(fmt::format("ImageManager: {} doesnt exist while trying to create texture {}", img_name, name_tex));
+		throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: {} doesnt exist while trying to create texture {}", img_name, name_tex));
 	sf::Texture* tex = new sf::Texture();
 	ConvertToTexture(tex, img_name, tex_rect, isFlipped);
 	tex->setRepeated(isRepeated);
@@ -39,7 +40,7 @@ void ImageManager::AddTexture(const std::string &img_name, const sf::IntRect &te
 void ImageManager::AddTexture(const std::string &img_name, const std::string &name_tex, const bool &isRepeated,
                               const bool &isFlipped) {
 	if (!m_images.contains(img_name))
-		throw std::runtime_error(fmt::format("ImageManager: {} doesnt exist while trying to create texture {}", img_name, name_tex));
+		throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: {} doesnt exist while trying to create texture {}", img_name, name_tex));
 	sf::Texture* tex = new sf::Texture();
 	ConvertToTexture(tex, img_name, isFlipped);
 	tex->setRepeated(isRepeated);
@@ -49,13 +50,13 @@ void ImageManager::AddTexture(const std::string &img_name, const std::string &na
 sf::Texture& ImageManager::GetTexture(const std::string& name)
 {
 	if (!m_textures.contains(name))
-		throw std::runtime_error(fmt::format("ImageManager: cannot find {}", name));
+		throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: cannot find {}", name));
 	return *m_textures[name];
 }
 sf::Texture* ImageManager::GetReturnTexture(const std::string& name)
 {
 	if (!m_textures.contains(name))
-		throw std::runtime_error(fmt::format("ImageManager: cannot find {}", name));
+		throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: cannot find {}", name));
 	return m_textures[name];
 }
 void ImageManager::ConvertToTexture(sf::Texture* tex, const std::string& name, const bool& isFlipped) {
@@ -72,7 +73,7 @@ void ImageManager::ConvertToTexture(sf::Texture* tex, const std::string& name, c
 void ImageManager::ConvertToTexture(sf::Texture* tex, const std::string& name, const sf::IntRect& rect, const bool& isFlipped) {
 	sf::Image inp = m_images[name];
 	if (!m_images.contains(name)) {
-		throw std::runtime_error(fmt::format("ImageManager: {} doesnt exist", name));
+		throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: {} doesnt exist", name));
 	}
 	if (m_images[name].getSize().x == 0 || m_images[name].getSize().y == 0)
 		MFCPP::Log::WarningPrint(fmt::format("ImageManager: {} has a width or height equal zero", name));

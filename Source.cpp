@@ -122,7 +122,7 @@ int WinMain() {
 		MFCPP::Log::printCurrentTrace();
 		std::exit(EXIT_FAILURE);
 	}
-	SoundManager::ClearUp();
+	SoundManager::CleanUp();
 	IODeinit();
 	std::exit(EXIT_SUCCESS);
 	//ImGui::SFML::Shutdown();

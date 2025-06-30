@@ -24,7 +24,7 @@ void SoundManager::StopAllSound() {
 void SoundManager::PlaySound(const std::string &name) {
 	m_sounds.at(name).play();
 }
-void SoundManager::ClearUp() {
+void SoundManager::CleanUp() {
 	m_sounds.clear();
 	m_buffers.clear();
 }

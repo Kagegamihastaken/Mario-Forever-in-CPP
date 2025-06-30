@@ -7,7 +7,6 @@
 std::vector<std::array<sf::Vertex, 4>> BgList;
 std::vector<std::string> BgTextureNameList;
 std::vector<float> BgParallaxList;
-ImageManager BgTextureManager;
 sf::VertexBuffer buffer;
 
 void BgInit() {

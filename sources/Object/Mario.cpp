@@ -14,6 +14,8 @@
 #include "Core/Interpolation.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Projectiles/MarioProjectile.hpp"
+#include <SFML/Graphics/Shader.hpp>
+sf::Shader notShader;
 
 //texture loading
 void UpdateSequenceAnimation() {
@@ -58,6 +60,11 @@ void loadMarioRes() {
 		ImageManager::AddTexture("FireMarioImage", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}), "FireMarioLeft_" + std::to_string(i), false, true);
 		FireMarioLeft.push_back("FireMarioLeft_" + std::to_string(i));
 	}
+
+	if (sf::Shader::isAvailable()) {
+		if (!notShader.loadFromFile("shaders/not_shader.frag", sf::Shader::Type::Fragment)) throw std::runtime_error("Hey LOADING shader error.");
+	}
+
 	UpdateSequenceAnimation();
 }
 //sprite function
@@ -424,8 +431,8 @@ void PowerDown() {
 	}
 }
 void Death() {
-	Music.StopAllMODMusic();
-	Music.StopAllOGGMusic();
+	Music.StopAllMusic();
+	Music.StopAllMusic();
 	if (Lives <= 0) window.close();
 	else --Lives;
 	Objectbuilding();

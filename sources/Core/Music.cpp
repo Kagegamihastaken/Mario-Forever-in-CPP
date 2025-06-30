@@ -1,15 +1,13 @@
 #include "Core/Music.hpp"
 #include "Core/MusicManager.hpp"
 
-MusicManager Music;
-
 void MusicInit() {
-	MusicManager::AddMODMusic("DansLaRue", "musics/xyce-dans_la_rue.xm");
-	MusicManager::SetMODMusicVolume("DansLaRue", 1000);
-	MusicManager::AddOGGMusic("DansLaRueOGG", "musics/xyce-dans_la_rue.ogg");
+	MusicManager::AddMusic("DansLaRue", "data/musics/hurricane_-_future.mod");
+	//MusicManager::SetMODMusicVolume("DansLaRue", 1000);
+	MusicManager::AddMusic("DansLaRueOGG", "data/musics/xyce-dans_la_rue.ogg");
 
-	MusicManager::AddMODMusic("MarioDeath", "musics/1-Music-Die.it");
-	MusicManager::AddOGGMusic("MainMusicOGG", "musics/The_Worst_Goodbye.ogg");
-	MusicManager::AddOGGMusic("RigitMedium", "musics/Rigit_Medium.ogg");
-	MusicManager::AddOGGMusic("LevelComplete", "musics/Level_Complete.ogg");
+	MusicManager::AddMusic("MarioDeath", "data/musics/1-Music-Die.it");
+	MusicManager::AddMusic("MainMusicOGG", "data/musics/The_Worst_Goodbye.ogg");
+	MusicManager::AddMusic("RigitMedium", "data/musics/Rigit_Medium.ogg");
+	MusicManager::AddMusic("LevelComplete", "data/musics/Level_Complete.ogg");
 }

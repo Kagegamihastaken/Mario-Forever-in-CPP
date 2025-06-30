@@ -20,7 +20,6 @@ std::vector<std::array<int, 3>> ID_list{
 	{9, 128, 32},
 	{10, 160, 32},
 };
-ImageManager ObstaclesTextureManager;
 //texture loading
 
 void loadObstacleRes() {

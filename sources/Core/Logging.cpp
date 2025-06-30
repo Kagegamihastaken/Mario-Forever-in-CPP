@@ -12,7 +12,7 @@ namespace MFCPP {
             out << fmt::format("[FATAL] Exception {} {}\n", typeid(*exp).name(),exp->what());
 #endif
 #if DEVELOPMENT_BUILD
-            fmt::print(fmt::fg(fmt::color::orange_red) | fmt::emphasis::bold, "[FATAL] Exception {} {}\n", typeid(*exp).name(),exp->what());
+            fmt::print(fmt::fg(fmt::color::orange_red) | fmt::emphasis::bold, "[FATAL] Exception {}\n{}\n", boost::typeindex::type_id_runtime(*exp).pretty_name(),exp->what());
 #endif
         }
         void FatalPrint(const std::string_view str) {

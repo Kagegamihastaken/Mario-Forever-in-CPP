@@ -80,9 +80,8 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			AddScoreEffect(SCORE_100, player.curr.x, player.curr.y);
 			ExitGateClock.start();
 			LevelCompleteEffect = true;
-			Music.StopAllMODMusic();
-			Music.StopAllOGGMusic();
-			Music.PlayOGGMusic("LevelComplete");
+			Music.StopAllMusic();
+			Music.PlayMusic("LevelComplete");
 			ExitGateForeActive = false;
 			LevelEndMarioProjectileCleanup();
 		}
@@ -96,9 +95,8 @@ void ExitGateStatusUpdate(const float deltaTime) {
 
 			ExitGateClock.start();
 			LevelCompleteEffect = true;
-			Music.StopAllMODMusic();
-			Music.StopAllOGGMusic();
-			Music.PlayOGGMusic("LevelComplete");
+			Music.StopAllMusic();
+			Music.PlayMusic("LevelComplete");
 			ExitGateForeEffect.setPosition(ExitGateFore.getPosition());
 			ExitGateForeEffectCurr = ExitGateForeEffectPrev = ExitGateFore.getPosition();
 			LevelEndMarioProjectileCleanup();

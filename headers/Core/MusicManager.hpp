@@ -4,34 +4,28 @@
 #define MUSIC_MANAGER_HPP
 
 #include "Core/ExternalHeaders/sfMod/sfMod.hpp"
+#include "Core/Exception.hpp"
 
 class MusicManager {
 private:
+	static std::map<std::string, std::vector<uint8_t>> m_ogg_data;
 	static std::map<std::string, sf::Music> m_ogg_musics;
 	static std::map<std::string, sfmod::Mod> m_mod_musics;
+	static std::map<std::string, bool> m_musics_id;
 public:
-	static void AddOGGMusic(const std::string &name, const std::string &path);
-	static void PlayOGGMusic(const std::string &name);
-	static void PauseOGGMusic(const std::string &name);
-	static void ClearUp();
-	static void SetOGGLoop(const std::string &name, bool loop);
-	static void StopOGGMusic(const std::string &name);
-	static void StopAllOGGMusic();
-	static void SetMODMusicVolume(const std::string &name, unsigned volume);
-	static void SetOGGMusicVolume(const std::string &name, unsigned volume);
+	MusicManager() = delete;
+	static void AddMusic(const std::string &name, const std::string &path);
+	static void PlayMusic(const std::string &name);
+	static void PauseMusic(const std::string &name);
+	static void CleanUp();
+	static void SetLoop(const std::string &name, bool loop);
+	static void StopMusic(const std::string &name);
+	static void StopAllMusic();
+	static void SetMusicVolume(const std::string &name, unsigned volume);
 
-	static void AddMODMusic(const std::string &name, const std::string &path);
-	static void StopMODMusic(const std::string &name);
-	static void SetMODLoop(const std::string &name, bool loop);
-	static void PlayMODMusic(const std::string &name);
-	static void PauseMODMusic(const std::string &name);
-	static void StopAllMODMusic();
-	static bool IsMODMusicPlaying(const std::string &name);
-	static bool IsOGGMusicPlaying(const std::string &name);
-	static bool IsMODMusicStopped(const std::string &name);
-	static bool IsOGGMusicStopped(const std::string &name);
-	static bool IsMODMusicPaused(const std::string &name);
-	static bool IsOGGMusicPaused(const std::string &name);
+	static bool IsMusicPlaying(const std::string &name);
+	static bool IsMusicStopped(const std::string &name);
+	static bool IsMusicPaused(const std::string &name);
 };
 
 #endif

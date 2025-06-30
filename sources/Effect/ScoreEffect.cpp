@@ -9,7 +9,6 @@
 //define
 std::vector<sf::Sprite> ScoreEffectList;
 std::vector<ScoreID> ScoreEffectIDList;
-ImageManager ScoreEffectTexture;
 std::vector<float> ScoreEffectVelocity;
 std::vector<float> ScoreEffectAlpha;
 std::vector<sf::Vector2f> ScoreEffectCurr;

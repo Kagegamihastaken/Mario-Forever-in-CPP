@@ -38,7 +38,7 @@ std::vector<std::array<float, 5>> BonusData;
 std::vector<std::array<float, 5>> EnemyData;
 std::array<float, 4> ExitGateData;
 std::array<float, 2> PlayerData;
-std::pair<int, std::string> MusicData;
+std::string MusicData;
 /*
 void NPCDATAREAD(std::string line) {
 	std::array<float, 5> temp{};
@@ -162,12 +162,12 @@ void LEVELDATAREAD(const std::string& line) {
 		else if (match.get<1>() == "MY") PlayerData[1] = match.get<2>().to_number<int>();
 	}
 	//MUSIC
-	for (auto match : ctre::search_all<"(MUSICT|MUSICN)=(\\S*)">(line)) {
-		if (match.get<1>() == "MUSICT") MusicData.first = match.get<2>().to_number<int>();
-		else if (match.get<1>() == "MUSICN") MusicData.second = match.get<2>().to_string();
+	for (auto match : ctre::search_all<"(MUSIC)=(\\S*)">(line)) {
+		if (match.get<1>() == "MUSIC") MusicData = match.get<2>().to_string();
 	}
 }
 void ReadData(const std::string_view path) {
+	if (!std::filesystem::exists(path)) throw MFCPP::Exception::NonExistElement(fmt::format("Level: File {} doesn't exist.", path));
 	std::string lvldat;
 	LoadLvl(lvldat, path.data());
 	std::stringstream input_view(lvldat);
@@ -491,16 +491,9 @@ void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
 
-	if (MusicData.first == 0) {
-		if (Music.IsMODMusicPlaying(MusicData.second)) Music.StopMODMusic(MusicData.second);
-		Music.SetMODLoop(MusicData.second, true);
-		Music.PlayMODMusic(MusicData.second);
-	}
-	else if (MusicData.first == 1) {
-		if (Music.IsOGGMusicPlaying(MusicData.second)) Music.StopOGGMusic(MusicData.second);
-		Music.SetOGGLoop(MusicData.second, true);
-		Music.PlayOGGMusic(MusicData.second);
-	}
+	if (Music.IsMusicPlaying(MusicData)) Music.StopMusic(MusicData);
+	Music.SetLoop(MusicData, true);
+	Music.PlayMusic(MusicData);
 
 	player.property.setPosition({ PlayerData[0], PlayerData[1] + 7.f });
 	player.curr = player.prev = player.property.getPosition();

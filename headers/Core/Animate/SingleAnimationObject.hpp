@@ -27,7 +27,7 @@ public:
 	void setFrequencyAnimation(int frequency);
 
 	void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
-	void AnimationDraw(sf::RenderWindow& window) const;
+	void AnimationDraw(sf::RenderWindow& window, sf::RenderStates states = sf::RenderStates::Default) const;
 	void setAnimationDirection(const AnimationDirection& dir);
 	//sf::IntRect getAnimationTextureRect() const;
 	[[nodiscard]] bool isAnimationAtTheEnd() const;

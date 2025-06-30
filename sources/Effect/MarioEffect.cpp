@@ -40,9 +40,8 @@ void MarioEffectStatusUpdate(const float deltaTime) {
 }
 void ActiveMarioEffect() {
 	if (!EffectActive) {
-		Music.StopAllMODMusic();
-		Music.StopAllOGGMusic();
-		Music.PlayMODMusic("MarioDeath");
+		Music.StopAllMusic();
+		Music.PlayMusic("MarioDeath");
 		EffectActive = true;
 		playerEffect.setPosition({ player.property.getPosition().x - 14.0f, player.property.getPosition().y - 30.0f });
 		MarioEffectCurr = MarioEffectPrev = playerEffect.getPosition();

@@ -10,6 +10,7 @@ private:
 	static std::map<std::string, sf::Image> m_images;
 	static std::map<std::string, sf::Texture*> m_textures;
 public:
+	ImageManager() = delete;
 	static void AddImage(const std::string &name, const std::string& path);
 	static sf::Image GetImage(const std::string &name);
 	static void ConvertToTexture(sf::Texture* tex, const std::string& name, const sf::IntRect& rect, const bool& isFlipped);

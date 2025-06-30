@@ -60,7 +60,7 @@ void sfmod::defaultSettings()
 ///////////////////////////////////////////////////////////
 // Mod class                                             //
 ///////////////////////////////////////////////////////////
-sfmod::Mod::Mod() : sf::SoundStream(), sfmod::Error()
+sfmod::Mod::Mod() : sf::SoundStream()
 {
 	file_ = nullptr;
 
@@ -71,7 +71,7 @@ sfmod::Mod::Mod() : sf::SoundStream(), sfmod::Error()
 }
 
 sfmod::Mod::Mod(const std::string& filename)
-	: sf::SoundStream(), sfmod::Error()
+	: sf::SoundStream()
 {
 	file_ = nullptr;
 
@@ -84,7 +84,7 @@ sfmod::Mod::Mod(const std::string& filename)
 }
 
 sfmod::Mod::Mod(const void* data, const unsigned int size)
-	: sf::SoundStream(), sfmod::Error()
+	: sf::SoundStream()
 {
 	file_ = nullptr;
 
@@ -110,7 +110,7 @@ bool sfmod::Mod::loadFromFile(const std::string& filename)
 	std::ifstream file;
 	file.open(filename.c_str(), std::ios::binary);
 	if (!file.is_open()) {
-		setError("Failed to load module.");
+		//setError("Failed to load module.");
 		return false;
 	}
 
@@ -126,7 +126,7 @@ bool sfmod::Mod::loadFromFile(const std::string& filename)
 
 	file_ = ModPlug_Load(data.c_str(), size);
 	if (file_ == nullptr) {
-		setError("Failed to load module.");
+		//setError("Failed to load module.");
 		return false;
 	}
 
@@ -147,7 +147,7 @@ bool sfmod::Mod::loadFromMemory(const std::string& data)
 
 	file_ = ModPlug_Load(data.c_str(), data.size());
 	if (file_ == nullptr) {
-		setError("Failed to load module.");
+		//setError("Failed to load module.");
 		return false;
 	}
 
@@ -168,7 +168,7 @@ bool sfmod::Mod::loadFromMemory(const void* data, const unsigned int size)
 
 	file_ = ModPlug_Load(data, size);
 	if (file_ == nullptr) {
-		setError("Failed to load module.");
+		//setError("Failed to load module.");
 		return false;
 	}
 

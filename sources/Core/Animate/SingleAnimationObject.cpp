@@ -97,9 +97,17 @@ void SingleAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::V
 		m_LeftIndex[m_indexAnimation].setOrigin(origin);
 	}
 }
-void SingleAnimationObject::AnimationDraw(sf::RenderWindow& window) const {
-	if (m_direction == AnimationDirection::ANIM_RIGHT) window.draw(m_RightIndex[m_indexAnimation]);
-	else window.draw(m_LeftIndex[m_indexAnimation]);
+void SingleAnimationObject::AnimationDraw(sf::RenderWindow& window, sf::RenderStates states) const {
+	if (m_direction == AnimationDirection::ANIM_RIGHT) {
+		//states.transform *= m_RightIndex[m_indexAnimation].getTransform();
+		//states.texture = &m_RightIndex[m_indexAnimation].getTexture();
+		window.draw(m_RightIndex[m_indexAnimation], states);
+	}
+	else {
+		//states.transform *= m_LeftIndex[m_indexAnimation].getTransform();
+		//states.texture = &m_LeftIndex[m_indexAnimation].getTexture();
+		window.draw(m_LeftIndex[m_indexAnimation], states);
+	}
 }
 void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 	m_direction = dir;

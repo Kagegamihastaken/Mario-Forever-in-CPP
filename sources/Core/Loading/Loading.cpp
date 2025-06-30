@@ -43,31 +43,11 @@ void LoadLvl(std::string& lvl, const std::string &path) {
 	lvl.assign(vec.begin(), vec.end());
 	vec.clear();
 }
-void LoadMOD(sfmod::Mod& music, const std::string &path) {
-	//std::vector<uint8_t> vec = Loadbyte(path);
-	//if (!music.loadFromMemory(vec.data(), sizeof(uint8_t) * vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
-	if (!music.loadFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
-	//vec.clear();
-	//music.loadFromMemory(vec.data(), vec.size());
-}
-void LoadOGG(sf::Music& music, const std::string &path) {
-	//std::vector<uint8_t> vec = Loadbyte(path);
-	//if (!music.openFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
-	if (!music.openFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
+std::vector<uint8_t> GetFileDataInByte(const std::string &path) {
+	return Loadbyte(path);
+	//if (!music.openFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
 	//vec.clear();
 	//music.openFromMemory(vec.data(), vec.size());
-}
-int ReadStrLine(const std::string& lvldata, std::string& out, const int resume = 0) {
-	std::string ou = "";
-	for (int i = resume; i < lvldata.size(); ++i) {
-		if (lvldata[i] == '\n') {
-			out = ou.substr(0, ou.size() - 1);
-			return i + 1;
-		}
-		else ou += lvldata[i];
-	}
-	out = ou.substr(0, ou.size());
-	return -1;
 }
 void LoadImageFile(sf::Image& image, const std::string &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);

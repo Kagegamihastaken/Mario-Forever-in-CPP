@@ -38,8 +38,6 @@
 #include <vector>
 #include <SFML/Audio.hpp>
 
-#include "Error.hpp"
-
 // Forward declarations //
 struct _ModPlugFile;
 typedef struct _ModPlugFile ModPlugFile;
@@ -65,7 +63,7 @@ namespace sfmod
 ///////////////////////////////////////////////////////////
 // Mod class                                             //
 ///////////////////////////////////////////////////////////
-class sfmod::Mod : public sf::SoundStream, public sfmod::Error
+class sfmod::Mod : public sf::SoundStream
 {
 public:
 	Mod();

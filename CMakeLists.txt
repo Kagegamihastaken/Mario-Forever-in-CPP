@@ -93,7 +93,7 @@ option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" OFF)
 option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" OFF)
 FetchContent_MakeAvailable(imgui-sfml)
 
-set(BOOST_INCLUDE_LIBRARIES container_hash uuid)
+set(BOOST_INCLUDE_LIBRARIES container_hash uuid type_index)
 set(BOOST_ENABLE_CMAKE ON)
 FetchContent_MakeAvailable(Boost)
 
@@ -122,7 +122,7 @@ target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <unordered_map> <fmt/core.h> <fmt/base.h> <fmt/color.h> <exception>
     <fmt/format.h>
     #Boost category
-    <boost/container_hash/hash.hpp> <boost/uuid.hpp>
+    <boost/container_hash/hash.hpp> <boost/uuid.hpp> <boost/type_index.hpp>
 )
 # --- Target-Specific Properties ---
 if(WIN32)
@@ -181,7 +181,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Main
     SFML::Audio SFML::Graphics SFML::System SFML::Window
     physfs-static modplug ctre::ctre ImGui-SFML::ImGui-SFML
-    Boost::container_hash Boost::uuid
+    Boost::container_hash Boost::uuid Boost::type_index
     fmt::fmt cpptrace::cpptrace
 )
 

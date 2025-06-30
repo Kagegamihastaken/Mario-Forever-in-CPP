@@ -11,7 +11,7 @@ public:
 	static void AddSound(std::string name, const sf::SoundBuffer &buffer);
 	static sf::Sound GetSound(const std::string &name);
 	static void PlaySound(const std::string &name);
-	static void ClearUp();
+	static void CleanUp();
 	static void SetLoop(const std::string &name, bool loop);
 	static void StopSound(const std::string &name);
 	static void StopAllSound();
