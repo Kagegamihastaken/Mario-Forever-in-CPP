@@ -12,6 +12,7 @@
 #include "Effect/GoombaAIEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Block/Slopes.hpp"
+#include "Core/Exception.hpp"
 #include "Object/PiranhaAI.hpp"
 #include "Object/Spike.hpp"
 #include "Core/Scroll.hpp"
@@ -167,7 +168,6 @@ void LEVELDATAREAD(const std::string& line) {
 	}
 }
 void ReadData(const std::string_view path) {
-	if (!std::filesystem::exists(path)) throw MFCPP::Exception::NonExistElement(fmt::format("Level: File {} doesn't exist.", path));
 	std::string lvldat;
 	LoadLvl(lvldat, path.data());
 	std::stringstream input_view(lvldat);
@@ -491,9 +491,9 @@ void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
 
-	if (Music.IsMusicPlaying(MusicData)) Music.StopMusic(MusicData);
-	Music.SetLoop(MusicData, true);
-	Music.PlayMusic(MusicData);
+	if (MusicManager::IsMusicPlaying(MusicData)) MusicManager::StopMusic(MusicData);
+	MusicManager::SetLoop(MusicData, true);
+	MusicManager::PlayMusic(MusicData);
 
 	player.property.setPosition({ PlayerData[0], PlayerData[1] + 7.f });
 	player.curr = player.prev = player.property.getPosition();
@@ -558,4 +558,7 @@ void Objectbuilding() {
 		}
 	}
 	LuckyBlockSort();
+}
+std::string getMusicLevelName() {
+	return MusicData;
 }

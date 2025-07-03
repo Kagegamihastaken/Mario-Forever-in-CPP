@@ -2,8 +2,7 @@
 #include "Core/MusicManager.hpp"
 
 void MusicInit() {
-	MusicManager::AddMusic("DansLaRue", "data/musics/hurricane_-_future.mod");
-	//MusicManager::SetMODMusicVolume("DansLaRue", 1000);
+	MusicManager::AddMusic("DansLaRue", "data/musics/Rigit Medium.mp3");
 	MusicManager::AddMusic("DansLaRueOGG", "data/musics/xyce-dans_la_rue.ogg");
 
 	MusicManager::AddMusic("MarioDeath", "data/musics/1-Music-Die.it");

@@ -9,6 +9,7 @@
 #include "Core/Music.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/MusicManager.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 #include "Object/Mario.hpp"
@@ -80,8 +81,8 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			AddScoreEffect(SCORE_100, player.curr.x, player.curr.y);
 			ExitGateClock.start();
 			LevelCompleteEffect = true;
-			Music.StopAllMusic();
-			Music.PlayMusic("LevelComplete");
+			MusicManager::StopAllMusic();
+			MusicManager::PlayMusic("LevelComplete");
 			ExitGateForeActive = false;
 			LevelEndMarioProjectileCleanup();
 		}
@@ -95,8 +96,8 @@ void ExitGateStatusUpdate(const float deltaTime) {
 
 			ExitGateClock.start();
 			LevelCompleteEffect = true;
-			Music.StopAllMusic();
-			Music.PlayMusic("LevelComplete");
+			MusicManager::StopAllMusic();
+			MusicManager::PlayMusic("LevelComplete");
 			ExitGateForeEffect.setPosition(ExitGateFore.getPosition());
 			ExitGateForeEffectCurr = ExitGateForeEffectPrev = ExitGateFore.getPosition();
 			LevelEndMarioProjectileCleanup();

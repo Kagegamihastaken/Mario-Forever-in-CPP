@@ -104,12 +104,12 @@ void KeyboardMovement(const float deltaTime) {
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCurrentFalling && window.hasFocus()) {
 			if (!PreJump && !Holding) {
-				Sounds.PlaySound("Jump");
+				SoundManager::PlaySound("Jump");
 				Yvelo = -13.0f;
 				Holding = true;
 			}
 			else if (PreJump) {
-				Sounds.PlaySound("Jump");
+				SoundManager::PlaySound("Jump");
 				Yvelo = -13.0f;
 				PreJump = false;
 				Holding = true;
@@ -431,8 +431,8 @@ void PowerDown() {
 	}
 }
 void Death() {
-	Music.StopAllMusic();
-	Music.StopAllMusic();
+	//Music.StopAllMusic();
+	//Music.StopAllMusic();
 	if (Lives <= 0) window.close();
 	else --Lives;
 	Objectbuilding();

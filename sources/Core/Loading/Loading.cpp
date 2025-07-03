@@ -11,12 +11,12 @@ void IOInit() {
 void IODeinit() {
 	PHYSFS_deinit();
 }
-std::vector<uint8_t> Loadbyte(const std::string &fileName)
+std::vector<uint8_t> Loadbyte(const std::filesystem::path &fileName)
 {
 	std::vector<uint8_t> vec;
 	if (PHYSFS_isInit()) {
-		if (!PHYSFS_exists(fileName.c_str())) throw std::runtime_error(fmt::format("PhysFS: File {} doesn't exist", fileName));
-		if (PHYSFS_File* fp = PHYSFS_openRead(fileName.c_str())) {
+		if (!PHYSFS_exists(fileName.string().c_str())) throw std::runtime_error(fmt::format("PhysFS: File {} doesn't exist", fileName.string()));
+		if (PHYSFS_File* fp = PHYSFS_openRead(fileName.string().c_str())) {
 			std::vector<uint8_t> buffer(1024);
 			do {
 				const PHYSFS_sint64 rc = PHYSFS_readBytes(fp, buffer.data(), buffer.size());
@@ -28,29 +28,24 @@ std::vector<uint8_t> Loadbyte(const std::string &fileName)
 	else throw std::runtime_error("PhysFS: Load data before initializing, call IOInit() first");
 	return vec;
 }
-void LoadTexture(sf::Texture& texture, const std::string &path) {
+void LoadTexture(sf::Texture& texture, const std::filesystem::path &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
-	if (!texture.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
+	if (!texture.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
 	vec.clear();
 }
-void LoadAudio(sf::SoundBuffer& soundBuffer, const std::string &path) {
-	std::vector<uint8_t> vec = Loadbyte(path);
-	if (!soundBuffer.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));
-	vec.clear();
-}
-void LoadLvl(std::string& lvl, const std::string &path) {
+void LoadLvl(std::string& lvl, const std::filesystem::path &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
 	lvl.assign(vec.begin(), vec.end());
 	vec.clear();
 }
-std::vector<uint8_t> GetFileDataInByte(const std::string &path) {
+std::vector<uint8_t> GetFileDataInByte(const std::filesystem::path &path) {
 	return Loadbyte(path);
 	//if (!music.openFromFile(path)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
 	//vec.clear();
 	//music.openFromMemory(vec.data(), vec.size());
 }
-void LoadImageFile(sf::Image& image, const std::string &path) {
+void LoadImageFile(sf::Image& image, const std::filesystem::path &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
-	if (!image.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path));;
+	if (!image.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));;
 	vec.clear();
 }

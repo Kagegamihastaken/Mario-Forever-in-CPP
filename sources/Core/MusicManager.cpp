@@ -1,28 +1,39 @@
 #include "Core/MusicManager.hpp"
+
+#include <ranges>
+
+#include "Core/AudioEngine.hpp"
+#include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Loading/Loading.hpp"
 
-std::map<std::string, std::vector<uint8_t>> MusicManager::m_ogg_data;
-std::map<std::string, sf::Music> MusicManager::m_ogg_musics;
-std::map<std::string, sfmod::Mod> MusicManager::m_mod_musics;
+std::map<std::string, SoLoud::Wav> MusicManager::m_ogg_musics;
+std::map<std::string, SoLoud::Openmpt> MusicManager::m_mod_musics;
 std::map<std::string, bool> MusicManager::m_musics_id;
+std::map<std::string, SoLoud::handle> MusicManager::m_musics_handle;
 //false for OGG, true for MOD
-
-void MusicManager::AddMusic(const std::string &name, const std::string &path) {
+bool MusicManager::CheckValidWavType(const std::string_view& str) {
+	return str == ".flac" || str == ".mp3" || str == ".ogg" || str == ".wav";
+}
+void MusicManager::AddMusic(const std::string &name, const std::filesystem::path &path) {
+	const std::string extension = path.extension().string();
+	//std::filesystem::path::extension
 	//custom loading
 	if (m_musics_id.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("MusicManager: Already exist music with this name {}", name));
-	const std::vector<uint8_t> Data = GetFileDataInByte(path);
+	const std::vector<uint8_t> Data = GetFileDataInByte(path.string());
 	bool flag = false;
-	m_ogg_data[name] = std::move(Data);
-
-	if (!m_mod_musics[name].loadFromMemory(m_ogg_data[name].data(), m_ogg_data[name].size())) {
-		if (!m_ogg_musics[name].openFromMemory(m_ogg_data[name].data(), m_ogg_data[name].size()))
-			throw std::format_error(fmt::format("MusicManager: Cannot detected {} is music file supported or not.", path));
-		MFCPP::Log::InfoPrint(fmt::format("MusicManager: Loaded OGG File: {}", path));
-	} else {
-		m_ogg_data.erase(name);
+	if (CheckValidWavType(extension)) {
+		if (m_ogg_musics[name].loadMem(Data.data(), Data.size(), true))
+			throw std::format_error(fmt::format("MusicManager: Cannot detected {} is music file supported or not.", path.string()));
+		MFCPP::Log::InfoPrint(fmt::format("MusicManager: Loaded OGG File: {}", path.string()));
+		m_ogg_musics[name].setSingleInstance(true);
+	}
+	else {
+		if (m_mod_musics[name].loadMem(Data.data(), Data.size(), true))
+			throw std::format_error(fmt::format("MusicManager: Cannot detected {} is music file supported or not.", path.string()));
+		MFCPP::Log::InfoPrint(fmt::format("MusicManager: Loaded MOD File: {}", path.string()));
+		m_mod_musics[name].setSingleInstance(true);
 		flag = true;
-		MFCPP::Log::InfoPrint(fmt::format("MusicManager: Loaded MOD File: {}", path));
 	}
 	m_musics_id[name] = flag;
 	//LoadOGG(m_ogg_musics[name], path);
@@ -37,62 +48,72 @@ void MusicManager::SetLoop(const std::string &name, const bool loop) {
 void MusicManager::StopMusic(const std::string &name) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
 	if (!m_musics_id[name])
-		m_ogg_musics[name].stop();
+		audio_engine.stopAudioSource(m_ogg_musics[name]);
 	else
-		m_mod_musics[name].stop();
+		audio_engine.stopAudioSource(m_mod_musics[name]);
+	m_musics_handle.erase(name);
 }
 void MusicManager::StopAllMusic() {
-	for (const auto &[fst, snd] : m_musics_id)
-		switch (snd) {
-		case false:
-			if (m_ogg_musics[fst].getStatus() == sf::SoundSource::Status::Playing) m_ogg_musics[fst].stop();
-			break;
-		case true:
-			if (m_mod_musics[fst].getStatus() == sf::SoundSource::Status::Playing) m_mod_musics[fst].stop();
-			break;
-		}
+	std::set<std::string> keys;
+	for (const auto &fst: m_musics_id | std::views::keys) {
+		if (!m_musics_id[fst])
+			audio_engine.stopAudioSource(m_ogg_musics[fst]);
+		else
+			audio_engine.stopAudioSource(m_mod_musics[fst]);
+		keys.insert(fst);
+	}
+	for (const auto &i : keys) {
+		m_musics_handle.erase(i);
+	}
 }
 void MusicManager::PlayMusic(const std::string &name) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
+	SoLoud::handle handle;
 	if (!m_musics_id[name])
-		m_ogg_musics[name].play();
+		handle = audio_engine.playBackground(m_ogg_musics[name]);
 	else
-		m_mod_musics[name].play();
+		handle = audio_engine.playBackground(m_mod_musics[name]);
+	audio_engine.setProtectVoice(handle, true);
+	audio_engine.setVolume(handle, 0.725f);
+	if (audio_engine.isValidVoiceHandle(handle))
+		m_musics_handle[name] = handle;
 }
 void MusicManager::PauseMusic(const std::string &name) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	if (!m_musics_id[name])
-		m_ogg_musics[name].pause();
-	else
-		m_mod_musics[name].pause();
+
+	if (!audio_engine.isValidVoiceHandle(m_musics_handle[name])) {
+		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", name));
+		return;
+	}
+	audio_engine.setPause(m_musics_handle[name], !audio_engine.getPause(m_musics_handle[name]));
 }
 void MusicManager::CleanUp() {
-	m_ogg_data.clear();
 	m_ogg_musics.clear();
 	m_mod_musics.clear();
+	m_musics_id.clear();
+	m_musics_handle.clear();
 }
-void MusicManager::SetMusicVolume(const std::string &name, const unsigned volume) {
+void MusicManager::SetMusicVolume(const std::string &name, const float volume) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
 	if (!m_musics_id[name])
 		m_ogg_musics[name].setVolume(volume);
 	else
-		m_mod_musics[name].setMasterVolume(volume);
+		m_mod_musics[name].setVolume(volume);
 }
 bool MusicManager::IsMusicPlaying(const std::string &name) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	if (!m_musics_id[name])
-		return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Playing;
-	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Playing;
+	return audio_engine.isValidVoiceHandle(m_musics_handle[name]);
 }
 bool MusicManager::IsMusicStopped(const std::string &name) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	if (!m_musics_id[name])
-		return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Stopped;
-	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Stopped;
+	return !audio_engine.isValidVoiceHandle(m_musics_handle[name]);
 }
 bool MusicManager::IsMusicPaused(const std::string &name) {
 	if (!m_musics_id.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	if (!m_musics_id[name])
-		return m_ogg_musics[name].getStatus() == sf::SoundSource::Status::Paused;
-	return m_mod_musics[name].getStatus() == sf::SoundSource::Status::Paused;
+
+	if (!audio_engine.isValidVoiceHandle(m_musics_handle[name])) {
+		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", name));
+		return false;
+	}
+	return audio_engine.getPause(m_musics_handle[name]);
 }

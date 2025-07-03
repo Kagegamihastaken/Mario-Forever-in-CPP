@@ -29,6 +29,8 @@
 //    distribution.                                                         //
 //////////////////////////////////////////////////////////////////////////////
 ///
+///
+/*
 #include <modplug.h>
 #include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 
@@ -341,3 +343,4 @@ void sfmod::Mod::onSeek(const sf::Time timeOffset)
 {
 	ModPlug_Seek(file_, static_cast<int>(timeOffset.asMilliseconds()));
 }
+*/

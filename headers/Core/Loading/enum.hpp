@@ -38,5 +38,7 @@ enum BroAIProjectileBehavior {HAMMER_BEHAVIOUR};
 //enum for MarioProjectile
 enum MarioProjectileType {FIREBALL};
 enum MarioProjectileBehavior {FIREBALL_BEHAVIOUR};
+//enum for Sound
+enum SoundEnvironment {OVERWORLD, UNDERGROUND};
 
 #endif // ENUM_HPP

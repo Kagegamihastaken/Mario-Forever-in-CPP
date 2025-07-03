@@ -2,8 +2,7 @@
 #ifndef SOUND_HPP
 #define SOUND_HPP
 
-#include "SoundManager.hpp"
+#include "Core/SoundManager.hpp"
 
-extern SoundManager Sounds;
 extern void SoundInit();
 #endif

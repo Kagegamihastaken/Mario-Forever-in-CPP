@@ -11,7 +11,10 @@
 #include "Core/Logging.hpp"
 #include "Core/Loading/Handler.hpp"
 #include <cpptrace/from_current.hpp>
-
+#include "Core/AudioEngine.hpp"
+#include "Core/Level.hpp"
+#include "Core/MusicManager.hpp"
+#include "Core/SoundManager.hpp"
 //#include "imgui.h"
 //#include "imgui-SFML.h"
 float alpha = 1.0f;
@@ -31,7 +34,8 @@ int WinMain() {
 		MFCPP::Log::InfoPrint("Current build in Release Mode");
 #endif
 		MFCPP::Log::InfoPrint(fmt::format("Version: {}", PROJECT_VERSION));
-
+		AudioEngineInit();
+		SoundManager::SoundManagerInit();
 		IOInit();
 		GameObjectInit();
 		//ImGui::SFML::Init(window);
@@ -53,8 +57,9 @@ int WinMain() {
 		//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
 		//}
 		//render.setStep(1.0f / 300.0f);
-		std::vector<int> vec(3);
+		AudioEnginePlay();
 		while (window.isOpen()) {
+			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));
 			//bool Updated = false;
 			while (const std::optional event = window.pollEvent()) {
 				//ImGui::SFML::ProcessEvent(window, *event);
@@ -65,7 +70,16 @@ int WinMain() {
 				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
 					if (keyPressed->code == sf::Keyboard::Key::Q) {
 						MFCPP::Log::InfoPrint("Pressed Q");
+						if (SoundManager::GetEnvironment() == OVERWORLD) {
+							SoundManager::SetEnvironment(UNDERGROUND);
+						}
+						else {
+							SoundManager::SetEnvironment(OVERWORLD);
+						}
 						//Updated = true;
+					}
+					else if (keyPressed->code == sf::Keyboard::Key::P) {
+						MusicManager::PauseMusic(getMusicLevelName());
 					}
 				}
 				GameObjectRetrieveEvent(event);
@@ -105,7 +119,7 @@ int WinMain() {
 			//rObject.clear();
 			//rObject.display();
 			//sf::Sprite Renderer(rObject.getTexture());
-			//render.addFrame();
+			//render.addFrame()
 			window.clear();
 			GameObjectDraw();
 			//window.draw(test);
@@ -124,6 +138,7 @@ int WinMain() {
 	}
 	SoundManager::CleanUp();
 	IODeinit();
+	AudioEngineDeInit();
 	std::exit(EXIT_SUCCESS);
 	//ImGui::SFML::Shutdown();
 }

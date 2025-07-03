@@ -6,6 +6,7 @@
 #include "Core/Scroll.hpp"
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/MusicManager.hpp"
 
 sf::Sprite playerEffect(tempTex);
 sf::Vector2f MarioEffectCurr;
@@ -40,8 +41,8 @@ void MarioEffectStatusUpdate(const float deltaTime) {
 }
 void ActiveMarioEffect() {
 	if (!EffectActive) {
-		Music.StopAllMusic();
-		Music.PlayMusic("MarioDeath");
+		MusicManager::StopAllMusic();
+		MusicManager::PlayMusic("MarioDeath");
 		EffectActive = true;
 		playerEffect.setPosition({ player.property.getPosition().x - 14.0f, player.property.getPosition().y - 30.0f });
 		MarioEffectCurr = MarioEffectPrev = playerEffect.getPosition();

@@ -7,9 +7,8 @@
 
 extern void IOInit();
 extern void IODeinit();
-extern void LoadTexture(sf::Texture& texture, const std::string &path);
-extern void LoadAudio(sf::SoundBuffer& soundBuffer, const std::string &path);
-extern void LoadLvl(std::string& lvl, const std::string &path);
-extern std::vector<uint8_t> GetFileDataInByte(const std::string &path);
-extern void LoadImageFile(sf::Image& image, const std::string &path);
+extern void LoadTexture(sf::Texture& texture, const std::filesystem::path &path);
+extern void LoadLvl(std::string& lvl, const std::filesystem::path &path);
+extern std::vector<uint8_t> GetFileDataInByte(const std::filesystem::path &path);
+extern void LoadImageFile(sf::Image& image, const std::filesystem::path &path);
 #endif

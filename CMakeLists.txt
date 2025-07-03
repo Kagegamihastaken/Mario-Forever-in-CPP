@@ -26,66 +26,103 @@ FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 3.0.1
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
         EXCLUDE_FROM_ALL
         SYSTEM)
 FetchContent_Declare(CTRE
         GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
         GIT_TAG v3.9.0
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 FetchContent_Declare(physfs
         GIT_REPOSITORY https://github.com/icculus/physfs.git
         GIT_TAG release-3.2.0
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 FetchContent_Declare(cpptrace
         GIT_REPOSITORY https://github.com/jeremy-rifkin/cpptrace.git
         GIT_TAG v1.0.2
         GIT_SHALLOW ON
-        SYSTEM
-)
-FetchContent_Declare(libmodplug
-        GIT_REPOSITORY https://github.com/Konstanty/libmodplug.git
-        GIT_TAG master
-        GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG 11.2.0
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 FetchContent_Declare(imgui
         GIT_REPOSITORY https://github.com/ocornut/imgui.git
         GIT_TAG v1.91.9b
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 FetchContent_Declare(imgui-sfml
         GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
         GIT_TAG v3.0
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 FetchContent_Declare(Boost
         GIT_REPOSITORY https://github.com/boostorg/boost.git
         GIT_TAG boost-1.88.0
         GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
+FetchContent_Declare(soloud
+        GIT_REPOSITORY https://github.com/jarikomppa/soloud.git
+        GIT_TAG RELEASE_20200207
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
         SYSTEM
 )
 #sfml
 message("Making dependencies available...")
 FetchContent_MakeAvailable(SFML CTRE physfs fmt cpptrace)
-#libmodplug
-set(MODPLUG_STATIC ON)
-set(MODPLUG_BUILD_SHARED OFF)
-if (MSVC)
-    set(HAVE_X87 ON)
+#soloud
+FetchContent_MakeAvailable(soloud)
+file(GLOB_RECURSE SOLOUD_SOURCES CONFIGURE_DEPENDS
+        "${soloud_SOURCE_DIR}/src/audiosource/*.cpp"
+        "${soloud_SOURCE_DIR}/src/audiosource/*.c"
+        "${soloud_SOURCE_DIR}/src/c_api/*.cpp"
+        "${soloud_SOURCE_DIR}/src/c_api/*.c"
+        "${soloud_SOURCE_DIR}/src/core/*.cpp"
+        "${soloud_SOURCE_DIR}/src/core/*.c"
+        "${soloud_SOURCE_DIR}/src/filter/*.cpp"
+        "${soloud_SOURCE_DIR}/src/filter/*.c"
+)
+if(WIN32)
+    file(GLOB_RECURSE SOLOUD_BACKEND
+            "${soloud_SOURCE_DIR}/src/backend/miniaudio/*.cpp"
+    )
+    set(SOLOUD_DEFINITIONS WITH_MINIAUDIO)
+else()
+    # You would need to add logic for other platforms here
+    # For example, for Linux with ALSA:
+    # file(GLOB SOLOUD_BACKEND_SOURCES "${soloud_SOURCE_DIR}/src/backend/alsa/*.cpp")
+    # set(SOLOUD_DEFINITIONS WITH_ALSA)
+    message(FATAL_ERROR "SoLoud build: No backend selected for this platform.")
 endif()
-FetchContent_MakeAvailable(libmodplug)
+add_library(soloud_library STATIC
+        ${SOLOUD_SOURCES}
+        ${SOLOUD_BACKEND}
+)
+target_include_directories(soloud_library PUBLIC
+        "${soloud_SOURCE_DIR}/include"
+        "${soloud_SOURCE_DIR}/src"
+)
+target_compile_definitions(soloud_library PRIVATE ${SOLOUD_DEFINITIONS})
+add_library(SoLoud::soloud ALIAS soloud_library)
+#libmodplug
 
 FetchContent_MakeAvailable(imgui)
 set(IMGUI_DIR ${imgui_SOURCE_DIR})
@@ -140,11 +177,6 @@ if(WIN32)
     endif()
     target_sources(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/Resource.rc")
 endif()
-# Set compiler definitions
-target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-        MODPLUG_STATIC
-        HAVE_X87
-)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -ffunction-sections -fdata-sections)
@@ -174,20 +206,18 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_CURRENT_SOURCE_DIR}/headers"
         "${CMAKE_CURRENT_BINARY_DIR}/config"
-        "${libmodplug_SOURCE_DIR}/src"
-        "${libmodplug_SOURCE_DIR}/src/libmodplug" # for headers in sources directory
 )
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Main
-    SFML::Audio SFML::Graphics SFML::System SFML::Window
-    physfs-static modplug ctre::ctre ImGui-SFML::ImGui-SFML
+    SFML::Graphics SFML::System SFML::Window
+    physfs-static ctre::ctre ImGui-SFML::ImGui-SFML
     Boost::container_hash Boost::uuid Boost::type_index
-    fmt::fmt cpptrace::cpptrace
+    fmt::fmt cpptrace::cpptrace SoLoud::soloud
 )
 
 # Link platform-specific system libraries
 if(WIN32)
-    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE gdi32 user32 shell32 ole32 uuid)
+    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE winmm gdi32 user32 shell32 ole32 uuid)
     if(MINGW)
         target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++)
         if (NOT DEVELOPMENT_BUILD)
@@ -197,6 +227,7 @@ if(WIN32)
 endif()
 
 # --- Post-Build and Debugger Settings ---
+# Copy the libopenmpt DLL to the executable's directory after a successful build
 #add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
 #        COMMAND ${CMAKE_COMMAND} -E copy_if_different
 #        "${CMAKE_CURRENT_SOURCE_DIR}/data.zip"

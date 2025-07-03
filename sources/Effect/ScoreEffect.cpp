@@ -78,7 +78,7 @@ void AddScoreEffect(const ScoreID id, float x, float y) {
 		Init.setTexture(ImageManager::GetTexture("Score_1UP"), true);
 		Init.setOrigin({ 14, 15 });
 		++Lives;
-		Sounds.PlaySound("1UP");
+		SoundManager::PlaySound("1UP");
 		break;
 	}
 	Init.setPosition({ x, y });

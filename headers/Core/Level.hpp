@@ -10,5 +10,6 @@ extern void Slopebuilding();
 extern void ExitGateBuilding();
 extern void ReadData(std::string_view path);
 extern float LevelWidth, LevelHeight;
+extern std::string getMusicLevelName();
 
 #endif // !LEVEL_HPP

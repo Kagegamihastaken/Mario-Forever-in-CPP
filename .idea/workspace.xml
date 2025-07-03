@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="38" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="63" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
   </component>
   <component name="CMakePresetLoader">{
@@ -20,80 +21,124 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="MFCPP" targetName="freetype" />
-      <config projectName="MFCPP" targetName="modplug" />
-      <config projectName="MFCPP" targetName="test_physfs" />
-      <config projectName="MFCPP" targetName="sfml-window" />
-      <config projectName="MFCPP" targetName="ogg" />
       <config projectName="MFCPP" targetName="vorbis" />
-      <config projectName="MFCPP" targetName="physfs" />
+      <config projectName="MFCPP" targetName="benchmark_residual" />
+      <config projectName="MFCPP" targetName="libzstd_static" />
       <config projectName="MFCPP" targetName="sfml-audio" />
-      <config projectName="MFCPP" targetName="sfml-network" />
-      <config projectName="MFCPP" targetName="sfml-system" />
+      <config projectName="MFCPP" targetName="soloud_library" />
+      <config projectName="MFCPP" targetName="ExperimentalTest" />
       <config projectName="MFCPP" targetName="vorbisenc" />
+      <config projectName="MFCPP" targetName="ExperimentalUpdate" />
+      <config projectName="MFCPP" targetName="NightlyUpdate" />
+      <config projectName="MFCPP" targetName="freetype" />
+      <config projectName="MFCPP" targetName="NightlyConfigure" />
+      <config projectName="MFCPP" targetName="ContinuousBuild" />
+      <config projectName="MFCPP" targetName="physfs" />
+      <config projectName="MFCPP" targetName="ContinuousStart" />
+      <config projectName="MFCPP" targetName="ImGui-SFML" />
+      <config projectName="MFCPP" targetName="ExperimentalMemCheck" />
+      <config projectName="MFCPP" targetName="NightlyTest" />
+      <config projectName="MFCPP" targetName="ContinuousCoverage" />
+      <config projectName="MFCPP" targetName="NightlyMemCheck" />
+      <config projectName="MFCPP" targetName="sfml-system" />
       <config projectName="MFCPP" targetName="physfs-static" />
-      <config projectName="MFCPP" targetName="vorbisfile" />
-      <config projectName="MFCPP" targetName="sfml-graphics" />
-      <config projectName="MFCPP" targetName="MFCPP" />
-      <config projectName="MFCPP" targetName="FLAC" />
+      <config projectName="MFCPP" targetName="ContinuousUpdate" />
       <config projectName="MFCPP" targetName="sfml-main" />
       <config projectName="MFCPP" targetName="docs" />
+      <config projectName="MFCPP" targetName="dwarf" />
+      <config projectName="MFCPP" targetName="NightlyMemoryCheck" />
+      <config projectName="MFCPP" targetName="NightlyStart" />
+      <config projectName="MFCPP" targetName="clean-all" />
+      <config projectName="MFCPP" targetName="ContinuousSubmit" />
+      <config projectName="MFCPP" targetName="uninstall" />
+      <config projectName="MFCPP" targetName="ContinuousTest" />
+      <config projectName="MFCPP" targetName="ContinuousMemCheck" />
+      <config projectName="MFCPP" targetName="ExperimentalCoverage" />
+      <config projectName="MFCPP" targetName="ExperimentalConfigure" />
+      <config projectName="MFCPP" targetName="sfml-graphics" />
+      <config projectName="MFCPP" targetName="ExperimentalBuild" />
+      <config projectName="MFCPP" targetName="FLAC" />
+      <config projectName="MFCPP" targetName="ExperimentalSubmit" />
+      <config projectName="MFCPP" targetName="test_physfs" />
+      <config projectName="MFCPP" targetName="fmt" />
+      <config projectName="MFCPP" targetName="sfml-window" />
+      <config projectName="MFCPP" targetName="ogg" />
+      <config projectName="MFCPP" targetName="NightlySubmit" />
+      <config projectName="MFCPP" targetName="ExperimentalStart" />
+      <config projectName="MFCPP" targetName="ContinuousConfigure" />
+      <config projectName="MFCPP" targetName="cpptrace-lib" />
+      <config projectName="MFCPP" targetName="sfml-network" />
+      <config projectName="MFCPP" targetName="Continuous" />
+      <config projectName="MFCPP" targetName="NightlyCoverage" />
+      <config projectName="MFCPP" targetName="Experimental" />
+      <config projectName="MFCPP" targetName="Nightly" />
+      <config projectName="MFCPP" targetName="vorbisfile" />
+      <config projectName="MFCPP" targetName="NightlyBuild" />
+      <config projectName="MFCPP" targetName="MFCPP" />
     </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Release-VS" ENABLED="true" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
-      <configuration PROFILE_NAME="Debug-VS" ENABLED="false" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="Release-VS" ENABLED="false" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="RelWithDebInfo-VS" ENABLED="false" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="RelWithDebInfo-MinGW" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="MinGW" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="cmake now dont use vcpkg">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="in progress converting to class">
+      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Core/AudioEngine.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/AudioEngine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/AnimationManager.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/LocalAnimationManager.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Background/Bg.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Background/BgGradient.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Absorel.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Absorel.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/BasicClock.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/BasicClock.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Continuum.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Continuum.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Duration.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Duration.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/FpsLite.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/FpsLite.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Stopwatch.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Stopwatch.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timer.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timer.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timestep.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Timestep.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/TimestepLite.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/TimestepLite.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Yalpes.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/Yalpes.inl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/Kairos/all.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/Error.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Scroll.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/TextureManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/TextureManager.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/AnimationManager.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Bg.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/BgGradient.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/CoinEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/CoinEffect.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/GoombaAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/GoombaAIEffect.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Loading.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Loading.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Scroll.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/TextureManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/TextureManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/WindowFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/levels/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/lvl1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/1up.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/1up.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/break.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/break.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/bump.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/bump.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/bump2.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/coin.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/coin.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/fireball.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/fireball.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/hammer.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/hammer.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/jump.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/jump.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/pipe.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/pipe.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/powerup.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/powerup.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/stomp.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/stomp.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/vine.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/vine.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Level.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Level.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/Loading.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/Loading.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Music.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Music.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/MusicManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/MusicManager.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Sound.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Sound.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/SoundManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/SoundManager.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/ExternalHeaders/sfMod/sfMod.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ExternalHeaders/sfMod/sfMod.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Loading/Loading.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Loading/Loading.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Music.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Music.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Sound.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Sound.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/MarioEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/MarioEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/ExitGate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/ExitGate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +148,14 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release-VS" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-MinGW" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -120,10 +172,17 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/sfml-src/extlibs/headers/miniaudio/miniaudio.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/soloud-src/src/backend/vita_homebrew/soloud_vita_homebrew.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/soloud-src/src/filter/soloud_freeverbfilter.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Game.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Scene.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Scroll.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/WindowFrame.hpp" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -143,6 +202,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;C/C++ File.Source.cpp.executor&quot;: &quot;Run&quot;,
     &quot;CMake Application.MFCPP.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
@@ -155,6 +215,7 @@
     &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/source/repos/Mario-Forever-in-CPP&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -165,111 +226,320 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\source\repos\MFCPP\headers\Core" />
+      <recent name="D:\source\repos\MFCPP\headers\Class" />
+    </key>
+  </component>
   <component name="RunManager" selected="CMake Application.MFCPP">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FLAC" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="FLAC" CONFIG_NAME="Release-VS">
+    <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Continuous" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MFCPP" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="MFCPP" CONFIG_NAME="Release-VS" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="MFCPP">
+    <configuration name="ContinuousBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousBuild" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="docs" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousConfigure" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="freetype" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="freetype" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousCoverage" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="modplug" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="modplug" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousMemCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ogg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ogg" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousStart" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="physfs-static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs-static" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousSubmit" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousTest" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-audio" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-audio" CONFIG_NAME="Release-VS">
+    <configuration name="ContinuousUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousUpdate" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-graphics" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-graphics" CONFIG_NAME="Release-VS">
+    <configuration name="Experimental" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Experimental" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-main" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalBuild" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-network" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-network" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalConfigure" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-system" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-system" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalCoverage" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-window" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-window" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalMemCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test_physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="test_physfs" CONFIG_NAME="Release-VS" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="test_physfs">
+    <configuration name="ExperimentalStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalStart" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vorbis" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbis" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalSubmit" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vorbisenc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisenc" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalTest" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vorbisfile" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisfile" CONFIG_NAME="Release-VS">
+    <configuration name="ExperimentalUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalUpdate" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FLAC" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="FLAC" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImGui-SFML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGui-SFML" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Nightly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Nightly" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyBuild" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyConfigure" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyCoverage" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyMemCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemoryCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyMemoryCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyStart" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlySubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlySubmit" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyTest" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyUpdate" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="benchmark_residual" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="benchmark_residual" CONFIG_NAME="RelWithDebInfo-MinGW" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="benchmark_residual">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="clean-all" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="clean-all" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="cpptrace-lib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="cpptrace-lib" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="docs" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dwarf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="dwarf" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="fmt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="fmt" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="freetype" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="freetype" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="libzstd_static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="libzstd_static" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ogg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ogg" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="physfs-static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs-static" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-audio" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-audio" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-graphics" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-graphics" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-main" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-network" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-network" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-system" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-system" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sfml-window" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-window" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="soloud_library" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="soloud_library" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="test_physfs" CONFIG_NAME="RelWithDebInfo-MinGW" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="test_physfs">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="uninstall" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbis" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbis" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbisenc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisenc" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbisfile" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisfile" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.docs" />
+      <item itemvalue="CMake Application.ContinuousBuild" />
+      <item itemvalue="CMake Application.ContinuousConfigure" />
+      <item itemvalue="CMake Application.ContinuousCoverage" />
+      <item itemvalue="CMake Application.ContinuousMemCheck" />
+      <item itemvalue="CMake Application.ContinuousStart" />
+      <item itemvalue="CMake Application.ContinuousSubmit" />
+      <item itemvalue="CMake Application.ContinuousTest" />
+      <item itemvalue="CMake Application.ContinuousUpdate" />
+      <item itemvalue="CMake Application.Continuous" />
+      <item itemvalue="CMake Application.ExperimentalBuild" />
+      <item itemvalue="CMake Application.ExperimentalConfigure" />
+      <item itemvalue="CMake Application.ExperimentalCoverage" />
+      <item itemvalue="CMake Application.ExperimentalMemCheck" />
+      <item itemvalue="CMake Application.ExperimentalStart" />
+      <item itemvalue="CMake Application.ExperimentalSubmit" />
+      <item itemvalue="CMake Application.ExperimentalTest" />
+      <item itemvalue="CMake Application.ExperimentalUpdate" />
+      <item itemvalue="CMake Application.Experimental" />
       <item itemvalue="CMake Application.FLAC" />
+      <item itemvalue="CMake Application.fmt" />
+      <item itemvalue="CMake Application.ImGui-SFML" />
+      <item itemvalue="CMake Application.dwarf" />
       <item itemvalue="CMake Application.MFCPP" />
-      <item itemvalue="CMake Application.modplug" />
+      <item itemvalue="CMake Application.soloud_library" />
+      <item itemvalue="CMake Application.cpptrace-lib" />
+      <item itemvalue="CMake Application.NightlyBuild" />
+      <item itemvalue="CMake Application.NightlyConfigure" />
+      <item itemvalue="CMake Application.NightlyCoverage" />
+      <item itemvalue="CMake Application.NightlyMemCheck" />
+      <item itemvalue="CMake Application.NightlyMemoryCheck" />
+      <item itemvalue="CMake Application.NightlyStart" />
+      <item itemvalue="CMake Application.NightlySubmit" />
+      <item itemvalue="CMake Application.NightlyTest" />
+      <item itemvalue="CMake Application.NightlyUpdate" />
+      <item itemvalue="CMake Application.benchmark_residual" />
+      <item itemvalue="CMake Application.Nightly" />
+      <item itemvalue="CMake Application.docs" />
       <item itemvalue="CMake Application.freetype" />
       <item itemvalue="CMake Application.ogg" />
-      <item itemvalue="CMake Application.physfs" />
       <item itemvalue="CMake Application.physfs-static" />
+      <item itemvalue="CMake Application.physfs" />
       <item itemvalue="CMake Application.sfml-audio" />
       <item itemvalue="CMake Application.sfml-graphics" />
       <item itemvalue="CMake Application.sfml-main" />
@@ -280,6 +550,9 @@
       <item itemvalue="CMake Application.vorbis" />
       <item itemvalue="CMake Application.vorbisenc" />
       <item itemvalue="CMake Application.vorbisfile" />
+      <item itemvalue="CMake Application.clean-all" />
+      <item itemvalue="CMake Application.libzstd_static" />
+      <item itemvalue="CMake Application.uninstall" />
     </list>
   </component>
   <component name="TaskManager">
@@ -297,7 +570,157 @@
       <workItem from="1746886513444" duration="294000" />
       <workItem from="1746889135980" duration="6525000" />
       <workItem from="1746927059663" duration="13925000" />
-      <workItem from="1746963662156" duration="672000" />
+      <workItem from="1746963662156" duration="1535000" />
+      <workItem from="1746968132983" duration="4352000" />
+      <workItem from="1747026192545" duration="17016000" />
+      <workItem from="1747048779826" duration="3531000" />
+      <workItem from="1747060839142" duration="4051000" />
+      <workItem from="1747113467121" duration="4007000" />
+      <workItem from="1747130605582" duration="895000" />
+      <workItem from="1747207283287" duration="1961000" />
+      <workItem from="1747209449419" duration="5252000" />
+      <workItem from="1747225714091" duration="388000" />
+      <workItem from="1747290597752" duration="6626000" />
+      <workItem from="1747301912656" duration="3986000" />
+      <workItem from="1747377120418" duration="1937000" />
+      <workItem from="1747380142163" duration="4719000" />
+      <workItem from="1747402032885" duration="161000" />
+      <workItem from="1747403797911" duration="1197000" />
+      <workItem from="1747572217802" duration="600000" />
+      <workItem from="1747654714914" duration="1266000" />
+      <workItem from="1747671930863" duration="224000" />
+      <workItem from="1747712557827" duration="71000" />
+      <workItem from="1747715878565" duration="967000" />
+      <workItem from="1747792812201" duration="12397000" />
+      <workItem from="1747818375299" duration="4462000" />
+      <workItem from="1747829110084" duration="2335000" />
+      <workItem from="1747877608299" duration="5432000" />
+      <workItem from="1747897162903" duration="6617000" />
+      <workItem from="1747906873822" duration="442000" />
+      <workItem from="1747907343099" duration="1997000" />
+      <workItem from="1747971046913" duration="3516000" />
+      <workItem from="1748055862247" duration="11306000" />
+      <workItem from="1748095165210" duration="540000" />
+      <workItem from="1748135455294" duration="328000" />
+      <workItem from="1748235726351" duration="406000" />
+      <workItem from="1748241979477" duration="3380000" />
+      <workItem from="1748253718088" duration="2039000" />
+      <workItem from="1748270002550" duration="1617000" />
+      <workItem from="1748304877022" duration="6361000" />
+      <workItem from="1748311420784" duration="668000" />
+      <workItem from="1748313322338" duration="7396000" />
+      <workItem from="1748345171058" duration="5084000" />
+      <workItem from="1748360244630" duration="4145000" />
+      <workItem from="1748390776303" duration="4250000" />
+      <workItem from="1748399503597" duration="3366000" />
+      <workItem from="1748432568793" duration="867000" />
+      <workItem from="1748482109752" duration="6692000" />
+      <workItem from="1748524976400" duration="12000" />
+      <workItem from="1748532482939" duration="2000" />
+      <workItem from="1748570737186" duration="5465000" />
+      <workItem from="1748586421590" duration="13078000" />
+      <workItem from="1748611848253" duration="1011000" />
+      <workItem from="1748617137356" duration="3751000" />
+      <workItem from="1748650622979" duration="14104000" />
+      <workItem from="1748670476990" duration="9610000" />
+      <workItem from="1748700773766" duration="695000" />
+      <workItem from="1748710157369" duration="1175000" />
+      <workItem from="1748743715762" duration="393000" />
+      <workItem from="1748778774426" duration="711000" />
+      <workItem from="1748785552366" duration="2221000" />
+      <workItem from="1748827249549" duration="1459000" />
+      <workItem from="1748875832283" duration="1000" />
+      <workItem from="1748913655688" duration="1406000" />
+      <workItem from="1748923212185" duration="9668000" />
+      <workItem from="1748944933659" duration="10183000" />
+      <workItem from="1748997761061" duration="2012000" />
+      <workItem from="1749000794662" duration="8705000" />
+      <workItem from="1749024771831" duration="6725000" />
+      <workItem from="1749039723551" duration="8196000" />
+      <workItem from="1749090222403" duration="13406000" />
+      <workItem from="1749128367665" duration="1514000" />
+      <workItem from="1749180791725" duration="3047000" />
+      <workItem from="1749274440248" duration="8666000" />
+      <workItem from="1749290780606" duration="2083000" />
+      <workItem from="1749296786883" duration="597000" />
+      <workItem from="1749310923803" duration="1535000" />
+      <workItem from="1749386860283" duration="5784000" />
+      <workItem from="1749397419635" duration="4386000" />
+      <workItem from="1749434629790" duration="10221000" />
+      <workItem from="1749520043595" duration="4287000" />
+      <workItem from="1749572807580" duration="1074000" />
+      <workItem from="1749604698984" duration="10657000" />
+      <workItem from="1749623082838" duration="8646000" />
+      <workItem from="1749649800762" duration="9004000" />
+      <workItem from="1749689792434" duration="7090000" />
+      <workItem from="1749701748898" duration="4972000" />
+      <workItem from="1749716424181" duration="12958000" />
+      <workItem from="1749746330158" duration="287000" />
+      <workItem from="1749783537398" duration="4339000" />
+      <workItem from="1749863598748" duration="13382000" />
+      <workItem from="1749894853574" duration="250000" />
+      <workItem from="1749896213522" duration="1077000" />
+      <workItem from="1749901391573" duration="2925000" />
+      <workItem from="1749949719779" duration="7500000" />
+      <workItem from="1749960680515" duration="654000" />
+      <workItem from="1749982575551" duration="1360000" />
+      <workItem from="1749995207788" duration="2258000" />
+      <workItem from="1750040435902" duration="1401000" />
+      <workItem from="1750081286027" duration="2857000" />
+      <workItem from="1750086171450" duration="752000" />
+      <workItem from="1750132962273" duration="3077000" />
+      <workItem from="1750139472152" duration="1754000" />
+      <workItem from="1750153602475" duration="9535000" />
+      <workItem from="1750172044612" duration="87000" />
+      <workItem from="1750175938350" duration="3028000" />
+      <workItem from="1750207374605" duration="1248000" />
+      <workItem from="1750210841983" duration="3726000" />
+      <workItem from="1750216465644" duration="6727000" />
+      <workItem from="1750255518554" duration="3159000" />
+      <workItem from="1750302711104" duration="20866000" />
+      <workItem from="1750391079574" duration="2934000" />
+      <workItem from="1750400850192" duration="14518000" />
+      <workItem from="1750470261132" duration="28288000" />
+      <workItem from="1750519656454" duration="1269000" />
+      <workItem from="1750559700651" duration="35024000" />
+      <workItem from="1750641507237" duration="10345000" />
+      <workItem from="1750671112570" duration="4075000" />
+      <workItem from="1750740776669" duration="10060000" />
+      <workItem from="1750760817547" duration="595000" />
+      <workItem from="1750772800659" duration="141000" />
+      <workItem from="1750773948490" duration="6705000" />
+      <workItem from="1750781130139" duration="212000" />
+      <workItem from="1750814238333" duration="4765000" />
+      <workItem from="1750833494522" duration="12234000" />
+      <workItem from="1750846917417" duration="763000" />
+      <workItem from="1750865127091" duration="1679000" />
+      <workItem from="1750901897099" duration="2095000" />
+      <workItem from="1750914168948" duration="12257000" />
+      <workItem from="1750949271267" duration="7709000" />
+      <workItem from="1750993628973" duration="7565000" />
+      <workItem from="1751004038823" duration="5647000" />
+      <workItem from="1751032641599" duration="6559000" />
+      <workItem from="1751041099235" duration="1479000" />
+      <workItem from="1751073534486" duration="4480000" />
+      <workItem from="1751079158196" duration="212000" />
+      <workItem from="1751109910136" duration="15024000" />
+      <workItem from="1751129848914" duration="3136000" />
+      <workItem from="1751163409367" duration="4634000" />
+      <workItem from="1751168162068" duration="13890000" />
+      <workItem from="1751207479091" duration="9986000" />
+      <workItem from="1751248458105" duration="3373000" />
+      <workItem from="1751251921320" duration="4274000" />
+      <workItem from="1751272156933" duration="8351000" />
+      <workItem from="1751282518450" duration="3336000" />
+      <workItem from="1751287724185" duration="9911000" />
+      <workItem from="1751333102218" duration="26889000" />
+      <workItem from="1751365298827" duration="979000" />
+      <workItem from="1751381107868" duration="2682000" />
+      <workItem from="1751385885190" duration="4235000" />
+      <workItem from="1751422390765" duration="28123000" />
+      <workItem from="1751475628581" duration="649000" />
+      <workItem from="1751505801998" duration="307000" />
+      <workItem from="1751513294173" duration="389000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -315,7 +738,271 @@
       <option name="project" value="LOCAL" />
       <updated>1746894062630</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix crash when using debug on msvc">
+      <option name="closed" value="true" />
+      <created>1746964394793</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1746964394793</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added find string by regex and cleanup code. Fixed bump GoombaAI not dead">
+      <option name="closed" value="true" />
+      <created>1747044135892</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1747044135892</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added imgui-sfml (require imgui and sfml), fixed code">
+      <option name="closed" value="true" />
+      <created>1747115877641</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1747115877641</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fixed view seems glitching">
+      <option name="closed" value="true" />
+      <created>1747296874276</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1747296874276</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fixed view seems glitching">
+      <option name="closed" value="true" />
+      <created>1747296930084</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1747296930084</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix some silly bug">
+      <option name="closed" value="true" />
+      <created>1747821336473</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1747821336473</updated>
+    </task>
+    <task id="LOCAL-00009" summary="improve coding structure for PiranhaAI">
+      <option name="closed" value="true" />
+      <created>1747905936298</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1747905936298</updated>
+    </task>
+    <task id="LOCAL-00010" summary="GoombaAI collision more accurate &amp; implement some Editor feature">
+      <option name="closed" value="true" />
+      <created>1748311857457</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748311857457</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Optimize a bit performance">
+      <option name="closed" value="true" />
+      <created>1748487857958</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1748487857958</updated>
+    </task>
+    <task id="LOCAL-00012" summary="improve rendering a bit">
+      <option name="closed" value="true" />
+      <created>1748664739623</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1748664739623</updated>
+    </task>
+    <task id="LOCAL-00013" summary="optimized renderer for more smooth">
+      <option name="closed" value="true" />
+      <created>1748679084751</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1748679084751</updated>
+    </task>
+    <task id="LOCAL-00014" summary="optimize animation">
+      <option name="closed" value="true" />
+      <created>1748929218919</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1748929218919</updated>
+    </task>
+    <task id="LOCAL-00015" summary="improve some window stuff &amp; fix collision between GoombaAI">
+      <option name="closed" value="true" />
+      <created>1748958500738</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1748958500738</updated>
+    </task>
+    <task id="LOCAL-00016" summary="edit coding structure &amp; implement some mechanic to editor">
+      <option name="closed" value="true" />
+      <created>1749642016265</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1749642016265</updated>
+    </task>
+    <task id="LOCAL-00017" summary="quick fix GoombaAI bug">
+      <option name="closed" value="true" />
+      <created>1749734501642</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1749734501642</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added SelectTile Function">
+      <option name="closed" value="true" />
+      <created>1749957266402</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1749957266402</updated>
+    </task>
+    <task id="LOCAL-00019" summary="more proper implement Select Tile Page">
+      <option name="closed" value="true" />
+      <created>1749997412599</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1749997412599</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added select tile category">
+      <option name="closed" value="true" />
+      <created>1750163784410</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1750163784410</updated>
+    </task>
+    <task id="LOCAL-00021" summary="added Enemy Tab and Level tab in Editor">
+      <option name="closed" value="true" />
+      <created>1750247623292</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1750247623292</updated>
+    </task>
+    <task id="LOCAL-00022" summary="added Save and Load level in editor, now GAMEPLAY scene load file from editor. Lastly fix crash when no Obstacles on screen">
+      <option name="closed" value="true" />
+      <created>1750323684320</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1750323684320</updated>
+    </task>
+    <task id="LOCAL-00023" summary="more improve coding structure for GoombaAIEffect">
+      <option name="closed" value="true" />
+      <created>1750430506648</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1750430506648</updated>
+    </task>
+    <task id="LOCAL-00024" summary="added the MOST basic movement for BroAI">
+      <option name="closed" value="true" />
+      <created>1750515927081</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1750515927081</updated>
+    </task>
+    <task id="LOCAL-00025" summary="forgot the ceil collision for broAI">
+      <option name="closed" value="true" />
+      <created>1750517109042</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1750517109042</updated>
+    </task>
+    <task id="LOCAL-00026" summary="added more to BroAI">
+      <option name="closed" value="true" />
+      <created>1750609990757</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1750609990758</updated>
+    </task>
+    <task id="LOCAL-00027" summary="completed BroAI">
+      <option name="closed" value="true" />
+      <created>1750654998101</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1750654998101</updated>
+    </task>
+    <task id="LOCAL-00028" summary="functional FireMario">
+      <option name="closed" value="true" />
+      <created>1750751687895</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1750751687895</updated>
+    </task>
+    <task id="LOCAL-00029" summary="completed FireFLower &amp; FireMario">
+      <option name="closed" value="true" />
+      <created>1750780709136</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1750780709136</updated>
+    </task>
+    <task id="LOCAL-00030" summary="cmake change">
+      <option name="closed" value="true" />
+      <created>1750847008637</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1750847008637</updated>
+    </task>
+    <task id="LOCAL-00031" summary="fix static linking in mingw &amp; improve collision for better performance">
+      <option name="closed" value="true" />
+      <created>1751009928964</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1751009928964</updated>
+    </task>
+    <task id="LOCAL-00032" summary="fixing bug, will optimize render performance">
+      <option name="closed" value="true" />
+      <created>1751040669181</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1751040669181</updated>
+    </task>
+    <task id="LOCAL-00033" summary="refactor sources folder">
+      <option name="closed" value="true" />
+      <created>1751077192776</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1751077192776</updated>
+    </task>
+    <task id="LOCAL-00034" summary="logging implement and revamp error handling (thanks to fmt &amp; cpptrace library)">
+      <option name="closed" value="true" />
+      <created>1751133000304</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1751133000304</updated>
+    </task>
+    <task id="LOCAL-00035" summary="in progress converting to class">
+      <option name="closed" value="true" />
+      <created>1751279191691</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1751279191691</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,8 +1025,255 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="restructure project (Now use cmake)" />
-    <MESSAGE value="cmake now dont use vcpkg" />
-    <option name="LAST_COMMIT_MESSAGE" value="cmake now dont use vcpkg" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/sfml-src" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/vorbis-src" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/ctre-src" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/imgui-sfml-src" />
+      <path value="$PROJECT_DIR$/libs/preprocessor" />
+      <path value="$PROJECT_DIR$/libs/predef" />
+      <path value="$PROJECT_DIR$/libs/poly_collection" />
+      <path value="$PROJECT_DIR$/libs/pool" />
+      <path value="$PROJECT_DIR$/libs/process" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/physfs-src" />
+      <path value="$PROJECT_DIR$/libs/phoenix" />
+      <path value="$PROJECT_DIR$/libs/polygon" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/ogg-src" />
+      <path value="$PROJECT_DIR$/libs/program_options" />
+      <path value="$PROJECT_DIR$/libs/property_map_parallel" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/imgui-src" />
+      <path value="$PROJECT_DIR$/libs/parser" />
+      <path value="$PROJECT_DIR$/libs/parameter_python" />
+      <path value="$PROJECT_DIR$/libs/property_map" />
+      <path value="$PROJECT_DIR$/libs/pfr" />
+      <path value="$PROJECT_DIR$/libs/ratio" />
+      <path value="$PROJECT_DIR$/libs/rational" />
+      <path value="$PROJECT_DIR$/libs/range" />
+      <path value="$PROJECT_DIR$/libs/random" />
+      <path value="$PROJECT_DIR$/libs/signals2" />
+      <path value="$PROJECT_DIR$/libs/redis" />
+      <path value="$PROJECT_DIR$/libs/smart_ptr" />
+      <path value="$PROJECT_DIR$/libs/python" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/freetype-src" />
+      <path value="$PROJECT_DIR$/libs/property_tree" />
+      <path value="$PROJECT_DIR$/libs/qvm" />
+      <path value="$PROJECT_DIR$/libs/serialization" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/libmodplug-src" />
+      <path value="$PROJECT_DIR$/libs/scope" />
+      <path value="$PROJECT_DIR$/libs/scope_exit" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/flac-src" />
+      <path value="$PROJECT_DIR$/libs/regex" />
+      <path value="$PROJECT_DIR$/libs/ptr_container" />
+      <path value="$PROJECT_DIR$/libs/proto" />
+      <path value="$PROJECT_DIR$/libs/safe_numerics" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/freetype-src/subprojects/dlg" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/io" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/histogram" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/utility" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/graph_parallel" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/dll" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/math" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/detail" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/qvm" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/bimap" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/exception" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/predef" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/rational" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/core" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/poly_collection" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/flyweight" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/xpressive" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/describe" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/type_index" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/compat" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/process" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/more" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/bcp" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/boostbook" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/auto_index" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/docca" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/check_build" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/cmake" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/boost_install" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/build" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/boostdep" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/boostlook" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/quickbook" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/litre" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/tools/inspect" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/assert" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/redis" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda2" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/python" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/leaf" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/compute" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/scope_exit" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/cobalt" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/array" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/numeric/ublas" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/numeric/interval" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/numeric/odeint" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/numeric/conversion" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/config" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/polygon" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/multiprecision" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/endian" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/parser" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/vmd" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/ratio" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/circular_buffer" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/mpl" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/algorithm" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/tti" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/mqtt5" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/container_hash" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/stacktrace" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/throw_exception" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/ptr_container" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/outcome" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/signals2" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/gil" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/optional" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/function" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/tuple" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/assign" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/bind" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/test" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/variant" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/tokenizer" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/locale" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/align" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/mp11" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/headers" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/static_assert" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/parameter" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/any" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/msm" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/fiber" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/scope" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/wave" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/foreach" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/format" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/pool" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/convert" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/timer" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/accumulators" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/intrusive" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/metaparse" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/graph" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/proto" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/log" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/charconv" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/program_options" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/iostreams" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/units" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/unordered" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/functional" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/dynamic_bitset" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/pfr" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/heap" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/serialization" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/mysql" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/local_function" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/fusion" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/iterator" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/coroutine2" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/hash2" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/multi_array" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/url" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/safe_numerics" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/conversion" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/regex" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/preprocessor" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/crc" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/yap" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/uuid" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/move" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/beast" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/asio" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/hof" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/icl" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/spirit" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/phoenix" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/property_tree" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/range" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/mpi" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/context" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/sort" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lockfree" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/coroutine" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/filesystem" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/geometry" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lexical_cast" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/function_types" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/property_map" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/interprocess" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/parameter_python" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/stl_interfaces" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/statechart" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/smart_ptr" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/system" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/variant2" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/atomic" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/property_map_parallel" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/concept_check" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/hana" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/multi_index" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/container" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/type_erasure" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/nowide" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/chrono" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/logic" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/callable_traits" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/integer" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/static_string" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/type_traits" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/contract" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/winapi" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/random" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/typeof" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/json" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/thread" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
+      <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
+    </ignored-roots>
+    <MESSAGE value="Optimize a bit performance" />
+    <MESSAGE value="improve rendering a bit" />
+    <MESSAGE value="optimized renderer for more smooth" />
+    <MESSAGE value="optimize animation" />
+    <MESSAGE value="improve some window stuff &amp; fix collision between GoombaAI" />
+    <MESSAGE value="edit coding structure &amp; implement some mechanic to editor" />
+    <MESSAGE value="quick fix GoombaAI bug" />
+    <MESSAGE value="added SelectTile Function" />
+    <MESSAGE value="more proper implement Select Tile Page" />
+    <MESSAGE value="added select tile category" />
+    <MESSAGE value="added Enemy Tab and Level tab in Editor" />
+    <MESSAGE value="added Save and Load level in editor, now GAMEPLAY scene load file from editor. Lastly fix crash when no Obstacles on screen" />
+    <MESSAGE value="more improve coding structure for GoombaAIEffect" />
+    <MESSAGE value="added the MOST basic movement for BroAI" />
+    <MESSAGE value="forgot the ceil collision for broAI" />
+    <MESSAGE value="added more to BroAI" />
+    <MESSAGE value="completed BroAI" />
+    <MESSAGE value="functional FireMario" />
+    <MESSAGE value="completed FireFLower &amp; FireMario" />
+    <MESSAGE value="cmake change" />
+    <MESSAGE value="fix static linking in mingw &amp; improve collision for better performance" />
+    <MESSAGE value="fixing bug, will optimize render performance" />
+    <MESSAGE value="refactor sources folder" />
+    <MESSAGE value="logging implement and revamp error handling (thanks to fmt &amp; cpptrace library)" />
+    <MESSAGE value="in progress converting to class" />
+    <option name="LAST_COMMIT_MESSAGE" value="in progress converting to class" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="window" language="C++" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
