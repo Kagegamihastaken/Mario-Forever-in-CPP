@@ -15,7 +15,7 @@ bool isDebug = false;
 #endif
 float Width = GAME_WIDTH, Height = GAME_HEIGHT;
 sf::RenderWindow window;
-sf::RenderTexture rObject({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
+sf::RenderTexture rObject;
 static bool OPTION_SMOOTH = true;
 static bool OPTION_VSYNC = false;
 static bool OPTION_FULLSCREEN = false;
@@ -66,6 +66,8 @@ static std::vector<std::string> CoinHUDAnimName;
 static constexpr int COINHUD_IMAGE_WIDTH = 86;
 static constexpr int COINHUD_WIDTH = 28;
 static constexpr int COINHUD_HEIGHT = 16;
+
+static sf::ContextSettings setting;
 namespace Window {
 	static sf::VideoMode WindowGetVideoMode() {
 		if (!OPTION_FULLSCREEN) {
@@ -103,13 +105,13 @@ namespace Window {
 		 *
 		*/
 		if (PREV_OPTION_FULLSCREEN != OPTION_FULLSCREEN) {
-			window.create(WindowGetVideoMode(), PROGRAM_NAME, OPTION_FULLSCREEN ? sf::State::Fullscreen : sf::State::Windowed );
+			window.create(WindowGetVideoMode(), PROGRAM_NAME, OPTION_FULLSCREEN ? sf::State::Fullscreen : sf::State::Windowed, setting );
 		}
 		else {
-			if (mode == 1) window.create(WindowGetVideoMode(), PROGRAM_NAME, OPTION_FULLSCREEN ? sf::State::Fullscreen : sf::State::Windowed);
+			if (mode == 1) window.create(WindowGetVideoMode(), PROGRAM_NAME, OPTION_FULLSCREEN ? sf::State::Fullscreen : sf::State::Windowed, setting);
 			else if (mode == 2) {
 				if (!OPTION_FULLSCREEN) window.setSize(WindowGetVideoMode().size);
-				else window.create(WindowGetVideoMode(), PROGRAM_NAME, sf::State::Fullscreen);
+				else window.create(WindowGetVideoMode(), PROGRAM_NAME, sf::State::Fullscreen, setting);
 			}
 		}
 		PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
@@ -151,16 +153,14 @@ void windowInit() {
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);
 
-	ImageManager::AddImage("MarioHUDImage", "data/resources/MarioHUD.png");
-	ImageManager::AddTexture("MarioHUDImage", "MarioHUD");
-	ImageManager::AddImage("CoinHUDImage", "data/resources/CoinHUD.png");
+	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");
 	for (int i = 0; i < COINHUD_IMAGE_WIDTH / COINHUD_WIDTH; i++) {
-		ImageManager::AddTexture("CoinHUDImage", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }), "CoinHUD_" + std::to_string(i));
-		CoinHUDAnimName.emplace_back("CoinHUD_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
+		CoinHUDAnimName.emplace_back(fmt::format("CoinHUD_{}", i));
 	}
 	CoinHUD.setTexture(ImageManager::GetTexture("CoinHUD_0"), true);
 	CoinHUDAnim.setAnimation(0, 2, 16);
-	CoinHUDAnim.setAnimationSequence(CoinHUDAnimName, CoinHUDAnimName);
+	CoinHUDAnim.setAnimationSequence(CoinHUDAnimName);
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
 	//rObject.setRepeated(true);

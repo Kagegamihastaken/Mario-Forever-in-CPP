@@ -403,10 +403,8 @@ void ReadData(std::string path) {
 }
 */
 void Obstaclebuilding() {
-	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)})) {
-		std::cout << "Cannot resize Obstacles Texture\n";
-		return;
-	}
+	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)}))
+		throw std::runtime_error("Cannot resize Obstacles Texture");
 
 	MFCPP::setTileMapSize(LevelWidth, LevelHeight);
 
@@ -490,10 +488,11 @@ void ExitGateBuilding() {
 void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Musicial
-
+	/*
 	if (MusicManager::IsMusicPlaying(MusicData)) MusicManager::StopMusic(MusicData);
 	MusicManager::SetLoop(MusicData, true);
 	MusicManager::PlayMusic(MusicData);
+	*/
 
 	player.property.setPosition({ PlayerData[0], PlayerData[1] + 7.f });
 	player.curr = player.prev = player.property.getPosition();

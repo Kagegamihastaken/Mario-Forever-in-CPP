@@ -11,9 +11,7 @@
 std::vector<MFCPP::BroAIProjectile> BroAIProjectileList;
 
 void BroAIProjectileInit() {
-    ImageManager::AddImage("HammerImage", "data/resources/Projectiles/Hammer.png");
-    ImageManager::AddTexture("HammerImage", "HammerRight");
-    ImageManager::AddTexture("HammerImage", "HammerLeft", false, true);
+    ImageManager::AddTexture("Hammer", "data/resources/Projectiles/Hammer.png");
 }
 void SetPrevBroAIProjectilePos() {
     for (auto & i : BroAIProjectileList) {
@@ -63,8 +61,7 @@ void AddBroAIProjectile(const bool direction, const BroAIProjectileType type, co
     switch (type) {
         case BroAIProjectileType::HAMMER:
             BroAIProjectileList.emplace_back(direction, type, HAMMER_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {24.f, 24.f}), sf::Vector2f(x, y), sf::Vector2f(13, 18));
-            if (direction) BroAIProjectileList.back().setTexture("HammerLeft");
-            else BroAIProjectileList.back().setTexture("HammerRight");
+            BroAIProjectileList.back().setTexture("Hammer", direction);
             break;
         default: ;
     }

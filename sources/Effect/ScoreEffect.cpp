@@ -15,15 +15,14 @@ std::vector<sf::Vector2f> ScoreEffectCurr;
 std::vector<sf::Vector2f> ScoreEffectPrev;
 
 void ScoreEffectInit() {
-	ImageManager::AddImage("ScoreTextureImage", "data/resources/Score.png");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 0 }, { 26, 16 }), "Score_100");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 16 }, { 28, 16 }), "Score_200");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 32 }, { 28, 16 }), "Score_500");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 48 }, { 34, 16 }), "Score_1000");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 64 }, { 35, 16 }), "Score_2000");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 80 }, { 36, 16 }), "Score_5000");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 96 }, { 42, 16 }), "Score_10000");
-	ImageManager::AddTexture("ScoreTextureImage", sf::IntRect({ 0, 112 }, { 32, 16 }), "Score_1UP");
+	ImageManager::AddTexture("Score_100", "data/resources/Score.png", sf::IntRect({ 0, 0 }, { 26, 16 }));
+	ImageManager::AddTexture("Score_200", "data/resources/Score.png", sf::IntRect({ 0, 16 }, { 28, 16 }));
+	ImageManager::AddTexture("Score_500", "data/resources/Score.png", sf::IntRect({ 0, 32 }, { 28, 16 }));
+	ImageManager::AddTexture("Score_1000", "data/resources/Score.png", sf::IntRect({ 0, 48 }, { 34, 16 }));
+	ImageManager::AddTexture("Score_2000", "data/resources/Score.png", sf::IntRect({ 0, 64 }, { 35, 16 }));
+	ImageManager::AddTexture("Score_5000", "data/resources/Score.png", sf::IntRect({ 0, 80 }, { 36, 16 }));
+	ImageManager::AddTexture("Score_10000", "data/resources/Score.png", sf::IntRect({ 0, 96 }, { 42, 16 }));
+	ImageManager::AddTexture("Score_1UP", "data/resources/Score.png", sf::IntRect({ 0, 112 }, { 32, 16 }));
 	//ScoreEffectTexture.Loadingtexture("data/resources/Score.png", "SCORE_TEXTURE", 0, 0, 42, 128);
 }
 void SetPrevScoreEffectPos() {

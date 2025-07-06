@@ -14,9 +14,8 @@ std::vector<std::array<std::pair<float, float>, 4>> BrickParticleVelo;
 std::vector<int> BrickParticleDisabledAM;
 
 void BrickParticleInit() {
-	ImageManager::AddImage("BrickParticleImage", "data/resources/BrickParticle.png");
-	ImageManager::AddTexture("BrickParticleImage", sf::IntRect({0, 0}, {16, 16}), "NormalBrickParticle");
-	ImageManager::AddTexture("BrickParticleImage", sf::IntRect({16, 0}, {16, 16}), "GrayBrickParticle");
+	ImageManager::AddTexture("NormalBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({0, 0}, {16, 16}));
+	ImageManager::AddTexture("GrayBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({16, 0}, {16, 16}));
 }
 void SetPrevBrickParticlePos() {
 	for (int i = 0; i < BrickParticleList.size(); ++i) {

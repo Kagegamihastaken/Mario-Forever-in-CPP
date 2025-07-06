@@ -8,10 +8,9 @@
 
 std::vector<MFCPP::CoinEffect> CoinEffectList;
 void CoinEffectInit() {
-	ImageManager::AddImage("CoinEffectImage", "data/resources/CoinEffect.png");
 	for (int i = 0; i < COINEFFECT_IMAGE_WIDTH / COINEFFECT_WIDTH; ++i) {
-		ImageManager::AddTexture("CoinEffectImage", sf::IntRect({i * COINEFFECT_WIDTH, 0}, {COINEFFECT_WIDTH, COINEFFECT_HEIGHT}), "CoinEffect_"+std::to_string(i));
-		CoinEffectAnimName.push_back("CoinEffect_"+std::to_string(i));
+		ImageManager::AddTexture(fmt::format("CoinEffect_{}", i), "data/resources/CoinEffect.png", sf::IntRect({i * COINEFFECT_WIDTH, 0}, {COINEFFECT_WIDTH, COINEFFECT_HEIGHT}));
+		CoinEffectAnimName.push_back(fmt::format("CoinEffect_{}", i));
 	}
 }
 void SetPrevCoinEffectPos() {
@@ -26,7 +25,7 @@ void InterpolateCoinEffectPos(const float alpha) {
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffectList.emplace_back(ID, att, sf::Vector2f(x, y), sf::Vector2f(18.f, 31.f));
 	CoinEffectList.back().setAnimation(0, 20, 70);
-	CoinEffectList.back().setAnimationSequence(CoinEffectAnimName, CoinEffectAnimName);
+	CoinEffectList.back().setAnimationSequence(CoinEffectAnimName);
 }
 void DeleteCoinEffect(const int i) {
 	const sf::Vector2f pos = CoinEffectList[i].getCurrentPosition();

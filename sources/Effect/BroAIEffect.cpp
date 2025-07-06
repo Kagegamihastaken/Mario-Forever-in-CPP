@@ -9,9 +9,7 @@
 std::vector<MFCPP::BroAIEffect> BroAIEffectList;
 static bool BroAIEffectDeleteGate = false;
 void BroAIEffectInit() {
-	ImageManager::AddImage("DEAD_HammerImage", "data/resources/HammerBro/DEAD_HammerBro.png");
-	ImageManager::AddTexture("DEAD_HammerImage", "DEAD_HammerRight");
-	ImageManager::AddTexture("DEAD_HammerImage", "DEAD_HammerLeft", false, true);
+	ImageManager::AddTexture("DEAD_HammerBro", "data/resources/HammerBro/DEAD_HammerBro.png");
 }
 void SetPrevBroAIEffectPos() {
 	for (auto & i : BroAIEffectList) {
@@ -31,7 +29,7 @@ void AddBroAIEffect(const BroAIType type, const bool dir, const float x, const f
 	switch (type) {
 		case HAMMER_BRO:
 			BroAIEffectList.emplace_back(0.f, sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
-			BroAIEffectList.back().setTexture((dir ? "DEAD_HammerLeft" : "DEAD_HammerRight"));
+			BroAIEffectList.back().setTexture("DEAD_HammerBro", dir);
 	}
 }
 

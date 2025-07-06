@@ -2,62 +2,69 @@
 
 namespace MFCPP {
     SimpleSprite::SimpleSprite() {
-        //m_vertices.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
-        //m_vertices.resize(4);
         m_texture = nullptr;
     }
-    SimpleSprite::SimpleSprite(const sf::Texture& tex) {
-        //m_vertices.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
-        //m_vertices.resize(4);
-
-        m_texture = &tex;
-        const sf::Vector2u texSize = tex.getSize();
-
-        m_vertices[0].texCoords = m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-        m_vertices[1].texCoords = m_vertices[1].position = sf::Vector2f(texSize.x, 0.f);
-        m_vertices[2].texCoords = m_vertices[2].position = sf::Vector2f(0.f, texSize.y);
-        m_vertices[3].texCoords = m_vertices[3].position = sf::Vector2f(texSize.x, texSize.y);
+    SimpleSprite::SimpleSprite(const sf::Texture* tex) : SimpleSprite(tex, sf::IntRect({0, 0}, sf::Vector2i(tex->getSize()))) {}
+    SimpleSprite::SimpleSprite(const sf::Texture* tex, const sf::IntRect &rect) : m_texture(tex), m_rect(rect) {
+        updateVertices();
     }
-    SimpleSprite::SimpleSprite(const sf::Texture& tex, const sf::IntRect &rect) {
-        //m_vertices.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
-        //m_vertices.resize(4);
-
-        m_texture = &tex;
-
-        m_vertices[0].texCoords = m_vertices[0].position = sf::Vector2f(rect.position.x, rect.position.y);
-        m_vertices[1].texCoords = m_vertices[1].position = sf::Vector2f(rect.position.x + rect.size.x, rect.position.y);
-        m_vertices[2].texCoords = m_vertices[2].position = sf::Vector2f(rect.position.x, rect.position.y + rect.size.y);
-        m_vertices[3].texCoords = m_vertices[3].position = sf::Vector2f(rect.position.x + rect.size.x, rect.position.y + rect.size.y);
-    }
-    void SimpleSprite::setTexture(const sf::Texture& tex, const bool resetRect) {
-        m_texture = &tex;
-        if (resetRect) {
-            m_vertices[0].texCoords = m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-            m_vertices[1].texCoords = m_vertices[1].position = sf::Vector2f(tex.getSize().x, 0.f);
-            m_vertices[2].texCoords = m_vertices[2].position = sf::Vector2f(0.f, tex.getSize().y);
-            m_vertices[3].texCoords = m_vertices[3].position = sf::Vector2f(tex.getSize().x, tex.getSize().y);
-        }
+    void SimpleSprite::setTexture(const sf::Texture* tex, const bool resetRect) {
+        if (resetRect)
+            setTextureRect(sf::IntRect({0, 0}, sf::Vector2i(tex->getSize())));
+        m_texture = tex;
     }
     const sf::Texture& SimpleSprite::getTexture() const {
         return *m_texture;
     }
     void SimpleSprite::setTextureRect(const sf::IntRect& rect) {
-        m_vertices[0].texCoords = m_vertices[0].position = sf::Vector2f(rect.position.x, rect.position.y);
-        m_vertices[1].texCoords = m_vertices[1].position = sf::Vector2f(rect.position.x + rect.size.x, rect.position.y);
-        m_vertices[2].texCoords = m_vertices[2].position = sf::Vector2f(rect.position.x, rect.position.y + rect.size.y);
-        m_vertices[3].texCoords = m_vertices[3].position = sf::Vector2f(rect.position.x + rect.size.x, rect.position.y + rect.size.y);
+        if (rect != m_rect) {
+            m_rect = rect;
+            updateVertices();
+        }
     }
     void SimpleSprite::setColor(const sf::Color& color) {
-        m_vertices[0].color = m_vertices[1].color = m_vertices[2].color = m_vertices[3].color = color;
+        for (auto &i : m_vertices)
+            i.color = color;
     }
     sf::Color SimpleSprite::getColor() const {
         return m_vertices[0].color;
     }
+    sf::FloatRect SimpleSprite::getLocalBounds() const {
+        return {{0.f, 0.f}, m_vertices[5].position};
+    }
+    sf::FloatRect SimpleSprite::getGlobalBounds() const {
+        return getTransform().transformRect(getLocalBounds());
+    }
     void SimpleSprite::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
         states.transform *= getTransform();
         states.texture = m_texture;
         states.coordinateType = sf::CoordinateType::Pixels;
-        target.draw(m_vertices.data(), m_vertices.size(), sf::PrimitiveType::TriangleStrip, states);
+        //states.stencilMode = sf::StencilMode(sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 1, 0xFF);
+        target.draw(m_vertices.data(), m_vertices.size(), sf::PrimitiveType::Triangles, states);
     }
+    sf::IntRect SimpleSprite::getTextureRect() const {
+        return m_rect;
+    }
+    void SimpleSprite::updateVertices() {
+        const auto [position, size] = sf::FloatRect(m_rect);
+
+        const sf::Vector2f absSize(std::abs(size.x), std::abs(size.y));
+
+        m_vertices[0].position = {0.f, 0.f};
+        m_vertices[1].position = {0.f, absSize.y};
+        m_vertices[2].position = {absSize.x, 0.f};
+        m_vertices[3].position = {0.f, absSize.y};
+        m_vertices[4].position = {absSize.x, 0.f};
+        m_vertices[5].position = absSize;
+
+        m_vertices[0].texCoords = position;
+        m_vertices[1].texCoords = position + sf::Vector2f(0.f, size.y);
+        m_vertices[2].texCoords = position + sf::Vector2f(size.x, 0.f);
+        m_vertices[3].texCoords = position + sf::Vector2f(0.f, size.y);
+        m_vertices[4].texCoords = position + sf::Vector2f(size.x, 0.f);
+        m_vertices[5].texCoords = position + size;
+    }
+
 
 }

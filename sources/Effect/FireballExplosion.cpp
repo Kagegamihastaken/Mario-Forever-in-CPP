@@ -6,16 +6,15 @@
 
 std::vector<MFCPP::FireballExplosion> FireballExplosionList;
 void FireballExplosionInit() {
-	ImageManager::AddImage("FireballExplosionImage", "data/resources/FireballExplosion.png");
 	for (int i = 0; i < FIREBALLEXPLOSION_IMAGE_WIDTH / FIREBALLEXPLOSION_WIDTH; ++i) {
-		ImageManager::AddTexture("FireballExplosionImage", sf::IntRect({i * FIREBALLEXPLOSION_WIDTH, 0}, {FIREBALLEXPLOSION_WIDTH, FIREBALLEXPLOSION_HEIGHT}), "FireballExplosion_"+std::to_string(i));
-		FireballExplosionAnimName.push_back("FireballExplosion_"+std::to_string(i));
+		ImageManager::AddTexture(fmt::format("FireballExplosion_{}", i), "data/resources/FireballExplosion.png", sf::IntRect({i * FIREBALLEXPLOSION_WIDTH, 0}, {FIREBALLEXPLOSION_WIDTH, FIREBALLEXPLOSION_HEIGHT}));
+		FireballExplosionAnimName.push_back(fmt::format("FireballExplosion_{}", i));
 	}
 }
 void AddFireballExplosion(const float x, const float y) {
 	FireballExplosionList.emplace_back(sf::Vector2f(x, y), sf::Vector2f(16.f, 15.f));
 	FireballExplosionList.back().setAnimation(0, 2, 24);
-	FireballExplosionList.back().setAnimationSequence(FireballExplosionAnimName, FireballExplosionAnimName);
+	FireballExplosionList.back().setAnimationSequence(FireballExplosionAnimName);
 }
 void DeleteFireballExplosion(const int i) {
 	FireballExplosionList.erase(FireballExplosionList.begin() + i);

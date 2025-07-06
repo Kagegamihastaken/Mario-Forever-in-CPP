@@ -1,10 +1,9 @@
-#include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 #include "Core/Loading/Loading.hpp"
+#include "Core/Loading/PhysFsStream.hpp"
 
 #include <fmt/core.h>
 
 void IOInit() {
-
 	PHYSFS_init(nullptr);
 	if (PHYSFS_mount("data.zip", "/", 1) == 0) throw std::runtime_error("PhysFS: Cannot mount data.zip");
 }
@@ -28,10 +27,11 @@ std::vector<uint8_t> Loadbyte(const std::filesystem::path &fileName)
 	else throw std::runtime_error("PhysFS: Load data before initializing, call IOInit() first");
 	return vec;
 }
-void LoadTexture(sf::Texture& texture, const std::filesystem::path &path) {
-	std::vector<uint8_t> vec = Loadbyte(path);
-	if (!texture.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
-	vec.clear();
+void LoadTexture(sf::Texture& texture, const std::filesystem::path &path, const sf::IntRect& rect) {
+	//std::vector<uint8_t> vec = Loadbyte(path);
+	if (PhysFsStream loadFile(path.string().c_str()); !texture.loadFromStream(loadFile, false, rect)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
+	//if (!texture.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
+	//vec.clear();
 }
 void LoadLvl(std::string& lvl, const std::filesystem::path &path) {
 	std::vector<uint8_t> vec = Loadbyte(path);
@@ -45,7 +45,8 @@ std::vector<uint8_t> GetFileDataInByte(const std::filesystem::path &path) {
 	//music.openFromMemory(vec.data(), vec.size());
 }
 void LoadImageFile(sf::Image& image, const std::filesystem::path &path) {
-	std::vector<uint8_t> vec = Loadbyte(path);
-	if (!image.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));;
-	vec.clear();
+	//std::vector<uint8_t> vec = Loadbyte(path);
+	if (PhysFsStream loadFile(path.string().c_str()); !image.loadFromStream(loadFile)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));;
+	//if (!image.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));;
+	//vec.clear();
 }

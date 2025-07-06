@@ -13,12 +13,10 @@ std::vector<SingleAnimationObject> SpikeAnimationList;
 std::vector<sf::FloatRect> SpikeHitboxList;
 static std::vector<std::string> PiranhaGroundAnimName;
 void SpikeInit() {
-	ImageManager::AddImage("NormalSpikeImage", "data/resources/Spike/Spike.png");
-	ImageManager::AddTexture("NormalSpikeImage", "NormalSpike");
-	ImageManager::AddImage("PiranhaGroundImage", "data/resources/Spike/PiranhaGround.png");
+	ImageManager::AddTexture("NormalSpike", "data/resources/Spike/Spike.png");
 	for (int i = 0; i < 4; ++i) {
-		ImageManager::AddTexture("PiranhaGroundImage", sf::IntRect({i * 32, 0}, {32, 32}), "PiranhaGreenGround_" + std::to_string(i));
-		PiranhaGroundAnimName.emplace_back("PiranhaGreenGround_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("PiranhaGreenGround_{}", i), "data/resources/Spike/PiranhaGround.png", sf::IntRect({i * 32, 0}, {32, 32}));
+		PiranhaGroundAnimName.emplace_back(fmt::format("PiranhaGreenGround_{}", i));
 	}
 	//SpikeTextureManager.Loadingtexture("data/resources/Spike/Spike.png", "Spike_Normal", 0, 0, 32, 32);
 
@@ -47,11 +45,11 @@ void AddSpike(const SpikeID ID, float x, float y) {
 	switch (ID) {
 	case PIRANHA_GROUND:
 		InitAnimation.setAnimation(0, 3, 22);
-		InitAnimation.setAnimationSequence(PiranhaGroundAnimName, PiranhaGroundAnimName);
+		InitAnimation.setAnimationSequence(PiranhaGroundAnimName);
 		break;
 	case SPIKE_NORMAL:
 		InitAnimation.setAnimation(0, 0, 100);
-		InitAnimation.AddAnimationSequence("NormalSpike", "NormalSpike");
+		InitAnimation.AddAnimationSequence("NormalSpike");
 		break;
 	}
 	SpikeHitboxList.push_back(sf::FloatRect({ 0, 0 }, { 32, 32 }));

@@ -11,13 +11,10 @@
 std::vector<MFCPP::GoombaAIEffect> GoombaAIEffectList;
 static bool GoombaAIEffectDeleteGate = false;
 void GoombaAIEffectInit() {
-	ImageManager::AddImage("DEAD_GoombaImage", "data/resources/Goomba/DEAD_Goomba.png");
-	ImageManager::AddTexture("DEAD_GoombaImage", sf::IntRect({0, 0}, {31, 32}), "DEAD_Goomba_1");
-	ImageManager::AddTexture("DEAD_GoombaImage", sf::IntRect({31, 0}, {31, 32}), "DEAD_Goomba_2");
-	ImageManager::AddImage("DEAD_KoopaImage", "data/resources/Koopa/DEAD_GreenKoopa.png");
-	ImageManager::AddTexture("DEAD_KoopaImage", "DEAD_Koopa");
-	ImageManager::AddImage("DEAD_SpinyImage", "data/resources/Spiny/DEAD_RedSpiny.png");
-	ImageManager::AddTexture("DEAD_SpinyImage", "DEAD_Spiny_Red");
+	ImageManager::AddTexture("DEAD_Goomba_1", "data/resources/Goomba/DEAD_Goomba.png", sf::IntRect({0, 0}, {31, 32}));
+	ImageManager::AddTexture("DEAD_Goomba_2", "data/resources/Goomba/DEAD_Goomba.png", sf::IntRect({31, 0}, {31, 32}));
+	ImageManager::AddTexture("DEAD_Koopa", "data/resources/Koopa/DEAD_GreenKoopa.png");
+	ImageManager::AddTexture("DEAD_Spiny_Red", "data/resources/Spiny/DEAD_RedSpiny.png");
 }
 void SetPrevGoombaAIEffectPos() {
 	for (auto & i : GoombaAIEffectList) {

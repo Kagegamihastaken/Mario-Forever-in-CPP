@@ -6,8 +6,7 @@
 
 class SingleAnimationObject {
 	std::string m_lastAnim = "";
-	std::vector<MFCPP::SimpleSprite> m_LeftIndex;
-	std::vector<MFCPP::SimpleSprite> m_RightIndex;
+	std::vector<MFCPP::SimpleSprite> m_Index;
 
 	int m_indexAnimation = 0;
 	int m_startingIndexAnimation = 0;
@@ -16,10 +15,11 @@ class SingleAnimationObject {
 	sf::Clock m_TimeRun;
 	float m_TimeRan = 0.0f;
 	float m_TimeRemainSave = 0.0f;
+	bool m_change_direction = false;
 	sf::Angle m_angle = sf::degrees(0.f);
 	AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 public:
-	void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
+	void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50, bool changeAnimDirection = false);
 	void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 	void setIndexAnimation(int indexAnimation);
 	void setStartingIndexAnimation(int startingIndexAnimation);
@@ -27,14 +27,13 @@ public:
 	void setFrequencyAnimation(int frequency);
 
 	void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
-	void AnimationDraw(sf::RenderWindow& window, sf::RenderStates states = sf::RenderStates::Default) const;
+	void AnimationDraw(sf::RenderWindow& window, const sf::RenderStates &states = sf::RenderStates::Default) const;
 	void setAnimationDirection(const AnimationDirection& dir);
 	//sf::IntRect getAnimationTextureRect() const;
 	[[nodiscard]] bool isAnimationAtTheEnd() const;
 	[[nodiscard]] AnimationDirection getAnimationDirection() const;
-	void AddAnimationSequence(const std::string& a_left, const std::string& a_right);
-	void setAnimationSequence(const std::vector<std::string>& s_left, const std::vector<std::string>& s_right);
-	void setAnimationSequence(const std::vector<std::string>& s_left);
+	void AddAnimationSequence(const std::string& aName);
+	void setAnimationSequence(const std::vector<std::string>& aName);
 	void setRotation(sf::Angle angle);
 };
 #endif // LOCALANIMATIONMANAGER_HPP

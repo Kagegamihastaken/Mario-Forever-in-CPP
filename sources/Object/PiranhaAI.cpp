@@ -22,10 +22,9 @@ void ClearPiranhaAI() {
 	PiranhaAIList.clear();
 }
 void PiranhaAIInit() {
-	ImageManager::AddImage("PiranhaGreenImage", "data/resources/Piranha/PiranhaGreen.png");
 	for (int i = 0; i < PIRANHA_IMAGE_WIDTH / PIRANHA_WIDTH; ++i) {
-		ImageManager::AddTexture("PiranhaGreenImage", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}), "PiranhaGreen_" + std::to_string(i));
-		PiranhaAnimName.emplace_back("PiranhaGreen_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("PiranhaGreen_{}", i), "data/resources/Piranha/PiranhaGreen.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
+		PiranhaAnimName.emplace_back(fmt::format("PiranhaGreen_{}", i));
 	}
 	//PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
@@ -46,7 +45,7 @@ void AddPiranha(const PiranhaID ID, const float x, const float y) {
 	switch (ID) {
 		case GREEN:
 			PiranhaAIList.back().setAnimation(0, 1, 14);
-			PiranhaAIList.back().setAnimationSequence(PiranhaAnimName, PiranhaAnimName);
+			PiranhaAIList.back().setAnimationSequence(PiranhaAnimName);
 			PiranhaAIList.back().setSpeed(1.0f);
 			PiranhaAIList.back().setStopTime(1.4f);
 			PiranhaAIList.back().setDistanceAppear(80.0f);

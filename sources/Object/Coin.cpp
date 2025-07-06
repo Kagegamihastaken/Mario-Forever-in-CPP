@@ -22,13 +22,12 @@ static std::vector<std::string> CoinAnimName;
 static constexpr int COIN_IMAGE_WIDTH = 96;
 static constexpr int COIN_WIDTH_HEIGHT = 32;
 void CoinInit() {
-	ImageManager::AddImage("CoinImage", "data/resources/Coin.png");
 	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i) {
-		ImageManager::AddTexture("CoinImage", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}), "Coin_" + std::to_string(i));
-		CoinAnimName.emplace_back("Coin_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
+		CoinAnimName.emplace_back(fmt::format("Coin_{}", i));
 	}
 	CoinAnimation.setAnimation(0, 2, 20);
-	CoinAnimation.setAnimationSequence(CoinAnimName, CoinAnimName);
+	CoinAnimation.setAnimationSequence(CoinAnimName);
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	Coin operate;

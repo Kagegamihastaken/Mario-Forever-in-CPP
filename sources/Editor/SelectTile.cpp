@@ -51,8 +51,8 @@ const std::array<std::vector<SelectTileData>, 4> TilePage = {{
         },
     { // PAGE 3
         {"Goomba_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
-        {"GreenKoopaLeft_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 0},
-        {"RedSpinyLeft_0", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
+        {"GreenKoopa_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 0},
+        {"RedSpiny_0", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
         {"GreenKoopaShell_3", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
         {"PiranhaGreen_0", sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
         {"PiranhaGreenGround_0", sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
@@ -61,7 +61,7 @@ const std::array<std::vector<SelectTileData>, 4> TilePage = {{
         {"EDITOR_HammerBroCannotMove", sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
     },
     { // PAGE 4
-        {"SmallMarioRight_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
+        {"SmallMario_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
         {"ExitGateIndicator_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
         {"ExitGateBack", sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)}
     }
@@ -77,21 +77,14 @@ int PreviewPage = CurrPage;
 const int LevelTab = 3;
 
 void SelectTileInit() {
-    ImageManager::AddImage("SelectTileBackgroundImage", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
-    ImageManager::AddTexture("SelectTileBackgroundImage", "EDITOR_SelectTileBackground");
-    ImageManager::AddImage("SelectTileGridImage", "data/resources/Editor/EDITOR_SelectTileGrid.png");
-    ImageManager::AddTexture("SelectTileGridImage", "EDITOR_SelectTileGrid");
-    ImageManager::AddImage("SelectTileBoxImage", "data/resources/Editor/EDITOR_SelectTileBox.png");
-    ImageManager::AddTexture("SelectTileBoxImage", "EDITOR_SelectTileBox");
+    ImageManager::AddTexture("EDITOR_SelectTileBackground", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
+    ImageManager::AddTexture("EDITOR_SelectTileGrid", "data/resources/Editor/EDITOR_SelectTileGrid.png");
+    ImageManager::AddTexture("EDITOR_SelectTileBox", "data/resources/Editor/EDITOR_SelectTileBox.png");
     //TAB
-    ImageManager::AddImage("TileTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_TileTab.png");
-    ImageManager::AddTexture("TileTabImage", "EDITOR_TileTab");
-    ImageManager::AddImage("BonusTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
-    ImageManager::AddTexture("BonusTabImage", "EDITOR_BonusTab");
-    ImageManager::AddImage("EnemyTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
-    ImageManager::AddTexture("EnemyTabImage", "EDITOR_EnemyTab");
-    ImageManager::AddImage("LevelTabImage", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
-    ImageManager::AddTexture("LevelTabImage", "EDITOR_LevelTab");
+    ImageManager::AddTexture("EDITOR_TileTab", "data/resources/Editor/EDITOR_TAB/EDITOR_TileTab.png");
+    ImageManager::AddTexture("EDITOR_BonusTab", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
+    ImageManager::AddTexture( "EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
+    ImageManager::AddTexture( "EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
 
     TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
     TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));

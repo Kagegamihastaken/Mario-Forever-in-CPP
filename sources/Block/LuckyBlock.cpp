@@ -26,14 +26,13 @@ std::vector<bool> LuckyBlockHitted;
 static std::vector<std::string> NormLuckyBlockAnimName;
 
 void LoadLuckyBlock() {
-	ImageManager::AddImage("LuckyBlockImage", "data/resources/luckyblock.png");
 	for (int i = 0; i < 3; ++i) {
-		ImageManager::AddTexture("LuckyBlockImage", sf::IntRect({i * 32, 0}, {32, 32}), "NormalLuckyBlock_" + std::to_string(i));
-		NormLuckyBlockAnimName.emplace_back("NormalLuckyBlock_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("NormalLuckyBlock_{}", i), "data/resources/luckyblock.png", sf::IntRect({i * 32, 0}, {32, 32}));
+		NormLuckyBlockAnimName.emplace_back(fmt::format("NormalLuckyBlock_{}", i));
 	}
-	ImageManager::AddTexture("LuckyBlockImage", sf::IntRect({96, 0}, {32, 32}), "NormalLuckyBlockHit");
-	ImageManager::AddTexture("LuckyBlockImage", sf::IntRect({64, 32}, {32, 32}), "TreeLuckyBlock");
-	ImageManager::AddTexture("LuckyBlockImage", sf::IntRect({96, 32}, {32, 32}), "TreeLuckyBlockHit");
+	ImageManager::AddTexture("NormalLuckyBlockHit", "data/resources/luckyblock.png", sf::IntRect({96, 0}, {32, 32}));
+	ImageManager::AddTexture("TreeLuckyBlock", "data/resources/luckyblock.png", sf::IntRect({64, 32}, {32, 32}));
+	ImageManager::AddTexture("TreeLuckyBlockHit", "data/resources/luckyblock.png", sf::IntRect({96, 32}, {32, 32}));
 	//LuckyBlockTextureManager.Loadingtexture("data/resources/luckyblock.png", "LuckyBlock", 0, 0, 128, 64);
 }
 void SetPrevLuckyBlockPos() {
@@ -52,7 +51,7 @@ void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, floa
 	switch (ID) {
 	case LUCKY_BLOCK:
 		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalLuckyBlock_0")) });
-		LuckyIdle.back().setAnimationSequence(NormLuckyBlockAnimName, NormLuckyBlockAnimName);
+		LuckyIdle.back().setAnimationSequence(NormLuckyBlockAnimName);
 		break;
 	case TREE_LUCKY_BLOCK:
 		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("TreeLuckyBlock")) });

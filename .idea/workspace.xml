@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="63" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="56" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
@@ -85,60 +85,95 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="in progress converting to class">
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Core/AudioEngine.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/AudioEngine.cpp" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="new sound engine!">
+      <change afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Core/Loading/PhysFsStream.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Object/BulletBill.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Class/BulletBillClass.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Loading/PhysFsStream.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/levels/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/1up.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/1up.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/break.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/break.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/bump.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/bump.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/bump2.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/coin.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/coin.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/fireball.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/fireball.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/hammer.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/hammer.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/jump.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/jump.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick2.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick3.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick4.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick5.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick6.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick7.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/kick8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/kick8.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/pipe.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/pipe.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/powerup.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/powerup.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/stomp.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/stomp.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/sounds/vine.wav" beforeDir="false" afterPath="$PROJECT_DIR$/data/sounds/vine.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Level.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Level.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/resources/testImage.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/testImage.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/1up.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/Editor/EDITOR_close.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/Editor/EDITOR_delete.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/Editor/EDITOR_menu.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/Editor/EDITOR_place.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/Editor/EDITOR_switch.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/Editor/EDITOR_tab_select.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/break.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/bump.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/coin.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/delaytemplate.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/fireball.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/hammer.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/jump.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick2.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick3.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick4.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick5.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick6.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick7.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/kick8.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/pipe.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/powerup.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/stomp.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sounds/vine.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/BulletLauncher.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/BulletLauncher.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/SingleAnimationObject.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Animate/SingleAnimationObject.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BulletLauncherClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BulletLauncherClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/Error.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ExternalHeaders/sfMod/sfMod.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Core/Loading/Loading.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/Loading.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Music.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Music.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Core/MusicManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/MusicManager.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Sound.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Sound.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/SimpleSprite.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/SimpleSprite.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Core/SoundManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/SoundManager.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lvl-test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lvl-test2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/ExternalHeaders/sfMod/sfMod.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ExternalHeaders/sfMod/sfMod.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/Mario.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Mario.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Brick.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Brick.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Animate/SingleAnimationObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Animate/SingleAnimationObject.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Animate/StaticAnimationObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Animate/StaticAnimationObject.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/AudioEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/AudioEngine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/BulletLauncherClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/BulletLauncherClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/ExternalHeaders/sfMod/sfMod.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Loading/Loading.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Loading/Loading.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Music.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Music.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/SimpleSprite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/SimpleSprite.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Sound.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Sound.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/CoinEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/CoinEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/FireballExplosion.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/FireballExplosion.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Effect/MarioEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/MarioEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Coin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Coin.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/ExitGate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/ExitGate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Spike.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Spike.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Projectiles/BroAIProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/BroAIProjectile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Text/Text.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Text/Text.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,6 +268,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.MFCPP">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Continuous" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -383,16 +423,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="benchmark_residual" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="benchmark_residual" CONFIG_NAME="RelWithDebInfo-MinGW" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="benchmark_residual">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="clean-all" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="clean-all" CONFIG_NAME="RelWithDebInfo-MinGW">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="cpptrace-lib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="cpptrace-lib" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -403,22 +433,12 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="dwarf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="dwarf" CONFIG_NAME="RelWithDebInfo-MinGW">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="fmt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="fmt" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="freetype" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="freetype" CONFIG_NAME="RelWithDebInfo-MinGW">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="libzstd_static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="libzstd_static" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -478,11 +498,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="uninstall" CONFIG_NAME="RelWithDebInfo-MinGW">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="vorbis" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbis" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -518,12 +533,7 @@
       <item itemvalue="CMake Application.ExperimentalUpdate" />
       <item itemvalue="CMake Application.Experimental" />
       <item itemvalue="CMake Application.FLAC" />
-      <item itemvalue="CMake Application.fmt" />
       <item itemvalue="CMake Application.ImGui-SFML" />
-      <item itemvalue="CMake Application.dwarf" />
-      <item itemvalue="CMake Application.MFCPP" />
-      <item itemvalue="CMake Application.soloud_library" />
-      <item itemvalue="CMake Application.cpptrace-lib" />
       <item itemvalue="CMake Application.NightlyBuild" />
       <item itemvalue="CMake Application.NightlyConfigure" />
       <item itemvalue="CMake Application.NightlyCoverage" />
@@ -533,9 +543,10 @@
       <item itemvalue="CMake Application.NightlySubmit" />
       <item itemvalue="CMake Application.NightlyTest" />
       <item itemvalue="CMake Application.NightlyUpdate" />
-      <item itemvalue="CMake Application.benchmark_residual" />
       <item itemvalue="CMake Application.Nightly" />
+      <item itemvalue="CMake Application.cpptrace-lib" />
       <item itemvalue="CMake Application.docs" />
+      <item itemvalue="CMake Application.fmt" />
       <item itemvalue="CMake Application.freetype" />
       <item itemvalue="CMake Application.ogg" />
       <item itemvalue="CMake Application.physfs-static" />
@@ -546,13 +557,12 @@
       <item itemvalue="CMake Application.sfml-network" />
       <item itemvalue="CMake Application.sfml-system" />
       <item itemvalue="CMake Application.sfml-window" />
+      <item itemvalue="CMake Application.soloud_library" />
       <item itemvalue="CMake Application.test_physfs" />
       <item itemvalue="CMake Application.vorbis" />
       <item itemvalue="CMake Application.vorbisenc" />
       <item itemvalue="CMake Application.vorbisfile" />
-      <item itemvalue="CMake Application.clean-all" />
-      <item itemvalue="CMake Application.libzstd_static" />
-      <item itemvalue="CMake Application.uninstall" />
+      <item itemvalue="CMake Application.MFCPP" />
     </list>
   </component>
   <component name="TaskManager">
@@ -720,7 +730,17 @@
       <workItem from="1751422390765" duration="28123000" />
       <workItem from="1751475628581" duration="649000" />
       <workItem from="1751505801998" duration="307000" />
-      <workItem from="1751513294173" duration="389000" />
+      <workItem from="1751513294173" duration="1639000" />
+      <workItem from="1751599353043" duration="4737000" />
+      <workItem from="1751629574293" duration="10063000" />
+      <workItem from="1751646511435" duration="353000" />
+      <workItem from="1751683332465" duration="1373000" />
+      <workItem from="1751688604033" duration="10160000" />
+      <workItem from="1751708397856" duration="2169000" />
+      <workItem from="1751717313815" duration="2945000" />
+      <workItem from="1751732947109" duration="4000" />
+      <workItem from="1751765827889" duration="5810000" />
+      <workItem from="1751789620077" duration="9731000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -1002,7 +1022,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751279191691</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="new sound engine!">
+      <option name="closed" value="true" />
+      <created>1751514012195</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1751514012195</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1238,7 +1266,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="Optimize a bit performance" />
     <MESSAGE value="improve rendering a bit" />
     <MESSAGE value="optimized renderer for more smooth" />
     <MESSAGE value="optimize animation" />
@@ -1263,7 +1290,8 @@
     <MESSAGE value="refactor sources folder" />
     <MESSAGE value="logging implement and revamp error handling (thanks to fmt &amp; cpptrace library)" />
     <MESSAGE value="in progress converting to class" />
-    <option name="LAST_COMMIT_MESSAGE" value="in progress converting to class" />
+    <MESSAGE value="new sound engine!" />
+    <option name="LAST_COMMIT_MESSAGE" value="new sound engine!" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

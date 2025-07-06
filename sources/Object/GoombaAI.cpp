@@ -1,6 +1,5 @@
 #include "Object/GoombaAI.hpp"
 #include "Core/Loading/enum.hpp"
-#include "Core/Loading/Loading.hpp"
 #include "Core/Scroll.hpp"
 #include "Block/Brick.hpp"
 #include "Block/LuckyBlock.hpp"
@@ -30,8 +29,7 @@ static std::vector<std::string> MushroomAnimName;
 static int MUSHROOM_IMAGE_WIDTH = 31;
 static int MUSHROOM_WIDTH = 31;
 static int MUSHROOM_HEIGHT = 32;
-static std::vector<std::string> KoopaLeftAnimName;
-static std::vector<std::string> KoopaRightAnimName;
+static std::vector<std::string> KoopaAnimName;
 static int KOOPA_IMAGE_WIDTH = 64;
 static int KOOPA_WIDTH = 32;
 static int KOOPA_HEIGHT = 47;
@@ -39,8 +37,7 @@ static std::vector<std::string> KoopaShellAnimName;
 static int KOOPA_SHELL_IMAGE_WIDTH = 132;
 static int KOOPA_SHELL_WIDTH = 33;
 static int KOOPA_SHELL_HEIGHT = 28;
-static std::vector<std::string> SpinyLeftAnimName;
-static std::vector<std::string> SpinyRightAnimName;
+static std::vector<std::string> SpinyAnimName;
 static int RED_SPINY_IMAGE_WIDTH = 66;
 static int RED_SPINY_WIDTH = 33;
 static int RED_SPINY_HEIGHT = 32;
@@ -51,40 +48,29 @@ static int FIRE_FLOWER_HEIGHT = 32;
 
 
 void GoombaAILoadRes() {
-
-	ImageManager::AddImage("GoombaImage", "data/resources/Goomba/Goomba.png");
 	for (int i = 0; i < GOOMBA_IMAGE_WIDTH / GOOMBA_WIDTH; i++) {
-		ImageManager::AddTexture("GoombaImage", sf::IntRect({i * GOOMBA_WIDTH, 0}, {GOOMBA_WIDTH, GOOMBA_HEIGHT}), "Goomba_" + std::to_string(i));
-		GoombaAnimName.push_back("Goomba_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("Goomba_{}", i), "data/resources/Goomba/Goomba.png", sf::IntRect({i * GOOMBA_WIDTH, 0}, {GOOMBA_WIDTH, GOOMBA_HEIGHT}));
+		GoombaAnimName.push_back(fmt::format("Goomba_{}", i));
 	}
-	ImageManager::AddImage("MushroomImage", "data/resources/Mushroom.png");
 	for (int i = 0; i < MUSHROOM_IMAGE_WIDTH / MUSHROOM_WIDTH; i++) {
-		ImageManager::AddTexture("MushroomImage", sf::IntRect({i * MUSHROOM_WIDTH, 0}, {MUSHROOM_WIDTH, MUSHROOM_HEIGHT}), "Mushroom_" + std::to_string(i));
-		MushroomAnimName.push_back("Mushroom_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("Mushroom_{}", i), "data/resources/Mushroom.png", sf::IntRect({i * MUSHROOM_WIDTH, 0}, {MUSHROOM_WIDTH, MUSHROOM_HEIGHT}));
+		MushroomAnimName.push_back(fmt::format("Mushroom_{}", i));
 	}
-	ImageManager::AddImage("GreenKoopaImage", "data/resources/Koopa/GreenKoopa.png");
 	for (int i = 0; i < KOOPA_IMAGE_WIDTH / KOOPA_WIDTH; ++i) {
-		ImageManager::AddTexture("GreenKoopaImage", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}), "GreenKoopaRight_" + std::to_string(i));
-		ImageManager::AddTexture("GreenKoopaImage", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}), "GreenKoopaLeft_" + std::to_string(i), false, true);
-		KoopaLeftAnimName.push_back("GreenKoopaLeft_" + std::to_string(i));
-		KoopaRightAnimName.push_back("GreenKoopaRight_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("GreenKoopa_{}", i), "data/resources/Koopa/GreenKoopa.png", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}));
+		KoopaAnimName.push_back(fmt::format("GreenKoopa_{}", i));
 	}
-	ImageManager::AddImage("GreenKoopaShellImage", "data/resources/Koopa/GreenKoopaShell.png");
 	for (int i = 0; i < KOOPA_SHELL_IMAGE_WIDTH / KOOPA_SHELL_WIDTH; ++i) {
-		ImageManager::AddTexture("GreenKoopaShellImage", sf::IntRect({i * KOOPA_SHELL_WIDTH, 0}, {KOOPA_SHELL_WIDTH, KOOPA_SHELL_HEIGHT}), "GreenKoopaShell_" + std::to_string(i));
-		KoopaShellAnimName.push_back("GreenKoopaShell_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("GreenKoopaShell_{}", i), "data/resources/Koopa/GreenKoopaShell.png", sf::IntRect({i * KOOPA_SHELL_WIDTH, 0}, {KOOPA_SHELL_WIDTH, KOOPA_SHELL_HEIGHT}));
+		KoopaShellAnimName.push_back(fmt::format("GreenKoopaShell_{}", i));
 	}
-	ImageManager::AddImage("RedSpinyImage", "data/resources/Spiny/RedSpiny.png");
 	for (int i = 0; i < RED_SPINY_IMAGE_WIDTH / RED_SPINY_WIDTH; ++i) {
-		ImageManager::AddTexture("RedSpinyImage", sf::IntRect({i * RED_SPINY_WIDTH, 0}, {RED_SPINY_WIDTH, RED_SPINY_HEIGHT}), "RedSpinyRight_" + std::to_string(i));
-		ImageManager::AddTexture("RedSpinyImage", sf::IntRect({i * RED_SPINY_WIDTH, 0}, {RED_SPINY_WIDTH, RED_SPINY_HEIGHT}), "RedSpinyLeft_" + std::to_string(i), false, true);
-		SpinyLeftAnimName.push_back("RedSpinyLeft_" + std::to_string(i));
-		SpinyRightAnimName.push_back("RedSpinyRight_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("RedSpiny_{}", i), "data/resources/Spiny/RedSpiny.png", sf::IntRect({i * RED_SPINY_WIDTH, 0}, {RED_SPINY_WIDTH, RED_SPINY_HEIGHT}));
+		SpinyAnimName.push_back(fmt::format("RedSpiny_{}", i));
 	}
-	ImageManager::AddImage("FireFlowerImage", "data/resources/FireFlower.png");
 	for (int i = 0; i < FIRE_FLOWER_IMAGE_WIDTH / FIRE_FLOWER_WIDTH; ++i) {
-		ImageManager::AddTexture("FireFlowerImage", sf::IntRect({i * FIRE_FLOWER_WIDTH, 0}, {FIRE_FLOWER_WIDTH, FIRE_FLOWER_HEIGHT}), "FireFlower_" + std::to_string(i));
-		FireFlowerAnimName.push_back("FireFlower_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("FireFlower_{}", i), "data/resources/FireFlower.png", sf::IntRect({i * FIRE_FLOWER_WIDTH, 0}, {FIRE_FLOWER_WIDTH, FIRE_FLOWER_HEIGHT}));
+		FireFlowerAnimName.push_back(fmt::format("FireFlower_{}", i));
 	}
 	//GoombaAITextureManager.LoadingAnimatedTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
 	//GoombaAITextureManager.LoadingAnimatedTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
@@ -117,42 +103,42 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 				sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(15, 31), false, SkinID, 0.0f);
 			it->setAnimation(0, 1, 11);
-			it->setAnimationSequence(GoombaAnimName, GoombaAnimName);
+			it->setAnimationSequence(GoombaAnimName);
 			break;
 		case KOOPA:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, 1.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(16, 44), false, SkinID, 0.0f);
-			it->setAnimation(0, 1, 12);
-			it->setAnimationSequence(KoopaLeftAnimName, KoopaRightAnimName);
+			it->setAnimation(0, 1, 12, true);
+			it->setAnimationSequence(KoopaAnimName);
 			break;
 		case MUSHROOM:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, 2.0f,
 				sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 				sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
 			it->setAnimation(0, 0, 100);
-			it->setAnimationSequence(MushroomAnimName, MushroomAnimName);
+			it->setAnimationSequence(MushroomAnimName);
 			break;
 		case SHELL:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, 0.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(16, 27), false, SkinID, 0.12f);
 			it->setAnimation(3, 3, 100);
-			it->setAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
+			it->setAnimationSequence(KoopaShellAnimName);
 			break;
 		case SHELL_MOVING:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, 5.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(16, 27), false, SkinID, 0.6f);
 			it->setAnimation(0, 3, 54);
-			it->setAnimationSequence(KoopaShellAnimName, KoopaShellAnimName);
+			it->setAnimationSequence(KoopaShellAnimName);
 			break;
 		case SPINY:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, 1.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(16, 29), false, SkinID, 0.6f);
-			it->setAnimation(0, 1, 14);
-			it->setAnimationSequence(SpinyLeftAnimName, SpinyRightAnimName);
+			it->setAnimation(0, 1, 14, true);
+			it->setAnimationSequence(SpinyAnimName);
 			break;
 		case FIRE_FLOWER:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, 0.0f,
@@ -208,7 +194,7 @@ void GoombaAICheckCollide() {
 			if (it->GetCollisionType() == GoombaAICollisionType::YES) {
 				if ((it->GetInvincibleTimer().getElapsedTime().asSeconds() >= it->GetInvincibleTimerLimit() && it->GetInvincibleTimerLimit() > 0.0f) || it->GetInvincibleTimerLimit() == 0.0f) {
 					if ((it->getCurrentPosition().y - 16.f > player.curr.y) && Yvelo > 0.0f) {
-						player.curr = {player.curr.x, it->getCurrentPosition().y - it->getOrigin().y - 1.0f};
+						//player.curr = {player.curr.x, it->getCurrentPosition().y - it->getOrigin().y - 1.0f};
 						if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
 						else Yvelo = -13.0f;
 						SoundManager::PlaySound("Stomp");

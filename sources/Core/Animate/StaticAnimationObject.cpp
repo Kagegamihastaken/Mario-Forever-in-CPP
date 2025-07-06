@@ -1,12 +1,18 @@
 #include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/ImageManager.hpp"
 namespace MFCPP {
-    void StaticAnimationObject::setTexture(const std::string& name) {
-        m_index.setTexture(*ImageManager::GetReturnTexture(name), true);
+    void StaticAnimationObject::setTexture(const std::string& name, bool anim_flip) {
+        m_index.setTexture(ImageManager::GetReturnTexture(name), true);
+        m_anim_flip = anim_flip;
     }
     void StaticAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
+        const sf::IntRect rect = m_index.getTextureRect();
         m_index.setPosition(pos);
         m_index.setOrigin(origin);
+        if (!m_anim_flip)
+            m_index.setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
+        else
+            m_index.setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
     }
     void StaticAnimationObject::setColor(const sf::Color& color) {
         m_index.setColor(color);

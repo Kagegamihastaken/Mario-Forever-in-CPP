@@ -15,9 +15,8 @@ bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
 void MarioEffectInit() {
-	ImageManager::AddImage("DEADMarioImage", "data/resources/MarioDead.png");
-	ImageManager::AddTexture("DEADMarioImage", "DEADMario");
-	playerEffect.setTexture(ImageManager::GetTexture("DEADMario"), true);
+	ImageManager::AddTexture("DEADMario", "data/resources/MarioDead.png");
+	playerEffect.setTexture(*ImageManager::GetReturnTexture("DEADMario"), true);
 }
 void SetPrevMarioEffectPos() {
 	MarioEffectPrev = MarioEffectCurr;

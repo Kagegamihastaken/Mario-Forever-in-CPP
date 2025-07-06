@@ -14,26 +14,19 @@
 std::vector<MFCPP::BroAI> BroAIList;
 static bool BroAIDeleteGate = false;
 
-static std::vector<std::string> HammerBroLeftAnimName;
-static std::vector<std::string> HammerBroRightAnimName;
-static std::vector<std::string> HammerBroLaunchLeftAnimName;
-static std::vector<std::string> HammerBroLaunchRightAnimName;
+static std::vector<std::string> HammerBroAnimName;
+static std::vector<std::string> HammerBroLaunchAnimName;
 static constexpr int HAMMER_BRO_IMAGE_WIDTH = 96;
 static constexpr int HAMMER_BRO_WIDTH = 48;
 static constexpr int HAMMER_BRO_HEIGHT = 64;
 
 void BroAILoadRes() {
-    ImageManager::AddImage("HammerBroImage", "data/resources/HammerBro/HammerBro.png");
     for (int i = 0; i < HAMMER_BRO_IMAGE_WIDTH / HAMMER_BRO_WIDTH; i++) {
-        ImageManager::AddTexture("HammerBroImage", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}), "HammerBroRight_" + std::to_string(i));
-        ImageManager::AddTexture("HammerBroImage", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}), "HammerBroLeft_" + std::to_string(i), false, true);
-        HammerBroLeftAnimName.push_back("HammerBroLeft_" + std::to_string(i));
-        HammerBroRightAnimName.push_back("HammerBroRight_" + std::to_string(i));
+        ImageManager::AddTexture(fmt::format("HammerBro_{}", i), "data/resources/HammerBro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
+        HammerBroAnimName.push_back(fmt::format("HammerBro_{}", i));
 
-        ImageManager::AddTexture("HammerBroImage", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}), "HammerBroLaunchRight_" + std::to_string(i));
-        ImageManager::AddTexture("HammerBroImage", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}), "HammerBroLaunchLeft_" + std::to_string(i), false, true);
-        HammerBroLaunchLeftAnimName.push_back("HammerBroLaunchLeft_" + std::to_string(i));
-        HammerBroLaunchRightAnimName.push_back("HammerBroLaunchRight_" + std::to_string(i));
+        ImageManager::AddTexture(fmt::format("HammerBroLaunch_{}", i), "data/resources/HammerBro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
+        HammerBroLaunchAnimName.push_back(fmt::format("HammerBroLaunch_{}", i));
     }
 }
 static void BroLaunchProjectile(const int i) {
@@ -81,8 +74,8 @@ void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const 
         case BroAIType::HAMMER_BRO:
             BroAIList.emplace_back(type, movementType, 2.f, 100.f, 3.f, 1, 0.f, sf::FloatRect({7.f, 16.f}, {32.f, 48.f}),
                                sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
-            BroAIList.back().setAnimation(0, 1, 14);
-            BroAIList.back().setAnimationSequence(HammerBroLeftAnimName, HammerBroRightAnimName);
+            BroAIList.back().setAnimation(0, 1, 14, true);
+            BroAIList.back().setAnimationSequence(HammerBroAnimName);
             break;
         default: ;
     }
@@ -137,7 +130,7 @@ void BroAIShootUpdate(const float deltaTime) {
                 if (RandomIntNumberGenerator(0, static_cast<int>(BroAIList[i].getLaunchRNG())) == 1 && !isOutScreen(
                         BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y, 32.f, 32.f)) {
                     BroAIList[i].setLaunchTickingTime(BroAIList[i].getLaunchTickingTime() + 1.f * deltaTime);
-                    BroAIList[i].setAnimationSequence(HammerBroLaunchLeftAnimName, HammerBroLaunchRightAnimName);
+                    BroAIList[i].setAnimationSequence(HammerBroLaunchAnimName);
                     //std::cout << "Standby\n";
                 }
                 BroAIList[i].setLaunchIntervalTicking(0.f);
@@ -161,7 +154,7 @@ void BroAIShootUpdate(const float deltaTime) {
                     BroAIList[i].setLaunchIBTicking(BroAIList[i].getLaunchIntervalBetween());
                     BroAIList[i].setLaunchCounting(BroAIList[i].getLaunchCount());
                     BroAIList[i].setLaunchTickingTime(0.f);
-                    BroAIList[i].setAnimationSequence(HammerBroLeftAnimName, HammerBroRightAnimName);
+                    BroAIList[i].setAnimationSequence(HammerBroAnimName);
                 }
                 //std::cout << "Throw\n";
             }

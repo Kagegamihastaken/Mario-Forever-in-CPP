@@ -10,10 +10,8 @@ MFCPP::TextList MFText;
 
 void loadFontRes() {
 	MFText.SetFontSize(645, 32, 15, 16);
-	ImageManager::AddImage("FontImage", "data/resources/Font.png");
-	for (const auto &i : FontString) {
-		ImageManager::AddTexture("FontImage", sf::IntRect(MFText.GetFontTexture(i), { 15, 16 }), "Font_" + std::to_string(i));
-	}
+	for (const auto &i : FontString)
+		ImageManager::AddTexture(fmt::format("Font_{}", i), "data/resources/Font.png", sf::IntRect(MFText.GetFontTexture(i), { 15, 16 }));
 	//FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 }
 void AddText(const std::string &id, const std::string &text, const TextMarginID margin, const float x, float y) {
@@ -33,7 +31,7 @@ void AddText(const std::string &id, const std::string &text, const TextMarginID 
 		MFText.List.back().setMargin(margin);
 		int Counter = 0;
 		for (const auto& i : text) {
-			MFText.List.back().m_SpriteText.emplace_back(ImageManager::GetTexture("Font_" + std::to_string(i)));
+			MFText.List.back().m_SpriteText.emplace_back(ImageManager::GetTexture(fmt::format("Font_{}", i)));
 			//TextList.back().m_SpriteText.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
 			MFText.List.back().m_SpriteText[Counter].setPosition({ x + MFText.GetFontSize().x * Counter + Counter, y });
 			++Counter;
@@ -58,7 +56,7 @@ void EditText(const std::string &NewText, const std::string &id) {
 			//std::vector<sf::Sprite> Init;
 			int Counter = 0;
 			for (const auto& i : NewText) {
-				MFText.List[IndexCounter].m_SpriteText.emplace_back(ImageManager::GetTexture("Font_" + std::to_string(i)));
+				MFText.List[IndexCounter].m_SpriteText.emplace_back(ImageManager::GetTexture(fmt::format("Font_{}", i)));
 				MFText.List[IndexCounter].m_SpriteText[Counter].setPosition({ MFText.List[IndexCounter].getPosition().x + MFText.GetFontSize().x * Counter, MFText.List[IndexCounter].getPosition().y });
 				++Counter;
 			}

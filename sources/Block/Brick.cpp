@@ -18,11 +18,10 @@ plf::colony<MFCPP::Brick> Bricks;
 static bool BrickDeleteGate = false;
 void LoadBricks() {
 	// Loading Texture
-	ImageManager::AddImage("BrickImage", "data/resources/Brick.png");
-	ImageManager::AddTexture("BrickImage", sf::IntRect({0, 0}, {32, 32}), "NormalBrick");
-	ImageManager::AddTexture("BrickImage", sf::IntRect({0, 32}, {32, 32}), "NormalHittedBrick");
-	ImageManager::AddTexture("BrickImage", sf::IntRect({32, 0}, {32, 32}), "GrayBrick");
-	ImageManager::AddTexture("BrickImage", sf::IntRect({32, 32}, {32, 32}), "GrayHittedBrick");
+	ImageManager::AddTexture("NormalBrick", "data/resources/Brick.png", sf::IntRect({0, 0}, {32, 32}));
+	ImageManager::AddTexture("NormalHittedBrick", "data/resources/Brick.png", sf::IntRect({0, 32}, {32, 32}));
+	ImageManager::AddTexture("GrayBrick", "data/resources/Brick.png", sf::IntRect({32, 0}, {32, 32}));
+	ImageManager::AddTexture("GrayHittedBrick", "data/resources/Brick.png", sf::IntRect({32, 32}, {32, 32}));
 	//ImageManager::Loadingtexture("data/resources/Brick.png", "Bricks", 0, 0, 64, 64);
 }
 void SetPrevBricksPos() {

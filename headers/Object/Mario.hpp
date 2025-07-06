@@ -59,12 +59,9 @@ static constexpr int MARIO_IMAGE_WIDTH = 310;
 static constexpr int MARIO_WIDTH = 31;
 static constexpr int MARIO_HEIGHT = 59;
 
-static std::vector<std::string> SmallMarioLeft;
-static std::vector<std::string> SmallMarioRight;
-static std::vector<std::string> BigMarioLeft;
-static std::vector<std::string> BigMarioRight;
-static std::vector<std::string> FireMarioLeft;
-static std::vector<std::string> FireMarioRight;
+static std::vector<std::string> SmallMario;
+static std::vector<std::string> BigMario;
+static std::vector<std::string> FireMario;
 
 //define here
 inline SingleAnimationObject MarioAnimation;

@@ -29,7 +29,10 @@
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Core/Game.hpp"
+
+#include "Block/BulletLauncher.hpp"
 #include "Effect/BroAIEffect.hpp"
+#include "Object/BulletBill.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
 void GameObjectInit() {
@@ -60,6 +63,8 @@ void GameObjectInit() {
     ExitGateInit();
     ViewInit();
     FireballExplosionInit();
+    BulletLauncherInit();
+    BulletBillInit();
 
     EditorInit();
     SelectTileInit();
@@ -181,6 +186,7 @@ void GameObjectDeltaMovement(const float dt) {
         ExitGateStatusUpdate(dt);
         BrickUpdate(dt);
         LuckyBlockUpdate(dt);
+        BulletLauncherStatusUpdate(dt);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         EditorScreenMove(dt);
@@ -279,6 +285,7 @@ void GameObjectDraw() {
         ObstaclesDraw();
         BrickDraw();
         LuckyBlockDraw();
+        BulletLauncherDraw();
         MarioDraw();
         SpikeDraw();
         SlopeDraw();

@@ -15,6 +15,8 @@
 #include "Core/Level.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
+
+#include "Block/BulletLauncher.hpp"
 //#include "imgui.h"
 //#include "imgui-SFML.h"
 float alpha = 1.0f;
@@ -42,15 +44,22 @@ int WinMain() {
 		//sf::Clock deltaClock;
 		GameTextInit();
 		GameLoadLevel();
+
+		//MFCPP::SimpleSprite test;
+
+		//sf::RectangleShape test(sf::Vector2f(32.f, 32.f));
+		//test.setPointCount(4);
+		//test.setPoint(0, {0.f, 0.f});
+		//test.setPoint(1, {32.f, 0.f});
+		//test.setPoint(2, {32.f, 32.f});
+		//test.setPoint(3, {0.f, 32.f});
 		//sf::RectangleShape test(sf::Vector2f(32.0f, 32.0f));
 
 		//ImageManager::AddImage("TempTexImage", "data/resources/testImage.png");
 		//ImageManager::CreateTestImage("TempTexImage", "TempTexImageFixed");
-		//ImageManager::AddTexture("TempTexImageFixed", "TempTexTexture");
+		//ImageManager::AddTexture("TempTexImage", "TempTexTexture");
 
-		//tempTex.setSmooth(true);
-		//test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"));
-
+		//test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"), true);
 		//test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
 
 		//for (int i = 0; i <= 6; ++i) {
@@ -58,6 +67,8 @@ int WinMain() {
 		//}
 		//render.setStep(1.0f / 300.0f);
 		AudioEnginePlay();
+
+		AddBulletLauncher(BULLET_NORMAL, 128.f, 128.f);
 		while (window.isOpen()) {
 			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));
 			//bool Updated = false;
@@ -103,7 +114,6 @@ int WinMain() {
 			else alpha = 1.0f;
 			GameObjectInterpolateMovement(alpha);
 			GameObjectAnimation();
-
 			//test.setPosition(player.property.getPosition());
 			//ImGui::SFML::Update(window, deltaClock.restart());
 			//ImGui::ShowDemoWindow();
@@ -120,7 +130,7 @@ int WinMain() {
 			//rObject.display();
 			//sf::Sprite Renderer(rObject.getTexture());
 			//render.addFrame()
-			window.clear();
+			window.clear(sf::Color::Transparent);
 			GameObjectDraw();
 			//window.draw(test);
 			//if (render.isUpdateRequired()) {

@@ -53,11 +53,6 @@ static sf::Sprite EDITOR_Mario(tempTex); // 128, 320
 static sf::Sprite EDITOR_ExitGateIndicator(tempTex); // 256, 320
 static sf::Sprite EDITOR_ExitGate(tempTex); // 384, 320
 
-static std::vector<std::array<float, 5>> LevelData;
-//static std::vector<std::array<float, 3>> SlopeData;
-static std::vector<std::array<float, 7>> BonusData;
-static std::vector<std::array<float, 7>> EnemyData;
-
 //Read file purpose onlu
 static std::array<float, 4> ExitGateData{};
 static std::array<float, 2> PlayerData{};
@@ -87,26 +82,18 @@ void AlphaUpdate(float& alpha, bool& state, const float min, const float max, co
 }
 
 void EditorInit() {
-    ImageManager::AddImage("SelectBoxImage", "data/resources/Editor/EDITOR_SelectBox.png");
-    ImageManager::AddTexture("SelectBoxImage", "EDITOR_SelectBox");
-    ImageManager::AddImage("GridImage", "data/resources/Editor/EDITOR_Grid.png");
-    ImageManager::AddTexture("GridImage", "EDITOR_Grid", true);
+    ImageManager::AddTexture("EDITOR_SelectBox", "data/resources/Editor/EDITOR_SelectBox.png");
+    ImageManager::AddTexture("EDITOR_Grid", "data/resources/Editor/EDITOR_Grid.png", {}, true);
 
-    ImageManager::AddImage("MushroomLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
-    ImageManager::AddTexture("MushroomLuckyblockImage", "EDITOR_MushroomLuckyblock");
-    ImageManager::AddImage("CoinLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Luckyblock.png");
-    ImageManager::AddTexture("CoinLuckyblockImage", "EDITOR_CoinLuckyblock");
-    ImageManager::AddImage("CoinBrickImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
-    ImageManager::AddTexture("CoinBrickImage", "EDITOR_CoinBrick");
-    ImageManager::AddImage("HammerBroCanMoveImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
-    ImageManager::AddTexture("HammerBroCanMoveImage", "EDITOR_HammerBroCanMove");
-    ImageManager::AddImage("HammerBroCannotMoveImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
-    ImageManager::AddTexture("HammerBroCannotMoveImage", "EDITOR_HammerBroCannotMove");
-    ImageManager::AddImage("FireFlowerLuckyblockImage", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
-    ImageManager::AddTexture("FireFlowerLuckyblockImage", "EDITOR_FireFlowerLuckyblock");
+    ImageManager::AddTexture("EDITOR_MushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
+    ImageManager::AddTexture( "EDITOR_CoinLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Luckyblock.png");
+    ImageManager::AddTexture( "EDITOR_CoinBrick", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
+    ImageManager::AddTexture("EDITOR_HammerBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
+    ImageManager::AddTexture("EDITOR_HammerBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
+    ImageManager::AddTexture( "EDITOR_FireFlowerLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
 
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
-
+    if (ImageManager::GetReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
     EDITOR_Mario.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][0].name), true);
     EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][0].name)->getSize().y - 32.0f));

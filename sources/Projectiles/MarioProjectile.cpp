@@ -17,9 +17,7 @@ std::vector<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;
 
 void MarioProjectileInit() {
-    ImageManager::AddImage("FireballImage", "data/resources/Projectiles/Fireball.png");
-    ImageManager::AddTexture("FireballImage", "FireballRight");
-    ImageManager::AddTexture("FireballImage", "FireballLeft", false, true);
+    ImageManager::AddTexture("Fireball", "data/resources/Projectiles/Fireball.png");
 }
 int getAmountProjectile() {
     return static_cast<int>(MarioProjectileList.size());
@@ -126,8 +124,7 @@ void AddMarioProjectile(const bool direction, const MarioProjectileType type, co
     switch (type) {
         case MarioProjectileType::FIREBALL:
             MarioProjectileList.emplace_back(direction, type, FIREBALL_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 8.f));
-            if (direction) MarioProjectileList.back().setTexture("FireballLeft");
-            else MarioProjectileList.back().setTexture("FireballRight");
+            MarioProjectileList.back().setTexture("Fireball", direction);
             break;
         default: ;
     }

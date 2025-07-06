@@ -41,16 +41,12 @@ static constexpr int EXIT_INDICATOR_WIDTH = 31;
 static constexpr int EXIT_INDICATOR_HEIGHT = 32;
 
 void ExitGateInit() {
-	ImageManager::AddImage("ExitGateBackImage", "data/resources/ExitGateBack.png");
-	ImageManager::AddTexture("ExitGateBackImage", "ExitGateBack");
-	ImageManager::AddImage("ExitGateForeImage", "data/resources/ExitGateFore.png");
-	ImageManager::AddTexture("ExitGateForeImage", "ExitGateFore");
-	ImageManager::AddImage("ExitGateForeEffectImage", "data/resources/ExitGateForeEffect.png");
-	ImageManager::AddTexture("ExitGateForeEffectImage", "ExitGateForeEffect");
-	ImageManager::AddImage("ExitGateIndicatorImage", "data/resources/ExitGateIndicator.png");
+	ImageManager::AddTexture("ExitGateBack", "data/resources/ExitGateBack.png");
+	ImageManager::AddTexture("ExitGateFore", "data/resources/ExitGateFore.png");
+	ImageManager::AddTexture("ExitGateForeEffect", "data/resources/ExitGateForeEffect.png");
 	for (int i = 0; i < EXIT_INDICATOR_IMAGE_WIDTH / EXIT_INDICATOR_WIDTH; i++) {
-		ImageManager::AddTexture("ExitGateIndicatorImage", sf::IntRect({i * EXIT_INDICATOR_WIDTH, 0}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT}), "ExitGateIndicator_" + std::to_string(i));
-		ExitIndicatorAnimName.push_back("ExitGateIndicator_" + std::to_string(i));
+		ImageManager::AddTexture(fmt::format("ExitGateIndicator_{}", i), "data/resources/ExitGateIndicator.png", sf::IntRect({i * EXIT_INDICATOR_WIDTH, 0}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT}));
+		ExitIndicatorAnimName.push_back(fmt::format("ExitGateIndicator_{}", i));
 	}
 	//ExitGateTextureManager.LoadingAnimatedTexture(EXIT_GATE_INDICATOR_TEXTURE, "ExitGateIndicator", 0, 2, 0, 31, 32);
 	ExitGateBack.setTexture(ImageManager::GetTexture("ExitGateBack"), true);
@@ -64,7 +60,7 @@ void ExitGateInit() {
 	ExitGateClock.reset();
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50);
-	ExitGateIndicatorAnimation.setAnimationSequence(ExitIndicatorAnimName, ExitIndicatorAnimName);
+	ExitGateIndicatorAnimation.setAnimationSequence(ExitIndicatorAnimName);
 	ExitGateIndicator.setOrigin({ 0.0f, 31.0f });
 }
 void SetPrevExitGatePos() {

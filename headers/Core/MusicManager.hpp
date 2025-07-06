@@ -5,7 +5,6 @@
 
 #include "soloud_openmpt.h"
 #include "soloud_wav.h"
-#include "Core/ExternalHeaders/sfMod/sfMod.hpp"
 
 class MusicManager {
 private:
