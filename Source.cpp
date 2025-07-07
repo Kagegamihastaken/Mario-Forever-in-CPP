@@ -44,6 +44,8 @@ int WinMain() {
 		//sf::Clock deltaClock;
 		GameTextInit();
 		GameLoadLevel();
+		MusicManager::ForceLoadMusic("MarioDeath");
+		MusicManager::ForceLoadMusic("LevelComplete");
 
 		//MFCPP::SimpleSprite test;
 
@@ -92,6 +94,9 @@ int WinMain() {
 					else if (keyPressed->code == sf::Keyboard::Key::P) {
 						MusicManager::PauseMusic(getMusicLevelName());
 					}
+					else if (keyPressed->code == sf::Keyboard::Key::L) {
+						MusicManager::PlayMusic(getMusicLevelName());
+					}
 				}
 				GameObjectRetrieveEvent(event);
 			}
@@ -101,6 +106,7 @@ int WinMain() {
 			}
 			GameObjectEditorUpdate();
 			GameObjectEditText();
+			MarioOutSideScreen();
 			fpsLite.update();
 			timestep.addFrame();
 			//if (Updated) {
@@ -146,9 +152,10 @@ int WinMain() {
 		MFCPP::Log::printCurrentTrace();
 		std::exit(EXIT_FAILURE);
 	}
-	SoundManager::CleanUp();
 	IODeinit();
 	AudioEngineDeInit();
+	SoundManager::CleanUp();
+	ImageManager::Cleanup();
 	std::exit(EXIT_SUCCESS);
 	//ImGui::SFML::Shutdown();
 }

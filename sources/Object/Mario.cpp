@@ -14,6 +14,8 @@
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 #include <SFML/Graphics/Shader.hpp>
+
+#include "Core/Logging.hpp"
 sf::Shader notShader;
 
 //texture loading
@@ -62,6 +64,14 @@ void SetPrevMarioPos() {
 }
 void InterpolateMarioPos(const float alpha) {
 	player.property.setPosition(linearInterpolation(player.prev, player.curr, alpha));
+}
+void MarioOutSideScreen() {
+	if (player.curr.x <= player.property.getOrigin().x + ViewX) {
+		player.curr = {player.property.getOrigin().x + ViewX, player.curr.y};
+		OutsideWallLeft = true;
+		if (Xvelo > 0.f) Xvelo = 0.f;
+	}
+	else if (player.curr.x > player.property.getOrigin().x + ViewX) OutsideWallLeft = false;
 }
 void KeyboardMovement(const float deltaTime) {
 	if (CanControlMario && !LevelCompleteEffect) {
@@ -146,7 +156,12 @@ void KeyboardMovement(const float deltaTime) {
 }
 void MarioPosXUpdate(const float deltaTime) {
 	if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
-	else player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
+	else {
+		if (!OutsideWallLeft)
+			player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
+		else Xvelo = 0.f;
+	}
+
 	if (CanControlMario) {
 
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
@@ -362,7 +377,7 @@ void MarioUpdateAnimation() {
 						lastMarioState = MarioState;
 					}
 					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
-					MarioAnimation.setFrequencyAnimation(f_max(12.0f, f_min(Xvelo * 6.0f, 45.0f)));
+					MarioAnimation.setFrequencyAnimation(f_max(12.0f, f_min(Xvelo * 8.0f, 45.0f)));
 					//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 				}
 				else if (FireTimeCounting < FireTime && PowerState > 1) {

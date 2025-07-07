@@ -29,17 +29,6 @@ void ImageManager::LoadTexture(const std::string &name_tex, const std::filesyste
 	if (PhysFsStream loadFile(path.string().c_str()); !tex->loadFromStream(loadFile, false, tex_rect)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
 	tex->setRepeated(isRepeated);
 	m_textures[name_tex] = std::move(tex);
-
-	const GLint texID = m_textures[name_tex]->getNativeHandle();
-
-	glBindTexture(GL_TEXTURE_2D, texID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
 	MFCPP::Log::InfoPrint(fmt::format("ImageManager: Loaded Texture {}", name_tex));
 }
 sf::Texture& ImageManager::GetTexture(const std::string& name)

@@ -41,7 +41,7 @@ void SoundManager::AddPlaySound(const std::string& name, const std::string& path
 	auto wav = std::make_unique<SoLoud::Wav>();
 	PhysFsSoLoudStream file;
 	if (!file.open(path.c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path));
-	if (wav->loadFile(&file) != SoLoud::SO_NO_ERROR) throw std::runtime_error(fmt::format("Sound Manager: Cannot load sound {}", path));
+	if (wav->loadFile(&file) != SoLoud::SO_NO_ERROR) throw std::runtime_error(fmt::format("SoundManager: Cannot load sound {}", path));
 	m_sounds[name] = std::move(wav);
 	UpdateSoundEnvironmemt(name);
 	//const std::vector<uint8_t> Data = GetFileDataInByte(path);

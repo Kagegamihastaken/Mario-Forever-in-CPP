@@ -52,6 +52,7 @@ extern void Death();
 extern void SetPowerState(int ps);
 extern void InvincibleStateUpdate();
 extern void MarioUpdateHitbox();
+extern void MarioOutSideScreen();
 extern int PowerState;
 extern int Lives;
 
@@ -89,6 +90,8 @@ static sf::Clock InvincibleTimer;
 inline bool Invincible = false;
 inline bool InvincibleState = false;
 inline bool MarioAppearing = false;
+
+static bool OutsideWallLeft = false;
 
 static float FireTime = 4.f;
 static float FireTimeCounting = FireTime;

@@ -13,6 +13,7 @@ float ViewX, ViewY;
 float ViewXOff, ViewYOff;
 static float OFFSET = 0.0f;
 float lastX = std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f));
+sf::Vector2f ScrollPos(0.f, 0.f);
 sf::View getLetterboxView(sf::View view, const int windowWidth, const int windowHeight) {
 	const float windowRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 	const float viewRatio = view.getSize().x / (float)view.getSize().y;
@@ -46,7 +47,10 @@ void ViewInit() {
 }
 void setView() {
 	view = getLetterboxView(view, window.getSize().x, window.getSize().y);
-	if (CurrentScene == SceneID::SCENE_GAMEPLAY) view.setCenter({ std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f) + OFFSET, std::min(std::max(Height / 2.0f, player.property.getPosition().y), LevelHeight - 240.0f) + OFFSET });
+	if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+		ScrollPos = player.property.getPosition();
+		view.setCenter({ std::min(std::max(Width / 2.0f, ScrollPos.x), LevelWidth - 320.0f) + OFFSET, std::min(std::max(Height / 2.0f, ScrollPos.y), LevelHeight - 240.0f) + OFFSET });
+	}
 	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f+ EditorInterpolatedPos.y});
 	//std::cout << player.property.getPosition().x << "\n";
 	//WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));

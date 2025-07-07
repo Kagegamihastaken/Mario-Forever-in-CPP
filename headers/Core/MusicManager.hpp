@@ -6,17 +6,24 @@
 #include "soloud_openmpt.h"
 #include "soloud_wav.h"
 
+struct PreMusic {
+	std::filesystem::path path;
+	bool isLoop = false;
+	float volume = 1.f;
+};
+
 class MusicManager {
 private:
-	static std::map<std::string, SoLoud::Wav> m_ogg_musics;
-	static std::map<std::string, SoLoud::Openmpt> m_mod_musics;
-	static std::map<std::string, bool> m_musics_id;
+	static std::map<std::string, std::unique_ptr<SoLoud::AudioSource>> m_musics;
 	static std::map<std::string, SoLoud::handle> m_musics_handle;
+	static std::map<std::string, PreMusic> m_pre_musics;
 
 	static bool CheckValidWavType(const std::string_view& str);
 public:
 	MusicManager() = delete;
-	static void AddMusic(const std::string &name, const std::filesystem::path &pat);
+	static void ForceLoadMusic(const std::string& name);
+	static void AddMusic(const std::string &name, const std::filesystem::path &path);
+	static void AddPlayMusic(const std::string &name, const std::filesystem::path &path);
 	static void PlayMusic(const std::string &name);
 	static void PauseMusic(const std::string &name);
 	static void CleanUp();
