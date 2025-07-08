@@ -4,22 +4,17 @@
 #define Coin_HPP
 
 #include "Core/Loading/enum.hpp"
-#include "Core/ImageManager.hpp"
+#include "Core/Class/CoinClass.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
-class Coin {
-public:
-	sf::Sprite property = sf::Sprite(tempTex);
-	sf::FloatRect hitbox;
-};
-extern std::vector<CoinID> CoinIDList;
-extern std::vector<CoinAtt> CoinAttList;
 extern int CoinCount;
-extern std::vector<Coin> CoinList;
+extern plf::colony<MFCPP::Coin> CoinList;
 extern void CoinInit();
 extern void AddCoin(CoinID ID, CoinAtt att, float x, float y);
 extern void CoinDraw();
 extern void CoinOnTouch();
 extern void DeleteAllCoin();
 extern void DeleteLuckyBlock(float x, float y);
-extern void DeleteCoin(float x, float y);
+extern void DeleteIndexCoin(const plf::colony<MFCPP::Coin>::colony_iterator<false>& index);
+extern void CoinCleanup();
 #endif // Coin_HPP

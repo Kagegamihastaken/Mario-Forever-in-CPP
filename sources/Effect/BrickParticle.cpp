@@ -4,163 +4,87 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/Class/BrickParticleClass.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
-std::vector<std::array<sf::Sprite, 4>> BrickParticleList;
-std::vector<std::array<sf::Vector2f, 4>> BrickParticleCurr;
-std::vector<std::array<sf::Vector2f, 4>> BrickParticlePrev;
-std::vector<std::array<bool, 4>> BrickParticleDisabledList;
-std::vector<BrickID> BrickParticleID;
-std::vector<std::array<std::pair<float, float>, 4>> BrickParticleVelo;
-std::vector<int> BrickParticleDisabledAM;
+plf::colony<MFCPP::BrickParticle> BrickParticleList;
+static bool BrickParticleDeleteGate = false;
 
 void BrickParticleInit() {
 	ImageManager::AddTexture("NormalBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({0, 0}, {16, 16}));
 	ImageManager::AddTexture("GrayBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({16, 0}, {16, 16}));
 }
+void AddSubBrickParticle(const BrickID id, float Xvelo, float Yvelo, const float ori_x, const float ori_y) {
+	const auto it = BrickParticleList.emplace(Xvelo, Yvelo, sf::Vector2f(ori_x, ori_y), sf::Vector2f(8.f, 8.f));
+	switch (id) {
+		case BRICK_NORMAL:
+			it->setTexture("NormalBrickParticle");
+			break;
+		case BRICK_GRAY:
+			it->setTexture("GrayBrickParticle");
+			break;
+		default: ;
+	}
+}
 void SetPrevBrickParticlePos() {
-	for (int i = 0; i < BrickParticleList.size(); ++i) {
-		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			BrickParticlePrev[i][j] = BrickParticleCurr[i][j];
-		}
+	for (auto &i : BrickParticleList) {
+		if (i.willBeDestroyed()) continue;
+		i.setPreviousAngle(i.getCurrentAngle());
+		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateBrickParticlePos(const float alpha) {
-	for (int i = 0; i < BrickParticleList.size(); ++i) {
-		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			BrickParticleList[i][j].setPosition(linearInterpolation(BrickParticlePrev[i][j], BrickParticleCurr[i][j], alpha));
-		}
+	for (auto &i : BrickParticleList) {
+		if (i.willBeDestroyed()) continue;
+		i.setInterpolatedAngle(linearInterpolation(i.getPreviousAngle(), i.getCurrentAngle(), alpha));
+		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
 void AddBrickParticle(const BrickID id, const float ori_x, const float ori_y) {
-	std::array<sf::Sprite, 4> it = { sf::Sprite(tempTex), sf::Sprite(tempTex), sf::Sprite(tempTex), sf::Sprite(tempTex) };
-	std::array<sf::Vector2f, 4> itc;
-	std::array<bool, 4> itn{};
-	std::array<std::pair<float, float>, 4> veloIt;
-	for (int i = 0; i < 4; ++i) {
-		switch (id) {
-		case BRICK_NORMAL:
-			it[i].setTexture(ImageManager::GetTexture("NormalBrickParticle"), true);
-			break;
-		case BRICK_GRAY:
-			it[i].setTexture(ImageManager::GetTexture("GrayBrickParticle"), true);
-			break;
-		}
-		it[i].setOrigin({ 8, 8 });
-		if (i == 0) {
-			it[i].setPosition({ ori_x + 8.0f, ori_y + 8.0f });
-			itc[i] = { ori_x + 8.0f, ori_y + 8.0f };
-		}
-		else if (i == 1) {
-			it[i].setPosition({ ori_x + 8.0f + 16.0f, ori_y + 8.0f });
-			itc[i] = { ori_x + 8.0f + 16.0f, ori_y + 8.0f };
-		}
-		else if (i == 2) {
-			it[i].setPosition({ ori_x + 8.0f, ori_y + 8.0f + 16.0f });
-			itc[i] = { ori_x + 8.0f, ori_y + 8.0f + 16.0f };
-		}
-		else if (i == 3) {
-			it[i].setPosition({ ori_x + 8.0f + 16.0f, ori_y + 8.0f + 16.0f });
-			itc[i] = { ori_x + 8.0f + 16.0f, ori_y + 8.0f + 16.0f };
-		}
-		itn[i] = false;
-		if (i == 0) veloIt[i] = std::make_pair(-2.0f, -8.0f);
-		else if (i == 1) veloIt[i] = std::make_pair(2.0f, -8.0f);
-		else if (i == 2) veloIt[i] = std::make_pair(-4.0f, -7.0f);
-		else if (i == 3) veloIt[i] = std::make_pair(4.0f, -7.0f);
-	}
-	BrickParticleCurr.push_back(itc);
-	BrickParticlePrev.push_back(itc);
-	BrickParticleDisabledList.push_back(itn);
-	BrickParticleList.push_back(it);
-	BrickParticleVelo.push_back(veloIt);
-	BrickParticleID.push_back(id);
-	BrickParticleDisabledAM.push_back(0);
+	AddSubBrickParticle(id, -2.f, -8.f, ori_x + 8.f, ori_y + 8.f);
+	AddSubBrickParticle(id, 2.f, -8.f, ori_x + 24.f, ori_y + 8.f);
+	AddSubBrickParticle(id, -4.f, -7.f, ori_x + 8.f, ori_y + 24.f);
+	AddSubBrickParticle(id, 4.f, -7.f, ori_x + 24.f, ori_y + 24.f);
 }
-void DeleteSubBrickParticle(const float x, const float y) {
-	bool Itbreak = false;
-	for (int i = 0; i < BrickParticleList.size(); ++i) {
-		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			if (BrickParticleCurr[i][j].x == x && BrickParticleCurr[i][j].y == y && !BrickParticleDisabledList[i][j]) {
-				BrickParticleDisabledList[i][j] = true;
-				Itbreak = true;
-				break;
-			}
-		}
-		if (Itbreak) break;
-	}
-}
-void DeleteSubBrickParticleIndex(const int i, const int j) {
-	if (!BrickParticleDisabledList[i][j]) {
-		++BrickParticleDisabledAM[i];
-		BrickParticleDisabledList[i][j] = true;
-	}
+void DeleteBrickParticleIndex(const plf::colony<MFCPP::BrickParticle>::colony_iterator<false>& it) {
+	BrickParticleDeleteGate = true;
+	it->willDestroy(true);
 }
 void BrickParticleStatusUpdate(const float deltaTime) {
 	if (BrickParticleList.empty()) return;
-	bool canDelete = false;
-	for (int i = 0; i < BrickParticleList.size(); ++i) {
-		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			if (!BrickParticleDisabledList[i][j]) {
-				BrickParticleCurr[i][j] = { BrickParticleCurr[i][j].x + BrickParticleVelo[i][j].first * deltaTime, BrickParticleCurr[i][j].y + BrickParticleVelo[i][j].second * deltaTime };
-				// TODO: Add imterpolation to rotate
-				if (BrickParticleVelo[i][j].first > 0) BrickParticleList[i][j].rotate(sf::degrees(10.0f * deltaTime));
-				else if (BrickParticleVelo[i][j].first < 0) BrickParticleList[i][j].rotate(sf::degrees(-10.0f * deltaTime));
-				BrickParticleVelo[i][j].second += 1.f * deltaTime * 0.3f;
-			}
-		}
-		while (true) {
-			canDelete = false;
-			for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-				if (isOutScreen(BrickParticleCurr[i][j].x, BrickParticleCurr[i][j].y, 32 + 16, 32 + 16) && !BrickParticleDisabledList[i][j]) {
-					DeleteSubBrickParticleIndex(i, j);
-					//DeleteSubBrickParticle(BrickParticleList[i][j].getPosition().x, BrickParticleList[i][j].getPosition().y);
-					canDelete = true;
-					break;
-				}
-			}
-			if (!canDelete) break;
-		}
-	}
-	while (true) {
-		canDelete = false;
-		for (int i = 0; i < BrickParticleList.size(); ++i) {
-			//AllTrue = true;
-			//for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			//	if (!BrickParticleDisabledList[i][j]) {
-			//		AllTrue = false;
-			//		break;
-			//	}
-			//}
-			//if (AllTrue) {
-			if (BrickParticleDisabledAM[i] >= 4) {
-				BrickParticleList.erase(BrickParticleList.begin() + i);
-				BrickParticleVelo.erase(BrickParticleVelo.begin() + i);
-				BrickParticleDisabledList.erase(BrickParticleDisabledList.begin() + i);
-				BrickParticleID.erase(BrickParticleID.begin() + i);
-				BrickParticleDisabledAM.erase(BrickParticleDisabledAM.begin() + i);
-				BrickParticleCurr.erase(BrickParticleCurr.begin() + i);
-				BrickParticlePrev.erase(BrickParticlePrev.begin() + i);
-				canDelete = true;
-				break;
-			}
-		}
-		if (!canDelete) break;
+
+	for (auto it = BrickParticleList.begin(); it != BrickParticleList.end(); ++it) {
+		if (it->willBeDestroyed()) continue;
+
+		if (isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 48, 48))
+			DeleteBrickParticleIndex(it);
+		it->move(sf::Vector2f(it->getXvelo() * deltaTime, it->getYvelo() * deltaTime));
+
+		if (it->getXvelo() > 0.f) it->setCurrentAngle(it->getCurrentAngle() + sf::degrees(10.f * deltaTime));
+		else if (it->getXvelo() < 0.f) it->setCurrentAngle(it->getCurrentAngle() - sf::degrees(10.f * deltaTime));
+		it->setYvelo(it->getYvelo() + 1.f * deltaTime * 0.3f);
 	}
 }
 void DeleteAllBrickParticle() {
 	BrickParticleList.clear();
-	BrickParticleVelo.clear();
-	BrickParticleDisabledList.clear();
-	BrickParticleID.clear();
-	BrickParticleDisabledAM.clear();
-	BrickParticleCurr.clear();
-	BrickParticlePrev.clear();
 }
 void BrickParticleDraw() {
 	if (BrickParticleList.empty()) return;
-	for (int i = 0; i < BrickParticleList.size(); ++i) {
-		for (int j = 0; j < BrickParticleList[i].size(); ++j) {
-			if (!BrickParticleDisabledList[i][j]) window.draw(BrickParticleList[i][j]);
+
+	for (auto &i : BrickParticleList) {
+		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 48, 48)) {
+			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+			i.setRotation(i.getInterpolatedAngle());
+			i.AnimationDraw(window);
 		}
 	}
+}
+void BrickParticleCleanup() {
+	if (!BrickParticleDeleteGate) return;
+	auto it = BrickParticleList.begin();
+	while (it != BrickParticleList.end()) {
+		if (!it->willBeDestroyed()) ++it;
+		else it = BrickParticleList.erase(it);
+	}
+	BrickParticleDeleteGate = false;
 }

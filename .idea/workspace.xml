@@ -85,25 +85,30 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="remove support for libopenmpt,">
-      <change afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillEffectClass.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Effect/BulletBillEffect.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/Class/BulletBillEffectClass.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Effect/BulletBillEffect.cpp" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="complete bulletbill">
+      <change afterPath="$PROJECT_DIR$/headers/Core/Class/BrickParticleClass.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Core/Class/CoinClass.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Core/Class/ScoreEffectClass.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Class/BrickParticleClass.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Class/CoinClass.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Class/ScoreEffectClass.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Object/BulletBill.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/BulletBill.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Animate/StaticAnimationObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Animate/StaticAnimationObject.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Class/BulletBillClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/BulletBillClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/BulletLauncher.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/BulletLauncher.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/LuckyBlock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/LuckyBlock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/GoombaAIEffectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/GoombaAIEffectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Effect/BrickParticle.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Effect/BrickParticle.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Effect/ScoreEffect.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Effect/ScoreEffect.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/Coin.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Coin.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Brick.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Brick.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/GoombaAIEffectClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/GoombaAIEffectClass.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Coin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Coin.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,33 +169,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;C/C++ File.Source.cpp.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.MFCPP.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/source/repos/Mario-Forever-in-CPP&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "C/C++ File.Source.cpp.executor": "Run",
+    "CMake Application.MFCPP.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.advertisement.text.has.clang-format": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/source/repos/Mario-Forever-in-CPP",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.android.studio.ml.bot.mainConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\source\repos\MFCPP\headers\Core" />
@@ -674,7 +679,9 @@
       <workItem from="1751893180614" duration="2203000" />
       <workItem from="1751904499726" duration="839000" />
       <workItem from="1751905386511" duration="1132000" />
-      <workItem from="1751942191776" duration="3081000" />
+      <workItem from="1751942191776" duration="3190000" />
+      <workItem from="1751945433989" duration="861000" />
+      <workItem from="1751950314427" duration="11361000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -980,7 +987,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751885761595</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="complete bulletbill">
+      <option name="closed" value="true" />
+      <created>1751945385973</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1751945385973</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1216,7 +1231,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="optimize animation" />
     <MESSAGE value="improve some window stuff &amp; fix collision between GoombaAI" />
     <MESSAGE value="edit coding structure &amp; implement some mechanic to editor" />
     <MESSAGE value="quick fix GoombaAI bug" />
@@ -1241,7 +1255,8 @@
     <MESSAGE value="new sound engine!" />
     <MESSAGE value="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon" />
     <MESSAGE value="remove support for libopenmpt," />
-    <option name="LAST_COMMIT_MESSAGE" value="remove support for libopenmpt," />
+    <MESSAGE value="complete bulletbill" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete bulletbill" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

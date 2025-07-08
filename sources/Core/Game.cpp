@@ -332,5 +332,8 @@ void GameCleanUp() {
         BrickCleanup();
         BulletBillCleanup();
         BulletBillEffectCleanup();
+        ScoreEffectCleanup();
+        BrickParticleCleanup();
+        CoinCleanup();
     }
 }

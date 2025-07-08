@@ -4,13 +4,16 @@
 #define SCOREEFFECT_HPP
 
 #include "Core/Loading/enum.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
+#include "Core/Class/ScoreEffectClass.hpp"
 
-extern std::vector<sf::Sprite> ScoreEffectList;
+extern plf::colony<MFCPP::ScoreEffect> ScoreEffectList;
 extern void SetPrevScoreEffectPos();
 extern void InterpolateScoreEffectPos(float alpha);
 extern void AddScoreEffect(ScoreID id, float x, float y);
-extern void DeleteScoreEffect(int i, float deltaTime);
 extern void DeleteAllScoreEffect();
 extern void ScoreEffectStatusUpdate(float deltaTime);
 extern void ScoreEffectDraw();
+extern void ScoreEffectCleanup();
+
 #endif

@@ -108,4 +108,5 @@ void BulletBillCleanup() {
         if (!it->willBeDestroyed()) ++it;
         else it = BulletBillList.erase(it);
     }
+    BulletBillDeleteGate = false;
 }

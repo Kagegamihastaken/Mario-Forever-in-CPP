@@ -5,10 +5,12 @@
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/Logging.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Class/GoombaAIEffectClass.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
-std::vector<MFCPP::GoombaAIEffect> GoombaAIEffectList;
+plf::colony<MFCPP::GoombaAIEffect> GoombaAIEffectList;
 static bool GoombaAIEffectDeleteGate = false;
 void GoombaAIEffectInit() {
 	ImageManager::AddTexture("DEAD_Goomba_1", "data/resources/Goomba/DEAD_Goomba.png", sf::IntRect({0, 0}, {31, 32}));
@@ -31,43 +33,40 @@ void InterpolateGoombaAIEffectPos(const float alpha) {
 	}
 }
 void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const int SkinID, const float x, const float y) {
+	plf::colony<MFCPP::GoombaAIEffect>::colony_iterator<false> it;
 	if (type == GOOMBA) {
 		if (id == COLLIDE) {
-			GoombaAIEffectList.emplace_back(id, SkinID, 0.f, sf::FloatRect({0.f, 0.f}, {31.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(16, 31));
-			GoombaAIEffectList.back().restartClock();
-			GoombaAIEffectList.back().setTexture("DEAD_Goomba_1");
+			it = GoombaAIEffectList.emplace(id, SkinID, 0.f, sf::FloatRect({0.f, 0.f}, {31.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(16, 31));
+			it->setTexture("DEAD_Goomba_1");
 		}
 		else if (id == NONE) {
-			GoombaAIEffectList.emplace_back(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {31.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(16, 31));
-			GoombaAIEffectList.back().restartClock();
-			GoombaAIEffectList.back().setTexture("DEAD_Goomba_2");
+			it = GoombaAIEffectList.emplace(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {31.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(16, 31));
+			it->setTexture("DEAD_Goomba_2");
 		}
 	}
 	else if (type == KOOPA || type == SHELL || type == SHELL_MOVING) {
 		if (id == NONE) {
-			GoombaAIEffectList.emplace_back(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(16, 27));
-			GoombaAIEffectList.back().restartClock();
-			GoombaAIEffectList.back().setTexture("DEAD_Koopa");
+			it = GoombaAIEffectList.emplace(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(16, 27));
+			it->setTexture("DEAD_Koopa");
 		}
 	}
 	else if (type == SPINY) {
 		if (id == NONE) {
-			GoombaAIEffectList.emplace_back(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(15, 22));
-			GoombaAIEffectList.back().restartClock();
-			GoombaAIEffectList.back().setTexture("DEAD_Spiny_Red");
+			it = GoombaAIEffectList.emplace(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(15, 22));
+			it->setTexture("DEAD_Spiny_Red");
 		}
 	}
 }
 
-void DeleteGoombaAIEffectIndex(const int i) {
+void DeleteGoombaAIEffectIndex(const plf::colony<MFCPP::GoombaAIEffect>::colony_iterator<false>& it) {
 	GoombaAIEffectDeleteGate = true;
-	GoombaAIEffectList[i].willDestroy(true);
+	it->willDestroy(true);
 	//GoombaAIEffectList.erase(GoombaAIEffectList.begin() + i);
 }
 void DeleteGoombaAIEffect(const float x, const float y) {
-	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
-		if (GoombaAIEffectList[i].getCurrentPosition().x == x && GoombaAIEffectList[i].getCurrentPosition().y == y) {
-			DeleteGoombaAIEffectIndex(i);
+	for (auto it = GoombaAIEffectList.begin(); it != GoombaAIEffectList.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
+			DeleteGoombaAIEffectIndex(it);
 			break;
 		}
 	}
@@ -77,19 +76,22 @@ void DeleteAllGoombaAIEffect() {
 }
 void GoombaAIEffectStatusUpdate(const float deltaTime) {
 	if (GoombaAIEffectList.empty()) return;
-	for (int i = 0; i < GoombaAIEffectList.size(); ++i) {
-		if (GoombaAIEffectList[i].willBeDestroyed()) continue;
+	for (auto it = GoombaAIEffectList.begin(); it != GoombaAIEffectList.end(); ++it) {
+		if (it->willBeDestroyed()) continue;
 
-		if (GoombaAIEffectList[i].getID() == NONE) {
-			if (isOutScreenYBottom(GoombaAIEffectList[i].getInterpolatedPosition().y, 64)) DeleteGoombaAIEffectIndex(i);
+		if (it->getID() == NONE) {
+			if (isOutScreenYBottom(it->getInterpolatedPosition().y, 64)) DeleteGoombaAIEffectIndex(it);
 		}
-		else if (GoombaAIEffectList[i].getID() == COLLIDE) {
-			if (GoombaAIEffectList[i].getClock().getElapsedTime().asSeconds() >= 4.0f) {
-				if (GoombaAIEffectList[i].getAlpha() > 0) {
-					GoombaAIEffectList[i].setAlpha(GoombaAIEffectList[i].getAlpha() - 7.5f * deltaTime);
-					GoombaAIEffectList[i].setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(GoombaAIEffectList[i].getAlpha()))));
+		else if (it->getID() == COLLIDE) {
+			if (it->getClock() >= 4.0f * 50.f) {
+				if (it->getAlpha() > 0) {
+					it->setAlpha(it->getAlpha() - 7.5f * deltaTime);
+					it->setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(it->getAlpha()))));
 				}
-				else DeleteGoombaAIEffectIndex(i);
+				else DeleteGoombaAIEffectIndex(it);
+			}
+			else {
+				it->setClock(it->getClock() + 1.f * deltaTime);
 			}
 		}
 	}
@@ -142,10 +144,10 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 }
 void GoombaAIEffectCleanup() {
 	if (!GoombaAIEffectDeleteGate) return;
-	int i = 0;
-	while (i < GoombaAIEffectList.size()) {
-		if (!GoombaAIEffectList[i].willBeDestroyed()) ++i;
-		else GoombaAIEffectList.erase(GoombaAIEffectList.begin() + i);
+	auto it = GoombaAIEffectList.begin();
+	while (it != GoombaAIEffectList.end()) {
+		if (!it->willBeDestroyed()) ++it;
+		else it = GoombaAIEffectList.erase(it);
 	}
 	GoombaAIEffectDeleteGate = false;
 }

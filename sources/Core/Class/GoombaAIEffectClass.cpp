@@ -8,6 +8,7 @@ namespace MFCPP {
         setPreviousPosition(pos);
         setInterpolatedPosition(pos);
         m_alpha = 255.f;
+        m_clock = 0.f;
     }
     void GoombaAIEffect::setID(const GoombaAIEffectID id) {
         m_id = id;
@@ -33,10 +34,10 @@ namespace MFCPP {
     float GoombaAIEffect::getAlpha() const {
         return m_alpha;
     }
-    void GoombaAIEffect::restartClock() {
-        m_clock.restart();
+    void GoombaAIEffect::setClock(const float val) {
+        m_clock = val;
     }
-    sf::Clock GoombaAIEffect::getClock() const {
+    float GoombaAIEffect::getClock() const {
         return m_clock;
     }
     void GoombaAIEffect::setSkinID(const int val) {

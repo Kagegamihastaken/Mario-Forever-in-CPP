@@ -70,7 +70,7 @@ int WinMain() {
 		//render.setStep(1.0f / 300.0f);
 		AudioEnginePlay();
 
-		AddBulletLauncher(BULLET_NORMAL, 128.f, 128.f);
+		AddBulletLauncher(BULLET_NORMAL, 256.f + 32.f, 128.f);
 		while (window.isOpen()) {
 			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));
 			//bool Updated = false;

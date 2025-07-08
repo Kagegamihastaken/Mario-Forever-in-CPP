@@ -195,10 +195,10 @@ void LuckyHitEvent(const float x, const float y) {
 		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].curr, sf::Vector2f(0.f, 0.f));
 			LuckyLoop.position.y -= 16.0f;
-			for (int j = 0; j < CoinList.size(); ++j) {
-				if (isCollide(CoinList[j].hitbox, CoinList[j].property, LuckyLoop)) {
-					AddCoinEffect(CoinIDList[j], CoinAttList[j], CoinList[j].property.getPosition().x + 15.0f, CoinList[j].property.getPosition().y + 32.0f);
-					DeleteCoin(CoinList[j].property.getPosition().x, CoinList[j].property.getPosition().y);
+			for (auto jt = CoinList.begin(); jt != CoinList.end(); ++jt) {
+				if (sf::FloatRect CoinCollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(CoinCollide, LuckyLoop)) {
+					AddCoinEffect(jt->getID(), jt->getAttribute(), jt->getCurrentPosition().x + 15.0f, jt->getCurrentPosition().y + 32.0f);
+					DeleteIndexCoin(jt);
 					SoundManager::PlaySound("Coin");
 					++CoinCount;
 				}

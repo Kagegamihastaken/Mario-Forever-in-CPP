@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef BULLETLAUNCHER_HPP
 #define BULLETLAUNCHER_HPP
 #include "Core/Loading/enum.hpp"

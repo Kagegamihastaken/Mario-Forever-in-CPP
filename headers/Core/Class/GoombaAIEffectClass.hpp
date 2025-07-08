@@ -18,8 +18,8 @@ namespace MFCPP {
         [[nodiscard]] sf::FloatRect getHitbox() const;
         void setAlpha(float val);
         [[nodiscard]] float getAlpha() const;
-        void restartClock();
-        [[nodiscard]] sf::Clock getClock() const;
+        void setClock(float val);
+        [[nodiscard]] float getClock() const;
         void setSkinID(int val);
         [[nodiscard]] int getSkinID() const;
     private:
@@ -27,7 +27,7 @@ namespace MFCPP {
         float            m_Yvelo;
         sf::FloatRect    m_hitbox;
         float            m_alpha;
-        sf::Clock        m_clock;
+        float            m_clock;
         int              m_skinID;
     };
 }

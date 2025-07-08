@@ -5,14 +5,10 @@
 #include "Core/Sound.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
-
+#include "Core/Class/ScoreEffectClass.hpp"
 //define
-std::vector<sf::Sprite> ScoreEffectList;
-std::vector<ScoreID> ScoreEffectIDList;
-std::vector<float> ScoreEffectVelocity;
-std::vector<float> ScoreEffectAlpha;
-std::vector<sf::Vector2f> ScoreEffectCurr;
-std::vector<sf::Vector2f> ScoreEffectPrev;
+plf::colony<MFCPP::ScoreEffect> ScoreEffectList;
+static bool ScoreEffectDeleteGate = false;
 
 void ScoreEffectInit() {
 	ImageManager::AddTexture("Score_100", "data/resources/Score.png", sf::IntRect({ 0, 0 }, { 26, 16 }));
@@ -26,103 +22,105 @@ void ScoreEffectInit() {
 	//ScoreEffectTexture.Loadingtexture("data/resources/Score.png", "SCORE_TEXTURE", 0, 0, 42, 128);
 }
 void SetPrevScoreEffectPos() {
-	for (int i = 0; i < ScoreEffectList.size(); i++) {
-		ScoreEffectPrev[i] = ScoreEffectCurr[i];
+	for (auto &i : ScoreEffectList) {
+		if (i.willBeDestroyed()) continue;
+
+		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateScoreEffectPos(const float alpha) {
-	for (int i = 0; i < ScoreEffectList.size(); i++) {
-		ScoreEffectList[i].setPosition(linearInterpolation(ScoreEffectPrev[i], ScoreEffectCurr[i], alpha));
+	for (auto &i : ScoreEffectList) {
+		if (i.willBeDestroyed()) continue;
+
+		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
 void AddScoreEffect(const ScoreID id, float x, float y) {
-	sf::Sprite Init(tempTex);
+	plf::colony<MFCPP::ScoreEffect>::colony_iterator<false> it;
 	switch (id) {
 		case SCORE_100:
-		Init.setTexture(ImageManager::GetTexture("Score_100"), true);
-		Score += 100;
-		Init.setOrigin({ 12, 15 });
-		break;
-	case SCORE_200:
-		Init.setTexture(ImageManager::GetTexture("Score_200"), true);
-		Score += 200;
-		Init.setOrigin({ 14, 15 });
-		break;
-	case SCORE_500:
-		Init.setTexture(ImageManager::GetTexture("Score_500"), true);
-		Score += 500;
-		Init.setOrigin({ 13, 15 });
-		break;
-	case SCORE_1000:
-		Init.setTexture(ImageManager::GetTexture("Score_1000"), true);
-		Score += 1000;
-		Init.setOrigin({ 16, 15 });
-		break;
-	case SCORE_2000:
-		Init.setTexture(ImageManager::GetTexture("Score_2000"), true);
-		Score += 2000;
-		Init.setOrigin({ 16, 15 });
-		break;
-	case SCORE_5000:
-		Init.setTexture(ImageManager::GetTexture("Score_5000"), true);
-		Score += 5000;
-		Init.setOrigin({ 16, 15 });
-		break;
-	case SCORE_10000:
-		Init.setTexture(ImageManager::GetTexture("Score_10000"), true);
-		Score += 10000;
-		Init.setOrigin({ 20, 15 });
-		break;
-	case SCORE_1UP:
-		Init.setTexture(ImageManager::GetTexture("Score_1UP"), true);
-		Init.setOrigin({ 14, 15 });
-		++Lives;
-		SoundManager::PlaySound("1UP");
-		break;
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(12, 15));
+			it->setTexture("Score_100");
+			Score += 100;
+			break;
+		case SCORE_200:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(14, 15));
+			it->setTexture("Score_200");
+			Score += 200;
+			break;
+		case SCORE_500:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(13, 15));
+			it->setTexture("Score_500");
+			Score += 500;
+			break;
+		case SCORE_1000:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(16, 15));
+			it->setTexture("Score_1000");
+			Score += 1000;
+			break;
+		case SCORE_2000:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(16, 15));
+			it->setTexture("Score_2000");
+			Score += 2000;
+			break;
+		case SCORE_5000:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(16, 15));
+			it->setTexture("Score_5000");
+			Score += 5000;
+			break;
+		case SCORE_10000:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(20, 15));
+			it->setTexture("Score_10000");
+			Score += 10000;
+			break;
+		case SCORE_1UP:
+			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(14, 15));
+			it->setTexture("Score_1UP");
+			++Lives;
+			SoundManager::PlaySound("1UP");
+			break;
+		default: ;
 	}
-	Init.setPosition({ x, y });
-	ScoreEffectCurr.push_back(Init.getPosition());
-	ScoreEffectPrev.push_back(Init.getPosition());
-	ScoreEffectList.push_back(Init);
-	ScoreEffectIDList.push_back(id);
-	ScoreEffectVelocity.push_back(-1.5f);
-	ScoreEffectAlpha.push_back(255);
 }
-void DeleteScoreEffect(const int i, const float deltaTime) {
-	if (ScoreEffectAlpha[i] > 0) {
-		ScoreEffectAlpha[i] -= 7.5f * deltaTime;
-		ScoreEffectList[i].setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(ScoreEffectAlpha[i]))));
-	}
-	else {
-		ScoreEffectList.erase(ScoreEffectList.begin() + i);
-		ScoreEffectIDList.erase(ScoreEffectIDList.begin() + i);
-		ScoreEffectVelocity.erase(ScoreEffectVelocity.begin() + i);
-		ScoreEffectAlpha.erase(ScoreEffectAlpha.begin() + i);
-		ScoreEffectCurr.erase(ScoreEffectCurr.begin() + i);
-		ScoreEffectPrev.erase(ScoreEffectPrev.begin() + i);
-	}
+void DeleteScoreEffect(plf::colony<MFCPP::ScoreEffect>::colony_iterator<false>& it) {
+	ScoreEffectDeleteGate = true;
+	it->willDestroy(true);
 }
 void DeleteAllScoreEffect() {
 	ScoreEffectList.clear();
-	ScoreEffectIDList.clear();
-	ScoreEffectVelocity.clear();
-	ScoreEffectAlpha.clear();
-	ScoreEffectCurr.clear();
-	ScoreEffectPrev.clear();
 }
 void ScoreEffectStatusUpdate(const float deltaTime) {
-	for (int i = 0; i < ScoreEffectList.size(); ++i) {
-		ScoreEffectCurr[i] = { ScoreEffectCurr[i].x, ScoreEffectCurr[i].y + ScoreEffectVelocity[i] * deltaTime };
-		if (ScoreEffectVelocity[i] < 0.0f) ScoreEffectVelocity[i] += 0.025f * deltaTime;
-		else if (ScoreEffectVelocity[i] >= 0.0f) {
-			ScoreEffectVelocity[i] = 0.0f;
-			DeleteScoreEffect(i, deltaTime);
+	for (auto it = ScoreEffectList.begin(); it != ScoreEffectList.end(); ++it) {
+		if (it->willBeDestroyed()) continue;
+
+		it->move(sf::Vector2f(0.f, it->getVelocity() * deltaTime));
+		if (it->getVelocity() < 0.0f) it->setVelocity(it->getVelocity() + 0.025f * deltaTime);
+		else if (it->getVelocity() >= 0.0f) {
+			it->setVelocity(0.f);
+			if (it->getAlpha() > 0) {
+				it->setAlpha(it->getAlpha() - 7.5f * deltaTime);
+				it->setColor(sf::Color(255, 255, 255, std::max(0, static_cast<int>(it->getAlpha()))));
+			}
+			else
+				DeleteScoreEffect(it);
 		}
 	}
 }
 void ScoreEffectDraw() {
 	if (ScoreEffectList.empty()) return;
-	for (const auto & i : ScoreEffectList) {
-		window.draw(i);
+	for (auto & i : ScoreEffectList) {
+		if (i.willBeDestroyed()) continue;
+
+		i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+		i.AnimationDraw(window);
 	}
+}
+void ScoreEffectCleanup() {
+	if (!ScoreEffectDeleteGate) return;
+	auto it = ScoreEffectList.begin();
+	while (it != ScoreEffectList.end()) {
+		if (!it->willBeDestroyed()) ++it;
+		else it = ScoreEffectList.erase(it);
+	}
+	ScoreEffectDeleteGate = false;
 }
