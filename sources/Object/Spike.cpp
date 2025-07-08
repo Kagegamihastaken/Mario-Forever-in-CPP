@@ -7,71 +7,73 @@
 #include "Object/Mario.hpp"
 #include "Core/Loading/enum.hpp"
 
-std::vector<sf::Sprite> SpikeList;
-std::vector<SpikeID> SpikeIDList;
-std::vector<SingleAnimationObject> SpikeAnimationList;
-std::vector<sf::FloatRect> SpikeHitboxList;
+plf::colony<MFCPP::Spike> SpikeList;
 static std::vector<std::string> PiranhaGroundAnimName;
+static bool SpikeDeleteGate = false;
 void SpikeInit() {
 	ImageManager::AddTexture("NormalSpike", "data/resources/Spike/Spike.png");
 	for (int i = 0; i < 4; ++i) {
 		ImageManager::AddTexture(fmt::format("PiranhaGreenGround_{}", i), "data/resources/Spike/PiranhaGround.png", sf::IntRect({i * 32, 0}, {32, 32}));
 		PiranhaGroundAnimName.emplace_back(fmt::format("PiranhaGreenGround_{}", i));
 	}
-	//SpikeTextureManager.Loadingtexture("data/resources/Spike/Spike.png", "Spike_Normal", 0, 0, 32, 32);
-
-	//SpikeTextureManager.LoadingAnimatedTexture(PIRANHA_GROUND_TEXTURE, "Piranha_Ground", 0, 3, 0, 32, 32);
-	//SpikeTextureManager.LoadingAnimatedTexture(SPIKE_TEXTURE, "Spike_Normal", 0, 0, 0, 32, 32);
 }
 void DeleteAllSpike() {
 	SpikeList.clear();
-	SpikeIDList.clear();
-	SpikeAnimationList.clear();
-	SpikeHitboxList.clear();
+}
+void DeleteSpikeIndex(const plf::colony<MFCPP::Spike>::colony_iterator<false>& it) {
+	it->willDestroy(true);
+	SpikeDeleteGate = true;
 }
 void DeleteSpike(const float x, const float y) {
-	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (SpikeList[i].getPosition().x == x && SpikeList[i].getPosition().y == y) {
-			SpikeList.erase(SpikeList.begin() + i);
-			SpikeIDList.erase(SpikeIDList.begin() + i);
-			SpikeAnimationList.erase(SpikeAnimationList.begin() + i);
-			SpikeHitboxList.erase(SpikeHitboxList.begin() + i);
+	for (auto it = SpikeList.begin(); it != SpikeList.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
+			DeleteSpikeIndex(it);
 		}
 	}
 }
-void AddSpike(const SpikeID ID, float x, float y) {
-	sf::Sprite Init(tempTex);
-	SingleAnimationObject InitAnimation;
+void AddSpike(const SpikeID ID, const float x, const float y) {
+	plf::colony<MFCPP::Spike>::colony_iterator<false> it;
 	switch (ID) {
-	case PIRANHA_GROUND:
-		InitAnimation.setAnimation(0, 3, 22);
-		InitAnimation.setAnimationSequence(PiranhaGroundAnimName);
-		break;
-	case SPIKE_NORMAL:
-		InitAnimation.setAnimation(0, 0, 100);
-		InitAnimation.AddAnimationSequence("NormalSpike");
-		break;
+		case PIRANHA_GROUND:
+			it = SpikeList.emplace(ID, sf::FloatRect({0.f, 0.f}, {32.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
+			it->setAnimation(0, 3, 22);
+			it->setAnimationSequence(PiranhaGroundAnimName);
+			break;
+		case SPIKE_NORMAL:
+			it = SpikeList.emplace(ID, sf::FloatRect({0.f, 0.f}, {32.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
+			it->setAnimation(0, 0, 100);
+			it->AddAnimationSequence("NormalSpike");
+			break;
+		default: ;
 	}
-	SpikeHitboxList.push_back(sf::FloatRect({ 0, 0 }, { 32, 32 }));
-	Init.setPosition({ x, y });
-	SpikeList.push_back(Init);
-	SpikeIDList.push_back(ID);
-	SpikeAnimationList.push_back(InitAnimation);
 }
 void SpikeStatusUpdate() {
 	if (SpikeList.empty()) return;
-	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.property);
-	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
-			if (isCollide(SpikeHitboxList[i], SpikeList[i], playerHitbox)) PowerDown();
+	const sf::FloatRect player_hitbox = getGlobalHitbox(player.hitboxMain, player.property);
+	for (auto it = SpikeList.begin(); it != SpikeList.end(); ++it) {
+		if (it->willBeDestroyed()) continue;
+
+		if (!isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 32, 32)) {
+			if (const sf::FloatRect spike_hitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(spike_hitbox, player_hitbox))
+				PowerDown();
 		}
 	}
 }
 void SpikeDraw() {
-	for (int i = 0; i < SpikeList.size(); ++i) {
-		if (!isOutScreen(SpikeList[i].getPosition().x, SpikeList[i].getPosition().y, 32, 32)) {
-			SpikeAnimationList[i].AnimationUpdate(SpikeList[i].getPosition(), SpikeList[i].getOrigin());
-			SpikeAnimationList[i].AnimationDraw(window);
+	for (auto it = SpikeList.begin(); it != SpikeList.end(); ++it) {
+		if (it->willBeDestroyed()) continue;
+		if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, 32, 32)) {
+			it->AnimationUpdate(it->getInterpolatedPosition(), it->getOrigin());
+			it->AnimationDraw(window);
 		}
 	}
+}
+void SpikeCleanup() {
+	if (!SpikeDeleteGate) return;
+	auto it = SpikeList.begin();
+	while (it != SpikeList.end()) {
+		if (it->willBeDestroyed()) ++it;
+		else it = SpikeList.erase(it);
+	}
+	SpikeDeleteGate = false;
 }

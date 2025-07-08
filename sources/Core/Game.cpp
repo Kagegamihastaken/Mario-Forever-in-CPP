@@ -111,7 +111,7 @@ void GameObjectEditText() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         //EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
         EditText(fmt::format("{}", Lives), "_LIVE");
-        EditText(fmt::format("FPS: {}", static_cast<int>(fpsLite.getFps())), "_FPS");
+        EditText(fmt::format("FPS: {}", static_cast<int>(std::round(fpsLite.getFps()))), "_FPS");
         //EditText("FPS: " + std::to_string(static_cast<int>(fpsLite.getFps())), "_FPS");
         //EditText(std::to_string(Xvelo) + " VX", "_CODX");
         //EditText(std::to_string(Yvelo) + " VY", "_CODY");
@@ -335,5 +335,7 @@ void GameCleanUp() {
         ScoreEffectCleanup();
         BrickParticleCleanup();
         CoinCleanup();
+        SpikeCleanup();
+        LuckyBlockCleanup();
     }
 }

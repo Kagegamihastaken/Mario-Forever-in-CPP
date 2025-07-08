@@ -298,7 +298,7 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 			}
 			if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
 				//i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
-				LuckyHit(LuckyCurrPosX, LuckyCurrPosY, getLuckyIndex(LuckyCurrPosX, LuckyCurrPosY));
+				LuckyHit(LuckyCurrPosX, LuckyCurrPosY);
 			}
 		}
 		// Count if size AllCollideList equal to CollideAddCounter

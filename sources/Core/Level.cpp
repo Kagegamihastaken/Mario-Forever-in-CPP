@@ -556,7 +556,6 @@ void Objectbuilding() {
 			}
 		}
 	}
-	LuckyBlockSort();
 }
 std::string getMusicLevelName() {
 	return MusicData;

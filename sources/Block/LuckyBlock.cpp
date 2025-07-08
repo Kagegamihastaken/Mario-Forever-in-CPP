@@ -13,17 +13,10 @@
 #include "Object/BroAI.hpp"
 #include "Object/Mario.hpp"
 
-std::vector<Obstacles> LuckyBlock;
-std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyVertPosList;
-std::vector<LuckyBlockID> LuckyBlockIDList;
-std::vector<LuckyBlockAtt> LuckyBlockAttList;
-std::vector<bool> LuckyBlockState;
-std::vector<float> LuckyBlockStateCount;
-std::vector<bool> LuckyUpDown;
-std::vector<std::pair<sf::FloatRect, sf::Vector2f>> LuckyHorzPosList;
-std::vector<SingleAnimationObject> LuckyIdle;
-std::vector<bool> LuckyBlockHitted;
+plf::colony<MFCPP::LuckyBlock> LuckyBlock;
+static bool LuckyBlockDeleteGate = false;
 static std::vector<std::string> NormLuckyBlockAnimName;
+static std::vector<std::string> TreeLuckyBlockAnimName;
 
 void LoadLuckyBlock() {
 	for (int i = 0; i < 3; ++i) {
@@ -31,169 +24,158 @@ void LoadLuckyBlock() {
 		NormLuckyBlockAnimName.emplace_back(fmt::format("NormalLuckyBlock_{}", i));
 	}
 	ImageManager::AddTexture("NormalLuckyBlockHit", "data/resources/luckyblock.png", sf::IntRect({96, 0}, {32, 32}));
+	NormLuckyBlockAnimName.emplace_back("NormalLuckyBlockHit");
 	ImageManager::AddTexture("TreeLuckyBlock", "data/resources/luckyblock.png", sf::IntRect({64, 32}, {32, 32}));
+	TreeLuckyBlockAnimName.emplace_back("TreeLuckyBlock");
 	ImageManager::AddTexture("TreeLuckyBlockHit", "data/resources/luckyblock.png", sf::IntRect({96, 32}, {32, 32}));
-	//LuckyBlockTextureManager.Loadingtexture("data/resources/luckyblock.png", "LuckyBlock", 0, 0, 128, 64);
+	TreeLuckyBlockAnimName.emplace_back("TreeLuckyBlockHit");
 }
 void SetPrevLuckyBlockPos() {
 	for (auto & i : LuckyBlock) {
-		i.prev = i.curr;
+		if (i.willBeDestroyed()) continue;
+
+		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateLuckyBlockPos(const float alpha) {
 	for (auto & i : LuckyBlock) {
-		i.property.setPosition(linearInterpolation(i.prev, i.curr, alpha));
+		if (i.willBeDestroyed()) continue;
+
+		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
 void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, float y) {
-	LuckyIdle.emplace_back();
-	LuckyIdle.back().setAnimation(0, 2, 9);
+	plf::colony<MFCPP::LuckyBlock>::colony_iterator<false> it;
 	switch (ID) {
-	case LUCKY_BLOCK:
-		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("NormalLuckyBlock_0")) });
-		LuckyIdle.back().setAnimationSequence(NormLuckyBlockAnimName);
-		break;
-	case TREE_LUCKY_BLOCK:
-		LuckyBlock.push_back(Obstacles{ 0, sf::Sprite(ImageManager::GetTexture("TreeLuckyBlock")) });
-		break;
+		case LUCKY_BLOCK:
+			it = LuckyBlock.emplace(ID, Att, sf::Vector2f(x, y));
+			it->setAnimation(0, 2, 9);
+			it->setAnimationSequence(NormLuckyBlockAnimName);
+			break;
+		case TREE_LUCKY_BLOCK:
+			it = LuckyBlock.emplace(ID, Att, sf::Vector2f(x, y));
+			it->setAnimation(0, 0, 100);
+			it->setAnimationSequence(TreeLuckyBlockAnimName);
+			break;
+		default: ;
 	}
-	LuckyBlockAttList.push_back(Att);
-	LuckyBlockIDList.push_back(ID);
-	LuckyBlockState.push_back(false);
-	LuckyBlockStateCount.push_back(0);
-	LuckyHorzPosList.emplace_back( sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) );
-	LuckyBlockHitted.push_back(false);
-	LuckyUpDown.push_back(false);
-	LuckyBlock.back().property.setPosition({ x, y });
-	LuckyBlock.back().curr = LuckyBlock.back().prev = LuckyBlock.back().property.getPosition();
-	setHitbox(LuckyBlock[LuckyBlock.size() - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
-	//LuckyIdle.back().setAnimation(0, 2, 9);
-	LuckyVertPosList.emplace_back( sf::FloatRect({ 0.0f, 0.0f }, { 32.f, 32.f }), sf::Vector2f(x, y) );
-	//LuckyIdle[LuckyIdle.size() - 1].setAnimation({ 32,32 }, { 0,0 }, { 3,0 }, 9);
-}
-void LuckyBlockSort() {
-	if (LuckyBlock.empty()) return;
-	std::ranges::sort(LuckyVertPosList, [](const std::pair<sf::FloatRect, sf::Vector2f>& A, const std::pair<sf::FloatRect, sf::Vector2f>& B) {
-		if (A.second.y < B.second.y) return true;
-		else if (A.second.y == B.second.y) return A.second.x < B.second.x;
-		else return false;
-		});
 }
 void LuckyBlockDraw() {
-	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (!isOutScreen(LuckyBlock[i].property.getPosition().x, LuckyBlock[i].property.getPosition().y, 32, 32)) {
-			if (LuckyBlockIDList[i] == LUCKY_BLOCK && !LuckyBlockHitted[i]) {
-				LuckyIdle[i].AnimationUpdate(LuckyBlock[i].property.getPosition(), LuckyBlock[i].property.getOrigin());
-				LuckyIdle[i].AnimationDraw(window);
-			}
-			else window.draw(LuckyBlock[i].property);
+	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
+		if (it->willBeDestroyed()) continue;
+
+		if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, 32, 32)) {
+			it->AnimationUpdate(it->getInterpolatedPosition(), it->getOrigin());
+			it->AnimationDraw(window);
 		}
 	}
 }
 void LuckyBlockUpdate(const float deltaTime) {
-	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlockState[i]) {
-			if (LuckyBlockAttList[i] == LUCKY_COIN) {
-				if (!LuckyUpDown[i]) {
-					if (LuckyBlockStateCount[i] < 11.0f) {
-						LuckyBlock[i].curr = { LuckyBlock[i].curr.x, LuckyBlock[i].curr.y - (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime };
-						LuckyBlockStateCount[i] += (LuckyBlockStateCount[i] < 6.0f ? 3.0f : (LuckyBlockStateCount[i] < 10.0f ? 2.0f : 1.0f)) * deltaTime;
+	for (auto &i : LuckyBlock) {
+		if (i.willBeDestroyed()) continue;
+
+		if (i.getState()) {
+			if (i.getAtt() == LUCKY_COIN) {
+				if (!i.getUpDown()) {
+					if (i.getStateCount() < 11.0f) {
+						i.move(sf::Vector2f(0.f, - (i.getStateCount() < 6.0f ? 3.0f : (i.getStateCount() < 10.0f ? 2.0f : 1.0f)) * deltaTime));
+						i.setStateCount(i.getStateCount() + (i.getStateCount() < 6.0f ? 3.0f : (i.getStateCount() < 10.0f ? 2.0f : 1.0f)) * deltaTime);
 					}
 					else {
-						LuckyBlockStateCount[i] = 11.0f;
-						LuckyUpDown[i] = true;
+						i.setStateCount(11.f);
+						i.setUpDown(true);
 					}
 				}
 				else {
-					if (LuckyBlockStateCount[i] > 0.0f) {
-						LuckyBlock[i].curr = { LuckyBlock[i].curr.x, LuckyBlock[i].curr.y + (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime };
-						LuckyBlockStateCount[i] -= (LuckyBlockStateCount[i] > 10.0f ? 1.0f : (LuckyBlockStateCount[i] > 6.0f ? 2.0f : 3.0f)) * deltaTime;
+					if (i.getStateCount() > 0.0f) {
+						i.move(sf::Vector2f(0.f, (i.getStateCount() > 10.0f ? 1.0f : (i.getStateCount() > 6.0f ? 2.0f : 3.0f)) * deltaTime));
+						i.setStateCount(i.getStateCount() - (i.getStateCount() > 10.0f ? 1.0f : (i.getStateCount() > 6.0f ? 2.0f : 3.0f)) * deltaTime);
 					}
 					else {
-						LuckyBlock[i].curr = { LuckyHorzPosList[i].second.x, LuckyHorzPosList[i].second.y };
-						LuckyBlockStateCount[i] = 0.0f;
-						LuckyUpDown[i] = false;
-						LuckyBlockState[i] = false;
+						i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, i.getYPos()));
+						i.setStateCount(0.f);
+						i.setUpDown(false);
+						i.setState(false);
 					}
 				}
 			}
 			else {
-				if (!LuckyUpDown[i]) {
-					if (LuckyBlockStateCount[i] < 4.0f) {
-						LuckyBlock[i].curr = { LuckyBlock[i].curr.x,LuckyBlock[i].curr.y - 1.0f * deltaTime };
-						LuckyBlockStateCount[i] += 1.0f * deltaTime;
+				if (!i.getUpDown()) {
+					if (i.getStateCount() < 4.0f) {
+						i.move(sf::Vector2f(0.f, - 1.f * deltaTime));
+						i.setStateCount(i.getStateCount() + 1.f * deltaTime);
 					}
 					else {
-						LuckyBlockStateCount[i] = 4.0f;
-						LuckyUpDown[i] = true;
+						i.setStateCount(4.f);
+						i.setUpDown(true);
 					}
 				}
 				else {
-					if (LuckyBlockStateCount[i] > 0.0f) {
-						LuckyBlock[i].curr = { LuckyBlock[i].curr.x, LuckyBlock[i].curr.y + 1.0f * deltaTime };
-						LuckyBlockStateCount[i] -= 1.0f * deltaTime;
+					if (i.getStateCount() > 0.0f) {
+						i.move(sf::Vector2f(0.f, 1.f * deltaTime));
+						i.setStateCount(i.getStateCount() - 1.f * deltaTime);
 					}
 					else {
-						LuckyBlock[i].curr = { LuckyHorzPosList[i].second.x, LuckyHorzPosList[i].second.y };
-						LuckyBlockStateCount[i] = 0.0f;
-						LuckyUpDown[i] = false;
-						LuckyBlockState[i] = false;
+						i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, i.getYPos()));
+						i.setStateCount(0.f);
+						i.setUpDown(false);
+						i.setState(false);
 					}
 				}
 			}
 		}
 	}
 }
-void LuckyBlockHittedUpdate(const int index) {
-	if (LuckyBlockIDList[index] == LUCKY_BLOCK) {
-		LuckyBlock[index].property.setTexture(ImageManager::GetTexture("NormalLuckyBlockHit"));
-	}
-	else if (LuckyBlockIDList[index] == TREE_LUCKY_BLOCK) {
-		LuckyBlock[index].property.setTexture(ImageManager::GetTexture("TreeLuckyBlockHit"));
+void LuckyBlockHitUpdate(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>& it) {
+	switch (it->getID()) {
+		case LUCKY_BLOCK:
+			it->setAnimation(3, 3, 100);
+			break;
+		case TREE_LUCKY_BLOCK:
+			it->setAnimation(1, 1, 100);
+			break;
 	}
 }
-void LuckyHit(const float x, const float y, const int i) {
-	if (!LuckyBlockState[i] && !LuckyBlockHitted[i]) {
-		switch (LuckyBlockAttList[i]) {
+void LuckyHitIndex(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>& it) {
+	if (!it->getState() && !it->WasHit()) {
+		switch (it->getAtt()) {
 		case LUCKY_COIN:
 			SoundManager::PlaySound("Coin");
-			AddCoinEffect(COIN_NORMAL, ONE_COIN, x + 15.0f, y);
+			AddCoinEffect(COIN_NORMAL, ONE_COIN, it->getCurrentPosition().x + 15.0f, it->getCurrentPosition().y);
 			++CoinCount;
 			break;
 		case LUCKY_MUSHROOM:
 			SoundManager::PlaySound("Vine");
 			//Temporary
-			AddGoombaAI(MUSHROOM, 0, x + 16.0f, y, RIGHT);
+			AddGoombaAI(MUSHROOM, 0, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
 			break;
 		case LUCKY_FIRE_FLOWER:
 			SoundManager::PlaySound("Vine");
 			if (PowerState == 0)
-				AddGoombaAI(MUSHROOM, 0, x + 16.0f, y, RIGHT);
+				AddGoombaAI(MUSHROOM, 0, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
 			else
-				AddGoombaAI(FIRE_FLOWER, 0, x + 16.0f, y, RIGHT);
+				AddGoombaAI(FIRE_FLOWER, 0, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
 			break;
 		default: ;
 		}
-		LuckyBlockHittedUpdate(i);
-		LuckyBlockState[i] = true;
-		LuckyUpDown[i] = false;
-		LuckyBlockStateCount[i] = 0;
-		LuckyBlockHitted[i] = true;
+		LuckyBlockHitUpdate(it);
+		it->setState(true);
+		it->setWasHit(true);
+		it->setStateCount(0.f);
+		it->setUpDown(false);
 	}
 }
-int getLuckyIndex(const float x, const float y) {
-	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyHorzPosList[i].second.x == x && LuckyHorzPosList[i].second.y == y) {
-			return i;
-		}
+void LuckyHit(const float x, const float y) {
+	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y)
+			LuckyHitIndex(it);
 	}
-	return -1;
 }
 void LuckyHitEvent(const float x, const float y) {
 	std::set<std::pair<float, float>> BroAIDeleteSet;
-	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y && !LuckyBlockState[i] && !LuckyBlockHitted[i]) {
-			sf::FloatRect LuckyLoop = getGlobalHitbox(LuckyBlock[i].hitbox, LuckyBlock[i].curr, sf::Vector2f(0.f, 0.f));
+	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y && !it->getState() && !it->WasHit()) {
+			sf::FloatRect LuckyLoop = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
 			LuckyLoop.position.y -= 16.0f;
 			for (auto jt = CoinList.begin(); jt != CoinList.end(); ++jt) {
 				if (sf::FloatRect CoinCollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(CoinCollide, LuckyLoop)) {
@@ -216,7 +198,7 @@ void LuckyHitEvent(const float x, const float y) {
 					BroAIDeleteSet.insert({j.getCurrentPosition().x, j.getCurrentPosition().y});
 				}
 			}
-			LuckyHit(LuckyLoop.position.x, LuckyLoop.position.y + 16.f, i);
+			LuckyHitIndex(it);
 			break;
 		}
 	}
@@ -224,37 +206,27 @@ void LuckyHitEvent(const float x, const float y) {
 		for (const auto &[fst, snd] : BroAIDeleteSet)
 			DeleteBroAI(fst, snd);
 }
+void DeleteLuckyBlockIndex(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>& it) {
+	it->willDestroy(true);
+	LuckyBlockDeleteGate = true;
+}
 void DeleteLuckyBlock(const float x, const float y) {
-	for (int i = 0; i < LuckyVertPosList.size(); ++i) {
-		if (LuckyVertPosList[i].second.x == x && LuckyVertPosList[i].second.y == y) {
-			LuckyVertPosList.erase(LuckyVertPosList.begin() + i);
-			break;
-		}
-	}
-	for (int i = 0; i < LuckyBlock.size(); i++) {
-		if (LuckyBlock[i].curr.x == x && LuckyBlock[i].curr.y == y) {
-			LuckyBlock.erase(LuckyBlock.begin() + i);
-			LuckyBlockAttList.erase(LuckyBlockAttList.begin() + i);
-			LuckyBlockIDList.erase(LuckyBlockIDList.begin() + i);
-			LuckyBlockState.erase(LuckyBlockState.begin() + i);
-			LuckyBlockStateCount.erase(LuckyBlockStateCount.begin() + i);
-			LuckyHorzPosList.erase(LuckyHorzPosList.begin() + i);
-			LuckyBlockHitted.erase(LuckyBlockHitted.begin() + i);
-			LuckyUpDown.erase(LuckyUpDown.begin() + i);
-			LuckyIdle.erase(LuckyIdle.begin() + i);
+	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
+			DeleteLuckyBlockIndex(it);
 			break;
 		}
 	}
 }
 void DeleteAllLuckyBlock() {
 	LuckyBlock.clear();
-	LuckyBlockAttList.clear();
-	LuckyBlockIDList.clear();
-	LuckyBlockState.clear();
-	LuckyBlockStateCount.clear();
-	LuckyHorzPosList.clear();
-	LuckyBlockHitted.clear();
-	LuckyUpDown.clear();
-	LuckyIdle.clear();
-	LuckyVertPosList.clear();
+}
+void LuckyBlockCleanup() {
+	if (!LuckyBlockDeleteGate) return;
+	auto it = LuckyBlock.begin();
+	while (it != LuckyBlock.end()) {
+		if (!it->willBeDestroyed()) ++it;
+		else it = LuckyBlock.erase(it);
+	}
+	LuckyBlockDeleteGate = false;
 }
