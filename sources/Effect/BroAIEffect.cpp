@@ -30,6 +30,8 @@ void AddBroAIEffect(const BroAIType type, const bool dir, const float x, const f
 		case HAMMER_BRO:
 			BroAIEffectList.emplace_back(0.f, sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
 			BroAIEffectList.back().setTexture("DEAD_HammerBro", dir);
+			break;
+		default: ;
 	}
 }
 

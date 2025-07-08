@@ -13,6 +13,8 @@ namespace MFCPP {
         void AnimationDraw(sf::RenderWindow& window) const;
         void setColor(const sf::Color& color);
         void setRotation(sf::Angle angle);
+        void setAnimationDirection(bool val);
+        [[nodiscard]] bool getAnimationDirection() const;
         [[nodiscard]] sf::Angle getRotation() const;
     };
 }

@@ -117,8 +117,14 @@ namespace Window {
 		PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
 		window.setVerticalSyncEnabled(OPTION_VSYNC);
 		window.setIcon(icon);
-		if (!OPTION_SMOOTH) window.setFramerateLimit(60);
-		else window.setFramerateLimit(0); //300
+		if (!OPTION_SMOOTH) {
+			window.setFramerateLimit(60);
+			window.setVerticalSyncEnabled(true);
+		}
+		else {
+			window.setFramerateLimit(0); //300
+			window.setVerticalSyncEnabled(false);
+		}
 	}
 	void WindowEventUpdate(const std::optional<sf::Event>& event) {
 		if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -165,7 +171,7 @@ void windowInit() {
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
 	//rObject.setRepeated(true);
 	//window.setVerticalSyncEnabled(true);
-	timestep.setStep(1.0f / 50.0f);
+	timestep.setStep(1.0f / 500.0f);
 	timestep.setMaxAccumulation(1.0f / 30.0f);
 }
 void HUDUpdate() {

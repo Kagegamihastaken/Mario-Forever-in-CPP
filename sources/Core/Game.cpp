@@ -32,6 +32,7 @@
 
 #include "Block/BulletLauncher.hpp"
 #include "Effect/BroAIEffect.hpp"
+#include "Effect/BulletBillEffect.hpp"
 #include "Object/BulletBill.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
@@ -150,6 +151,8 @@ void GameObjectSetPrev() {
         SetPrevBroAIProjectilePos();
         SetPrevBroAIEffectPos();
         SetPrevMarioProjectilePos();
+        SetPrevBulletBillPos();
+        SetPrevBulletBillEffectPos();
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         SetPrevEditor();
@@ -187,6 +190,8 @@ void GameObjectDeltaMovement(const float dt) {
         BrickUpdate(dt);
         LuckyBlockUpdate(dt);
         BulletLauncherStatusUpdate(dt);
+        BulletBillPositionUpdate(dt);
+        BulletBillEffectPositionUpdate(dt);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         EditorScreenMove(dt);
@@ -226,6 +231,8 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateBroAIProjectilePos(alpha);
         InterpolateBroAIEffectPos(alpha);
         InterpolateMarioProjectilePos(alpha);
+        InterpolateBulletBillPos(alpha);
+        InterpolateBulletBillEffectPos(alpha);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         InterpolateEditorPos(alpha);
@@ -251,6 +258,9 @@ void GameObjectCollision() {
         MarioProjectileStatusUpdate();
         BroAICheckCollide();
         FireballExplosionStatusUpdate();
+        BulletBillCheckCollide();
+        BulletBillStatusUpdate();
+        BulletBillEffectStatusUpdate();
     }
 }
 void GameObjectMiscUpdate() {
@@ -285,6 +295,7 @@ void GameObjectDraw() {
         ObstaclesDraw();
         BrickDraw();
         LuckyBlockDraw();
+        DrawBulletBill();
         BulletLauncherDraw();
         MarioDraw();
         SpikeDraw();
@@ -295,6 +306,7 @@ void GameObjectDraw() {
         BrickParticleDraw();
         GoombaAIEffectDraw();
         BroAIEffectDraw();
+        BulletBillEffectDraw();
         BroAIProjectileDraw();
         MarioProjectileDraw();
         FireballExplosionDraw();
@@ -318,5 +330,7 @@ void GameCleanUp() {
         BroAIEffectCleanup();
         PiranhaAICleanup();
         BrickCleanup();
+        BulletBillCleanup();
+        BulletBillEffectCleanup();
     }
 }

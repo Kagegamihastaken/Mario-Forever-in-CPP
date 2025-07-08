@@ -1,7 +1,7 @@
 #include "Core/Class/BulletBillClass.hpp"
 
 namespace MFCPP {
-    BulletBill::BulletBill(const float speed, const bool direction, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_speed(speed), m_hitbox(hitbox), m_direction(direction){
+    BulletBill::BulletBill(const float speed, const BulletType type, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_speed(speed), m_hitbox(hitbox), m_type(type) {
         setCurrentPosition(pos);
         setPreviousPosition(pos);
         setInterpolatedPosition(pos);
@@ -20,10 +20,11 @@ namespace MFCPP {
     sf::FloatRect BulletBill::getHitbox() const {
         return m_hitbox;
     }
-    void BulletBill::setDirection(const bool direction) {
-        m_direction = direction;
+    void BulletBill::setType(const BulletType val) {
+        m_type = val;
     }
-    bool BulletBill::getDirection() const {
-        return m_direction;
+    BulletType BulletBill::getType() const {
+        return m_type;
     }
+
 }

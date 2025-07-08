@@ -448,7 +448,7 @@ void Death() {
 	ExitGateEffectReset();
 }
 void CheckForDeath() {
-	if (isOutScreenYBottom(player.property.getPosition().y, 80)) {
+	if (isOutScreenYBottom(player.property.getPosition().y, 96)) {
 		CanControlMario = false;
 		ActiveMarioEffect();
 	}

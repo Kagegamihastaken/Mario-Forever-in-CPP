@@ -9,18 +9,18 @@
 namespace MFCPP {
     class BulletBill final : public ActiveObject, public SingleAnimationObject {
     public:
-        BulletBill(float speed, bool direction, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        BulletBill(float speed, BulletType type, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BulletBill() = default;
         void setSpeed(float speed);
         [[nodiscard]] float getSpeed() const;
         void setHitbox(const sf::FloatRect& hitbox);
         [[nodiscard]] sf::FloatRect getHitbox() const;
-        void setDirection(bool direction);
-        [[nodiscard]] bool getDirection() const;
+        void setType(BulletType val);
+        [[nodiscard]] BulletType getType() const;
     private:
         float         m_speed;
         sf::FloatRect m_hitbox;
-        bool          m_direction;
+        BulletType    m_type;
     };
 }
 

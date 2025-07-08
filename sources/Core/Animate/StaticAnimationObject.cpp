@@ -26,4 +26,10 @@ namespace MFCPP {
     sf::Angle StaticAnimationObject::getRotation() const {
         return m_index.getRotation();
     }
+    void StaticAnimationObject::setAnimationDirection(const bool val) {
+        m_anim_flip = val;
+    }
+    bool StaticAnimationObject::getAnimationDirection() const {
+        return m_anim_flip;
+    }
 }

@@ -472,6 +472,9 @@ void GoombaAICollisionUpdate() {
 		if (it->GetType() == SHELL_MOVING) {
 			for (int j = 0; j < BroAIList.size(); ++j)  {
 				if (isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 96, 96)) break;
+
+				if (BroAIList[j].willBeDestroyed()) continue;
+
 				if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(BroAIList[j].getHitbox(), BroAIList[j].getCurrentPosition(), BroAIList[j].getOrigin()); isCollide(BroAIHitbox, hitbox_loop)) {
 					Kicking(it, sf::Vector2f(BroAIList[j].getCurrentPosition().x, BroAIList[j].getCurrentPosition().y), BroAIList[j].getOrigin().y);
 					AddBroAIEffect(BroAIList[j].getType(), static_cast<bool>(BroAIList[j].getAnimationDirection()), BroAIList[j].getCurrentPosition().x, BroAIList[j].getCurrentPosition().y);

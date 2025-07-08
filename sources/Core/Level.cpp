@@ -29,6 +29,7 @@
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 #include "Core/Tilemap.hpp"
+#include "Object/BulletBill.hpp"
 #include "Object/Mario.hpp"
 // Level data
 float LevelWidth, LevelHeight;
@@ -515,6 +516,7 @@ void Objectbuilding() {
 	DeleteAllBroAI();
 	ClearPiranhaAI();
 	DeleteAllSpike();
+	DeleteAllBulletBill();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {

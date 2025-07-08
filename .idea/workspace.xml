@@ -85,32 +85,25 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/MFCPP.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/MFCPP.xml" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="remove support for libopenmpt,">
+      <change afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillEffectClass.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Effect/BulletBillEffect.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Class/BulletBillEffectClass.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Effect/BulletBillEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/musics/1-Music-Die.it" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/musics/p-switch.it" beforeDir="false" afterPath="$PROJECT_DIR$/data/musics/p-switch.it" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/musics/rainysum.mod" beforeDir="false" afterPath="$PROJECT_DIR$/data/musics/rainysum.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/MusicManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/MusicManager.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Object/Mario.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Mario.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libopenmpt.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openmpt-mpg123.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openmpt-ogg.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openmpt-vorbis.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openmpt-zlib.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/AudioEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/AudioEngine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/BulletBill.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/BulletBill.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Animate/StaticAnimationObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Animate/StaticAnimationObject.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/BulletBillClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/BulletBillClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Music.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Music.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Scroll.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scroll.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vcpkg.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -677,7 +670,11 @@
       <workItem from="1751852179987" duration="863000" />
       <workItem from="1751859380575" duration="9199000" />
       <workItem from="1751879651619" duration="956000" />
-      <workItem from="1751885124551" duration="398000" />
+      <workItem from="1751885124551" duration="4488000" />
+      <workItem from="1751893180614" duration="2203000" />
+      <workItem from="1751904499726" duration="839000" />
+      <workItem from="1751905386511" duration="1132000" />
+      <workItem from="1751942191776" duration="3081000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -975,7 +972,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751799531091</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="remove support for libopenmpt,">
+      <option name="closed" value="true" />
+      <created>1751885761595</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1751885761595</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1211,7 +1216,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="optimized renderer for more smooth" />
     <MESSAGE value="optimize animation" />
     <MESSAGE value="improve some window stuff &amp; fix collision between GoombaAI" />
     <MESSAGE value="edit coding structure &amp; implement some mechanic to editor" />
@@ -1236,7 +1240,8 @@
     <MESSAGE value="in progress converting to class" />
     <MESSAGE value="new sound engine!" />
     <MESSAGE value="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon" />
-    <option name="LAST_COMMIT_MESSAGE" value="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon" />
+    <MESSAGE value="remove support for libopenmpt," />
+    <option name="LAST_COMMIT_MESSAGE" value="remove support for libopenmpt," />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

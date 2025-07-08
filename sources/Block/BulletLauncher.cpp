@@ -2,6 +2,7 @@
 #include "Core/Tilemap.hpp"
 #include "Block/BulletLauncher.hpp"
 #include "Effect/FireballExplosion.hpp"
+#include "Object/BulletBill.hpp"
 
 #include "Core/Logging.hpp"
 #include "Core/Scroll.hpp"
@@ -10,14 +11,17 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Class/BulletLauncherClass.hpp"
 #include "Core/ExternalHeaders/plf_colony.h"
+#include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
 plf::colony<MFCPP::BulletLauncher> BulletLauncherList;
 
 static void BulletLauncherShot(const plf::colony<MFCPP::BulletLauncher>::colony_iterator<false>& it) {
     SoundManager::PlaySound(fmt::format("Bullet{}", RandomIntNumberGenerator(1, 3)));
-    if (it->getCurrentPosition().x > player.curr.x) AddFireballExplosion(it->getCurrentPosition().x - it->getOrigin().x, it->getCurrentPosition().y - 32.f / 2.f + 1.f);
-    else AddFireballExplosion(it->getCurrentPosition().x + 32.f - it->getOrigin().x, it->getCurrentPosition().y - 32.f / 2.f + 1.f);
+    const auto dir = (it->getCurrentPosition().x > player.curr.x ? false : !EffectActive);
+
+    AddFireballExplosion(it->getCurrentPosition().x - it->getOrigin().x * (dir ? -1.f : 1.f), it->getCurrentPosition().y - 32.f / 2.f + 1.f);
+    AddBulletBill(BULLET_NORMAL, 3.75f, dir, it->getCurrentPosition().x, it->getCurrentPosition().y);
 }
 
 void BulletLauncherInit() {
@@ -27,8 +31,11 @@ void BulletLauncherStatusUpdate(const float deltaTime) {
     for (auto it = BulletLauncherList.begin(); it != BulletLauncherList.end(); ++it) {
         if (isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 32.f, 32.f)) continue;
 
-        if (f_abs(it->getCurrentPosition().x - player.curr.x) > 80.f) it->setDisabled(false);
-        else it->setDisabled(true);
+        if (!EffectActive) {
+            if (f_abs(it->getCurrentPosition().x - player.curr.x) > 80.f) it->setDisabled(false);
+            else it->setDisabled(true);
+        }
+        else it->setDisabled(false);
 
         if (!it->isDisabled())
             it->setTiming(it->getTiming() - 1.f * deltaTime);
