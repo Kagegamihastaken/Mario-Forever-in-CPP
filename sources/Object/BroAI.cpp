@@ -6,12 +6,13 @@
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Collision/Collide.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 
-std::vector<MFCPP::BroAI> BroAIList;
+plf::colony<MFCPP::BroAI> BroAIList;
 static bool BroAIDeleteGate = false;
 
 static std::vector<std::string> HammerBroAnimName;
@@ -29,27 +30,26 @@ void BroAILoadRes() {
         HammerBroLaunchAnimName.push_back(fmt::format("HammerBroLaunch_{}", i));
     }
 }
-static void BroLaunchProjectile(const int i) {
-    switch (BroAIList[i].getType()) {
+static void BroLaunchProjectile(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it) {
+    switch (it->getType()) {
         case BroAIType::HAMMER_BRO:
-            if (BroAIList[i].getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-                AddBroAIProjectile(static_cast<bool>(BroAIList[i].getAnimationDirection()), HAMMER, BroAIList[i].getCurrentPosition().x + 5.f, BroAIList[i].getCurrentPosition().y - 31.f);
+            if (it->getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
+                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), HAMMER, it->getCurrentPosition().x + 5.f, it->getCurrentPosition().y - 31.f);
             else
-                AddBroAIProjectile(static_cast<bool>(BroAIList[i].getAnimationDirection()), HAMMER, BroAIList[i].getCurrentPosition().x - 5.f, BroAIList[i].getCurrentPosition().y - 31.f);
+                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), HAMMER, it->getCurrentPosition().x - 5.f, it->getCurrentPosition().y - 31.f);
             SoundManager::PlaySound("Hammer");
             break;
         default: ;
     }
 }
-void DeleteBroAIIndex(const int i) {
+void DeleteBroAIIndex(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it) {
     BroAIDeleteGate = true;
-    BroAIList[i].willDestroy(true);
+    it->willDestroy(true);
 }
 void DeleteBroAI(const float x, const float y) {
-    for (int i = 0; i < BroAIList.size(); ++i) {
-        if (BroAIList[i].getCurrentPosition().x == x && BroAIList[i].getCurrentPosition().y == y)
-            DeleteBroAIIndex(i);
-            //BroAIList.erase(BroAIList.begin() + i);
+    for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
+        if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y)
+            DeleteBroAIIndex(it);
     }
 }
 void DeleteAllBroAI() {
@@ -70,51 +70,52 @@ void InterpolateBroAIPos(const float alpha) {
     }
 }
 void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const float x, const float y) {
+    plf::colony<MFCPP::BroAI>::colony_iterator<false> it;
     switch (type) {
         case BroAIType::HAMMER_BRO:
-            BroAIList.emplace_back(type, movementType, 2.f, 100.f, 3.f, 1, 0.f, sf::FloatRect({7.f, 16.f}, {32.f, 48.f}),
+            it = BroAIList.emplace(type, movementType, 2.f, 100.f, 3.f, 1, 0.f, sf::FloatRect({7.f, 16.f}, {32.f, 48.f}),
                                sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
-            BroAIList.back().setAnimation(0, 1, 14, true);
-            BroAIList.back().setAnimationSequence(HammerBroAnimName);
+            it->setAnimation(0, 1, 14, true);
+            it->setAnimationSequence(HammerBroAnimName);
             break;
         default: ;
     }
 }
 void BroAIStatusUpdate() {
-    for (int i = 0; i < BroAIList.size(); ++i) {
-        if (BroAIList[i].willBeDestroyed()) continue;
+    for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
+        if (it->willBeDestroyed()) continue;
 
-        if (isOutScreenYBottom(BroAIList[i].getCurrentPosition().y, 80.f)) {
-            DeleteBroAIIndex(i);
-            //BroAIDeletionPositionList.push_back(BroAIList[i].getCurrentPosition());
+        if (isOutScreenYBottom(it->getCurrentPosition().y, 80.f)) {
+            DeleteBroAIIndex(it);
+            //BroAIDeletionPositionList.push_back(it->getCurrentPosition());
         }
-        if (!isOutScreen(BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y, 64.0f, 64.0f))
-            if (BroAIList[i].isDisabled()) BroAIList[i].setDisabled(false);
+        if (!isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 64.0f, 64.0f))
+            if (it->isDisabled()) it->setDisabled(false);
         if (!EffectActive) {
-            if (BroAIList[i].getCurrentPosition().x > player.curr.x) BroAIList[i].setAnimationDirection(ANIM_LEFT);
-            else if (BroAIList[i].getCurrentPosition().x < player.curr.x) BroAIList[i].setAnimationDirection(ANIM_RIGHT);
+            if (it->getCurrentPosition().x > player.curr.x) it->setAnimationDirection(ANIM_LEFT);
+            else if (it->getCurrentPosition().x < player.curr.x) it->setAnimationDirection(ANIM_RIGHT);
         }
-        else BroAIList[i].setAnimationDirection(ANIM_LEFT);
+        else it->setAnimationDirection(ANIM_LEFT);
     }
 }
 void BroAICheckCollide() {
     if (EffectActive) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
-    for (int i = 0; i < BroAIList.size(); ++i) {
-        if (BroAIList[i].willBeDestroyed() || BroAIList[i].isDisabled() ||
-            f_abs(player.curr.x - BroAIList[i].getCurrentPosition().x) >= 160.f) continue;
-        if (const sf::FloatRect loopHitbox = getGlobalHitbox(BroAIList[i].getHitbox(), BroAIList[i].getCurrentPosition(), BroAIList[i].getOrigin()); isCollide(loopHitbox, hitbox_mario)) {
-            if ((BroAIList[i].getCurrentPosition().y - 16.f > player.curr.y) && Yvelo > 0.f) {
-                //player.curr = {player.curr.x, BroAIList[i].getCurrentPosition().y - BroAIList[i].getOrigin().y - 1.f};
+    for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
+        if (it->willBeDestroyed() || it->isDisabled() ||
+            f_abs(player.curr.x - it->getCurrentPosition().x) >= 160.f) continue;
+        if (const sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(loopHitbox, hitbox_mario)) {
+            if ((it->getCurrentPosition().y - 16.f > player.curr.y) && Yvelo > 0.f) {
+                //player.curr = {player.curr.x, it->getCurrentPosition().y - it->getOrigin().y - 1.f};
                 if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
                 else Yvelo = -13.0f;
                 SoundManager::PlaySound("Stomp");
-                BroAIList[i].DeathBehaviour(SCORE_200);
-                AddBroAIEffect(BroAIList[i].getType(), static_cast<bool>(BroAIList[i].getAnimationDirection()), BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y);
-                DeleteBroAIIndex(i);
+                it->DeathBehaviour(SCORE_200);
+                AddBroAIEffect(it->getType(), static_cast<bool>(it->getAnimationDirection()), it->getCurrentPosition().x, it->getCurrentPosition().y);
+                DeleteBroAIIndex(it);
                 break;
             }
-            else if (BroAIList[i].getCurrentPosition().y - 16.0f < player.curr.y) {
+            else if (it->getCurrentPosition().y - 16.0f < player.curr.y) {
                 PowerDown();
                 break;
             }
@@ -122,39 +123,39 @@ void BroAICheckCollide() {
     }
 }
 void BroAIShootUpdate(const float deltaTime) {
-    for (int i = 0; i < BroAIList.size(); ++i) {
-        if (BroAIList[i].willBeDestroyed() || BroAIList[i].isDisabled()) continue;
-        if (BroAIList[i].getLaunchTickingTime() == 0.f) {
-            BroAIList[i].setLaunchIntervalTicking(BroAIList[i].getLaunchIntervalTicking() + 1.f * deltaTime);
-            if (BroAIList[i].getLaunchIntervalTicking() >= BroAIList[i].getLaunchInterval()) {
-                if (RandomIntNumberGenerator(0, static_cast<int>(BroAIList[i].getLaunchRNG())) == 1 && !isOutScreen(
-                        BroAIList[i].getCurrentPosition().x, BroAIList[i].getCurrentPosition().y, 32.f, 32.f)) {
-                    BroAIList[i].setLaunchTickingTime(BroAIList[i].getLaunchTickingTime() + 1.f * deltaTime);
-                    BroAIList[i].setAnimationSequence(HammerBroLaunchAnimName);
+    for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
+        if (it->willBeDestroyed() || it->isDisabled()) continue;
+        if (it->getLaunchTickingTime() == 0.f) {
+            it->setLaunchIntervalTicking(it->getLaunchIntervalTicking() + 1.f * deltaTime);
+            if (it->getLaunchIntervalTicking() >= it->getLaunchInterval()) {
+                if (RandomIntNumberGenerator(0, static_cast<int>(it->getLaunchRNG())) == 1 && !isOutScreen(
+                        it->getCurrentPosition().x, it->getCurrentPosition().y, 32.f, 32.f)) {
+                    it->setLaunchTickingTime(it->getLaunchTickingTime() + 1.f * deltaTime);
+                    it->setAnimationSequence(HammerBroLaunchAnimName);
                     //std::cout << "Standby\n";
                 }
-                BroAIList[i].setLaunchIntervalTicking(0.f);
+                it->setLaunchIntervalTicking(0.f);
             }
         }
-        else if (BroAIList[i].getLaunchTickingTime() > 0.f) {
-            if (BroAIList[i].getLaunchTickingTime() <= BroAIList[i].getLaunchWaitTime())
-                BroAIList[i].setLaunchTickingTime(BroAIList[i].getLaunchTickingTime() + 1.f * deltaTime);
+        else if (it->getLaunchTickingTime() > 0.f) {
+            if (it->getLaunchTickingTime() <= it->getLaunchWaitTime())
+                it->setLaunchTickingTime(it->getLaunchTickingTime() + 1.f * deltaTime);
             else {
-                if (BroAIList[i].getLaunchCounting() > 0) {
-                    if (BroAIList[i].getLaunchIBTicking() < BroAIList[i].getLaunchIntervalBetween()) {
-                        BroAIList[i].setLaunchIBTicking(BroAIList[i].getLaunchIBTicking() + 1.0f * deltaTime);
+                if (it->getLaunchCounting() > 0) {
+                    if (it->getLaunchIBTicking() < it->getLaunchIntervalBetween()) {
+                        it->setLaunchIBTicking(it->getLaunchIBTicking() + 1.0f * deltaTime);
                     }
                     else {
-                        BroLaunchProjectile(i);
-                        BroAIList[i].setLaunchIBTicking(0.f);
-                        BroAIList[i].setLaunchCounting(BroAIList[i].getLaunchCounting() - 1);
+                        BroLaunchProjectile(it);
+                        it->setLaunchIBTicking(0.f);
+                        it->setLaunchCounting(it->getLaunchCounting() - 1);
                     }
                 }
                 else {
-                    BroAIList[i].setLaunchIBTicking(BroAIList[i].getLaunchIntervalBetween());
-                    BroAIList[i].setLaunchCounting(BroAIList[i].getLaunchCount());
-                    BroAIList[i].setLaunchTickingTime(0.f);
-                    BroAIList[i].setAnimationSequence(HammerBroAnimName);
+                    it->setLaunchIBTicking(it->getLaunchIntervalBetween());
+                    it->setLaunchCounting(it->getLaunchCount());
+                    it->setLaunchTickingTime(0.f);
+                    it->setAnimationSequence(HammerBroAnimName);
                 }
                 //std::cout << "Throw\n";
             }
@@ -162,70 +163,70 @@ void BroAIShootUpdate(const float deltaTime) {
 
     }
 }
-static void SetWalkingValue(const int index, const int multiply, const bool reverse) {
-    const float valtest = multiply * (BroAIList[index].getRandomWalking() + BroAIList[index].getFixedWalkingValue()) * (reverse ? -1.f : 1.f);
-    if (valtest >= 0.0f) BroAIList[index].setDirectionWalking(false);
-    else BroAIList[index].setDirectionWalking(true);
-    BroAIList[index].setMovingValue(f_abs(valtest));
+static void SetWalkingValue(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it, const int multiply, const bool reverse) {
+    const float valtest = multiply * (it->getRandomWalking() + it->getFixedWalkingValue()) * (reverse ? -1.f : 1.f);
+    if (valtest >= 0.0f) it->setDirectionWalking(false);
+    else it->setDirectionWalking(true);
+    it->setMovingValue(f_abs(valtest));
 }
 void BroAIVertXUpdate(const float deltaTime) {
     float CurrPosXCollide, CurrPosYCollide;
-    for (int i = 0; i < BroAIList.size(); ++i) {
-        if (BroAIList[i].willBeDestroyed() || BroAIList[i].isDisabled()) continue;
+    for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
+        if (it->willBeDestroyed() || it->isDisabled()) continue;
         // Movement
-        if (BroAIList[i].getMovingValue() <= 0.f) {
-            if (BroAIList[i].getMovingValue() < 0.f) BroAIList[i].setMovingValue(0.f);
-            BroAIList[i].setTimeTicking(BroAIList[i].getTimeTicking() + BroAIList[i].getTickingValue() * deltaTime);
+        if (it->getMovingValue() <= 0.f) {
+            if (it->getMovingValue() < 0.f) it->setMovingValue(0.f);
+            it->setTimeTicking(it->getTimeTicking() + it->getTickingValue() * deltaTime);
         }
-        else if (BroAIList[i].getMovingValue() > 0.f) {
-            if (!BroAIList[i].getDirectionWalking())
-                BroAIList[i].setCurrentPosition(sf::Vector2f(BroAIList[i].getCurrentPosition().x + BroAIList[i].getSpeed() * deltaTime, BroAIList[i].getCurrentPosition().y));
+        else if (it->getMovingValue() > 0.f) {
+            if (!it->getDirectionWalking())
+                it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x + it->getSpeed() * deltaTime, it->getCurrentPosition().y));
             else
-                BroAIList[i].setCurrentPosition(sf::Vector2f(BroAIList[i].getCurrentPosition().x - BroAIList[i].getSpeed() * deltaTime, BroAIList[i].getCurrentPosition().y));
-            BroAIList[i].setMovingValue(BroAIList[i].getMovingValue() - 1.f * deltaTime);
+                it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x - it->getSpeed() * deltaTime, it->getCurrentPosition().y));
+            it->setMovingValue(it->getMovingValue() - 1.f * deltaTime);
         }
-        switch (BroAIList[i].getState()) {
+        switch (it->getState()) {
             case 1:
-                SetWalkingValue(i, 1, true);
-                BroAIList[i].setTimeTicking(0.f);
-                BroAIList[i].setState(2);
+                SetWalkingValue(it, 1, true);
+                it->setTimeTicking(0.f);
+                it->setState(2);
                 break;
             case 2:
-                if (BroAIList[i].getMovingValue() <= 0.f) {
-                    BroAIList[i].setMovingValue(0.f);
-                    BroAIList[i].setState(3);
+                if (it->getMovingValue() <= 0.f) {
+                    it->setMovingValue(0.f);
+                    it->setState(3);
                 }
                 break;
             case 3:
-                if (BroAIList[i].getTimeTicking() > BroAIList[i].getStopDuration()) {
-                    BroAIList[i].setTimeTicking(0.f);
-                    SetWalkingValue(i, 2, false);
-                    BroAIList[i].setState(4);
+                if (it->getTimeTicking() > it->getStopDuration()) {
+                    it->setTimeTicking(0.f);
+                    SetWalkingValue(it, 2, false);
+                    it->setState(4);
                 }
                 break;
             case 4:
-                if (BroAIList[i].getMovingValue() <= 0.f) {
-                    BroAIList[i].setMovingValue(0.f);
-                    BroAIList[i].setState(5);
+                if (it->getMovingValue() <= 0.f) {
+                    it->setMovingValue(0.f);
+                    it->setState(5);
                 }
                 break;
             case 5:
-                if (BroAIList[i].getTimeTicking() > BroAIList[i].getStopDuration()) {
-                    BroAIList[i].setTimeTicking(0.f);
-                    SetWalkingValue(i, 1, true);
-                    BroAIList[i].setState(6);
+                if (it->getTimeTicking() > it->getStopDuration()) {
+                    it->setTimeTicking(0.f);
+                    SetWalkingValue(it, 1, true);
+                    it->setState(6);
                 }
                 break;
             case 6:
-                if (BroAIList[i].getMovingValue() <= 0.f) {
-                    BroAIList[i].setMovingValue(0.f);
-                    BroAIList[i].setState(7);
+                if (it->getMovingValue() <= 0.f) {
+                    it->setMovingValue(0.f);
+                    it->setState(7);
                 }
                 break;
             case 7:
-                BroAIList[i].setTickingValue(BroAIList[i].getFixedTickingValue() + static_cast<float>(RandomIntNumberGenerator(0, static_cast<int>(BroAIList[i].getTickingRNGRange()-1.f))));
-                BroAIList[i].setRandomWalking(static_cast<float>(RandomIntNumberGenerator(0, static_cast<int>(BroAIList[i].getWalkingRNGRange()-1.f))) * -1.f);
-                BroAIList[i].setState(1);
+                it->setTickingValue(it->getFixedTickingValue() + static_cast<float>(RandomIntNumberGenerator(0, static_cast<int>(it->getTickingRNGRange()-1.f))));
+                it->setRandomWalking(static_cast<float>(RandomIntNumberGenerator(0, static_cast<int>(it->getWalkingRNGRange()-1.f))) * -1.f);
+                it->setState(1);
                 break;
             default: ;
         }
@@ -236,20 +237,20 @@ void BroAIVertXUpdate(const float deltaTime) {
 
         bool NoAdd = false;
         const auto [fst, snd] = QuickCheckOnlyObstaclesSideCollision(
-            MFCPP::CollisionObject(BroAIList[i].getCurrentPosition(), BroAIList[i].getOrigin(),
-                BroAIList[i].getWallHitbox()), BroAIList[i].getDirectionWalking(), CurrPosXCollide, CurrPosYCollide, NoAdd);
+            MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(),
+                it->getWallHitbox()), it->getDirectionWalking(), CurrPosXCollide, CurrPosYCollide, NoAdd);
 
         if (fst) {
-            BroAIList[i].setCurrentPosition(sf::Vector2f(CurrPosXCollide + 32.0f - BroAIList[i].getHitbox().position.x + BroAIList[i].getOrigin().x, BroAIList[i].getCurrentPosition().y));
+            it->setCurrentPosition(sf::Vector2f(CurrPosXCollide + 32.0f - it->getHitbox().position.x + it->getOrigin().x, it->getCurrentPosition().y));
         }
         if (snd) {
-            BroAIList[i].setCurrentPosition(sf::Vector2f(CurrPosXCollide - (BroAIList[i].getHitbox().position.x + (BroAIList[i].getHitbox().size.x - BroAIList[i].getOrigin().x)), BroAIList[i].getCurrentPosition().y));
+            it->setCurrentPosition(sf::Vector2f(CurrPosXCollide - (it->getHitbox().position.x + (it->getHitbox().size.x - it->getOrigin().x)), it->getCurrentPosition().y));
         }
     }
 }
 void BroAIVertYUpdate(const float deltaTime) {
-    float CurrPosYCollide;
     for (auto & i : BroAIList) {
+        float CurrPosYCollide, CurrPosXCollide;
         if (i.willBeDestroyed() || i.isDisabled()) continue;
         bool willJump = false;
         bool willFall = false;
@@ -272,7 +273,7 @@ void BroAIVertYUpdate(const float deltaTime) {
         i.setYVelo(i.getYVelo() + (i.getYVelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.175f));
         //}
         bool NoAdd = false;
-        if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosYCollide, NoAdd)) {
+        if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
             if (i.getYVelo() >= 0.0f) {
                 i.setYVelo(0.0f);
                 i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - i.getHitbox().position.y - (i.getHitbox().size.y - i.getOrigin().y)));
@@ -283,7 +284,7 @@ void BroAIVertYUpdate(const float deltaTime) {
             }
         }
         else {
-            if (QuickCheckOnlyHittableBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosYCollide, NoAdd) && i.getYVelo() > 0.f) {
+            if (QuickCheckOnlyHittableBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd) && i.getYVelo() > 0.f) {
                 if (!i.isFalling()) {
                     if (i.getYVelo() >= 0.0f) {
                         i.setYVelo(0.0f);
@@ -302,7 +303,7 @@ void BroAIVertYUpdate(const float deltaTime) {
         }
 
         NoAdd = false;
-        if (QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosYCollide, NoAdd)) {
+        if (QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
             i.setYVelo(0.0f);
             i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - i.getHitbox().position.y + (32.0f + i.getOrigin().y)));
         }
@@ -318,10 +319,10 @@ void BroAIDraw() {
 }
 void BroAICleanup() {
     if (!BroAIDeleteGate) return;
-    int i = 0;
-    while (i < BroAIList.size()) {
-        if (!BroAIList[i].willBeDestroyed()) ++i;
-        else BroAIList.erase(BroAIList.begin() + i);
+    auto it = BroAIList.begin();
+    while (it != BroAIList.end()) {
+        if (!it->willBeDestroyed()) ++it;
+        else it = BroAIList.erase(it);
     }
     BroAIDeleteGate = false;
 }

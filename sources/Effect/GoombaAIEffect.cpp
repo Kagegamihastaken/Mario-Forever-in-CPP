@@ -108,8 +108,8 @@ void GoombaAIEffectDraw() {
 	}
 }
 void GoombaAIEffectVertYUpdate(const float deltaTime) {
-	float CurrPosYCollide;
 	for (auto & i : GoombaAIEffectList) {
+		float CurrPosYCollide, CurrPosXCollide;
 		if (i.willBeDestroyed()) continue;
 
 		if (i.getID() == GoombaAIEffectID::NONE) {
@@ -126,7 +126,7 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		i.move(sf::Vector2f(0.f,i.getYVelo() * deltaTime));
 		i.setYVelo(i.getYVelo() + (i.getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.3f));
 		//}
-		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosYCollide)) {
+		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
 			if (i.getYVelo() >= 0.0f) {
 				i.setYVelo(0.f);
 				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - (i.getHitbox().size.y - i.getOrigin().y)));
@@ -136,7 +136,7 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 			}
 		}
 		// top update
-		if (QuickCheckTopCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosYCollide)) {
+		if (QuickCheckTopCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
 			i.setYVelo(0.f);
 			i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + (32.0f + i.getOrigin().y)));
 		}

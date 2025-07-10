@@ -2,9 +2,10 @@
 #define BROAI_HPP
 
 #include "Core/Class/BroAIClass.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 #include "Core/Loading/enum.hpp"
 
-extern std::vector<MFCPP::BroAI> BroAIList;
+extern plf::colony<MFCPP::BroAI> BroAIList;
 extern void BroAILoadRes();
 extern void BroAIDraw();
 extern void AddBroAI(BroAIType type, BroAIMovementType movementType, float x, float y);
@@ -18,6 +19,6 @@ extern void BroAIShootUpdate(float deltaTime);
 extern void BroAIStatusUpdate();
 extern void BroAICheckCollide();
 extern void BroAICleanup();
-extern void DeleteBroAIIndex(int i);
+extern void DeleteBroAIIndex(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it);
 
 #endif //BROAI_HPP

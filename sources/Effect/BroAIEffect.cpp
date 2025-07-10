@@ -5,8 +5,9 @@
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
-std::vector<MFCPP::BroAIEffect> BroAIEffectList;
+plf::colony<MFCPP::BroAIEffect> BroAIEffectList;
 static bool BroAIEffectDeleteGate = false;
 void BroAIEffectInit() {
 	ImageManager::AddTexture("DEAD_HammerBro", "data/resources/HammerBro/DEAD_HammerBro.png");
@@ -26,24 +27,25 @@ void InterpolateBroAIEffectPos(const float alpha) {
 	}
 }
 void AddBroAIEffect(const BroAIType type, const bool dir, const float x, const float y) {
+	plf::colony<MFCPP::BroAIEffect>::colony_iterator<false> it;
 	switch (type) {
 		case HAMMER_BRO:
-			BroAIEffectList.emplace_back(0.f, sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
-			BroAIEffectList.back().setTexture("DEAD_HammerBro", dir);
+			it = BroAIEffectList.emplace(0.f, sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
+			it->setTexture("DEAD_HammerBro", dir);
 			break;
 		default: ;
 	}
 }
 
-void DeleteBroAIEffectIndex(const int i) {
+void DeleteBroAIEffectIndex(const plf::colony<MFCPP::BroAIEffect>::colony_iterator<false>& it) {
 	BroAIEffectDeleteGate = true;
-	BroAIEffectList[i].willDestroy(true);
+	it->willDestroy(true);
 	//BroAIEffectList.erase(BroAIEffectList.begin() + i);
 }
 void DeleteBroAIEffect(const float x, const float y) {
-	for (int i = 0; i < BroAIEffectList.size(); ++i) {
-		if (BroAIEffectList[i].getCurrentPosition().x == x && BroAIEffectList[i].getCurrentPosition().y == y) {
-			DeleteBroAIEffectIndex(i);
+	for (auto it = BroAIEffectList.begin(); it != BroAIEffectList.end(); ++it) {
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
+			DeleteBroAIEffectIndex(it);
 			break;
 		}
 	}
@@ -53,8 +55,8 @@ void DeleteAllBroAIEffect() {
 }
 void BroAIEffectStatusUpdate(const float deltaTime) {
 	if (BroAIEffectList.empty()) return;
-	for (int i = 0; i < BroAIEffectList.size(); ++i) {
-		if (isOutScreenYBottom(BroAIEffectList[i].getInterpolatedPosition().y, 80)) DeleteBroAIEffectIndex(i);
+	for (auto it = BroAIEffectList.begin(); it != BroAIEffectList.end(); ++it) {
+		if (isOutScreenYBottom(it->getInterpolatedPosition().y, 80)) DeleteBroAIEffectIndex(it);
 	}
 }
 void BroAIEffectDraw() {
@@ -76,10 +78,10 @@ void BroAIEffectVertYUpdate(const float deltaTime) {
 }
 void BroAIEffectCleanup() {
 	if (!BroAIEffectDeleteGate) return;
-	int i = 0;
-	while (i < BroAIEffectList.size()) {
-		if (!BroAIEffectList[i].willBeDestroyed()) ++i;
-		else BroAIEffectList.erase(BroAIEffectList.begin() + i);
+	auto it = BroAIEffectList.begin();
+	while (it != BroAIEffectList.end()) {
+		if (!it->willBeDestroyed()) ++it;
+		else it = BroAIEffectList.erase(it);
 	}
 	BroAIEffectDeleteGate = false;
 }

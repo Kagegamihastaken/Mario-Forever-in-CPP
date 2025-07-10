@@ -1,5 +1,4 @@
 #include "Block/LuckyBlock.hpp"
-#include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Coin.hpp"
 #include "Core/Scroll.hpp"
@@ -172,7 +171,6 @@ void LuckyHit(const float x, const float y) {
 	}
 }
 void LuckyHitEvent(const float x, const float y) {
-	std::set<std::pair<float, float>> BroAIDeleteSet;
 	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
 		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y && !it->getState() && !it->WasHit()) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
@@ -191,20 +189,17 @@ void LuckyHitEvent(const float x, const float y) {
 					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
 			}
-			for (const auto & j : BroAIList) {
-				if (sf::FloatRect BroAICollide = getGlobalHitbox(j.getHitbox(), j.getCurrentPosition(), j.getOrigin()); isCollide(BroAICollide, LuckyLoop)) {
-					j.DeathBehaviour(SCORE_200);
+			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
+				if (sf::FloatRect BroAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(BroAICollide, LuckyLoop)) {
+					jt->DeathBehaviour(SCORE_200);
 					SoundManager::PlaySound("Kick2");
-					BroAIDeleteSet.insert({j.getCurrentPosition().x, j.getCurrentPosition().y});
+					DeleteBroAIIndex(jt);
 				}
 			}
 			LuckyHitIndex(it);
 			break;
 		}
 	}
-	if (!BroAIDeleteSet.empty())
-		for (const auto &[fst, snd] : BroAIDeleteSet)
-			DeleteBroAI(fst, snd);
 }
 void DeleteLuckyBlockIndex(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>& it) {
 	it->willDestroy(true);

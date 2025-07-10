@@ -5,6 +5,7 @@ namespace MFCPP {
     struct Tile {
         bool collide = false;
         unsigned id = 0;
+        std::pair<float, float> floorY = {0.f, 0.f};
     };
     struct Collectable {
         bool collide = false;
@@ -26,6 +27,8 @@ namespace MFCPP {
     extern void setIndexTilemapID(float x, float y, unsigned val);
     extern unsigned getIndexTilemapID(int x, int y);
     extern unsigned getIndexTilemapID(float x, float y);
-    extern sf::Vector2f getTileSize();
+    extern void setIndexTilemapFloorY(float x, float y, std::pair<float, float> val);
+    extern std::pair<float, float> getIndexTilemapFloorY(float x, float y);
+    extern float getTileSize();
 }
 #endif //TILEMAP_HPP

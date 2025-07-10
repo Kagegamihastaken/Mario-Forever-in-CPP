@@ -295,11 +295,11 @@ void GameObjectDraw() {
         ObstaclesDraw();
         BrickDraw();
         LuckyBlockDraw();
+        SlopeDraw();
         DrawBulletBill();
         BulletLauncherDraw();
         MarioDraw();
         SpikeDraw();
-        SlopeDraw();
         CoinDraw();
         CoinEffectDraw();
         ScoreEffectDraw();
@@ -322,7 +322,7 @@ void GameObjectDraw() {
 }
 void GameCleanUp() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-        //TODO: Change to Class and fix more
+        //TODO: Change to plf colony
         GoombaAICleanup();
         MarioProjectileCleanup();
         GoombaAIEffectCleanup();

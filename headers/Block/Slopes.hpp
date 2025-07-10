@@ -14,5 +14,5 @@ extern std::vector<std::array<int, 3>> IDSlope_list;
 extern void SlopeDraw();
 extern void loadSlopeRes();
 extern int getSlopesIndex(float x, float y);
-extern void AddSlope(float x,float y);
+extern void AddSlope(float x,float y, int id);
 #endif //SLOPES_HPP

@@ -129,7 +129,6 @@ void BrickBreak(const float x, const float y) {
 	}
 }
 void HitEvent(const float x, const float y) {
-	std::set<int> BroAIDeleteSet;
 	for (auto i = Bricks.begin(); i != Bricks.end(); ++i) {
 		if (i->getCurrentPosition().x == x && i->getCurrentPosition().y == y && !i->getState()) {
 			sf::FloatRect BrickLoop = getGlobalHitbox(sf::FloatRect({0.f , 0.f}, {32.f, 32.f}), i->getCurrentPosition(), i->getOrigin());
@@ -148,11 +147,11 @@ void HitEvent(const float x, const float y) {
 					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
 			}
-			for (int j = 0; j < BroAIList.size(); ++j) {
-				if (sf::FloatRect BroAICollide = getGlobalHitbox(BroAIList[j].getHitbox(), BroAIList[j].getCurrentPosition(), BroAIList[j].getOrigin()); isCollide(BroAICollide, BrickLoop)) {
-					BroAIList[j].DeathBehaviour(SCORE_200);
+			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
+				if (sf::FloatRect BroAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(BroAICollide, BrickLoop)) {
+					jt->DeathBehaviour(SCORE_200);
 					SoundManager::PlaySound("Kick2");
-					BroAIDeleteSet.insert(j);
+					DeleteBroAIIndex(jt);
 				}
 			}
 			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y + 16.f, i);
@@ -171,9 +170,6 @@ void HitEvent(const float x, const float y) {
 			}
 		}
 	}
-	if (!BroAIDeleteSet.empty())
-		for (const auto &i : BroAIDeleteSet)
-			DeleteBroAIIndex(i);
 }
 void DeleteBrickIndex(const plf::colony<MFCPP::Brick>::colony_iterator<false>& it) {
 	it->willDestroy(true);
