@@ -6,7 +6,9 @@ project(MFCPP VERSION 0.0.1.0)
 # --- Global Project Settings ---
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 #TODO FORCE DEVELOPMENT_BUILD ON WHEN BUILD WITH RelWithDebInfo
 set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE ON)
@@ -104,12 +106,11 @@ if(WIN32)
             "${soloud_SOURCE_DIR}/src/backend/miniaudio/*.cpp"
     )
     set(SOLOUD_DEFINITIONS WITH_MINIAUDIO)
-else()
-    # You would need to add logic for other platforms here
-    # For example, for Linux with ALSA:
-    # file(GLOB SOLOUD_BACKEND_SOURCES "${soloud_SOURCE_DIR}/src/backend/alsa/*.cpp")
-    # set(SOLOUD_DEFINITIONS WITH_ALSA)
-    message(FATAL_ERROR "SoLoud build: No backend selected for this platform.")
+elseif(LINUX)
+    file(GLOB_RECURSE SOLOUD_BACKEND
+            "${soloud_SOURCE_DIR}/src/backend/miniaudio/*.cpp"
+    )
+    set(SOLOUD_DEFINITIONS WITH_MINIAUDIO)
 endif()
 add_library(soloud_library STATIC
         ${SOLOUD_SOURCES}
@@ -207,7 +208,6 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
         "${CMAKE_CURRENT_BINARY_DIR}/config"
 )
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-    SFML::Main
     SFML::Graphics SFML::System SFML::Window
     physfs-static ctre::ctre ImGui-SFML::ImGui-SFML
     Boost::container_hash Boost::uuid Boost::type_index

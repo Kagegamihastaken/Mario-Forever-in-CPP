@@ -2,8 +2,6 @@
 #include "Core/Loading/Loading.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Exception.hpp"
-
-#include "cmake-build-relwithdebinfo-vs/_deps/sfml-src/extlibs/headers/glad/include/glad/gl.h"
 #include "Core/Loading/PhysFsStream.hpp"
 
 std::map<std::string, sf::Texture*> ImageManager::m_textures;
