@@ -86,30 +86,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="add draft slope">
-      <change afterPath="$PROJECT_DIR$/data/levels/lvl-test2-1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/levels/lvl1-1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lvl-test-3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lvl-test.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lvl-test2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/levels/lvl-test2.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/resources/Slope.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/Slope.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Block/Slopes.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/Slopes.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/resources/Tileset.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/Tileset.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/Obstacles.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/Obstacles.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/Slopes.hpp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Tilemap.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Tilemap.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Object/BroAI.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/BroAI.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/icon1.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/Brick.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Brick.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/Slopes.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Slopes.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Slopes.cpp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Tilemap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Tilemap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
@@ -694,6 +686,11 @@
       <workItem from="1752060138673" duration="1507000" />
       <workItem from="1752111926712" duration="14955000" />
       <workItem from="1752131900362" duration="11000" />
+      <workItem from="1752143429894" duration="115000" />
+      <workItem from="1752143845648" duration="1124000" />
+      <workItem from="1752206255818" duration="1939000" />
+      <workItem from="1752208833874" duration="2158000" />
+      <workItem from="1752218485470" duration="4352000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />

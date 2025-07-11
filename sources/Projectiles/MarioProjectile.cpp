@@ -140,8 +140,11 @@ static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_it
     float CurrPosYCollide, CurrPosXCollide;
     //recolide
     if (QuickCheckBotCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
-        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, CurrPosYCollide - (it->getHitbox().size.y - it->getOrigin().y)));
+        const float floorY = GetCurrFloorY(it->getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
+        if (it->getCurrentPosition().y < CurrPosYCollide + floorY - std::max(it->getXVelo() + 1.f, 3.f)) return;
+        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, CurrPosYCollide + floorY - (it->getHitbox().size.y - it->getOrigin().y)));
         it->setYVelo(-5.f);
+        return;
     }
     if (QuickCheckTopCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide))
         DeleteMarioProjectile(it);

@@ -4,7 +4,6 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Sound.hpp"
 #include "Block/Obstacles.hpp"
-#include "Block/Slopes.hpp"
 #include "Core/Level.hpp"
 #include "Core/Music.hpp"
 #include "Core/Scroll.hpp"
@@ -38,7 +37,6 @@
 
 void GameObjectInit() {
     InitTempTex();
-    loadSlopeRes();
     windowInit();
     SoundInit();
     loadObstacleRes();
@@ -101,7 +99,6 @@ void GameLoadLevel() {
         ReadData("data/levels/lvl1.txt");
         Bgbuilding();
         Obstaclebuilding();
-        Slopebuilding();
         Objectbuilding();
         BgGradientInitPos();
         ExitGateBuilding();
@@ -209,8 +206,10 @@ void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
             if (mousePressed->button == sf::Mouse::Button::Left) {
                 AddBroAI(BroAIType::HAMMER_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
             }
+            else if (mousePressed->button == sf::Mouse::Button::Middle)
+                SetPowerState(2);
             else if (mousePressed->button == sf::Mouse::Button::Right) {
-                AddGoombaAI(GoombaAIType::SHELL_MOVING, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);}
+                AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);}
         }
     }
 }
@@ -289,16 +288,15 @@ void GameObjectDraw() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         BgDraw();
         ExitGateDraw();
-        GoombaAIDraw();
-        BroAIDraw();
         PiranhaAIDraw();
         ObstaclesDraw();
-        BrickDraw();
-        LuckyBlockDraw();
-        SlopeDraw();
         DrawBulletBill();
         BulletLauncherDraw();
+        GoombaAIDraw();
+        BroAIDraw();
         MarioDraw();
+        BrickDraw();
+        LuckyBlockDraw();
         SpikeDraw();
         CoinDraw();
         CoinEffectDraw();

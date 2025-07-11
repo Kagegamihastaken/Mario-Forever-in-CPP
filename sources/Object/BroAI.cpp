@@ -275,12 +275,11 @@ void BroAIVertYUpdate(const float deltaTime) {
         bool NoAdd = false;
         if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
             if (i.getYVelo() >= 0.0f) {
+                const float floorY = GetCurrFloorY(i.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
+                if (i.getCurrentPosition().y < CurrPosYCollide + floorY - std::max(i.getSpeed() + 1.f, 3.f)) continue;
                 i.setYVelo(0.0f);
-                i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - i.getHitbox().position.y - (i.getHitbox().size.y - i.getOrigin().y)));
+                i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + floorY - i.getHitbox().position.y - (i.getHitbox().size.y - i.getOrigin().y)));
                 if (willJump) i.setYVelo(-8.f);
-            }
-            else {
-                i.setYVelo(0.0f);
             }
         }
         else {
@@ -295,8 +294,6 @@ void BroAIVertYUpdate(const float deltaTime) {
                             i.setLastY(i.getCurrentPosition().y);
                             i.setYVelo(-3.f);
                         }
-                    } else {
-                        i.setYVelo(0.0f);
                     }
                 }
             }

@@ -17,7 +17,6 @@
 #include "Core/SoundManager.hpp"
 
 #include "Block/BulletLauncher.hpp"
-#include "Block/Slopes.hpp"
 //#include "imgui.h"
 //#include "imgui-SFML.h"
 float alpha = 1.0f;
@@ -72,12 +71,6 @@ int WinMain() {
 		AudioEnginePlay();
 
 		AddBulletLauncher(BULLET_NORMAL, 256.f + 32.f, 128.f);
-		AddSlope(96.f, 384.f, 2);
-		AddSlope(128.f, 384.f, 1);
-		AddSlope(160.f, 352.f, 0);
-		AddSlope(192.f, 320.f, 2);
-		AddSlope(224.f, 320.f, 1);
-		AddSlope(256.f, 320.f, 3);
 		while (window.isOpen()) {
 			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));
 			//bool Updated = false;

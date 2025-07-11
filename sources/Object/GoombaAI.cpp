@@ -335,8 +335,11 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 		//}
 		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide)) {
 			if (i.GetYvelo() >= 0.0f) {
+				const float floorY = GetCurrFloorY(i.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
+				if (i.getCurrentPosition().y < CurrPosYCollide + floorY - std::max(i.GetXvelo() + 1.f, 3.f)) continue;
 				i.SetYvelo(0.0f);
-				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - (i.GetSize().size.y - i.getOrigin().y)));
+				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + floorY - (i.GetSize().size.y - i.getOrigin().y)));
+				continue;
 			}
 		}
 		// top update

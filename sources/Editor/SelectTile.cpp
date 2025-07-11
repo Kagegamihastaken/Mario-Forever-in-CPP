@@ -39,7 +39,13 @@ const std::array<std::vector<SelectTileData>, 4> TilePage = {{
         {"Tile_7", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 7},
         {"Tile_8", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 8},
         {"Tile_9", sf::Vector2f(128, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 9},
-        {"Tile_10", sf::Vector2f(160, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 10}
+        {"Tile_10", sf::Vector2f(160, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 10},
+        {"Tile_11", sf::Vector2f(0, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 11},
+        {"Tile_12", sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 12},
+        {"Tile_13", sf::Vector2f(64, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 13},
+        {"Tile_14", sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 14},
+        {"Tile_15", sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 15},
+        {"Tile_16", sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 16}
     },
     { // PAGE 2
             {"Coin_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},

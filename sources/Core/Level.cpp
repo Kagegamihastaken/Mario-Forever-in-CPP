@@ -5,19 +5,16 @@
 #include "Block/LuckyBlock.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "Core/Collision/Collide.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Effect/CoinEffect.hpp"
 #include "Effect/GoombaAIEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Block/Slopes.hpp"
 #include "Core/Exception.hpp"
 #include "Object/PiranhaAI.hpp"
 #include "Object/Spike.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/MusicManager.hpp"
-#include "Core/Music.hpp"
 #include "Core/Background/Bg.hpp"
 #include "Object/ExitGate.hpp"
 #include "Editor/SelectTile.hpp"
@@ -426,15 +423,16 @@ void Obstaclebuilding() {
 	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
 	//ObstaclesVA.resize(LevelData.size() * 6);
 	for (int i = 0; i < LevelData.size(); ++i) {
-		MFCPP::setIndexTilemapCollision(LevelData[i][1], LevelData[i][2], true);
-		MFCPP::setIndexTilemapID(LevelData[i][1], LevelData[i][2], 0);
 		//for (const auto& i : LevelData) {
 			// Find the tile id
-		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 3> &compare) {
+		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 6> &compare) {
 			return compare[0] == static_cast<int>(LevelData[i][0]);
 		}) - (ID_list.begin());
-		sf::Sprite obstaclesRender(ImageManager::GetTexture("Tile_"+std::to_string(posTextureIndex)));
+		sf::Sprite obstaclesRender(ImageManager::GetTexture(fmt::format("Tile_{}", posTextureIndex)));
 		obstaclesRender.setPosition({ LevelData[i][1], LevelData[i][2] });
+		MFCPP::setIndexTilemapCollision(LevelData[i][1], LevelData[i][2], true);
+		MFCPP::setIndexTilemapID(LevelData[i][1], LevelData[i][2], ID_list[posTextureIndex][3]);
+		MFCPP::setIndexTilemapFloorY(LevelData[i][1], LevelData[i][2], {ID_list[posTextureIndex][4], ID_list[posTextureIndex][5]});
 		ObstacleRTexture.draw(obstaclesRender);
 		// Then use the index of tile id property to add it to the list
 		//ObstaclesList.emplace_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(ImageManager::GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
@@ -459,21 +457,6 @@ void Obstaclebuilding() {
 		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
 	ObstacleRTexture.display();
-}
-void Slopebuilding() {
-	std::ranges::sort(SlopeData, [](const std::array<float, 3>& a, const std::array<float, 3>& b) {return a[1] < b[1]; });
-	for (const auto& i : SlopeData) {
-		// Find the tile id
-		const int posTextureIndex = std::ranges::find_if(IDSlope_list, [&i](const std::array<int, 3> &compare) {
-			return compare[0] == static_cast<int>(i[0]);
-		}) - (IDSlope_list.begin());
-		// Then use the index of tile id property to add it to the list
-		SlopesList.push_back(Obstacles{ static_cast<int>(i[0]), sf::Sprite(SlopeTexture, sf::IntRect({IDSlope_list[posTextureIndex][1], IDSlope_list[posTextureIndex][2] }, {32, 32}))
-			});
-		SlopesList[static_cast<int>(SlopesList.size()) - 1].property.setPosition({ i[1], i[2] });
-		SlopesIDList.push_back(IDSlope_list[posTextureIndex][0]);
-		setHitbox(SlopesList[static_cast<int>(SlopesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
-	}
 }
 void Bgbuilding() {
 	for (const auto& i : BgData) {

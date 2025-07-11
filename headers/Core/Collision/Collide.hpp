@@ -14,6 +14,9 @@ extern bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other);
 
 extern bool GetRelativeTilemapSlopeUp(float CurrPosXCollide, float CurrPosYCollide);
 extern bool GetRelativeTilemapSlopeDown(float CurrPosXCollide, float CurrPosYCollide);
+extern bool GetRelativeTilemapSlopeLeft(float CurrPosXCollide, float CurrPosYCollide);
+extern bool GetRelativeTilemapSlopeRight(float CurrPosXCollide, float CurrPosYCollide);
+extern bool GetRelativeTilemapSlopeBetween(float CurrPosXCollide, float CurrPosYCollide);
 
 extern std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, unsigned ID);
 extern std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::CollisionObject& CollideObj, unsigned ID, const sf::FloatRect& rect);
@@ -35,4 +38,6 @@ extern bool QuickCheckOnlyHittableTopCollision(const MFCPP::CollisionObject& Col
 extern std::pair<bool, bool> QuickCheckSideCollision(const MFCPP::CollisionObject& CollideObj, bool direction, float& CurrX, float& CurrY);
 extern bool QuickCheckBotCollision(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY);
 extern bool QuickCheckTopCollision(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY);
+
+extern float GetCurrFloorY(const sf::Vector2f& pos, float CurrX, float CurrY);
 #endif // COLLIDE_HPP

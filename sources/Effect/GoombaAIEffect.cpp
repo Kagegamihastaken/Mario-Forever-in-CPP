@@ -128,11 +128,11 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		//}
 		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
 			if (i.getYVelo() >= 0.0f) {
+				const float floorY = GetCurrFloorY(i.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
+				if (i.getCurrentPosition().y < CurrPosYCollide + floorY - 3.f) continue;
 				i.setYVelo(0.f);
-				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide - (i.getHitbox().size.y - i.getOrigin().y)));
-			}
-			else {
-				i.setYVelo(0.f);
+				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + floorY - (i.getHitbox().size.y - i.getOrigin().y)));
+				continue;
 			}
 		}
 		// top update

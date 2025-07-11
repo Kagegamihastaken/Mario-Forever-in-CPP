@@ -220,23 +220,8 @@ void MarioVertYUpdate() {
 		//recolide
 		if (QuickCheckBotCollision(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			if (Yvelo >= 0.0f) {
-				float t;
-				const bool SlopeRelaUp = GetRelativeTilemapSlopeUp(CurrPosXCollide, CurrPosYCollide);
-				const bool SlopeRelaDown = GetRelativeTilemapSlopeDown(CurrPosXCollide, CurrPosYCollide);
-
-				if (!SlopeRelaUp)
-					if (!SlopeRelaDown)
-						t = (std::max(std::min(player.curr.x, CurrPosXCollide + MFCPP::getTileSize()), CurrPosXCollide) - CurrPosXCollide) / MFCPP::getTileSize();
-					else
-						t = (std::min(player.curr.x, CurrPosXCollide + MFCPP::getTileSize()) - CurrPosXCollide) / MFCPP::getTileSize();
-				else
-					if (!SlopeRelaDown)
-						t = (std::max(player.curr.x, CurrPosXCollide) - CurrPosXCollide) / MFCPP::getTileSize();
-					else
-						t = (player.curr.x - CurrPosXCollide) / MFCPP::getTileSize();
-
-				const float floorY = t * MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).first + (1 - t) * MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second;
-				if (player.curr.y < CurrPosYCollide + floorY - Xvelo - 1.f) return;
+				const float floorY = GetCurrFloorY(player.curr, CurrPosXCollide, CurrPosYCollide);
+				if (player.curr.y < CurrPosYCollide + floorY - std::max(Xvelo + 1.f, 3.f)) return;
 				MarioCurrentFalling = false;
 				player.curr = { player.curr.x, CurrPosYCollide + floorY - (52.0f - player.property.getOrigin().y) };
 				Yvelo = 0.0f;
