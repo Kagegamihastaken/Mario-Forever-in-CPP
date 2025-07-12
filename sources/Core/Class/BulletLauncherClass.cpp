@@ -2,9 +2,9 @@
 
 namespace MFCPP {
     BulletLauncher::BulletLauncher(const float launch_interval, const sf::Vector2f& pos) : m_launch_interval(launch_interval) {
-        setCurrentPosition(sf::Vector2f(pos.x + 16.f, pos.y + 31.f));
-        setPreviousPosition(sf::Vector2f(pos.x + 16.f, pos.y + 31.f));
-        setInterpolatedPosition(sf::Vector2f(pos.x + 16.f, pos.y + 31.f));
+        setCurrentPosition(pos);
+        setPreviousPosition(pos);
+        setInterpolatedPosition(pos);
         setOrigin(sf::Vector2f(16.f, 31.f));
 
         m_random_fire_interval = 149;

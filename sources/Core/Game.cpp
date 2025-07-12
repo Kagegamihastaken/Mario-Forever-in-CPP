@@ -209,7 +209,7 @@ void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
             else if (mousePressed->button == sf::Mouse::Button::Middle)
                 SetPowerState(2);
             else if (mousePressed->button == sf::Mouse::Button::Right) {
-                AddGoombaAI(GoombaAIType::GOOMBA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);}
+                AddGoombaAI(GoombaAIType::KOOPA, 0, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f, GoombaAIDirection::LEFT);}
         }
     }
 }

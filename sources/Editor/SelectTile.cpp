@@ -2,6 +2,8 @@
 #include "Editor/Editor.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Editor/SelectTile.hpp"
+
+#include "Core/Logging.hpp"
 #include "Editor/TabButton.hpp"
 
 static sf::VertexArray SelectTileBackground(sf::PrimitiveType::TriangleStrip, 4);
@@ -65,6 +67,7 @@ const std::array<std::vector<SelectTileData>, 4> TilePage = {{
         {"NormalSpike", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
         {"EDITOR_HammerBroCanMove", sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
         {"EDITOR_HammerBroCannotMove", sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
+        {"BulletLauncher", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},
     },
     { // PAGE 4
         {"SmallMario_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
@@ -164,8 +167,8 @@ void SelectTilePosUpdate() {
     SelectTileX = std::floor((MouseX + BoxTileX < 0 ? 0 : MouseX + BoxTileX) / 32.0f) * 32.0f + ModX;
     SelectTileY = std::floor((MouseY + BoxTileY < 0 ? 0 : MouseY + BoxTileY) / 32.0f) * 32.0f + ModY;
     //Update Tile Select Position
-    TilePosX = SelectTileX - BoxTileX - ModX - 128.0f;
-    TilePosY = SelectTileY - BoxTileY - ModY - 96.0f;
+    TilePosX = std::ceil(SelectTileX - BoxTileX - ModX - 128.0f);
+    TilePosY = std::ceil(SelectTileY - BoxTileY - ModY - 96.0f);
 
     SelectTileBox.setPosition(sf::Vector2f(SelectTileX, SelectTileY));
 }

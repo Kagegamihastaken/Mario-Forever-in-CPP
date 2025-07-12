@@ -2,6 +2,7 @@
 #include "Core/Level.hpp"
 #include "Object/Coin.hpp"
 #include "Block/Brick.hpp"
+#include "Block/BulletLauncher.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/Loading/Loading.hpp"
@@ -500,6 +501,7 @@ void Objectbuilding() {
 	ClearPiranhaAI();
 	DeleteAllSpike();
 	DeleteAllBulletBill();
+	BulletLauncherClear();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
@@ -534,6 +536,9 @@ void Objectbuilding() {
 					break;
 				case 3:
 					AddBroAI(static_cast<BroAIType>(i[1]), static_cast<BroAIMovementType>(i[2]), i[3], i[4]);
+					break;
+				case 4:
+					AddBulletLauncher(static_cast<BulletType>(i[1]), i[3], i[4]);
 					break;
 				default: ;
 			}

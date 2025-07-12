@@ -105,12 +105,16 @@ std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::Collisio
 bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
 	//if (NoAdd) return false;
 	bool isCollideBotBool = false;
+	bool willCollide = false;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f); ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f); ++j) {
+	const int SizeX = static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f);
+	const int SizeY = static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f);
+	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= SizeX; ++i) {
+		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= SizeY; ++j) {
 			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
-				if ((CollideObj.GetPosition().x - hitbox_loop.position.x) / MFCPP::getTileSize() < 0.f && MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3) continue;
+				if ((CollideObj.GetPosition().x - hitbox_loop.position.x) / MFCPP::getTileSize() < 0.f && !(i == SizeX && i == SizeY) && willCollide) continue;
+				willCollide = true;
 				//if (hitbox_intersect.position.x < hitbox_loop.position.x || hitbox_intersect.position.x > hitbox_loop.position.x + hitbox_loop.size.x) continue;
 				if (hitbox_intersect.position.y + hitbox_intersect.size.y < hitbox_loop.position.y + 16.0f && MFCPP::getIndexTilemapID(i, j) != 3 || MFCPP::getIndexTilemapID(i, j) == 3) {
 					isCollideBotBool = true;

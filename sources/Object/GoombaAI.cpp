@@ -108,7 +108,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case KOOPA:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, 1.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(16, 44), false, SkinID, 0.0f);
+				sf::Vector2f(16, 46), false, SkinID, 0.0f);
 			it->setAnimation(0, 1, 12, true);
 			it->setAnimationSequence(KoopaAnimName);
 			break;
@@ -136,7 +136,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case SPINY:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, 1.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(16, 29), false, SkinID, 0.6f);
+				sf::Vector2f(16, 31), false, SkinID, 0.6f);
 			it->setAnimation(0, 1, 14, true);
 			it->setAnimationSequence(SpinyAnimName);
 			break;

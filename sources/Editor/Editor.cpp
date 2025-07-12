@@ -118,24 +118,10 @@ void FileSave() {
     foo << "EGIX=" << EDITOR_ExitGateIndicator.getPosition().x - EDITOR_ExitGateIndicator.getOrigin().x + TilePage[LevelTab][1].origin.x << " " << "EGIY=" << EDITOR_ExitGateIndicator.getPosition().y - EDITOR_ExitGateIndicator.getOrigin().y + TilePage[LevelTab][1].origin.y << " " << "EGX=" << EDITOR_ExitGate.getPosition().x - EDITOR_ExitGate.getOrigin().x + TilePage[LevelTab][2].origin.x << " " << "EGY=" << EDITOR_ExitGate.getPosition().y - EDITOR_ExitGate.getOrigin().y + TilePage[LevelTab][2].origin.y << "\n";
     foo << "LVLW=" << TEST_LevelWidth << " " << "LVLH=" << TEST_LevelHeight << "\n";
     foo << "MX=" << EDITOR_Mario.getPosition().x - EDITOR_Mario.getOrigin().x + TilePage[LevelTab][0].origin.x << " " << "MY=" << EDITOR_Mario.getPosition().y - EDITOR_Mario.getOrigin().y + TilePage[LevelTab][0].origin.y << "\n";
-    foo << "MUSICT=0 MUSICN=MainMusicMOD\n";
+    foo << "MUSIC=DansLaRue\n";
     foo << "[TILE]\n";
     for (const auto &i : Tile) {
         foo << "EI=" << i.getID() << " " << "EP=" << i.getPage() << " " << "EX=" << i.getPosition().x - i.getOrigin().x + TilePage[i.getPage()][i.getID()].origin.x << " " << "EY=" << i.getPosition().y - i.getOrigin().y + TilePage[i.getPage()][i.getID()].origin.y << "\n";
-        //switch (TileLoop->categoryID) {
-        //    case 0:
-                // EI EP TILE_ID TILE_X TILE_Y
-        //        LevelData.push_back({static_cast<float>(idLoop), static_cast<float>(pgLoop), static_cast<float>(TileLoop->objectID), i.getPosition().x-i.getOrigin().x+TileLoop->origin.x, i.getPosition().y-i.getOrigin().y+TileLoop->origin.y});
-        //        break;
-        //    case 1:
-                // EI EP BONUS_TYPE BONUS_ID BONUS_ATT BONUS_X BONUS_Y
-        //        BonusData.push_back({static_cast<float>(idLoop), static_cast<float>(pgLoop), static_cast<float>(TileLoop->objectID), static_cast<float>(TileLoop->customID1), static_cast<float>(TileLoop->customID2), i.getPosition().x-i.getOrigin().x+TileLoop->origin.x, i.getPosition().y-i.getOrigin().y+TileLoop->origin.y});
-        //        break;
-        //    case 2:
-        //        EnemyData.push_back({static_cast<float>(idLoop), static_cast<float>(pgLoop), static_cast<float>(TileLoop->objectID), static_cast<float>(TileLoop->customID1), static_cast<float>(TileLoop->customID2), i.getPosition().x-i.getOrigin().x+TileLoop->origin.x, i.getPosition().y-i.getOrigin().y+TileLoop->origin.y});
-        //        break;
-        //    default: ;
-        //}
     }
     foo.close();
 }
