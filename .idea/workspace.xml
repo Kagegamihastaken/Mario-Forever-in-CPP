@@ -85,28 +85,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="add draft slope">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="added more support for slope">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/resources/Tileset.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/Tileset.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Block/Obstacles.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/Obstacles.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Block/Slopes.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lvl-test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lvl-test2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/Slopes.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Scene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scene.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -690,7 +677,9 @@
       <workItem from="1752143845648" duration="1124000" />
       <workItem from="1752206255818" duration="1939000" />
       <workItem from="1752208833874" duration="2158000" />
-      <workItem from="1752218485470" duration="4352000" />
+      <workItem from="1752218485470" duration="5488000" />
+      <workItem from="1752243777730" duration="2521000" />
+      <workItem from="1752285660691" duration="1101000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -1020,7 +1009,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751993334219</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="added more support for slope">
+      <option name="closed" value="true" />
+      <created>1752223330620</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1752223330621</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1256,7 +1253,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="added SelectTile Function" />
     <MESSAGE value="more proper implement Select Tile Page" />
     <MESSAGE value="added select tile category" />
     <MESSAGE value="added Enemy Tab and Level tab in Editor" />
@@ -1281,7 +1277,8 @@
     <MESSAGE value="classing 1" />
     <MESSAGE value="fully converted every object into class, only change vector" />
     <MESSAGE value="add draft slope" />
-    <option name="LAST_COMMIT_MESSAGE" value="add draft slope" />
+    <MESSAGE value="added more support for slope" />
+    <option name="LAST_COMMIT_MESSAGE" value="added more support for slope" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

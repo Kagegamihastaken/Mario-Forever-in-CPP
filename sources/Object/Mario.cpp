@@ -220,6 +220,7 @@ void MarioVertYUpdate() {
 		//recolide
 		if (QuickCheckBotCollision(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			if (Yvelo >= 0.0f) {
+				//if (player.curr.x < CurrPosXCollide || player.curr.x > CurrPosXCollide + 32.f) return;
 				const float floorY = GetCurrFloorY(player.curr, CurrPosXCollide, CurrPosYCollide);
 				if (player.curr.y < CurrPosYCollide + floorY - std::max(Xvelo + 1.f, 3.f)) return;
 				MarioCurrentFalling = false;
