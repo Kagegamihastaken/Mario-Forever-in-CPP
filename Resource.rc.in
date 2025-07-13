@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "resource.h"
 
-IDI_ICON1 ICON "icon1.ico"
+IDI_ICON1 ICON "data/resources/Icon/GameICON.ico"
 
 // The version is now managed by CMake
 #define VERSION_MAJOR @PROJECT_VERSION_MAJOR@

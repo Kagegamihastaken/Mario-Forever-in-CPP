@@ -16,7 +16,6 @@
 #include <SFML/Graphics/Shader.hpp>
 
 #include "Core/Logging.hpp"
-#include "Core/Tilemap.hpp"
 sf::Shader notShader;
 
 //texture loading
@@ -74,6 +73,7 @@ void MarioOutSideScreen() {
 	}
 	else if (player.curr.x > player.property.getOrigin().x + ViewX) OutsideWallLeft = false;
 }
+//false: right, true: left
 void KeyboardMovement(const float deltaTime) {
 	if (CanControlMario && !LevelCompleteEffect) {
 		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown && window.hasFocus()) {

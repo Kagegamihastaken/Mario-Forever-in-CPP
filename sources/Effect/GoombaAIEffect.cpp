@@ -15,7 +15,8 @@ static bool GoombaAIEffectDeleteGate = false;
 void GoombaAIEffectInit() {
 	ImageManager::AddTexture("DEAD_Goomba_1", "data/resources/Goomba/DEAD_Goomba.png", sf::IntRect({0, 0}, {31, 32}));
 	ImageManager::AddTexture("DEAD_Goomba_2", "data/resources/Goomba/DEAD_Goomba.png", sf::IntRect({31, 0}, {31, 32}));
-	ImageManager::AddTexture("DEAD_Koopa", "data/resources/Koopa/DEAD_GreenKoopa.png");
+	ImageManager::AddTexture("DEAD_GreenKoopa", "data/resources/Koopa/DEAD_GreenKoopa.png");
+	ImageManager::AddTexture("DEAD_RedKoopa", "data/resources/Koopa/DEAD_RedKoopa.png");
 	ImageManager::AddTexture("DEAD_Spiny_Red", "data/resources/Spiny/DEAD_RedSpiny.png");
 }
 void SetPrevGoombaAIEffectPos() {
@@ -46,8 +47,17 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 	}
 	else if (type == KOOPA || type == SHELL || type == SHELL_MOVING) {
 		if (id == NONE) {
-			it = GoombaAIEffectList.emplace(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(16, 27));
-			it->setTexture("DEAD_Koopa");
+			switch (SkinID) {
+				case 0:
+					it = GoombaAIEffectList.emplace(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(16, 27));
+					it->setTexture("DEAD_GreenKoopa");
+					break;
+				case 1:
+					it = GoombaAIEffectList.emplace(id, SkinID, -3.f, sf::FloatRect({0.f, 0.f}, {33.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(16, 27));
+					it->setTexture("DEAD_RedKoopa");
+					break;
+				default: ;
+			}
 		}
 	}
 	else if (type == SPINY) {

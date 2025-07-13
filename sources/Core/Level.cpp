@@ -433,7 +433,7 @@ void Obstaclebuilding() {
 		obstaclesRender.setPosition({ LevelData[i][1], LevelData[i][2] });
 		MFCPP::setIndexTilemapCollision(LevelData[i][1], LevelData[i][2], true);
 		MFCPP::setIndexTilemapID(LevelData[i][1], LevelData[i][2], ID_list[posTextureIndex][3]);
-		MFCPP::setIndexTilemapFloorY(LevelData[i][1], LevelData[i][2], {ID_list[posTextureIndex][4], ID_list[posTextureIndex][5]});
+		MFCPP::setIndexTilemapFloorY(LevelData[i][1], LevelData[i][2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
 		ObstacleRTexture.draw(obstaclesRender);
 		// Then use the index of tile id property to add it to the list
 		//ObstaclesList.emplace_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(ImageManager::GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });

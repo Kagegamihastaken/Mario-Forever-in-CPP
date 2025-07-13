@@ -85,20 +85,24 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="fixed slope day 1">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Added Bullet Launcher &amp; fix Slope">
+      <change beforePath="$PROJECT_DIR$/.devcontainer/devcontainer.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resource.rc.in" beforeDir="false" afterPath="$PROJECT_DIR$/Resource.rc.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lvl-test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/GoombaAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/GoombaAIClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Class/BulletLauncherClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/BulletLauncherClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/GoombaAIClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/GoombaAIClass.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,33 +163,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;C/C++ File.Source.cpp.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.MFCPP.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/source/repos/Mario-Forever-in-CPP&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.android.studio.ml.bot.mainConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "C/C++ File.Source.cpp.executor": "Run",
+    "CMake Application.MFCPP.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.advertisement.text.has.clang-format": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/source/repos/Mario-Forever-in-CPP",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.android.studio.ml.bot.mainConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\source\repos\MFCPP\headers\Core" />
@@ -685,7 +689,10 @@
       <workItem from="1752218485470" duration="5488000" />
       <workItem from="1752243777730" duration="2521000" />
       <workItem from="1752285660691" duration="2044000" />
-      <workItem from="1752292820947" duration="4616000" />
+      <workItem from="1752292820947" duration="5979000" />
+      <workItem from="1752314527586" duration="1701000" />
+      <workItem from="1752340754509" duration="139000" />
+      <workItem from="1752372368702" duration="7805000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -1031,7 +1038,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752286971679</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Added Bullet Launcher &amp; fix Slope">
+      <option name="closed" value="true" />
+      <created>1752297658787</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1752297658787</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1267,7 +1282,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="added select tile category" />
     <MESSAGE value="added Enemy Tab and Level tab in Editor" />
     <MESSAGE value="added Save and Load level in editor, now GAMEPLAY scene load file from editor. Lastly fix crash when no Obstacles on screen" />
     <MESSAGE value="more improve coding structure for GoombaAIEffect" />
@@ -1292,7 +1306,8 @@
     <MESSAGE value="add draft slope" />
     <MESSAGE value="added more support for slope" />
     <MESSAGE value="fixed slope day 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed slope day 1" />
+    <MESSAGE value="Added Bullet Launcher &amp; fix Slope" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Bullet Launcher &amp; fix Slope" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

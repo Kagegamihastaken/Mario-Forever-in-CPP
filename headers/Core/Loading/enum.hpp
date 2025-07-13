@@ -22,6 +22,7 @@ enum AnimationDirection {ANIM_RIGHT, ANIM_LEFT};
 enum GoombaAIType { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER };
 enum GoombaAIDirection { RIGHT, LEFT };
 enum GoombaAICollisionType { YES, NO, FULL };
+enum GoombaAIBehaviour {GOOMBAAI_NORMAL, GOOMBAAI_REDKOOPA};
 //enum for goombaAIEffect
 enum GoombaAIEffectID { NONE, COLLIDE };
 //enum for PiranhaAI

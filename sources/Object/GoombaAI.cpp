@@ -29,11 +29,13 @@ static std::vector<std::string> MushroomAnimName;
 static int MUSHROOM_IMAGE_WIDTH = 31;
 static int MUSHROOM_WIDTH = 31;
 static int MUSHROOM_HEIGHT = 32;
-static std::vector<std::string> KoopaAnimName;
+static std::vector<std::string> GreenKoopaAnimName;
+static std::vector<std::string> RedKoopaAnimName;
 static int KOOPA_IMAGE_WIDTH = 64;
 static int KOOPA_WIDTH = 32;
 static int KOOPA_HEIGHT = 47;
-static std::vector<std::string> KoopaShellAnimName;
+static std::vector<std::string> GreenKoopaShellAnimName;
+static std::vector<std::string> RedKoopaShellAnimName;
 static int KOOPA_SHELL_IMAGE_WIDTH = 132;
 static int KOOPA_SHELL_WIDTH = 33;
 static int KOOPA_SHELL_HEIGHT = 28;
@@ -58,11 +60,15 @@ void GoombaAILoadRes() {
 	}
 	for (int i = 0; i < KOOPA_IMAGE_WIDTH / KOOPA_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("GreenKoopa_{}", i), "data/resources/Koopa/GreenKoopa.png", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}));
-		KoopaAnimName.push_back(fmt::format("GreenKoopa_{}", i));
+		GreenKoopaAnimName.push_back(fmt::format("GreenKoopa_{}", i));
+		ImageManager::AddTexture(fmt::format("RedKoopa_{}", i), "data/resources/Koopa/RedKoopa.png", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}));
+		RedKoopaAnimName.push_back(fmt::format("RedKoopa_{}", i));
 	}
 	for (int i = 0; i < KOOPA_SHELL_IMAGE_WIDTH / KOOPA_SHELL_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("GreenKoopaShell_{}", i), "data/resources/Koopa/GreenKoopaShell.png", sf::IntRect({i * KOOPA_SHELL_WIDTH, 0}, {KOOPA_SHELL_WIDTH, KOOPA_SHELL_HEIGHT}));
-		KoopaShellAnimName.push_back(fmt::format("GreenKoopaShell_{}", i));
+		GreenKoopaShellAnimName.push_back(fmt::format("GreenKoopaShell_{}", i));
+		ImageManager::AddTexture(fmt::format("RedKoopaShell_{}", i), "data/resources/Koopa/RedKoopaShell.png", sf::IntRect({i * KOOPA_SHELL_WIDTH, 0}, {KOOPA_SHELL_WIDTH, KOOPA_SHELL_HEIGHT}));
+		RedKoopaShellAnimName.push_back(fmt::format("RedKoopaShell_{}", i));
 	}
 	for (int i = 0; i < RED_SPINY_IMAGE_WIDTH / RED_SPINY_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("RedSpiny_{}", i), "data/resources/Spiny/RedSpiny.png", sf::IntRect({i * RED_SPINY_WIDTH, 0}, {RED_SPINY_WIDTH, RED_SPINY_HEIGHT}));
@@ -99,49 +105,85 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 	plf::colony<MFCPP::GoombaAI>::colony_iterator<false> it;
 	switch (type) {
 		case GOOMBA:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, 1.0f,
+			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
 				sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(15, 31), false, SkinID, 0.0f);
 			it->setAnimation(0, 1, 11);
 			it->setAnimationSequence(GoombaAnimName);
 			break;
 		case KOOPA:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, 1.0f,
-				sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(16, 46), false, SkinID, 0.0f);
-			it->setAnimation(0, 1, 12, true);
-			it->setAnimationSequence(KoopaAnimName);
+			switch (SkinID) {
+			case 0:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 46), false, SkinID, 0.0f);
+				it->setAnimation(0, 1, 12, true);
+				it->setAnimationSequence(GreenKoopaAnimName);
+				break;
+			case 1:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_REDKOOPA, 2.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 46), false, SkinID, 0.0f);
+				it->setAnimation(0, 1, 12, true);
+				it->setAnimationSequence(RedKoopaAnimName);
+				break;
+			default: ;
+			}
 			break;
 		case MUSHROOM:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, 2.0f,
+			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
 				sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 				sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
 			it->setAnimation(0, 0, 100);
 			it->setAnimationSequence(MushroomAnimName);
 			break;
 		case SHELL:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, 0.0f,
-				sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(16, 27), false, SkinID, 0.12f);
-			it->setAnimation(3, 3, 100);
-			it->setAnimationSequence(KoopaShellAnimName);
+			switch (SkinID) {
+			case 0:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 27), false, SkinID, 0.12f);
+				it->setAnimation(3, 3, 100);
+				it->setAnimationSequence(GreenKoopaShellAnimName);
+				break;
+			case 1:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 27), false, SkinID, 0.12f);
+				it->setAnimation(3, 3, 100);
+				it->setAnimationSequence(RedKoopaShellAnimName);
+				break;
+			default: ;
+			}
 			break;
 		case SHELL_MOVING:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, 5.0f,
-				sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(16, 27), false, SkinID, 0.6f);
-			it->setAnimation(0, 3, 54);
-			it->setAnimationSequence(KoopaShellAnimName);
+			switch (SkinID) {
+			case 0:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 5.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 27), false, SkinID, 0.6f);
+				it->setAnimation(0, 3, 54);
+				it->setAnimationSequence(GreenKoopaShellAnimName);
+				break;
+			case 1:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 5.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 27), false, SkinID, 0.6f);
+				it->setAnimation(0, 3, 54);
+				it->setAnimationSequence(RedKoopaShellAnimName);
+				break;
+			default: ;
+			}
 			break;
 		case SPINY:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, 1.0f,
+			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y),
 				sf::Vector2f(16, 31), false, SkinID, 0.6f);
 			it->setAnimation(0, 1, 14, true);
 			it->setAnimationSequence(SpinyAnimName);
 			break;
 		case FIRE_FLOWER:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, 0.0f,
+			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 				sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
 			it->setAnimation(0, 3, 27);
@@ -334,6 +376,15 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f));
 		//}
 		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide)) {
+			//For RedKoopaAI Only, This depends on Bot Collision to work
+			//THis thing needs to check if That Things is on the ground to automatic change
+			if (i.GetBehaviour() == GoombaAIBehaviour::GOOMBAAI_REDKOOPA) {
+				if (!isAccurateCollideBotStopEdge(MFCPP::CollisionObject({i.getCurrentPosition().x, i.getCurrentPosition().y + 1.f}, i.getOrigin(), i.GetHitboxMain()), i.GetDirection())) {
+					i.setCurrentPosition(sf::Vector2f(i.getPreviousPosition().x, i.getCurrentPosition().y));
+					i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
+				}
+			}
+
 			if (i.GetYvelo() >= 0.0f) {
 				const float floorY = GetCurrFloorY(i.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
 				if (i.getCurrentPosition().y < CurrPosYCollide + floorY - std::max(i.GetXvelo() + 1.f, 3.f)) continue;

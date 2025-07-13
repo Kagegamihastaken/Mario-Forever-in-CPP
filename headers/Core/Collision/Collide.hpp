@@ -23,6 +23,7 @@ extern std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::C
 extern std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, unsigned ID);
 extern bool isAccurateCollideTop(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, unsigned ID);
 extern bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, unsigned ID);
+extern bool isAccurateCollideBotStopEdge(const MFCPP::CollisionObject& CollideObj, bool direction);
 
 extern std::pair<bool, bool> CheckCollisionSide(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd, unsigned ID);
 extern bool CheckCollisionBot(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd, unsigned ID);

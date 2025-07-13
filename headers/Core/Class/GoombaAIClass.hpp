@@ -28,8 +28,9 @@ namespace MFCPP {
         int                                 m_shell_hit_count{};
         std::pair<bool, boost::uuids::uuid> m_collide_with{};
         boost::uuids::uuid                  m_uuid{};
+        GoombaAIBehaviour                   m_behaviour{};
     public:
-        GoombaAI(GoombaAIType type, GoombaAIDirection dir, GoombaAICollisionType collision_type, float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
+        GoombaAI(GoombaAIType type, GoombaAIDirection dir, GoombaAICollisionType collision_type, GoombaAIBehaviour behaviour, float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
         const sf::Vector2f& origin, bool is_appeared, unsigned skin_ID, float invincible_timer_limit, bool can_death = true);
         ~GoombaAI() = default;
         void SetType(const GoombaAIType& type);
@@ -71,6 +72,9 @@ namespace MFCPP {
         void DeathBehaviour(ScoreID score_id) const;
         void SetHitboxWall(const sf::FloatRect& val);
         [[nodiscard]] sf::FloatRect GetHitboxWall() const;
+
+        void SetBehaviour(GoombaAIBehaviour val);
+        [[nodiscard]] GoombaAIBehaviour GetBehaviour() const;
     };
 }
 

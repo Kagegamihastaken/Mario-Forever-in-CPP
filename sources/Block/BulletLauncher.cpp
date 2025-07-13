@@ -44,14 +44,12 @@ void BulletLauncherStatusUpdate(const float deltaTime) {
         if (it->getState()) {
             if (it->getTiming() <= 0.f) {
                 BulletLauncherShot(it);
-                MFCPP::Log::InfoPrint("Bullet Shot! (2nd State)");
                 it->setTiming(it->getLaunchInterval() + RandomIntNumberGenerator(0, it->getRandomFireInterval()));
             }
         }
         else {
             if (it->getTiming() <= -1.f * it->getFirstShotTime()) {
                 BulletLauncherShot(it);
-                MFCPP::Log::InfoPrint("Bullet Shot!");
                 it->setTiming(it->getLaunchInterval() + RandomIntNumberGenerator(0, it->getRandomFireInterval()));
                 it->setState(true);
             }

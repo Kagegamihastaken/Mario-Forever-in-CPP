@@ -4,9 +4,9 @@
 #include "Effect/GoombaAIEffect.hpp"
 
 namespace MFCPP {
-    GoombaAI::GoombaAI(const GoombaAIType type, const GoombaAIDirection dir, const GoombaAICollisionType collision_type, const float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
+    GoombaAI::GoombaAI(const GoombaAIType type, const GoombaAIDirection dir, const GoombaAICollisionType collision_type, const GoombaAIBehaviour behaviour, const float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
         const sf::Vector2f& origin, const bool is_appeared, const unsigned skin_ID, const float invincible_timer_limit, const bool can_death)
-        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_can_death(can_death), m_invincible_timer_limit(invincible_timer_limit) {
+        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_can_death(can_death), m_invincible_timer_limit(invincible_timer_limit), m_behaviour(behaviour) {
         setOrigin(origin);
         setCurrentPosition(pos);
         setPreviousPosition(pos);
@@ -138,4 +138,12 @@ namespace MFCPP {
     boost::uuids::uuid GoombaAI::GetUUID() const {
         return m_uuid;
     }
+    void GoombaAI::SetBehaviour(const GoombaAIBehaviour val) {
+        m_behaviour = val;
+    }
+    GoombaAIBehaviour GoombaAI::GetBehaviour() const {
+        return m_behaviour;
+    }
+
+
 }
