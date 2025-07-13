@@ -85,24 +85,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Added Bullet Launcher &amp; fix Slope">
-      <change beforePath="$PROJECT_DIR$/.devcontainer/devcontainer.json" beforeDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Added Red Koopa Behaviour">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resource.rc.in" beforeDir="false" afterPath="$PROJECT_DIR$/Resource.rc.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Class/GoombaAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/GoombaAIClass.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lvl1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lvl1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Class/GoombaAIClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/GoombaAIClass.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -692,7 +684,7 @@
       <workItem from="1752292820947" duration="5979000" />
       <workItem from="1752314527586" duration="1701000" />
       <workItem from="1752340754509" duration="139000" />
-      <workItem from="1752372368702" duration="7805000" />
+      <workItem from="1752372368702" duration="12016000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -1046,7 +1038,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752297658787</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Added Red Koopa Behaviour">
+      <option name="closed" value="true" />
+      <created>1752380403810</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1752380403810</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1282,7 +1282,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="added Enemy Tab and Level tab in Editor" />
     <MESSAGE value="added Save and Load level in editor, now GAMEPLAY scene load file from editor. Lastly fix crash when no Obstacles on screen" />
     <MESSAGE value="more improve coding structure for GoombaAIEffect" />
     <MESSAGE value="added the MOST basic movement for BroAI" />
@@ -1307,7 +1306,8 @@
     <MESSAGE value="added more support for slope" />
     <MESSAGE value="fixed slope day 1" />
     <MESSAGE value="Added Bullet Launcher &amp; fix Slope" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Bullet Launcher &amp; fix Slope" />
+    <MESSAGE value="Added Red Koopa Behaviour" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Red Koopa Behaviour" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

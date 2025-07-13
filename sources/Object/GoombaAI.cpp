@@ -39,10 +39,11 @@ static std::vector<std::string> RedKoopaShellAnimName;
 static int KOOPA_SHELL_IMAGE_WIDTH = 132;
 static int KOOPA_SHELL_WIDTH = 33;
 static int KOOPA_SHELL_HEIGHT = 28;
-static std::vector<std::string> SpinyAnimName;
-static int RED_SPINY_IMAGE_WIDTH = 66;
-static int RED_SPINY_WIDTH = 33;
-static int RED_SPINY_HEIGHT = 32;
+static std::vector<std::string> RedSpinyAnimName;
+static std::vector<std::string> GreenSpinyAnimName;
+static int SPINY_IMAGE_WIDTH = 66;
+static int SPINY_WIDTH = 33;
+static int SPINY_HEIGHT = 32;
 static std::vector<std::string> FireFlowerAnimName;
 static int FIRE_FLOWER_IMAGE_WIDTH = 128;
 static int FIRE_FLOWER_WIDTH = 32;
@@ -70,9 +71,11 @@ void GoombaAILoadRes() {
 		ImageManager::AddTexture(fmt::format("RedKoopaShell_{}", i), "data/resources/Koopa/RedKoopaShell.png", sf::IntRect({i * KOOPA_SHELL_WIDTH, 0}, {KOOPA_SHELL_WIDTH, KOOPA_SHELL_HEIGHT}));
 		RedKoopaShellAnimName.push_back(fmt::format("RedKoopaShell_{}", i));
 	}
-	for (int i = 0; i < RED_SPINY_IMAGE_WIDTH / RED_SPINY_WIDTH; ++i) {
-		ImageManager::AddTexture(fmt::format("RedSpiny_{}", i), "data/resources/Spiny/RedSpiny.png", sf::IntRect({i * RED_SPINY_WIDTH, 0}, {RED_SPINY_WIDTH, RED_SPINY_HEIGHT}));
-		SpinyAnimName.push_back(fmt::format("RedSpiny_{}", i));
+	for (int i = 0; i < SPINY_IMAGE_WIDTH / SPINY_WIDTH; ++i) {
+		ImageManager::AddTexture(fmt::format("RedSpiny_{}", i), "data/resources/Spiny/RedSpiny.png", sf::IntRect({i * SPINY_WIDTH, 0}, {SPINY_WIDTH, SPINY_HEIGHT}));
+		RedSpinyAnimName.push_back(fmt::format("RedSpiny_{}", i));
+		ImageManager::AddTexture(fmt::format("GreenSpiny_{}", i), "data/resources/Spiny/GreenSpiny.png", sf::IntRect({i * SPINY_WIDTH, 0}, {SPINY_WIDTH, SPINY_HEIGHT}));
+		GreenSpinyAnimName.push_back(fmt::format("GreenSpiny_{}", i));
 	}
 	for (int i = 0; i < FIRE_FLOWER_IMAGE_WIDTH / FIRE_FLOWER_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("FireFlower_{}", i), "data/resources/FireFlower.png", sf::IntRect({i * FIRE_FLOWER_WIDTH, 0}, {FIRE_FLOWER_WIDTH, FIRE_FLOWER_HEIGHT}));
@@ -176,11 +179,23 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			}
 			break;
 		case SPINY:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
-				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(16, 31), false, SkinID, 0.6f);
-			it->setAnimation(0, 1, 14, true);
-			it->setAnimationSequence(SpinyAnimName);
+			switch (SkinID) {
+			case 0:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 31), false, SkinID, 0.0f);
+				it->setAnimation(0, 1, 14, true);
+				it->setAnimationSequence(RedSpinyAnimName);
+				break;
+			case 1:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::NO, GoombaAIBehaviour::GOOMBAAI_REDKOOPA, 1.0f,
+					sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y),
+					sf::Vector2f(16, 31), false, SkinID, 0.0f);
+				it->setAnimation(0, 1, 14, true);
+				it->setAnimationSequence(GreenSpinyAnimName);
+				break;
+			default: ;
+			}
 			break;
 		case FIRE_FLOWER:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
