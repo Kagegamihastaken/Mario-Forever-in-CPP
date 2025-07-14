@@ -43,5 +43,7 @@ extern float f_abs(float a);
 extern float f_round(float val);
 extern int RandomIntNumberGenerator(int a, int b);
 extern float RandomFloatNumberGenerator(float a, float b);
+extern float VectorGetLength(const sf::Vector2f& val);
+extern sf::Vector2f VectorNormalized(const sf::Vector2f& val);
 
 #endif // WINDOWFRAME_HPP

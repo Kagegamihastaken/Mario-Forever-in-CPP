@@ -33,6 +33,7 @@
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/BulletBillEffect.hpp"
 #include "Object/BulletBill.hpp"
+#include "Object/Platform.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
 void GameObjectInit() {
@@ -64,6 +65,7 @@ void GameObjectInit() {
     FireballExplosionInit();
     BulletLauncherInit();
     BulletBillInit();
+    PlatformInit();
 
     EditorInit();
     SelectTileInit();
@@ -150,6 +152,7 @@ void GameObjectSetPrev() {
         SetPrevMarioProjectilePos();
         SetPrevBulletBillPos();
         SetPrevBulletBillEffectPos();
+        SetPrevPlatformPos();
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         SetPrevEditor();
@@ -157,6 +160,7 @@ void GameObjectSetPrev() {
 }
 void GameObjectDeltaMovement(const float dt) {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        PlatformPositionUpdate(dt);
         KeyboardMovement(dt);
         MarioUpdateHitbox();
         MarioPosXUpdate(dt);
@@ -232,6 +236,7 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateMarioProjectilePos(alpha);
         InterpolateBulletBillPos(alpha);
         InterpolateBulletBillEffectPos(alpha);
+        InterpolatePlatformPos(alpha);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         InterpolateEditorPos(alpha);
@@ -299,6 +304,7 @@ void GameObjectDraw() {
         LuckyBlockDraw();
         SpikeDraw();
         CoinDraw();
+        DrawPlatform();
         BrickParticleDraw();
         GoombaAIEffectDraw();
         BroAIEffectDraw();

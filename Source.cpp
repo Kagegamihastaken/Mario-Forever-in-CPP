@@ -17,6 +17,7 @@
 #include "Core/SoundManager.hpp"
 
 #include "Block/BulletLauncher.hpp"
+#include "Object/Platform.hpp"
 //#include "imgui.h"
 //#include "imgui-SFML.h"
 float alpha = 1.0f;
@@ -68,6 +69,7 @@ int WinMain() {
 		//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
 		//}
 		//render.setStep(1.0f / 300.0f);
+		AddPlatform(sf::Vector2f(0.f, 0.f), sf::Vector2f(325.f, 325.f));
 		AudioEnginePlay();
 		while (window.isOpen()) {
 			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));
@@ -154,6 +156,7 @@ int WinMain() {
 	AudioEngineDeInit();
 	SoundManager::CleanUp();
 	ImageManager::Cleanup();
+	MusicManager::CleanUp();
 	std::exit(EXIT_SUCCESS);
 	//ImGui::SFML::Shutdown();
 }

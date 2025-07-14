@@ -16,6 +16,7 @@
 #include <SFML/Graphics/Shader.hpp>
 
 #include "Core/Logging.hpp"
+#include "Object/Platform.hpp"
 sf::Shader notShader;
 
 //texture loading
@@ -180,6 +181,16 @@ void MarioPosXUpdate(const float deltaTime) {
 }
 void MarioVertXUpdate() {
 	if (CanControlMario) {
+		const sf::FloatRect MarioHitbox = getGlobalHitbox(player.hitboxFloor, player.prev, player.property.getOrigin());
+		for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
+			if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(MarioHitbox, PlatformHitbox)) {
+				//Only Bottom allowed to collide
+				if (MarioHitbox.position.y + MarioHitbox.size.y >= PlatformHitbox.position.y && MarioHitbox.position.y + MarioHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
+					player.curr.x += it->getCurrentPosition().x - it->getPreviousPosition().x;
+					break;
+				}
+			}
+		}
 		float CurrPosXCollide = 0, CurrPosYCollide = 0;
 		const auto [fst, snd] = QuickCheckSideCollision(
 			MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxWall), MarioDirection, CurrPosXCollide, CurrPosYCollide);
@@ -217,13 +228,28 @@ void MarioPosYUpdate(const float deltaTime) {
 void MarioVertYUpdate() {
 	if (CanControlMario) {
 		float CurrPosYCollide, CurrPosXCollide;
-		//recolide
+		//Collision With Platform
+		const sf::FloatRect MarioHitbox = getGlobalHitbox(player.hitboxFloor, player.prev, player.property.getOrigin());
+		for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
+			if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(MarioHitbox, PlatformHitbox)) {
+				//Only Bottom allowed to collide
+				if (MarioHitbox.position.y + MarioHitbox.size.y >= PlatformHitbox.position.y && MarioHitbox.position.y + MarioHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
+					if (Yvelo >= 0.f) {
+						player.curr.y = it->getCurrentPosition().y;
+						MarioCurrentFalling = false;
+						Yvelo = 0.f;
+						break;
+					}
+				}
+			}
+		}
+		//Collision With Obstacles
 		if (QuickCheckBotCollision(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			if (Yvelo >= 0.0f) {
 				//if (player.curr.x < CurrPosXCollide || player.curr.x > CurrPosXCollide + 32.f) return;
 				const float floorY = GetCurrFloorY(player.curr, CurrPosXCollide, CurrPosYCollide);
 				if (player.curr.y < CurrPosYCollide + floorY - std::max(Xvelo + 1.f, 3.f)) return;
-				MarioCurrentFalling = false;
+				if (MarioCurrentFalling) MarioCurrentFalling = false;
 				player.curr = { player.curr.x, CurrPosYCollide + floorY - (52.0f - player.property.getOrigin().y) };
 				Yvelo = 0.0f;
 				return;
