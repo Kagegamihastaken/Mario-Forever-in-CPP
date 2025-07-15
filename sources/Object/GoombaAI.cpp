@@ -335,6 +335,9 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 		//move
 		if (i.GetDirection() == LEFT) i.move(sf::Vector2f(- i.GetXvelo() * deltaTime, 0.0f));
 		else i.move(sf::Vector2f(i.GetXvelo() * deltaTime, 0.0f));
+		//Platform Collision
+		if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), PlatDistance, i.GetYvelo()))
+			i.move(sf::Vector2f(PlatDistance, 0.f));
 		//shell moving break block
 		if (i.GetType() == SHELL_MOVING) {
 			NoAdd = false;
@@ -389,7 +392,18 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 		// bottom update
 		i.move(sf::Vector2f(0.0f, i.GetYvelo() * deltaTime));
 		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f));
-		//}
+
+		if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), PlatPosY, i.GetYvelo(), false)) {
+			if (i.GetBehaviour() == GoombaAIBehaviour::GOOMBAAI_REDKOOPA) {
+				if (!PlatformYCollisionEdge(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), i.GetYvelo(), i.GetDirection())) {
+					i.setCurrentPosition(sf::Vector2f(i.getPreviousPosition().x, i.getCurrentPosition().y));
+					i.SetDirection(static_cast<GoombaAIDirection>(!i.GetDirection()));
+				}
+			}
+			i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, PlatPosY));
+			i.SetYvelo(0.f);
+		}
+
 		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.GetHitboxMain()), CurrPosXCollide, CurrPosYCollide)) {
 			//For RedKoopaAI Only, This depends on Bot Collision to work
 			//THis thing needs to check if That Things is on the ground to automatic change
@@ -472,9 +486,9 @@ void GoombaAICollisionUpdate() {
 						flag = true;
 						break;
 					}
-					else if ((!it->GetCollideWith().first && !jt->GetCollideWith().first) || it->GetCollideWith().second != jt->GetUUID() && it->GetCollideWith().first) {
-						if (it->GetDirection() == jt->GetDirection() && it->GetXvelo() > 0.0f && jt->GetXvelo() > 0.0f) continue;
-						else if (it->GetDirection() == RIGHT && jt->GetDirection() == LEFT) continue;
+					if ((!it->GetCollideWith().first && !jt->GetCollideWith().first) || it->GetCollideWith().second != jt->GetUUID() && it->GetCollideWith().first) {
+						//if (it->GetDirection() == jt->GetDirection() && it->GetXvelo() > 0.0f && jt->GetXvelo() > 0.0f) continue;
+						if (it->GetDirection() == RIGHT && jt->GetDirection() == LEFT) continue;
 
 						it->SetCollideWith({true, jt->GetUUID()});
 
@@ -483,7 +497,7 @@ void GoombaAICollisionUpdate() {
 						flag = true;
 						break;
 					}
-					else if (it->GetCollideWith().first && it->GetCollideWith().second == jt->GetUUID()) {
+					if (it->GetCollideWith().first && it->GetCollideWith().second == jt->GetUUID()) {
 						flag = true;
 						break;
 					}

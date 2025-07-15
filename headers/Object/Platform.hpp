@@ -10,5 +10,7 @@ extern void DrawPlatform();
 extern void SetPrevPlatformPos();
 extern void InterpolatePlatformPos(float alpha);
 extern void PlatformPositionUpdate(float deltaTime);
+extern void PlatformCleanup();
+extern void PlatformStatusUpdate();
 
 #endif //PLATFORM_HPP

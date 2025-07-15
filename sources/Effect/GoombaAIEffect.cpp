@@ -143,8 +143,14 @@ void GoombaAIEffectVertYUpdate(const float deltaTime) {
 		//BrickCheck = isCollideBot(GoombaAIList[i], Bricks);
 		//LuckyCheck = isCollideBot(GoombaAIList[i], LuckyBlock);
 		//if (!ObstacleCheck && !BrickCheck && !LuckyCheck) {
+		if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), PlatDistance, i.getYVelo()))
+			i.move(sf::Vector2f(PlatDistance, 0.f));
 		i.move(sf::Vector2f(0.f,i.getYVelo() * deltaTime));
 		i.setYVelo(i.getYVelo() + (i.getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.3f));
+		if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), PlatPosY, i.getYVelo(), false)) {
+			i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, PlatPosY));
+			i.setYVelo(0.f);
+		}
 		//}
 		if (QuickCheckBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
 			if (i.getYVelo() >= 0.0f) {

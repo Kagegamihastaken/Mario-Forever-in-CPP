@@ -69,7 +69,7 @@ int WinMain() {
 		//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
 		//}
 		//render.setStep(1.0f / 300.0f);
-		AddPlatform(sf::Vector2f(0.f, 0.f), sf::Vector2f(325.f, 325.f));
+		AddPlatform(sf::Vector2f(0.f, 352.f - 96.f), sf::Vector2f(192.f - 32.f, 352.f - 96.f));
 		AudioEnginePlay();
 		while (window.isOpen()) {
 			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));

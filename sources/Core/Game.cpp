@@ -249,6 +249,7 @@ void GameObjectAnimation() {
 }
 void GameObjectCollision() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
+        PlatformStatusUpdate();
         BroAIProjectileCollision();
         MarioProjectileCollision();
         BroAIStatusUpdate();
@@ -295,6 +296,7 @@ void GameObjectDraw() {
         ExitGateDraw();
         PiranhaAIDraw();
         ObstaclesDraw();
+        DrawPlatform();
         DrawBulletBill();
         BulletLauncherDraw();
         GoombaAIDraw();
@@ -304,7 +306,6 @@ void GameObjectDraw() {
         LuckyBlockDraw();
         SpikeDraw();
         CoinDraw();
-        DrawPlatform();
         BrickParticleDraw();
         GoombaAIEffectDraw();
         BroAIEffectDraw();
@@ -341,5 +342,6 @@ void GameCleanUp() {
         CoinCleanup();
         SpikeCleanup();
         LuckyBlockCleanup();
+        PlatformCleanup();
     }
 }

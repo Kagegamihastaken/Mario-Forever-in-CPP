@@ -85,21 +85,21 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Added Green Spiny (Same Ai Behaviour as Red Koopa)">
-      <change afterPath="$PROJECT_DIR$/headers/Core/Class/PlatformClass.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Object/Platform.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/Class/PlatformClass.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Object/Platform.cpp" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Platform Mechanic Draft">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Animate/StaticAnimationObject.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/WindowFrame.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/WindowFrame.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/PlatformClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/PlatformClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/Platform.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Platform.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/PlatformClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/PlatformClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Scene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scene.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Platform.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Platform.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,6 +141,7 @@
     <setting file="file://$PROJECT_DIR$/headers/Core/Scene.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Scroll.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/WindowFrame.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/source/repos/MFCPP/sources/Object/Platform.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -691,7 +692,9 @@
       <workItem from="1752340754509" duration="139000" />
       <workItem from="1752372368702" duration="13749000" />
       <workItem from="1752459020560" duration="8183000" />
-      <workItem from="1752481656901" duration="4666000" />
+      <workItem from="1752481656901" duration="5285000" />
+      <workItem from="1752496336643" duration="12212000" />
+      <workItem from="1752545756186" duration="4471000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -1061,7 +1064,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752405141369</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Platform Mechanic Draft">
+      <option name="closed" value="true" />
+      <created>1752486956501</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1752486956501</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1297,7 +1308,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="more improve coding structure for GoombaAIEffect" />
     <MESSAGE value="added the MOST basic movement for BroAI" />
     <MESSAGE value="forgot the ceil collision for broAI" />
     <MESSAGE value="added more to BroAI" />
@@ -1322,7 +1332,8 @@
     <MESSAGE value="Added Bullet Launcher &amp; fix Slope" />
     <MESSAGE value="Added Red Koopa Behaviour" />
     <MESSAGE value="Added Green Spiny (Same Ai Behaviour as Red Koopa)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Green Spiny (Same Ai Behaviour as Red Koopa)" />
+    <MESSAGE value="Platform Mechanic Draft" />
+    <option name="LAST_COMMIT_MESSAGE" value="Platform Mechanic Draft" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

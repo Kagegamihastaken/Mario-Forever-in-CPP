@@ -1,9 +1,9 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 
-#include "Core/Logging.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Tilemap.hpp"
+#include "Object/Platform.hpp"
 
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
 	hitbox = Sethitbox;
@@ -62,7 +62,8 @@ bool GetRelativeTilemapSlopeBetween(const float CurrPosXCollide, const float Cur
 	return false;
 }
 std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
-	bool isCollideLeftBool = false, isCollideRightBool = false;
+	//bool isCollideLeftBool = false, isCollideRightBool = false;
+	std::pair<bool, bool> isCollideSide; //First:Left, Second:Right
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f); ++i) {
 		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f); ++j) {
@@ -71,12 +72,12 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 			const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0});
 			if (isCollide(hitbox_intersect, hitbox_loop)) {
 				if (hitbox_intersect.position.x >= hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x + hitbox_intersect.size.x >= hitbox_loop.position.x + 16.0f) {
-					if (GetRelativeTilemapSlopeLeft(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideLeftBool = true;
-					if (!GetRelativeTilemapSlopeBetween(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideLeftBool = true;
+					if (GetRelativeTilemapSlopeLeft(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.first = true;
+					if (!GetRelativeTilemapSlopeBetween(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.first = true;
 				}
 				if (hitbox_intersect.position.x + hitbox_intersect.size.x < hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x < hitbox_loop.position.x + 16.0f) {
-					if (GetRelativeTilemapSlopeRight(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideRightBool = true;
-					if (!GetRelativeTilemapSlopeBetween(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideRightBool = true;
+					if (GetRelativeTilemapSlopeRight(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.second = true;
+					if (!GetRelativeTilemapSlopeBetween(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.second = true;
 				}
 
 				if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
@@ -88,7 +89,7 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 			}
 		}
 	}
-	return { isCollideLeftBool, isCollideRightBool };
+	return isCollideSide;
 }
 std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::CollisionObject& CollideObj, const unsigned ID, const sf::FloatRect& rect) {
 	std::vector<sf::Vector2f> result;
@@ -99,7 +100,7 @@ std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::Collisio
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(rect, sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) result.emplace_back(static_cast<float>(i) * MFCPP::getTileSize(), static_cast<float>(j) * MFCPP::getTileSize());
 		}
 	}
-	return result;
+	return std::move(result);
 }
 //Y
 bool isAccurateCollideBotStopEdge(const MFCPP::CollisionObject& CollideObj, const bool direction) {
@@ -164,7 +165,7 @@ std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::Collision
 			}
 		}
 	}
-	return result;
+	return std::move(result);
 }
 bool isAccurateCollideTop(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
 	if (NoAdd) return false;
@@ -308,14 +309,64 @@ float GetCurrFloorY(const sf::Vector2f& pos, const float CurrX, const float Curr
 				t = (std::min(pos.x, CurrX + MFCPP::getTileSize()) - CurrX) / MFCPP::getTileSize();
 			else
 				t = (std::max(pos.x, CurrX) - CurrX) / MFCPP::getTileSize();
+	else
+		if (!SlopeRelaDown)
+			if (CurrCondition)
+				t = (std::max(pos.x, CurrX) - CurrX) / MFCPP::getTileSize();
 			else
-				if (!SlopeRelaDown)
-					if (CurrCondition)
-						t = (std::max(pos.x, CurrX) - CurrX) / MFCPP::getTileSize();
-					else
-						t = (std::min(pos.x, CurrX + MFCPP::getTileSize()) - CurrX) / MFCPP::getTileSize();
-					else
-						t = (pos.x - CurrX) / MFCPP::getTileSize();
+				t = (std::min(pos.x, CurrX + MFCPP::getTileSize()) - CurrX) / MFCPP::getTileSize();
+		else
+			t = (pos.x - CurrX) / MFCPP::getTileSize();
 	const float floorY = t * MFCPP::getIndexTilemapFloorY(CurrX, CurrY).first + (1 - t) * MFCPP::getIndexTilemapFloorY(CurrX, CurrY).second;
 	return floorY;
+}
+bool PlatformYCollisionEdge(const MFCPP::CollisionObject& CollideObj, const float Yvelo, const bool direction) {
+	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), sf::Vector2f(CollideObj.GetPosition().x + CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f), CollideObj.GetPosition().y), CollideObj.GetOrigin());
+	for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
+		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
+			//Only Bottom allowed to collide
+			if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
+				if (Yvelo >= 0.f)
+					return true;
+			}
+		}
+	}
+	return false;
+}
+bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut, const float Yvelo, const bool ActivatePlatform) {
+	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
+	for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
+		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
+			//Only Bottom allowed to collide
+			if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
+				if (Yvelo >= 0.f) {
+					if (ActivatePlatform) {
+						if (it->isFall()) it->setIsFall(true);
+						if (it->isWait() && it->getWaitState() == 0) it->setWaitSate(1);
+					}
+					YPosOut = it->getCurrentPosition().y;
+					return true;
+					//MarioCurrentFalling = false;
+					//Yvelo = 0.f;
+					//break;
+				}
+			}
+		}
+	}
+	return false;
+}
+bool PlatformXCollision(const MFCPP::CollisionObject& CollideObj, float& XDistance, const float Yvelo) {
+	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
+	for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
+		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
+			//Only Bottom allowed to collide
+			if (Yvelo >= 0.f) {
+				if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
+					XDistance = it->getCurrentPosition().x - it->getPreviousPosition().x;
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }

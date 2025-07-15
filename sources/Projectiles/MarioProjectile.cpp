@@ -137,6 +137,11 @@ static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_it
     it->setYVelo(it->getYVelo() + (it->getYVelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f));
     if (it->getYVelo() > 10.0f) it->setYVelo(10.0f);
 
+    if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), PlatPosY, it->getYVelo(), false)) {
+        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, PlatPosY));
+        it->setYVelo(-5.f);
+    }
+
     float CurrPosYCollide, CurrPosXCollide;
     //recolide
     if (QuickCheckBotCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
@@ -152,6 +157,9 @@ static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_it
 static void FireballXUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
     if (it->getDirection()) it->move(sf::Vector2f( - it->getXVelo() * deltaTime, 0.f));
     else it->move(sf::Vector2f( it->getXVelo() * deltaTime, 0.f));
+
+    if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), PlatDistance, it->getYVelo()))
+        it->move(sf::Vector2f(PlatDistance, 0.f));
 
     float CurrPosXCollide = 0, CurrPosYCollide = 0;
     const auto [fst, snd] = QuickCheckSideCollision(

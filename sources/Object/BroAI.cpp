@@ -74,7 +74,7 @@ void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const 
     switch (type) {
         case BroAIType::HAMMER_BRO:
             it = BroAIList.emplace(type, movementType, 2.f, 100.f, 3.f, 1, 0.f, sf::FloatRect({7.f, 16.f}, {32.f, 48.f}),
-                               sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
+                               sf::Vector2f(x, y), sf::Vector2f(24.f, 63.f));
             it->setAnimation(0, 1, 14, true);
             it->setAnimationSequence(HammerBroAnimName);
             break;
@@ -234,7 +234,8 @@ void BroAIVertXUpdate(const float deltaTime) {
         // Count if size AllCollideList equal to CollideAddCounter
         CurrPosXCollide = 0, CurrPosYCollide = 0;
         // 0 for right direction; 1 for left direction
-
+        if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), PlatDistance, it->getYVelo()))
+            it->move(sf::Vector2f(PlatDistance, 0.f));
         bool NoAdd = false;
         const auto [fst, snd] = QuickCheckOnlyObstaclesSideCollision(
             MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(),
@@ -271,7 +272,12 @@ void BroAIVertYUpdate(const float deltaTime) {
 
         i.move(sf::Vector2f(0.0f, i.getYVelo() * deltaTime));
         i.setYVelo(i.getYVelo() + (i.getYVelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.175f));
-        //}
+
+        if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), PlatPosY, i.getYVelo(), false)) {
+            i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, PlatPosY));
+            i.setYVelo(0.f);
+        }
+
         bool NoAdd = false;
         if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
             if (i.getYVelo() >= 0.0f) {
