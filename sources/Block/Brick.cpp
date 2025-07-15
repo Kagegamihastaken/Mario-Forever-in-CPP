@@ -172,7 +172,7 @@ void HitEvent(const float x, const float y) {
 	}
 }
 void DeleteBrickIndex(const plf::colony<MFCPP::Brick>::colony_iterator<false>& it) {
-	it->willDestroy(true);
+	it->setDestroyed(true);
 	BrickDeleteGate = true;
 }
 void DeleteBrick(const float x, const float y) {;
@@ -189,7 +189,7 @@ void BrickCleanup() {
 	if (!BrickDeleteGate) return;
 	auto it = Bricks.begin();
 	while (it != Bricks.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = Bricks.erase(it);
 	}
 	BrickDeleteGate = false;

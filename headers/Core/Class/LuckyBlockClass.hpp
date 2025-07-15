@@ -6,7 +6,7 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace MFCPP {
-    class LuckyBlock final : public ActiveObject, public SingleAnimationObject {
+    class LuckyBlock final : public ActiveObject<float>, public SingleAnimationObject {
     public:
         LuckyBlock(LuckyBlockID id, LuckyBlockAtt att, const sf::Vector2f& pos);
         ~LuckyBlock() = default;

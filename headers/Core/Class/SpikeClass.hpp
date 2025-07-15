@@ -6,7 +6,7 @@
 #include "SFML/Graphics/Rect.hpp"
 
 namespace MFCPP {
-    class Spike final : public ActiveObject, public SingleAnimationObject {
+    class Spike final : public ActiveObject<float>, public SingleAnimationObject {
     public:
         Spike(SpikeID id, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~Spike() = default;

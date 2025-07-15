@@ -4,7 +4,7 @@
 #include "Core/Animate/StaticAnimationObject.hpp"
 
 namespace MFCPP {
-    class BroAIEffect final : public ActiveObject, public StaticAnimationObject {
+    class BroAIEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         BroAIEffect(float Yvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BroAIEffect() = default;

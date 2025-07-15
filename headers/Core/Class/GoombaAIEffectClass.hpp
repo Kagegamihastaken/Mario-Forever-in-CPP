@@ -6,7 +6,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-    class GoombaAIEffect final : public ActiveObject, public StaticAnimationObject {
+    class GoombaAIEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         GoombaAIEffect(GoombaAIEffectID id, int SkinID, float Yvelo, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~GoombaAIEffect() = default;

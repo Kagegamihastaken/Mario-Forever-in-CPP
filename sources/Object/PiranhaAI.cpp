@@ -15,7 +15,7 @@ static constexpr int PIRANHA_HEIGHT = 64;
 std::vector<MFCPP::PiranhaAI> PiranhaAIList;
 static bool PiranhaAIDeleteGate = false;
 void DeletePiranhaAIIndex(const int i) {
-	PiranhaAIList[i].willDestroy(true);
+	PiranhaAIList[i].setDestroyed(true);
 	PiranhaAIDeleteGate = true;
 }
 void ClearPiranhaAI() {
@@ -30,13 +30,13 @@ void PiranhaAIInit() {
 }
 void SetPrevPiranhaAIPos() {
 	for (auto &i : PiranhaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolatePiranhaAIPos(const float alpha) {
 	for (auto &i : PiranhaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
@@ -66,7 +66,7 @@ void AddPiranha(const PiranhaID ID, const float x, const float y) {
 }
 void PiranhaAIMovementUpdate(const float deltaTime) {
 	for (auto & i : PiranhaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64, 64) && !i.isDisabled()) {
 			if (!i.getStop()) {
@@ -109,7 +109,7 @@ void PiranhaAIStatusUpdate() {
 	if (PiranhaAIList.empty()) return;
 	const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
 	for (auto & i : PiranhaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64, 64)) {
 			if (i.isDisabled()) i.setDisabled(false);
@@ -130,7 +130,7 @@ void PiranhaAICleanup() {
 	if (!PiranhaAIDeleteGate) return;
 	int i = 0;
 	while (i < PiranhaAIList.size()) {
-		if (!PiranhaAIList[i].willBeDestroyed()) ++i;
+		if (!PiranhaAIList[i].isDestroyed()) ++i;
 		else PiranhaAIList.erase(PiranhaAIList.begin() + i);
 	}
 	PiranhaAIDeleteGate = false;

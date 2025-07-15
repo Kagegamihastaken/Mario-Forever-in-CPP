@@ -7,7 +7,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-    class GoombaAI final : public ActiveObject, public SingleAnimationObject {
+    class GoombaAI final : public ActiveObject<float>, public SingleAnimationObject {
     private:
         GoombaAIType                        m_type{};
         GoombaAIDirection                   m_direction{};

@@ -44,7 +44,7 @@ static void BroLaunchProjectile(const plf::colony<MFCPP::BroAI>::colony_iterator
 }
 void DeleteBroAIIndex(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it) {
     BroAIDeleteGate = true;
-    it->willDestroy(true);
+    it->setDestroyed(true);
 }
 void DeleteBroAI(const float x, const float y) {
     for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
@@ -57,14 +57,14 @@ void DeleteAllBroAI() {
 }
 void SetPrevBroAIPos() {
     for (auto & i : BroAIList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setPreviousPosition(i.getCurrentPosition());
     }
 }
 void InterpolateBroAIPos(const float alpha) {
     for (auto & i : BroAIList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
     }
@@ -83,7 +83,7 @@ void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const 
 }
 void BroAIStatusUpdate() {
     for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
-        if (it->willBeDestroyed()) continue;
+        if (it->isDestroyed()) continue;
 
         if (isOutScreenYBottom(it->getCurrentPosition().y, 80.f)) {
             DeleteBroAIIndex(it);
@@ -102,7 +102,7 @@ void BroAICheckCollide() {
     if (EffectActive) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
     for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
-        if (it->willBeDestroyed() || it->isDisabled() ||
+        if (it->isDestroyed() || it->isDisabled() ||
             f_abs(player.curr.x - it->getCurrentPosition().x) >= 160.f) continue;
         if (const sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(loopHitbox, hitbox_mario)) {
             if ((it->getCurrentPosition().y - 16.f > player.curr.y) && Yvelo > 0.f) {
@@ -124,7 +124,7 @@ void BroAICheckCollide() {
 }
 void BroAIShootUpdate(const float deltaTime) {
     for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
-        if (it->willBeDestroyed() || it->isDisabled()) continue;
+        if (it->isDestroyed() || it->isDisabled()) continue;
         if (it->getLaunchTickingTime() == 0.f) {
             it->setLaunchIntervalTicking(it->getLaunchIntervalTicking() + 1.f * deltaTime);
             if (it->getLaunchIntervalTicking() >= it->getLaunchInterval()) {
@@ -172,7 +172,7 @@ static void SetWalkingValue(const plf::colony<MFCPP::BroAI>::colony_iterator<fal
 void BroAIVertXUpdate(const float deltaTime) {
     float CurrPosXCollide, CurrPosYCollide;
     for (auto it = BroAIList.begin(); it != BroAIList.end(); ++it) {
-        if (it->willBeDestroyed() || it->isDisabled()) continue;
+        if (it->isDestroyed() || it->isDisabled()) continue;
         // Movement
         if (it->getMovingValue() <= 0.f) {
             if (it->getMovingValue() < 0.f) it->setMovingValue(0.f);
@@ -252,7 +252,7 @@ void BroAIVertXUpdate(const float deltaTime) {
 void BroAIVertYUpdate(const float deltaTime) {
     for (auto & i : BroAIList) {
         float CurrPosYCollide, CurrPosXCollide;
-        if (i.willBeDestroyed() || i.isDisabled()) continue;
+        if (i.isDestroyed() || i.isDisabled()) continue;
         bool willJump = false;
         bool willFall = false;
         if (i.getMovementType() == BroAIMovementType::CAN_JUMP) {
@@ -324,7 +324,7 @@ void BroAICleanup() {
     if (!BroAIDeleteGate) return;
     auto it = BroAIList.begin();
     while (it != BroAIList.end()) {
-        if (!it->willBeDestroyed()) ++it;
+        if (!it->isDestroyed()) ++it;
         else it = BroAIList.erase(it);
     }
     BroAIDeleteGate = false;

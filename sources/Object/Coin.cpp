@@ -29,7 +29,7 @@ void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	auto it = CoinList.emplace(ID, att, sf::FloatRect({6.f, 2.f}, {19.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
 }
 void DeleteIndexCoin(const plf::colony<MFCPP::Coin>::colony_iterator<false>& index) {
-	index->willDestroy(true);
+	index->setDestroyed(true);
 	CoinDeleteGate = true;
 }
 void DeleteCoin(const float x, const float y) {
@@ -58,7 +58,7 @@ void CoinDraw() {
 		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);
 	}
 	for (auto &i : CoinList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		if (isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 32, 32)) continue;
 		CoinAnimation.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
@@ -69,7 +69,7 @@ void CoinCleanup() {
 	if (!CoinDeleteGate) return;
 	auto it = CoinList.begin();
 	while (it != CoinList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = CoinList.erase(it);
 	}
 	CoinDeleteGate = false;

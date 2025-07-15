@@ -24,7 +24,7 @@ int getAmountProjectile() {
 }
 void SetPrevMarioProjectilePos() {
     for (auto & i : MarioProjectileList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setPreviousPosition(i.getCurrentPosition());
         i.setPreviousAngle(i.getCurrentAngle());
@@ -32,15 +32,15 @@ void SetPrevMarioProjectilePos() {
 }
 void InterpolateMarioProjectilePos(const float alpha) {
     for (auto & i : MarioProjectileList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
         i.setInterpolatedAngle(linearInterpolation(i.getPreviousAngle(), i.getCurrentAngle(), alpha));
     }
 }
 void DeleteMarioProjectile(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const bool out = false) {
-    if (!it->willBeDestroyed() && !out) AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y);
-    it->willDestroy(true);
+    if (!it->isDestroyed() && !out) AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y);
+    it->setDestroyed(true);
     MarioProjectileDeleteGate = true;
 }
 void DeleteMarioProjectile(const float x, const float y) {
@@ -58,7 +58,7 @@ void MarioProjectileCollision() {
     for (auto it = MarioProjectileList.begin(); it != MarioProjectileList.end(); ++it) {
         const sf::FloatRect playerHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
         //GoombaAI
-        if (!it->willBeDestroyed()) {
+        if (!it->isDestroyed()) {
             for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
                 if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
                     if (jt->IsCanDeath()) {
@@ -71,7 +71,7 @@ void MarioProjectileCollision() {
             }
         }
         //BroAI
-        if (!it->willBeDestroyed()) {
+        if (!it->isDestroyed()) {
             for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
                 if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
                     DeleteMarioProjectile(it);
@@ -83,7 +83,7 @@ void MarioProjectileCollision() {
             }
         }
         //Piranha
-        if (!it->willBeDestroyed()) {
+        if (!it->isDestroyed()) {
             for (int j = 0; j < PiranhaAIList.size(); ++j) {
                 if (sf::FloatRect loopHitbox = getGlobalHitbox(PiranhaAIList[j].getHitbox(), PiranhaAIList[j].getCurrentPosition(), PiranhaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
                     DeleteMarioProjectile(it);
@@ -106,7 +106,7 @@ void MarioProjectileStatusUpdate() {
 }
 void MarioProjectileSpin(const float deltaTime) {
     for (auto it = MarioProjectileList.begin(); it != MarioProjectileList.end(); ++it) {
-        if (it->willBeDestroyed()) return;
+        if (it->isDestroyed()) return;
 
         if (it->getDirection()) it->setCurrentAngle(it->getCurrentAngle() - sf::degrees(11.5f * deltaTime));
         else it->setCurrentAngle(it->getCurrentAngle() + sf::degrees(11.5f * deltaTime));
@@ -114,10 +114,10 @@ void MarioProjectileSpin(const float deltaTime) {
 }
 void LevelEndMarioProjectileCleanup() {
     for (auto it = MarioProjectileList.begin(); it != MarioProjectileList.end(); ++it) {
-        if (it->willBeDestroyed()) continue;
+        if (it->isDestroyed()) continue;
 
         AddScoreEffect(SCORE_100, it->getCurrentPosition().x, it->getCurrentPosition().y - it->getOrigin().y);
-        it->willDestroy(true);
+        it->setDestroyed(true);
     }
 }
 void AddMarioProjectile(const bool direction, const MarioProjectileType type, const float x, const float y) {
@@ -171,7 +171,7 @@ static void FireballXUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_it
 
 void MarioProjectileMovementUpdate(const float deltaTime) {
     for (auto it = MarioProjectileList.begin(); it != MarioProjectileList.end(); ++it) {
-        if (it->willBeDestroyed()) return;
+        if (it->isDestroyed()) return;
 
         switch (it->getBehaviour()) {
             case FIREBALL_BEHAVIOUR:
@@ -184,7 +184,7 @@ void MarioProjectileMovementUpdate(const float deltaTime) {
 }
 void MarioProjectileDraw() {
     for (auto& i : MarioProjectileList) {
-        if (i.willBeDestroyed()) return;
+        if (i.isDestroyed()) return;
 
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
         i.setRotation(i.getInterpolatedAngle());
@@ -195,7 +195,7 @@ void MarioProjectileCleanup() {
     if (!MarioProjectileDeleteGate) return;
     auto it = MarioProjectileList.begin();
     while (it != MarioProjectileList.end()) {
-        if (!it->willBeDestroyed()) ++it;
+        if (!it->isDestroyed()) ++it;
         else it = MarioProjectileList.erase(it);
     }
     MarioProjectileDeleteGate = false;

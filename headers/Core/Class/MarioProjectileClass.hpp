@@ -6,7 +6,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-    class MarioProjectile final : public StaticAnimationObject, public ActiveObject {
+    class MarioProjectile final : public StaticAnimationObject, public ActiveObject<float> {
     public:
         ~MarioProjectile() = default;
         MarioProjectile(bool direction, MarioProjectileType type, MarioProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);

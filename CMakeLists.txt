@@ -218,7 +218,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE winmm gdi32 user32 shell32 ole32 uuid)
     if(MINGW)
-        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++)
+        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++ -flto)
         if (NOT DEVELOPMENT_BUILD)
             target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -Wl,-subsystem,windows)
         endif()

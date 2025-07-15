@@ -6,7 +6,7 @@
 #include <SFML/System/Clock.hpp>
 
 namespace MFCPP {
-    class Brick final : public ActiveObject, public StaticAnimationObject {
+    class Brick final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         Brick(BrickID id, BrickAtt att, const sf::Vector2f& pos);
         void setState(bool val);

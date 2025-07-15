@@ -42,16 +42,13 @@ sf::Sprite MarioHUD(tempTex);
 
 SingleAnimationObject CoinHUDAnim;
 int RandomIntNumberGenerator(const int a, const int b) {
-	//std::uniform_real_distribution<float> dis(123.75f, 146.25f);
 	std::uniform_int_distribution<int> dis(a, b);
 	return dis(seed);
 }
 float RandomFloatNumberGenerator(const float a, const float b) {
-	//std::uniform_real_distribution<float> dis(123.75f, 146.25f);
 	std::uniform_real_distribution<float> dis(a, b);
 	return dis(seed);
 }
-
 float f_mod(const float a, const float b) { return static_cast<float>(static_cast<int>(a) % static_cast<int>(b));}
 float f_min(const float a, const float b) { return a < b ? a : b; }
 float f_max(const float a, const float b) { return a > b ? a : b; }

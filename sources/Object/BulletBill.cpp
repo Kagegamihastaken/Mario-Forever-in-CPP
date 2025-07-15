@@ -22,28 +22,28 @@ void BulletBillInit() {
 }
 void SetPrevBulletBillPos() {
     for (auto & i : BulletBillList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setPreviousPosition(i.getCurrentPosition());
     }
 }
 void InterpolateBulletBillPos(const float alpha) {
     for (auto & i : BulletBillList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
     }
 }
 void DeleteBulletBillIndex(const plf::colony<MFCPP::BulletBill>::colony_iterator<false>& it) {
     BulletBillDeleteGate = true;
-    it->willDestroy(true);
+    it->setDestroyed(true);
 }
 void DeleteAllBulletBill() {
     BulletBillList.clear();
 }
 void BulletBillStatusUpdate() {
     for (auto it = BulletBillList.begin(); it != BulletBillList.end(); ++it) {
-        if (it->willBeDestroyed()) continue;
+        if (it->isDestroyed()) continue;
 
         if (isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 512, 512))
             DeleteBulletBillIndex(it);
@@ -51,7 +51,7 @@ void BulletBillStatusUpdate() {
 }
 void BulletBillPositionUpdate(const float deltaTime) {
     for (auto it = BulletBillList.begin(); it != BulletBillList.end(); ++it) {
-        if (it->willBeDestroyed()) continue;
+        if (it->isDestroyed()) continue;
 
         if (it->getAnimationDirection() == ANIM_LEFT)
             it->move(sf::Vector2f(-it->getSpeed() * deltaTime, 0.f));
@@ -95,7 +95,7 @@ void BulletBillCheckCollide() {
 }
 void DrawBulletBill() {
     for (auto &i : BulletBillList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
         i.AnimationDraw(window);
@@ -105,7 +105,7 @@ void BulletBillCleanup() {
     if (!BulletBillDeleteGate) return;
     auto it = BulletBillList.begin();
     while (it != BulletBillList.end()) {
-        if (!it->willBeDestroyed()) ++it;
+        if (!it->isDestroyed()) ++it;
         else it = BulletBillList.erase(it);
     }
     BulletBillDeleteGate = false;

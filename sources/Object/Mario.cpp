@@ -120,8 +120,8 @@ void KeyboardMovement(const float deltaTime) {
 		}
 		else MarioCrouchDown = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) {
-			if (Xvelo < 5.0f && Yvelo < 0.0f) Yvelo -= 0.4f * deltaTime;
-			if (Xvelo >= 5.0f && Yvelo < 0.0f) Yvelo -= 0.5f * deltaTime;
+			if (Xvelo < 0.625f && Yvelo < 0.0f) Yvelo -= 0.4f * deltaTime;
+			if (Xvelo >= 0.625f && Yvelo < 0.0f) Yvelo -= 0.5f * deltaTime;
 			if (Yvelo >= 0.0f && !Holding) PreJump = true;
 		}
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) Holding = false;
@@ -213,7 +213,7 @@ void MarioPosYUpdate(const float deltaTime) {
 	if (CanControlMario) {
 		MarioCurrentFalling = true;
 		player.curr = { player.curr.x, player.curr.y + Yvelo * deltaTime };
-		Yvelo += (Yvelo >= 10.0f ? 0.0f : 1.0f * deltaTime);
+		Yvelo += (Yvelo >= 10.0f ? 0.0f : 1.f * deltaTime);
 		if (Yvelo > 10.0f) Yvelo = 10.0f;
 	}
 }

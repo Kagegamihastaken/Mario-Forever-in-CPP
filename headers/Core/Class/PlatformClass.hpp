@@ -4,7 +4,7 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 
 namespace MFCPP {
-    class Platform final : public ActiveObject, public SingleAnimationObject {
+    class Platform final : public ActiveObject<float>, public SingleAnimationObject {
     public:
         explicit Platform(const sf::Vector2f& start, const sf::Vector2f& end, float speed, const sf::FloatRect& hitbox, bool smooth = false, bool fall = false, bool wait = false);
         void setHitbox(const sf::FloatRect& val);

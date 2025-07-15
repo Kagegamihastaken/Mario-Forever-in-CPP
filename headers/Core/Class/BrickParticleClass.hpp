@@ -7,7 +7,7 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace MFCPP {
-    class BrickParticle final : public ActiveObject, public StaticAnimationObject {
+    class BrickParticle final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         BrickParticle(float Xvelo, float Yvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BrickParticle() = default;

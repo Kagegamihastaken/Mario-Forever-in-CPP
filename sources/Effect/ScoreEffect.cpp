@@ -23,14 +23,14 @@ void ScoreEffectInit() {
 }
 void SetPrevScoreEffectPos() {
 	for (auto &i : ScoreEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateScoreEffectPos(const float alpha) {
 	for (auto &i : ScoreEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -84,14 +84,14 @@ void AddScoreEffect(const ScoreID id, float x, float y) {
 }
 void DeleteScoreEffect(plf::colony<MFCPP::ScoreEffect>::colony_iterator<false>& it) {
 	ScoreEffectDeleteGate = true;
-	it->willDestroy(true);
+	it->setDestroyed(true);
 }
 void DeleteAllScoreEffect() {
 	ScoreEffectList.clear();
 }
 void ScoreEffectStatusUpdate(const float deltaTime) {
 	for (auto it = ScoreEffectList.begin(); it != ScoreEffectList.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 
 		it->move(sf::Vector2f(0.f, it->getVelocity() * deltaTime));
 		if (it->getVelocity() < 0.0f) it->setVelocity(it->getVelocity() + 0.025f * deltaTime);
@@ -109,7 +109,7 @@ void ScoreEffectStatusUpdate(const float deltaTime) {
 void ScoreEffectDraw() {
 	if (ScoreEffectList.empty()) return;
 	for (auto & i : ScoreEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
 		i.AnimationDraw(window);
@@ -119,7 +119,7 @@ void ScoreEffectCleanup() {
 	if (!ScoreEffectDeleteGate) return;
 	auto it = ScoreEffectList.begin();
 	while (it != ScoreEffectList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = ScoreEffectList.erase(it);
 	}
 	ScoreEffectDeleteGate = false;

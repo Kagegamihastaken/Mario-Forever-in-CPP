@@ -10,7 +10,7 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace MFCPP {
-    class Coin final : public ActiveObject {
+    class Coin final : public ActiveObject<float> {
     public:
         Coin(CoinID id, CoinAtt att, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~Coin() = default;

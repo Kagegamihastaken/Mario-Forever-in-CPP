@@ -28,14 +28,14 @@ void AddSubBrickParticle(const BrickID id, float Xvelo, float Yvelo, const float
 }
 void SetPrevBrickParticlePos() {
 	for (auto &i : BrickParticleList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 		i.setPreviousAngle(i.getCurrentAngle());
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateBrickParticlePos(const float alpha) {
 	for (auto &i : BrickParticleList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 		i.setInterpolatedAngle(linearInterpolation(i.getPreviousAngle(), i.getCurrentAngle(), alpha));
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -48,13 +48,13 @@ void AddBrickParticle(const BrickID id, const float ori_x, const float ori_y) {
 }
 void DeleteBrickParticleIndex(const plf::colony<MFCPP::BrickParticle>::colony_iterator<false>& it) {
 	BrickParticleDeleteGate = true;
-	it->willDestroy(true);
+	it->setDestroyed(true);
 }
 void BrickParticleStatusUpdate(const float deltaTime) {
 	if (BrickParticleList.empty()) return;
 
 	for (auto it = BrickParticleList.begin(); it != BrickParticleList.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 
 		if (isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 48, 48))
 			DeleteBrickParticleIndex(it);
@@ -83,7 +83,7 @@ void BrickParticleCleanup() {
 	if (!BrickParticleDeleteGate) return;
 	auto it = BrickParticleList.begin();
 	while (it != BrickParticleList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = BrickParticleList.erase(it);
 	}
 	BrickParticleDeleteGate = false;

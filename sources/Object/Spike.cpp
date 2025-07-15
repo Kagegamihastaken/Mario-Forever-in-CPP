@@ -21,7 +21,7 @@ void DeleteAllSpike() {
 	SpikeList.clear();
 }
 void DeleteSpikeIndex(const plf::colony<MFCPP::Spike>::colony_iterator<false>& it) {
-	it->willDestroy(true);
+	it->setDestroyed(true);
 	SpikeDeleteGate = true;
 }
 void DeleteSpike(const float x, const float y) {
@@ -51,7 +51,7 @@ void SpikeStatusUpdate() {
 	if (SpikeList.empty()) return;
 	const sf::FloatRect player_hitbox = getGlobalHitbox(player.hitboxMain, player.property);
 	for (auto it = SpikeList.begin(); it != SpikeList.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 
 		if (!isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 32, 32)) {
 			if (const sf::FloatRect spike_hitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(spike_hitbox, player_hitbox))
@@ -61,7 +61,7 @@ void SpikeStatusUpdate() {
 }
 void SpikeDraw() {
 	for (auto it = SpikeList.begin(); it != SpikeList.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 		if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, 32, 32)) {
 			it->AnimationUpdate(it->getInterpolatedPosition(), it->getOrigin());
 			it->AnimationDraw(window);
@@ -72,7 +72,7 @@ void SpikeCleanup() {
 	if (!SpikeDeleteGate) return;
 	auto it = SpikeList.begin();
 	while (it != SpikeList.end()) {
-		if (it->willBeDestroyed()) ++it;
+		if (it->isDestroyed()) ++it;
 		else it = SpikeList.erase(it);
 	}
 	SpikeDeleteGate = false;

@@ -22,14 +22,14 @@ void GoombaAIEffectInit() {
 }
 void SetPrevGoombaAIEffectPos() {
 	for (auto & i : GoombaAIEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateGoombaAIEffectPos(const float alpha) {
 	for (auto & i : GoombaAIEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -80,7 +80,7 @@ void AddGoombaAIEffect(const GoombaAIType type, const GoombaAIEffectID id, const
 
 void DeleteGoombaAIEffectIndex(const plf::colony<MFCPP::GoombaAIEffect>::colony_iterator<false>& it) {
 	GoombaAIEffectDeleteGate = true;
-	it->willDestroy(true);
+	it->setDestroyed(true);
 	//GoombaAIEffectList.erase(GoombaAIEffectList.begin() + i);
 }
 void DeleteGoombaAIEffect(const float x, const float y) {
@@ -97,7 +97,7 @@ void DeleteAllGoombaAIEffect() {
 void GoombaAIEffectStatusUpdate(const float deltaTime) {
 	if (GoombaAIEffectList.empty()) return;
 	for (auto it = GoombaAIEffectList.begin(); it != GoombaAIEffectList.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 
 		if (it->getID() == NONE) {
 			if (isOutScreenYBottom(it->getInterpolatedPosition().y, 64)) DeleteGoombaAIEffectIndex(it);
@@ -119,7 +119,7 @@ void GoombaAIEffectStatusUpdate(const float deltaTime) {
 void GoombaAIEffectDraw() {
 	if (GoombaAIEffectList.empty()) return;
 	for (auto & i : GoombaAIEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64)) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
@@ -130,7 +130,7 @@ void GoombaAIEffectDraw() {
 void GoombaAIEffectVertYUpdate(const float deltaTime) {
 	for (auto & i : GoombaAIEffectList) {
 		float CurrPosYCollide, CurrPosXCollide;
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		if (i.getID() == GoombaAIEffectID::NONE) {
 			i.move(sf::Vector2f(0.f, i.getYVelo() * deltaTime));
@@ -172,7 +172,7 @@ void GoombaAIEffectCleanup() {
 	if (!GoombaAIEffectDeleteGate) return;
 	auto it = GoombaAIEffectList.begin();
 	while (it != GoombaAIEffectList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = GoombaAIEffectList.erase(it);
 	}
 	GoombaAIEffectDeleteGate = false;

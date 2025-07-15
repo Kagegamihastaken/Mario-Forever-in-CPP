@@ -10,14 +10,14 @@ plf::colony<MFCPP::BulletBillEffect> BulletBillEffectList;
 static bool BulletBillEffectDeleteGate = false;
 void SetPrevBulletBillEffectPos() {
 	for (auto & i : BulletBillEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateBulletBillEffectPos(const float alpha) {
 	for (auto & i : BulletBillEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -35,7 +35,7 @@ void AddBulletBillEffect(const BulletType type, const bool dir, const float Xvel
 
 void DeleteBulletBillEffectIndex(const plf::colony<MFCPP::BulletBillEffect>::colony_iterator<false> it) {
 	BulletBillEffectDeleteGate = true;
-	it->willDestroy(true);
+	it->setDestroyed(true);
 }
 void DeleteBulletBillEffect(const float x, const float y) {
 	for (auto it = BulletBillEffectList.begin(); it != BulletBillEffectList.end(); ++it) {
@@ -65,7 +65,7 @@ void BulletBillEffectDraw() {
 }
 void BulletBillEffectPositionUpdate(const float deltaTime) {
 	for (auto & i : BulletBillEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.move(sf::Vector2f(i.getXVelo() * (i.getAnimationDirection() ? -deltaTime : deltaTime), i.getYVelo() * deltaTime));
 		i.setYVelo(i.getYVelo() + 1.f * deltaTime * 0.3f);
@@ -75,7 +75,7 @@ void BulletBillEffectCleanup() {
 	if (!BulletBillEffectDeleteGate) return;
 	auto it = BulletBillEffectList.begin();
 	while (it != BulletBillEffectList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = BulletBillEffectList.erase(it);
 	}
 	BulletBillEffectDeleteGate = false;

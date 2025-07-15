@@ -92,14 +92,14 @@ void GoombaAILoadRes() {
 }
 void SetPrevGoombaAIPos() {
 	for (auto & i : GoombaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateGoombaAIPos(const float alpha) {
 	for (auto & i : GoombaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -209,7 +209,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 }
 void DeleteGoombaAIIndex(const plf::colony<MFCPP::GoombaAI>::colony_iterator<false>& it) {
 	GoombaAIDeleteGate = true;
-	it->willDestroy(true);
+	it->setDestroyed(true);
 }
 void DeleteGoombaAI(const GoombaAIType type, const float x, const float y) {
 	for (auto it = GoombaAIList.begin(); it != GoombaAIList.end(); ++it) {
@@ -223,7 +223,7 @@ void DeleteAllGoombaAI() {
 }
 void GoombaStatusUpdate(const float deltaTime) {
 	for (auto it = GoombaAIList.begin(); it != GoombaAIList.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 
 		if (isOutScreenYBottom(it->getCurrentPosition().y, 80)) {
 			DeleteGoombaAIIndex(it);
@@ -244,7 +244,7 @@ void GoombaAICheckCollide() {
 	const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
 
 	for (auto it = GoombaAIList.begin(); it != GoombaAIList.end(); ++it) {
-		if (it->willBeDestroyed() || it->IsDisabled() || it->IsAppearing()) continue;
+		if (it->isDestroyed() || it->IsDisabled() || it->IsAppearing()) continue;
 		if (f_abs(player.curr.x - it->getCurrentPosition().x) >= 160.0f) continue;
 
 		if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(it->GetHitboxMain(), it->getCurrentPosition(), it->getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
@@ -331,7 +331,7 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 	for (auto & i : GoombaAIList) {
 		std::pair<bool, bool> BrickCollideRemove = {false, false};
 		std::pair<bool, bool> LuckyCollideRemove = {false, false};
-		if (i.willBeDestroyed() || i.IsDisabled() || i.IsAppearing()) continue;
+		if (i.isDestroyed() || i.IsDisabled() || i.IsAppearing()) continue;
 		//move
 		if (i.GetDirection() == LEFT) i.move(sf::Vector2f(- i.GetXvelo() * deltaTime, 0.0f));
 		else i.move(sf::Vector2f(i.GetXvelo() * deltaTime, 0.0f));
@@ -388,7 +388,7 @@ void GoombaAIVertXUpdate(const float deltaTime) {
 void GoombaAIVertYUpdate(const float deltaTime) {
 	for (auto & i : GoombaAIList) {
 		float CurrPosYCollide, CurrPosXCollide;
-		if (i.willBeDestroyed() || i.IsDisabled() || i.IsAppearing()) continue;
+		if (i.isDestroyed() || i.IsDisabled() || i.IsAppearing()) continue;
 		// bottom update
 		i.move(sf::Vector2f(0.0f, i.GetYvelo() * deltaTime));
 		i.SetYvelo(i.GetYvelo() + (i.GetYvelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f));
@@ -473,11 +473,11 @@ void GoombaAICollisionUpdate() {
 	std::set<plf::colony<MFCPP::GoombaAI>::colony_iterator<false>> coll_set;
 	bool flag = false;
 	for (auto it = GoombaAIList.begin(); it != GoombaAIList.end(); ++it) {
-		if (it->willBeDestroyed() || it->IsAppearing() || it->IsDisabled() || !it->IsCanDeath()) continue;
+		if (it->isDestroyed() || it->IsAppearing() || it->IsDisabled() || !it->IsCanDeath()) continue;
 		const sf::FloatRect hitbox_loop = getGlobalHitbox(it->GetHitboxMain(), it->getCurrentPosition() ,it->getOrigin());
 		flag = false;
 		for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
-			if (it == jt || !jt->IsCanDeath() || jt->willBeDestroyed() || jt->IsAppearing() ||
+			if (it == jt || !jt->IsCanDeath() || jt->isDestroyed() || jt->IsAppearing() ||
 				f_abs(it->getCurrentPosition().x - jt->getCurrentPosition().x) >= 160.0f) continue;
 			if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAIHitbox, hitbox_loop)) {
 				if (jt->GetType() != SHELL_MOVING && it->GetType() != SHELL_MOVING) {
@@ -529,7 +529,7 @@ void GoombaAICollisionUpdate() {
 			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
 				if (isOutScreen(it->getCurrentPosition().x, it->getCurrentPosition().y, 96, 96)) break;
 
-				if (jt->willBeDestroyed()) continue;
+				if (jt->isDestroyed()) continue;
 
 				if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(BroAIHitbox, hitbox_loop)) {
 					Kicking(it, sf::Vector2f(jt->getCurrentPosition().x, jt->getCurrentPosition().y), jt->getOrigin().y);
@@ -545,7 +545,7 @@ void GoombaAICollisionUpdate() {
 }
 void GoombaAIDraw() {
 	for (auto & i : GoombaAIList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 		//if (GoombaAIDirectionList[i] == LEFT) it->property.setColor(sf::Color(255, 0, 0));
 		//else it->property.setColor(sf::Color(0, 0, 255));
 		if (!i.IsDisabled()) {
@@ -569,7 +569,7 @@ void GoombaAICleanup() {
 	if (!GoombaAIDeleteGate) return;
 	auto it = GoombaAIList.begin();
 	while (it != GoombaAIList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = GoombaAIList.erase(it);
 	}
 	GoombaAIDeleteGate = false;

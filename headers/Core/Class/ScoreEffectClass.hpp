@@ -5,7 +5,7 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace MFCPP {
-    class ScoreEffect final : public ActiveObject, public StaticAnimationObject {
+    class ScoreEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         ScoreEffect(const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~ScoreEffect() = default;

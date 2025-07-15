@@ -4,7 +4,7 @@
 #include "Core/Animate/StaticAnimationObject.hpp"
 
 namespace MFCPP {
-    class BulletLauncher final : public ActiveObject, public StaticAnimationObject {
+    class BulletLauncher final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         BulletLauncher(float launch_interval, const sf::Vector2f& pos);
         ~BulletLauncher() = default;

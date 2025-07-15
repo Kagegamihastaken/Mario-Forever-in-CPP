@@ -14,14 +14,14 @@ void BroAIEffectInit() {
 }
 void SetPrevBroAIEffectPos() {
 	for (auto & i : BroAIEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateBroAIEffectPos(const float alpha) {
 	for (auto & i : BroAIEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -39,7 +39,7 @@ void AddBroAIEffect(const BroAIType type, const bool dir, const float x, const f
 
 void DeleteBroAIEffectIndex(const plf::colony<MFCPP::BroAIEffect>::colony_iterator<false>& it) {
 	BroAIEffectDeleteGate = true;
-	it->willDestroy(true);
+	it->setDestroyed(true);
 	//BroAIEffectList.erase(BroAIEffectList.begin() + i);
 }
 void DeleteBroAIEffect(const float x, const float y) {
@@ -70,7 +70,7 @@ void BroAIEffectDraw() {
 }
 void BroAIEffectVertYUpdate(const float deltaTime) {
 	for (auto & i : BroAIEffectList) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.move(sf::Vector2f(0.f, i.getYVelo() * deltaTime));
 		i.setYVelo(i.getYVelo() + 1.f * deltaTime * 0.15f);
@@ -80,7 +80,7 @@ void BroAIEffectCleanup() {
 	if (!BroAIEffectDeleteGate) return;
 	auto it = BroAIEffectList.begin();
 	while (it != BroAIEffectList.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = BroAIEffectList.erase(it);
 	}
 	BroAIEffectDeleteGate = false;

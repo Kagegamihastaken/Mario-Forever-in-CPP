@@ -6,7 +6,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-    class PiranhaAI final : public SingleAnimationObject, public ActiveObject {
+    class PiranhaAI final : public SingleAnimationObject, public ActiveObject<float> {
     public:
         PiranhaAI() = default;
         void setID(PiranhaID ID);

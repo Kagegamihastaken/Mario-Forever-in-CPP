@@ -31,14 +31,14 @@ void LoadLuckyBlock() {
 }
 void SetPrevLuckyBlockPos() {
 	for (auto & i : LuckyBlock) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setPreviousPosition(i.getCurrentPosition());
 	}
 }
 void InterpolateLuckyBlockPos(const float alpha) {
 	for (auto & i : LuckyBlock) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
@@ -61,7 +61,7 @@ void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, floa
 }
 void LuckyBlockDraw() {
 	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
-		if (it->willBeDestroyed()) continue;
+		if (it->isDestroyed()) continue;
 
 		if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, 32, 32)) {
 			it->AnimationUpdate(it->getInterpolatedPosition(), it->getOrigin());
@@ -71,7 +71,7 @@ void LuckyBlockDraw() {
 }
 void LuckyBlockUpdate(const float deltaTime) {
 	for (auto &i : LuckyBlock) {
-		if (i.willBeDestroyed()) continue;
+		if (i.isDestroyed()) continue;
 
 		if (i.getState()) {
 			if (i.getAtt() == LUCKY_COIN) {
@@ -202,7 +202,7 @@ void LuckyHitEvent(const float x, const float y) {
 	}
 }
 void DeleteLuckyBlockIndex(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>& it) {
-	it->willDestroy(true);
+	it->setDestroyed(true);
 	LuckyBlockDeleteGate = true;
 }
 void DeleteLuckyBlock(const float x, const float y) {
@@ -220,7 +220,7 @@ void LuckyBlockCleanup() {
 	if (!LuckyBlockDeleteGate) return;
 	auto it = LuckyBlock.begin();
 	while (it != LuckyBlock.end()) {
-		if (!it->willBeDestroyed()) ++it;
+		if (!it->isDestroyed()) ++it;
 		else it = LuckyBlock.erase(it);
 	}
 	LuckyBlockDeleteGate = false;

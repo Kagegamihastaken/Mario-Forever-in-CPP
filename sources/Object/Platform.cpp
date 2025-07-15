@@ -14,20 +14,20 @@ void PlatformInit() {
 }
 void SetPrevPlatformPos() {
     for (auto & i : PlatformList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setPreviousPosition(i.getCurrentPosition());
     }
 }
 void InterpolatePlatformPos(const float alpha) {
     for (auto & i : PlatformList) {
-        if (i.willBeDestroyed()) continue;
+        if (i.isDestroyed()) continue;
 
         i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
     }
 }
 void DeletePlatform(const plf::colony<MFCPP::Platform>::colony_iterator<false>& it) {
-    it->willDestroy(true);
+    it->setDestroyed(true);
     PlatformDeleteGate = true;
 }
 void AddPlatform(const sf::Vector2f& start, const sf::Vector2f& end) {
@@ -103,7 +103,7 @@ void PlatformCleanup() {
     if (!PlatformDeleteGate) return;
     auto it = PlatformList.begin();
     while (it != PlatformList.end()) {
-        if (!it->willBeDestroyed()) ++it;
+        if (!it->isDestroyed()) ++it;
         else it = PlatformList.erase(it);
     }
     PlatformDeleteGate = false;

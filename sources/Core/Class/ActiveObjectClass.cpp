@@ -1,61 +1,76 @@
 #include "Core/Class/ActiveObjectClass.hpp"
-
 namespace MFCPP {
-    ActiveObject::ActiveObject() {
-        m_destroy = false;
-    };
-    void ActiveObject::setCurrentPosition(const sf::Vector2f& position) {
+    template <typename T>
+    void ActiveObject<T>::setCurrentPosition(const sf::Vector2<T>& position) {
         m_curr = position;
     }
-    sf::Vector2f ActiveObject::getCurrentPosition() const {
+    template <typename T>
+    const sf::Vector2<T>& ActiveObject<T>::getCurrentPosition() const {
         return m_curr;
     }
-    void ActiveObject::setPreviousPosition(const sf::Vector2f &position) {
+    template <typename T>
+    void ActiveObject<T>::setPreviousPosition(const sf::Vector2<T> &position) {
         m_prev = position;
     }
-    sf::Vector2f ActiveObject::getPreviousPosition() const {
+    template <typename T>
+    const sf::Vector2<T>& ActiveObject<T>::getPreviousPosition() const {
         return m_prev;
     }
-    void ActiveObject::setInterpolatedPosition(const sf::Vector2f& pos) {
+    template <typename T>
+    void ActiveObject<T>::setInterpolatedPosition(const sf::Vector2<T>& pos) {
         m_interpolated_pos = pos;
     }
-    sf::Vector2f ActiveObject::getInterpolatedPosition() const {
+    template <typename T>
+    const sf::Vector2<T>& ActiveObject<T>::getInterpolatedPosition() const {
         return m_interpolated_pos;
     }
-    void ActiveObject::setOrigin(const sf::Vector2f& origin) {
+    template <typename T>
+    void ActiveObject<T>::setOrigin(const sf::Vector2<T>& origin) {
         m_origin = origin;
     }
-    sf::Vector2f ActiveObject::getOrigin() const {
+    template <typename T>
+    const sf::Vector2<T>& ActiveObject<T>::getOrigin() const {
         return m_origin;
     }
-    void ActiveObject::move(const sf::Vector2f& pos) {
+    template <typename T>
+    void ActiveObject<T>::move(const sf::Vector2<T>& pos) {
         m_curr += pos;
     }
-    void ActiveObject::setCurrentAngle(const sf::Angle& angle) {
+    template <typename T>
+    void ActiveObject<T>::setCurrentAngle(const sf::Angle& angle) {
         m_curr_angle = angle;
     }
-    sf::Angle ActiveObject::getCurrentAngle() const {
+    template <typename T>
+    const sf::Angle& ActiveObject<T>::getCurrentAngle() const {
         return m_curr_angle;
     }
-    void ActiveObject::setPreviousAngle(const sf::Angle& angle) {
+    template <typename T>
+    void ActiveObject<T>::setPreviousAngle(const sf::Angle& angle) {
         m_prev_angle = angle;
     }
-    sf::Angle ActiveObject::getPreviousAngle() const {
+    template <typename T>
+    const sf::Angle& ActiveObject<T>::getPreviousAngle() const {
         return m_prev_angle;
     }
-    void ActiveObject::rotate(const sf::Angle& angle) {
+    template <typename T>
+    void ActiveObject<T>::rotate(const sf::Angle& angle) {
         m_curr_angle += angle;
     }
-    sf::Angle ActiveObject::getInterpolatedAngle() const {
-        return m_interpalated_angle;
+    template <typename T>
+    const sf::Angle& ActiveObject<T>::getInterpolatedAngle() const {
+        return m_interpolated_angle;
     }
-    void ActiveObject::setInterpolatedAngle(const sf::Angle& angle) {
-        m_interpalated_angle = angle;
+    template <typename T>
+    void ActiveObject<T>::setInterpolatedAngle(const sf::Angle& angle) {
+        m_interpolated_angle = angle;
     }
-    void ActiveObject::willDestroy(const bool val) {
+    template <typename T>
+    void ActiveObject<T>::setDestroyed(const bool val) {
         m_destroy = val;
     }
-    bool ActiveObject::willBeDestroyed() const {
+    template <typename T>
+    bool ActiveObject<T>::isDestroyed() const {
         return m_destroy;
     }
+    template class ActiveObject<float>;
 }

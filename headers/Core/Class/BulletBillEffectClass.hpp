@@ -7,7 +7,7 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace MFCPP {
-    class BulletBillEffect final : public ActiveObject, public StaticAnimationObject {
+    class BulletBillEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
         BulletBillEffect(float Yvelo, float Xvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BulletBillEffect() = default;

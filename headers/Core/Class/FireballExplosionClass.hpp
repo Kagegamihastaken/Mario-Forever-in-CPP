@@ -5,7 +5,7 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 
 namespace MFCPP {
-    class FireballExplosion : public ActiveObject, public SingleAnimationObject {
+    class FireballExplosion : public ActiveObject<float>, public SingleAnimationObject {
     public:
         FireballExplosion(const sf::Vector2f& pos, const sf::Vector2f& origin);
     };

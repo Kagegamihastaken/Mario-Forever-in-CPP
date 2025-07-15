@@ -6,7 +6,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-    class BroAIProjectile final : public StaticAnimationObject, public ActiveObject {
+    class BroAIProjectile final : public StaticAnimationObject, public ActiveObject<float> {
     public:
         ~BroAIProjectile() = default;
         BroAIProjectile(bool direction, BroAIProjectileType type, BroAIProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);

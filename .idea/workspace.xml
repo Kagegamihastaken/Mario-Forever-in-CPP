@@ -85,20 +85,46 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Platform Mechanic Draft">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Completed Platform">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/ActiveObjectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/ActiveObjectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BrickClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BrickClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BrickParticleClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BrickParticleClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BroAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BroAIClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BroAIEffectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BroAIEffectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BroAIProjectileClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BroAIProjectileClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BulletBillEffectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BulletBillEffectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/BulletLauncherClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/BulletLauncherClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/CoinClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/CoinClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/CoinEffectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/CoinEffectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/FireballExplosionClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/FireballExplosionClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/GoombaAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/GoombaAIClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/GoombaAIEffectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/GoombaAIEffectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/LuckyBlockClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/LuckyBlockClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/MarioProjectileClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/MarioProjectileClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIClass.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Core/Class/PlatformClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/PlatformClass.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Collision/Collide.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Object/Platform.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Platform.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Class/PlatformClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/PlatformClass.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/ScoreEffectClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/ScoreEffectClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/SpikeClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/SpikeClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Brick.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Brick.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/ActiveObjectClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/ActiveObjectClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BroAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BulletBillEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BulletBillEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/GoombaAIEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/ScoreEffect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Coin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Coin.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Platform.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Platform.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Spike.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Spike.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -195,6 +221,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.MFCPP">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Continuous" CONFIG_NAME="RelWithDebInfo-VS">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -694,7 +725,7 @@
       <workItem from="1752459020560" duration="8183000" />
       <workItem from="1752481656901" duration="5285000" />
       <workItem from="1752496336643" duration="12212000" />
-      <workItem from="1752545756186" duration="4471000" />
+      <workItem from="1752545756186" duration="17832000" />
     </task>
     <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
       <option name="closed" value="true" />
@@ -1072,7 +1103,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752486956501</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Completed Platform">
+      <option name="closed" value="true" />
+      <created>1752552513942</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1752552513942</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1308,7 +1347,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="added the MOST basic movement for BroAI" />
     <MESSAGE value="forgot the ceil collision for broAI" />
     <MESSAGE value="added more to BroAI" />
     <MESSAGE value="completed BroAI" />
@@ -1333,7 +1371,8 @@
     <MESSAGE value="Added Red Koopa Behaviour" />
     <MESSAGE value="Added Green Spiny (Same Ai Behaviour as Red Koopa)" />
     <MESSAGE value="Platform Mechanic Draft" />
-    <option name="LAST_COMMIT_MESSAGE" value="Platform Mechanic Draft" />
+    <MESSAGE value="Completed Platform" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed Platform" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
