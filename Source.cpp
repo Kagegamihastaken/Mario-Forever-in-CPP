@@ -1,5 +1,4 @@
 #include "Core/WindowFrame.hpp"
-#include "Core/Sound.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
@@ -16,10 +15,10 @@
 #include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
 
-#include "Block/BulletLauncher.hpp"
 #include "Object/Platform.hpp"
-//#include "imgui.h"
-//#include "imgui-SFML.h"
+#include <imgui.h>
+#include <imgui-SFML.h>
+
 float alpha = 1.0f;
 //kairos::Timestep render;
 // TODO: Implement DEBUG in Engine
@@ -41,8 +40,8 @@ int WinMain() {
 		SoundManager::SoundManagerInit();
 		IOInit();
 		GameObjectInit();
-		//ImGui::SFML::Init(window);
-		//sf::Clock deltaClock;
+		if (!ImGui::SFML::Init(window)) throw std::runtime_error("Cannot Load ImGui");
+		sf::Clock deltaClock;
 		GameTextInit();
 		GameLoadLevel();
 		MusicManager::ForceLoadMusic("MarioDeath");
@@ -64,18 +63,12 @@ int WinMain() {
 
 		//test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"), true);
 		//test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
-
-		//for (int i = 0; i <= 6; ++i) {
-		//	AddSlope(128.0f + static_cast<float>(i) * 32.0f, 384.0f - static_cast<float>(i) * 32.0f);
-		//}
 		//render.setStep(1.0f / 300.0f);
-		AddPlatform(sf::Vector2f(0.f, 352.f - 96.f), sf::Vector2f(192.f - 32.f, 352.f - 96.f));
+		AddPlatform(sf::Vector2f(0.f, 352.f), sf::Vector2f(192.f - 32.f, 352.f - 96.f));
 		AudioEnginePlay();
 		while (window.isOpen()) {
-			//MFCPP::Log::InfoPrint(fmt::format("Active Voice Count: {}",audio_engine.getActiveVoiceCount()));
-			//bool Updated = false;
 			while (const std::optional event = window.pollEvent()) {
-				//ImGui::SFML::ProcessEvent(window, *event);
+				ImGui::SFML::ProcessEvent(window, *event);
 				if (event->is<sf::Event::Closed>()) {
 					MFCPP::Log::InfoPrint("Closing...");
 					window.close();
@@ -91,12 +84,14 @@ int WinMain() {
 						}
 						//Updated = true;
 					}
+					/*
 					else if (keyPressed->code == sf::Keyboard::Key::P) {
 						MusicManager::PauseMusic(getMusicLevelName());
 					}
 					else if (keyPressed->code == sf::Keyboard::Key::L) {
 						MusicManager::PlayMusic(getMusicLevelName());
 					}
+					*/
 				}
 				GameObjectRetrieveEvent(event);
 			}
@@ -121,16 +116,10 @@ int WinMain() {
 			GameObjectInterpolateMovement(alpha);
 			GameObjectAnimation();
 			//test.setPosition(player.property.getPosition());
-			//ImGui::SFML::Update(window, deltaClock.restart());
 			//ImGui::ShowDemoWindow();
-
-			//ImGui::Begin("Hello, world!");
-			//ImGui::Text("This is some useful text.");
-
-			//ImGui::Button("Look at this pretty button");
-			//ImGui::End();
 			GameObjectMiscUpdate();
 			GameCleanUp();
+			ImGui::SFML::Update(window, deltaClock.restart());
 			//draw
 			//rObject.clear();
 			//rObject.display();
@@ -144,7 +133,7 @@ int WinMain() {
 			//	GameObjectDraw();
 			//}
 			//window.draw(Renderer);
-			//ImGui::SFML::Render(window);
+			ImGui::SFML::Render(window);
 			window.display();
 		}
 	} CPPTRACE_CATCH (std::exception& e) {

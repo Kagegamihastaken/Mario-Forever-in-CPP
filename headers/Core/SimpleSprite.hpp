@@ -18,6 +18,8 @@ namespace MFCPP {
         [[nodiscard]] sf::IntRect getTextureRect() const;
         [[nodiscard]] sf::FloatRect getLocalBounds() const;
         [[nodiscard]] sf::FloatRect getGlobalBounds() const;
+        void setRenderTexture(bool val);
+        [[nodiscard]] bool getRenderTexture() const;
     private:
         void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
         void updateVertices();
@@ -25,6 +27,7 @@ namespace MFCPP {
         std::array<sf::Vertex, 6> m_vertices;
         const sf::Texture*        m_texture;
         sf::IntRect               m_rect;
+        bool                      m_renderTexture;
     };
 }
 

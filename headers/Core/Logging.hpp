@@ -9,6 +9,7 @@ namespace MFCPP {
         extern void InfoPrint(std::string_view str);
         extern void WarningPrint(std::string_view str);
         extern void ErrorPrint(std::string_view str);
+        extern void SuccessPrint(std::string_view str);
 
         void printSigTrace();
         void printCurrentTrace();

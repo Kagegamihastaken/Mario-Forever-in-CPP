@@ -47,6 +47,14 @@ namespace MFCPP {
             fmt::print(fmt::fg(fmt::color::dim_gray) | fmt::emphasis::italic, "[INFO] {}\n", str);
 #endif
         }
+        void SuccessPrint(const std::string_view str) {
+#if LOGGING_ENABLE
+            out << fmt::format("[SUCCESS] {}\n", str);
+#endif
+#if DEVELOPMENT_BUILD
+            fmt::print(fmt::fg(fmt::color::lime) | fmt::emphasis::bold, "[SUCCESS] {}\n", str);
+#endif
+        }
         void WarningPrint(const std::string_view str) {
 #if LOGGING_ENABLE
             out << fmt::format("[WARNING] {}\n", str);

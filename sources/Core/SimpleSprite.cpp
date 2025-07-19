@@ -38,7 +38,7 @@ namespace MFCPP {
     void SimpleSprite::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
         states.transform *= getTransform();
-        states.texture = m_texture;
+        if (m_renderTexture) states.texture = m_texture;
         states.coordinateType = sf::CoordinateType::Pixels;
         //states.stencilMode = sf::StencilMode(sf::StencilComparison::Always, sf::StencilUpdateOperation::Replace, 1, 0xFF);
         target.draw(m_vertices.data(), m_vertices.size(), sf::PrimitiveType::Triangles, states);
@@ -47,6 +47,7 @@ namespace MFCPP {
         return m_rect;
     }
     void SimpleSprite::updateVertices() {
+        m_renderTexture = true;
         const auto [position, size] = sf::FloatRect(m_rect);
 
         const sf::Vector2f absSize(std::abs(size.x), std::abs(size.y));
@@ -64,6 +65,12 @@ namespace MFCPP {
         m_vertices[3].texCoords = position + sf::Vector2f(0.f, size.y);
         m_vertices[4].texCoords = position + sf::Vector2f(size.x, 0.f);
         m_vertices[5].texCoords = position + size;
+    }
+    void SimpleSprite::setRenderTexture(const bool val) {
+        m_renderTexture = val;
+    }
+    bool SimpleSprite::getRenderTexture() const {
+        return m_renderTexture;
     }
 
 

@@ -82,6 +82,7 @@ void MusicManager::PauseMusic(const std::string &name) {
 	audio_engine.setPause(m_musics_handle[name], !audio_engine.getPause(m_musics_handle[name]));
 }
 void MusicManager::CleanUp() {
+	MFCPP::Log::InfoPrint("MusicManager cleanup...");
 	m_musics.clear();
 	m_musics_handle.clear();
 }

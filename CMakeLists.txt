@@ -86,9 +86,16 @@ FetchContent_Declare(soloud
         GIT_PROGRESS ON
         SYSTEM
 )
+FetchContent_Declare(JSON
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG  v3.12.0
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
 #sfml
 message("Making dependencies available...")
-FetchContent_MakeAvailable(SFML CTRE physfs fmt cpptrace)
+FetchContent_MakeAvailable(SFML CTRE physfs fmt cpptrace JSON)
 #soloud
 FetchContent_MakeAvailable(soloud)
 file(GLOB_RECURSE SOLOUD_SOURCES CONFIGURE_DEPENDS
@@ -212,6 +219,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     physfs-static ctre::ctre ImGui-SFML::ImGui-SFML
     Boost::container_hash Boost::uuid Boost::type_index
     fmt::fmt cpptrace::cpptrace SoLoud::soloud
+    nlohmann_json::nlohmann_json
 )
 
 # Link platform-specific system libraries

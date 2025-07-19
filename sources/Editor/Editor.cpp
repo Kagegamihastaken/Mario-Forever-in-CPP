@@ -1,15 +1,22 @@
+#include <nlohmann/json.hpp>
 #include "Editor/Editor.hpp"
+
+#include "config.h"
+#include <imgui.h>
 #include "Editor/SelectTile.hpp"
 #include "Editor/TabButton.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Hash.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/Logging.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/SimpleSprite.hpp"
+#include "Core/JsonUtils.hpp"
 
-std::string fileOutPut = "lvl-test2.txt";
-std::string fileInput = "lvl-test.txt";
+std::string fileOutPut = "lvl-test2.json";
+std::string fileInput = "lvl-test2.json";
 
 static float lastPlaceX = -1.0f;
 static float lastPlaceY = -1.0f;
@@ -53,9 +60,25 @@ static sf::Sprite EDITOR_Mario(tempTex); // 128, 320
 static sf::Sprite EDITOR_ExitGateIndicator(tempTex); // 256, 320
 static sf::Sprite EDITOR_ExitGate(tempTex); // 384, 320
 
-//Read file purpose onlu
-static std::array<float, 4> ExitGateData{};
-static std::array<float, 2> PlayerData{};
+//Read file purpose only
+static sf::Vector2f ExitGateData{};
+static sf::Vector2f ExitGateIndicatorData{};
+static sf::Vector2f PlayerData{};
+
+//Editor Can Place
+static bool EDITOR_CanPlace = true;
+static sf::Vector2f EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
+static bool EDITOR_isLeftHolding = false;
+static bool EDITOR_isRightHolding = false;
+
+//Edit Property
+static bool showEditProperty = false;
+
+//Build Mode
+static bool EDITOR_BuildMode = ON;
+
+//
+static RenderTile SaveTile;
 
 void SetPrevEditor() {
     EditorPrevPos = EditorPos;
@@ -106,133 +129,150 @@ void EditorInit() {
     EDITOR_ExitGate.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][2].name), true);
     EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][2].name)->getSize().y - 32.0f));
 }
+void EditPropertyDialog() {
+    if (showEditProperty) {
+        ImGui::Begin("Edit Property", &showEditProperty, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
+        //ImGui::SetWindowSize("Edit Property", ImVec2(256.f, 256.f));
+        ImGui::SetWindowPos(ImVec2(window.getSize().x / 2.f - ImGui::GetWindowSize().x / 2.f, window.getSize().y / 2.f - ImGui::GetWindowSize().y / 2.f));
+        if (ImGui::BeginTabBar("EditPropertyTab")) {
+            if (ImGui::BeginTabItem("Property")) {
+                for (int i = 0; i < SaveTile.getProperty().getPropertyCount(); ++i) {
+                    TileProperty* property = SaveTile.getProperty().at(i);
+                    if (std::holds_alternative<BoolProps>(*property))
+                        ImGui::Checkbox(std::get<BoolProps>(*property).name.c_str(), &std::get<BoolProps>(*property).val);
+                    else if (std::holds_alternative<IntProps>(*property)) {
+                        ImGui::PushItemWidth(125);
+                        ImGui::InputInt(std::get<IntProps>(*property).name.c_str(), &std::get<IntProps>(*property).val, 1, 100, ImGuiInputTextFlags_EscapeClearsAll);
+                        ImGui::PopItemWidth();
+                        if (std::get<IntProps>(*property).val > std::get<IntProps>(*property).max) std::get<IntProps>(*property).val = std::get<IntProps>(*property).max;
+                        else if (std::get<IntProps>(*property).val < std::get<IntProps>(*property).min) std::get<IntProps>(*property).val = std::get<IntProps>(*property).min;
+                    }
+                    else if (std::holds_alternative<StringProps>(*property)) {
+                        ImGui::InputText(std::get<StringProps>(*property).name.c_str(), std::get<StringProps>(*property).val, IM_ARRAYSIZE(std::get<StringProps>(*property).val), ImGuiInputTextFlags_EscapeClearsAll);
+                    }
+                    else if (std::holds_alternative<FloatProps>(*property)) {
+                        ImGui::PushItemWidth(125);
+                        ImGui::InputFloat(std::get<FloatProps>(*property).name.c_str(), &std::get<FloatProps>(*property).val, 1, 100, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
+                        ImGui::PopItemWidth();
+                        if (std::get<FloatProps>(*property).val > std::get<FloatProps>(*property).max) std::get<FloatProps>(*property).val = std::get<FloatProps>(*property).max;
+                        else if (std::get<FloatProps>(*property).val < std::get<FloatProps>(*property).min) std::get<FloatProps>(*property).val = std::get<FloatProps>(*property).min;
+                    }
+                    else if (std::holds_alternative<Vector2fProps>(*property)) {
+                        ImGui::PushItemWidth(125);
+                        ImGui::InputFloat((std::get<Vector2fProps>(*property).name+".x").c_str(), &std::get<Vector2fProps>(*property).val.x, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
+                        ImGui::InputFloat((std::get<Vector2fProps>(*property).name+".y").c_str(), &std::get<Vector2fProps>(*property).val.y, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
+                        ImGui::PopItemWidth();
+                    }
+                }
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
+        }
+        //ImGui::Checkbox("isSmooth", &smooth);
+        //ImGui::Checkbox("isFall", &fall);
+        //ImGui::Checkbox("isWait", &wait);
+        if (ImGui::Button("Confirm")) {
+            Tile.erase(SaveTile);
+            Tile.insert(SaveTile);
+            showEditProperty = false;
+        }
+        ImGui::End();
+    }
+}
+
 void FileSave() {
-    std::ofstream foo(fileOutPut);
-    if (!foo.is_open()) {
-        std::cout << "Cannot create file: " << fileOutPut;
+    nlohmann::json levelJson;
+
+    levelJson["level_properties"]["width"] = TEST_LevelWidth;
+    levelJson["level_properties"]["height"] = TEST_LevelHeight;
+    //TODO: Add Custom Music
+    levelJson["level_properties"]["music"] = "DansLaRue";
+    //TODO: Add Custom Color
+    levelJson["level_properties"]["background_first_color"] = "7495f5";
+    levelJson["level_properties"]["background_second_color"] = "f5fefd";
+
+    levelJson["player_start"] = sf::Vector2f(EDITOR_Mario.getPosition().x - EDITOR_Mario.getOrigin().x + TilePage[LevelTab][0].origin.x, EDITOR_Mario.getPosition().y - EDITOR_Mario.getOrigin().y + TilePage[LevelTab][0].origin.y);
+
+    levelJson["exit_gate"]["indicator_pos"] = sf::Vector2f(EDITOR_ExitGateIndicator.getPosition().x - EDITOR_ExitGateIndicator.getOrigin().x + TilePage[LevelTab][1].origin.x, EDITOR_ExitGateIndicator.getPosition().y - EDITOR_ExitGateIndicator.getOrigin().y + TilePage[LevelTab][1].origin.y);
+    levelJson["exit_gate"]["gate_pos"] = sf::Vector2f(EDITOR_ExitGate.getPosition().x - EDITOR_ExitGate.getOrigin().x + TilePage[LevelTab][2].origin.x, EDITOR_ExitGate.getPosition().y - EDITOR_ExitGate.getOrigin().y + TilePage[LevelTab][2].origin.y);
+
+    nlohmann::json& tilesJson = levelJson["tiles"];
+    tilesJson = nlohmann::json::array();
+    for (const auto & tile: Tile) {
+        nlohmann::json tileObj;
+        tileObj["id"] = tile.getID();
+        tileObj["page"] = tile.getPage();
+        tileObj["position"] = tile.getPosition();
+        if (tile.getEndPos() != sf::Vector2f(-1.f, -1.f))
+            tileObj["end_position"] = tile.getEndPos();
+        for (int i = 0; i < tile.getProperty().getPropertyCount(); ++i)
+            to_json(tileObj["properties"], *tile.getProperty().at(i));
+        tilesJson.push_back(tileObj);
+    }
+    std::ofstream fooJson(fileOutPut);
+    if (!fooJson.is_open()) {
+        MFCPP::Log::ErrorPrint(fmt::format("Editor: Cannot Open {}", fileOutPut));
         return;
     }
-    std::cout << "Saving...\n";
-    foo << "[LVL]\n";
-    foo << "BGFC=7495f5 BGSC=f5fefd\n";
-    foo << "EGIX=" << EDITOR_ExitGateIndicator.getPosition().x - EDITOR_ExitGateIndicator.getOrigin().x + TilePage[LevelTab][1].origin.x << " " << "EGIY=" << EDITOR_ExitGateIndicator.getPosition().y - EDITOR_ExitGateIndicator.getOrigin().y + TilePage[LevelTab][1].origin.y << " " << "EGX=" << EDITOR_ExitGate.getPosition().x - EDITOR_ExitGate.getOrigin().x + TilePage[LevelTab][2].origin.x << " " << "EGY=" << EDITOR_ExitGate.getPosition().y - EDITOR_ExitGate.getOrigin().y + TilePage[LevelTab][2].origin.y << "\n";
-    foo << "LVLW=" << TEST_LevelWidth << " " << "LVLH=" << TEST_LevelHeight << "\n";
-    foo << "MX=" << EDITOR_Mario.getPosition().x - EDITOR_Mario.getOrigin().x + TilePage[LevelTab][0].origin.x << " " << "MY=" << EDITOR_Mario.getPosition().y - EDITOR_Mario.getOrigin().y + TilePage[LevelTab][0].origin.y << "\n";
-    foo << "MUSIC=DansLaRue\n";
-    foo << "[TILE]\n";
-    for (const auto &i : Tile) {
-        foo << "EI=" << i.getID() << " " << "EP=" << i.getPage() << " " << "EX=" << i.getPosition().x - i.getOrigin().x + TilePage[i.getPage()][i.getID()].origin.x << " " << "EY=" << i.getPosition().y - i.getOrigin().y + TilePage[i.getPage()][i.getID()].origin.y << "\n";
-    }
-    foo.close();
+    fooJson << levelJson.dump(4);
+    fooJson.close();
+    MFCPP::Log::SuccessPrint(fmt::format("Success Saved File {}", fileOutPut));
 }
-void TILEREAD(const std::string& line) {
-    //TILE
-    std::array<float, 4> temp{};
-    bool flag = false;
-    for (auto match : ctre::search_all<"(EI|EP|EX|EY)=(\\S*)">(line)) {
-        if (match.get<1>() == "EI") {
-            temp[0] = match.get<2>().to_number<float>();
-            if (!flag) flag = true;
-        }
-        else if (match.get<1>() == "EP") {
-            temp[1] = match.get<2>().to_number<float>();
-            if (!flag) flag = true;
-        }
-        else if (match.get<1>() == "EX") {
-            temp[2] = match.get<2>().to_number<float>();
-            if (!flag) flag = true;
-        }
-        else if (match.get<1>() == "EY") {
-            temp[3] = match.get<2>().to_number<float>();
-            if (!flag) flag = true;
-        }
-    }
-    if (flag) {
-        const sf::Vector2f origin_tile(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[static_cast<int>(temp[1])][static_cast<int>(temp[0])].name)->getSize().y) - 32.0f);
-        const sf::Vector2f pos(temp[2] - TilePage[static_cast<int>(temp[1])][static_cast<int>(temp[0])].origin.x + origin_tile.x, temp[3] - TilePage[static_cast<int>(temp[1])][static_cast<int>(temp[0])].origin.y + origin_tile.y);
-        RenderTile tile(*ImageManager::GetReturnTexture(TilePage[static_cast<int>(temp[1])][static_cast<int>(temp[0])].name), pos, static_cast<int>(temp[1]), static_cast<int>(temp[0]));
-        tile.setOrigin(origin_tile);
-        Tile.insert(tile);
-    }
-}
-void LVLREAD(const std::string& line) {
-    //BG
-    /*
-    for (auto match : ctre::search_all<"(BGFC|BGSC)=(\\S*)">(line)) {
-        if (match.get<1>() == "BGFC") {
-            bgGradient[0].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-            bgGradient[1].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-        }
-        else if (match.get<1>() == "BGSC") {
-            bgGradient[2].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-            bgGradient[3].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-        }
-    }
-    */
-    //EXIT
-    for (auto match : ctre::search_all<"(EGIX|EGIY|EGX|EGY)=(\\S*)">(line)) {
-        if (match.get<1>() == "EGIX") ExitGateData[0] = match.get<2>().to_number<float>();
-        else if (match.get<1>() == "EGIY") ExitGateData[1] = match.get<2>().to_number<float>();
-        else if (match.get<1>() == "EGX") ExitGateData[2] = match.get<2>().to_number<float>();
-        else if (match.get<1>() == "EGY") ExitGateData[3] = match.get<2>().to_number<float>();
-    }
-    //LEVELDATA
-    /*
-    for (auto match : ctre::search_all<"(LEVEL_WIDTH|LEVEL_HEIGHT)=(\\S*)">(line)) {
-        if (match.get<1>() == "LEVEL_WIDTH") LevelWidth = match.get<2>().to_number<float>();
-        else if (match.get<1>() == "LEVEL_HEIGHT") LevelHeight = match.get<2>().to_number<float>();
-    }
-    */
-    //MARIOPOS
-    for (auto match : ctre::search_all<"(MX|MY)=(\\S*)">(line)) {
-        if (match.get<1>() == "MX") PlayerData[0] = match.get<2>().to_number<float>();
-        else if (match.get<1>() == "MY") PlayerData[1] = match.get<2>().to_number<float>();
-    }
-    //MUSIC
-    /*
-    for (auto match : ctre::search_all<"(MUSIC_TYPE|MUSIC_NAME)=(\\S*)">(line)) {
-        if (match.get<1>() == "MUSIC_TYPE") MusicData.first = match.get<2>().to_number<int>();
-        else if (match.get<1>() == "MUSIC_NAME") MusicData.second = match.get<2>().to_string();
-    }
-    */
-    //process
-}
+
 void FileLoad() {
     std::ifstream foi(fileInput);
     if (!foi.is_open()) {
-        std::cout << "Cannot open file: " << fileInput << "\n";
+        MFCPP::Log::ErrorPrint(fmt::format("Cannot open file {}", fileInput));
         return;
     }
-    //std::string lvldat;
-    //std::stringstream input_view(lvldat);
-    std::string line;
-    Tile.clear();
-    int ReadMode = 0;
-    // Read the file
-    bool flag = false;
-    while (std::getline(foi, line)) {
-        flag = false;
-        for (auto match : ctre::search_all<"(\\[LVL\\]|\\[TILE\\])">(line)) {
-            if (match.get<0>() == "[LVL]") {
-                ReadMode = 0;
-                flag = true;
-            }
-            else if (match.get<0>() == "[TILE]") {
-                ReadMode = 1;
-                flag = true;
-            }
-        }
-        if (flag) continue;
 
-        switch (ReadMode) {
-            case 0: LVLREAD(line); break;
-            case 1: TILEREAD(line); break;
-            default: ;
-        }
+    nlohmann::json levelJson;
+    try {
+        foi >> levelJson;
     }
-    EDITOR_Mario.setPosition(sf::Vector2f(PlayerData[0] - TilePage[LevelTab][0].origin.x + EDITOR_Mario.getOrigin().x, PlayerData[1] - TilePage[LevelTab][0].origin.y + EDITOR_Mario.getOrigin().y));
-    EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(ExitGateData[0] - TilePage[LevelTab][1].origin.x + EDITOR_ExitGateIndicator.getOrigin().x, ExitGateData[1] - TilePage[LevelTab][1].origin.y + EDITOR_ExitGateIndicator.getOrigin().y));
-    EDITOR_ExitGate.setPosition(sf::Vector2f(ExitGateData[2] - TilePage[LevelTab][2].origin.x + EDITOR_ExitGate.getOrigin().x, ExitGateData[3] - TilePage[LevelTab][2].origin.y + EDITOR_ExitGate.getOrigin().y));
+    catch (nlohmann::json::parse_error& e) {
+        MFCPP::Log::ErrorPrint(fmt::format("Failed to parse level file: {}", e.what()));
+        return;
+    }
+
+    Tile.clear();
+
+    TEST_LevelWidth = levelJson["level_properties"].value("width", 10016.f);
+    TEST_LevelHeight = levelJson["level_properties"].value("height", 480.f);
+    PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
+    ExitGateData = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384, 320));
+    ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
+    //Color
+    //Music
+
+    const nlohmann::json& tilesJson = levelJson["tiles"];
+    for (const auto& tileObj : tilesJson) {
+        const int page = tileObj.at("page").get<int>();
+        const int id = tileObj.at("id").get<int>();
+        const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
+        const sf::Vector2f endPos = tileObj.value("end_position", sf::Vector2f(-1.f, -1.f));
+
+        RenderTile tile(TilePage[page][id].prop, *ImageManager::GetReturnTexture(TilePage[page][id].name), pos, page, id, endPos);
+
+        if (tileObj.contains("properties")) {
+            const nlohmann::json& propsJson = tileObj.at("properties");
+            for (int i = 0; i < tile.getProperty().getPropertyCount(); ++i) {
+                TileProperty* prop = tile.getProperty().at(i);
+                from_json(propsJson, *prop);
+            }
+        }
+        const sf::Vector2f origin_tile(0.0f, static_cast<float>(tile.getTexture()->getSize().y) - 32.0f);
+        tile.setOrigin(origin_tile);
+        Tile.insert(tile);
+    }
+    MFCPP::Log::SuccessPrint(fmt::format("Success Loaded File {}", fileInput));
+    lastPlaceX = -1.0f;
+    lastPlaceY = -1.0f;
+    lastDeleteX = -1.0f;
+    lastDeleteY = -1.0f;
+    EDITOR_Mario.setPosition(sf::Vector2f(PlayerData.x - TilePage[LevelTab][0].origin.x + EDITOR_Mario.getOrigin().x, PlayerData.y - TilePage[LevelTab][0].origin.y + EDITOR_Mario.getOrigin().y));
+    EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(ExitGateIndicatorData.x - TilePage[LevelTab][1].origin.x + EDITOR_ExitGateIndicator.getOrigin().x, ExitGateIndicatorData.y - TilePage[LevelTab][1].origin.y + EDITOR_ExitGateIndicator.getOrigin().y));
+    EDITOR_ExitGate.setPosition(sf::Vector2f(ExitGateData.x - TilePage[LevelTab][2].origin.x + EDITOR_ExitGate.getOrigin().x, ExitGateData.y - TilePage[LevelTab][2].origin.y + EDITOR_ExitGate.getOrigin().y));
 }
 void IncreaseTile() {
     CurrSelectTile = (CurrSelectTile + 1) % static_cast<int>(TilePage[CurrPage].size());
@@ -289,10 +329,12 @@ void EditorEvent(const std::optional<sf::Event>& event) {
                 }
                 break;
             case sf::Keyboard::Key::Space:
-                SoundManager::PlaySound("EDITOR_MENU");
-                EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
-                if (EDITOR_SELECTTILE) PreviewPage = CurrPage;
-                SelectTileDisplayUpdate();
+                if (!showEditProperty && EDITOR_BuildMode) {
+                    SoundManager::PlaySound("EDITOR_MENU");
+                    EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
+                    if (EDITOR_SELECTTILE) PreviewPage = CurrPage;
+                    SelectTileDisplayUpdate();
+                }
                 break;
             case sf::Keyboard::Key::S:
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl)) {
@@ -303,6 +345,10 @@ void EditorEvent(const std::optional<sf::Event>& event) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl)) {
                     FileLoad();
                 }
+                break;
+            case sf::Keyboard::Key::B:
+                if (!showEditProperty)
+                    EDITOR_BuildMode = !EDITOR_BuildMode;
                 break;
             default: ;
         }
@@ -349,35 +395,85 @@ void EditorEvent(const std::optional<sf::Event>& event) {
 }
 void PlaceTile() {
     if (EDITOR_SELECTTILE) return;
-    else if (EDITOR_SELECTILE_CLOCK.getElapsedTime().asSeconds() < 0.15f) return;
+    if (EDITOR_SELECTILE_CLOCK.getElapsedTime().asSeconds() < 0.15f) return;
+
+    if (showEditProperty) return;
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && window.hasFocus()) {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
-            if (CurrPage != LevelTab) {
-                if (Tile.contains(sf::Vector2f(TileX, TileY))) {
-                    //std::cout << "Found!\n";
-                    SoundManager::PlaySound("EDITOR_DELETE");
-                    Tile.erase(sf::Vector2f(TileX, TileY));
+            if (EDITOR_BuildMode) {
+                if (CurrPage != LevelTab) {
+                    if (Tile.contains(sf::Vector2f(TileX, TileY))) {
+                        //std::cout << "Found!\n";
+                        SoundManager::PlaySound("EDITOR_DELETE");
+                        Tile.erase(sf::Vector2f(TileX, TileY));
+                        if (!EDITOR_CanPlace) EDITOR_CanPlace = true;
+                        lastDeleteX = TileX;
+                        lastDeleteY = TileY;
+                        lastPlaceX = -1.0f;
+                        lastPlaceY = -1.0f;
+                    }
+                }
+            }
+            else {
+                if (!EDITOR_isRightHolding) {
+                    //if (SelectTile)
+                    if (const auto it = Tile.find(sf::Vector2f(TileX, TileY)); it != Tile.end()) {
+                        if (it->getProperty().getPropertyCount() > 0) {
+                            showEditProperty = true;
+                            SaveTile = *it;
+                        }
+                        //it_save = it->getProperty();
+                        //MFCPP::Log::WarningPrint(fmt::format("PageID: {} {}", it->getPage(), it->getID()));
+                        //MFCPP::Log::WarningPrint(fmt::format("EndPos: {} {}", it->getEndPos().x, it->getEndPos().y));
+                    }
+                    EDITOR_isRightHolding = true;
                 }
             }
             //else std::cout << "Not Found!\n";
-            lastDeleteX = TileX;
-            lastDeleteY = TileY;
-            lastPlaceX = -1.0f;
-            lastPlaceY = -1.0f;
         }
     }
-    else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)&& window.hasFocus()) {
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && window.hasFocus()) {
+        if (!EDITOR_BuildMode) return;
         if ((lastPlaceX != TileX || lastPlaceY != TileY) || (lastDeleteX == TileX && lastDeleteY == TileY)) {
             if (CurrPage != LevelTab) {
                 if (TileX == EDITOR_Mario.getPosition().x && TileY == EDITOR_Mario.getPosition().y) return;
-                else if (TileX == EDITOR_ExitGateIndicator.getPosition().x && TileY == EDITOR_ExitGateIndicator.getPosition().y) return;
+                if (TileX == EDITOR_ExitGateIndicator.getPosition().x && TileY == EDITOR_ExitGateIndicator.getPosition().y) return;
+
+                if (EDITOR_isLeftHolding) return;
+                if (!EDITOR_CanPlace) {
+                    if (CurrPage == PlatformTab) {
+                        if (CurrSelectTile == 0) {
+                            Tile.erase(EDITOR_SavePos);
+
+                            RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), EDITOR_SavePos, CurrPage, CurrSelectTile, sf::Vector2f(TileX, TileY));
+                            tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
+                            Tile.insert(tile);
+                            EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
+                            MFCPP::Log::InfoPrint(fmt::format("Reformated..."));
+
+                            EDITOR_CanPlace = true;
+                        }
+                    }
+                    EDITOR_isLeftHolding = true;
+                    return;
+                }
+
                 if (!Tile.contains(sf::Vector2f(TileX, TileY))) {
                     //std::cout << "Placed\n";
                     SoundManager::PlaySound("EDITOR_PLACE");
-                    RenderTile tile(*ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
+                    RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
                     tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
                     Tile.insert(tile);
+                    if (CurrPage == PlatformTab) {
+                        switch (CurrSelectTile) {
+                            case 0:
+                                EDITOR_SavePos = sf::Vector2f(TileX, TileY);
+                                EDITOR_CanPlace = false;
+                                break;
+                            default: ;
+                        }
+                    }
                 }
             }
             else {
@@ -400,6 +496,13 @@ void PlaceTile() {
             lastDeleteY = -1.0f;
         }
     }
+
+    if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        if (EDITOR_isLeftHolding) EDITOR_isLeftHolding = false;
+    }
+    if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+        if (EDITOR_isRightHolding) EDITOR_isRightHolding = false;
+    }
 }
 void EditorScreenMove(const float dt) {
     if (!EDITOR_SELECTTILE) {
@@ -416,15 +519,39 @@ void EditorScreenMove(const float dt) {
 
 void DrawTile() {
     if (EDITOR_SELECTTILE) return;
+    EditPropertyDialog();
     window.draw(EDITOR_ExitGate);
     for (const auto &i : Tile) {
+        const bool isTileTouch = TileX == i.getPosition().x && TileY == i.getPosition().y;
         if (!isOutScreen(i.getPosition().x, i.getPosition().y, 32, 32)) {
-            window.draw(i);
+            if (i.getEndPos() != sf::Vector2f(-1.f, -1.f)) {
+                sf::VertexArray line(sf::PrimitiveType::Lines, 2);
+                line[0].position = (i.getPosition() + i.getPosition() + static_cast<sf::Vector2f>(i.getTexture()->getSize())) * 0.5f;
+                line[1].position = (i.getEndPos() + i.getEndPos() + static_cast<sf::Vector2f>(i.getTexture()->getSize())) * 0.5f;
+
+                line[0].color = sf::Color::Black;
+                line[1].color = sf::Color::Black;
+                window.draw(line);
+
+                MFCPP::SimpleSprite R(i.getTexture());
+                R.setPosition(i.getEndPos());
+                R.setOrigin(i.getOrigin());
+                R.setColor(sf::Color(255, 255, 255, 128));
+                window.draw(R);
+            }
+            MFCPP::SimpleSprite T(i.getTexture());
+            T.setPosition(i.getPosition());
+            T.setOrigin(i.getOrigin());
+            if (!EDITOR_BuildMode && !showEditProperty && isTileTouch) {
+                T.setColor(sf::Color(0, 255, 0));
+                T.setRenderTexture(false);
+            }
+            window.draw(T);
         }
     }
     window.draw(EDITOR_Mario);
     window.draw(EDITOR_ExitGateIndicator);
-    window.draw(SelectBox);
+    if (EDITOR_BuildMode) window.draw(SelectBox);
     window.draw(Grid, ImageManager::GetReturnTexture("EDITOR_Grid"));
     window.draw(SelectedBlock);
 }

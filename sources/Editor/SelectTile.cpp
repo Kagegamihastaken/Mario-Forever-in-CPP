@@ -29,64 +29,65 @@ static float TilePosX, TilePosY;
 
 static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
 static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
-const std::array<std::vector<SelectTileData>, 4> TilePage = {{
+const std::array<std::vector<SelectTileData>, 5> TilePage = {{
     { // PAGE 1
-        {"Tile_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 0},
-        {"Tile_1", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 1},
-        {"Tile_2", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 2},
-        {"Tile_3", sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 3},
-        {"Tile_4", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 4},
-        {"Tile_5", sf::Vector2f(64, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 5},
-        {"Tile_6", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 6},
-        {"Tile_7", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 7},
-        {"Tile_8", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 8},
-        {"Tile_9", sf::Vector2f(128, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 9},
-        {"Tile_10", sf::Vector2f(160, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 10},
-        {"Tile_11", sf::Vector2f(0, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 11},
-        {"Tile_12", sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 12},
-        {"Tile_13", sf::Vector2f(64, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 13},
-        {"Tile_14", sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 14},
-        {"Tile_15", sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 15},
-        {"Tile_16", sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 16}
+        {"Tile_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 0},
+        {"Tile_1", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 1},
+        {"Tile_2", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 2},
+        {"Tile_3", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 3},
+        {"Tile_4", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 4},
+        {"Tile_5", CustomTileProperty(), sf::Vector2f(64, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 5},
+        {"Tile_6", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 6},
+        {"Tile_7", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 7},
+        {"Tile_8", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 8},
+        {"Tile_9", CustomTileProperty(), sf::Vector2f(128, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 9},
+        {"Tile_10", CustomTileProperty(), sf::Vector2f(160, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 10},
+        {"Tile_11", CustomTileProperty(), sf::Vector2f(0, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 11},
+        {"Tile_12", CustomTileProperty(), sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 12},
+        {"Tile_13", CustomTileProperty(), sf::Vector2f(64, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 13},
+        {"Tile_14", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 14},
+        {"Tile_15", CustomTileProperty(), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 15},
+        {"Tile_16", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 16}
     },
     { // PAGE 2
-            {"Coin_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
-            {"EDITOR_CoinLuckyblock", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
-            {"EDITOR_MushroomLuckyblock", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
-            {"NormalBrick", sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
-            {"EDITOR_CoinBrick", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
-            {"EDITOR_FireFlowerLuckyblock", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
+            {"Coin_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
+            {"EDITOR_CoinLuckyblock", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
+            {"EDITOR_MushroomLuckyblock", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
+            {"NormalBrick", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
+            {"EDITOR_CoinBrick", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
+            {"EDITOR_FireFlowerLuckyblock", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
         },
     { // PAGE 3
-        {"Goomba_0", sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
-        {"GreenKoopa_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 0},
-        {"RedSpiny_0", sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
-        {"GreenKoopaShell_3", sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
-        {"PiranhaGreen_0", sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
-        {"PiranhaGreenGround_0", sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
-        {"NormalSpike", sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
-        {"EDITOR_HammerBroCanMove", sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
-        {"EDITOR_HammerBroCannotMove", sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
-        {"BulletLauncher", sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},
-        {"RedKoopa_0", sf::Vector2f(192, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 1},
-        {"RedKoopaShell_3", sf::Vector2f(224, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 1},
-        {"GreenSpiny_0", sf::Vector2f(256, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 1},
+        {"Goomba_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
+        {"GreenKoopa_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 0},
+        {"RedSpiny_0", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
+        {"GreenKoopaShell_3", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
+        {"PiranhaGreen_0", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
+        {"PiranhaGreenGround_0", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
+        {"NormalSpike", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
+        {"EDITOR_HammerBroCanMove", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
+        {"EDITOR_HammerBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
+        {"BulletLauncher", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},
+        {"RedKoopa_0", CustomTileProperty(), sf::Vector2f(192, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 1},
+        {"RedKoopaShell_3", CustomTileProperty(), sf::Vector2f(224, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 1},
+        {"GreenSpiny_0", CustomTileProperty(), sf::Vector2f(256, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 1},
     },
     { // PAGE 4
-        {"SmallMario_2", sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
-        {"ExitGateIndicator_0", sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
-        {"ExitGateBack", sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)}
+        {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
+        {"ExitGateIndicator_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
+        {"ExitGateBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)}
+    },
+    { // PAGE
+        {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("isSmooth", false), BoolProps("isFall", false), BoolProps("isWait", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
     }
 }};
-std::array<MFCPP::TabButton, 4> TabList{};
+std::array<MFCPP::TabButton, 5> TabList{};
 
 int CurrSelectTile = 0;
 int PrevSelectTile = -1;
 int CurrPage = 0;
 int PrevPage = -1;
 int PreviewPage = CurrPage;
-
-const int LevelTab = 3;
 
 void SelectTileInit() {
     ImageManager::AddTexture("EDITOR_SelectTileBackground", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
@@ -97,11 +98,13 @@ void SelectTileInit() {
     ImageManager::AddTexture("EDITOR_BonusTab", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
     ImageManager::AddTexture( "EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
     ImageManager::AddTexture( "EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
+    ImageManager::AddTexture( "EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
 
     TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
     TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
     TabList[2].setTexture(*ImageManager::GetReturnTexture("EDITOR_EnemyTab"));
     TabList[3].setTexture(*ImageManager::GetReturnTexture("EDITOR_LevelTab"));
+    TabList[4].setTexture(*ImageManager::GetReturnTexture("EDITOR_PlatformTab"));
 
     SelectTileWidth = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
     SelectTileHeight = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
@@ -160,6 +163,7 @@ void SelectTilePosUpdate() {
     TabList[1].setPosition(sf::Vector2f(170.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
     TabList[2].setPosition(sf::Vector2f(212.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
     TabList[3].setPosition(sf::Vector2f(254.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
+    TabList[4].setPosition(sf::Vector2f(296.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
 
     if (!EDITOR_SELECTTILE) return;
 

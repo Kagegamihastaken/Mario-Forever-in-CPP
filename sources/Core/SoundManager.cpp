@@ -93,5 +93,6 @@ void SoundManager::PlaySound(const std::string &name) {
 	}
 }
 void SoundManager::CleanUp() {
+	MFCPP::Log::InfoPrint("SoundManager cleanup...");
 	m_sounds.clear();
 }
