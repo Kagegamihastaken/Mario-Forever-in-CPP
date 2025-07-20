@@ -43,6 +43,7 @@
       <config projectName="MFCPP" targetName="sfml-system" />
       <config projectName="MFCPP" targetName="physfs-static" />
       <config projectName="MFCPP" targetName="ContinuousUpdate" />
+      <config projectName="MFCPP" targetName="ImGuiFileDialog" />
       <config projectName="MFCPP" targetName="sfml-main" />
       <config projectName="MFCPP" targetName="docs" />
       <config projectName="MFCPP" targetName="dwarf" />
@@ -85,26 +86,14 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="template ActiveObject &amp; Fix Mario Speed">
-      <change afterPath="$PROJECT_DIR$/headers/Core/JsonUtils.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Editor/TileProperty.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/JsonUtils.cpp" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Added Custom Tile Property for Editor after so long">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Logging.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Logging.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/SimpleSprite.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/SimpleSprite.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Editor/RenderTile.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/RenderTile.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Editor/SelectTile.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/SelectTile.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Logging.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Logging.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/MusicManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Scene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scene.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/SimpleSprite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/SimpleSprite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/SoundManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Editor/Editor.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/Editor.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvl-test2.json" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/RenderTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/RenderTile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,8 +147,8 @@
     <option name="productBranch" value="Classic" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 8
+  &quot;customColor&quot;: &quot;847471ff&quot;,
+  &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2wlhz3Ue152v7bHSDXUsXaByfad" />
   <component name="ProjectViewState">
@@ -296,6 +285,11 @@
       </method>
     </configuration>
     <configuration name="ImGui-SFML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGui-SFML" CONFIG_NAME="RelWithDebInfo-VS">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImGuiFileDialog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGuiFileDialog" CONFIG_NAME="RelWithDebInfo-VS">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -461,6 +455,7 @@
       <item itemvalue="CMake Application.Experimental" />
       <item itemvalue="CMake Application.FLAC" />
       <item itemvalue="CMake Application.ImGui-SFML" />
+      <item itemvalue="CMake Application.ImGuiFileDialog" />
       <item itemvalue="CMake Application.NightlyBuild" />
       <item itemvalue="CMake Application.NightlyConfigure" />
       <item itemvalue="CMake Application.NightlyCoverage" />
@@ -708,15 +703,10 @@
       <workItem from="1752837365185" duration="6448000" />
       <workItem from="1752891602036" duration="3854000" />
       <workItem from="1752900584787" duration="6564000" />
-      <workItem from="1752934827107" duration="6754000" />
-    </task>
-    <task id="LOCAL-00001" summary="restructure project (Now use cmake)">
-      <option name="closed" value="true" />
-      <created>1746865055531</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1746865055531</updated>
+      <workItem from="1752934827107" duration="7150000" />
+      <workItem from="1752977365338" duration="7916000" />
+      <workItem from="1752986507207" duration="140000" />
+      <workItem from="1753014608571" duration="2516000" />
     </task>
     <task id="LOCAL-00002" summary="cmake now dont use vcpkg">
       <option name="closed" value="true" />
@@ -1102,7 +1092,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752569696150</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Added Custom Tile Property for Editor after so long">
+      <option name="closed" value="true" />
+      <created>1752941909661</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1752941909662</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1338,7 +1336,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="added more to BroAI" />
     <MESSAGE value="completed BroAI" />
     <MESSAGE value="functional FireMario" />
     <MESSAGE value="completed FireFLower &amp; FireMario" />
@@ -1363,7 +1360,8 @@
     <MESSAGE value="Platform Mechanic Draft" />
     <MESSAGE value="Completed Platform" />
     <MESSAGE value="template ActiveObject &amp; Fix Mario Speed" />
-    <option name="LAST_COMMIT_MESSAGE" value="template ActiveObject &amp; Fix Mario Speed" />
+    <MESSAGE value="Added Custom Tile Property for Editor after so long" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Custom Tile Property for Editor after so long" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

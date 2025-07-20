@@ -93,6 +93,13 @@ FetchContent_Declare(JSON
         GIT_PROGRESS ON
         SYSTEM
 )
+FetchContent_Declare(ImGuiFileDialog
+        GIT_REPOSITORY https://github.com/aiekick/ImGuiFileDialog.git
+        GIT_TAG v0.6.7
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
 #sfml
 message("Making dependencies available...")
 FetchContent_MakeAvailable(SFML CTRE physfs fmt cpptrace JSON)
@@ -136,6 +143,10 @@ set(IMGUI_DIR ${imgui_SOURCE_DIR})
 option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" OFF)
 option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" OFF)
 FetchContent_MakeAvailable(imgui-sfml)
+
+#set(IMGUI_FILE_DIALOG_FETCH_IMGUI OFF)
+FetchContent_MakeAvailable(ImGuiFileDialog)
+target_include_directories(ImGuiFileDialog PRIVATE ${imgui_SOURCE_DIR})
 
 set(BOOST_INCLUDE_LIBRARIES container_hash uuid type_index)
 set(BOOST_ENABLE_CMAKE ON)
@@ -220,6 +231,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     Boost::container_hash Boost::uuid Boost::type_index
     fmt::fmt cpptrace::cpptrace SoLoud::soloud
     nlohmann_json::nlohmann_json
+    ImGuiFileDialog
 )
 
 # Link platform-specific system libraries

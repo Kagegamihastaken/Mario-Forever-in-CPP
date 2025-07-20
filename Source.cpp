@@ -119,6 +119,7 @@ int WinMain() {
 			//ImGui::ShowDemoWindow();
 			GameObjectMiscUpdate();
 			GameCleanUp();
+
 			ImGui::SFML::Update(window, deltaClock.restart());
 			//draw
 			//rObject.clear();

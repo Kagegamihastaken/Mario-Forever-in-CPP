@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include <imgui.h>
+#include <ImGuiFileDialog.h>
 #include "Editor/SelectTile.hpp"
 #include "Editor/TabButton.hpp"
 #include "Core/WindowFrame.hpp"
@@ -14,71 +15,6 @@
 #include "Core/Scroll.hpp"
 #include "Core/SimpleSprite.hpp"
 #include "Core/JsonUtils.hpp"
-
-std::string fileOutPut = "lvl-test2.json";
-std::string fileInput = "lvl-test2.json";
-
-static float lastPlaceX = -1.0f;
-static float lastPlaceY = -1.0f;
-static float lastDeleteX = -1.0f;
-static float lastDeleteY = -1.0f;
-
-// Editor Position
-sf::Vector2f EditorPos;
-sf::Vector2f EditorPrevPos;
-sf::Vector2f EditorInterpolatedPos;
-
-//Select Box
-static sf::Sprite SelectBox(tempTex);
-static float SelectBoxAlpha = 100.0f;
-static bool SelectBoxAlphaState = true;
-constexpr float SELECTBOXALPHA_MAX = 160.0f;
-constexpr float SELECTBOXALPHA_MIN = 100.0f;
-constexpr float SELECTBOXALPHA_CHANGE = 1.0f;
-
-// Grid
-static sf::VertexArray Grid(sf::PrimitiveType::TriangleStrip, 4);
-static float GridAlpha = 0.0f;
-static bool GridAlphaState = true;
-constexpr float GRIDALPHA_MAX = 255.0f;
-constexpr float GRIDALPHA_MIN = 0.0f;
-constexpr float GRIDALPHA_CHANGE = 1.0f;
-//Level Data
-static float TEST_LevelWidth = 10016.0f;
-static float TEST_LevelHeight = 480.0f;
-//Selected Block HUD
-static sf::Sprite SelectedBlock(tempTex);
-
-//Tile
-std::unordered_set<RenderTile, RenderTileHash, RenderTileEqual> Tile;
-static float TileX;
-static float TileY;
-
-// NOTE: Object below only have 1 at a time
-// Mario
-static sf::Sprite EDITOR_Mario(tempTex); // 128, 320
-static sf::Sprite EDITOR_ExitGateIndicator(tempTex); // 256, 320
-static sf::Sprite EDITOR_ExitGate(tempTex); // 384, 320
-
-//Read file purpose only
-static sf::Vector2f ExitGateData{};
-static sf::Vector2f ExitGateIndicatorData{};
-static sf::Vector2f PlayerData{};
-
-//Editor Can Place
-static bool EDITOR_CanPlace = true;
-static sf::Vector2f EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
-static bool EDITOR_isLeftHolding = false;
-static bool EDITOR_isRightHolding = false;
-
-//Edit Property
-static bool showEditProperty = false;
-
-//Build Mode
-static bool EDITOR_BuildMode = ON;
-
-//
-static RenderTile SaveTile;
 
 void SetPrevEditor() {
     EditorPrevPos = EditorPos;
@@ -118,7 +54,7 @@ void EditorInit() {
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
     if (ImageManager::GetReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
-    EDITOR_Mario.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][0].name), true);
+    EDITOR_Mario.setTexture(ImageManager::GetReturnTexture(TilePage[LevelTab][0].name), true);
     EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][0].name)->getSize().y - 32.0f));
 
     EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(256, 320));
@@ -130,8 +66,8 @@ void EditorInit() {
     EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][2].name)->getSize().y - 32.0f));
 }
 void EditPropertyDialog() {
-    if (showEditProperty) {
-        ImGui::Begin("Edit Property", &showEditProperty, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
+    if (EDITOR_ShowProperty) {
+        ImGui::Begin("Edit Property", &EDITOR_ShowProperty, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
         //ImGui::SetWindowSize("Edit Property", ImVec2(256.f, 256.f));
         ImGui::SetWindowPos(ImVec2(window.getSize().x / 2.f - ImGui::GetWindowSize().x / 2.f, window.getSize().y / 2.f - ImGui::GetWindowSize().y / 2.f));
         if (ImGui::BeginTabBar("EditPropertyTab")) {
@@ -174,13 +110,12 @@ void EditPropertyDialog() {
         if (ImGui::Button("Confirm")) {
             Tile.erase(SaveTile);
             Tile.insert(SaveTile);
-            showEditProperty = false;
+            EDITOR_ShowProperty = false;
         }
         ImGui::End();
     }
 }
-
-void FileSave() {
+void FileSave(const std::filesystem::path& path) {
     nlohmann::json levelJson;
 
     levelJson["level_properties"]["width"] = TEST_LevelWidth;
@@ -209,20 +144,20 @@ void FileSave() {
             to_json(tileObj["properties"], *tile.getProperty().at(i));
         tilesJson.push_back(tileObj);
     }
-    std::ofstream fooJson(fileOutPut);
+    std::ofstream fooJson(path.string());
     if (!fooJson.is_open()) {
-        MFCPP::Log::ErrorPrint(fmt::format("Editor: Cannot Open {}", fileOutPut));
+        MFCPP::Log::ErrorPrint(fmt::format("Editor: Cannot Open {}", path.string()));
         return;
     }
     fooJson << levelJson.dump(4);
     fooJson.close();
-    MFCPP::Log::SuccessPrint(fmt::format("Success Saved File {}", fileOutPut));
+    MFCPP::Log::SuccessPrint(fmt::format("Success Saved File {}", path.string()));
 }
 
-void FileLoad() {
-    std::ifstream foi(fileInput);
+void FileLoad(const std::filesystem::path& path) {
+    std::ifstream foi(path.string());
     if (!foi.is_open()) {
-        MFCPP::Log::ErrorPrint(fmt::format("Cannot open file {}", fileInput));
+        MFCPP::Log::ErrorPrint(fmt::format("Cannot open file {}", path.string()));
         return;
     }
 
@@ -234,9 +169,7 @@ void FileLoad() {
         MFCPP::Log::ErrorPrint(fmt::format("Failed to parse level file: {}", e.what()));
         return;
     }
-
     Tile.clear();
-
     TEST_LevelWidth = levelJson["level_properties"].value("width", 10016.f);
     TEST_LevelHeight = levelJson["level_properties"].value("height", 480.f);
     PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
@@ -244,7 +177,6 @@ void FileLoad() {
     ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
     //Color
     //Music
-
     const nlohmann::json& tilesJson = levelJson["tiles"];
     for (const auto& tileObj : tilesJson) {
         const int page = tileObj.at("page").get<int>();
@@ -265,7 +197,7 @@ void FileLoad() {
         tile.setOrigin(origin_tile);
         Tile.insert(tile);
     }
-    MFCPP::Log::SuccessPrint(fmt::format("Success Loaded File {}", fileInput));
+    MFCPP::Log::SuccessPrint(fmt::format("Success Loaded File {}", path.string()));
     lastPlaceX = -1.0f;
     lastPlaceY = -1.0f;
     lastDeleteX = -1.0f;
@@ -273,6 +205,40 @@ void FileLoad() {
     EDITOR_Mario.setPosition(sf::Vector2f(PlayerData.x - TilePage[LevelTab][0].origin.x + EDITOR_Mario.getOrigin().x, PlayerData.y - TilePage[LevelTab][0].origin.y + EDITOR_Mario.getOrigin().y));
     EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(ExitGateIndicatorData.x - TilePage[LevelTab][1].origin.x + EDITOR_ExitGateIndicator.getOrigin().x, ExitGateIndicatorData.y - TilePage[LevelTab][1].origin.y + EDITOR_ExitGateIndicator.getOrigin().y));
     EDITOR_ExitGate.setPosition(sf::Vector2f(ExitGateData.x - TilePage[LevelTab][2].origin.x + EDITOR_ExitGate.getOrigin().x, ExitGateData.y - TilePage[LevelTab][2].origin.y + EDITOR_ExitGate.getOrigin().y));
+}
+void OpenFileDialog() {
+    if (!EDITOR_OpenDialog) return;
+    if (!ImGuiFileDialog::Instance()->IsOpened("ChooseFileDlgKey")) {
+        if (EDITOR_ShowProperty) EDITOR_ShowProperty = false;
+        IGFD::FileDialogConfig config;
+        config.path = ".";
+        ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Open File", ".json", config);
+    }
+    if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(Width / 2.f, Height / 2.f))) {
+        if (ImGuiFileDialog::Instance()->IsOk())
+            FileLoad(ImGuiFileDialog::Instance()->GetFilePathName());
+        EDITOR_SELECTILE_CLOCK.restart();
+        EDITOR_OpenDialog = false;
+        ImGuiFileDialog::Instance()->Close();
+    }
+}
+void SaveFileDialog() {
+    if (!EDITOR_SaveDialog) return;
+    if (!ImGuiFileDialog::Instance()->IsOpened("SaveFileDlgKey")) {
+        if (EDITOR_ShowProperty) EDITOR_ShowProperty = false;
+        IGFD::FileDialogConfig config;
+        config.path = ".";
+        config.fileName = "untitled.json";
+        config.flags = ImGuiFileDialogFlags_ConfirmOverwrite;
+        ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save File As...", ".json", config);
+    }
+    if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(Width / 2.f, Height / 2.f))) {
+        if (ImGuiFileDialog::Instance()->IsOk())
+            FileSave(ImGuiFileDialog::Instance()->GetFilePathName());
+        EDITOR_SELECTILE_CLOCK.restart();
+        EDITOR_SaveDialog = false;
+        ImGuiFileDialog::Instance()->Close();
+    }
 }
 void IncreaseTile() {
     CurrSelectTile = (CurrSelectTile + 1) % static_cast<int>(TilePage[CurrPage].size());
@@ -294,9 +260,10 @@ void SelectedTilePosUpdate() {
     Grid[3].position = sf::Vector2f(EditorInterpolatedPos.x + 640.0f, EditorInterpolatedPos.y + 640.0f);
 }
 void TilePosUpdate(const float dt) {
-    TileX = std::floor((std::max(std::min(MouseX, Width - 32.0f), 0.0f) + EditorPos.x < 0 ? 0 : std::max(std::min(MouseX, Width - 32.0f), 0.0f) + EditorPos.x) / 32.0f) * 32.0f;
-    TileY = std::floor((std::max(std::min(MouseY, Height - 32.0f), 0.0f) + EditorPos.y < 0 ? 0 : std::max(std::min(MouseY, Height - 32.0f), 0.0f) + EditorPos.y) / 32.0f) * 32.0f;
-
+    if (!EDITOR_ShowProperty && !EDITOR_OpenDialog && !EDITOR_SaveDialog) {
+        TileX = std::floor((std::max(std::min(MouseX, Width - 32.0f), 0.0f) + EditorPos.x < 0 ? 0 : std::max(std::min(MouseX, Width - 32.0f), 0.0f) + EditorPos.x) / 32.0f) * 32.0f;
+        TileY = std::floor((std::max(std::min(MouseY, Height - 32.0f), 0.0f) + EditorPos.y < 0 ? 0 : std::max(std::min(MouseY, Height - 32.0f), 0.0f) + EditorPos.y) / 32.0f) * 32.0f;
+    }
     AlphaUpdate(SelectBoxAlpha, SelectBoxAlphaState, SELECTBOXALPHA_MIN, SELECTBOXALPHA_MAX, SELECTBOXALPHA_CHANGE, dt);
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
 
@@ -314,22 +281,11 @@ void TilePosUpdate(const float dt) {
     SelectBox.setPosition(sf::Vector2f(TileX, TileY));
 }
 void EditorEvent(const std::optional<sf::Event>& event) {
+    if (EDITOR_OpenDialog || EDITOR_SaveDialog) return;
     if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
         switch (keyPressed->code) {
-            case sf::Keyboard::Key::Num2:
-                if (!EDITOR_SELECTTILE) {
-                    IncreaseTile();
-                    SoundManager::PlaySound("EDITOR_SWITCH");
-                }
-                break;
-            case sf::Keyboard::Key::Num1:
-                if (!EDITOR_SELECTTILE) {
-                    DecreaseTile();
-                    SoundManager::PlaySound("EDITOR_SWITCH");
-                }
-                break;
             case sf::Keyboard::Key::Space:
-                if (!showEditProperty && EDITOR_BuildMode) {
+                if (!EDITOR_ShowProperty && EDITOR_BuildMode) {
                     SoundManager::PlaySound("EDITOR_MENU");
                     EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
                     if (EDITOR_SELECTTILE) PreviewPage = CurrPage;
@@ -338,16 +294,18 @@ void EditorEvent(const std::optional<sf::Event>& event) {
                 break;
             case sf::Keyboard::Key::S:
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl)) {
-                    FileSave();
+                    if (!EDITOR_OpenDialog)
+                        EDITOR_SaveDialog = true;
                 }
                 break;
             case sf::Keyboard::Key::D:
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl)) {
-                    FileLoad();
+                    if (!EDITOR_SaveDialog)
+                        EDITOR_OpenDialog = true;
                 }
                 break;
             case sf::Keyboard::Key::B:
-                if (!showEditProperty)
+                if (!EDITOR_ShowProperty)
                     EDITOR_BuildMode = !EDITOR_BuildMode;
                 break;
             default: ;
@@ -382,22 +340,12 @@ void EditorEvent(const std::optional<sf::Event>& event) {
             default: ;
         }
     }
-    else if (const auto* mouse = event->getIf<sf::Event::MouseWheelScrolled>()) {
-        if (mouse->delta < 0) {
-            IncreaseTile();
-            SoundManager::PlaySound("EDITOR_SWITCH");
-        }
-        else if (mouse->delta > 0) {
-            DecreaseTile();
-            SoundManager::PlaySound("EDITOR_SWITCH");
-        }
-    }
 }
 void PlaceTile() {
     if (EDITOR_SELECTTILE) return;
     if (EDITOR_SELECTILE_CLOCK.getElapsedTime().asSeconds() < 0.15f) return;
 
-    if (showEditProperty) return;
+    if (EDITOR_ShowProperty || EDITOR_OpenDialog || EDITOR_SaveDialog) return;
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && window.hasFocus()) {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
@@ -420,7 +368,7 @@ void PlaceTile() {
                     //if (SelectTile)
                     if (const auto it = Tile.find(sf::Vector2f(TileX, TileY)); it != Tile.end()) {
                         if (it->getProperty().getPropertyCount() > 0) {
-                            showEditProperty = true;
+                            EDITOR_ShowProperty = true;
                             SaveTile = *it;
                         }
                         //it_save = it->getProperty();
@@ -450,7 +398,6 @@ void PlaceTile() {
                             tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
                             Tile.insert(tile);
                             EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
-                            MFCPP::Log::InfoPrint(fmt::format("Reformated..."));
 
                             EDITOR_CanPlace = true;
                         }
@@ -505,6 +452,8 @@ void PlaceTile() {
     }
 }
 void EditorScreenMove(const float dt) {
+    if (EDITOR_ShowProperty || EDITOR_OpenDialog || EDITOR_SaveDialog) return;
+
     if (!EDITOR_SELECTTILE) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) EditorPos.x += 8.0f * dt;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) EditorPos.x -= 8.0f * dt;
@@ -520,6 +469,8 @@ void EditorScreenMove(const float dt) {
 void DrawTile() {
     if (EDITOR_SELECTTILE) return;
     EditPropertyDialog();
+    OpenFileDialog();
+    SaveFileDialog();
     window.draw(EDITOR_ExitGate);
     for (const auto &i : Tile) {
         const bool isTileTouch = TileX == i.getPosition().x && TileY == i.getPosition().y;
@@ -542,7 +493,7 @@ void DrawTile() {
             MFCPP::SimpleSprite T(i.getTexture());
             T.setPosition(i.getPosition());
             T.setOrigin(i.getOrigin());
-            if (!EDITOR_BuildMode && !showEditProperty && isTileTouch) {
+            if (!EDITOR_BuildMode && !EDITOR_ShowProperty && isTileTouch) {
                 T.setColor(sf::Color(0, 255, 0));
                 T.setRenderTexture(false);
             }
