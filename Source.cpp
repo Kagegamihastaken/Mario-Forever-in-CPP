@@ -64,7 +64,7 @@ int WinMain() {
 		//test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"), true);
 		//test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
 		//render.setStep(1.0f / 300.0f);
-		AddPlatform(sf::Vector2f(0.f, 352.f), sf::Vector2f(192.f - 32.f, 352.f - 96.f));
+		//AddPlatform(sf::Vector2f(0.f, 352.f), sf::Vector2f(192.f - 32.f, 352.f - 96.f));
 		AudioEnginePlay();
 		while (window.isOpen()) {
 			while (const std::optional event = window.pollEvent()) {

@@ -98,7 +98,7 @@ void GameTextInit() {
 }
 void GameLoadLevel() {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-        ReadData("data/levels/lvl1.txt");
+        ReadData("data/levels/leveltest.json");
         Bgbuilding();
         Obstaclebuilding();
         Objectbuilding();

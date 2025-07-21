@@ -1,15 +1,15 @@
 #include "Core/JsonUtils.hpp"
 
 namespace sf {
-    inline void to_json(nlohmann::json& j, const Vector2f& v) {
+    void to_json(nlohmann::json& j, const Vector2f& v) {
         j = {{"x", v.x}, {"y", v.y}};
     }
-    inline void from_json(const nlohmann::json& j, Vector2f& v) {
+    void from_json(const nlohmann::json& j, Vector2f& v) {
         j.at("x").get_to(v.x);
         j.at("y").get_to(v.y);
     }
 }
-inline void to_json(nlohmann::json& j, const TileProperty& prop) {
+void to_json(nlohmann::json& j, const TileProperty& prop) {
     std::visit([&]<typename T0>(T0&& arg) {
         using T = std::decay_t<T0>;
         if constexpr (std::is_same_v<T, BoolProps>)
@@ -24,7 +24,7 @@ inline void to_json(nlohmann::json& j, const TileProperty& prop) {
             j[arg.name] = arg.val;
     }, prop);
 }
-inline void from_json(const nlohmann::json& j, TileProperty& prop) {
+void from_json(const nlohmann::json& j, TileProperty& prop) {
     std::visit([&]<typename T0>(T0&& arg) {
         using T = std::decay_t<T0>;
         if (j.contains(arg.name)) {

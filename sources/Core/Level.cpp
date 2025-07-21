@@ -1,3 +1,5 @@
+#include <nlohmann/json.hpp>
+#include "Core/JsonUtils.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/Level.hpp"
 #include "Object/Coin.hpp"
@@ -11,7 +13,6 @@
 #include "Effect/CoinEffect.hpp"
 #include "Effect/GoombaAIEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Core/Exception.hpp"
 #include "Object/PiranhaAI.hpp"
 #include "Object/Spike.hpp"
 #include "Core/Scroll.hpp"
@@ -29,6 +30,7 @@
 #include "Core/Tilemap.hpp"
 #include "Object/BulletBill.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Platform.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 std::vector<std::array<float, 2>> BgData;
@@ -36,178 +38,71 @@ std::vector<std::array<float, 3>> LevelData;
 std::vector<std::array<float, 3>> SlopeData;
 std::vector<std::array<float, 5>> BonusData;
 std::vector<std::array<float, 5>> EnemyData;
-std::array<float, 4> ExitGateData;
-std::array<float, 2> PlayerData;
-std::string MusicData;
-/*
-void NPCDATAREAD(std::string line) {
-	std::array<float, 5> temp{};
-	bool flag = false;
-	for (auto match : ctre::search_all<"(NPC_TYPE|NPC_ID|NPC_ATT|NPC_X|NPC_Y)=(\\S*)">(line)) {
-		if (match.get<1>() == "NPC_TYPE") {
-			temp[0] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
+std::vector<PlatformData> PlatformDataList;
+static sf::Vector2f ExitIndicator;
+static sf::Vector2f ExitGate;
+static sf::Vector2f PlayerData;
+static std::string MusicData;
+
+static std::string FirstBGColor;
+static std::string SecondBGColor;
+void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id) {
+	sf::Vector2f endPos = tileObj.value("end_position", pos);
+	if (endPos == sf::Vector2f(-1.f, -1.f)) endPos = pos;
+	if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
+		CustomTileProperty custom_props = TilePage[page][id].prop;
+		const nlohmann::json& propsJson = tileObj.at("properties");
+		for (int i = 0; i < TilePage[page][id].prop.getPropertyCount() > 0; ++i) {
+			TileProperty* prop = custom_props.at(i);
+			from_json(propsJson, *prop);
 		}
-		else if (match.get<1>() == "NPC_ID") {
-			temp[1] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "NPC_ATT") {
-			temp[2] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "NPC_X") {
-			temp[3] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "NPC_Y") {
-			temp[4] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
+		PlatformDataList.push_back({pos, endPos, custom_props});
 	}
-	if (flag) EnemyData.push_back(temp);
 }
-void BONUSDATAREAD(std::string line) {
-	std::array<float, 5> temp{};
-	bool flag = false;
-	for (auto match : ctre::search_all<"(BONUS_TYPE|BONUS_ID|BONUS_ATT|BONUS_X|BONUS_Y)=(\\S*)">(line)) {
-		if (match.get<1>() == "BONUS_TYPE") {
-			temp[0] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "BONUS_ID") {
-			temp[1] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "BONUS_ATT") {
-			temp[2] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "BONUS_X") {
-			temp[3] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "BONUS_Y") {
-			temp[4] = match.get<2>().to_number<float>();
-			if (!flag) flag = true;
-		}
+void ReadData(const std::filesystem::path& path) {
+	std::string LevelDataText;
+	LoadLvl(LevelDataText, path.string());
+
+	nlohmann::json levelJson;
+	try {
+		levelJson = nlohmann::json::parse(LevelDataText);
 	}
-	if (flag) BonusData.push_back(temp);
-}
-*/
-void TILEDATAREAD(const std::string_view line) {
-	//TILE
-	std::array<int, 4> temp{};
-	bool flag = false;
-	for (auto match : ctre::search_all<"(EI|EP|EX|EY)=(\\S*)">(line)) {
-		if (match.get<1>() == "EI") {
-			temp[0] = match.get<2>().to_number<int>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "EP") {
-			temp[1] = match.get<2>().to_number<int>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "EX") {
-			temp[2] = match.get<2>().to_number<int>();
-			if (!flag) flag = true;
-		}
-		else if (match.get<1>() == "EY") {
-			temp[3] = match.get<2>().to_number<int>();
-			if (!flag) flag = true;
-		}
+	catch (nlohmann::json::parse_error& e) {
+		throw std::runtime_error(fmt::format("Level: Failed to parse level file: {}", e.what()));
 	}
-	if (flag) {
-		switch (const SelectTileData* ReadTile = &TilePage[temp[1]][temp[0]]; ReadTile->categoryID) {
+	LevelWidth = levelJson["level_properties"].value("width", 10016.f);
+	LevelHeight = levelJson["level_properties"].value("height", 480.f);
+	PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
+	ExitGate = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384.f, 320.f));
+	ExitIndicator = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
+
+	FirstBGColor = levelJson["level_properties"].value("background_first_color", "7495f5");
+	SecondBGColor = levelJson["level_properties"].value("background_second_color", "f5fefd");
+
+	MusicData = levelJson["level_properties"].value("music", "DansLaRue");
+
+	const nlohmann::json& tilesJson = levelJson["tiles"];
+	for (const auto& tileObj : tilesJson) {
+		const int page = tileObj.at("page").get<int>();
+		const int id = tileObj.at("id").get<int>();
+		const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
+		switch (const SelectTileData* ReadTile = &TilePage[page][id]; ReadTile->categoryID) {
 			case 0:
-				LevelData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(temp[2]), static_cast<float>(temp[3])});
+				LevelData.push_back({static_cast<float>(ReadTile->objectID), pos.x, pos.y});
 				break;
 			case 1:
-				BonusData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), static_cast<float>(temp[2]), static_cast<float>(temp[3])});
+				BonusData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
 				break;
 			case 2:
-				EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), static_cast<float>(temp[2]), static_cast<float>(temp[3])});
+				EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
+				break;
+			case 3:
+				PlatformDataProcess(tileObj, pos, page, id);
 				break;
 			default: ;
 		}
 	}
-}
-void LEVELDATAREAD(const std::string& line) {
-	//BG
-	for (auto match : ctre::search_all<"(BGFC|BGSC)=(\\S*)">(line)) {
-		if (match.get<1>() == "BGFC") {
-			bgGradient[0].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-			bgGradient[1].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-		}
-		else if (match.get<1>() == "BGSC") {
-			bgGradient[2].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-			bgGradient[3].color = sf::Color(hex_to_int(match.get<2>().to_string().substr(0, 2)), hex_to_int(match.get<2>().to_string().substr(2, 2)), hex_to_int(match.get<2>().to_string().substr(4, 2)), 255);
-		}
-	}
-	//EXIT
-	for (auto match : ctre::search_all<"(EGIX|EGIY|EGX|EGY)=(\\S*)">(line)) {
-		if (match.get<1>() == "EGIX") ExitGateData[0] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "EGIY") ExitGateData[1] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "EGX") ExitGateData[2] = match.get<2>().to_number<float>();
-		else if (match.get<1>() == "EGY") ExitGateData[3] = match.get<2>().to_number<float>();
-	}
-	//LEVELDATA
-	for (auto match : ctre::search_all<"(LVLW|LVLH)=(\\S*)">(line)) {
-		if (match.get<1>() == "LVLW") LevelWidth = match.get<2>().to_number<int>();
-		else if (match.get<1>() == "LVLH") LevelHeight = match.get<2>().to_number<int>();
-	}
-	//MARIOPOS
-	for (auto match : ctre::search_all<"(MX|MY)=(\\S*)">(line)) {
-		if (match.get<1>() == "MX") PlayerData[0] = match.get<2>().to_number<int>();
-		else if (match.get<1>() == "MY") PlayerData[1] = match.get<2>().to_number<int>();
-	}
-	//MUSIC
-	for (auto match : ctre::search_all<"(MUSIC)=(\\S*)">(line)) {
-		if (match.get<1>() == "MUSIC") MusicData = match.get<2>().to_string();
-	}
-}
-void ReadData(const std::string_view path) {
-	std::string lvldat;
-	LoadLvl(lvldat, path.data());
-	std::stringstream input_view(lvldat);
-	std::string line;
-	int ReadMode = 0;
-	// Read the file
-	bool flag = false;
-	while (std::getline(input_view, line)) {
-		flag = false;
-		for (auto match : ctre::search_all<"(\\[LVL\\]|\\[TILE\\])">(line)) {
-			if (match.get<0>() == "[LVL]") {
-				ReadMode = 0;
-				flag = true;
-			}
-			else if (match.get<0>() == "[TILE]") {
-				ReadMode = 1;
-				flag = true;
-			}
-			/*
-			else if (match.get<0>() == "[BONUS_DATA]") {
-				ReadMode = 2;
-				flag = true;
-			}
-			else if (match.get<0>() == "[NPC_DATA]") {
-				ReadMode = 3;
-				flag = true;
-			}
-			*/
-		}
-		if (flag) continue;
-
-		switch (ReadMode) {
-			case 0: LEVELDATAREAD(line); break;
-			case 1: TILEDATAREAD(line); break;
-			/*
-			case 2: BONUSDATAREAD(line); break;
-			case 3: NPCDATAREAD(line); break;
-			*/
-			default: ;
-		}
-	}
+	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", path.string()));
 }
 /*
 void ReadData(std::string path) {
@@ -435,52 +330,34 @@ void Obstaclebuilding() {
 		MFCPP::setIndexTilemapID(LevelData[i][1], LevelData[i][2], ID_list[posTextureIndex][3]);
 		MFCPP::setIndexTilemapFloorY(LevelData[i][1], LevelData[i][2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
 		ObstacleRTexture.draw(obstaclesRender);
-		// Then use the index of tile id property to add it to the list
-		//ObstaclesList.emplace_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(ImageManager::GetTexture("Tileset"), sf::IntRect({ID_list[posTextureIndex][1], ID_list[posTextureIndex][2] }, {32, 32})) });
-		//ObstaclesList.push_back(Obstacles{ static_cast<int>(LevelData[i][0]), sf::Sprite(tempTex) });
-		//ObstaclesList.back().property.setTexture(ImageManager::GetTexture("Tile_"+std::to_string(posTextureIndex)), true);
-		//ObstaclesList.back().property.setPosition({ LevelData[i][1], LevelData[i][2] });
-		//setHitbox(ObstaclesList[static_cast<int>(ObstaclesList.size()) - 1].hitbox, sf::FloatRect({ 0.f, 0.f }, { 32.f, 32.f }));
-
-		//sf::Vertex* vertex = &ObstaclesVA[i * 6];
-		//vertex[0].position = sf::Vector2f(LevelData[i][1], LevelData[i][2]);
-		//vertex[1].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
-		//vertex[2].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
-		//vertex[3].position = sf::Vector2f(LevelData[i][1], LevelData[i][2] + 32.0f);
-		//vertex[4].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2]);
-		//vertex[5].position = sf::Vector2f(LevelData[i][1] + 32.0f, LevelData[i][2] + 32.0f);
-
-		//vertex[0].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2]);
-		//vertex[1].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
-		//vertex[2].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
-		//vertex[3].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1], ID_list[LevelData[i][0]][2] + 32.0f);
-		//vertex[4].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2]);
-		//vertex[5].texCoords = sf::Vector2f(ID_list[LevelData[i][0]][1] + 32.0f, ID_list[LevelData[i][0]][2] + 32.0f);
 	}
 	ObstacleRTexture.display();
 }
 void Bgbuilding() {
+	bgGradient[0].color = sf::Color(hex_to_int(FirstBGColor.substr(0, 2)), hex_to_int(FirstBGColor.substr(2, 2)), hex_to_int(FirstBGColor.substr(4, 2)), 255);
+	bgGradient[1].color = sf::Color(hex_to_int(FirstBGColor.substr(0, 2)), hex_to_int(FirstBGColor.substr(2, 2)), hex_to_int(FirstBGColor.substr(4, 2)), 255);
+	bgGradient[2].color = sf::Color(hex_to_int(SecondBGColor.substr(0, 2)), hex_to_int(SecondBGColor.substr(2, 2)), hex_to_int(SecondBGColor.substr(4, 2)), 255);
+	bgGradient[3].color = sf::Color(hex_to_int(SecondBGColor.substr(0, 2)), hex_to_int(SecondBGColor.substr(2, 2)), hex_to_int(SecondBGColor.substr(4, 2)), 255);
 	for (const auto& i : BgData) {
 		AddBg(static_cast<int>(i[0]), static_cast<int>(i[1]));
 	}
 }
 void ExitGateBuilding() {
-	ExitGateBack.setPosition({ ExitGateData[2], ExitGateData[3] });
-	ExitGateIndicator.setPosition({ ExitGateData[0], ExitGateData[1] });
+	ExitGateBack.setPosition(ExitGate);
+	ExitGateIndicator.setPosition(ExitIndicator);
 	ExitGateFore.setPosition({ ExitGateBack.getPosition().x + 43.0f, ExitGateBack.getPosition().y - 250.0f });
 	ExitGateForeCurr = ExitGateForePrev = ExitGateFore.getPosition();
 }
 void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
-	//Musicial
+	//Music
 	MusicManager::StopAllMusic();
 	MusicManager::SetLoop(MusicData, true);
 	MusicManager::PlayMusic(MusicData);
 
-	player.property.setPosition({ PlayerData[0], PlayerData[1] + 7.f });
+	player.property.setPosition(PlayerData + sf::Vector2f( 0.f, 7.f ));
 	player.curr = player.prev = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;
-	//rTexture.resize(sf::Vector2u({ static_cast<unsigned int>(LevelWidth) * 2, static_cast<unsigned int>(LevelHeight) * 2 }));
 	setView();
 	updateView();
 	//Delete Effects
@@ -502,6 +379,8 @@ void Objectbuilding() {
 	DeleteAllSpike();
 	DeleteAllBulletBill();
 	BulletLauncherClear();
+	//Delete Platform
+	DeleteAllPlatform();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
@@ -542,6 +421,11 @@ void Objectbuilding() {
 					break;
 				default: ;
 			}
+		}
+	}
+	if (!PlatformDataList.empty()) {
+		for (auto &i : PlatformDataList) {
+			AddPlatform(i.start, i.end, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("isSmooth")->val, i.props.getProperty<BoolProps>("isFall")->val, i.props.getProperty<BoolProps>("isWait")->val);
 		}
 	}
 }

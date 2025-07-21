@@ -5,7 +5,8 @@
 #include "Core/ExternalHeaders/plf_colony.h"
 extern plf::colony<MFCPP::Platform> PlatformList;
 extern void PlatformInit();
-extern void AddPlatform(const sf::Vector2f& start, const sf::Vector2f& end);
+extern void DeleteAllPlatform();
+extern void AddPlatform(const sf::Vector2f& start, const sf::Vector2f& end, float speed, bool smooth, bool fall, bool wait);
 extern void DrawPlatform();
 extern void SetPrevPlatformPos();
 extern void InterpolatePlatformPos(float alpha);

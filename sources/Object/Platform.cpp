@@ -30,9 +30,12 @@ void DeletePlatform(const plf::colony<MFCPP::Platform>::colony_iterator<false>& 
     it->setDestroyed(true);
     PlatformDeleteGate = true;
 }
-void AddPlatform(const sf::Vector2f& start, const sf::Vector2f& end) {
-    const auto it = PlatformList.emplace(start, end, 6.f, sf::FloatRect({0.f, 0.f}, {32.f, 8.f}), true, false, false);
-    it->AddAnimationSequence("RedSmallPlatform");
+void DeleteAllPlatform() {
+    PlatformList.clear();
+}
+void AddPlatform(const sf::Vector2f& start, const sf::Vector2f& end, const float speed, const bool smooth, const bool fall, const bool wait) {
+    const auto it = PlatformList.emplace(start, end, speed, sf::FloatRect({0.f, 0.f}, {95.f, 8.f}), smooth, fall, wait);
+    it->AddAnimationSequence("RedPlatform");
 }
 void PlatformStatusUpdate() {
     for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {

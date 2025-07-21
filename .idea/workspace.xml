@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="60" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="52" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
@@ -81,19 +81,27 @@
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Release-VS" ENABLED="false" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
-      <configuration PROFILE_NAME="RelWithDebInfo-VS" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" />
-      <configuration PROFILE_NAME="RelWithDebInfo-MinGW" ENABLED="false" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="MinGW" />
+      <configuration PROFILE_NAME="RelWithDebInfo-VS" ENABLED="false" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="RelWithDebInfo-MinGW" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="MinGW" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Added Custom Tile Property for Editor after so long">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="Overhaul save &amp; load system (using imgui)">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/MFCPP.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/MFCPP.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Editor/Editor.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/Editor.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Level.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Level.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Editor/SelectTile.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/SelectTile.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/Platform.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Platform.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lvl-test2.json" beforeDir="false" afterPath="$PROJECT_DIR$/lvl-test2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/JsonUtils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/JsonUtils.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Scene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scene.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Platform.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Platform.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled.json" beforeDir="false" afterPath="$PROJECT_DIR$/untitled.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +111,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-VS" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-MinGW" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -130,12 +138,14 @@
     <setting file="file://$PROJECT_DIR$/Source.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/sfml-src/extlibs/headers/miniaudio/miniaudio.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/soloud-src/src/backend/vita_homebrew/soloud_vita_homebrew.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/imgui-src/imgui.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/imguifiledialog-src/ImGuiFileDialog.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/imguifiledialog-src/ImGuiFileDialog.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/soloud-src/src/filter/soloud_freeverbfilter.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Game.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Scene.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Scroll.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/WindowFrame.hpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/source/repos/MFCPP/sources/Object/Platform.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -178,7 +188,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.android.studio.ml.bot.mainConfigurable&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -189,247 +199,252 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.MFCPP">
-    <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Continuous" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Continuous" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousBuild" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousBuild" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousConfigure" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousConfigure" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousCoverage" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousCoverage" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousMemCheck" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousMemCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousStart" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousStart" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousSubmit" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousSubmit" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousTest" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousTest" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ContinuousUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousUpdate" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ContinuousUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ContinuousUpdate" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Experimental" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Experimental" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="Experimental" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Experimental" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalBuild" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalBuild" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalConfigure" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalConfigure" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalCoverage" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalCoverage" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalMemCheck" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalMemCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalStart" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalStart" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalSubmit" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalSubmit" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalTest" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalTest" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExperimentalUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalUpdate" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ExperimentalUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ExperimentalUpdate" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FLAC" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="FLAC" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="FLAC" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="FLAC" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ImGui-SFML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGui-SFML" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ImGui-SFML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGui-SFML" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ImGuiFileDialog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGuiFileDialog" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ImGuiFileDialog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ImGuiFileDialog" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Nightly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Nightly" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="Nightly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="Nightly" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyBuild" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyBuild" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyConfigure" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyConfigure" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyCoverage" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyCoverage" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyMemCheck" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyMemCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyMemoryCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyMemoryCheck" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyMemoryCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyMemoryCheck" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyStart" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyStart" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlySubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlySubmit" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlySubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlySubmit" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyTest" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyTest" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NightlyUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyUpdate" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="NightlyUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="NightlyUpdate" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cpptrace-lib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="cpptrace-lib" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="docs" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="cpptrace-lib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="cpptrace-lib" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="fmt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="fmt" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="docs" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="freetype" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="freetype" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="fmt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="fmt" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ogg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ogg" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="freetype" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="freetype" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="physfs-static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs-static" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="ogg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="ogg" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="physfs-static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs-static" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-audio" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-audio" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="physfs" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-graphics" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-graphics" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="sfml-audio" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-audio" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-main" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="sfml-graphics" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-graphics" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-network" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-network" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="sfml-main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-main" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-system" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-system" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="sfml-network" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-network" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sfml-window" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-window" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="sfml-system" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-system" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="soloud_library" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="soloud_library" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="sfml-window" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="sfml-window" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test_physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="test_physfs" CONFIG_NAME="RelWithDebInfo-VS" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="test_physfs">
+    <configuration name="soloud_library" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="soloud_library" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vorbis" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbis" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="test_physfs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="test_physfs" CONFIG_NAME="RelWithDebInfo-MinGW" RUN_TARGET_PROJECT_NAME="MFCPP" RUN_TARGET_NAME="test_physfs">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vorbisenc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisenc" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="vorbis" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbis" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vorbisfile" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisfile" CONFIG_NAME="RelWithDebInfo-VS">
+    <configuration name="vorbisenc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisenc" CONFIG_NAME="RelWithDebInfo-MinGW">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vorbisfile" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="vorbisfile" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -706,15 +721,8 @@
       <workItem from="1752934827107" duration="7150000" />
       <workItem from="1752977365338" duration="7916000" />
       <workItem from="1752986507207" duration="140000" />
-      <workItem from="1753014608571" duration="2516000" />
-    </task>
-    <task id="LOCAL-00002" summary="cmake now dont use vcpkg">
-      <option name="closed" value="true" />
-      <created>1746894062630</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1746894062630</updated>
+      <workItem from="1753014608571" duration="4446000" />
+      <workItem from="1753067685184" duration="10031000" />
     </task>
     <task id="LOCAL-00003" summary="fix crash when using debug on msvc">
       <option name="closed" value="true" />
@@ -1100,7 +1108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752941909662</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Overhaul save &amp; load system (using imgui)">
+      <option name="closed" value="true" />
+      <created>1753021895352</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1753021895353</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1336,7 +1352,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="completed BroAI" />
     <MESSAGE value="functional FireMario" />
     <MESSAGE value="completed FireFLower &amp; FireMario" />
     <MESSAGE value="cmake change" />
@@ -1361,7 +1376,8 @@
     <MESSAGE value="Completed Platform" />
     <MESSAGE value="template ActiveObject &amp; Fix Mario Speed" />
     <MESSAGE value="Added Custom Tile Property for Editor after so long" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Custom Tile Property for Editor after so long" />
+    <MESSAGE value="Overhaul save &amp; load system (using imgui)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Overhaul save &amp; load system (using imgui)" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

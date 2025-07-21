@@ -18,6 +18,34 @@ public:
         PushProperty(first_args);
         (PushProperty(args), ...);
     }
+    template<typename PropType>
+    [[nodiscard]] const PropType* getProperty(const std::string& name) const {
+        for (size_t i = 0; i < m_prop_size; ++i) {
+            const auto& prop_variant = m_prop[i];
+            if (std::holds_alternative<PropType>(prop_variant)) {
+                const auto& prop = std::get<PropType>(prop_variant);
+                if (prop.name == name) {
+                    return &prop;
+                }
+            }
+        }
+        return nullptr;
+    }
+    template<typename PropType>
+    [[nodiscard]] PropType* getProperty(const std::string& name) {
+        for (size_t i = 0; i < m_prop_size; ++i) {
+            auto& prop_variant = m_prop[i];
+            // Check if the variant holds the correct type
+            if (std::holds_alternative<PropType>(prop_variant)) {
+                // If so, get the property and check its name
+                auto& prop = std::get<PropType>(prop_variant);
+                if (prop.name == name) {
+                    return &prop;
+                }
+            }
+        }
+        return nullptr;
+    }
     [[nodiscard]] size_t getPropertyCount() const {
         return m_prop_size;
     }

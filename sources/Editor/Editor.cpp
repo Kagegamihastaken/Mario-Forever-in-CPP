@@ -1,7 +1,6 @@
 #include <nlohmann/json.hpp>
 #include "Editor/Editor.hpp"
 
-#include "config.h"
 #include <imgui.h>
 #include <ImGuiFileDialog.h>
 #include "Editor/SelectTile.hpp"
@@ -137,7 +136,7 @@ void FileSave(const std::filesystem::path& path) {
         nlohmann::json tileObj;
         tileObj["id"] = tile.getID();
         tileObj["page"] = tile.getPage();
-        tileObj["position"] = tile.getPosition();
+        tileObj["position"] = tile.getPosition() - tile.getOrigin() + TilePage[tile.getPage()][tile.getID()].origin;
         if (tile.getEndPos() != sf::Vector2f(-1.f, -1.f))
             tileObj["end_position"] = tile.getEndPos();
         for (int i = 0; i < tile.getProperty().getPropertyCount(); ++i)
@@ -184,8 +183,9 @@ void FileLoad(const std::filesystem::path& path) {
         const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
         const sf::Vector2f endPos = tileObj.value("end_position", sf::Vector2f(-1.f, -1.f));
 
-        RenderTile tile(TilePage[page][id].prop, *ImageManager::GetReturnTexture(TilePage[page][id].name), pos, page, id, endPos);
-
+        const sf::Vector2f origin_tile(0.0f, ImageManager::GetReturnTexture(TilePage[page][id].name)->getSize().y - 32.f);
+        RenderTile tile(TilePage[page][id].prop, *ImageManager::GetReturnTexture(TilePage[page][id].name), pos - TilePage[page][id].origin + origin_tile, page, id, endPos);
+        tile.setOrigin(origin_tile);
         if (tileObj.contains("properties")) {
             const nlohmann::json& propsJson = tileObj.at("properties");
             for (int i = 0; i < tile.getProperty().getPropertyCount(); ++i) {
@@ -193,8 +193,6 @@ void FileLoad(const std::filesystem::path& path) {
                 from_json(propsJson, *prop);
             }
         }
-        const sf::Vector2f origin_tile(0.0f, static_cast<float>(tile.getTexture()->getSize().y) - 32.0f);
-        tile.setOrigin(origin_tile);
         Tile.insert(tile);
     }
     MFCPP::Log::SuccessPrint(fmt::format("Success Loaded File {}", path.string()));
@@ -239,12 +237,6 @@ void SaveFileDialog() {
         EDITOR_SaveDialog = false;
         ImGuiFileDialog::Instance()->Close();
     }
-}
-void IncreaseTile() {
-    CurrSelectTile = (CurrSelectTile + 1) % static_cast<int>(TilePage[CurrPage].size());
-}
-void DecreaseTile() {
-    CurrSelectTile = CurrSelectTile - 1 < 0 ? static_cast<int>(TilePage[CurrPage].size()) - 1 : CurrSelectTile - 1;
 }
 void SelectedTilePosUpdate() {
     SelectedBlock.setPosition(sf::Vector2f(EditorInterpolatedPos.x + 16, EditorInterpolatedPos.y + 16));
