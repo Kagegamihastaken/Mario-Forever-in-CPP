@@ -1,0 +1,77 @@
+{
+    "exit_gate": {
+        "gate_pos": {
+            "x": 384.0,
+            "y": 351.0
+        },
+        "indicator_pos": {
+            "x": 256.0,
+            "y": 351.0
+        }
+    },
+    "level_properties": {
+        "background_first_color": "7495f5",
+        "background_second_color": "f5fefd",
+        "height": 480.0,
+        "music": "DansLaRue",
+        "width": 10016.0
+    },
+    "player_start": {
+        "x": 139.0,
+        "y": 344.0
+    },
+    "tiles": [
+        {
+            "id": 6,
+            "page": 0,
+            "position": {
+                "x": 224.0,
+                "y": 128.0
+            },
+            "properties": {
+                "TestColor": {
+                    "a": 0.1101018637418747,
+                    "b": 0.1101018637418747,
+                    "g": 0.7745097875595093,
+                    "r": 1.0
+                }
+            }
+        },
+        {
+            "end_position": {
+                "x": 96.0,
+                "y": 224.0
+            },
+            "id": 0,
+            "page": 4,
+            "position": {
+                "x": 96.0,
+                "y": 128.0
+            },
+            "properties": {
+                "Speed": 1,
+                "isFall": false,
+                "isSmooth": true,
+                "isWait": true
+            }
+        },
+        {
+            "end_position": {
+                "x": 256.0,
+                "y": 288.0
+            },
+            "id": 0,
+            "page": 4,
+            "position": {
+                "x": 256.0,
+                "y": 192.0
+            },
+            "properties": {
+                "Speed": 4,
+                "isFall": false,
+                "isSmooth": true,
+                "isWait": false
+            }
+        }
+    ]
+}
