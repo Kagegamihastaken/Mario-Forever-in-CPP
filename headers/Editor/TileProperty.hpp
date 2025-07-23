@@ -5,6 +5,9 @@
 
 #include <string>
 
+#include "imgui.h"
+#include "Core/Common.hpp"
+
 struct IntProps {
     std::string name;
     int val;
@@ -28,5 +31,9 @@ struct FloatProps {
 struct Vector2fProps {
     std::string name;
     sf::Vector2f val;
+};
+struct ColorProps {
+    std::string name;
+    MFCPP::Color val;
 };
 #endif //TILEPROPERTY_HPP

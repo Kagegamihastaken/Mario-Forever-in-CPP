@@ -1,5 +1,5 @@
 #include "Core/Tilemap.hpp"
-
+constexpr int TILEMAP_MAX = 6;
 namespace MFCPP {
     std::unordered_map<int, Tile> ObstaclesTilemap;
     std::unordered_map<int, Collectable> CollectableMap;
@@ -8,11 +8,11 @@ namespace MFCPP {
     void setTileMapSize(const float LevelX, const float LevelY) {
         ObstaclesTilemap.clear();
         CollectableMap.clear();
-        tileMapSizeX = static_cast<int>(LevelX / tileSize) + 5;
-        tileMapSizeY = static_cast<int>(LevelY / tileSize) + 5;
+        tileMapSizeX = static_cast<int>(LevelX / tileSize) + TILEMAP_MAX;
+        tileMapSizeY = static_cast<int>(LevelY / tileSize) + TILEMAP_MAX;
     }
     int getTilemap(const int x, const int y) {
-        return x + std::max(0, y) * tileMapSizeX;
+        return std::max(-TILEMAP_MAX, x) + std::max(-TILEMAP_MAX, y) * tileMapSizeX;
     }
     void setIndexCollectableMapID(const float x, const float y, const unsigned val) {
         CollectableMap[getTilemap(static_cast<int>(x / tileSize), static_cast<int>(y / tileSize))].id = val;

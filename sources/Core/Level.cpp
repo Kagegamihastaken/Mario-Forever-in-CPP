@@ -20,7 +20,6 @@
 #include "Core/Background/Bg.hpp"
 #include "Object/ExitGate.hpp"
 #include "Editor/SelectTile.hpp"
-#include "Core/WindowFrame.hpp"
 #include "Core/Background/BgGradient.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/FireballExplosion.hpp"
@@ -33,19 +32,18 @@
 #include "Object/Platform.hpp"
 // Level data
 float LevelWidth, LevelHeight;
-std::vector<std::array<float, 2>> BgData;
-std::vector<std::array<float, 3>> LevelData;
-std::vector<std::array<float, 3>> SlopeData;
-std::vector<std::array<float, 5>> BonusData;
-std::vector<std::array<float, 5>> EnemyData;
-std::vector<PlatformData> PlatformDataList;
+static std::vector<std::array<float, 2>> BgData;
+static std::vector<std::array<float, 3>> LevelData;
+static std::vector<std::array<float, 3>> SlopeData;
+static std::vector<std::array<float, 5>> BonusData;
+static std::vector<std::array<float, 5>> EnemyData;
+static std::vector<PlatformData> PlatformDataList;
 static sf::Vector2f ExitIndicator;
 static sf::Vector2f ExitGate;
 static sf::Vector2f PlayerData;
 static std::string MusicData;
-
-static std::string FirstBGColor;
-static std::string SecondBGColor;
+static MFCPP::Color BGFirstColor;
+static MFCPP::Color BGSecondColor;
 void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id) {
 	sf::Vector2f endPos = tileObj.value("end_position", pos);
 	if (endPos == sf::Vector2f(-1.f, -1.f)) endPos = pos;
@@ -76,9 +74,8 @@ void ReadData(const std::filesystem::path& path) {
 	ExitGate = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384.f, 320.f));
 	ExitIndicator = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
 
-	FirstBGColor = levelJson["level_properties"].value("background_first_color", "7495f5");
-	SecondBGColor = levelJson["level_properties"].value("background_second_color", "f5fefd");
-
+	BGFirstColor = levelJson["level_properties"].value("background_first_color", MFCPP::Color::LevelDefaultFirst);
+	BGSecondColor = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
 	MusicData = levelJson["level_properties"].value("music", "DansLaRue");
 
 	const nlohmann::json& tilesJson = levelJson["tiles"];
@@ -334,10 +331,8 @@ void Obstaclebuilding() {
 	ObstacleRTexture.display();
 }
 void Bgbuilding() {
-	bgGradient[0].color = sf::Color(hex_to_int(FirstBGColor.substr(0, 2)), hex_to_int(FirstBGColor.substr(2, 2)), hex_to_int(FirstBGColor.substr(4, 2)), 255);
-	bgGradient[1].color = sf::Color(hex_to_int(FirstBGColor.substr(0, 2)), hex_to_int(FirstBGColor.substr(2, 2)), hex_to_int(FirstBGColor.substr(4, 2)), 255);
-	bgGradient[2].color = sf::Color(hex_to_int(SecondBGColor.substr(0, 2)), hex_to_int(SecondBGColor.substr(2, 2)), hex_to_int(SecondBGColor.substr(4, 2)), 255);
-	bgGradient[3].color = sf::Color(hex_to_int(SecondBGColor.substr(0, 2)), hex_to_int(SecondBGColor.substr(2, 2)), hex_to_int(SecondBGColor.substr(4, 2)), 255);
+	BgGradientSetColor(BGFirstColor.ColorNormalize(), BGSecondColor.ColorNormalize());
+	BgGradientInitPos(LevelWidth, LevelHeight);
 	for (const auto& i : BgData) {
 		AddBg(static_cast<int>(i[0]), static_cast<int>(i[1]));
 	}

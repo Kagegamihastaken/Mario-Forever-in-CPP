@@ -14,6 +14,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/SimpleSprite.hpp"
 #include "Core/JsonUtils.hpp"
+#include "Core/Background/BgGradient.hpp"
 
 void SetPrevEditor() {
     EditorPrevPos = EditorPos;
@@ -54,50 +55,86 @@ void EditorInit() {
     if (ImageManager::GetReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
     EDITOR_Mario.setTexture(ImageManager::GetReturnTexture(TilePage[LevelTab][0].name), true);
-    EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][0].name)->getSize().y - 32.0f));
+    EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[LevelTab][0].name)->getSize().y) - 32.0f));
 
     EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(256, 320));
     EDITOR_ExitGateIndicator.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][1].name), true);
-    EDITOR_ExitGateIndicator.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][1].name)->getSize().y - 32.0f));
+    EDITOR_ExitGateIndicator.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[LevelTab][1].name)->getSize().y) - 32.0f));
 
     EDITOR_ExitGate.setPosition(sf::Vector2f(384, 320));
     EDITOR_ExitGate.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][2].name), true);
-    EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[LevelTab][2].name)->getSize().y - 32.0f));
+    EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[LevelTab][2].name)->getSize().y) - 32.0f));
+
+    BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
+    BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
+}
+static void EditPropertyHelper(TileProperty& prop) {
+    std::visit([&]<typename T0>(T0&& arg) {
+        using T = std::decay_t<T0>;
+        if constexpr (std::is_same_v<T, BoolProps>)
+            ImGui::Checkbox(arg.name.c_str(), &arg.val);
+        else if constexpr (std::is_same_v<T, IntProps>) {
+            ImGui::PushItemWidth(125);
+            ImGui::InputInt(arg.name.c_str(), &arg.val, 1, 100, ImGuiInputTextFlags_EscapeClearsAll);
+            ImGui::PopItemWidth();
+            if (arg.val > arg.max && arg.max > 0.f) arg.val = arg.max;
+            else if (arg.val < arg.min) arg.val = arg.min;
+        }
+        else if constexpr (std::is_same_v<T, StringProps>)
+            ImGui::InputText(arg.name.c_str(), arg.val, IM_ARRAYSIZE(arg.val), ImGuiInputTextFlags_EscapeClearsAll);
+        else if constexpr (std::is_same_v<T, FloatProps>) {
+            ImGui::PushItemWidth(125);
+            ImGui::InputFloat(arg.name.c_str(), &arg.val, 1, 100, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
+            ImGui::PopItemWidth();
+            if (arg.val > arg.max && arg.max > 0.f) arg.val = arg.max;
+            else if (arg.val < arg.min) arg.val = arg.min;
+        }
+        else if constexpr (std::is_same_v<T, Vector2fProps>) {
+            ImGui::PushItemWidth(125);
+            ImGui::InputFloat((arg.name+".x").c_str(), &arg.val.x, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
+            ImGui::InputFloat((arg.name+".y").c_str(), &arg.val.y, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
+            ImGui::PopItemWidth();
+        }
+        else if constexpr (std::is_same_v<T, ColorProps>)
+            ImGui::ColorEdit4(arg.name.c_str(), reinterpret_cast<float*>(&arg.val), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoSidePreview);
+        }, prop);
+}
+void SettingDialog() {
+    if (EDITOR_Setting) {
+        ImGui::Begin("Setting", &EDITOR_Setting, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
+        ImGui::SetWindowPos(ImVec2(static_cast<float>(window.getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(window.getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
+        if (ImGui::BeginTabBar("SettingTab")) {
+            if (ImGui::BeginTabItem("Background")) {
+                for (int i = 0; i < BgColor.getPropertyCount(); ++i) {
+                    EditPropertyHelper(*BgColor.at(i));
+                }
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Level Size")) {
+                for (int i = 0; i < LevelSize.getPropertyCount(); ++i) {
+                    EditPropertyHelper(*LevelSize.at(i));
+                }
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
+        }
+        if (ImGui::Button("Confirm")) {
+            BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
+            BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
+            EDITOR_Setting = false;
+        }
+        ImGui::End();
+    }
 }
 void EditPropertyDialog() {
     if (EDITOR_ShowProperty) {
         ImGui::Begin("Edit Property", &EDITOR_ShowProperty, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
         //ImGui::SetWindowSize("Edit Property", ImVec2(256.f, 256.f));
-        ImGui::SetWindowPos(ImVec2(window.getSize().x / 2.f - ImGui::GetWindowSize().x / 2.f, window.getSize().y / 2.f - ImGui::GetWindowSize().y / 2.f));
+        ImGui::SetWindowPos(ImVec2(static_cast<float>(window.getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(window.getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
         if (ImGui::BeginTabBar("EditPropertyTab")) {
             if (ImGui::BeginTabItem("Property")) {
                 for (int i = 0; i < SaveTile.getProperty().getPropertyCount(); ++i) {
-                    TileProperty* property = SaveTile.getProperty().at(i);
-                    if (std::holds_alternative<BoolProps>(*property))
-                        ImGui::Checkbox(std::get<BoolProps>(*property).name.c_str(), &std::get<BoolProps>(*property).val);
-                    else if (std::holds_alternative<IntProps>(*property)) {
-                        ImGui::PushItemWidth(125);
-                        ImGui::InputInt(std::get<IntProps>(*property).name.c_str(), &std::get<IntProps>(*property).val, 1, 100, ImGuiInputTextFlags_EscapeClearsAll);
-                        ImGui::PopItemWidth();
-                        if (std::get<IntProps>(*property).val > std::get<IntProps>(*property).max) std::get<IntProps>(*property).val = std::get<IntProps>(*property).max;
-                        else if (std::get<IntProps>(*property).val < std::get<IntProps>(*property).min) std::get<IntProps>(*property).val = std::get<IntProps>(*property).min;
-                    }
-                    else if (std::holds_alternative<StringProps>(*property)) {
-                        ImGui::InputText(std::get<StringProps>(*property).name.c_str(), std::get<StringProps>(*property).val, IM_ARRAYSIZE(std::get<StringProps>(*property).val), ImGuiInputTextFlags_EscapeClearsAll);
-                    }
-                    else if (std::holds_alternative<FloatProps>(*property)) {
-                        ImGui::PushItemWidth(125);
-                        ImGui::InputFloat(std::get<FloatProps>(*property).name.c_str(), &std::get<FloatProps>(*property).val, 1, 100, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
-                        ImGui::PopItemWidth();
-                        if (std::get<FloatProps>(*property).val > std::get<FloatProps>(*property).max) std::get<FloatProps>(*property).val = std::get<FloatProps>(*property).max;
-                        else if (std::get<FloatProps>(*property).val < std::get<FloatProps>(*property).min) std::get<FloatProps>(*property).val = std::get<FloatProps>(*property).min;
-                    }
-                    else if (std::holds_alternative<Vector2fProps>(*property)) {
-                        ImGui::PushItemWidth(125);
-                        ImGui::InputFloat((std::get<Vector2fProps>(*property).name+".x").c_str(), &std::get<Vector2fProps>(*property).val.x, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
-                        ImGui::InputFloat((std::get<Vector2fProps>(*property).name+".y").c_str(), &std::get<Vector2fProps>(*property).val.y, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
-                        ImGui::PopItemWidth();
-                    }
+                    EditPropertyHelper(*SaveTile.getProperty().at(i));
                 }
                 ImGui::EndTabItem();
             }
@@ -117,13 +154,13 @@ void EditPropertyDialog() {
 void FileSave(const std::filesystem::path& path) {
     nlohmann::json levelJson;
 
-    levelJson["level_properties"]["width"] = TEST_LevelWidth;
-    levelJson["level_properties"]["height"] = TEST_LevelHeight;
+    levelJson["level_properties"]["width"] = LevelSize.getProperty<FloatProps>("Level Width")->val;
+    levelJson["level_properties"]["height"] = LevelSize.getProperty<FloatProps>("Level Height")->val;
     //TODO: Add Custom Music
     levelJson["level_properties"]["music"] = "DansLaRue";
     //TODO: Add Custom Color
-    levelJson["level_properties"]["background_first_color"] = "7495f5";
-    levelJson["level_properties"]["background_second_color"] = "f5fefd";
+    levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
+    levelJson["level_properties"]["background_second_color"] = BgColor.getProperty<ColorProps>("Second Background Color")->val;
 
     levelJson["player_start"] = sf::Vector2f(EDITOR_Mario.getPosition().x - EDITOR_Mario.getOrigin().x + TilePage[LevelTab][0].origin.x, EDITOR_Mario.getPosition().y - EDITOR_Mario.getOrigin().y + TilePage[LevelTab][0].origin.y);
 
@@ -169,12 +206,15 @@ void FileLoad(const std::filesystem::path& path) {
         return;
     }
     Tile.clear();
-    TEST_LevelWidth = levelJson["level_properties"].value("width", 10016.f);
-    TEST_LevelHeight = levelJson["level_properties"].value("height", 480.f);
+    LevelSize.getProperty<FloatProps>("Level Width")->val = levelJson["level_properties"].value("width", 10016.f);
+    LevelSize.getProperty<FloatProps>("Level Height")->val = levelJson["level_properties"].value("height", 480.f);
     PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
     ExitGateData = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384, 320));
     ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
     //Color
+    BgColor.getProperty<ColorProps>("First Background Color")->val = levelJson["level_properties"].value("background_first_color",  MFCPP::Color::LevelDefaultFirst);
+    BgColor.getProperty<ColorProps>("Second Background Color")->val = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
+    BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
     //Music
     const nlohmann::json& tilesJson = levelJson["tiles"];
     for (const auto& tileObj : tilesJson) {
@@ -183,7 +223,7 @@ void FileLoad(const std::filesystem::path& path) {
         const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
         const sf::Vector2f endPos = tileObj.value("end_position", sf::Vector2f(-1.f, -1.f));
 
-        const sf::Vector2f origin_tile(0.0f, ImageManager::GetReturnTexture(TilePage[page][id].name)->getSize().y - 32.f);
+        const sf::Vector2f origin_tile(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[page][id].name)->getSize().y) - 32.f);
         RenderTile tile(TilePage[page][id].prop, *ImageManager::GetReturnTexture(TilePage[page][id].name), pos - TilePage[page][id].origin + origin_tile, page, id, endPos);
         tile.setOrigin(origin_tile);
         if (tileObj.contains("properties")) {
@@ -253,8 +293,8 @@ void SelectedTilePosUpdate() {
 }
 void TilePosUpdate(const float dt) {
     if (!EDITOR_ShowProperty && !EDITOR_OpenDialog && !EDITOR_SaveDialog) {
-        TileX = std::floor((std::max(std::min(MouseX, Width - 32.0f), 0.0f) + EditorPos.x < 0 ? 0 : std::max(std::min(MouseX, Width - 32.0f), 0.0f) + EditorPos.x) / 32.0f) * 32.0f;
-        TileY = std::floor((std::max(std::min(MouseY, Height - 32.0f), 0.0f) + EditorPos.y < 0 ? 0 : std::max(std::min(MouseY, Height - 32.0f), 0.0f) + EditorPos.y) / 32.0f) * 32.0f;
+        TileX = std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f;
+        TileY = std::floor((MouseY + EditorPos.y) / 32.0f) * 32.0f;
     }
     AlphaUpdate(SelectBoxAlpha, SelectBoxAlphaState, SELECTBOXALPHA_MIN, SELECTBOXALPHA_MAX, SELECTBOXALPHA_CHANGE, dt);
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
@@ -277,6 +317,7 @@ void EditorEvent(const std::optional<sf::Event>& event) {
     if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
         switch (keyPressed->code) {
             case sf::Keyboard::Key::Space:
+                if (EDITOR_Setting) return;
                 if (!EDITOR_ShowProperty && EDITOR_BuildMode) {
                     SoundManager::PlaySound("EDITOR_MENU");
                     EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
@@ -306,7 +347,10 @@ void EditorEvent(const std::optional<sf::Event>& event) {
     else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         switch (mousePressed->button) {
             case sf::Mouse::Button::Left:
+                if (EDITOR_Setting) return;
                 if (EDITOR_SELECTTILE) {
+                    if (SettingButton.isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY)))
+                        EDITOR_Setting = true;
                     bool isClickedTab = false;
                     for (int i = 0; i < TabList.size(); ++i) {
                         if (TabList[i].isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY))) {
@@ -451,10 +495,10 @@ void EditorScreenMove(const float dt) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) EditorPos.x -= 8.0f * dt;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) EditorPos.y -= 8.0f * dt;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) EditorPos.y += 8.0f * dt;
-        if (EditorPos.x <= 0.0f) EditorPos.x = 0.0f;
-        else if (EditorPos.x >= TEST_LevelWidth - Width) EditorPos.x = TEST_LevelWidth - Width;
-        if (EditorPos.y <= 0.0f) EditorPos.y = 0.0f;
-        else if (EditorPos.y >= TEST_LevelHeight - Height) EditorPos.y = TEST_LevelHeight - Height;
+        if (EditorPos.x <= -5 * 32.f) EditorPos.x = -5 * 32.f;
+        else if (EditorPos.x >= LevelSize.getProperty<FloatProps>("Level Width")->val - Width + 5 * 32.f) EditorPos.x = LevelSize.getProperty<FloatProps>("Level Width")->val - Width + 5 * 32.f;
+        if (EditorPos.y <= -5 * 32.f) EditorPos.y = -5 * 32.f;
+        else if (EditorPos.y >= LevelSize.getProperty<FloatProps>("Level Height")->val - Height + 5 * 32.f) EditorPos.y = LevelSize.getProperty<FloatProps>("Level Height")->val - Height + 5 * 32.f;
     }
 }
 

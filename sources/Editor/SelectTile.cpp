@@ -82,6 +82,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
     }
 }};
 std::array<MFCPP::TabButton, 5> TabList{};
+MFCPP::TabButton SettingButton;
 
 int CurrSelectTile = 0;
 int PrevSelectTile = -1;
@@ -99,12 +100,15 @@ void SelectTileInit() {
     ImageManager::AddTexture( "EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
     ImageManager::AddTexture( "EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
     ImageManager::AddTexture( "EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
+    ImageManager::AddTexture( "EDITOR_SettingButton", "data/resources/Editor/EDITOR_TAB/EDITOR_Settings.png");
 
     TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
     TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
     TabList[2].setTexture(*ImageManager::GetReturnTexture("EDITOR_EnemyTab"));
     TabList[3].setTexture(*ImageManager::GetReturnTexture("EDITOR_LevelTab"));
     TabList[4].setTexture(*ImageManager::GetReturnTexture("EDITOR_PlatformTab"));
+
+    SettingButton.setTexture(*ImageManager::GetReturnTexture("EDITOR_SettingButton"));
 
     SelectTileWidth = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
     SelectTileHeight = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
@@ -165,17 +169,21 @@ void SelectTilePosUpdate() {
     TabList[3].setPosition(sf::Vector2f(254.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
     TabList[4].setPosition(sf::Vector2f(296.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
 
+    SettingButton.setPosition(sf::Vector2f(29.f, 10.f) + EditorInterpolatedPos);
+
     if (!EDITOR_SELECTTILE) return;
 
     const float ModX = f_mod(SelectTileBackground[0].position.x, 32.0f);
     const float ModY = f_mod(SelectTileBackground[0].position.y, 32.0f);
     const float BoxTileX = SelectTileBackground[0].position.x - ModX;
     const float BoxTileY = SelectTileBackground[0].position.y - ModY;
-    SelectTileX = std::floor((MouseX + BoxTileX < 0 ? 0 : MouseX + BoxTileX) / 32.0f) * 32.0f + ModX;
-    SelectTileY = std::floor((MouseY + BoxTileY < 0 ? 0 : MouseY + BoxTileY) / 32.0f) * 32.0f + ModY;
+    SelectTileX = std::floor((MouseX + BoxTileX) / 32.0f) * 32.0f + ModX;
+    SelectTileY = std::floor((MouseY + BoxTileY) / 32.0f) * 32.0f + ModY;
     //Update Tile Select Position
-    TilePosX = std::ceil(SelectTileX - BoxTileX - ModX - 128.0f);
-    TilePosY = std::ceil(SelectTileY - BoxTileY - ModY - 96.0f);
+    const float TilePosXBefore = SelectTileX - BoxTileX - ModX - 128.0f;
+    const float TilePosYBefore = SelectTileY - BoxTileY - ModY - 96.0f;
+    TilePosX = SelectTileBackground[0].position.x < 0 ? std::floor(TilePosXBefore) : std::ceil(TilePosXBefore);
+    TilePosY = SelectTileBackground[0].position.y < 0 ? std::floor(TilePosYBefore) : std::ceil(TilePosYBefore);
 
     SelectTileBox.setPosition(sf::Vector2f(SelectTileX, SelectTileY));
 }
@@ -186,8 +194,10 @@ void SelectTileDraw() {
     window.draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
     window.draw(SelectTileRenderVA, &SelectTileRender.getTexture());
     window.draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
+    window.draw(SettingButton);
 
     for (const auto &i : TabList)
         window.draw(i);
     if (TilePosX >= 0 && TilePosY >= 0) window.draw(SelectTileBox);
+    SettingDialog();
 }

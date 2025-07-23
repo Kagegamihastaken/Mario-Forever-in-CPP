@@ -22,6 +22,7 @@ extern void EditorEvent(const std::optional<sf::Event>& event);
 extern void TilePosUpdate(float dt);
 extern void SelectedTilePosUpdate();
 extern void EditorInit();
+extern void SettingDialog();
 
 static float lastPlaceX = -1.0f;
 static float lastPlaceY = -1.0f;
@@ -48,9 +49,6 @@ static bool GridAlphaState = true;
 constexpr float GRIDALPHA_MAX = 255.0f;
 constexpr float GRIDALPHA_MIN = 0.0f;
 constexpr float GRIDALPHA_CHANGE = 1.0f;
-//Level Data
-static float TEST_LevelWidth = 10016.0f;
-static float TEST_LevelHeight = 480.0f;
 //Selected Block HUD
 static sf::Sprite SelectedBlock(tempTex);
 
@@ -85,7 +83,12 @@ static bool EDITOR_BuildMode = ON;
 //Save & Load
 static bool EDITOR_OpenDialog = false;
 static bool EDITOR_SaveDialog = false;
-//
+
+//Setting
+static bool EDITOR_Setting = false;
+static CustomTileProperty BgColor(ColorProps("First Background Color", MFCPP::Color::LevelDefaultFirst), ColorProps("Second Background Color", MFCPP::Color::LevelDefaultSecond));
+static CustomTileProperty LevelSize(FloatProps("Level Width", 640.f, 640.f, 32000.f), FloatProps("Level Height", 480.f, 480.f, 32000.f));
+//SaveTile For Edit Property
 static RenderTile SaveTile;
 
 #endif //EDITOR_HPP

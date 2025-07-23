@@ -6,7 +6,7 @@
 #include "Editor/TileProperty.hpp"
 #include "Core/Logging.hpp"
 #include "Editor/TabButton.hpp"
-using TileProperty = std::variant<IntProps, BoolProps, StringProps, FloatProps, Vector2fProps>;
+using TileProperty = std::variant<IntProps, BoolProps, StringProps, FloatProps, Vector2fProps, ColorProps>;
 class CustomTileProperty {
 public:
     explicit CustomTileProperty(const TileProperty &arg) {
@@ -80,6 +80,7 @@ extern bool EDITOR_SELECTTILE;
 extern sf::Clock EDITOR_SELECTILE_CLOCK;
 extern const std::array<std::vector<SelectTileData>, 5> TilePage;
 extern std::array<MFCPP::TabButton, 5> TabList;
+extern MFCPP::TabButton SettingButton;
 
 extern int CurrSelectTile;
 extern int PrevSelectTile;

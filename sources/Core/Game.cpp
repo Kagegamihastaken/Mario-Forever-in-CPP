@@ -102,7 +102,6 @@ void GameLoadLevel() {
         Bgbuilding();
         Obstaclebuilding();
         Objectbuilding();
-        BgGradientInitPos();
         ExitGateBuilding();
     }
 }
@@ -279,7 +278,6 @@ void GameObjectMiscUpdate() {
         //Update Position that stuck on scree
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
-        BgGradientPosUpdate();
         SelectedTilePosUpdate();
         SelectTilePosUpdate();
     }
