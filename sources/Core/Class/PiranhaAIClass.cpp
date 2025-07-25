@@ -1,6 +1,33 @@
 #include "Core/Class/PiranhaAIClass.hpp"
 
 namespace MFCPP {
+	PiranhaAI::PiranhaAI(const PiranhaID id, const PiranhaDirection dir, const float speed, const float stop_time, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_ID(id), m_direction(dir), m_hitbox(hitbox), m_speed(speed), m_stop_time(stop_time) {
+		m_Disabled = true;
+		switch (dir) {
+			case PIRANHA_UP:
+				setCurrentPosition(pos + sf::Vector2f(0.f, 64.f));
+				break;
+			case PIRANHA_DOWN:
+				setCurrentPosition(pos - sf::Vector2f(0.f, 64.f));
+				break;
+			case PIRANHA_RIGHT:
+				setCurrentPosition(pos + sf::Vector2f(64.f, 0.f));
+				break;
+			case PIRANHA_LEFT:
+				setCurrentPosition(pos - sf::Vector2f(64.f, 0.f));
+				break;
+			default: ;
+		}
+		setPreviousPosition(getCurrentPosition());
+		setInterpolatedPosition(getCurrentPosition());
+		setOrigin(origin);
+
+		m_position_limit = 64.f;
+		m_position_temporary = 64.f;
+		m_state = true;
+		m_stop = false;
+		m_distance_appear = 80.f;
+	}
 	void PiranhaAI::setID(const PiranhaID ID) {
 		m_ID = ID;
 	}
@@ -66,5 +93,8 @@ namespace MFCPP {
 	}
 	float PiranhaAI::getDistanceAppear() const {
 		return m_distance_appear;
+	}
+	PiranhaDirection PiranhaAI::getDirection() const {
+		return m_direction;
 	}
 }

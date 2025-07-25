@@ -86,19 +86,23 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="added ability to change background &amp; modify parallax">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="add 4 direction of GreenPiranha">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Background/Bg.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Background/Bg.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Editor/Editor.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/Editor.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/resources/Piranha/PiranhaGreen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/resources/Tileset.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/Tileset.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIClass.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/PiranhaAI.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/PiranhaAI.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Class/PiranhaAIClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/PiranhaAIClass.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -730,15 +734,8 @@
       <workItem from="1753323503384" duration="8833000" />
       <workItem from="1753351547407" duration="233000" />
       <workItem from="1753354145837" duration="651000" />
-      <workItem from="1753409390283" duration="6848000" />
-    </task>
-    <task id="LOCAL-00006" summary="fixed view seems glitching">
-      <option name="closed" value="true" />
-      <created>1747296874276</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1747296874276</updated>
+      <workItem from="1753409390283" duration="11748000" />
+      <workItem from="1753442101310" duration="4030000" />
     </task>
     <task id="LOCAL-00007" summary="fixed view seems glitching">
       <option name="closed" value="true" />
@@ -1124,7 +1121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753242676428</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="added ability to change background &amp; modify parallax">
+      <option name="closed" value="true" />
+      <created>1753416561942</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1753416561942</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1360,7 +1365,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="fix static linking in mingw &amp; improve collision for better performance" />
     <MESSAGE value="fixing bug, will optimize render performance" />
     <MESSAGE value="refactor sources folder" />
     <MESSAGE value="logging implement and revamp error handling (thanks to fmt &amp; cpptrace library)" />
@@ -1385,7 +1389,8 @@
     <MESSAGE value="integrate json parser in gameplay &amp; complete done platform" />
     <MESSAGE value="added ability to setting level length &amp; bg color" />
     <MESSAGE value="added ability to change background &amp; modify parallax" />
-    <option name="LAST_COMMIT_MESSAGE" value="added ability to change background &amp; modify parallax" />
+    <MESSAGE value="add 4 direction of GreenPiranha" />
+    <option name="LAST_COMMIT_MESSAGE" value="add 4 direction of GreenPiranha" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -7,7 +7,7 @@
 extern std::vector<MFCPP::PiranhaAI> PiranhaAIList;
 extern void SetPrevPiranhaAIPos();
 extern void InterpolatePiranhaAIPos(float alpha);
-extern void AddPiranha(PiranhaID ID, float x, float y);
+extern void AddPiranha(PiranhaID ID, PiranhaDirection dir, float x, float y);
 extern void PiranhaAIInit();
 extern void PiranhaAIStatusUpdate();
 extern void PiranhaAIDraw();

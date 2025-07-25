@@ -8,8 +8,11 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Class/PiranhaAIClass.hpp"
-static std::vector<std::string> PiranhaAnimName;
-static constexpr int PIRANHA_IMAGE_WIDTH = 128;
+static std::vector<std::string> GreenPiranhaUpAnimName;
+static std::vector<std::string> GreenPiranhaDownAnimName;
+static std::vector<std::string> GreenPiranhaRightAnimName;
+static std::vector<std::string> GreenPiranhaLeftAnimName;
+static constexpr int PIRANHA_IMAGE_WIDTH = 256;
 static constexpr int PIRANHA_WIDTH = 64;
 static constexpr int PIRANHA_HEIGHT = 64;
 std::vector<MFCPP::PiranhaAI> PiranhaAIList;
@@ -23,10 +26,15 @@ void ClearPiranhaAI() {
 }
 void PiranhaAIInit() {
 	for (int i = 0; i < PIRANHA_IMAGE_WIDTH / PIRANHA_WIDTH; ++i) {
-		ImageManager::AddTexture(fmt::format("PiranhaGreen_{}", i), "data/resources/Piranha/PiranhaGreen.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		PiranhaAnimName.emplace_back(fmt::format("PiranhaGreen_{}", i));
+		ImageManager::AddTexture(fmt::format("GreenPiranhaGreenUp_{}", i), "data/resources/Piranha/GreenPiranhaGreenUp.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
+		GreenPiranhaUpAnimName.emplace_back(fmt::format("GreenPiranhaGreenUp_{}", i));
+		ImageManager::AddTexture(fmt::format("GreenPiranhaGreenDown_{}", i), "data/resources/Piranha/GreenPiranhaGreenDown.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
+		GreenPiranhaDownAnimName.emplace_back(fmt::format("GreenPiranhaGreenDown_{}", i));
+		ImageManager::AddTexture(fmt::format("GreenPiranhaGreenRight_{}", i), "data/resources/Piranha/GreenPiranhaGreenRight.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
+		GreenPiranhaRightAnimName.emplace_back(fmt::format("GreenPiranhaGreenRight_{}", i));
+		ImageManager::AddTexture(fmt::format("GreenPiranhaGreenLeft_{}", i), "data/resources/Piranha/GreenPiranhaGreenLeft.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
+		GreenPiranhaLeftAnimName.emplace_back(fmt::format("GreenPiranhaGreenLeft_{}", i));
 	}
-	//PiranhaAITextureManager.LoadingAnimatedTexture(PIRANHA_GREEN_TEXTURE, "PiranhaGreen", 0, 1, 0, 64, 64);
 }
 void SetPrevPiranhaAIPos() {
 	for (auto &i : PiranhaAIList) {
@@ -40,29 +48,35 @@ void InterpolatePiranhaAIPos(const float alpha) {
 		i.setInterpolatedPosition(linearInterpolation(i.getPreviousPosition(), i.getCurrentPosition(), alpha));
 	}
 }
-void AddPiranha(const PiranhaID ID, const float x, const float y) {
-	PiranhaAIList.emplace_back();
+void AddPiranha(const PiranhaID ID, const PiranhaDirection dir, const float x, const float y) {
 	switch (ID) {
 		case GREEN:
-			PiranhaAIList.back().setAnimation(0, 1, 14);
-			PiranhaAIList.back().setAnimationSequence(PiranhaAnimName);
-			PiranhaAIList.back().setSpeed(1.0f);
-			PiranhaAIList.back().setStopTime(1.4f);
-			PiranhaAIList.back().setDistanceAppear(80.0f);
+			switch (dir) {
+			case PIRANHA_UP:
+				PiranhaAIList.emplace_back(ID, PIRANHA_UP, 1.f, 1.4f, sf::FloatRect({ 16, 17 }, { 31, 47 }), sf::Vector2f(x, y), sf::Vector2f(32, 63));
+				PiranhaAIList.back().setAnimation(0, 3, 24);
+				PiranhaAIList.back().setAnimationSequence(GreenPiranhaUpAnimName);
+				break;
+			case PIRANHA_DOWN:
+				PiranhaAIList.emplace_back(ID, PIRANHA_DOWN, 1.f, 1.4f, sf::FloatRect({ 16, 0 }, { 31, 47 }), sf::Vector2f(x, y), sf::Vector2f(32, 0));
+				PiranhaAIList.back().setAnimation(0, 3, 24);
+				PiranhaAIList.back().setAnimationSequence(GreenPiranhaDownAnimName);
+				break;
+			case PIRANHA_RIGHT:
+				PiranhaAIList.emplace_back(ID, PIRANHA_RIGHT, 1.f, 1.4f, sf::FloatRect({ 17, 17 }, { 47, 31 }), sf::Vector2f(x, y), sf::Vector2f(63, 32));
+				PiranhaAIList.back().setAnimation(0, 3, 24);
+				PiranhaAIList.back().setAnimationSequence(GreenPiranhaRightAnimName);
+				break;
+			case PIRANHA_LEFT:
+				PiranhaAIList.emplace_back(ID, PIRANHA_LEFT, 1.f, 1.4f, sf::FloatRect({ 0, 17 }, { 47, 31 }), sf::Vector2f(x, y), sf::Vector2f(0, 32));
+				PiranhaAIList.back().setAnimation(0, 3, 24);
+				PiranhaAIList.back().setAnimationSequence(GreenPiranhaLeftAnimName);
+				break;
+			default: ;
+			}
 			break;
+		default: ;
 	}
-	PiranhaAIList.back().setID(ID);
-	PiranhaAIList.back().setDisabled(true);
-	PiranhaAIList.back().setHitbox(sf::FloatRect({ 16, 17 }, { 31, 47 }));
-	PiranhaAIList.back().setOrigin({32, 63});
-
-	PiranhaAIList.back().setCurrentPosition(sf::Vector2f({x, y + 64.0f}));
-	PiranhaAIList.back().setPreviousPosition(PiranhaAIList.back().getCurrentPosition());
-	PiranhaAIList.back().setInterpolatedPosition(PiranhaAIList.back().getCurrentPosition());
-	PiranhaAIList.back().setPositionLimit(64.0f);
-	PiranhaAIList.back().setPositionTemporary(64.0f);
-	PiranhaAIList.back().setState(true);
-	PiranhaAIList.back().setStop(false);
 }
 void PiranhaAIMovementUpdate(const float deltaTime) {
 	for (auto & i : PiranhaAIList) {
@@ -72,12 +86,27 @@ void PiranhaAIMovementUpdate(const float deltaTime) {
 			if (!i.getStop()) {
 				if (!i.getState()) {
 					if (i.getPositionTemporary() <= i.getPositionLimit()) {
-						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y + i.getSpeed() * deltaTime });
+						switch (i.getDirection()) {
+							case PIRANHA_UP:
+								i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y + i.getSpeed() * deltaTime });
+								break;
+							case PIRANHA_DOWN:
+								i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y - i.getSpeed() * deltaTime });
+								break;
+							case PIRANHA_RIGHT:
+								i.setCurrentPosition({ i.getCurrentPosition().x + i.getSpeed() * deltaTime, i.getCurrentPosition().y });
+								break;
+							case PIRANHA_LEFT:
+								i.setCurrentPosition({ i.getCurrentPosition().x - i.getSpeed() * deltaTime, i.getCurrentPosition().y });
+								break;
+							default: ;
+						}
 						i.setPositionTemporary(i.getPositionTemporary() + i.getSpeed() * deltaTime);
 					}
 					else {
 						i.setState(true);
-						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y + i.getPositionLimit() - i.getPositionTemporary() });
+						//Set back to original
+						i.setCurrentPosition(i.getCurrentPosition() + sf::Vector2f((i.getPositionLimit() - i.getPositionTemporary()) * static_cast<float>(i.getDirection() == PIRANHA_RIGHT || i.getDirection() == PIRANHA_LEFT), (i.getPositionLimit() - i.getPositionTemporary()) * static_cast<float>(i.getDirection() == PIRANHA_UP || i.getDirection() == PIRANHA_DOWN)));
 						i.setPositionTemporary(i.getPositionLimit());
 						i.setStop(true);
 						i.restartStopClock();
@@ -85,12 +114,27 @@ void PiranhaAIMovementUpdate(const float deltaTime) {
 				}
 				else {
 					if (i.getPositionTemporary() >= 0.0f) {
-						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y - i.getSpeed() * deltaTime });
+						switch (i.getDirection()) {
+							case PIRANHA_UP:
+								i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y - i.getSpeed() * deltaTime });
+								break;
+							case PIRANHA_DOWN:
+								i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y + i.getSpeed() * deltaTime });
+								break;
+							case PIRANHA_RIGHT:
+								i.setCurrentPosition({ i.getCurrentPosition().x - i.getSpeed() * deltaTime, i.getCurrentPosition().y });
+								break;
+							case PIRANHA_LEFT:
+								i.setCurrentPosition({ i.getCurrentPosition().x + i.getSpeed() * deltaTime, i.getCurrentPosition().y });
+								break;
+							default: ;
+						}
 						i.setPositionTemporary(i.getPositionTemporary() - i.getSpeed() * deltaTime);
 					}
 					else {
 						i.setState(false);
-						i.setCurrentPosition({ i.getCurrentPosition().x, i.getCurrentPosition().y - i.getPositionTemporary() });
+						//Set back to normal
+						i.setCurrentPosition(i.getCurrentPosition() - sf::Vector2f(i.getPositionTemporary() * static_cast<float>(i.getDirection() == PIRANHA_RIGHT || i.getDirection() == PIRANHA_LEFT), i.getPositionTemporary() * static_cast<float>(i.getDirection() == PIRANHA_UP || i.getDirection() == PIRANHA_DOWN)));
 						i.setPositionTemporary(0.0f);
 						i.setStop(true);
 						i.restartStopClock();

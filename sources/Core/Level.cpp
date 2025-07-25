@@ -212,7 +212,7 @@ void Objectbuilding() {
 					AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
 					break;
 				case 1:
-					AddPiranha(static_cast<PiranhaID>(i[1]), i[3], i[4]);
+					AddPiranha(static_cast<PiranhaID>(i[1]), static_cast<PiranhaDirection>(i[2]), i[3], i[4]);
 					break;
 				case 2:
 					AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);

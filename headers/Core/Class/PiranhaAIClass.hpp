@@ -8,7 +8,8 @@
 namespace MFCPP {
     class PiranhaAI final : public SingleAnimationObject, public ActiveObject<float> {
     public:
-        PiranhaAI() = default;
+        ~PiranhaAI() = default;
+        PiranhaAI(PiranhaID id, PiranhaDirection dir, float speed, float stop_time, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         void setID(PiranhaID ID);
         [[nodiscard]] PiranhaID getID() const;
         void setHitbox(const sf::FloatRect& hitbox);
@@ -31,19 +32,21 @@ namespace MFCPP {
         [[nodiscard]] bool getStop() const;
         void setDistanceAppear(float distance_appear);
         [[nodiscard]] float getDistanceAppear() const;
+        [[nodiscard]] PiranhaDirection getDirection() const;
 
     private:
-        PiranhaID     m_ID{};
-        sf::FloatRect m_hitbox{};
-        bool          m_Disabled{};
-        float         m_speed{};
-        float         m_position_limit{};
-        float         m_position_temporary{};
-        bool          m_state{};
-        float         m_stop_time{};
-        sf::Clock     m_stop_clock;
-        bool          m_stop{};
-        float         m_distance_appear{};
+        PiranhaID        m_ID{};
+        PiranhaDirection m_direction{};
+        sf::FloatRect    m_hitbox{};
+        bool             m_Disabled{};
+        float            m_speed{};
+        float            m_position_limit{};
+        float            m_position_temporary{};
+        bool             m_state{};
+        float            m_stop_time{};
+        sf::Clock        m_stop_clock;
+        bool             m_stop{};
+        float            m_distance_appear{};
     };
 }
 
