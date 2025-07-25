@@ -20,6 +20,7 @@ public:
 	static void LoadTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect = {}, const bool &isRepeated = false);
 	static sf::Texture& GetTexture(const std::string &name);
 	static sf::Texture* GetReturnTexture(const std::string& name);
+	static bool isExist(const std::string& name_tex);
 	static void Cleanup();
 };
 

@@ -32,9 +32,8 @@
 #include "Object/Platform.hpp"
 // Level data
 float LevelWidth, LevelHeight;
-static std::vector<std::array<float, 2>> BgData;
+static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
 static std::vector<std::array<float, 3>> LevelData;
-static std::vector<std::array<float, 3>> SlopeData;
 static std::vector<std::array<float, 5>> BonusData;
 static std::vector<std::array<float, 5>> EnemyData;
 static std::vector<PlatformData> PlatformDataList;
@@ -50,7 +49,7 @@ void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos,
 	if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
 		CustomTileProperty custom_props = TilePage[page][id].prop;
 		const nlohmann::json& propsJson = tileObj.at("properties");
-		for (int i = 0; i < TilePage[page][id].prop.getPropertyCount() > 0; ++i) {
+		for (int i = 0; i < TilePage[page][id].prop.getPropertyCount(); ++i) {
 			TileProperty* prop = custom_props.at(i);
 			from_json(propsJson, *prop);
 		}
@@ -77,7 +76,9 @@ void ReadData(const std::filesystem::path& path) {
 	BGFirstColor = levelJson["level_properties"].value("background_first_color", MFCPP::Color::LevelDefaultFirst);
 	BGSecondColor = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
 	MusicData = levelJson["level_properties"].value("music", "DansLaRue");
-
+	const nlohmann::json& bgJson = levelJson["backgrounds"];
+	for (const auto& bgObj : bgJson)
+		BgData.emplace_back(std::make_pair(bgObj.at("name").get<std::string>(), bgObj.value("parallax", sf::Vector2f(1.f, 1.f))));
 	const nlohmann::json& tilesJson = levelJson["tiles"];
 	for (const auto& tileObj : tilesJson) {
 		const int page = tileObj.at("page").get<int>();
@@ -101,198 +102,6 @@ void ReadData(const std::filesystem::path& path) {
 	}
 	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", path.string()));
 }
-/*
-void ReadData(std::string path) {
-	std::string lvldat;
-	LoadLvl(lvldat, path);
-	float value = 0.0f;
-	std::string DataStructure;
-	std::vector<float> temp;
-	int tm = 0;
-	std::string numLoop;
-	// Read the file
-	while (true) {
-		if (DataStructure != "--Level Data--" && DataStructure != "--Tile Data--" && DataStructure != "--Bonus Data--" && DataStructure != "--Enemy Data--" && DataStructure != "--Slope Data--" && DataStructure != "--Background Data--") {
-			tm = ReadStrLine(lvldat, DataStructure, tm);
-		}
-		if (tm == -1) break;
-		if (DataStructure == "--Level Data--") {
-			int C;
-			for (int i = 0; i < 5; ++i) {
-				while (true) {
-					tm = ReadStrLine(lvldat, DataStructure, tm);
-					if (DataStructure == "") continue;
-					C = 0;
-					numLoop = "";
-					for (const auto& j : DataStructure) {
-						if (j != ' ') numLoop += j;
-						else {
-							switch (i) {
-							case 0:
-								if (C == 0) {
-									bgGradient[0].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-									bgGradient[1].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-								}
-								else {
-									bgGradient[2].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-									bgGradient[3].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-								}
-								break;
-							case 1:
-								ExitGateData[C] = std::stof(numLoop);
-								break;
-							case 2:
-								if (C == 0) LevelWidth = std::stof(numLoop);
-								else if (C == 1) LevelHeight = std::stof(numLoop);
-								break;
-							case 3:
-								PlayerData[C] = std::stof(numLoop);
-								break;
-							case 4:
-								if (C == 0) MusicData.first = std::stoi(numLoop);
-								else if (C == 1) MusicData.second = numLoop;
-								break;
-							}
-							++C;
-							numLoop = "";
-						}
-					}
-					if (numLoop != "") {
-						switch (i) {
-						case 0:
-							if (C == 0) {
-								bgGradient[0].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-								bgGradient[1].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-							}
-							else {
-								bgGradient[2].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-								bgGradient[3].color = sf::Color(hex_to_int(numLoop.substr(0, 2)), hex_to_int(numLoop.substr(2, 2)), hex_to_int(numLoop.substr(4, 2)), 255);
-							}
-							break;
-						case 1:
-							ExitGateData[C] = std::stof(numLoop);
-							break;
-						case 2:
-							if (C == 0) LevelWidth = std::stof(numLoop);
-							else if (C == 1) LevelHeight = std::stof(numLoop);
-							break;
-						case 3:
-							PlayerData[C] = std::stof(numLoop);
-							break;
-						case 4:
-							if (C == 0) MusicData.first = std::stoi(numLoop);
-							else if (C == 1) MusicData.second = numLoop;
-							break;
-						}
-					}
-					break;
-				}
-			}
-		}
-		if (DataStructure == "--Background Data--") {
-			while (true) {
-				tm = ReadStrLine(lvldat, DataStructure, tm);
-				if (DataStructure == "") continue;
-				temp.clear();
-				numLoop = "";
-				//if said Bonus Data break it
-				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Slope Data--" || DataStructure == "--Tile Data--") break;
-				for (const auto& i : DataStructure) {
-					if (i != ' ') numLoop += i;
-					else {
-						if (numLoop != "") temp.push_back(std::stof(numLoop));
-						numLoop = "";
-					}
-				}
-				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				BgData.push_back({ temp[0], temp[1] });
-				if (tm == -1) break;
-			}
-		}
-		if (DataStructure == "--Tile Data--") {
-			while (true) {
-				tm = ReadStrLine(lvldat, DataStructure, tm);
-				if (DataStructure == "") continue;
-				temp.clear();
-				numLoop = "";
-				//if said Bonus Data break it
-				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Slope Data--" || DataStructure == "--Background Data--") break;
-				for (const auto& i : DataStructure) {
-					if (i != ' ') numLoop += i;
-					else {
-						if (numLoop != "") temp.push_back(std::stof(numLoop));
-						numLoop = "";
-					}
-				}
-				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				LevelData.push_back({ temp[0], temp[1], temp[2] });
-				if (tm == -1) break;
-			}
-		}
-		if (DataStructure == "--Bonus Data--") {
-			while (true) {
-				tm = ReadStrLine(lvldat, DataStructure, tm);
-				if (DataStructure == "") continue;
-				temp.clear();
-				numLoop = "";
-				//if said Enemies Data break it
-				if (DataStructure == "--Tile Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Slope Data--" || DataStructure == "--Background Data--") break;
-				for (const auto& i : DataStructure) {
-					if (i != ' ') numLoop += i;
-					else {
-						if (numLoop != "") temp.push_back(std::stof(numLoop));
-						numLoop = "";
-					}
-				}
-				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				BonusData.push_back({ temp[0], temp[1], temp[2], temp[3], temp[4] });
-				if (tm == -1) break;
-			}
-		}
-		if (DataStructure == "--Enemy Data--") {
-			while (true) {
-				tm = ReadStrLine(lvldat, DataStructure, tm);
-				if (DataStructure == "") continue;
-				temp.clear();
-				numLoop = "";
-				//if said Enemies Data break it
-				if (DataStructure == "--Bonus Data--" || DataStructure == "--Tile Data--" || DataStructure == "--Slope Data--" || DataStructure == "--Background Data--") break;
-				for (const auto& i : DataStructure) {
-					if (i != ' ') numLoop += i;
-					else {
-						if (numLoop != "") temp.push_back(std::stof(numLoop));
-						numLoop = "";
-					}
-				}
-				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				EnemyData.push_back({ temp[0], temp[1], temp[2], temp[3], temp[4] });
-				if (tm == -1) break;
-			}
-		}
-		if (DataStructure == "--Slope Data--") {
-			while (true) {
-				tm = ReadStrLine(lvldat, DataStructure, tm);
-				if (DataStructure == "") continue;
-				temp.clear();
-				numLoop = "";
-				//if said Bonus Data break it
-				if (DataStructure == "--Bonus Data--" || DataStructure == "--Enemy Data--" || DataStructure == "--Tile Data--" || DataStructure == "--Background Data--") break;
-				for (const auto& i : DataStructure) {
-					if (i != ' ') numLoop += i;
-					else {
-						if (numLoop != "") temp.push_back(std::stof(numLoop));
-						numLoop = "";
-					}
-				}
-				if (numLoop != "") temp.push_back(std::stof(numLoop));
-				SlopeData.push_back({ temp[0], temp[1], temp[2] });
-				if (tm == -1) break;
-			}
-		}
-		if (tm == -1) break;
-	}
-}
-*/
 void Obstaclebuilding() {
 	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)}))
 		throw std::runtime_error("Cannot resize Obstacles Texture");
@@ -334,7 +143,7 @@ void Bgbuilding() {
 	BgGradientSetColor(BGFirstColor.ColorNormalize(), BGSecondColor.ColorNormalize());
 	BgGradientInitPos(LevelWidth, LevelHeight);
 	for (const auto& i : BgData) {
-		AddBg(static_cast<int>(i[0]), static_cast<int>(i[1]));
+		AddBg(i.first, i.second);
 	}
 }
 void ExitGateBuilding() {

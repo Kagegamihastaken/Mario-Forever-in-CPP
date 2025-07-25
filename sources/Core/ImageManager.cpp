@@ -19,6 +19,9 @@ void ImageManager::AddTexture(const std::string &name_tex, const std::filesystem
 	if (m_pre_textures.contains(name_tex)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("ImageManager: Texture {} already exist.", name_tex));
 	m_pre_textures[name_tex] = PreTexture(path, tex_rect, isRepeated);
 }
+bool ImageManager::isExist(const std::string& name_tex) {
+	return m_pre_textures.contains(name_tex);
+}
 
 void ImageManager::LoadTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect,
                               const bool &isRepeated) {

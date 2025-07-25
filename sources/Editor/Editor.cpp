@@ -99,15 +99,94 @@ static void EditPropertyHelper(TileProperty& prop) {
             ImGui::ColorEdit4(arg.name.c_str(), reinterpret_cast<float*>(&arg.val), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoSidePreview);
         }, prop);
 }
+static void DialogPopup(const std::string& name) {
+    if (ImGui::BeginPopup("AddBGDoesntExist")) {
+        ImGui::Text("Cannot Add Texture %s", name.c_str());
+        ImGui::Separator();
+        if (ImGui::Button("Close"))
+            ImGui::CloseCurrentPopup();
+        ImGui::EndPopup();
+    }
+}
+static void AddBGPopup() {
+    if (ImGui::BeginPopup("AddBackgroundPopup")) {
+        ImGui::Text("Add New Background Layer");
+        ImGui::Separator();
+
+        static char BgName[256] = "";
+        ImGui::InputText("BG Name", BgName, IM_ARRAYSIZE(BgName));
+
+        if (ImGui::Button("Add")) {
+            if (strlen(BgName) > 0) {
+                if (ImageManager::isExist(BgName)) {
+                    bool isExist = false;
+                    for (const auto &i : BackgroundLayers) {
+                        if (i.name == BgName) {
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    if (isExist)
+                        ImGui::OpenPopup("AddBGDoesntExist");
+                    else {
+                        BackgroundLayers.emplace_back(BgName);
+                        memset(BgName, 0, sizeof(BgName));
+                        ImGui::CloseCurrentPopup();
+                    }
+                }
+                else {
+                    ImGui::OpenPopup("AddBGDoesntExist");
+                }
+            }
+        }
+        DialogPopup(BgName);
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel"))
+            ImGui::CloseCurrentPopup();
+        ImGui::EndPopup();
+    }
+}
 void SettingDialog() {
     if (EDITOR_Setting) {
         ImGui::Begin("Setting", &EDITOR_Setting, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
         ImGui::SetWindowPos(ImVec2(static_cast<float>(window.getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(window.getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
         if (ImGui::BeginTabBar("SettingTab")) {
-            if (ImGui::BeginTabItem("Background")) {
+            if (ImGui::BeginTabItem("BGGradient")) {
                 for (int i = 0; i < BgColor.getPropertyCount(); ++i) {
                     EditPropertyHelper(*BgColor.at(i));
                 }
+                static int select = 0;
+
+                if (ImGui::BeginListBox("Background")) {
+                    for (int i = 0; i < BackgroundLayers.size(); ++i) {
+                        bool is_selected = (select == i);
+                        ImGuiSelectableFlags flags = (select == i) ? ImGuiSelectableFlags_Highlight : 0;
+                        if (ImGui::Selectable(BackgroundLayers[i].name.c_str(), is_selected, flags))
+                            select = i;
+                        if (is_selected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndListBox();
+                }
+                const bool DisabledBackground = BackgroundLayers.empty();
+                if (DisabledBackground)
+                    ImGui::BeginDisabled();
+                if (!DisabledBackground && select < BackgroundLayers.size()) {
+                    ImGui::PushItemWidth(150);
+                    // Use InputFloat2 for a compact X/Y editor
+                    ImGui::InputFloat2("Parallax Factor", &BackgroundLayers[select].parallaxFactor.x, "%.2f");
+                    ImGui::PopItemWidth();
+                }
+                if (ImGui::Button("Delete")) {
+                    BackgroundLayers.erase(BackgroundLayers.begin() + select);
+                    select = 0;
+                }
+                if (DisabledBackground)
+                    ImGui::EndDisabled();
+                ImGui::SameLine();
+                if (ImGui::Button("Add"))
+                    ImGui::OpenPopup("AddBackgroundPopup");
+                AddBGPopup();
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("Level Size")) {
@@ -118,11 +197,13 @@ void SettingDialog() {
             }
             ImGui::EndTabBar();
         }
+        ImGui::Separator();
         if (ImGui::Button("Confirm")) {
             BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
             BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
             EDITOR_Setting = false;
         }
+        ImGui::SetItemTooltip("Confirm!");
         ImGui::End();
     }
 }
@@ -166,7 +247,14 @@ void FileSave(const std::filesystem::path& path) {
 
     levelJson["exit_gate"]["indicator_pos"] = sf::Vector2f(EDITOR_ExitGateIndicator.getPosition().x - EDITOR_ExitGateIndicator.getOrigin().x + TilePage[LevelTab][1].origin.x, EDITOR_ExitGateIndicator.getPosition().y - EDITOR_ExitGateIndicator.getOrigin().y + TilePage[LevelTab][1].origin.y);
     levelJson["exit_gate"]["gate_pos"] = sf::Vector2f(EDITOR_ExitGate.getPosition().x - EDITOR_ExitGate.getOrigin().x + TilePage[LevelTab][2].origin.x, EDITOR_ExitGate.getPosition().y - EDITOR_ExitGate.getOrigin().y + TilePage[LevelTab][2].origin.y);
-
+    nlohmann::json& bgJson = levelJson["backgrounds"];
+    bgJson = nlohmann::json::array();
+    for (const auto &bg : BackgroundLayers) {
+        nlohmann::json bgObj;
+        bgObj["name"] = bg.name;
+        bgObj["parallax"] = bg.parallaxFactor;
+        bgJson.push_back(bgObj);
+    }
     nlohmann::json& tilesJson = levelJson["tiles"];
     tilesJson = nlohmann::json::array();
     for (const auto & tile: Tile) {
@@ -204,6 +292,12 @@ void FileLoad(const std::filesystem::path& path) {
     catch (nlohmann::json::parse_error& e) {
         MFCPP::Log::ErrorPrint(fmt::format("Failed to parse level file: {}", e.what()));
         return;
+    }
+    BackgroundLayers.clear();
+    const nlohmann::json& bgJson = levelJson["backgrounds"];
+    for (const auto& bgObj : bgJson) {
+        const BackgroundLayer layer(bgObj.at("name").get<std::string>(), bgObj.value("parallax", sf::Vector2f(1.f, 1.f)));
+        BackgroundLayers.push_back(layer);
     }
     Tile.clear();
     LevelSize.getProperty<FloatProps>("Level Width")->val = levelJson["level_properties"].value("width", 10016.f);

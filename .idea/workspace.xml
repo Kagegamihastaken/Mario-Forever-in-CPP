@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="52" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="27" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
@@ -81,29 +81,24 @@
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Release-VS" ENABLED="false" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
-      <configuration PROFILE_NAME="RelWithDebInfo-VS" ENABLED="false" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" />
+      <configuration PROFILE_NAME="RelWithDebInfo-VS" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" />
       <configuration PROFILE_NAME="RelWithDebInfo-MinGW" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="MinGW" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="integrate json parser in gameplay &amp; complete done platform">
-      <change afterPath="$PROJECT_DIR$/headers/Core/Common.hpp" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="added ability to change background &amp; modify parallax">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Background/BgGradient.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Background/BgGradient.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/JsonUtils.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/JsonUtils.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Background/Bg.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Background/Bg.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/headers/Editor/Editor.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/Editor.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Editor/SelectTile.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/SelectTile.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Editor/TileProperty.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Editor/TileProperty.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Background/BgGradient.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Background/BgGradient.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Common.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Common.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/JsonUtils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/JsonUtils.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Tilemap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Tilemap.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +108,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-MinGW" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-VS" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -190,7 +185,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.scopes&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -723,23 +718,19 @@
       <workItem from="1753107930522" duration="1282000" />
       <workItem from="1753151802690" duration="10269000" />
       <workItem from="1753183271102" duration="4750000" />
-      <workItem from="1753237833490" duration="4527000" />
-    </task>
-    <task id="LOCAL-00004" summary="added find string by regex and cleanup code. Fixed bump GoombaAI not dead">
-      <option name="closed" value="true" />
-      <created>1747044135892</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1747044135892</updated>
-    </task>
-    <task id="LOCAL-00005" summary="added imgui-sfml (require imgui and sfml), fixed code">
-      <option name="closed" value="true" />
-      <created>1747115877641</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1747115877641</updated>
+      <workItem from="1753237833490" duration="7687000" />
+      <workItem from="1753250989490" duration="486000" />
+      <workItem from="1753264871415" duration="152000" />
+      <workItem from="1753268677747" duration="30000" />
+      <workItem from="1753268820937" duration="21000" />
+      <workItem from="1753269428676" duration="1258000" />
+      <workItem from="1753271015739" duration="1095000" />
+      <workItem from="1753288688719" duration="171000" />
+      <workItem from="1753289563921" duration="276000" />
+      <workItem from="1753323503384" duration="8833000" />
+      <workItem from="1753351547407" duration="233000" />
+      <workItem from="1753354145837" duration="651000" />
+      <workItem from="1753409390283" duration="6848000" />
     </task>
     <task id="LOCAL-00006" summary="fixed view seems glitching">
       <option name="closed" value="true" />
@@ -1117,7 +1108,23 @@
       <option name="project" value="LOCAL" />
       <updated>1753084293991</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="added ability to setting level length &amp; bg color">
+      <option name="closed" value="true" />
+      <created>1753242666102</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1753242666103</updated>
+    </task>
+    <task id="LOCAL-00054" summary="added ability to setting level length &amp; bg color">
+      <option name="closed" value="true" />
+      <created>1753242676428</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1753242676428</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1353,8 +1360,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="completed FireFLower &amp; FireMario" />
-    <MESSAGE value="cmake change" />
     <MESSAGE value="fix static linking in mingw &amp; improve collision for better performance" />
     <MESSAGE value="fixing bug, will optimize render performance" />
     <MESSAGE value="refactor sources folder" />
@@ -1378,7 +1383,9 @@
     <MESSAGE value="Added Custom Tile Property for Editor after so long" />
     <MESSAGE value="Overhaul save &amp; load system (using imgui)" />
     <MESSAGE value="integrate json parser in gameplay &amp; complete done platform" />
-    <option name="LAST_COMMIT_MESSAGE" value="integrate json parser in gameplay &amp; complete done platform" />
+    <MESSAGE value="added ability to setting level length &amp; bg color" />
+    <MESSAGE value="added ability to change background &amp; modify parallax" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ability to change background &amp; modify parallax" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

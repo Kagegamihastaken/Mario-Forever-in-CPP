@@ -9,6 +9,11 @@
 #include "Core/SimpleSprite.hpp"
 #include "SFML/Window/Event.hpp"
 
+struct BackgroundLayer {
+    std::string name;
+    sf::Vector2f parallaxFactor = {1.f, 1.f};
+};
+
 extern sf::Vector2f EditorPos;
 extern sf::Vector2f EditorInterpolatedPos;
 
@@ -88,6 +93,7 @@ static bool EDITOR_SaveDialog = false;
 static bool EDITOR_Setting = false;
 static CustomTileProperty BgColor(ColorProps("First Background Color", MFCPP::Color::LevelDefaultFirst), ColorProps("Second Background Color", MFCPP::Color::LevelDefaultSecond));
 static CustomTileProperty LevelSize(FloatProps("Level Width", 640.f, 640.f, 32000.f), FloatProps("Level Height", 480.f, 480.f, 32000.f));
+static std::vector<BackgroundLayer> BackgroundLayers;
 //SaveTile For Edit Property
 static RenderTile SaveTile;
 
