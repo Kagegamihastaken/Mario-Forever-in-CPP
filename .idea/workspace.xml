@@ -87,39 +87,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="add 4 direction of Pink Piranha">
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/GreenPiranhaDown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/GreenPiranhaLeft.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/GreenPiranhaRight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/GreenPiranhaUp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/PinkPiranhaDown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/PinkPiranhaLeft.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/PinkPiranhaRight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resources/Piranha/PinkPiranhaUp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIProjectileClass.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Projectiles/PiranhaProjectile.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Projectiles/ProjectileHelper.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/Class/PiranhaAIProjectileClass.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Projectiles/PiranhaProjectile.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Projectiles/ProjectileHelper.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIClass.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Class/PiranhaAIClass.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Object/PiranhaAI.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/PiranhaAI.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Projectiles/BroAIProjectile.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Projectiles/BroAIProjectile.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Projectiles/MarioProjectile.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Projectiles/MarioProjectile.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Class/PiranhaAIClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Class/PiranhaAIClass.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/PiranhaAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Projectiles/BroAIProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/BroAIProjectile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -755,15 +728,7 @@
       <workItem from="1753442101310" duration="4896000" />
       <workItem from="1753459255610" duration="5813000" />
       <workItem from="1753465180770" duration="62000" />
-      <workItem from="1753496557133" duration="3028000" />
-    </task>
-    <task id="LOCAL-00008" summary="fix some silly bug">
-      <option name="closed" value="true" />
-      <created>1747821336473</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1747821336473</updated>
+      <workItem from="1753496557133" duration="5385000" />
     </task>
     <task id="LOCAL-00009" summary="improve coding structure for PiranhaAI">
       <option name="closed" value="true" />
@@ -1149,7 +1114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753446199850</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="add 4 direction of Pink Piranha">
+      <option name="closed" value="true" />
+      <created>1753499640647</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1753499640648</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

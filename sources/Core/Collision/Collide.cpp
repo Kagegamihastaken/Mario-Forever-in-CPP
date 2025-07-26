@@ -114,8 +114,16 @@ bool isAccurateCollideBotStopEdge(const MFCPP::CollisionObject& CollideObj, cons
 				if (f_abs(hitbox_intersect.position.x - CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f) - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
 				//if (f_abs(CollideObj.GetPosition().x - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
 
-				if (MFCPP::getIndexTilemapCollision(hitbox_loop.position.x, hitbox_loop.position.y) || MFCPP::getIndexTilemapCollision(hitbox_loop.position.x, hitbox_loop.position.y + MFCPP::getTileSize()))
+				if (MFCPP::getIndexTilemapCollision(hitbox_loop.position.x, hitbox_loop.position.y))
 					return true;
+				if (MFCPP::getIndexTilemapID(hitbox_loop.position.x - CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f), hitbox_loop.position.y) == 3) {
+					if (MFCPP::getIndexTilemapCollision(hitbox_loop.position.x, hitbox_loop.position.y + MFCPP::getTileSize()))
+						return true;
+				}
+				else {
+					if (MFCPP::getIndexTilemapCollision(hitbox_loop.position.x, hitbox_loop.position.y + MFCPP::getTileSize()) && MFCPP::getIndexTilemapID(hitbox_loop.position.x, hitbox_loop.position.y + MFCPP::getTileSize()) == 3)
+						return true;
+				}
 			}
 		}
 	}
