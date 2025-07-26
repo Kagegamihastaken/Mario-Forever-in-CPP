@@ -26,8 +26,9 @@ enum GoombaAIBehaviour {GOOMBAAI_NORMAL, GOOMBAAI_REDKOOPA};
 //enum for goombaAIEffect
 enum GoombaAIEffectID { NONE, COLLIDE };
 //enum for PiranhaAI
-enum PiranhaID { GREEN };
+enum PiranhaID { GREEN, PINK };
 enum PiranhaDirection {PIRANHA_UP, PIRANHA_DOWN, PIRANHA_RIGHT, PIRANHA_LEFT};
+enum PiranhaProjectileType {PIRANHA_FIREBALL};
 //enum for Spike
 enum SpikeID { PIRANHA_GROUND, SPIKE_NORMAL };
 //enum for Scene

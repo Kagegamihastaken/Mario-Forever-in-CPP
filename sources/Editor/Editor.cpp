@@ -239,7 +239,6 @@ void FileSave(const std::filesystem::path& path) {
     levelJson["level_properties"]["height"] = LevelSize.getProperty<FloatProps>("Level Height")->val;
     //TODO: Add Custom Music
     levelJson["level_properties"]["music"] = "DansLaRue";
-    //TODO: Add Custom Color
     levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
     levelJson["level_properties"]["background_second_color"] = BgColor.getProperty<ColorProps>("Second Background Color")->val;
 

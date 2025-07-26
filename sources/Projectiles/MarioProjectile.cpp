@@ -1,5 +1,4 @@
 #include "Core/Class/MarioProjectileClass.hpp"
-#include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
@@ -12,13 +11,11 @@
 #include "Object/GoombaAI.hpp"
 #include "Object/PiranhaAI.hpp"
 #include "Object/Mario.hpp"
+#include "Projectiles/MarioProjectile.hpp"
 
 plf::colony<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;
 
-void MarioProjectileInit() {
-    ImageManager::AddTexture("Fireball", "data/resources/Projectiles/Fireball.png");
-}
 int getAmountProjectile() {
     return static_cast<int>(MarioProjectileList.size());
 }

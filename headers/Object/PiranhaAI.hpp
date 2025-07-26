@@ -15,5 +15,6 @@ extern void PiranhaAIMovementUpdate(float deltaTime);
 extern void DeletePiranhaAIIndex(int i);
 extern void ClearPiranhaAI();
 extern void PiranhaAICleanup();
+extern void PiranhaAIShoot(float deltaTime);
 
 #endif

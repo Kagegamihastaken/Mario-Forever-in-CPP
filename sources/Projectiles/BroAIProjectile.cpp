@@ -1,5 +1,4 @@
 #include "Core/Class/BroAIProjectileClass.hpp"
-#include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
@@ -10,9 +9,6 @@
 
 std::vector<MFCPP::BroAIProjectile> BroAIProjectileList;
 
-void BroAIProjectileInit() {
-    ImageManager::AddTexture("Hammer", "data/resources/Projectiles/Hammer.png");
-}
 void SetPrevBroAIProjectilePos() {
     for (auto & i : BroAIProjectileList) {
         i.setPreviousPosition(i.getCurrentPosition());

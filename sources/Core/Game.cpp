@@ -35,6 +35,8 @@
 #include "Object/BulletBill.hpp"
 #include "Object/Platform.hpp"
 #include "Projectiles/MarioProjectile.hpp"
+#include "Projectiles/PiranhaProjectile.hpp"
+#include "Projectiles/ProjectileHelper.hpp"
 
 void GameObjectInit() {
     InitTempTex();
@@ -47,8 +49,7 @@ void GameObjectInit() {
     LoadBricks();
     LoadLuckyBlock();
     GoombaAILoadRes();
-    BroAIProjectileInit();
-    MarioProjectileInit();
+    ProjectileInit();
     BroAILoadRes();
     BroAIEffectInit();
     CoinEffectInit();
@@ -152,6 +153,7 @@ void GameObjectSetPrev() {
         SetPrevBulletBillPos();
         SetPrevBulletBillEffectPos();
         SetPrevPlatformPos();
+        SetPrevPiranhaAIProjectilePos();
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         SetPrevEditor();
@@ -160,28 +162,39 @@ void GameObjectSetPrev() {
 void GameObjectDeltaMovement(const float dt) {
     if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
         PlatformPositionUpdate(dt);
+
         KeyboardMovement(dt);
         MarioUpdateHitbox();
         MarioPosXUpdate(dt);
         MarioVertXUpdate();
         MarioPosYUpdate(dt);
         MarioVertYUpdate();
+
         GoombaAIVertXUpdate(dt);
         GoombaAIVertYUpdate(dt);
+
         BroAIVertXUpdate(dt);
         BroAIVertYUpdate(dt);
         BroAIShootUpdate(dt);
+
         GoombaAIEffectVertYUpdate(dt);
+
         BroAIProjectileMovementUpdate(dt);
         BroAIProjectileSpin(dt);
         BroAIEffectVertYUpdate(dt);
+        BroAIEffectStatusUpdate(dt);
+
         MarioProjectileMovementUpdate(dt);
         MarioProjectileSpin(dt);
 
         PiranhaAIMovementUpdate(dt);
+        PiranhaAIShoot(dt);
+        PiranhaAIProjectileMovementUpdate(dt);
+        PiranhaAIProjectileSpin(dt);
+
         GoombaStatusUpdate(dt);
-        BroAIEffectStatusUpdate(dt);
         GoombaAIEffectStatusUpdate(dt);
+
         CoinEffectStatusUpdate(dt);
         ScoreEffectStatusUpdate(dt);
         BrickParticleStatusUpdate(dt);
@@ -236,6 +249,7 @@ void GameObjectInterpolateMovement(const float alpha) {
         InterpolateBulletBillPos(alpha);
         InterpolateBulletBillEffectPos(alpha);
         InterpolatePlatformPos(alpha);
+        InterpolatePiranhaAIProjectilePos(alpha);
     }
     else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) {
         InterpolateEditorPos(alpha);
@@ -251,6 +265,7 @@ void GameObjectCollision() {
         PlatformStatusUpdate();
         BroAIProjectileCollision();
         MarioProjectileCollision();
+        PiranhaAIProjectileCollision();
         BroAIStatusUpdate();
         GoombaAICheckCollide();
         GoombaAICollisionUpdate();
@@ -260,6 +275,7 @@ void GameObjectCollision() {
         CheckForDeath();
         BroAIProjectileStatusUpdate();
         MarioProjectileStatusUpdate();
+        PiranhaAIProjectileStatusUpdate();
         BroAICheckCollide();
         FireballExplosionStatusUpdate();
         BulletBillCheckCollide();
@@ -312,6 +328,7 @@ void GameObjectDraw() {
         ScoreEffectDraw();
         BroAIProjectileDraw();
         MarioProjectileDraw();
+        PiranhaAIProjectileDraw();
         FireballExplosionDraw();
         MarioEffectDraw();
         ExitGateEffectDraw();
@@ -341,5 +358,6 @@ void GameCleanUp() {
         SpikeCleanup();
         LuckyBlockCleanup();
         PlatformCleanup();
+        PiranhaAIProjectileCleanup();
     }
 }

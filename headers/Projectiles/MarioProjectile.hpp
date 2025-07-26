@@ -2,7 +2,6 @@
 #define FIREBALL_HPP
 #include "Core/Loading/enum.hpp"
 
-extern void MarioProjectileInit();
 extern void SetPrevMarioProjectilePos();
 extern void InterpolateMarioProjectilePos(float alpha);
 extern void DeleteMarioProjectile(float x, float y);

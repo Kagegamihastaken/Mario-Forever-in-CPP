@@ -30,6 +30,7 @@
 #include "Object/BulletBill.hpp"
 #include "Object/Mario.hpp"
 #include "Object/Platform.hpp"
+#include "Projectiles/PiranhaProjectile.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
@@ -173,6 +174,7 @@ void Objectbuilding() {
 	DeleteAllMarioProjectile();
 	DeleteAllBroAIEffect();
 	DeleteAllFireballExplosion();
+	DeleteAllPiranhaAIProjectile();
 	//Delete Objects
 	DeleteAllBrick();
 	DeleteAllCoin();

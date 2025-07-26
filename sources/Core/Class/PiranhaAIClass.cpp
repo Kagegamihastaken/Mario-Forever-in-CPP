@@ -1,7 +1,8 @@
 #include "Core/Class/PiranhaAIClass.hpp"
 
 namespace MFCPP {
-	PiranhaAI::PiranhaAI(const PiranhaID id, const PiranhaDirection dir, const float speed, const float stop_time, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_ID(id), m_direction(dir), m_hitbox(hitbox), m_speed(speed), m_stop_time(stop_time) {
+	PiranhaAI::PiranhaAI(const PiranhaID id, const PiranhaDirection dir, const float speed, const float stop_time, const unsigned fire_count, const float fire_interval, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin)
+	: m_ID(id), m_direction(dir), m_hitbox(hitbox), m_speed(speed), m_stop_time(stop_time), m_fire_count(fire_count), m_fire_interval(fire_interval) {
 		m_Disabled = true;
 		switch (dir) {
 			case PIRANHA_UP:
@@ -27,6 +28,8 @@ namespace MFCPP {
 		m_state = true;
 		m_stop = false;
 		m_distance_appear = 80.f;
+		m_fire_counting = 0;
+		m_fire_ticking = 0.f;
 	}
 	void PiranhaAI::setID(const PiranhaID ID) {
 		m_ID = ID;
@@ -96,5 +99,29 @@ namespace MFCPP {
 	}
 	PiranhaDirection PiranhaAI::getDirection() const {
 		return m_direction;
+	}
+	void PiranhaAI::setFireCount(const unsigned val) {
+		m_fire_count = val;
+	}
+	unsigned PiranhaAI::getFireCount() const {
+		return m_fire_count;
+	}
+	void PiranhaAI::setFireCounting(const unsigned val) {
+		m_fire_counting = val;
+	}
+	unsigned PiranhaAI::getFireCounting() const {
+		return m_fire_counting;
+	}
+	void PiranhaAI::setFireInterval(const float val) {
+		m_fire_interval = val;
+	}
+	float PiranhaAI::getFireInterval() const {
+		return m_fire_interval;
+	}
+	void PiranhaAI::setFireTicking(const float val) {
+		m_fire_ticking = val;
+	}
+	float PiranhaAI::getFireTicking() const {
+		return m_fire_ticking;
 	}
 }

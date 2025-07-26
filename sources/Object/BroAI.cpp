@@ -143,7 +143,7 @@ void BroAIShootUpdate(const float deltaTime) {
             else {
                 if (it->getLaunchCounting() > 0) {
                     if (it->getLaunchIBTicking() < it->getLaunchIntervalBetween()) {
-                        it->setLaunchIBTicking(it->getLaunchIBTicking() + 1.0f * deltaTime);
+                        it->setLaunchIBTicking(it->getLaunchIBTicking() + 1.f * deltaTime);
                     }
                     else {
                         BroLaunchProjectile(it);
