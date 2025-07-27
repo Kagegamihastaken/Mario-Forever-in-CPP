@@ -17,7 +17,7 @@
 
 #include "Core/Logging.hpp"
 sf::Shader notShader;
-
+static bool isJump = false;
 //texture loading
 void UpdateSequenceAnimation() {
 	switch (PowerState) {
@@ -107,12 +107,14 @@ void KeyboardMovement(const float deltaTime) {
 				SoundManager::PlaySound("Jump");
 				Yvelo = -13.0f;
 				Holding = true;
+				isJump = true;
 			}
 			else if (PreJump) {
 				SoundManager::PlaySound("Jump");
 				Yvelo = -13.0f;
 				PreJump = false;
 				Holding = true;
+				isJump = true;
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
@@ -228,10 +230,9 @@ void MarioVertYUpdate() {
 		}
 		//Collision With Obstacles
 		if (QuickCheckBotCollision(MFCPP::CollisionObject({player.curr.x, player.curr.y + 1.0f}, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
-			if (Yvelo >= 0.0f) {
-				//if (player.curr.x < CurrPosXCollide || player.curr.x > CurrPosXCollide + 32.f) return;
+			if (const float offset = std::min(Xvelo + 1.f, 3.f); Yvelo >= -Xvelo) {
 				const float floorY = GetCurrFloorY(player.curr, CurrPosXCollide, CurrPosYCollide);
-				if (player.curr.y < CurrPosYCollide + floorY - std::max(Xvelo + 1.f, 3.f)) return;
+				if (player.curr.y < CurrPosYCollide + floorY - offset) return;
 				if (MarioCurrentFalling) MarioCurrentFalling = false;
 				player.curr = { player.curr.x, CurrPosYCollide + floorY - (52.0f - player.property.getOrigin().y) };
 				Yvelo = 0.0f;

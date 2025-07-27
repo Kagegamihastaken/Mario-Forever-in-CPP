@@ -414,9 +414,9 @@ void GoombaAIVertYUpdate(const float deltaTime) {
 				}
 			}
 
-			if (i.GetYvelo() >= 0.0f) {
+			if (const float offset = std::min(i.GetXvelo() + 1.f, 3.f); i.GetYvelo() >= -i.GetXvelo()) {
 				const float floorY = GetCurrFloorY(i.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
-				if (i.getCurrentPosition().y < CurrPosYCollide + floorY - std::max(i.GetXvelo() + 1.f, 3.f)) continue;
+				if (i.getCurrentPosition().y < CurrPosYCollide + floorY - offset) continue;
 				i.SetYvelo(0.0f);
 				i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + floorY - (i.GetSize().size.y - i.getOrigin().y)));
 				continue;

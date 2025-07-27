@@ -308,6 +308,7 @@ void FileLoad(const std::filesystem::path& path) {
     BgColor.getProperty<ColorProps>("First Background Color")->val = levelJson["level_properties"].value("background_first_color",  MFCPP::Color::LevelDefaultFirst);
     BgColor.getProperty<ColorProps>("Second Background Color")->val = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
     BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
+    BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
     //Music
     const nlohmann::json& tilesJson = levelJson["tiles"];
     for (const auto& tileObj : tilesJson) {

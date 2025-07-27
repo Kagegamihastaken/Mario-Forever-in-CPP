@@ -280,9 +280,9 @@ void BroAIVertYUpdate(const float deltaTime) {
 
         bool NoAdd = false;
         if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
-            if (i.getYVelo() >= 0.0f) {
+            if (const float offset = std::min(i.getSpeed() + 1.f, 3.f); i.getYVelo() >= -i.getSpeed()) {
                 const float floorY = GetCurrFloorY(i.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
-                if (i.getCurrentPosition().y < CurrPosYCollide + floorY - std::max(i.getSpeed() + 1.f, 3.f)) continue;
+                if (i.getCurrentPosition().y < CurrPosYCollide + floorY - offset) continue;
                 i.setYVelo(0.0f);
                 i.setCurrentPosition(sf::Vector2f(i.getCurrentPosition().x, CurrPosYCollide + floorY - i.getHitbox().position.y - (i.getHitbox().size.y - i.getOrigin().y)));
                 if (willJump) i.setYVelo(-8.f);

@@ -86,13 +86,17 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="add 4 direction of Pink Piranha">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="fix RedKoopaAI bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -728,15 +732,10 @@
       <workItem from="1753442101310" duration="4896000" />
       <workItem from="1753459255610" duration="5813000" />
       <workItem from="1753465180770" duration="62000" />
-      <workItem from="1753496557133" duration="5385000" />
-    </task>
-    <task id="LOCAL-00009" summary="improve coding structure for PiranhaAI">
-      <option name="closed" value="true" />
-      <created>1747905936298</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1747905936298</updated>
+      <workItem from="1753496557133" duration="5487000" />
+      <workItem from="1753510461736" duration="4186000" />
+      <workItem from="1753533679732" duration="1877000" />
+      <workItem from="1753581805908" duration="1351000" />
     </task>
     <task id="LOCAL-00010" summary="GoombaAI collision more accurate &amp; implement some Editor feature">
       <option name="closed" value="true" />
@@ -1122,7 +1121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753499640648</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="fix RedKoopaAI bug">
+      <option name="closed" value="true" />
+      <created>1753502047897</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1753502047897</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1358,7 +1365,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="refactor sources folder" />
     <MESSAGE value="logging implement and revamp error handling (thanks to fmt &amp; cpptrace library)" />
     <MESSAGE value="in progress converting to class" />
     <MESSAGE value="new sound engine!" />
@@ -1383,7 +1389,8 @@
     <MESSAGE value="added ability to change background &amp; modify parallax" />
     <MESSAGE value="add 4 direction of GreenPiranha" />
     <MESSAGE value="add 4 direction of Pink Piranha" />
-    <option name="LAST_COMMIT_MESSAGE" value="add 4 direction of Pink Piranha" />
+    <MESSAGE value="fix RedKoopaAI bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix RedKoopaAI bug" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

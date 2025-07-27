@@ -82,7 +82,6 @@ int WinMain() {
 						else {
 							SoundManager::SetEnvironment(OVERWORLD);
 						}
-						//Updated = true;
 					}
 					/*
 					else if (keyPressed->code == sf::Keyboard::Key::P) {
@@ -104,7 +103,6 @@ int WinMain() {
 			MarioOutSideScreen();
 			fpsLite.update();
 			timestep.addFrame();
-			//if (Updated) {
 			while (timestep.isUpdateRequired()) {
 				GameObjectSetPrev();
 				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
