@@ -45,15 +45,8 @@ sf::View getLetterboxView(sf::View view, const int windowWidth, const int window
 void ViewInit() {
 	view = sf::View(sf::FloatRect({ 0, 0 }, { Width, Height}));
 }
-void setView() {
+void WindowSetView() {
 	view = getLetterboxView(view, window.getSize().x, window.getSize().y);
-	if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-		ScrollPos = player.property.getPosition();
-		view.setCenter({ std::min(std::max(Width / 2.0f, ScrollPos.x), LevelWidth - 320.0f) + OFFSET, std::min(std::max(Height / 2.0f, ScrollPos.y), LevelHeight - 240.0f) + OFFSET });
-	}
-	else if (CurrentScene == SceneID::SCENE_LEVEL_EDITOR) view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f+ EditorInterpolatedPos.y});
-	//std::cout << player.property.getPosition().x << "\n";
-	//WindowView.setCenter(sf::Vector2f({ Width / 2, Height / 2 }));
 }
 void moveView(const float x, const float y) {
 	view.setCenter({ view.getCenter().x + x, view.getCenter().y + y });

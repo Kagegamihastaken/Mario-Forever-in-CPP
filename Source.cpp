@@ -11,7 +11,6 @@
 #include "Core/Loading/Handler.hpp"
 #include <cpptrace/from_current.hpp>
 #include "Core/AudioEngine.hpp"
-#include "Core/Level.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
 
@@ -20,7 +19,6 @@
 #include <imgui-SFML.h>
 
 float alpha = 1.0f;
-//kairos::Timestep render;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
 #if DEVELOPMENT_BUILD
@@ -42,8 +40,6 @@ int WinMain() {
 		GameObjectInit();
 		if (!ImGui::SFML::Init(window)) throw std::runtime_error("Cannot Load ImGui");
 		sf::Clock deltaClock;
-		GameTextInit();
-		GameLoadLevel();
 		MusicManager::ForceLoadMusic("MarioDeath");
 		MusicManager::ForceLoadMusic("LevelComplete");
 
@@ -98,7 +94,6 @@ int WinMain() {
 				ExitGateClock.reset();
 				window.close();
 			}
-			GameObjectEditorUpdate();
 			GameObjectEditText();
 			MarioOutSideScreen();
 			fpsLite.update();
@@ -112,26 +107,14 @@ int WinMain() {
 			if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
 			else alpha = 1.0f;
 			GameObjectInterpolateMovement(alpha);
-			GameObjectAnimation();
-			//test.setPosition(player.property.getPosition());
 			//ImGui::ShowDemoWindow();
 			GameObjectMiscUpdate();
 			GameCleanUp();
 
 			ImGui::SFML::Update(window, deltaClock.restart());
 			//draw
-			//rObject.clear();
-			//rObject.display();
-			//sf::Sprite Renderer(rObject.getTexture());
-			//render.addFrame()
 			window.clear(sf::Color::Transparent);
 			GameObjectDraw();
-			//window.draw(test);
-			//if (render.isUpdateRequired()) {
-			//	window.clear();
-			//	GameObjectDraw();
-			//}
-			//window.draw(Renderer);
 			ImGui::SFML::Render(window);
 			window.display();
 		}

@@ -192,22 +192,4 @@ void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);
 	MouseX = (static_cast<float>(mouse.x) - ViewXOff / 2.0f) * (Width / (static_cast<float>(window.getSize().x) - ViewXOff));
 	MouseY = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (Height / (static_cast<float>(window.getSize().y) - ViewYOff));
-	//deltaTime = delta.restart().asSeconds() * 50.0f;
-	//deltaTime = (delta.restart().asMicroseconds() * 50) / 1000000.0f;
-	//float fpsUpdate = 1.0f / fpsClock.restart().asSeconds();
-	//if (GameClock.getElapsedTime().asSeconds() >= 0.5f) {
-	//	if (deltaTime >= 1.0f) {
-	//		fps = fpsUpdate;
-	//		GameClock.restart();
-	//	}
-	//	else {
-	//		fps = (1.0f / deltaTime) * 50.0f;
-	//		GameClock.restart();
-	//	}
-	//}
-	//if (deltaTime >= 1.0f) {
-	//	deltaTime = 1.0f;
-	//	optionSmoothness = false;
-	//}
-	//else optionSmoothness = true;
 }

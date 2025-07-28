@@ -86,17 +86,27 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="fix RedKoopaAI bug">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="fix Object stand on Slope bug">
+      <change afterPath="$PROJECT_DIR$/headers/Core/Scene/EditorScene.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Core/Scene/GameScene.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/headers/Core/SceneManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Scene/EditorScene.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/Scene/GameScene.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/Core/SceneManager.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Game.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Game.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Scene.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Scene.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/Scroll.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Scroll.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/Editor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/Editor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/BroAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BroAI.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Scene.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Scroll.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scroll.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -735,15 +745,10 @@
       <workItem from="1753496557133" duration="5487000" />
       <workItem from="1753510461736" duration="4186000" />
       <workItem from="1753533679732" duration="1877000" />
-      <workItem from="1753581805908" duration="1351000" />
-    </task>
-    <task id="LOCAL-00010" summary="GoombaAI collision more accurate &amp; implement some Editor feature">
-      <option name="closed" value="true" />
-      <created>1748311857457</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1748311857457</updated>
+      <workItem from="1753581805908" duration="2400000" />
+      <workItem from="1753590982955" duration="681000" />
+      <workItem from="1753632209855" duration="380000" />
+      <workItem from="1753669285785" duration="10035000" />
     </task>
     <task id="LOCAL-00011" summary="Optimize a bit performance">
       <option name="closed" value="true" />
@@ -1129,7 +1134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753502047897</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="fix Object stand on Slope bug">
+      <option name="closed" value="true" />
+      <created>1753583204041</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1753583204041</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1365,7 +1378,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="logging implement and revamp error handling (thanks to fmt &amp; cpptrace library)" />
     <MESSAGE value="in progress converting to class" />
     <MESSAGE value="new sound engine!" />
     <MESSAGE value="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon" />
@@ -1390,7 +1402,8 @@
     <MESSAGE value="add 4 direction of GreenPiranha" />
     <MESSAGE value="add 4 direction of Pink Piranha" />
     <MESSAGE value="fix RedKoopaAI bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix RedKoopaAI bug" />
+    <MESSAGE value="fix Object stand on Slope bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix Object stand on Slope bug" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

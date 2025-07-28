@@ -8,7 +8,7 @@ extern bool MarioLockedView;
 extern sf::View view;
 extern float ViewX, ViewY;
 extern float ViewXOff, ViewYOff;
-extern void setView();
+extern void WindowSetView();
 extern void updateView();
 extern void setRotate(int degree);
 extern bool isOutScreen(float xPos, float yPos, float OffsetX, float OffsetY);

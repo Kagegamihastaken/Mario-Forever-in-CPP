@@ -163,7 +163,7 @@ void Objectbuilding() {
 	player.property.setPosition(PlayerData + sf::Vector2f( 0.f, 7.f ));
 	player.curr = player.prev = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;
-	setView();
+	WindowSetView();
 	updateView();
 	//Delete Effects
 	DeleteAllBrickParticle();

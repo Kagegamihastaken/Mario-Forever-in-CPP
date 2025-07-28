@@ -31,8 +31,6 @@ enum PiranhaDirection {PIRANHA_UP, PIRANHA_DOWN, PIRANHA_RIGHT, PIRANHA_LEFT};
 enum PiranhaProjectileType {PIRANHA_FIREBALL};
 //enum for Spike
 enum SpikeID { PIRANHA_GROUND, SPIKE_NORMAL };
-//enum for Scene
-enum SceneID {SCENE_GAMEPLAY, SCENE_LEVEL_EDITOR};
 //enum for BroAI
 enum BroAIType {HAMMER_BRO};
 enum BroAIMovementType {CAN_JUMP, CANNOT_JUMP};

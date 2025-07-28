@@ -142,11 +142,13 @@ static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_it
     float CurrPosYCollide, CurrPosXCollide;
     //recolide
     if (QuickCheckBotCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
-        const float floorY = GetCurrFloorY(it->getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
-        if (it->getCurrentPosition().y < CurrPosYCollide + floorY - std::max(it->getXVelo() + 1.f, 3.f)) return;
-        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, CurrPosYCollide + floorY - (it->getHitbox().size.y - it->getOrigin().y)));
-        it->setYVelo(-5.f);
-        return;
+        if (const float offset = it->getXVelo() + 1.f; it->getYVelo() >= -it->getXVelo()) {
+            const float floorY = GetCurrFloorY(it->getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
+            if (it->getCurrentPosition().y < CurrPosYCollide + floorY - offset) return;
+            it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, CurrPosYCollide + floorY - (it->getHitbox().size.y - it->getOrigin().y)));
+            it->setYVelo(-5.f);
+            return;
+        }
     }
     if (QuickCheckTopCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide))
         DeleteMarioProjectile(it);

@@ -17,7 +17,6 @@
 
 #include "Core/Logging.hpp"
 sf::Shader notShader;
-static bool isJump = false;
 //texture loading
 void UpdateSequenceAnimation() {
 	switch (PowerState) {
@@ -107,14 +106,12 @@ void KeyboardMovement(const float deltaTime) {
 				SoundManager::PlaySound("Jump");
 				Yvelo = -13.0f;
 				Holding = true;
-				isJump = true;
 			}
 			else if (PreJump) {
 				SoundManager::PlaySound("Jump");
 				Yvelo = -13.0f;
 				PreJump = false;
 				Holding = true;
-				isJump = true;
 			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
