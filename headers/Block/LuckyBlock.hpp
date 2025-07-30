@@ -8,6 +8,8 @@
 #include "Core/Loading/enum.hpp"
 
 extern plf::colony<MFCPP::LuckyBlock> LuckyBlock;
+void LuckyBLockTemp();
+void ForceLoadLuckyBlockTexture(LuckyBlockID ID);
 extern void SetPrevLuckyBlockPos();
 extern void InterpolateLuckyBlockPos(float alpha);
 extern void LuckyHit(float x, float y);

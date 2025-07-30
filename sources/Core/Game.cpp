@@ -38,38 +38,14 @@
 SceneManager sceneManager;
 
 void GameObjectInit() {
+    //Essential
     InitTempTex();
     windowInit();
     SoundInit();
     loadFontRes();
     MusicInit();
-    loadObstacleRes();
-    loadMarioRes();
-    BrickParticleInit();
-    LoadBricks();
-    LoadLuckyBlock();
-    GoombaAILoadRes();
-    ProjectileInit();
-    BroAILoadRes();
-    BroAIEffectInit();
-    CoinEffectInit();
-    CoinInit();
-    ScoreEffectInit();
-    GoombaAIEffectInit();
-    PiranhaAIInit();
-    SpikeInit();
-    MarioEffectInit();
-    BgInit();
-    ExitGateInit();
     ViewInit();
-    FireballExplosionInit();
-    BulletLauncherInit();
-    BulletBillInit();
-    PlatformInit();
-
-    EditorInit();
-    SelectTileInit();
-
+    //Scene
     sceneManager.addScene<GameScene>("Game");
     sceneManager.addScene<EditorScene>("Editor");
     sceneManager.changeScene("Game");

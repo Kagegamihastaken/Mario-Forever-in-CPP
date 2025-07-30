@@ -86,27 +86,35 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="fix Object stand on Slope bug">
-      <change afterPath="$PROJECT_DIR$/headers/Core/Scene/EditorScene.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Core/Scene/GameScene.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/headers/Core/SceneManager.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/Scene/EditorScene.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/Scene/GameScene.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/Core/SceneManager.cpp" afterDir="false" />
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="added scene manager for game">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Game.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Game.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Loading/enum.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Scene.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Scene.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Core/Scroll.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/Scroll.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/Brick.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/Brick.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/LuckyBlock.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/LuckyBlock.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Block/Obstacles.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Block/Obstacles.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/ImageManager.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Core/WindowFrame.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Core/WindowFrame.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/Coin.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/Coin.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/headers/Object/GoombaAI.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Object/GoombaAI.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Brick.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Brick.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/LuckyBlock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Background/Bg.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Game.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/ImageManager.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Scene.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Core/Scroll.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scroll.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Music.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Music.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Scene/EditorScene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scene/EditorScene.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Scene/GameScene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Scene/GameScene.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/WindowFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/Coin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Coin.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/GoombaAI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/Object/Mario.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/Mario.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Projectiles/MarioProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +124,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-VS" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-MinGW" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -748,15 +756,22 @@
       <workItem from="1753581805908" duration="2400000" />
       <workItem from="1753590982955" duration="681000" />
       <workItem from="1753632209855" duration="380000" />
-      <workItem from="1753669285785" duration="10035000" />
-    </task>
-    <task id="LOCAL-00011" summary="Optimize a bit performance">
-      <option name="closed" value="true" />
-      <created>1748487857958</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1748487857958</updated>
+      <workItem from="1753669285785" duration="12945000" />
+      <workItem from="1753690292341" duration="2000" />
+      <workItem from="1753704681853" duration="2389000" />
+      <workItem from="1753712609377" duration="1970000" />
+      <workItem from="1753715133893" duration="2005000" />
+      <workItem from="1753756509930" duration="142000" />
+      <workItem from="1753757531234" duration="6396000" />
+      <workItem from="1753765160260" duration="2408000" />
+      <workItem from="1753803546469" duration="602000" />
+      <workItem from="1753842607945" duration="2734000" />
+      <workItem from="1753849093647" duration="1661000" />
+      <workItem from="1753869692948" duration="210000" />
+      <workItem from="1753870706340" duration="1038000" />
+      <workItem from="1753876331018" duration="1726000" />
+      <workItem from="1753878814601" duration="739000" />
+      <workItem from="1753884134870" duration="5000" />
     </task>
     <task id="LOCAL-00012" summary="improve rendering a bit">
       <option name="closed" value="true" />
@@ -1142,7 +1157,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753583204041</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="added scene manager for game">
+      <option name="closed" value="true" />
+      <created>1753684796049</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1753684796049</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1378,7 +1401,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="in progress converting to class" />
     <MESSAGE value="new sound engine!" />
     <MESSAGE value="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon" />
     <MESSAGE value="remove support for libopenmpt," />
@@ -1403,7 +1425,8 @@
     <MESSAGE value="add 4 direction of Pink Piranha" />
     <MESSAGE value="fix RedKoopaAI bug" />
     <MESSAGE value="fix Object stand on Slope bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix Object stand on Slope bug" />
+    <MESSAGE value="added scene manager for game" />
+    <option name="LAST_COMMIT_MESSAGE" value="added scene manager for game" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

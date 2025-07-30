@@ -17,9 +17,13 @@ int CoinCount = 0;
 static std::vector<std::string> CoinAnimName;
 static constexpr int COIN_IMAGE_WIDTH = 96;
 static constexpr int COIN_WIDTH_HEIGHT = 32;
+void ForceLoadCoinTexture() {
+	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i)
+		ImageManager::LoadTexture(fmt::format("Coin_{}", i));
+}
 void CoinInit() {
 	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i) {
-		ImageManager::AddTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
+		ImageManager::PreloadTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
 		CoinAnimName.emplace_back(fmt::format("Coin_{}", i));
 	}
 	CoinAnimation.setAnimation(0, 2, 20);

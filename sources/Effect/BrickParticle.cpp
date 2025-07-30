@@ -11,8 +11,9 @@ plf::colony<MFCPP::BrickParticle> BrickParticleList;
 static bool BrickParticleDeleteGate = false;
 
 void BrickParticleInit() {
-	ImageManager::AddTexture("NormalBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({0, 0}, {16, 16}));
-	ImageManager::AddTexture("GrayBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({16, 0}, {16, 16}));
+	//Load with Brick
+	ImageManager::PreloadTexture("NormalBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({0, 0}, {16, 16}));
+	ImageManager::PreloadTexture("GrayBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({16, 0}, {16, 16}));
 }
 void AddSubBrickParticle(const BrickID id, float Xvelo, float Yvelo, const float ori_x, const float ori_y) {
 	const auto it = BrickParticleList.emplace(Xvelo, Yvelo, sf::Vector2f(ori_x, ori_y), sf::Vector2f(8.f, 8.f));

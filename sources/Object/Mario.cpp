@@ -41,10 +41,8 @@ void loadMarioRes() {
 	MarioAnimation.setAnimation(0, 0, 0, true);
 	player.property.setOrigin({ 11, 51 });
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
-		//SmallMario
 		ImageManager::AddTexture(fmt::format("SmallMario_{}", i), "data/resources/SmallMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		SmallMario.push_back(fmt::format("SmallMario_{}", i));
-		//BigMario
 		ImageManager::AddTexture(fmt::format("BigMario_{}", i), "data/resources/BigMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		BigMario.push_back(fmt::format("BigMario_{}", i));
 		ImageManager::AddTexture(fmt::format("FireMario_{}", i), "data/resources/FireMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
@@ -139,7 +137,6 @@ void KeyboardMovement(const float deltaTime) {
 		Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.625f * deltaTime);
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 	}
-
 	if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding && CanControlMario && !LevelCompleteEffect) {
 		if (FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2 && !MarioCrouchDown) {
@@ -155,26 +152,27 @@ void KeyboardMovement(const float deltaTime) {
 	isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 }
 void MarioPosXUpdate(const float deltaTime) {
-	if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
-	else {
-		if (!OutsideWallLeft)
-			player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
-		else Xvelo = 0.f;
-	}
-
-	if (CanControlMario) {
-
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
-			OverSpeed = true;
+	if (!EffectActive) {
+		if (!MarioDirection) player.curr = { player.curr.x + Xvelo * deltaTime, player.curr.y };
+		else {
+			if (!OutsideWallLeft)
+				player.curr = { player.curr.x + (0 - Xvelo) * deltaTime, player.curr.y };
+			else Xvelo = 0.f;
 		}
-		if (Xvelo > player_speed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
-			if (OverSpeed) {
-				Xvelo -= 0.125f * deltaTime;
-				if (Xvelo <= player_speed) OverSpeed = false;
+
+		if (CanControlMario) {
+			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
+				OverSpeed = true;
 			}
-			else Xvelo = player_speed;
+			if (Xvelo > player_speed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
+				if (OverSpeed) {
+					Xvelo -= 0.125f * deltaTime;
+					if (Xvelo <= player_speed) OverSpeed = false;
+				}
+				else Xvelo = player_speed;
+			}
+			if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) Xvelo = 7.5f;
 		}
-		if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) Xvelo = 7.5f;
 	}
 }
 void MarioVertXUpdate() {

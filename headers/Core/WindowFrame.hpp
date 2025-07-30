@@ -33,6 +33,7 @@ extern float Height;
 extern float MouseX;
 extern float MouseY;
 extern void windowInit();
+extern void GameSceneInit();
 extern void FrameDraw();
 extern int hex_to_int(const std::string &hex);
 

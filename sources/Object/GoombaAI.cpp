@@ -49,8 +49,7 @@ static int FIRE_FLOWER_IMAGE_WIDTH = 128;
 static int FIRE_FLOWER_WIDTH = 32;
 static int FIRE_FLOWER_HEIGHT = 32;
 
-
-void GoombaAILoadRes() {
+void GoombaAIInit() {
 	for (int i = 0; i < GOOMBA_IMAGE_WIDTH / GOOMBA_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("Goomba_{}", i), "data/resources/Goomba/Goomba.png", sf::IntRect({i * GOOMBA_WIDTH, 0}, {GOOMBA_WIDTH, GOOMBA_HEIGHT}));
 		GoombaAnimName.push_back(fmt::format("Goomba_{}", i));

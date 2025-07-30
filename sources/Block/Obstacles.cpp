@@ -37,20 +37,13 @@ std::vector<std::array<int, 6>> ID_list{
 //texture loading
 
 void loadObstacleRes() {
-	for (int i = 0; i < ID_list.size(); ++i) {
+	for (int i = 0; i < ID_list.size(); ++i)
+		ImageManager::PreloadTexture(fmt::format("Tile_{}", ID_list[i][0]), "data/resources/Tileset.png", sf::IntRect({ID_list[i][1], ID_list[i][2]}, {32, 32}));
+}
+void loadObstacleTemp() {
+	for (int i = 0; i < ID_list.size(); ++i)
 		ImageManager::AddTexture(fmt::format("Tile_{}", ID_list[i][0]), "data/resources/Tileset.png", sf::IntRect({ID_list[i][1], ID_list[i][2]}, {32, 32}));
-	}
-	//ObstaclesTexture = ImageManager::GetTexture("Tileset");
 }
 void ObstaclesDraw() {
-	//sf::RenderStates states;
-	//sf::Transformable trans;
-	//states.transform *= trans.getTransform();
-	//states.texture = ObstaclesTextureManager.GetTexture("Tileset");
 	window.draw(ObstaclesVA, &ObstacleRTexture.getTexture());
-	//for (const auto & i : ObstaclesList) {
-	//	if (!isOutScreen(i.property.getPosition().x, i.property.getPosition().y, 32, 32)) {
-	//		window.draw(i.property);
-	//	}
-	//}
 }

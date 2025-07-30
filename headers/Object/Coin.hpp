@@ -16,5 +16,6 @@ extern void CoinOnTouch();
 extern void DeleteAllCoin();
 extern void DeleteLuckyBlock(float x, float y);
 extern void DeleteIndexCoin(const plf::colony<MFCPP::Coin>::colony_iterator<false>& index);
+extern void ForceLoadCoinTexture();
 extern void CoinCleanup();
 #endif // Coin_HPP

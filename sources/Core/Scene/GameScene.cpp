@@ -33,11 +33,40 @@
 #include <fmt/format.h>
 
 #include "Core/Level.hpp"
+#include "Projectiles/ProjectileHelper.hpp"
 
 GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
 
 void GameScene::loadResources() {
+    //Load Resources
+    GameSceneInit();
+    //Preload
+    loadObstacleRes();
+    //Force Load
+    loadMarioRes();
+
+    BrickParticleInit();
+    BricksInit();
+    LoadLuckyBlock();
+    GoombaAIInit();
+    ProjectileInit();
+    BroAILoadRes();
+    BroAIEffectInit();
+    CoinEffectInit();
+    CoinInit();
+    ScoreEffectInit();
+    GoombaAIEffectInit();
+    PiranhaAIInit();
+    SpikeInit();
+    MarioEffectInit();
+    BgInit();
+    ExitGateInit();
+    FireballExplosionInit();
+    BulletLauncherInit();
+    BulletBillInit();
+    PlatformInit();
+    //Add Text
     //AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
     AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
     AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);

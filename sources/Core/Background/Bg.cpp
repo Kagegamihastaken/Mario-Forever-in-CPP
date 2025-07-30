@@ -10,11 +10,11 @@ std::vector<sf::Vector2f> BgParallaxList;
 sf::VertexBuffer buffer;
 
 void BgInit() {
-	ImageManager::AddTexture("GreenBackground", "data/resources/Background/GreenBackground.png", {}, true);
-	ImageManager::AddTexture("GreenFore", "data/resources/Background/GreenFore.png", {}, true);
-	ImageManager::AddTexture("GreenMid", "data/resources/Background/GreenMid.png", {}, true);
-	ImageManager::AddTexture("GreenMid2", "data/resources/Background/GreenMid2.png", {}, true);
-	ImageManager::AddTexture("GreenBack", "data/resources/Background/GreenBack.png", {}, true);
+	ImageManager::PreloadTexture("GreenBackground", "data/resources/Background/GreenBackground.png", {}, true);
+	ImageManager::PreloadTexture("GreenFore", "data/resources/Background/GreenFore.png", {}, true);
+	ImageManager::PreloadTexture("GreenMid", "data/resources/Background/GreenMid.png", {}, true);
+	ImageManager::PreloadTexture("GreenMid2", "data/resources/Background/GreenMid2.png", {}, true);
+	ImageManager::PreloadTexture("GreenBack", "data/resources/Background/GreenBack.png", {}, true);
 
 	buffer.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 	if (!buffer.create(4)) std::cerr << "Cannot create buffer\n";

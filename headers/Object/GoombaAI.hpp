@@ -8,7 +8,7 @@
 #include "Core/ExternalHeaders/plf_colony.h"
 
 extern plf::colony<MFCPP::GoombaAI> GoombaAIList;
-extern void GoombaAILoadRes();
+extern void GoombaAIInit();
 extern void SetPrevGoombaAIPos();
 extern void InterpolateGoombaAIPos(float alpha);
 extern void DeleteGoombaAI(GoombaAIType type, float x, float y);

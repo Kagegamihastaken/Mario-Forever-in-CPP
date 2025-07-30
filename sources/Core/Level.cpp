@@ -44,6 +44,40 @@ static sf::Vector2f PlayerData;
 static std::string MusicData;
 static MFCPP::Color BGFirstColor;
 static MFCPP::Color BGSecondColor;
+//Texture Gate
+static std::set<std::string> ObstacleTexture;
+static std::set<BrickID> BricksTexture;
+static std::set<LuckyBlockID> LuckyBlockTexture;
+static bool CoinTexture = false;
+//Texture Loading
+void ObstaclesTextureBuild() {
+	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Obstacles Texture", ObstacleTexture.size()));
+	for (const auto &i : ObstacleTexture) {
+		ImageManager::LoadTexture(i);
+	}
+}
+void BricksTextureBuild() {
+	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Bricks Texture", BricksTexture.size()));
+	for (const auto &i : BricksTexture) {
+		ForceLoadBricksTexture(i);
+	}
+}
+void LuckyBlockTextureBuild() {
+	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} LuckyBlock Texture", LuckyBlockTexture.size()));
+	for (const auto &i : LuckyBlockTexture) {
+		ForceLoadLuckyBlockTexture(i);
+	}
+}
+void BackgroundTextureBuild() {
+	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Background Texture", BgData.size()));
+	for (const auto &key: BgData | std::views::keys) {
+		ImageManager::LoadTexture(key);
+	}
+}
+void CoinTextureBuild() {
+	MFCPP::Log::InfoPrint("Build Coin Texture");
+	if (CoinTexture) ForceLoadCoinTexture();
+}
 void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id) {
 	sf::Vector2f endPos = tileObj.value("end_position", pos);
 	if (endPos == sf::Vector2f(-1.f, -1.f)) endPos = pos;
@@ -79,7 +113,7 @@ void ReadData(const std::filesystem::path& path) {
 	MusicData = levelJson["level_properties"].value("music", "DansLaRue");
 	const nlohmann::json& bgJson = levelJson["backgrounds"];
 	for (const auto& bgObj : bgJson)
-		BgData.emplace_back(std::make_pair(bgObj.at("name").get<std::string>(), bgObj.value("parallax", sf::Vector2f(1.f, 1.f))));
+		BgData.emplace_back(bgObj.at("name").get<std::string>(), bgObj.value("parallax", sf::Vector2f(1.f, 1.f)));
 	const nlohmann::json& tilesJson = levelJson["tiles"];
 	for (const auto& tileObj : tilesJson) {
 		const int page = tileObj.at("page").get<int>();
@@ -87,10 +121,23 @@ void ReadData(const std::filesystem::path& path) {
 		const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
 		switch (const SelectTileData* ReadTile = &TilePage[page][id]; ReadTile->categoryID) {
 			case 0:
+				ObstacleTexture.insert(fmt::format("Tile_{}", ReadTile->objectID));
 				LevelData.push_back({static_cast<float>(ReadTile->objectID), pos.x, pos.y});
 				break;
 			case 1:
 				BonusData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
+				switch (ReadTile->objectID) {
+					case 1:
+						CoinTexture = true;
+						break;
+					case 2:
+						BricksTexture.insert(static_cast<BrickID>(ReadTile->customID1));
+						break;
+					case 3:
+						LuckyBlockTexture.insert(static_cast<LuckyBlockID>(ReadTile->customID1));
+						break;
+					default: ;
+				}
 				break;
 			case 2:
 				EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
@@ -101,18 +148,21 @@ void ReadData(const std::filesystem::path& path) {
 			default: ;
 		}
 	}
+	ObstaclesTextureBuild();
+	BricksTextureBuild();
+	LuckyBlockTextureBuild();
+	BackgroundTextureBuild();
+	CoinTextureBuild();
 	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", path.string()));
 }
 void Obstaclebuilding() {
 	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)}))
 		throw std::runtime_error("Cannot resize Obstacles Texture");
-
 	MFCPP::setTileMapSize(LevelWidth, LevelHeight);
 
 	ObstacleRTexture.clear(sf::Color::Transparent);
 	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 	ObstaclesVA.resize(4);
-
 	ObstaclesVA[0].position = sf::Vector2f(0.f, 0.f);
 	ObstaclesVA[1].position = sf::Vector2f(LevelWidth, 0.f);
 	ObstaclesVA[2].position = sf::Vector2f(0.f, LevelHeight);
@@ -123,19 +173,15 @@ void Obstaclebuilding() {
 	ObstaclesVA[2].texCoords = sf::Vector2f(0.f, LevelHeight);
 	ObstaclesVA[3].texCoords = sf::Vector2f(LevelWidth, LevelHeight);
 
-	//ObstaclesVA.setPrimitiveType(sf::PrimitiveType::Triangles);
-	//ObstaclesVA.resize(LevelData.size() * 6);
-	for (int i = 0; i < LevelData.size(); ++i) {
-		//for (const auto& i : LevelData) {
-			// Find the tile id
+	for (auto & i : LevelData) {
 		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 6> &compare) {
-			return compare[0] == static_cast<int>(LevelData[i][0]);
+			return compare[0] == static_cast<int>(i[0]);
 		}) - (ID_list.begin());
 		sf::Sprite obstaclesRender(ImageManager::GetTexture(fmt::format("Tile_{}", posTextureIndex)));
-		obstaclesRender.setPosition({ LevelData[i][1], LevelData[i][2] });
-		MFCPP::setIndexTilemapCollision(LevelData[i][1], LevelData[i][2], true);
-		MFCPP::setIndexTilemapID(LevelData[i][1], LevelData[i][2], ID_list[posTextureIndex][3]);
-		MFCPP::setIndexTilemapFloorY(LevelData[i][1], LevelData[i][2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
+		obstaclesRender.setPosition({ i[1], i[2] });
+		MFCPP::setIndexTilemapCollision(i[1], i[2], true);
+		MFCPP::setIndexTilemapID(i[1], i[2], ID_list[posTextureIndex][3]);
+		MFCPP::setIndexTilemapFloorY(i[1], i[2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
 		ObstacleRTexture.draw(obstaclesRender);
 	}
 	ObstacleRTexture.display();

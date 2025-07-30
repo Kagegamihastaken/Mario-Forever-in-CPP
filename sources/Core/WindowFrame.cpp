@@ -152,18 +152,12 @@ namespace Window {
 	}
 }
 void windowInit() {
-	//window.setMinimumSize(std::optional<sf::Vector2u>({static_cast<unsigned>(Width), static_cast<unsigned>(Height)}));
-	//for (std::size_t i = 0; i < Resolutions.size(); ++i)
-	//{
-	//	sf::VideoMode mode = Resolutions[i];
-	//	std::cout << "Mode #" << i << ": "
-	//			  << mode.size.x << "x" << mode.size.y << " - "
-	//			  << mode.bitsPerPixel << " bpp" << std::endl;
-	//}
-	// Create Window
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);
-
+	timestep.setStep(1.0f / 500.0f);
+	timestep.setMaxAccumulation(1.0f / 30.0f);
+}
+void GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");
 	for (int i = 0; i < COINHUD_IMAGE_WIDTH / COINHUD_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
@@ -174,10 +168,6 @@ void windowInit() {
 	CoinHUDAnim.setAnimationSequence(CoinHUDAnimName);
 	//Maintexture.AddTexture("MarioHUD", Temp);
 	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
-	//rObject.setRepeated(true);
-	//window.setVerticalSyncEnabled(true);
-	timestep.setStep(1.0f / 500.0f);
-	timestep.setMaxAccumulation(1.0f / 30.0f);
 }
 void HUDUpdate() {
 	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
