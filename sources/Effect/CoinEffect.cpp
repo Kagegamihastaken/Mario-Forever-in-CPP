@@ -8,10 +8,8 @@
 
 std::vector<MFCPP::CoinEffect> CoinEffectList;
 void CoinEffectInit() {
-	for (int i = 0; i < COINEFFECT_IMAGE_WIDTH / COINEFFECT_WIDTH; ++i) {
+	for (int i = 0; i < COINEFFECT_IMAGE_WIDTH / COINEFFECT_WIDTH; ++i)
 		ImageManager::AddTexture(fmt::format("CoinEffect_{}", i), "data/resources/CoinEffect.png", sf::IntRect({i * COINEFFECT_WIDTH, 0}, {COINEFFECT_WIDTH, COINEFFECT_HEIGHT}));
-		CoinEffectAnimName.push_back(fmt::format("CoinEffect_{}", i));
-	}
 }
 void SetPrevCoinEffectPos() {
 	for (auto & i : CoinEffectList)
