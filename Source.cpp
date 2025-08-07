@@ -18,9 +18,41 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
+class TestValue final {
+public:
+	TestValue() = default;
+	~TestValue() = default;
+	void AddValue() {
+		++value;
+	}
+	void SubValue() {
+		--value;
+	}
+	[[nodiscard]] int GetValue() const {
+		return value;
+	}
+private:
+	int value = 0;
+};
+
 float alpha = 1.0f;
+TestValue tvalue;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
+
+// TODO: Add encrypt protection for value can be easily cheat
+/*
+ * To archive this, I need to use encryption library
+ * Then create a static class called "Protected Value"
+ * This class can took "int", "float", "string", etc. With std::variant
+ * Create a std::map with REAL value to actually store variable
+ * Then create another std::map to "queue" value to store that REAL value (this map will use encrypted)
+ * But this will guarantee hurt fps if check every value EVERY FRAME.
+ * To Prevent this, It just needs to check value between 5 seconds to not put stress to CPU
+ * And tada, I now have a very own "Protected Value"
+ *
+ * Why build this? Because I was aware how easily cheat a CTF Game, it just flip value from positive to negative and so on.
+*/
 #if DEVELOPMENT_BUILD
 int main() {
 #else
@@ -79,6 +111,12 @@ int WinMain() {
 							SoundManager::SetEnvironment(OVERWORLD);
 						}
 					}
+					else if (keyPressed->code == sf::Keyboard::Key::S) {
+						tvalue.AddValue();
+					}
+					else if (keyPressed->code == sf::Keyboard::Key::A) {
+						tvalue.SubValue();
+					}
 					/*
 					else if (keyPressed->code == sf::Keyboard::Key::P) {
 						MusicManager::PauseMusic(getMusicLevelName());
@@ -90,6 +128,7 @@ int WinMain() {
 				}
 				GameObjectRetrieveEvent(event);
 			}
+			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
 			if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
 				ExitGateClock.reset();
 				window.close();

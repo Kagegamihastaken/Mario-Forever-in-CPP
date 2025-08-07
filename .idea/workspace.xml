@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="27" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="42" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
   </component>
   <component name="CMakePresetLoader">{
@@ -45,31 +46,30 @@
       <config projectName="MFCPP" targetName="ContinuousUpdate" />
       <config projectName="MFCPP" targetName="ImGuiFileDialog" />
       <config projectName="MFCPP" targetName="sfml-main" />
-      <config projectName="MFCPP" targetName="docs" />
       <config projectName="MFCPP" targetName="dwarf" />
       <config projectName="MFCPP" targetName="NightlyMemoryCheck" />
       <config projectName="MFCPP" targetName="NightlyStart" />
       <config projectName="MFCPP" targetName="clean-all" />
-      <config projectName="MFCPP" targetName="ContinuousSubmit" />
       <config projectName="MFCPP" targetName="uninstall" />
+      <config projectName="MFCPP" targetName="ContinuousSubmit" />
       <config projectName="MFCPP" targetName="ContinuousTest" />
       <config projectName="MFCPP" targetName="ContinuousMemCheck" />
       <config projectName="MFCPP" targetName="ExperimentalCoverage" />
       <config projectName="MFCPP" targetName="ExperimentalConfigure" />
-      <config projectName="MFCPP" targetName="sfml-graphics" />
       <config projectName="MFCPP" targetName="ExperimentalBuild" />
+      <config projectName="MFCPP" targetName="sfml-graphics" />
       <config projectName="MFCPP" targetName="FLAC" />
       <config projectName="MFCPP" targetName="ExperimentalSubmit" />
-      <config projectName="MFCPP" targetName="test_physfs" />
       <config projectName="MFCPP" targetName="fmt" />
+      <config projectName="MFCPP" targetName="test_physfs" />
       <config projectName="MFCPP" targetName="sfml-window" />
-      <config projectName="MFCPP" targetName="ogg" />
       <config projectName="MFCPP" targetName="NightlySubmit" />
+      <config projectName="MFCPP" targetName="ogg" />
       <config projectName="MFCPP" targetName="ExperimentalStart" />
       <config projectName="MFCPP" targetName="ContinuousConfigure" />
       <config projectName="MFCPP" targetName="cpptrace-lib" />
-      <config projectName="MFCPP" targetName="sfml-network" />
       <config projectName="MFCPP" targetName="Continuous" />
+      <config projectName="MFCPP" targetName="sfml-network" />
       <config projectName="MFCPP" targetName="NightlyCoverage" />
       <config projectName="MFCPP" targetName="Experimental" />
       <config projectName="MFCPP" targetName="Nightly" />
@@ -80,24 +80,22 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Release-VS" ENABLED="false" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
-      <configuration PROFILE_NAME="RelWithDebInfo-VS" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" />
-      <configuration PROFILE_NAME="RelWithDebInfo-MinGW" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="MinGW" />
+      <configuration PROFILE_NAME="RelWithDebInfo-MinGW" ENABLED="true" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="MinGW" GENERATION_OPTIONS="-G Ninja -DCMAKE_POLICY_VERSION_MINIMUM=3.5" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="optimize texture for memory p1">
+    <list default="true" id="de4cc60b-3bff-4aac-84f1-587dc36f463d" name="Changes" comment="added night theme block">
+      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MFCPP.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MFCPP.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data.zip" beforeDir="false" afterPath="$PROJECT_DIR$/data.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/levels/leveltest.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/leveltest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/resources/CoinEffect.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/CoinEffect.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/resources/Tileset.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/resources/Tileset.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/headers/Effect/CoinEffect.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/headers/Effect/CoinEffect.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/levelendtest.json" beforeDir="false" afterPath="$PROJECT_DIR$/levelendtest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Block/Obstacles.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Editor/SelectTile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/Effect/CoinEffect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Effect/CoinEffect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Core/Music.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Core/Music.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/Object/BulletBill.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +105,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-VS" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo-MinGW" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -131,17 +129,43 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/sfml-src/extlibs/headers/miniaudio/miniaudio.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/soloud-src/src/backend/miniaudio/miniaudio.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-mingw/_deps/soloud-src/src/backend/vita_homebrew/soloud_vita_homebrew.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/imgui-src/imgui.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/imguifiledialog-src/ImGuiFileDialog.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/imguifiledialog-src/ImGuiFileDialog.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/cmake-build-relwithdebinfo-vs/_deps/soloud-src/src/filter/soloud_freeverbfilter.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Block/LuckyBlock.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/BroAIClass.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/BroAIEffectClass.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/BulletBillClass.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/BulletBillEffectClass.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/CoinClass.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/CollisionObjectClass.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/Class/FireballExplosionClass.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Game.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Core/ImageManager.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Scene.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/Scroll.hpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/headers/Core/WindowFrame.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Object/Coin.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Object/PiranhaAI.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/headers/Projectiles/PiranhaProjectile.hpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Block/Brick.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Block/BulletLauncher.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Core/Collision/Collide.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Core/Common.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Core/Game.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Core/Level.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Core/Music.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Core/SoundManager.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Editor/Editor.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Editor/RenderTile.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Editor/SelectTile.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Effect/BrickParticle.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Effect/CoinEffect.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Object/GoombaAI.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sources/Object/Mario.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -161,33 +185,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;C/C++ File.Source.cpp.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.MFCPP.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/source/repos/Mario-Forever-in-CPP&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "C/C++ File.Source.cpp.executor": "Run",
+    "CMake Application.MFCPP.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.advertisement.text.has.clang-format": "true",
+    "cf.advertisement.text.overridden": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/source/repos/Mario-Forever-in-CPP",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\source\repos\MFCPP\headers\Core" />
@@ -355,11 +380,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="docs" CONFIG_NAME="RelWithDebInfo-MinGW">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="fmt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MFCPP" TARGET_NAME="fmt" CONFIG_NAME="RelWithDebInfo-MinGW">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -441,6 +461,10 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake Application.MFCPP" />
+      <item itemvalue="CMake Application.soloud_library" />
+      <item itemvalue="CMake Application.cpptrace-lib" />
+      <item itemvalue="CMake Application.Continuous" />
       <item itemvalue="CMake Application.ContinuousBuild" />
       <item itemvalue="CMake Application.ContinuousConfigure" />
       <item itemvalue="CMake Application.ContinuousCoverage" />
@@ -449,7 +473,7 @@
       <item itemvalue="CMake Application.ContinuousSubmit" />
       <item itemvalue="CMake Application.ContinuousTest" />
       <item itemvalue="CMake Application.ContinuousUpdate" />
-      <item itemvalue="CMake Application.Continuous" />
+      <item itemvalue="CMake Application.Experimental" />
       <item itemvalue="CMake Application.ExperimentalBuild" />
       <item itemvalue="CMake Application.ExperimentalConfigure" />
       <item itemvalue="CMake Application.ExperimentalCoverage" />
@@ -458,10 +482,7 @@
       <item itemvalue="CMake Application.ExperimentalSubmit" />
       <item itemvalue="CMake Application.ExperimentalTest" />
       <item itemvalue="CMake Application.ExperimentalUpdate" />
-      <item itemvalue="CMake Application.Experimental" />
-      <item itemvalue="CMake Application.FLAC" />
-      <item itemvalue="CMake Application.ImGui-SFML" />
-      <item itemvalue="CMake Application.ImGuiFileDialog" />
+      <item itemvalue="CMake Application.Nightly" />
       <item itemvalue="CMake Application.NightlyBuild" />
       <item itemvalue="CMake Application.NightlyConfigure" />
       <item itemvalue="CMake Application.NightlyCoverage" />
@@ -471,26 +492,24 @@
       <item itemvalue="CMake Application.NightlySubmit" />
       <item itemvalue="CMake Application.NightlyTest" />
       <item itemvalue="CMake Application.NightlyUpdate" />
-      <item itemvalue="CMake Application.Nightly" />
-      <item itemvalue="CMake Application.cpptrace-lib" />
-      <item itemvalue="CMake Application.docs" />
+      <item itemvalue="CMake Application.FLAC" />
       <item itemvalue="CMake Application.fmt" />
       <item itemvalue="CMake Application.freetype" />
+      <item itemvalue="CMake Application.ImGui-SFML" />
+      <item itemvalue="CMake Application.ImGuiFileDialog" />
       <item itemvalue="CMake Application.ogg" />
-      <item itemvalue="CMake Application.physfs-static" />
       <item itemvalue="CMake Application.physfs" />
+      <item itemvalue="CMake Application.physfs-static" />
+      <item itemvalue="CMake Application.test_physfs" />
       <item itemvalue="CMake Application.sfml-audio" />
       <item itemvalue="CMake Application.sfml-graphics" />
       <item itemvalue="CMake Application.sfml-main" />
       <item itemvalue="CMake Application.sfml-network" />
       <item itemvalue="CMake Application.sfml-system" />
       <item itemvalue="CMake Application.sfml-window" />
-      <item itemvalue="CMake Application.soloud_library" />
-      <item itemvalue="CMake Application.test_physfs" />
       <item itemvalue="CMake Application.vorbis" />
       <item itemvalue="CMake Application.vorbisenc" />
       <item itemvalue="CMake Application.vorbisfile" />
-      <item itemvalue="CMake Application.MFCPP" />
     </list>
   </component>
   <component name="TaskManager">
@@ -758,15 +777,25 @@
       <workItem from="1753888045987" duration="629000" />
       <workItem from="1753926421193" duration="2072000" />
       <workItem from="1753946581319" duration="3757000" />
-      <workItem from="1753953845329" duration="5000" />
-    </task>
-    <task id="LOCAL-00013" summary="optimized renderer for more smooth">
-      <option name="closed" value="true" />
-      <created>1748679084751</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1748679084751</updated>
+      <workItem from="1753953845329" duration="110000" />
+      <workItem from="1753955710813" duration="6000" />
+      <workItem from="1754020030807" duration="754000" />
+      <workItem from="1754025246100" duration="3834000" />
+      <workItem from="1754048025860" duration="1235000" />
+      <workItem from="1754139369304" duration="556000" />
+      <workItem from="1754490714959" duration="1921000" />
+      <workItem from="1754493332094" duration="43000" />
+      <workItem from="1754498010617" duration="419000" />
+      <workItem from="1754534568866" duration="35000" />
+      <workItem from="1754535780949" duration="604000" />
+      <workItem from="1754538414091" duration="4168000" />
+      <workItem from="1754549236787" duration="2310000" />
+      <workItem from="1754580872611" duration="624000" />
+      <workItem from="1754581549826" duration="258000" />
+      <workItem from="1754581940235" duration="331000" />
+      <workItem from="1754582351555" duration="402000" />
+      <workItem from="1754582785468" duration="301000" />
+      <workItem from="1754585730459" duration="86000" />
     </task>
     <task id="LOCAL-00014" summary="optimize animation">
       <option name="closed" value="true" />
@@ -1152,7 +1181,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753884942680</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="added night theme block">
+      <option name="closed" value="true" />
+      <created>1753953883480</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1753953883481</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1388,7 +1425,6 @@
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/lambda" />
       <path value="$PROJECT_DIR$/cmake-build-release-vs/_deps/boost-src/libs/date_time" />
     </ignored-roots>
-    <MESSAGE value="rename all wav sound to ogg &amp; improvement to memory (only texture &amp; sounds), music soon" />
     <MESSAGE value="remove support for libopenmpt," />
     <MESSAGE value="complete bulletbill" />
     <MESSAGE value="classing 1" />
@@ -1413,12 +1449,19 @@
     <MESSAGE value="fix Object stand on Slope bug" />
     <MESSAGE value="added scene manager for game" />
     <MESSAGE value="optimize texture for memory p1" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimize texture for memory p1" />
+    <MESSAGE value="added night theme block" />
+    <option name="LAST_COMMIT_MESSAGE" value="added night theme block" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="CidrExceptionBreakpoint" />
+      </default-breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
-        <watch expression="window" language="C++" />
+        <watch expression="Xvelo" />
+        <watch expression="Yvelo" language="C++" />
       </configuration>
     </watches-manager>
   </component>

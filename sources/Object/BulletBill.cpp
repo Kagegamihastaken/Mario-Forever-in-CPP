@@ -50,13 +50,13 @@ void BulletBillStatusUpdate() {
     }
 }
 void BulletBillPositionUpdate(const float deltaTime) {
-    for (auto it = BulletBillList.begin(); it != BulletBillList.end(); ++it) {
-        if (it->isDestroyed()) continue;
+    for (auto & it : BulletBillList) {
+        if (it.isDestroyed()) continue;
 
-        if (it->getAnimationDirection() == ANIM_LEFT)
-            it->move(sf::Vector2f(-it->getSpeed() * deltaTime, 0.f));
+        if (it.getAnimationDirection() == ANIM_LEFT)
+            it.move(sf::Vector2f(-it.getSpeed() * deltaTime, 0.f));
         else
-            it->move(sf::Vector2f(it->getSpeed() * deltaTime, 0.f));
+            it.move(sf::Vector2f(it.getSpeed() * deltaTime, 0.f));
     }
 }
 void AddBulletBill(const BulletType type, const float speed, const bool direction, const float x, const float y) {
