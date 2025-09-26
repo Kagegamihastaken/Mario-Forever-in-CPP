@@ -6,7 +6,7 @@
 namespace MFCPP {
     class BroAIEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        BroAIEffect(float Yvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit BroAIEffect(float Yvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BroAIEffect() = default;
         void setYVelo(float val);
         [[nodiscard]] float getYVelo() const;

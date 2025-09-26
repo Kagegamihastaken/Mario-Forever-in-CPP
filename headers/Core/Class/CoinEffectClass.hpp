@@ -6,7 +6,7 @@
 namespace MFCPP {
     class CoinEffect : public ActiveObject<float>, public SingleAnimationObject {
     public:
-        CoinEffect(CoinID id, CoinAtt att, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit CoinEffect(CoinID id, CoinAtt att, const sf::Vector2f& pos, const sf::Vector2f& origin);
         void setID(CoinID id);
         [[nodiscard]] CoinID getID() const;
         void setAttribute(CoinAtt att);

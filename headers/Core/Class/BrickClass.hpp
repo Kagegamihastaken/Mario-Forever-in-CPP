@@ -8,7 +8,7 @@
 namespace MFCPP {
     class Brick final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        Brick(BrickID id, BrickAtt att, const sf::Vector2f& pos);
+        explicit Brick(BrickID id, BrickAtt att, const sf::Vector2f& pos);
         void setState(bool val);
         [[nodiscard]] bool getState() const;
         void setStateCount(float val);

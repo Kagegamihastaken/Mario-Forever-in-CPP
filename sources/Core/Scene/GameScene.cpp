@@ -45,7 +45,6 @@ void GameScene::loadResources() {
     loadObstacleRes();
     //Force Load
     loadMarioRes();
-
     BrickParticleInit();
     BricksInit();
     LoadLuckyBlock();

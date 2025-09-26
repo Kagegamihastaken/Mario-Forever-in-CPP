@@ -7,7 +7,7 @@
 namespace MFCPP {
     class FireballExplosion : public ActiveObject<float>, public SingleAnimationObject {
     public:
-        FireballExplosion(const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit FireballExplosion(const sf::Vector2f& pos, const sf::Vector2f& origin);
     };
 }
 

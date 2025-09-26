@@ -7,7 +7,7 @@
 namespace MFCPP {
     class ScoreEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        ScoreEffect(const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit ScoreEffect(const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~ScoreEffect() = default;
         void setVelocity(float val);
         [[nodiscard]] float getVelocity() const;

@@ -9,7 +9,7 @@
 namespace MFCPP {
     class BulletBillEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        BulletBillEffect(float Yvelo, float Xvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit BulletBillEffect(float Yvelo, float Xvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BulletBillEffect() = default;
         void setYVelo(float val);
         [[nodiscard]] float getYVelo() const;

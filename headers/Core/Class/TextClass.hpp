@@ -12,7 +12,7 @@ namespace MFCPP {
         TextMarginID m_Margin{};
     public:
         std::vector<sf::Sprite> m_SpriteText{};
-        Text() = default;
+        explicit Text() = default;
         void setPosition(const sf::Vector2f& position);
         [[nodiscard]] sf::Vector2f getPosition() const;
         void setID(const std::string& id);
@@ -25,7 +25,7 @@ namespace MFCPP {
 
     class TextList final : public Font {
     public:
-        TextList() = default;
+        explicit TextList() = default;
         std::vector<Text> List{};
     };
 }

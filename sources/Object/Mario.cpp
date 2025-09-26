@@ -187,21 +187,21 @@ void MarioVertXUpdate() {
 		if (MarioDirection) {
 			if (fst) {
 				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
+				player.curr = { CurrPosXCollide + 30.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
 			}
 			else if (snd) {
 				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+				player.curr = { CurrPosXCollide - (0.0f + (23 - player.property.getOrigin().x)), player.curr.y };
 			}
 		}
 		else {
 			if (snd) {
 				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide - (2.0f + (23 - player.property.getOrigin().x)), player.curr.y };
+				player.curr = { CurrPosXCollide - (0.0f + (23 - player.property.getOrigin().x)), player.curr.y };
 			}
 			else if (fst) {
 				Xvelo = 0.0f;
-				player.curr = { CurrPosXCollide + 32.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
+				player.curr = { CurrPosXCollide + 30.0f + 2.0f + player.property.getOrigin().x, player.curr.y };
 			}
 		}
 	}
@@ -264,15 +264,15 @@ void MarioVertYUpdate() {
 void MarioUpdateHitbox() {
 	if (PowerState > 0 && !MarioCrouchDown) {
 		setHitbox(player.hitboxMain, sf::FloatRect({ 0.0f, 0.0f }, { 23.0f, 52.0f }));
-		setHitbox(player.hitboxWall, sf::FloatRect({ -2.0f, 0.0f }, { 27.0f, 46.0f }));
+		setHitbox(player.hitboxWall, sf::FloatRect({ 0.0f, 0.0f }, { 23.0f, 46.0f }));
 		setHitbox(player.hitboxFloor, sf::FloatRect({ 0.0f, 0.0f }, { 23.0f, 52.0f }));
-		setHitbox(player.hitboxTop, sf::FloatRect({ 2.0f, -1.0f }, { 19.0f, 2.0f }));
+		setHitbox(player.hitboxTop, sf::FloatRect({ 0.0f, -1.0f }, { 23.0f, 2.0f }));
 	}
 	else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown)) {
 		setHitbox(player.hitboxMain, sf::FloatRect({ 0.0f, 0.0f + 23.0f }, { 23.0f, 29.0f })); // 30
-		setHitbox(player.hitboxWall, sf::FloatRect({ -2.0f, 0.0f + 23.0f }, { 27.0f, 23.0f }));
+		setHitbox(player.hitboxWall, sf::FloatRect({ 0.0f, 0.0f + 23.0f }, { 23.0f, 23.0f }));
 		setHitbox(player.hitboxFloor, sf::FloatRect({ 0.0f, 0.0f + 23.0f }, { 23.0f, 29.0f })); // 30
-		setHitbox(player.hitboxTop, sf::FloatRect({ 2.0f, -1.0f + 23.0f }, { 19.0f, 2.0f }));
+		setHitbox(player.hitboxTop, sf::FloatRect({ 0.0f, -1.0f + 23.0f }, { 23.0f, 2.0f }));
 	}
 }
 void MarioUpdateAnimation() {

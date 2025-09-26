@@ -1,6 +1,5 @@
 #include "Core/Loading/PhysFsStream.hpp"
 #include <physfs.h>
-#include <stdexcept>
 #include <fmt/format.h>
 
 #include "Core/Logging.hpp"

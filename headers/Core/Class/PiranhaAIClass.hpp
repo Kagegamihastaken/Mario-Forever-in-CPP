@@ -9,7 +9,7 @@ namespace MFCPP {
     class PiranhaAI final : public SingleAnimationObject, public ActiveObject<float> {
     public:
         ~PiranhaAI() = default;
-        PiranhaAI(PiranhaID id, PiranhaDirection dir, float speed, float stop_time, unsigned fire_count, float fire_interval, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit PiranhaAI(PiranhaID id, PiranhaDirection dir, float speed, float stop_time, unsigned fire_count, float fire_interval, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         void setID(PiranhaID ID);
         [[nodiscard]] PiranhaID getID() const;
         void setHitbox(const sf::FloatRect& hitbox);

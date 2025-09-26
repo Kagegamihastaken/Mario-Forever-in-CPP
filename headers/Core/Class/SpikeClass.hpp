@@ -8,7 +8,7 @@
 namespace MFCPP {
     class Spike final : public ActiveObject<float>, public SingleAnimationObject {
     public:
-        Spike(SpikeID id, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit Spike(SpikeID id, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~Spike() = default;
         void setID(SpikeID val);
         [[nodiscard]] SpikeID getID() const;

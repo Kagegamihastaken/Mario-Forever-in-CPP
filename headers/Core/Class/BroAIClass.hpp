@@ -8,7 +8,7 @@
 namespace MFCPP {
     class BroAI final : public SingleAnimationObject, public ActiveObject<float> {
     public:
-        BroAI(BroAIType type, BroAIMovementType movementType, float speed, float stop_duration, float launch_interval, int launch_count, float launch_interval_between, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit BroAI(BroAIType type, BroAIMovementType movementType, float speed, float stop_duration, float launch_interval, int launch_count, float launch_interval_between, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BroAI() = default;
         void setMovingValue(float val);
         [[nodiscard]] float getMovingValue() const;

@@ -30,7 +30,7 @@ namespace MFCPP {
         boost::uuids::uuid                  m_uuid{};
         GoombaAIBehaviour                   m_behaviour{};
     public:
-        GoombaAI(GoombaAIType type, GoombaAIDirection dir, GoombaAICollisionType collision_type, GoombaAIBehaviour behaviour, float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
+        explicit GoombaAI(GoombaAIType type, GoombaAIDirection dir, GoombaAICollisionType collision_type, GoombaAIBehaviour behaviour, float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
         const sf::Vector2f& origin, bool is_appeared, unsigned skin_ID, float invincible_timer_limit, bool can_death = true);
         ~GoombaAI() = default;
         void SetType(const GoombaAIType& type);

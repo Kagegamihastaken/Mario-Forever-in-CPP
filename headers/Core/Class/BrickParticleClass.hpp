@@ -9,7 +9,7 @@
 namespace MFCPP {
     class BrickParticle final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        BrickParticle(float Xvelo, float Yvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit BrickParticle(float Xvelo, float Yvelo, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~BrickParticle() = default;
         void setXvelo(float val);
         void setYvelo(float val);

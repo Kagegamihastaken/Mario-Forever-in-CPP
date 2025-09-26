@@ -6,7 +6,7 @@
 namespace MFCPP {
     class BulletLauncher final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        BulletLauncher(float launch_interval, const sf::Vector2f& pos);
+        explicit BulletLauncher(float launch_interval, const sf::Vector2f& pos);
         ~BulletLauncher() = default;
         void setLaunchInterval(float val);
         [[nodiscard]] float getLaunchInterval() const;

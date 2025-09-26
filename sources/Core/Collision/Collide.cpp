@@ -45,13 +45,15 @@ bool GetRelativeTilemapSlopeDown(const float CurrPosXCollide, const float CurrPo
 	return false;
 }
 bool GetRelativeTilemapSlopeLeft(const float CurrPosXCollide, const float CurrPosYCollide) {
-	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize(), CurrPosYCollide) == 3) {
+	// Check if left has slope AND right DOESN'T have slope
+	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize(), CurrPosYCollide) == 3 && MFCPP::getIndexTilemapID(CurrPosXCollide + MFCPP::getTileSize(), CurrPosYCollide) != 3) {
 		if (const auto [fst, snd] = MFCPP::getIndexTilemapFloorY(CurrPosXCollide - MFCPP::getTileSize(), CurrPosYCollide); fst - snd < 0) return true;
 	}
 	return false;
 }
 bool GetRelativeTilemapSlopeRight(const float CurrPosXCollide, const float CurrPosYCollide) {
-	if (MFCPP::getIndexTilemapID(CurrPosXCollide + MFCPP::getTileSize(), CurrPosYCollide) == 3) {
+	// Check if right has slope AND left DOESN'T have slope
+	if (MFCPP::getIndexTilemapID(CurrPosXCollide + MFCPP::getTileSize(), CurrPosYCollide) == 3 && MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize(), CurrPosYCollide) != 3) {
 		if (const auto [fst, snd] = MFCPP::getIndexTilemapFloorY(CurrPosXCollide + MFCPP::getTileSize(), CurrPosYCollide); fst - snd >= 0) return true;
 	}
 	return false;
@@ -72,12 +74,12 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 			const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0});
 			if (isCollide(hitbox_intersect, hitbox_loop)) {
 				if (hitbox_intersect.position.x >= hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x + hitbox_intersect.size.x >= hitbox_loop.position.x + 16.0f) {
-					if (GetRelativeTilemapSlopeLeft(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.first = true;
 					if (!GetRelativeTilemapSlopeBetween(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.first = true;
+					else if (GetRelativeTilemapSlopeLeft(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.first = true;
 				}
 				if (hitbox_intersect.position.x + hitbox_intersect.size.x < hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x < hitbox_loop.position.x + 16.0f) {
-					if (GetRelativeTilemapSlopeRight(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.second = true;
 					if (!GetRelativeTilemapSlopeBetween(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.second = true;
+					else if (GetRelativeTilemapSlopeRight(hitbox_loop.position.x, hitbox_loop.position.y)) isCollideSide.second = true;
 				}
 
 				if (CurrPosXCollide != hitbox_loop.position.x || CurrPosYCollide != hitbox_loop.position.y) {
@@ -330,8 +332,8 @@ float GetCurrFloorY(const sf::Vector2f& pos, const float CurrX, const float Curr
 }
 bool PlatformYCollisionEdge(const MFCPP::CollisionObject& CollideObj, const float Yvelo, const bool direction) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), sf::Vector2f(CollideObj.GetPosition().x + CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f), CollideObj.GetPosition().y), CollideObj.GetOrigin());
-	for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
-		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
+	for (auto & it : PlatformList) {
+		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
 				if (Yvelo >= 0.f)
@@ -343,16 +345,16 @@ bool PlatformYCollisionEdge(const MFCPP::CollisionObject& CollideObj, const floa
 }
 bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut, const float Yvelo, const bool ActivatePlatform) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
-		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
+	for (auto & it : PlatformList) {
+		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
 				if (Yvelo >= 0.f) {
 					if (ActivatePlatform) {
-						if (it->isFall()) it->setIsFall(true);
-						if (it->isWait() && it->getWaitState() == 0) it->setWaitSate(1);
+						if (it.isFall()) it.setIsFall(true);
+						if (it.isWait() && it.getWaitState() == 0) it.setWaitSate(1);
 					}
-					YPosOut = it->getCurrentPosition().y;
+					YPosOut = it.getCurrentPosition().y;
 					return true;
 					//MarioCurrentFalling = false;
 					//Yvelo = 0.f;
@@ -365,12 +367,12 @@ bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut
 }
 bool PlatformXCollision(const MFCPP::CollisionObject& CollideObj, float& XDistance, const float Yvelo) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (auto it = PlatformList.begin(); it != PlatformList.end(); ++it) {
-		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it->getHitbox(), it->getPreviousPosition(), it->getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
+	for (auto & it : PlatformList) {
+		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (Yvelo >= 0.f) {
 				if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
-					XDistance = it->getCurrentPosition().x - it->getPreviousPosition().x;
+					XDistance = it.getCurrentPosition().x - it.getPreviousPosition().x;
 					return true;
 				}
 			}

@@ -13,7 +13,7 @@ namespace MFCPP {
     class PiranhaAIProjectile final : public StaticAnimationObject, public ActiveObject<float> {
     public:
         ~PiranhaAIProjectile() = default;
-        PiranhaAIProjectile(bool direction, PiranhaProjectileType type, PiranhaDirection piranha_dir, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit PiranhaAIProjectile(bool direction, PiranhaProjectileType type, PiranhaDirection piranha_dir, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         void setYVelo(float val);
         [[nodiscard]] float getYVelo() const;
         void setXVelo(float val);

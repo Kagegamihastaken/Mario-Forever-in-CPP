@@ -7,7 +7,7 @@ namespace MFCPP {
     template <typename T>
     class ActiveObject {
     public:
-        ActiveObject() = default;
+        explicit ActiveObject() = default;
         void setCurrentPosition(const sf::Vector2<T>& position);
         [[nodiscard]] const sf::Vector2<T>& getCurrentPosition() const;
         void setPreviousPosition(const sf::Vector2<T>& position);

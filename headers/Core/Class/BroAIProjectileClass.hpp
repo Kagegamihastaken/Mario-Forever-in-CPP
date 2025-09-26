@@ -9,7 +9,7 @@ namespace MFCPP {
     class BroAIProjectile final : public StaticAnimationObject, public ActiveObject<float> {
     public:
         ~BroAIProjectile() = default;
-        BroAIProjectile(bool direction, BroAIProjectileType type, BroAIProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit BroAIProjectile(bool direction, BroAIProjectileType type, BroAIProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         void setYVelo(float val);
         [[nodiscard]] float getYVelo() const;
         void setXVelo(float val);

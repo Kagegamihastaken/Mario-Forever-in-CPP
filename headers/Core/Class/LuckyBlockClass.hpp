@@ -8,7 +8,7 @@
 namespace MFCPP {
     class LuckyBlock final : public ActiveObject<float>, public SingleAnimationObject {
     public:
-        LuckyBlock(LuckyBlockID id, LuckyBlockAtt att, const sf::Vector2f& pos);
+        explicit LuckyBlock(LuckyBlockID id, LuckyBlockAtt att, const sf::Vector2f& pos);
         ~LuckyBlock() = default;
         void setID(LuckyBlockID val);
         [[nodiscard]] LuckyBlockID getID() const;

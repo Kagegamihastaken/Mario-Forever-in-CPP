@@ -9,7 +9,7 @@ namespace MFCPP {
     class MarioProjectile final : public StaticAnimationObject, public ActiveObject<float> {
     public:
         ~MarioProjectile() = default;
-        MarioProjectile(bool direction, MarioProjectileType type, MarioProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit MarioProjectile(bool direction, MarioProjectileType type, MarioProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         void setYVelo(float val);
         [[nodiscard]] float getYVelo() const;
         void setXVelo(float val);

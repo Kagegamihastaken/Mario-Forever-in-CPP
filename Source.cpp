@@ -167,6 +167,7 @@ int WinMain() {
 	SoundManager::CleanUp();
 	ImageManager::Cleanup();
 	MusicManager::CleanUp();
+	ImGui::SFML::Shutdown();
 	std::exit(EXIT_SUCCESS);
-	//ImGui::SFML::Shutdown();
+
 }

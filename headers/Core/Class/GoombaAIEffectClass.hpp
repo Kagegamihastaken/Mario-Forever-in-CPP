@@ -8,7 +8,7 @@
 namespace MFCPP {
     class GoombaAIEffect final : public ActiveObject<float>, public StaticAnimationObject {
     public:
-        GoombaAIEffect(GoombaAIEffectID id, int SkinID, float Yvelo, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        explicit GoombaAIEffect(GoombaAIEffectID id, int SkinID, float Yvelo, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~GoombaAIEffect() = default;
         void setID(GoombaAIEffectID id);
         [[nodiscard]] GoombaAIEffectID getID() const;

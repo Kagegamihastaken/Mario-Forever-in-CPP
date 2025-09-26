@@ -25,7 +25,7 @@ set(SFML_STATIC_LIBRARIES TRUE)
 #dependency
 FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
-        GIT_TAG 3.0.1
+        GIT_TAG 3.0.2
         GIT_SHALLOW ON
         GIT_PROGRESS ON
         EXCLUDE_FROM_ALL
