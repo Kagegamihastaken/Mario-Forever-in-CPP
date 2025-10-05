@@ -338,6 +338,7 @@ void MarioUpdateAnimation() {
 	}
 }
 void PowerDown() {
+	return; //Skip death, remove later
 	if (LevelCompleteEffect) return;
 
 	if (!Invincible) {
@@ -392,11 +393,11 @@ void MarioDraw() {
 	MarioAnimation.AnimationUpdate(player.property.getPosition(), {player.property.getOrigin().x + 4.0f, player.property.getOrigin().y + 7.0f});
 	if (InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) Invincible = false;
 	if (!Invincible) {
-		if (CanControlMario) MarioAnimation.AnimationDraw(window);
+		if (CanControlMario) MarioAnimation.AnimationDraw();
 	}
 	else {
 		if (!InvincibleState)
-			if (CanControlMario) MarioAnimation.AnimationDraw(window);
+			if (CanControlMario) MarioAnimation.AnimationDraw();
 	}
 }
 void InvincibleStateUpdate() {

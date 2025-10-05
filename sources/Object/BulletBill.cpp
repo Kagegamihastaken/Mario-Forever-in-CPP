@@ -98,7 +98,7 @@ void DrawBulletBill() {
         if (i.isDestroyed()) continue;
 
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-        i.AnimationDraw(window);
+        i.AnimationDraw();
     }
 }
 void BulletBillCleanup() {

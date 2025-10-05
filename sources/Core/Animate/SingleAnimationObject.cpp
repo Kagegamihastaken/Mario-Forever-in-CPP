@@ -16,11 +16,15 @@ void SingleAnimationObject::setAnimation(const int startingIndexAnimation, const
 }
 void SingleAnimationObject::AddAnimationSequence(const std::string& aName) {
 	m_Index.emplace_back(ImageManager::GetReturnTexture(aName));
+	m_AnimName.emplace_back(aName);
 }
 void SingleAnimationObject::setAnimationSequence(const std::vector<std::string>& aName) {
 	m_Index.clear();
-	for (const auto& str : aName)
+	m_AnimName.clear();
+	for (const auto& str : aName) {
 		m_Index.emplace_back(ImageManager::GetReturnTexture(str));
+		m_AnimName.emplace_back(str);
+	}
 }
 void SingleAnimationObject::SetRangeIndexAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
 	if (m_startingIndexAnimation != startingIndexAnimation || m_endingIndexAnimation != endingIndexAnimation) {
@@ -80,8 +84,9 @@ void SingleAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::V
 		if (m_change_direction)
 			m_Index[m_indexAnimation].setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
 }
-void SingleAnimationObject::AnimationDraw(sf::RenderWindow& window, const sf::RenderStates &states) const {
-	window.draw(m_Index[m_indexAnimation], states);
+void SingleAnimationObject::AnimationDraw() const {
+	ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform());
+	//window.draw(m_Index[m_indexAnimation], states);
 }
 void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 	m_direction = dir;

@@ -123,7 +123,7 @@ void GoombaAIEffectDraw() {
 
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64)) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-			i.AnimationDraw(window);
+			i.AnimationDraw();
 		}
 	}
 }

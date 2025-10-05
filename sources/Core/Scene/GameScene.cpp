@@ -199,6 +199,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     BgDraw();
     ExitGateDraw();
     PiranhaAIDraw();
+    ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
     DrawBulletBill();
@@ -223,7 +224,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     MarioEffectDraw();
     ExitGateEffectDraw();
     FrameDraw();
-
+    ImageManager::DrawAllVertex();
     TextDraw();
 }
 void GameScene::objectCleanup() {

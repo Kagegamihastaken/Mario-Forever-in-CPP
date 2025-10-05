@@ -81,7 +81,7 @@ void PiranhaAIProjectileDraw() {
     for (auto& i : PiranhaAIProjectileList) {
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
         i.setRotation(i.getInterpolatedAngle());
-        i.AnimationDraw(window);
+        i.AnimationDraw();
     }
 }
 void PiranhaAIProjectileCleanup() {

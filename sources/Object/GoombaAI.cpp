@@ -559,7 +559,7 @@ void GoombaAIDraw() {
 		}
 		if (!isOutScreen(i.getInterpolatedPosition().x - i.getOrigin().x, i.getInterpolatedPosition().y, 32, 80)) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), sf::Vector2f(i.getOrigin().x, i.getOrigin().y));
-			i.AnimationDraw(window);
+			i.AnimationDraw();
 			//window.draw(it->property);
 		}
 	}

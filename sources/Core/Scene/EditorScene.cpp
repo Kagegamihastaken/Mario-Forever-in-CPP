@@ -84,6 +84,7 @@ void EditorScene::draw(sf::RenderWindow &window) {
     DrawTile();
     SelectTileDraw();
     TextDraw();
+    ImageManager::DrawAllVertex();
 }
 void EditorScene::postUpdate() {
     PlaceTile();

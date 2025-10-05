@@ -74,6 +74,6 @@ void BulletLauncherClear() {
 void BulletLauncherDraw() {
     for (auto &i : BulletLauncherList) {
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-        i.AnimationDraw(window);
+        i.AnimationDraw();
     }
 }

@@ -67,7 +67,7 @@ void CoinDraw() {
 
 		if (isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 32, 32)) continue;
 		CoinAnimation.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-		CoinAnimation.AnimationDraw(window);
+		CoinAnimation.AnimationDraw();
 	}
 }
 void CoinCleanup() {

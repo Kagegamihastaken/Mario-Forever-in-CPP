@@ -90,7 +90,7 @@ void LuckyBlockDraw() {
 
 		if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, 32, 32)) {
 			it->AnimationUpdate(it->getInterpolatedPosition(), it->getOrigin());
-			it->AnimationDraw(window);
+			it->AnimationDraw();
 		}
 	}
 }

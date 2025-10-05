@@ -133,13 +133,15 @@ int WinMain() {
 				ExitGateClock.reset();
 				window.close();
 			}
+			ImageManager::ClearAllVertex();
 			GameObjectEditText();
 			MarioOutSideScreen();
 			fpsLite.update();
 			timestep.addFrame();
 			while (timestep.isUpdateRequired()) {
 				GameObjectSetPrev();
-				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50.0f);
+				//MFCPP::Log::InfoPrint(fmt::format("{}", timestep.getStepAsFloat() * 50));
+				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50);
 				GameObjectCollision();
 				InvincibleStateUpdate();
 			}
@@ -156,6 +158,7 @@ int WinMain() {
 			GameObjectDraw();
 			ImGui::SFML::Render(window);
 			window.display();
+			//ImageManager::printDrawCount();
 		}
 	} CPPTRACE_CATCH (std::exception& e) {
 		MFCPP::Log::ExceptionPrint(&e);

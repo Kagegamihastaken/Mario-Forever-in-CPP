@@ -4,6 +4,7 @@ namespace MFCPP {
     void StaticAnimationObject::setTexture(const std::string& name, bool anim_flip) {
         m_index.setTexture(ImageManager::GetReturnTexture(name), true);
         m_anim_flip = anim_flip;
+        m_name = name;
     }
     void StaticAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
         const sf::IntRect rect = m_index.getTextureRect();
@@ -20,8 +21,9 @@ namespace MFCPP {
     void StaticAnimationObject::setRotation(const sf::Angle angle) {
         m_index.setRotation(angle);
     }
-    void StaticAnimationObject::AnimationDraw(sf::RenderWindow& window) const {
-        window.draw(m_index);
+    void StaticAnimationObject::AnimationDraw() const {
+        ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform());
+        //window.draw(m_index);
     }
     sf::Angle StaticAnimationObject::getRotation() const {
         return m_index.getRotation();

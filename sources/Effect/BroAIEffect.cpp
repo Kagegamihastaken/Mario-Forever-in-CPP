@@ -64,7 +64,7 @@ void BroAIEffectDraw() {
 	for (auto & i : BroAIEffectList) {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 80, 80)) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-			i.AnimationDraw(window);
+			i.AnimationDraw();
 		}
 	}
 }

@@ -76,7 +76,7 @@ void BrickParticleDraw() {
 		if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 48, 48)) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
 			i.setRotation(i.getInterpolatedAngle());
-			i.AnimationDraw(window);
+			i.AnimationDraw();
 		}
 	}
 }

@@ -41,7 +41,7 @@ void FireballExplosionDraw() {
 	for (auto& i : FireballExplosionList) {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 32, 32)) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-			i.AnimationDraw(window);
+			i.AnimationDraw();
 		}
 	}
 }

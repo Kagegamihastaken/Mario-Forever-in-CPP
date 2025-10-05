@@ -175,7 +175,7 @@ void HUDUpdate() {
 	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
 }
 void FrameDraw() {
-	CoinHUDAnim.AnimationDraw(window);
+	CoinHUDAnim.AnimationDraw();
 	window.draw(MarioHUD);
 }
 void updateFrame() {

@@ -99,7 +99,7 @@ void PlatformPositionUpdate(const float deltaTime) {
 void DrawPlatform() {
     for (auto &i : PlatformList) {
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-        i.AnimationDraw(window);
+        i.AnimationDraw();
     }
 }
 void PlatformCleanup() {

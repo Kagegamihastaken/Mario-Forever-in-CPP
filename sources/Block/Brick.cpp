@@ -74,7 +74,7 @@ void BrickDraw() {
 	for (auto & Brick : Bricks) {
 		if (!isOutScreen(Brick.getInterpolatedPosition().x, Brick.getInterpolatedPosition().y, 32, 32)) {
 			Brick.AnimationUpdate(Brick.getInterpolatedPosition(), Brick.getOrigin());
-			Brick.AnimationDraw(window);
+			Brick.AnimationDraw();
 		}
 	}
 }

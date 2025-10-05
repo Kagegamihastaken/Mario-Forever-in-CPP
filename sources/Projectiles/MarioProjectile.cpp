@@ -187,7 +187,7 @@ void MarioProjectileDraw() {
 
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
         i.setRotation(i.getInterpolatedAngle());
-        i.AnimationDraw(window);
+        i.AnimationDraw();
     }
 }
 void MarioProjectileCleanup() {

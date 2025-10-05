@@ -316,7 +316,7 @@ void BroAIDraw() {
     for (auto &i : BroAIList) {
         if (!isOutScreen(i.getCurrentPosition().x, i.getCurrentPosition().y, 64.f, 64.f)) {
             i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-            i.AnimationDraw(window);
+            i.AnimationDraw();
         }
     }
 }

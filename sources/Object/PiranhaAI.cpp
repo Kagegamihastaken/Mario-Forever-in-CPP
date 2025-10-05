@@ -241,7 +241,7 @@ void PiranhaAIDraw() {
 	for (auto & i : PiranhaAIList) {
 		if (!isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 64, 64) && !i.isDisabled()) {
 			i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-			i.AnimationDraw(window);
+			i.AnimationDraw();
 		}
 	}
 }

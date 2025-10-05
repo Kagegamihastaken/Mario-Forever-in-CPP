@@ -138,7 +138,7 @@ void ExitGateEffectReset() {
 void ExitGateDraw() {
 	if (!isOutScreen(ExitGateIndicator.getPosition().x, ExitGateIndicator.getPosition().y, 64, 64)) {
 		ExitGateIndicatorAnimation.AnimationUpdate(ExitGateIndicator.getPosition(), ExitGateIndicator.getOrigin());
-		ExitGateIndicatorAnimation.AnimationDraw(window);
+		ExitGateIndicatorAnimation.AnimationDraw();
 		//window.draw(ExitGateIndicator);
 	}
 	if (!isOutScreen(ExitGateBack.getPosition().x, ExitGateBack.getPosition().y, 64, 64)) window.draw(ExitGateBack);
