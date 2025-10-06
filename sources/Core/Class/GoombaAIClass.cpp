@@ -5,8 +5,8 @@
 
 namespace MFCPP {
     GoombaAI::GoombaAI(const GoombaAIType type, const GoombaAIDirection dir, const GoombaAICollisionType collision_type, const GoombaAIBehaviour behaviour, const float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
-        const sf::Vector2f& origin, const bool is_appeared, const unsigned skin_ID, const float invincible_timer_limit, const bool can_death)
-        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_can_death(can_death), m_invincible_timer_limit(invincible_timer_limit), m_behaviour(behaviour) {
+        const sf::Vector2f& origin, const bool is_appeared, const unsigned skin_ID, const float invincible_timer_limit, const bool can_death, const float appear_speed)
+        : m_type(type), m_direction(dir), m_collision_type(collision_type), m_Xvelo(Xvelo), m_size(size), m_is_appearing(is_appeared), m_skinID(skin_ID), m_can_death(can_death), m_invincible_timer_limit(invincible_timer_limit), m_behaviour(behaviour), m_appear_speed(appear_speed) {
         setOrigin(origin);
         setCurrentPosition(pos);
         setPreviousPosition(pos);
@@ -144,6 +144,8 @@ namespace MFCPP {
     GoombaAIBehaviour GoombaAI::GetBehaviour() const {
         return m_behaviour;
     }
-
+    float GoombaAI::GetAppearSpeed() const {
+        return m_appear_speed;
+    }
 
 }

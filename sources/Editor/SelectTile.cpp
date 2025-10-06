@@ -86,6 +86,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
             {"NormalBrick", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
             {"EDITOR_CoinBrick", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
             {"EDITOR_FireFlowerLuckyblock", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
+            {"EDITOR_GreenMushroomLuckyblock", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 3},
         },
     { // PAGE 3
         {"Goomba_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},

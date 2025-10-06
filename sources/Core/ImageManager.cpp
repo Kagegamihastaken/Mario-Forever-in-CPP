@@ -30,9 +30,9 @@ void ImageManager::ClearAllVertex() {
 	for (auto &val: m_vertex_array | std::views::values)
 		if (val.getVertexCount() > 0) val.clear();
 }
-void ImageManager::AddToVertex(const std::string &name_tex, const sf::IntRect& texRect, const sf::Transform &trans) {
+void ImageManager::AddToVertex(const std::string &name_tex, const sf::IntRect& texRect, const sf::Transform &trans, const sf::Color &color) {
 
-	if (!m_textures.contains(name_tex)) throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: Texture {} not loaded, aborting drawing...", name_tex));
+	if (!m_textures.contains(name_tex)) throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: Texture {} not loaded, aborted drawing...", name_tex));
 
 	if (!m_vertex_set.contains(name_tex)) {
 		m_vertex_queue.push(name_tex);
@@ -47,12 +47,16 @@ void ImageManager::AddToVertex(const std::string &name_tex, const sf::IntRect& t
 	sf::Vertex quad[4];
 	quad[0].position = trans.transformPoint(sf::Vector2f(0.f, 0.f));
 	quad[0].texCoords = position;
+	quad[0].color = color;
 	quad[1].position = trans.transformPoint(sf::Vector2f(tex->getSize().x, 0.f));
 	quad[1].texCoords = position + sf::Vector2f(size.x, 0.f);
+	quad[1].color = color;
 	quad[2].position = trans.transformPoint(sf::Vector2f(0.f, tex->getSize().y));
 	quad[2].texCoords = position + sf::Vector2f(0.f, size.y);
+	quad[2].color = color;
 	quad[3].position = trans.transformPoint(sf::Vector2f(tex->getSize().x, tex->getSize().y));
 	quad[3].texCoords = position + size;
+	quad[3].color = color;
 
 	va[previousVertexCount] = quad[0];
 	va[previousVertexCount + 1] = quad[1];

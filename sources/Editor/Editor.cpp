@@ -50,6 +50,7 @@ void EditorInit() {
     ImageManager::AddTexture("EDITOR_HammerBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
     ImageManager::AddTexture("EDITOR_HammerBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
     ImageManager::AddTexture( "EDITOR_FireFlowerLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
+    ImageManager::AddTexture("EDITOR_GreenMushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_GreenMushroom_LuckyBlock.png");
 
     SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
     if (ImageManager::GetReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");

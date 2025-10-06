@@ -22,7 +22,7 @@ namespace MFCPP {
         m_index.setRotation(angle);
     }
     void StaticAnimationObject::AnimationDraw() const {
-        ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform());
+        ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform(), m_index.getColor());
         //window.draw(m_index);
     }
     sf::Angle StaticAnimationObject::getRotation() const {

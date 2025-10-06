@@ -48,7 +48,7 @@ void GameObjectInit() {
     //Scene
     sceneManager.addScene<GameScene>("Game");
     sceneManager.addScene<EditorScene>("Editor");
-    sceneManager.changeScene("Editor");
+    sceneManager.changeScene("Game");
 }
 void GameObjectEditText() {
     sceneManager.textUpdate();

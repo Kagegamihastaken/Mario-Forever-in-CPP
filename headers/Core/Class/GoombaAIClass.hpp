@@ -22,6 +22,7 @@ namespace MFCPP {
         bool                                m_can_death{};
         //Dont touch
         bool                                m_disabled{};
+        float                               m_appear_speed{};
         float                               m_appear_y{}; //for m_is_appeared = true
         sf::Clock                           m_invincible_timer{};
         float                               m_invincible_timer_limit{};
@@ -31,7 +32,7 @@ namespace MFCPP {
         GoombaAIBehaviour                   m_behaviour{};
     public:
         explicit GoombaAI(GoombaAIType type, GoombaAIDirection dir, GoombaAICollisionType collision_type, GoombaAIBehaviour behaviour, float Xvelo, const sf::FloatRect& size, const sf::Vector2f& pos,
-        const sf::Vector2f& origin, bool is_appeared, unsigned skin_ID, float invincible_timer_limit, bool can_death = true);
+        const sf::Vector2f& origin, bool is_appeared, unsigned skin_ID, float invincible_timer_limit, bool can_death = true, float appear_speed = 0.f);
         ~GoombaAI() = default;
         void SetType(const GoombaAIType& type);
         [[nodiscard]] GoombaAIType GetType() const;
@@ -75,6 +76,8 @@ namespace MFCPP {
 
         void SetBehaviour(GoombaAIBehaviour val);
         [[nodiscard]] GoombaAIBehaviour GetBehaviour() const;
+
+        [[nodiscard]] float GetAppearSpeed() const;
     };
 }
 

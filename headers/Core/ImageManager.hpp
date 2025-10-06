@@ -22,7 +22,7 @@ class ImageManager {
 public:
 	ImageManager() = delete;
 	static void ClearAllVertex();
-	static void AddToVertex(const std::string& name_tex, const sf::IntRect& texRect, const sf::Transform& trans);
+	static void AddToVertex(const std::string& name_tex, const sf::IntRect& texRect, const sf::Transform& trans, const sf::Color &color);
 	static void DrawAllVertex();
 	static void AddTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect = {}, const bool &isRepeated = false);
 	static void PreloadTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect, const bool &isRepeated = false);

@@ -170,7 +170,6 @@ void LuckyHitIndex(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>&
 			break;
 		case LUCKY_MUSHROOM:
 			SoundManager::PlaySound("Vine");
-			//Temporary
 			AddGoombaAI(MUSHROOM, 0, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
 			break;
 		case LUCKY_FIRE_FLOWER:
@@ -179,6 +178,10 @@ void LuckyHitIndex(const plf::colony<MFCPP::LuckyBlock>::colony_iterator<false>&
 				AddGoombaAI(MUSHROOM, 0, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
 			else
 				AddGoombaAI(FIRE_FLOWER, 0, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
+			break;
+		case LUCKY_GREEN_MUSHROOM:
+			SoundManager::PlaySound("Vine");
+			AddGoombaAI(MUSHROOM, 1, it->getCurrentPosition().x + 16.0f, it->getCurrentPosition().y, RIGHT);
 			break;
 		default: ;
 		}

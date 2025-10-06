@@ -7,22 +7,23 @@
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
+#include "Core/Animate/StaticAnimationObject.hpp"
+#include "Core/Class/ActiveObjectClass.hpp"
 
-sf::Sprite playerEffect(tempTex);
-sf::Vector2f MarioEffectCurr;
-sf::Vector2f MarioEffectPrev;
+static MFCPP::StaticAnimationObject playerEffect;
+static MFCPP::ActiveObject<float> playerPos;
 bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
 void MarioEffectInit() {
 	ImageManager::AddTexture("DEADMario", "data/resources/MarioDead.png");
-	playerEffect.setTexture(*ImageManager::GetReturnTexture("DEADMario"), true);
+	playerEffect.setTexture("DEADMario");
 }
 void SetPrevMarioEffectPos() {
-	MarioEffectPrev = MarioEffectCurr;
+	playerPos.setPreviousPosition(playerPos.getCurrentPosition());
 }
 void InterpolateMarioEffectPos(const float alpha) {
-	playerEffect.setPosition(linearInterpolation(MarioEffectPrev, MarioEffectCurr, alpha));
+	playerPos.setInterpolatedPosition(linearInterpolation(playerPos.getPreviousPosition(), playerPos.getCurrentPosition(), alpha));
 }
 void MarioEffectStatusUpdate(const float deltaTime) {
 	if (EffectActive) {
@@ -32,9 +33,8 @@ void MarioEffectStatusUpdate(const float deltaTime) {
 			Death();
 		}
 		else if (MarioEffectTimer.getElapsedTime().asSeconds() >= 0.5f && MarioEffectTimer.getElapsedTime().asSeconds() < 4.0f) {
-			MarioEffectYVelo += (MarioEffectYVelo >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f);
-			MarioEffectCurr = { MarioEffectCurr.x, MarioEffectCurr.y + MarioEffectYVelo * deltaTime };
-			MarioEffectYVelo += (MarioEffectYVelo >= 10.0f ? 0.0f : 0.5f * deltaTime * 0.3f);
+			MarioEffectYVelo += (MarioEffectYVelo >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f);
+			playerPos.move(sf::Vector2f(0.f, MarioEffectYVelo * deltaTime));
 		}
 	}
 }
@@ -43,8 +43,9 @@ void ActiveMarioEffect() {
 		MusicManager::StopAllMusic();
 		MusicManager::PlayMusic("MarioDeath");
 		EffectActive = true;
-		playerEffect.setPosition({ player.property.getPosition().x - 14.0f, player.property.getPosition().y - 30.0f });
-		MarioEffectCurr = MarioEffectPrev = playerEffect.getPosition();
+		playerPos.setCurrentPosition({ player.property.getPosition().x - 14.0f, player.property.getPosition().y - 30.0f });
+		playerPos.setPreviousPosition(playerPos.getCurrentPosition());
+		playerPos.setInterpolatedPosition(playerPos.getCurrentPosition());
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;
 		//prevent any bug occur
@@ -53,6 +54,9 @@ void ActiveMarioEffect() {
 }
 void MarioEffectDraw() {
 	if (EffectActive) {
-		if (!isOutScreen(playerEffect.getPosition().x, playerEffect.getPosition().y, 32, 32)) window.draw(playerEffect);
+		if (!isOutScreen(playerPos.getInterpolatedPosition().x, playerPos.getInterpolatedPosition().y, 32, 32)) {
+			playerEffect.AnimationUpdate(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f));
+			playerEffect.AnimationDraw();
+		}
 	}
 }

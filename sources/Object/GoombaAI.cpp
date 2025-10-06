@@ -26,6 +26,7 @@ static int GOOMBA_IMAGE_WIDTH = 62;
 static int GOOMBA_WIDTH = 31;
 static int GOOMBA_HEIGHT = 32;
 static std::vector<std::string> MushroomAnimName;
+static std::vector<std::string> GreenMushroomAnimName;
 static int MUSHROOM_IMAGE_WIDTH = 31;
 static int MUSHROOM_WIDTH = 31;
 static int MUSHROOM_HEIGHT = 32;
@@ -57,6 +58,8 @@ void GoombaAIInit() {
 	for (int i = 0; i < MUSHROOM_IMAGE_WIDTH / MUSHROOM_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("Mushroom_{}", i), "data/resources/Mushroom.png", sf::IntRect({i * MUSHROOM_WIDTH, 0}, {MUSHROOM_WIDTH, MUSHROOM_HEIGHT}));
 		MushroomAnimName.push_back(fmt::format("Mushroom_{}", i));
+		ImageManager::AddTexture(fmt::format("GreenMushroom_{}", i), "data/resources/GreenMushroom.png", sf::IntRect({i * MUSHROOM_WIDTH, 0}, {MUSHROOM_WIDTH, MUSHROOM_HEIGHT}));
+		GreenMushroomAnimName.push_back(fmt::format("GreenMushroom_{}", i));
 	}
 	for (int i = 0; i < KOOPA_IMAGE_WIDTH / KOOPA_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("GreenKoopa_{}", i), "data/resources/Koopa/GreenKoopa.png", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}));
@@ -133,11 +136,23 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			}
 			break;
 		case MUSHROOM:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
-				sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
-				sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
-			it->setAnimation(0, 0, 100);
-			it->setAnimationSequence(MushroomAnimName);
+			switch (SkinID) {
+			case 0:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
+					sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
+					sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
+				it->setAnimation(0, 0, 100);
+				it->setAnimationSequence(MushroomAnimName);
+				break;
+			case 1:
+				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
+					sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
+					sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 1.5f);
+				it->setAnimation(0, 0, 100);
+				it->setAnimationSequence(GreenMushroomAnimName);
+				break;
+			default: ;
+			}
 			break;
 		case SHELL:
 			switch (SkinID) {
@@ -199,7 +214,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case FIRE_FLOWER:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
-				sf::Vector2f(16, 31), true, SkinID, 0.0f, false);
+				sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
 			it->setAnimation(0, 3, 27);
 			it->setAnimationSequence(FireFlowerAnimName);
 			break;
@@ -232,8 +247,8 @@ void GoombaStatusUpdate(const float deltaTime) {
 		}
 		else continue;
 		if (it->IsAppearing() && !it->IsDisabled()) {
-			it->move(sf::Vector2f(0.0f, -0.5f * deltaTime));
-			it->SetAppearY(it->GetAppearY() + 0.5f * deltaTime);
+			it->move(sf::Vector2f(0.0f, -it->GetAppearSpeed() * deltaTime));
+			it->SetAppearY(it->GetAppearY() + it->GetAppearSpeed() * deltaTime);
 			if (it->GetAppearY() >= 32.0f) it->SetAppearing(false);
 		}
 	}
@@ -290,10 +305,19 @@ void GoombaAICheckCollide() {
 			else if (it->GetCollisionType() == GoombaAICollisionType::FULL) {
 				switch (it->GetType()) {
 				case GoombaAIType::MUSHROOM:
-					SoundManager::PlaySound("Powerup");
-					AddScoreEffect(SCORE_1000, it->getCurrentPosition().x, it->getCurrentPosition().y - it->getOrigin().y);
-					if (PowerState == 0) SetPowerState(1);
-					DeleteGoombaAIIndex(it);
+					switch (it->GetSkinID()) {
+						case 0:
+							SoundManager::PlaySound("Powerup");
+							AddScoreEffect(SCORE_1000, it->getCurrentPosition().x, it->getCurrentPosition().y - it->getOrigin().y);
+							if (PowerState == 0) SetPowerState(1);
+							DeleteGoombaAIIndex(it);
+							break;
+						case 1:
+							AddScoreEffect(SCORE_1UP, it->getCurrentPosition().x, it->getCurrentPosition().y - it->getOrigin().y);
+							DeleteGoombaAIIndex(it);
+							break;
+						default: ;
+					}
 					break;
 				case GoombaAIType::SHELL:
 					if ((it->GetInvincibleTimer().getElapsedTime().asSeconds() > it->GetInvincibleTimerLimit() && it->GetInvincibleTimerLimit() > 0.0f) || it->GetInvincibleTimerLimit() == 0.0f) {

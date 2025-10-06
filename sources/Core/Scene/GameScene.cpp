@@ -202,8 +202,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
-    DrawBulletBill();
-    BulletLauncherDraw();
     GoombaAIDraw();
     BroAIDraw();
     MarioDraw();
@@ -211,6 +209,8 @@ void GameScene::draw(sf::RenderWindow &window) {
     LuckyBlockDraw();
     SpikeDraw();
     CoinDraw();
+    DrawBulletBill();
+    BulletLauncherDraw();
     BrickParticleDraw();
     GoombaAIEffectDraw();
     BroAIEffectDraw();

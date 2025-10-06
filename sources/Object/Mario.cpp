@@ -338,7 +338,7 @@ void MarioUpdateAnimation() {
 	}
 }
 void PowerDown() {
-	return; //Skip death, remove later
+	//return; //Skip death, remove later
 	if (LevelCompleteEffect) return;
 
 	if (!Invincible) {
