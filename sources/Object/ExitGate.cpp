@@ -1,12 +1,11 @@
-#define _USE_MATH_DEFINES
-#include <math.h>
+#define USE_MATH_DEFINES
+#include <cmath>
 #include "Object/ExitGate.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Core/Music.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"

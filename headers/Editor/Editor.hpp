@@ -1,7 +1,7 @@
 #ifndef EDITOR_HPP
 #define EDITOR_HPP
 
-#include <cmake-build-relwithdebinfo-mingw/config/config.h>
+#include <config.h>
 
 #include "RenderTile.hpp"
 #include "Core/Hash.hpp"

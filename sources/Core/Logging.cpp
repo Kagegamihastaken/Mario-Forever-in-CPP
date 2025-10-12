@@ -1,6 +1,6 @@
 #include "Core/Logging.hpp"
 #include <cpptrace/from_current.hpp>
-#include "config.h"
+#include <config.h>
 
 namespace MFCPP {
     namespace Log {

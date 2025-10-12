@@ -139,14 +139,14 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			switch (SkinID) {
 			case 0:
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
-					sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
+					sf::FloatRect({0.0f, 1.0f}, {31.0f, 31.0f}), sf::Vector2f(x, y + 31.f),
 					sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
 				it->setAnimation(0, 0, 100);
 				it->setAnimationSequence(MushroomAnimName);
 				break;
 			case 1:
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
-					sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
+					sf::FloatRect({0.0f, 1.0f}, {31.0f, 31.0f}), sf::Vector2f(x, y + 31.f),
 					sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 1.5f);
 				it->setAnimation(0, 0, 100);
 				it->setAnimationSequence(GreenMushroomAnimName);
@@ -213,7 +213,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			break;
 		case FIRE_FLOWER:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
-				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
+				sf::FloatRect({0.0f, 1.0f}, {32.0f, 31.0f}), sf::Vector2f(x, y + 31.f),
 				sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
 			it->setAnimation(0, 3, 27);
 			it->setAnimationSequence(FireFlowerAnimName);
@@ -249,7 +249,10 @@ void GoombaStatusUpdate(const float deltaTime) {
 		if (it->IsAppearing() && !it->IsDisabled()) {
 			it->move(sf::Vector2f(0.0f, -it->GetAppearSpeed() * deltaTime));
 			it->SetAppearY(it->GetAppearY() + it->GetAppearSpeed() * deltaTime);
-			if (it->GetAppearY() >= 32.0f) it->SetAppearing(false);
+			if (it->GetAppearY() >= 32.0f) {
+				it->move(sf::Vector2f(0.f, it->GetAppearY() - 32.0f));
+				it->SetAppearing(false);
+			}
 		}
 	}
 }

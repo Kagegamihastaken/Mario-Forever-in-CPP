@@ -78,6 +78,8 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"Tile_44", CustomTileProperty(), sf::Vector2f(224, 160), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 44},
         {"Tile_45", CustomTileProperty(), sf::Vector2f(256, 128), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 45},
         {"Tile_46", CustomTileProperty(), sf::Vector2f(256, 160), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 46},
+        {"Tile_47", CustomTileProperty(), sf::Vector2f(96, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 47},
+        {"Tile_48", CustomTileProperty(), sf::Vector2f(96, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 48},
     },
     { // PAGE 2
             {"Coin_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},

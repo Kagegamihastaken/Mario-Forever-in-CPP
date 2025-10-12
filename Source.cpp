@@ -6,7 +6,7 @@
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Game.hpp"
-#include "config.h"
+#include <config.h>
 #include "Core/Logging.hpp"
 #include "Core/Loading/Handler.hpp"
 #include <cpptrace/from_current.hpp>

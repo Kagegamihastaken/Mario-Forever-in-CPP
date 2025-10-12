@@ -1,6 +1,6 @@
 #include "Core/WindowFrame.hpp"
 
-#include "config.h"
+#include <config.h>
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"

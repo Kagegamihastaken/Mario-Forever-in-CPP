@@ -3,7 +3,7 @@
 #ifndef MARIO_HPP
 #define MARIO_HPP
 
-#include "config.h"
+#include <config.h>
 #include "Core/ImageManager.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 
