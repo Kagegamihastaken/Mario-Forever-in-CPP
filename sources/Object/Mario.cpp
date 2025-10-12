@@ -73,30 +73,34 @@ void MarioOutSideScreen() {
 //false: right, true: left
 void KeyboardMovement(const float deltaTime) {
 	if (CanControlMario && !LevelCompleteEffect) {
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && !MarioCrouchDown && window.hasFocus()) {
-			if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !MarioCurrentFalling && PowerState > 0)) {
-				if (Xvelo == 0) MarioDirection = true;
-				else if (!MarioDirection) {
-					Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
-				}
-				//init speed
-				if (Xvelo < 1.0f && MarioDirection && !MarioCrouchDown) Xvelo = 1.0f;
-				if (MarioDirection) Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && ((!MarioCrouchDown && !MarioCurrentFalling) || MarioCurrentFalling) && window.hasFocus()) {
+			if (Xvelo == 0) MarioDirection = true;
+			else if (!MarioDirection) {
+				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
+				if (Xvelo < 0.f) Xvelo = 0.f;
+			}
+			//init speed
+			if (Xvelo < 1.0f && MarioDirection) Xvelo = 1.0f;
+			if (MarioDirection) {
+				Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+				if (Xvelo > 7.5f) Xvelo = 7.5f;
 			}
 		}
-		else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && !MarioCrouchDown && window.hasFocus()) {
-			if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !MarioCurrentFalling && PowerState > 0)) {
-				if (Xvelo == 0) MarioDirection = false;
-				else if (MarioDirection) {
-					Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
-				}
-				if (Xvelo < 1.0f && !MarioDirection && !MarioCrouchDown) Xvelo = 1.0f;
-				if (!MarioDirection) Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+		else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && ((!MarioCrouchDown && !MarioCurrentFalling) || MarioCurrentFalling) && window.hasFocus()) {
+			if (Xvelo == 0) MarioDirection = false;
+			else if (MarioDirection) {
+				Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.375f * deltaTime);
+				if (Xvelo < 0.f) Xvelo = 0.f;
+			}
+			if (Xvelo < 1.0f && !MarioDirection) Xvelo = 1.0f;
+			if (!MarioDirection) {
+				Xvelo += (Xvelo > player_speed ? 0.0f : 0.125f * deltaTime);
+				if (Xvelo > 7.5f) Xvelo = 7.5f;
 			}
 		}
-		else if ((((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))) && !MarioCrouchDown) || MarioCrouchDown) {
-			if (!MarioCrouchDown) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.125f * deltaTime);
-			else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.28125f * deltaTime);
+		else if ((((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))) && (!MarioCrouchDown || MarioCurrentFalling)) || (MarioCrouchDown && !MarioCurrentFalling)) {
+			if (!(MarioCrouchDown && !MarioCurrentFalling)) Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.125f * deltaTime);
+			else Xvelo -= (Xvelo <= 0.0f ? 0.0f : 0.25f * deltaTime);
 		}
 		if (Xvelo < 0.0f) Xvelo = 0.0f;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !MarioCurrentFalling && window.hasFocus()) {
@@ -112,25 +116,26 @@ void KeyboardMovement(const float deltaTime) {
 				Holding = true;
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && PowerState > 0 && !MarioCurrentFalling && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !MarioCurrentFalling && PowerState > 0 && window.hasFocus()) {
 			MarioCrouchDown = true;
 		}
-		else MarioCrouchDown = false;
+		else if (!MarioCurrentFalling) MarioCrouchDown = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) {
 			if (Xvelo < 0.625f && Yvelo < 0.0f) Yvelo -= 0.4f * deltaTime;
 			if (Xvelo >= 0.625f && Yvelo < 0.0f) Yvelo -= 0.5f * deltaTime;
 			if (Yvelo >= 0.0f && !Holding) PreJump = true;
 		}
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) Holding = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus()) player_speed = 7.5f;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !MarioCrouchDown && window.hasFocus()) player_speed = 7.5f;
 		else player_speed = 4.375f;
-
 		if (!MarioCurrentFalling && PreJump) PreJump = false;
 
 		//Fire
+		//MFCPP::Log::InfoPrint(fmt::format("Speed: {}, Limit: {}, Comp: {}", Xvelo, player_speed, Xvelo > player_speed));
 	}
 	else if (LevelCompleteEffect) {
 		if (MarioDirection) MarioDirection = false;
+		if (MarioCrouchDown) MarioCrouchDown = false;
 		Xvelo = 2.5f;
 	}
 	else if (!CanControlMario) {
@@ -161,17 +166,17 @@ void MarioPosXUpdate(const float deltaTime) {
 		}
 
 		if (CanControlMario) {
-			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && Xvelo > 4.475f) {
+			if ((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) || MarioCrouchDown) && Xvelo > 4.375f) {
 				OverSpeed = true;
 			}
-			if (Xvelo > player_speed && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) {
+			if (Xvelo > player_speed && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) || MarioCrouchDown)) {
 				if (OverSpeed) {
 					Xvelo -= 0.125f * deltaTime;
 					if (Xvelo <= player_speed) OverSpeed = false;
 				}
 				else Xvelo = player_speed;
 			}
-			if (Xvelo > 7.5f && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X)) Xvelo = 7.5f;
+			if (Xvelo > 7.5f && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) || MarioCrouchDown)) Xvelo = 7.5f;
 		}
 	}
 }
@@ -282,7 +287,7 @@ void MarioUpdateAnimation() {
 	// 0: idle, 1: run, 2: jump = fall, 3: crouch, 4: appear
 	if (CanControlMario) {
 		if (!MarioAppearing) {
-			if (MarioCurrentFalling) {
+			if (MarioCurrentFalling && !MarioCrouchDown) {
 				MarioState = 2;
 				if (lastMarioState != MarioState) {
 					MarioAnimation.setAnimation(3, 3, 100, true);
