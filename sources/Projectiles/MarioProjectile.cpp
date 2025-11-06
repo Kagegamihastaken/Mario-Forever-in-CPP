@@ -13,6 +13,9 @@
 #include "Object/Mario.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
+#include "Core/ProjectileBehaviour/Fireball.hpp"
+#include "Core/ProjectileBehaviour/Fireball.hpp"
+
 plf::colony<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;
 
@@ -129,31 +132,25 @@ void AddMarioProjectile(const bool direction, const MarioProjectileType type, co
 }
 //Behaviour
 static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
-
-    it->move(sf::Vector2f(0.f, it->getYVelo() * deltaTime));
-    it->setYVelo(it->getYVelo() + (it->getYVelo() >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f));
-    if (it->getYVelo() > 10.0f) it->setYVelo(10.0f);
-
-    if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), PlatPosY, it->getYVelo(), false)) {
-        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, PlatPosY));
-        it->setYVelo(-5.f);
-    }
-
-    float CurrPosYCollide, CurrPosXCollide;
-    //recolide
-    if (QuickCheckBotCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide)) {
-        if (const float offset = it->getXVelo() + 1.f; it->getYVelo() >= -it->getXVelo()) {
-            const float floorY = GetCurrFloorY(it->getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
-            if (it->getCurrentPosition().y < CurrPosYCollide + floorY - offset) return;
-            it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x, CurrPosYCollide + floorY - (it->getHitbox().size.y - it->getOrigin().y)));
-            it->setYVelo(-5.f);
-            return;
-        }
-    }
-    if (QuickCheckTopCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), CurrPosXCollide, CurrPosYCollide))
+    const auto [Xvelo, Yvelo, X, Y, remove] = FireballY(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), deltaTime, it->getHitbox(), it->getOrigin());
+    if (remove) {
         DeleteMarioProjectile(it);
+        return;
+    }
+    it->setCurrentPosition(sf::Vector2f(X, Y));
+    it->setXVelo(Xvelo);
+    it->setYVelo(Yvelo);
 }
 static void FireballXUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
+    const auto [Xvelo, Yvelo, X, Y, remove] = FireballX(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
+    if (remove) {
+        DeleteMarioProjectile(it);
+        return;
+    }
+    it->setCurrentPosition(sf::Vector2f(X, Y));
+    it->setXVelo(Xvelo);
+    it->setYVelo(Yvelo);
+    /*
     if (it->getDirection()) it->move(sf::Vector2f( - it->getXVelo() * deltaTime, 0.f));
     else it->move(sf::Vector2f( it->getXVelo() * deltaTime, 0.f));
 
@@ -166,6 +163,7 @@ static void FireballXUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_it
         CurrPosXCollide, CurrPosYCollide);
     if (fst || snd)
         DeleteMarioProjectile(it);
+        */
 }
 
 void MarioProjectileMovementUpdate(const float deltaTime) {

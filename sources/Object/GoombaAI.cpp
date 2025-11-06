@@ -213,7 +213,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			break;
 		case FIRE_FLOWER:
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
-				sf::FloatRect({0.0f, 1.0f}, {32.0f, 31.0f}), sf::Vector2f(x, y + 31.f),
+				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 				sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
 			it->setAnimation(0, 3, 27);
 			it->setAnimationSequence(FireFlowerAnimName);
