@@ -43,13 +43,14 @@ void GameScene::loadResources() {
     GameSceneInit();
     //Preload
     loadObstacleRes();
+    //Init Projectile Texture First then anything else
+    ProjectileInit();
     //Force Load
     loadMarioRes();
     BrickParticleInit();
     BricksInit();
     LoadLuckyBlock();
     GoombaAIInit();
-    ProjectileInit();
     BroAILoadRes();
     BroAIEffectInit();
     CoinEffectInit();
@@ -97,7 +98,7 @@ void GameScene::unloadResources() {
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            AddBroAI(BroAIType::HAMMER_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
+            AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - 320.0f, MouseY + view.getCenter().y - 240.0f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
             SetPowerState(2);
@@ -244,6 +245,7 @@ void GameScene::objectCleanup() {
     LuckyBlockCleanup();
     PlatformCleanup();
     PiranhaAIProjectileCleanup();
+    BroAIProjectileCleanup();
 }
 void GameScene::postUpdate() {
     PlatformStatusUpdate();

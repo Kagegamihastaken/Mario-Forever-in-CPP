@@ -32,10 +32,10 @@ enum PiranhaProjectileType {PIRANHA_FIREBALL};
 //enum for Spike
 enum SpikeID { PIRANHA_GROUND, SPIKE_NORMAL };
 //enum for BroAI
-enum BroAIType {HAMMER_BRO};
+enum BroAIType {HAMMER_BRO, FIRE_BRO};
 enum BroAIMovementType {CAN_JUMP, CANNOT_JUMP};
-enum BroAIProjectileType {HAMMER};
-enum BroAIProjectileBehavior {HAMMER_BEHAVIOUR};
+enum BroAIProjectileType {BROAI_HAMMER, BROAI_FIREBALL};
+enum BroAIProjectileBehavior {BROAI_HAMMER_BEHAVIOUR, BROAI_FIREBALL_BEHAVIOUR};
 //enum for MarioProjectile
 enum MarioProjectileType {FIREBALL};
 enum MarioProjectileBehavior {FIREBALL_BEHAVIOUR};

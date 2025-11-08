@@ -2,13 +2,11 @@
 #include "Core/WindowFrame.hpp"
 
 namespace MFCPP {
-    BroAIProjectile::BroAIProjectile(const bool direction, const BroAIProjectileType type, const BroAIProjectileBehavior behaviour, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_direction(direction), m_type(type), m_behaviour(behaviour), m_hitbox(hitbox) {
+    BroAIProjectile::BroAIProjectile(const bool direction, const BroAIProjectileType type, const BroAIProjectileBehavior behaviour, const float xvelo, const float yvelo, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) : m_direction(direction), m_type(type), m_behaviour(behaviour), m_hitbox(hitbox), m_Xvelo(xvelo), m_Yvelo(yvelo) {
         setCurrentPosition(pos);
         setPreviousPosition(pos);
         setInterpolatedPosition(pos);
         setOrigin(origin);
-        m_Xvelo = 1.f + static_cast<float>(RandomIntNumberGenerator(0, 4));
-        m_Yvelo = (6.f + static_cast<float>(RandomIntNumberGenerator(0, 4))) * -1.f;
     }
     void BroAIProjectile::setYVelo(const float val) {
         m_Yvelo = val;

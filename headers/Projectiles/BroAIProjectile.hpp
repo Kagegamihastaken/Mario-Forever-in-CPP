@@ -11,5 +11,6 @@ extern void BroAIProjectileDraw();
 extern void BroAIProjectileMovementUpdate(float deltaTime);
 extern void BroAIProjectileSpin(float deltaTime);
 extern void BroAIProjectileCollision();
+extern void BroAIProjectileCleanup();
 
 #endif //BROAIPROJECTILE_HPP

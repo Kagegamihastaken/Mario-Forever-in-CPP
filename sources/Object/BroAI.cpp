@@ -17,27 +17,40 @@ static bool BroAIDeleteGate = false;
 
 static std::vector<std::string> HammerBroAnimName;
 static std::vector<std::string> HammerBroLaunchAnimName;
+static std::vector<std::string> FireBroAnimName;
+static std::vector<std::string> FireBroLaunchAnimName;
 static constexpr int HAMMER_BRO_IMAGE_WIDTH = 96;
 static constexpr int HAMMER_BRO_WIDTH = 48;
 static constexpr int HAMMER_BRO_HEIGHT = 64;
 
 void BroAILoadRes() {
     for (int i = 0; i < HAMMER_BRO_IMAGE_WIDTH / HAMMER_BRO_WIDTH; i++) {
-        ImageManager::AddTexture(fmt::format("HammerBro_{}", i), "data/resources/HammerBro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
+        ImageManager::AddTexture(fmt::format("HammerBro_{}", i), "data/resources/Bro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
         HammerBroAnimName.push_back(fmt::format("HammerBro_{}", i));
+        ImageManager::AddTexture(fmt::format("FireBro_{}", i), "data/resources/Bro/FireBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
+        FireBroAnimName.push_back(fmt::format("FireBro_{}", i));
 
-        ImageManager::AddTexture(fmt::format("HammerBroLaunch_{}", i), "data/resources/HammerBro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
+        ImageManager::AddTexture(fmt::format("HammerBroLaunch_{}", i), "data/resources/Bro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
         HammerBroLaunchAnimName.push_back(fmt::format("HammerBroLaunch_{}", i));
+        ImageManager::AddTexture(fmt::format("FireBroLaunch_{}", i), "data/resources/Bro/FireBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
+        FireBroLaunchAnimName.push_back(fmt::format("FireBroLaunch_{}", i));
     }
 }
 static void BroLaunchProjectile(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it) {
     switch (it->getType()) {
         case BroAIType::HAMMER_BRO:
             if (it->getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), HAMMER, it->getCurrentPosition().x + 5.f, it->getCurrentPosition().y - 31.f);
+                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), BROAI_HAMMER, it->getCurrentPosition().x + 5.f, it->getCurrentPosition().y - 31.f);
             else
-                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), HAMMER, it->getCurrentPosition().x - 5.f, it->getCurrentPosition().y - 31.f);
+                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), BROAI_HAMMER, it->getCurrentPosition().x - 5.f, it->getCurrentPosition().y - 31.f);
             SoundManager::PlaySound("Hammer");
+            break;
+        case BroAIType::FIRE_BRO:
+            if (it->getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
+                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), BROAI_FIREBALL, it->getCurrentPosition().x + 6.f, it->getCurrentPosition().y - 21.f);
+            else
+                AddBroAIProjectile(static_cast<bool>(it->getAnimationDirection()), BROAI_FIREBALL, it->getCurrentPosition().x - 6.f, it->getCurrentPosition().y - 21.f);
+            SoundManager::PlaySound("Fireball");
             break;
         default: ;
     }
@@ -77,6 +90,12 @@ void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const 
                                sf::Vector2f(x, y), sf::Vector2f(24.f, 63.f));
             it->setAnimation(0, 1, 14, true);
             it->setAnimationSequence(HammerBroAnimName);
+            break;
+        case BroAIType::FIRE_BRO:
+            it = BroAIList.emplace(type, movementType, 2.f, 100.f, 3.f, 1, 0.f, sf::FloatRect({7.f, 16.f}, {32.f, 48.f}),
+                   sf::Vector2f(x, y), sf::Vector2f(24.f, 63.f));
+            it->setAnimation(0, 1, 14, true);
+            it->setAnimationSequence(FireBroAnimName);
             break;
         default: ;
     }
@@ -131,7 +150,15 @@ void BroAIShootUpdate(const float deltaTime) {
                 if (RandomIntNumberGenerator(0, static_cast<int>(it->getLaunchRNG())) == 1 && !isOutScreen(
                         it->getCurrentPosition().x, it->getCurrentPosition().y, 32.f, 32.f)) {
                     it->setLaunchTickingTime(it->getLaunchTickingTime() + 1.f * deltaTime);
-                    it->setAnimationSequence(HammerBroLaunchAnimName);
+                    switch (it->getType()) {
+                        case HAMMER_BRO:
+                            it->setAnimationSequence(HammerBroLaunchAnimName);
+                            break;
+                        case FIRE_BRO:
+                            it->setAnimationSequence(FireBroLaunchAnimName);
+                            break;
+                        default: ;
+                    }
                     //std::cout << "Standby\n";
                 }
                 it->setLaunchIntervalTicking(0.f);
@@ -155,7 +182,15 @@ void BroAIShootUpdate(const float deltaTime) {
                     it->setLaunchIBTicking(it->getLaunchIntervalBetween());
                     it->setLaunchCounting(it->getLaunchCount());
                     it->setLaunchTickingTime(0.f);
-                    it->setAnimationSequence(HammerBroAnimName);
+                    switch (it->getType()) {
+                        case HAMMER_BRO:
+                            it->setAnimationSequence(HammerBroAnimName);
+                            break;
+                        case FIRE_BRO:
+                            it->setAnimationSequence(FireBroAnimName);
+                            break;
+                        default: ;
+                    }
                 }
                 //std::cout << "Throw\n";
             }

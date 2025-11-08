@@ -111,6 +111,8 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"PinkPiranhaDown_0", CustomTileProperty(), sf::Vector2f(160, 64), sf::Vector2i(16, 10), sf::Vector2f(32.0f, 0.f), 2, 1, 1, 1},
         {"PinkPiranhaRight_0", CustomTileProperty(), sf::Vector2f(160, 96), sf::Vector2i(22, 16), sf::Vector2f(63.0f, 32.0f), 2, 1, 1, 2},
         {"PinkPiranhaLeft_0", CustomTileProperty(), sf::Vector2f(160, 128), sf::Vector2i(10, 16), sf::Vector2f(0.0f, 32.f), 2, 1, 1, 3},
+        {"EDITOR_FireBroCanMove", CustomTileProperty(), sf::Vector2f(0, 128), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 0},
+        {"EDITOR_FireBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 160), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 1},
     },
     { // PAGE 4
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},

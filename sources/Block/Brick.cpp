@@ -155,6 +155,7 @@ void HitEvent(const float x, const float y) {
 			sf::FloatRect BrickLoop = getGlobalHitbox(sf::FloatRect({0.f , 0.f}, {32.f, 32.f}), i->getCurrentPosition(), i->getOrigin());
 			BrickLoop.position.y -= 16.0f;
 			for (auto jt = CoinList.begin(); jt != CoinList.end(); ++jt) {
+				if (jt->isDestroyed()) continue;
 				if (sf::FloatRect CoinCollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(CoinCollide, BrickLoop)) {
 					AddCoinEffect(jt->getID(), jt->getAttribute(), jt->getCurrentPosition().x + 15.0f, jt->getCurrentPosition().y + 32.0f);
 					DeleteIndexCoin(jt);
@@ -163,12 +164,14 @@ void HitEvent(const float x, const float y) {
 				}
 			}
 			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
+				if (jt->isDestroyed()) continue;
 				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
 					jt->DeathBehaviour(SCORE_100);
 					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
 			}
 			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
+				if (jt->isDestroyed()) continue;
 				if (sf::FloatRect BroAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(BroAICollide, BrickLoop)) {
 					jt->DeathBehaviour(SCORE_200);
 					SoundManager::PlaySound("Kick2");

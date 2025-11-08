@@ -10,7 +10,8 @@
 plf::colony<MFCPP::BroAIEffect> BroAIEffectList;
 static bool BroAIEffectDeleteGate = false;
 void BroAIEffectInit() {
-	ImageManager::AddTexture("DEAD_HammerBro", "data/resources/HammerBro/DEAD_HammerBro.png");
+	ImageManager::AddTexture("DEAD_HammerBro", "data/resources/Bro/DEAD_HammerBro.png");
+	ImageManager::AddTexture("DEAD_FireBro", "data/resources/Bro/DEAD_FireBro.png");
 }
 void SetPrevBroAIEffectPos() {
 	for (auto & i : BroAIEffectList) {
@@ -32,6 +33,10 @@ void AddBroAIEffect(const BroAIType type, const bool dir, const float x, const f
 		case HAMMER_BRO:
 			it = BroAIEffectList.emplace(0.f, sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
 			it->setTexture("DEAD_HammerBro", dir);
+			break;
+		case FIRE_BRO:
+			it = BroAIEffectList.emplace(0.f, sf::Vector2f(x, y), sf::Vector2f(24.f, 64.f));
+			it->setTexture("DEAD_FireBro", dir);
 			break;
 		default: ;
 	}

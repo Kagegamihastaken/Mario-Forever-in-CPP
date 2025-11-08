@@ -56,42 +56,37 @@ void DeleteAllMarioProjectile() {
 void MarioProjectileCollision() {
     if (MarioProjectileList.empty()) return;
     for (auto it = MarioProjectileList.begin(); it != MarioProjectileList.end(); ++it) {
+        if (it->isDestroyed()) continue;
         const sf::FloatRect playerHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
         //GoombaAI
-        if (!it->isDestroyed()) {
-            for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
-                if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                    if (jt->IsCanDeath()) {
-                        DeleteMarioProjectile(it);
-                        jt->DeathBehaviour(SCORE_100);
-                        DeleteGoombaAIIndex(jt);
-                        break;
-                    }
+        for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
+            if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                if (jt->IsCanDeath()) {
+                    DeleteMarioProjectile(it);
+                    jt->DeathBehaviour(SCORE_100);
+                    DeleteGoombaAIIndex(jt);
+                    break;
                 }
             }
         }
         //BroAI
-        if (!it->isDestroyed()) {
-            for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
-                if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                    DeleteMarioProjectile(it);
-                    jt->DeathBehaviour(SCORE_200);
-                    SoundManager::PlaySound("Kick2");
-                    DeleteBroAIIndex(jt);
-                    break;
-                }
+        for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
+            if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                DeleteMarioProjectile(it);
+                jt->DeathBehaviour(SCORE_200);
+                SoundManager::PlaySound("Kick2");
+                DeleteBroAIIndex(jt);
+                break;
             }
         }
         //Piranha
-        if (!it->isDestroyed()) {
-            for (int j = 0; j < PiranhaAIList.size(); ++j) {
-                if (sf::FloatRect loopHitbox = getGlobalHitbox(PiranhaAIList[j].getHitbox(), PiranhaAIList[j].getCurrentPosition(), PiranhaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                    DeleteMarioProjectile(it);
-                    AddScoreEffect(SCORE_100, PiranhaAIList[j].getCurrentPosition().x, PiranhaAIList[j].getCurrentPosition().y - PiranhaAIList[j].getOrigin().y);
-                    SoundManager::PlaySound("Kick2");
-                    DeletePiranhaAIIndex(j);
-                    break;
-                }
+        for (int j = 0; j < PiranhaAIList.size(); ++j) {
+            if (sf::FloatRect loopHitbox = getGlobalHitbox(PiranhaAIList[j].getHitbox(), PiranhaAIList[j].getCurrentPosition(), PiranhaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                DeleteMarioProjectile(it);
+                AddScoreEffect(SCORE_100, PiranhaAIList[j].getCurrentPosition().x, PiranhaAIList[j].getCurrentPosition().y - PiranhaAIList[j].getOrigin().y);
+                SoundManager::PlaySound("Kick2");
+                DeletePiranhaAIIndex(j);
+                break;
             }
         }
     }
@@ -132,38 +127,24 @@ void AddMarioProjectile(const bool direction, const MarioProjectileType type, co
 }
 //Behaviour
 static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
-    const auto [Xvelo, Yvelo, X, Y, remove] = FireballY(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), deltaTime, it->getHitbox(), it->getOrigin());
+    const auto [Xvel, Yvel, X, Y, remove] = FireballY(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), deltaTime, it->getHitbox(), it->getOrigin());
     if (remove) {
         DeleteMarioProjectile(it);
         return;
     }
     it->setCurrentPosition(sf::Vector2f(X, Y));
-    it->setXVelo(Xvelo);
-    it->setYVelo(Yvelo);
+    it->setXVelo(Xvel);
+    it->setYVelo(Yvel);
 }
 static void FireballXUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
-    const auto [Xvelo, Yvelo, X, Y, remove] = FireballX(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
+    const auto [Xvel, Yvel, X, Y, remove] = FireballX(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
     if (remove) {
         DeleteMarioProjectile(it);
         return;
     }
     it->setCurrentPosition(sf::Vector2f(X, Y));
-    it->setXVelo(Xvelo);
-    it->setYVelo(Yvelo);
-    /*
-    if (it->getDirection()) it->move(sf::Vector2f( - it->getXVelo() * deltaTime, 0.f));
-    else it->move(sf::Vector2f( it->getXVelo() * deltaTime, 0.f));
-
-    if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), PlatDistance, it->getYVelo()))
-        it->move(sf::Vector2f(PlatDistance, 0.f));
-
-    float CurrPosXCollide = 0, CurrPosYCollide = 0;
-    const auto [fst, snd] = QuickCheckSideCollision(
-        MFCPP::CollisionObject(it->getCurrentPosition(), it->getOrigin(), it->getHitbox()), MarioDirection,
-        CurrPosXCollide, CurrPosYCollide);
-    if (fst || snd)
-        DeleteMarioProjectile(it);
-        */
+    it->setXVelo(Xvel);
+    it->setYVelo(Yvel);
 }
 
 void MarioProjectileMovementUpdate(const float deltaTime) {

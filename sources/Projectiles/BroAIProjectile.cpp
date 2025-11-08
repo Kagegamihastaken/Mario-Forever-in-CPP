@@ -2,12 +2,16 @@
 #include "Core/Interpolation.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/Class/BroAIClass.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Core/ProjectileBehaviour/Fireball.hpp"
+#include "Effect/FireballExplosion.hpp"
 
 std::vector<MFCPP::BroAIProjectile> BroAIProjectileList;
+static bool BroAIProjectileDeleteGate = false;
 
 void SetPrevBroAIProjectilePos() {
     for (auto & i : BroAIProjectileList) {
@@ -21,13 +25,10 @@ void InterpolateBroAIProjectilePos(const float alpha) {
         i.setInterpolatedAngle(linearInterpolation(i.getPreviousAngle(), i.getCurrentAngle(), alpha));
     }
 }
-void DeleteBroAIProjectile(const float x, const float y) {
-    for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (BroAIProjectileList[i].getCurrentPosition().x == x && BroAIProjectileList[i].getCurrentPosition().y == y) {
-            BroAIProjectileList.erase(BroAIProjectileList.begin() + i);
-            break;
-        }
-    }
+void DeleteBroAIProjectile(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const bool out = false) {
+    if (!it->isDestroyed() && !out) AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y);
+    it->setDestroyed(true);
+    BroAIProjectileDeleteGate = true;
 }
 void DeleteAllBroAIProjectile() {
     BroAIProjectileList.clear();
@@ -36,43 +37,98 @@ void BroAIProjectileCollision() {
     if (EffectActive) return;
     if (BroAIProjectileList.empty()) return;
     const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
-    for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (sf::FloatRect loopHitbox = getGlobalHitbox(BroAIProjectileList[i].getHitbox(), BroAIProjectileList[i].getCurrentPosition(), BroAIProjectileList[i].getOrigin()); isCollide(loopHitbox, playerHitbox)) PowerDown();
+    for (auto it = BroAIProjectileList.begin(); it != BroAIProjectileList.end(); ++it) {
+        if (sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+            PowerDown();
+            switch (it->getBehaviour()) {
+                case BROAI_FIREBALL_BEHAVIOUR:
+                    DeleteBroAIProjectile(it);
+                    break;
+                default: ;
+            }
+        }
     }
 }
 void BroAIProjectileStatusUpdate() {
-    for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (isOutScreenYBottom(BroAIProjectileList[i].getInterpolatedPosition().y, 64.f)) {
-            DeleteBroAIProjectile(BroAIProjectileList[i].getCurrentPosition().x, BroAIProjectileList[i].getCurrentPosition().y);
+    for (auto it = BroAIProjectileList.begin(); it != BroAIProjectileList.end(); ++it) {
+        if (isOutScreenYBottom(it->getInterpolatedPosition().y, 64.f)) {
+            DeleteBroAIProjectile(it, true);
         }
     }
 }
 void BroAIProjectileSpin(const float deltaTime) {
-    for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (BroAIProjectileList[i].getDirection()) BroAIProjectileList[i].setCurrentAngle(BroAIProjectileList[i].getCurrentAngle() - sf::degrees(5.f * deltaTime));
-        else BroAIProjectileList[i].setCurrentAngle(BroAIProjectileList[i].getCurrentAngle() + sf::degrees(5.f * deltaTime));
+    for (auto it = BroAIProjectileList.begin(); it != BroAIProjectileList.end(); ++it) {
+        if (it->isDestroyed()) continue;
+
+        switch (it->getBehaviour()) {
+            case BROAI_HAMMER_BEHAVIOUR:
+                if (it->getDirection()) it->setCurrentAngle(it->getCurrentAngle() - sf::degrees(5.f * deltaTime));
+                else it->setCurrentAngle(it->getCurrentAngle() + sf::degrees(5.f * deltaTime));
+                break;
+            case BROAI_FIREBALL_BEHAVIOUR:
+                if (it->getDirection()) it->setCurrentAngle(it->getCurrentAngle() - sf::degrees(11.5f * deltaTime));
+                else it->setCurrentAngle(it->getCurrentAngle() + sf::degrees(11.5f * deltaTime));
+                break;
+            default: ;
+        }
     }
 }
 void AddBroAIProjectile(const bool direction, const BroAIProjectileType type, const float x, const float y) {
     switch (type) {
-        case BroAIProjectileType::HAMMER:
-            BroAIProjectileList.emplace_back(direction, type, HAMMER_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {24.f, 24.f}), sf::Vector2f(x, y), sf::Vector2f(13, 18));
+        case BroAIProjectileType::BROAI_HAMMER:
+            BroAIProjectileList.emplace_back(direction, type, BROAI_HAMMER_BEHAVIOUR, 1.f + static_cast<float>(RandomIntNumberGenerator(0, 4)), (6.f + static_cast<float>(RandomIntNumberGenerator(0, 4))) * -1.f, sf::FloatRect({0.f, 0.f}, {24.f, 24.f}), sf::Vector2f(x, y), sf::Vector2f(13.f, 18.f));
             BroAIProjectileList.back().setTexture("Hammer", direction);
+            break;
+        case BroAIProjectileType::BROAI_FIREBALL:
+            BroAIProjectileList.emplace_back(direction, type, BROAI_FIREBALL_BEHAVIOUR, 8.125f, 0.f, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 8.f));
+            BroAIProjectileList.back().setTexture("Fireball", direction);
             break;
         default: ;
     }
 }
+//behavior (will move to another file)
+static void HammerBroX(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const float deltaTime) {
+    if (it->getDirection())
+        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x - it->getXVelo() * deltaTime, it->getCurrentPosition().y));
+    else
+        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x + it->getXVelo() * deltaTime, it->getCurrentPosition().y));
+}
+static void HammerBroY(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const float deltaTime) {
+    it->move(sf::Vector2f(0.0f, it->getYVelo() * deltaTime));
+    it->setYVelo(it->getYVelo() + (it->getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.215f));
+}
+static void FireBroX(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const float deltaTime) {
+    const auto [Xvel, Yvel, X, Y, remove] = FireballX(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
+    if (remove) {
+        DeleteBroAIProjectile(it);
+        return;
+    }
+    it->setCurrentPosition(sf::Vector2f(X, Y));
+    it->setXVelo(Xvel);
+    it->setYVelo(Yvel);
+}
+static void FireBroY(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const float deltaTime) {
+    const auto [Xvel, Yvel, X, Y, remove] = FireballY(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), deltaTime, it->getHitbox(), it->getOrigin());
+    if (remove) {
+        DeleteBroAIProjectile(it);
+        return;
+    }
+    it->setCurrentPosition(sf::Vector2f(X, Y));
+    it->setXVelo(Xvel);
+    it->setYVelo(Yvel);
+}
 void BroAIProjectileMovementUpdate(const float deltaTime) {
-    for (int i = 0; i < BroAIProjectileList.size(); ++i) {
-        if (BroAIProjectileList[i].getBehaviour() == BroAIProjectileBehavior::HAMMER_BEHAVIOUR) {
-            //X
-            if (BroAIProjectileList[i].getDirection())
-                BroAIProjectileList[i].setCurrentPosition(sf::Vector2f(BroAIProjectileList[i].getCurrentPosition().x - BroAIProjectileList[i].getXVelo() * deltaTime, BroAIProjectileList[i].getCurrentPosition().y));
-            else
-                BroAIProjectileList[i].setCurrentPosition(sf::Vector2f(BroAIProjectileList[i].getCurrentPosition().x + BroAIProjectileList[i].getXVelo() * deltaTime, BroAIProjectileList[i].getCurrentPosition().y));
-            //Y
-            BroAIProjectileList[i].move(sf::Vector2f(0.0f, BroAIProjectileList[i].getYVelo() * deltaTime));
-            BroAIProjectileList[i].setYVelo(BroAIProjectileList[i].getYVelo() + (BroAIProjectileList[i].getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.215f));
+    for (auto it = BroAIProjectileList.begin(); it != BroAIProjectileList.end(); ++it) {
+        switch (it->getBehaviour()) {
+            case BROAI_HAMMER_BEHAVIOUR:
+                HammerBroX(it, deltaTime);
+                HammerBroY(it, deltaTime);
+                break;
+            case BROAI_FIREBALL_BEHAVIOUR:
+                FireBroX(it, deltaTime);
+                FireBroY(it, deltaTime);
+                break;
+            default: ;
         }
     }
 }
@@ -82,4 +138,13 @@ void BroAIProjectileDraw() {
         i.setRotation(i.getInterpolatedAngle());
         i.AnimationDraw();
     }
+}
+void BroAIProjectileCleanup() {
+    if (!BroAIProjectileDeleteGate) return;
+    auto it = BroAIProjectileList.begin();
+    while (it != BroAIProjectileList.end()) {
+        if (!it->isDestroyed()) ++it;
+        else it = BroAIProjectileList.erase(it);
+    }
+    BroAIProjectileDeleteGate = false;
 }

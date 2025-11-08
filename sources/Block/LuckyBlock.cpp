@@ -204,6 +204,7 @@ void LuckyHitEvent(const float x, const float y) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
 			LuckyLoop.position.y -= 16.0f;
 			for (auto jt = CoinList.begin(); jt != CoinList.end(); ++jt) {
+				if (jt->isDestroyed()) continue;
 				if (sf::FloatRect CoinCollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(CoinCollide, LuckyLoop)) {
 					AddCoinEffect(jt->getID(), jt->getAttribute(), jt->getCurrentPosition().x + 15.0f, jt->getCurrentPosition().y + 32.0f);
 					DeleteIndexCoin(jt);
@@ -212,12 +213,14 @@ void LuckyHitEvent(const float x, const float y) {
 				}
 			}
 			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
+				if (jt->isDestroyed()) continue;
 				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
 					jt->DeathBehaviour(SCORE_100);
 					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
 			}
 			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
+				if (jt->isDestroyed()) continue;
 				if (sf::FloatRect BroAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(BroAICollide, LuckyLoop)) {
 					jt->DeathBehaviour(SCORE_200);
 					SoundManager::PlaySound("Kick2");
