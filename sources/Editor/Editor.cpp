@@ -198,6 +198,12 @@ void SettingDialog() {
                 }
                 ImGui::EndTabItem();
             }
+            if (ImGui::BeginTabItem("Time")) {
+                for (int i = 0; i < TimeSetting.getPropertyCount(); ++i) {
+                    EditPropertyHelper(*TimeSetting.at(i));
+                }
+                ImGui::EndTabItem();
+            }
             ImGui::EndTabBar();
         }
         ImGui::Separator();
@@ -240,6 +246,7 @@ void FileSave(const std::filesystem::path& path) {
 
     levelJson["level_properties"]["width"] = LevelSize.getProperty<FloatProps>("Level Width")->val;
     levelJson["level_properties"]["height"] = LevelSize.getProperty<FloatProps>("Level Height")->val;
+    levelJson["level_properties"]["time"] = TimeSetting.getProperty<IntProps>("Time")->val;
     //TODO: Add Custom Music
     levelJson["level_properties"]["music"] = "DansLaRue";
     levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
@@ -304,6 +311,7 @@ void FileLoad(const std::filesystem::path& path) {
     Tile.clear();
     LevelSize.getProperty<FloatProps>("Level Width")->val = levelJson["level_properties"].value("width", 10016.f);
     LevelSize.getProperty<FloatProps>("Level Height")->val = levelJson["level_properties"].value("height", 480.f);
+    TimeSetting.getProperty<IntProps>("Time")->val = levelJson["level_properties"].value("time", 360);
     PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
     ExitGateData = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384, 320));
     ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));

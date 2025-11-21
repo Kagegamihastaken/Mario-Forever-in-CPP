@@ -14,7 +14,7 @@ SoLoud::EchoFilter SoundManager::m_echo_filter;
 SoLoud::FreeverbFilter SoundManager::m_reverb_filter;
 SoundEnvironment SoundManager::m_env = OVERWORLD;
 
-void SoundManager::UpdateSoundEnvironmemt(const std::string& name) {
+void SoundManager::UpdateSoundEnvironment(const std::string& name) {
 	switch (m_env) {
 		case UNDERGROUND:
 			m_sounds[name]->setFilter(0, &m_echo_filter);
@@ -43,7 +43,7 @@ void SoundManager::AddPlaySound(const std::string& name, const std::string& path
 	if (!file.open(path.c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path));
 	if (wav->loadFile(&file) != SoLoud::SO_NO_ERROR) throw std::runtime_error(fmt::format("SoundManager: Cannot load sound {}", path));
 	m_sounds[name] = std::move(wav);
-	UpdateSoundEnvironmemt(name);
+	UpdateSoundEnvironment(name);
 	//const std::vector<uint8_t> Data = GetFileDataInByte(path);
 	//m_sounds[name].loadMem(Data.data(), Data.size(), true);
 	//m_sounds[name].setSingleInstance(true);
@@ -54,7 +54,7 @@ SoLoud::Wav SoundManager::GetSound(const std::string &name) {
 void SoundManager::SetEnvironment(const SoundEnvironment val) {
 	m_env = val;
 	for (auto &vl: m_sounds | std::views::keys) {
-		UpdateSoundEnvironmemt(vl);
+		UpdateSoundEnvironment(vl);
 	}
 }
 SoundEnvironment SoundManager::GetEnvironment() {

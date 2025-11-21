@@ -16,7 +16,7 @@ class SoundManager {
 	static SoundEnvironment m_env;
 
 	static void AddPlaySound(const std::string& name, const std::string& path, float delay = 0.05f, float decay = 0.5f);
-	static void UpdateSoundEnvironmemt(const std::string& name);
+	static void UpdateSoundEnvironment(const std::string& name);
 public:
 	SoundManager() = delete;
 	static void SoundManagerInit();

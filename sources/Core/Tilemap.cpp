@@ -1,5 +1,5 @@
 #include "Core/Tilemap.hpp"
-constexpr int TILEMAP_MAX = 6;
+constexpr int TILEMAP_MAX = 5;
 namespace MFCPP {
     std::unordered_map<int, Tile> ObstaclesTilemap;
     std::unordered_map<int, Collectable> CollectableMap;

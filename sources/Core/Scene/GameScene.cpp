@@ -33,6 +33,7 @@
 #include <fmt/format.h>
 
 #include "Core/Level.hpp"
+#include "Core/Time.hpp"
 #include "Projectiles/ProjectileHelper.hpp"
 
 GameScene::GameScene(SceneManager &manager)
@@ -71,6 +72,7 @@ void GameScene::loadResources() {
     AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
     AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
     AddText("_SCORE", "", RIGHT_MARGIN, 138.0f, 34.0f);
+    AddText("_TIME", "", RIGHT_MARGIN, 562.0f, 35.0f);
     //AddText("_FPS", "", LEFT_MARGIN, 0.0f, 448.0f);
     AddText("_FPS", "", LEFT_MARGIN, 0.0f, 464.0f);
     //AddText("_DELTA", "", LEFT_MARGIN, 0, 432.0f);
@@ -86,7 +88,7 @@ void GameScene::loadResources() {
         AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    ReadData("data/levels/leveltest.json");
+    ReadData("data/levels/onedashtwo.json");
     Bgbuilding();
     Obstaclebuilding();
     Objectbuilding();
@@ -107,6 +109,7 @@ void GameScene::handleInput(const std::optional<sf::Event>& event) {
     }
 }
 void GameScene::update(const float deltaTime) {
+    ExitGateClockUpdate(deltaTime);
     PlatformPositionUpdate(deltaTime);
 
     KeyboardMovement(deltaTime);
@@ -151,6 +154,9 @@ void GameScene::update(const float deltaTime) {
     BulletLauncherStatusUpdate(deltaTime);
     BulletBillPositionUpdate(deltaTime);
     BulletBillEffectPositionUpdate(deltaTime);
+
+    TimeUpdate(deltaTime);
+    TimeRingBehavior();
 }
 void GameScene::setPreviousPosition() {
     SetPrevMarioPos();
@@ -272,7 +278,6 @@ void GameScene::postUpdate() {
 }
 void GameScene::HUDPositionUpdate() {
     BgUpdatePos();
-    HUDUpdate();
 }
 void GameScene::textUpdate() {
     //EditText("DeltaTime: " + std::to_string(deltaTime), "_DELTA");
@@ -294,6 +299,7 @@ void GameScene::textUpdate() {
     }
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Score), "_SCORE");
+    EditText(fmt::format("{}", getTime()), "_TIME");
 }
 void GameScene::setView() {
     const sf::Vector2f& ScrollPos = player.property.getPosition();

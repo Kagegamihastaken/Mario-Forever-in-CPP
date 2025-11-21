@@ -12,7 +12,7 @@
 
 plf::colony<MFCPP::Coin> CoinList;
 static bool CoinDeleteGate = false;
-SingleAnimationObject CoinAnimation;
+MFCPP::SingleAnimationObject CoinAnimation;
 int CoinCount = 0;
 static std::vector<std::string> CoinAnimName;
 static constexpr int COIN_IMAGE_WIDTH = 96;

@@ -27,6 +27,7 @@
 #include "Projectiles/BroAIProjectile.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Time.hpp"
 #include "Object/BulletBill.hpp"
 #include "Object/Mario.hpp"
 #include "Object/Platform.hpp"
@@ -104,6 +105,7 @@ void ReadData(const std::filesystem::path& path) {
 	}
 	LevelWidth = levelJson["level_properties"].value("width", 10016.f);
 	LevelHeight = levelJson["level_properties"].value("height", 480.f);
+	setDefaultTime(levelJson["level_properties"].value("time", 360));
 	PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
 	ExitGate = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384.f, 320.f));
 	ExitIndicator = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));

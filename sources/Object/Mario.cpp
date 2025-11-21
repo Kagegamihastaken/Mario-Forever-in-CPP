@@ -13,10 +13,9 @@
 #include "Core/Interpolation.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Projectiles/MarioProjectile.hpp"
-#include <SFML/Graphics/Shader.hpp>
 
 #include "Core/Logging.hpp"
-sf::Shader notShader;
+#include "Core/Time.hpp"
 //texture loading
 void UpdateSequenceAnimation() {
 	switch (PowerState) {
@@ -47,10 +46,6 @@ void loadMarioRes() {
 		BigMario.push_back(fmt::format("BigMario_{}", i));
 		ImageManager::AddTexture(fmt::format("FireMario_{}", i), "data/resources/FireMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		FireMario.push_back(fmt::format("FireMario_{}", i));
-	}
-
-	if (sf::Shader::isAvailable()) {
-		if (!notShader.loadFromFile("shaders/not_shader.frag", sf::Shader::Type::Fragment)) throw std::runtime_error("Hey LOADING shader error.");
 	}
 
 	UpdateSequenceAnimation();
@@ -378,6 +373,7 @@ void Death() {
 	LevelCompleteEffect = false;
 	MarioDirection = FirstMarioDirection;
 	ExitGateForeActive = true;
+	TimeReset();
 	ExitGateEffectReset();
 }
 void CheckForDeath() {

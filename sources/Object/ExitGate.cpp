@@ -9,16 +9,18 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
+#include "Core/Time.hpp"
 #include "Core/Loading/enum.hpp"
+#include "Effect/MarioEffect.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 #include "Object/Mario.hpp"
 
-SingleAnimationObject ExitGateIndicatorAnimation;
+MFCPP::SingleAnimationObject ExitGateIndicatorAnimation;
 sf::Sprite ExitGateBack(tempTex);
 sf::Sprite ExitGateFore(tempTex);
 sf::Sprite ExitGateForeEffect(tempTex);
 sf::Sprite ExitGateIndicator(tempTex);
-sf::Clock ExitGateClock;
+float ExitGateClock;
 
 sf::Vector2f ExitGateForeCurr = sf::Vector2f(0.0f, 0.0f);
 sf::Vector2f ExitGateForePrev = sf::Vector2f(0.0f, 0.0f);
@@ -56,7 +58,6 @@ void ExitGateInit() {
 
 	ExitGateForeEffect.setTexture(ImageManager::GetTexture("ExitGateForeEffect"), true);
 	ExitGateForeEffect.setOrigin({ 21.0f, 7.0f });
-	ExitGateClock.reset();
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50);
 	ExitGateIndicatorAnimation.setAnimationSequence(ExitIndicatorAnimName);
@@ -74,7 +75,6 @@ void ExitGateStatusUpdate(const float deltaTime) {
 	if (ExitGateForeActive) {
 		if (ExitGateIndicator.getPosition().x <= player.curr.x - 24.0f && !PreJump && !MarioCurrentFalling) {
 			AddScoreEffect(SCORE_100, player.curr.x, player.curr.y);
-			ExitGateClock.start();
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic("LevelComplete");
@@ -89,7 +89,6 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			else if (ExitGateFore.getPosition().y >= ExitGateBack.getPosition().y - 266.0f + 150.0f && ExitGateFore.getPosition().y <= ExitGateBack.getPosition().y - 266.0f + 200.0f) AddScoreEffect(SCORE_500, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
 			else if (ExitGateFore.getPosition().y > ExitGateBack.getPosition().y - 266.0f + 200.0f) AddScoreEffect(SCORE_200, ExitGateFore.getPosition().x, ExitGateFore.getPosition().y);
 
-			ExitGateClock.start();
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic("LevelComplete");
@@ -125,6 +124,24 @@ void ExitGateStatusUpdate(const float deltaTime) {
 		//ExitGateForeEffect.move({ 0.0f - sin(ExitGateForeEffectSpeed) * 5.0f * deltaTime, (cos(ExitGateForeEffectSpeed) * 5.0f + ExitGateForeEffectYSpeed) * deltaTime });
 		ExitGateForeEffectYSpeed += 1.f * deltaTime * 0.2f;
 		ExitGateForeEffect.rotate(sf::degrees(-25.0f * deltaTime));
+	}
+}
+void resetExitGateClock() {
+	ExitGateClock = 0.f;
+}
+void ExitGateClockUpdate(const float deltaTime) {
+	if (!LevelCompleteEffect || EffectActive) return;
+	if (ExitGateClock <= 8.f * 50) {
+		ExitGateClock += deltaTime;
+	}
+	else {
+		if (getTime() > 0) TimeCounting(deltaTime);
+		else ExitGateClock += deltaTime;
+	}
+
+	if (ExitGateClock >= 9.f * 50) {
+		//Win behavior, but implement later
+		window.close();
 	}
 }
 void ExitGateEffectReset() {

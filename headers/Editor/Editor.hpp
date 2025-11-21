@@ -93,6 +93,7 @@ static bool EDITOR_SaveDialog = false;
 static bool EDITOR_Setting = false;
 static CustomTileProperty BgColor(ColorProps("First Background Color", MFCPP::Color::LevelDefaultFirst), ColorProps("Second Background Color", MFCPP::Color::LevelDefaultSecond));
 static CustomTileProperty LevelSize(FloatProps("Level Width", 640.f, 640.f, 32000.f), FloatProps("Level Height", 480.f, 480.f, 32000.f));
+static CustomTileProperty TimeSetting(IntProps("Time", 360, 0, 99999));
 static std::vector<BackgroundLayer> BackgroundLayers;
 //SaveTile For Edit Property
 static RenderTile SaveTile;

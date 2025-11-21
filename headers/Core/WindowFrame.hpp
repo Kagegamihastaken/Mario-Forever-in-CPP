@@ -26,7 +26,6 @@ extern kairos::Stopwatch Gclock;
 extern kairos::Timestep timestep;
 extern kairos::FpsLite fpsLite;
 extern void updateFrame();
-extern void HUDUpdate();
 extern std::random_device seed;
 extern float Width;
 extern float Height;

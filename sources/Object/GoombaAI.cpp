@@ -281,7 +281,7 @@ void GoombaAICheckCollide() {
 							break;
 						case GoombaAIType::KOOPA:
 							AddScoreEffect(SCORE_100, it->getCurrentPosition().x, it->getCurrentPosition().y - it->getOrigin().y);
-							AddGoombaAI(SHELL, it->GetSkinID(), it->getCurrentPosition().x, it->getCurrentPosition().y + 2.0f);
+							AddGoombaAI(SHELL, it->GetSkinID(), it->getCurrentPosition().x, it->getCurrentPosition().y);
 							break;
 						case GoombaAIType::SHELL_MOVING:
 							it->SetShellHitCount(0);

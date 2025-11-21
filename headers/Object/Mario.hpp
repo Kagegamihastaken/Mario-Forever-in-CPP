@@ -65,7 +65,7 @@ static std::vector<std::string> BigMario;
 static std::vector<std::string> FireMario;
 
 //define here
-inline SingleAnimationObject MarioAnimation;
+inline MFCPP::SingleAnimationObject MarioAnimation;
 inline MovableObject player;
 inline float Xvelo = 0.0f;
 inline float Yvelo = 0.0f;

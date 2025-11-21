@@ -18,25 +18,9 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-class TestValue final {
-public:
-	TestValue() = default;
-	~TestValue() = default;
-	void AddValue() {
-		++value;
-	}
-	void SubValue() {
-		--value;
-	}
-	[[nodiscard]] int GetValue() const {
-		return value;
-	}
-private:
-	int value = 0;
-};
+#include "Core/Time.hpp"
 
 float alpha = 1.0f;
-TestValue tvalue;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
 
@@ -111,12 +95,6 @@ int WinMain() {
 							SoundManager::SetEnvironment(OVERWORLD);
 						}
 					}
-					else if (keyPressed->code == sf::Keyboard::Key::S) {
-						tvalue.AddValue();
-					}
-					else if (keyPressed->code == sf::Keyboard::Key::A) {
-						tvalue.SubValue();
-					}
 					/*
 					else if (keyPressed->code == sf::Keyboard::Key::P) {
 						MusicManager::PauseMusic(getMusicLevelName());
@@ -129,10 +107,6 @@ int WinMain() {
 				GameObjectRetrieveEvent(event);
 			}
 			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
-			if (ExitGateClock.getElapsedTime().asSeconds() > 8.5f && !EffectActive) {
-				ExitGateClock.reset();
-				window.close();
-			}
 			ImageManager::ClearAllVertex();
 			GameObjectEditText();
 			MarioOutSideScreen();
@@ -140,7 +114,6 @@ int WinMain() {
 			timestep.addFrame();
 			while (timestep.isUpdateRequired()) {
 				GameObjectSetPrev();
-				//MFCPP::Log::InfoPrint(fmt::format("{}", timestep.getStepAsFloat() * 50));
 				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50);
 				GameObjectCollision();
 				InvincibleStateUpdate();

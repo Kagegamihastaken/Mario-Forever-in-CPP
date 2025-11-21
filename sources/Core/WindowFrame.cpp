@@ -7,6 +7,8 @@
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/Animate/StaticAnimationObject.hpp"
+#include "Core/Class/ActiveObjectClass.hpp"
 
 #if defined _DEBUG
 bool isDebug = true;
@@ -31,16 +33,12 @@ std::random_device seed;
 
 kairos::Stopwatch Gclock;
 kairos::Timestep timestep;
-
 kairos::FpsLite fpsLite;
-
 float MouseX, MouseY;
+static MFCPP::StaticAnimationObject MarioHUD;
+static MFCPP::SingleAnimationObject CoinHUD;
+static MFCPP::StaticAnimationObject TimeHUD;
 
-sf::Sprite CoinHUD(tempTex);
-sf::Texture CoinHUDTexture;
-sf::Sprite MarioHUD(tempTex);
-
-SingleAnimationObject CoinHUDAnim;
 int RandomIntNumberGenerator(const int a, const int b) {
 	std::uniform_int_distribution<int> dis(a, b);
 	return dis(seed);
@@ -49,7 +47,7 @@ float RandomFloatNumberGenerator(const float a, const float b) {
 	std::uniform_real_distribution<float> dis(a, b);
 	return dis(seed);
 }
-float f_mod(const float a, const float b) { return static_cast<float>(static_cast<int>(a) % static_cast<int>(b));}
+float f_mod(const float a, const float b) { return a - std::floor(a / b) * b;}
 float f_min(const float a, const float b) { return a < b ? a : b; }
 float f_max(const float a, const float b) { return a > b ? a : b; }
 float f_abs(const float a) { return a < 0 ? -a : a; }
@@ -159,24 +157,23 @@ void windowInit() {
 }
 void GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");
+	ImageManager::AddTexture("TimeHUD", "data/resources/TimeHUD.png");
 	for (int i = 0; i < COINHUD_IMAGE_WIDTH / COINHUD_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
 		CoinHUDAnimName.emplace_back(fmt::format("CoinHUD_{}", i));
 	}
-	CoinHUD.setTexture(ImageManager::GetTexture("CoinHUD_0"), true);
-	CoinHUDAnim.setAnimation(0, 2, 16);
-	CoinHUDAnim.setAnimationSequence(CoinHUDAnimName);
-	//Maintexture.AddTexture("MarioHUD", Temp);
-	MarioHUD.setTexture(ImageManager::GetTexture("MarioHUD"), true);
-}
-void HUDUpdate() {
-	CoinHUD.setPosition(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY));
-	CoinHUDAnim.AnimationUpdate(CoinHUD.getPosition(), CoinHUD.getOrigin());
-	MarioHUD.setPosition(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY));
+	CoinHUD.setAnimation(0, 2, 16);
+	CoinHUD.setAnimationSequence(CoinHUDAnimName);
+	MarioHUD.setTexture("MarioHUD");
+	TimeHUD.setTexture("TimeHUD");
 }
 void FrameDraw() {
-	CoinHUDAnim.AnimationDraw();
-	window.draw(MarioHUD);
+	CoinHUD.AnimationUpdate(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
+	CoinHUD.AnimationDraw();
+	MarioHUD.AnimationUpdate(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
+	MarioHUD.AnimationDraw();
+	TimeHUD.AnimationUpdate(sf::Vector2f(513.f + ViewX, 15.f + ViewY), sf::Vector2f(0.f, 0.f));
+	TimeHUD.AnimationDraw();
 }
 void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);

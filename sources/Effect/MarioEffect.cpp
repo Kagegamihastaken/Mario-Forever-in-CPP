@@ -2,7 +2,6 @@
 #include "Core/ImageManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
-#include "Core/Music.hpp"
 #include "Core/Scroll.hpp"
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
@@ -48,8 +47,7 @@ void ActiveMarioEffect() {
 		playerPos.setInterpolatedPosition(playerPos.getCurrentPosition());
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;
-		//prevent any bug occur
-		ExitGateClock.reset();
+		resetExitGateClock();
 	}
 }
 void MarioEffectDraw() {

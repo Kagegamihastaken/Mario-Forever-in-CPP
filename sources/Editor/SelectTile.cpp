@@ -217,15 +217,15 @@ void SelectTilePosUpdate() {
 
     const float ModX = f_mod(SelectTileBackground[0].position.x, 32.0f);
     const float ModY = f_mod(SelectTileBackground[0].position.y, 32.0f);
-    const float BoxTileX = SelectTileBackground[0].position.x - ModX;
-    const float BoxTileY = SelectTileBackground[0].position.y - ModY;
+    const float BoxTileX = static_cast<int>(SelectTileBackground[0].position.x - ModX);
+    const float BoxTileY = static_cast<int>(SelectTileBackground[0].position.y - ModY);
     SelectTileX = std::floor((MouseX + BoxTileX) / 32.0f) * 32.0f + ModX;
     SelectTileY = std::floor((MouseY + BoxTileY) / 32.0f) * 32.0f + ModY;
     //Update Tile Select Position
     const float TilePosXBefore = SelectTileX - BoxTileX - ModX - 128.0f;
     const float TilePosYBefore = SelectTileY - BoxTileY - ModY - 96.0f;
-    TilePosX = SelectTileBackground[0].position.x < 0 ? std::floor(TilePosXBefore) : std::ceil(TilePosXBefore);
-    TilePosY = SelectTileBackground[0].position.y < 0 ? std::floor(TilePosYBefore) : std::ceil(TilePosYBefore);
+    TilePosX = std::round(TilePosXBefore);
+    TilePosY = std::round(TilePosYBefore);
 
     SelectTileBox.setPosition(sf::Vector2f(SelectTileX, SelectTileY));
 }
