@@ -252,6 +252,7 @@ void GameScene::objectCleanup() {
     PlatformCleanup();
     PiranhaAIProjectileCleanup();
     BroAIProjectileCleanup();
+    CoinEffectCleanup();
 }
 void GameScene::postUpdate() {
     PlatformStatusUpdate();

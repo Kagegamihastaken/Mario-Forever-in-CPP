@@ -56,25 +56,20 @@ namespace MFCPP {
 	void SingleAnimationObject::setFrequencyAnimation(const int frequency) {
 		m_frequency = frequency;
 	}
-	void SingleAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
-		//sprite.setTexture(*texture[this->indexAnimation], true);
-		//sprite.setTextureRect(sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey }));
+	void SingleAnimationObject::FrameUpdate() {
 		m_TimeRan = m_TimeRemainSave + static_cast<float>(m_TimeRun.getElapsedTime().asMicroseconds()) / 1000.0f;
 		if (m_frequency != 0) {
 			if (const float FrameTime = 2000.0f / static_cast<float>(m_frequency) / static_cast<float>(timestep.getTimeSpeed());
 				m_TimeRan >= FrameTime) {
 				const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
-				//m_indexAnimation += loop;
 				m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
-				//if (m_indexAnimation > m_endingIndexAnimation) m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation + loop) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
-				//for (int i = 0; i < loop; i++) {
-				//	if (m_indexAnimation < m_endingIndexAnimation) m_indexAnimation++;
-				//	else m_indexAnimation = m_startingIndexAnimation;
-				//}
 				m_TimeRemainSave = m_TimeRan - static_cast<float>(FrameCount) * FrameTime;
 				m_TimeRun.restart();
 				}
 		}
+	}
+	void SingleAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
+		FrameUpdate();
 		const sf::IntRect rect = m_Index[m_indexAnimation].getTextureRect();
 		m_Index[m_indexAnimation].setRotation(m_angle);
 		m_Index[m_indexAnimation].setPosition(pos);

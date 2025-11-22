@@ -42,7 +42,7 @@ void TimeCounting(const float deltaTime) {
             Score += 10 * TimeCount;
             TimeCount = 0;
         }
-        TimeRanCounting -= TimeRanOver;
+        TimeRanCounting -= static_cast<float>(TimeRanOver);
     }
     //Ticking purpose
     TimeRanCountingSound += deltaTime;
@@ -64,6 +64,7 @@ void TimeRingBehavior() {
     }
 }
 void TimeReset() {
+    TimeRang = false;
     TimeCount = TimeCountBegin;
 }
 void setDefaultTime(const int val) {

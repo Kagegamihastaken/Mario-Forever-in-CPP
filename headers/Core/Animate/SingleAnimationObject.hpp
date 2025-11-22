@@ -28,6 +28,7 @@ namespace MFCPP {
 		void setEndingIndexAnimation(int endingIndexAnimation);
 		void setFrequencyAnimation(int frequency);
 
+		void FrameUpdate();
 		void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
 		void AnimationDraw() const;
 		void setAnimationDirection(const AnimationDirection& dir);

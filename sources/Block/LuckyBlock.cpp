@@ -200,7 +200,9 @@ void LuckyHit(const float x, const float y) {
 }
 void LuckyHitEvent(const float x, const float y) {
 	for (auto it = LuckyBlock.begin(); it != LuckyBlock.end(); ++it) {
-		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y && !it->getState() && !it->WasHit()) {
+		if (it->getState() || it->WasHit()) continue;
+
+		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y) {
 			sf::FloatRect LuckyLoop = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
 			LuckyLoop.position.y -= 16.0f;
 			for (auto jt = CoinList.begin(); jt != CoinList.end(); ++jt) {

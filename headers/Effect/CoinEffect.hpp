@@ -15,7 +15,9 @@ extern void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y);
 extern void CoinEffectDraw();
 extern void DeleteCoinEffect(float x, float y);
 extern void CoinEffectStatusUpdate(float deltaTime);
+extern void CoinEffectCleanup();
 
+//Animation
 static std::vector<std::string> CoinEffectAnimName = {
     "CoinEffect_0", "CoinEffect_1", "CoinEffect_2", "CoinEffect_2", "CoinEffect_2", "CoinEffect_1", "CoinEffect_3",
     "CoinEffect_0", "CoinEffect_1", "CoinEffect_2", "CoinEffect_2", "CoinEffect_2", "CoinEffect_1", "CoinEffect_3",
