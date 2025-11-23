@@ -66,6 +66,7 @@ void TimeRingBehavior() {
 void TimeReset() {
     TimeRang = false;
     TimeCount = TimeCountBegin;
+    TimeRan = 0.f;
 }
 void setDefaultTime(const int val) {
     TimeCountBegin = val;
