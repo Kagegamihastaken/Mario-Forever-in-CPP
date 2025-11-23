@@ -32,12 +32,14 @@
 #include "Object/Mario.hpp"
 #include "Object/Platform.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
+#include "Core/Checkpoint.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
 static std::vector<std::array<float, 3>> LevelData;
 static std::vector<std::array<float, 5>> BonusData;
 static std::vector<std::array<float, 5>> EnemyData;
+static std::vector<sf::Vector2f> CheckpointData;
 static std::vector<PlatformData> PlatformDataList;
 static sf::Vector2f ExitIndicator;
 static sf::Vector2f ExitGate;
@@ -147,15 +149,29 @@ void ReadData(const std::filesystem::path& path) {
 			case 3:
 				PlatformDataProcess(tileObj, pos, page, id);
 				break;
+			case 4:
+				switch (ReadTile->objectID) {
+				case 0:
+					CheckpointData.emplace_back(sf::Vector2f(pos.x, pos.y));
+					break;
+				default: ;
+				}
 			default: ;
 		}
 	}
+	setStartPosition(PlayerData + sf::Vector2f(0.f, 7.f));
+
 	ObstaclesTextureBuild();
 	BricksTextureBuild();
 	LuckyBlockTextureBuild();
 	BackgroundTextureBuild();
 	CoinTextureBuild();
 	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", path.string()));
+}
+void CheckpointBuilding() {
+	for (const auto &i : CheckpointData) {
+		AddCheckpoint(i);
+	}
 }
 void Obstaclebuilding() {
 	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)}))
@@ -209,7 +225,8 @@ void Objectbuilding() {
 	MusicManager::SetLoop(MusicData, true);
 	MusicManager::PlayMusic(MusicData);
 
-	player.property.setPosition(PlayerData + sf::Vector2f( 0.f, 7.f ));
+	player.property.setPosition(getStartPosition());
+
 	player.curr = player.prev = player.property.getPosition();
 	MarioDirection = FirstMarioDirection;
 	WindowSetView();

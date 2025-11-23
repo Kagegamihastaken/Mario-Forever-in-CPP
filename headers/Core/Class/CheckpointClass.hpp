@@ -14,9 +14,14 @@ namespace MFCPP {
         ~Checkpoint() = default;
         void setTouch(bool val);
         [[nodiscard]] bool getTouch() const;
+        void setHitbox(const sf::FloatRect& val);
+        [[nodiscard]] sf::FloatRect getHitbox() const;
+        void setLastState(int val);
+        [[nodiscard]] int getLastState() const;
     private:
         bool          m_isTouch{};
         sf::FloatRect m_hitbox{};
+        int           m_lastState{};
     };
 }
 

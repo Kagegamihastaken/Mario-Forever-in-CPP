@@ -491,9 +491,8 @@ void PlaceTile() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && window.hasFocus()) {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
             if (EDITOR_BuildMode) {
-                if (CurrPage != LevelTab) {
+                if (CurrPage != LevelTab || (CurrPage == LevelTab && CurrSelectTile > 2)) {
                     if (Tile.contains(sf::Vector2f(TileX, TileY))) {
-                        //std::cout << "Found!\n";
                         SoundManager::PlaySound("EDITOR_DELETE");
                         Tile.erase(sf::Vector2f(TileX, TileY));
                         if (!EDITOR_CanPlace) EDITOR_CanPlace = true;
@@ -519,13 +518,12 @@ void PlaceTile() {
                     EDITOR_isRightHolding = true;
                 }
             }
-            //else std::cout << "Not Found!\n";
         }
     }
     else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && window.hasFocus()) {
         if (!EDITOR_BuildMode) return;
         if ((lastPlaceX != TileX || lastPlaceY != TileY) || (lastDeleteX == TileX && lastDeleteY == TileY)) {
-            if (CurrPage != LevelTab) {
+            if (CurrPage != LevelTab || (CurrPage == LevelTab && CurrSelectTile > 2)) {
                 if (TileX == EDITOR_Mario.getPosition().x && TileY == EDITOR_Mario.getPosition().y) return;
                 if (TileX == EDITOR_ExitGateIndicator.getPosition().x && TileY == EDITOR_ExitGateIndicator.getPosition().y) return;
 
@@ -548,7 +546,6 @@ void PlaceTile() {
                 }
 
                 if (!Tile.contains(sf::Vector2f(TileX, TileY))) {
-                    //std::cout << "Placed\n";
                     SoundManager::PlaySound("EDITOR_PLACE");
                     RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
                     tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));

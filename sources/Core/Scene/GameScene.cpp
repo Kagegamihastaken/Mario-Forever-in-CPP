@@ -35,6 +35,7 @@
 #include "Core/Level.hpp"
 #include "Core/Time.hpp"
 #include "Projectiles/ProjectileHelper.hpp"
+#include "Core/Checkpoint.hpp"
 
 GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
@@ -67,8 +68,8 @@ void GameScene::loadResources() {
     BulletLauncherInit();
     BulletBillInit();
     PlatformInit();
-    //Add Text
-    //AddText("_DEBUG", (isDebug ? "DEBUG" : "RELEASE"), LEFT_MARGIN, 0.0f, 464.0f);
+    CheckpointInit();
+
     AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
     AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
     AddText("_SCORE", "", RIGHT_MARGIN, 138.0f, 34.0f);
@@ -90,12 +91,13 @@ void GameScene::loadResources() {
     //Load Level
     ReadData("data/levels/onedashtwo.json");
     Bgbuilding();
+    CheckpointBuilding();
     Obstaclebuilding();
     Objectbuilding();
     ExitGateBuilding();
 }
 void GameScene::unloadResources() {
-    //?
+    //implement later
 }
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
@@ -109,6 +111,14 @@ void GameScene::handleInput(const std::optional<sf::Event>& event) {
     }
 }
 void GameScene::update(const float deltaTime) {
+    // UI Update
+    TimeUpdate(deltaTime);
+    TimeRingBehavior();
+
+    //Checkpoint
+    CheckpointAnimationUpdate();
+    CheckpointCollision();
+
     ExitGateClockUpdate(deltaTime);
     PlatformPositionUpdate(deltaTime);
 
@@ -155,8 +165,6 @@ void GameScene::update(const float deltaTime) {
     BulletBillPositionUpdate(deltaTime);
     BulletBillEffectPositionUpdate(deltaTime);
 
-    TimeUpdate(deltaTime);
-    TimeRingBehavior();
 }
 void GameScene::setPreviousPosition() {
     SetPrevMarioPos();
@@ -205,6 +213,7 @@ void GameScene::draw(sf::RenderWindow &window) {
 
     BgDraw();
     ExitGateDraw();
+    CheckpointDraw();
     PiranhaAIDraw();
     ImageManager::DrawAllVertex();
     ObstaclesDraw();

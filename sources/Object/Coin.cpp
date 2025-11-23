@@ -26,7 +26,7 @@ void CoinInit() {
 	CoinAnimation.setAnimationSequence(CoinAnimName);
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
-	auto it = CoinList.emplace(ID, att, sf::FloatRect({6.f, 2.f}, {19.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
+	CoinList.emplace(ID, att, sf::FloatRect({6.f, 2.f}, {19.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
 }
 void DeleteIndexCoin(const plf::colony<MFCPP::Coin>::colony_iterator<false>& index) {
 	index->setDestroyed(true);

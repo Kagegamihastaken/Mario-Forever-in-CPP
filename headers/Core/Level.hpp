@@ -12,6 +12,7 @@ struct PlatformData {
 };
 
 extern void Bgbuilding();
+extern void CheckpointBuilding();
 extern void Obstaclebuilding();
 extern void Objectbuilding();
 extern void Slopebuilding();

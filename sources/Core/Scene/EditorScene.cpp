@@ -24,6 +24,7 @@
 #include "Object/Spike.hpp"
 #include "Projectiles/ProjectileHelper.hpp"
 #include "Text/Text.hpp"
+#include "Core/Checkpoint.hpp"
 
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
@@ -50,6 +51,7 @@ void EditorScene::loadResources() {
     BulletLauncherInit();
     BulletBillInit();
     PlatformInit();
+    CheckpointInit();
     //
     SelectTileInit();
     EditorInit();

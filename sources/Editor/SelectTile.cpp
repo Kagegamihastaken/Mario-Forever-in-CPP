@@ -117,7 +117,8 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
     { // PAGE 4
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
         {"ExitGateIndicator_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
-        {"ExitGateBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)}
+        {"ExitGateBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)},
+        {"Checkpoint_0", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(32, 0), sf::Vector2f(45.f, 112.f), 4, 0, 0, 0}
     },
     { // PAGE
         {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("isSmooth", false), BoolProps("isFall", false), BoolProps("isWait", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
