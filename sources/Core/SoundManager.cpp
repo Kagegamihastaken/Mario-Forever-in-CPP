@@ -12,7 +12,7 @@ std::map<std::string, std::unique_ptr<SoLoud::Wav>> SoundManager::m_sounds;
 std::map<std::string, std::string> SoundManager::m_queue;
 SoLoud::EchoFilter SoundManager::m_echo_filter;
 SoLoud::FreeverbFilter SoundManager::m_reverb_filter;
-SoundEnvironment SoundManager::m_env = OVERWORLD;
+SoundEnvironment SoundManager::m_env = UNDERGROUND;
 
 void SoundManager::UpdateSoundEnvironment(const std::string& name) {
 	switch (m_env) {

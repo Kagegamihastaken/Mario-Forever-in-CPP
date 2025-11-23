@@ -373,6 +373,7 @@ void Death() {
 	LevelCompleteEffect = false;
 	MarioDirection = FirstMarioDirection;
 	ExitGateForeActive = true;
+	if (MarioCrouchDown) MarioCrouchDown = false;
 	TimeReset();
 	ExitGateEffectReset();
 }

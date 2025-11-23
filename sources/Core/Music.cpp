@@ -3,7 +3,7 @@
 
 void MusicInit() {
 	//MusicManager::AddMusic("DansLaRue", "data/musics/Rigit Medium.mp3");
-	MusicManager::AddMusic("DansLaRue", "data/musics/yky.ogg");
+	MusicManager::AddMusic("DansLaRue", "data/musics/underground1.ogg");
 	//MusicManager::AddMusic("MarioDeath", "data/musics/1-Music-Die.it");
 	MusicManager::AddMusic("MarioDeath", "data/musics/1-Music-Die.ogg");
 	//MusicManager::AddMusic("MainMusicOGG", "data/musics/The_Worst_Goodbye.ogg");

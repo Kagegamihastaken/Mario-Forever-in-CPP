@@ -15,6 +15,7 @@ void BgInit() {
 	ImageManager::PreloadTexture("GreenMid", "data/resources/Background/GreenMid.png", {}, true);
 	ImageManager::PreloadTexture("GreenMid2", "data/resources/Background/GreenMid2.png", {}, true);
 	ImageManager::PreloadTexture("GreenBack", "data/resources/Background/GreenBack.png", {}, true);
+	ImageManager::PreloadTexture("Cave", "data/resources/Background/Cave.png", {}, true);
 
 	buffer.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
 	if (!buffer.create(4)) std::cerr << "Cannot create buffer\n";
