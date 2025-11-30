@@ -8,10 +8,9 @@
 
 bool MarioLockedView = false;
 sf::View view;
-sf::View WindowView;
 float ViewX, ViewY;
 float ViewXOff, ViewYOff;
-float lastX = std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - 320.0f));
+float lastX = std::round(std::min(std::max(Width / 2.0f, player.property.getPosition().x), LevelWidth - Width / 2.f));
 sf::Vector2f ScrollPos(0.f, 0.f);
 sf::View getLetterboxView(sf::View view, const int windowWidth, const int windowHeight) {
 	const float windowRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);

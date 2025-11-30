@@ -1,11 +1,10 @@
 #include "Editor/RenderTile.hpp"
 #include "Editor/SelectTile.hpp"
 
-RenderTile::RenderTile(const sf::Vector2f &position): m_props(CustomTileProperty()) {
+RenderTile::RenderTile(const sf::Vector2f &position, const int page): m_props(CustomTileProperty()), m_page(page) {
     m_vertices.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
     m_vertices.resize(4);
     setPosition(position);
-    m_page = 0;
     m_id = 0;
 }
 

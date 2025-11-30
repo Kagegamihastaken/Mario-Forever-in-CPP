@@ -1,13 +1,15 @@
 #include "Editor/TabButton.hpp"
 
+#include "Editor/Editor.hpp"
+
 namespace MFCPP {
     TabButton::TabButton() {
         m_vertices.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
         m_vertices.resize(4);
     }
     bool TabButton::isMouseHovered(const sf::Vector2f& pos, const sf::Vector2f& mouse) const {
-        if (mouse.x >= getPosition().x - pos.x && mouse.x <= getPosition().x + m_texture.getSize().x - pos.x
-            && mouse.y >= getPosition().y - pos.y && mouse.y <= getPosition().y + m_texture.getSize().y - pos.y) {
+        if (mouse.x + getEditorPosOffset().x >= getPosition().x - pos.x && mouse.x + getEditorPosOffset().x  <= getPosition().x + m_texture.getSize().x - pos.x
+            && mouse.y + getEditorPosOffset().y >= getPosition().y - pos.y && mouse.y + getEditorPosOffset().y <= getPosition().y + m_texture.getSize().y - pos.y) {
             return true;
             }
         return false;

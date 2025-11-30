@@ -16,6 +16,9 @@
 #include "Core/JsonUtils.hpp"
 #include "Core/Background/BgGradient.hpp"
 
+sf::Vector2f getEditorPosOffset() {
+    return sf::Vector2f((640.f - Width) / 2.f, (480.f - Height) / 2.f);
+}
 void SetPrevEditor() {
     EditorPrevPos = EditorPos;
 }
@@ -398,8 +401,8 @@ void SelectedTilePosUpdate() {
 }
 void TilePosUpdate(const float dt) {
     if (!EDITOR_ShowProperty && !EDITOR_OpenDialog && !EDITOR_SaveDialog) {
-        TileX = std::floor((MouseX + EditorPos.x) / 32.0f) * 32.0f;
-        TileY = std::floor((MouseY + EditorPos.y) / 32.0f) * 32.0f;
+        TileX = std::floor((MouseX + EditorPos.x + getEditorPosOffset().x) / 32.0f) * 32.0f; // 640 default width
+        TileY = std::floor((MouseY + EditorPos.y + getEditorPosOffset().y) / 32.0f) * 32.0f; // 480 default height
     }
     AlphaUpdate(SelectBoxAlpha, SelectBoxAlphaState, SELECTBOXALPHA_MIN, SELECTBOXALPHA_MAX, SELECTBOXALPHA_CHANGE, dt);
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
@@ -483,6 +486,7 @@ void EditorEvent(const std::optional<sf::Event>& event) {
     }
 }
 void PlaceTile() {
+    //MFCPP::Log::InfoPrint(fmt::format("CurrPage: {}", CurrPage));
     if (EDITOR_SELECTTILE) return;
     if (EDITOR_SELECTILE_CLOCK.getElapsedTime().asSeconds() < 0.15f) return;
 
@@ -492,9 +496,9 @@ void PlaceTile() {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
             if (EDITOR_BuildMode) {
                 if (CurrPage != LevelTab || (CurrPage == LevelTab && CurrSelectTile > 2)) {
-                    if (Tile.contains(sf::Vector2f(TileX, TileY))) {
+                    if (Tile.contains(RenderTile(sf::Vector2f(TileX, TileY), CurrPage))) {
                         SoundManager::PlaySound("EDITOR_DELETE");
-                        Tile.erase(sf::Vector2f(TileX, TileY));
+                        Tile.erase(RenderTile(sf::Vector2f(TileX, TileY), CurrPage));
                         if (!EDITOR_CanPlace) EDITOR_CanPlace = true;
                         lastDeleteX = TileX;
                         lastDeleteY = TileY;
@@ -506,7 +510,7 @@ void PlaceTile() {
             else {
                 if (!EDITOR_isRightHolding) {
                     //if (SelectTile)
-                    if (const auto it = Tile.find(sf::Vector2f(TileX, TileY)); it != Tile.end()) {
+                    if (const auto it = Tile.find(RenderTile(sf::Vector2f(TileX, TileY), CurrPage)); it != Tile.end()) {
                         if (it->getProperty().getPropertyCount() > 0) {
                             EDITOR_ShowProperty = true;
                             SaveTile = *it;
@@ -531,12 +535,13 @@ void PlaceTile() {
                 if (!EDITOR_CanPlace) {
                     if (CurrPage == PlatformTab) {
                         if (CurrSelectTile == 0) {
-                            Tile.erase(EDITOR_SavePos);
+                            Tile.erase(RenderTile(EDITOR_SavePos, EDITOR_SavePosPage));
 
                             RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), EDITOR_SavePos, CurrPage, CurrSelectTile, sf::Vector2f(TileX, TileY));
                             tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
                             Tile.insert(tile);
                             EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
+                            EDITOR_SavePosPage = CurrPage;
 
                             EDITOR_CanPlace = true;
                         }
@@ -545,7 +550,7 @@ void PlaceTile() {
                     return;
                 }
 
-                if (!Tile.contains(sf::Vector2f(TileX, TileY))) {
+                if (!Tile.contains(RenderTile(sf::Vector2f(TileX, TileY), CurrPage))) {
                     SoundManager::PlaySound("EDITOR_PLACE");
                     RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
                     tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
@@ -554,6 +559,7 @@ void PlaceTile() {
                         switch (CurrSelectTile) {
                             case 0:
                                 EDITOR_SavePos = sf::Vector2f(TileX, TileY);
+                                EDITOR_SavePosPage = CurrPage;
                                 EDITOR_CanPlace = false;
                                 break;
                             default: ;
@@ -609,35 +615,41 @@ void DrawTile() {
     EditPropertyDialog();
     OpenFileDialog();
     SaveFileDialog();
-    window.draw(EDITOR_ExitGate);
-    for (const auto &i : Tile) {
-        const bool isTileTouch = TileX == i.getPosition().x && TileY == i.getPosition().y;
-        if (!isOutScreen(i.getPosition().x, i.getPosition().y, 32, 32)) {
-            if (i.getEndPos() != sf::Vector2f(-1.f, -1.f)) {
-                sf::VertexArray line(sf::PrimitiveType::Lines, 2);
-                line[0].position = (i.getPosition() + i.getPosition() + static_cast<sf::Vector2f>(i.getTexture()->getSize())) * 0.5f;
-                line[1].position = (i.getEndPos() + i.getEndPos() + static_cast<sf::Vector2f>(i.getTexture()->getSize())) * 0.5f;
+    for (int j = 0; j < TilePage.size(); ++j) {
+        for (const auto &i : Tile) {
+            if (i.getPage() != j) continue;
 
-                line[0].color = sf::Color::Black;
-                line[1].color = sf::Color::Black;
-                window.draw(line);
+            const bool isTileTouch = TileX == i.getPosition().x && TileY == i.getPosition().y;
+            if (!isOutScreen(i.getPosition().x, i.getPosition().y, 32, 32)) {
+                const unsigned int PageDiff = (CurrPage != i.getPage() ? 160 : 255);
+                if (i.getEndPos() != sf::Vector2f(-1.f, -1.f)) {
+                    sf::VertexArray line(sf::PrimitiveType::Lines, 2);
+                    line[0].position = (i.getPosition() + i.getPosition() + static_cast<sf::Vector2f>(i.getTexture()->getSize())) * 0.5f;
+                    line[1].position = (i.getEndPos() + i.getEndPos() + static_cast<sf::Vector2f>(i.getTexture()->getSize())) * 0.5f;
 
-                MFCPP::SimpleSprite R(i.getTexture());
-                R.setPosition(i.getEndPos());
-                R.setOrigin(i.getOrigin());
-                R.setColor(sf::Color(255, 255, 255, 128));
-                window.draw(R);
+                    line[0].color = sf::Color::Black;
+                    line[1].color = sf::Color::Black;
+                    window.draw(line);
+
+                    MFCPP::SimpleSprite R(i.getTexture());
+                    R.setPosition(i.getEndPos());
+                    R.setOrigin(i.getOrigin());
+                    R.setColor(sf::Color(255, 255, 255, 160 - 255 + PageDiff));
+                    window.draw(R);
+                }
+                MFCPP::SimpleSprite T(i.getTexture());
+                T.setPosition(i.getPosition());
+                T.setOrigin(i.getOrigin());
+                if (!EDITOR_BuildMode && !EDITOR_ShowProperty && isTileTouch) {
+                    T.setColor(sf::Color(0, 255, 0, PageDiff));
+                    T.setRenderTexture(false);
+                }
+                else T.setColor(sf::Color(255, 255, 255, PageDiff));
+                window.draw(T);
             }
-            MFCPP::SimpleSprite T(i.getTexture());
-            T.setPosition(i.getPosition());
-            T.setOrigin(i.getOrigin());
-            if (!EDITOR_BuildMode && !EDITOR_ShowProperty && isTileTouch) {
-                T.setColor(sf::Color(0, 255, 0));
-                T.setRenderTexture(false);
-            }
-            window.draw(T);
         }
     }
+    window.draw(EDITOR_ExitGate);
     window.draw(EDITOR_Mario);
     window.draw(EDITOR_ExitGateIndicator);
     if (EDITOR_BuildMode) window.draw(SelectBox);

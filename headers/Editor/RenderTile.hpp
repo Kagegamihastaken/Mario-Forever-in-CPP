@@ -6,7 +6,7 @@ class RenderTile final : public sf::Drawable, public sf::Transformable {
 public:
     RenderTile(const CustomTileProperty &props, const sf::Texture& texture, const sf::Vector2f& position, int page = 0, int id = 0, const sf::Vector2f& endPos = sf::Vector2f(-1.f, -1.f));
     RenderTile();
-    RenderTile(const sf::Vector2f& position);
+    RenderTile(const sf::Vector2f& position, int page);
     void setTextureRect(const sf::IntRect& rect, bool resetSize = false);
     int getID() const;
     int getPage() const;

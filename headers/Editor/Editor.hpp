@@ -76,6 +76,7 @@ static sf::Vector2f PlayerData{};
 //Editor Can Place
 static bool EDITOR_CanPlace = true;
 static sf::Vector2f EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
+static int EDITOR_SavePosPage = 0;
 static bool EDITOR_isLeftHolding = false;
 static bool EDITOR_isRightHolding = false;
 
@@ -97,5 +98,7 @@ static CustomTileProperty TimeSetting(IntProps("Time", 360, 0, 99999));
 static std::vector<BackgroundLayer> BackgroundLayers;
 //SaveTile For Edit Property
 static RenderTile SaveTile;
+// getOffset for wider screen
+extern sf::Vector2f getEditorPosOffset();
 
 #endif //EDITOR_HPP
