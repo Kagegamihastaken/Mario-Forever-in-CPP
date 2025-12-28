@@ -9,6 +9,7 @@
 #include "Core/Sound.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/BroAI.hpp"
 #include "Object/Mario.hpp"
 
@@ -220,6 +221,11 @@ void LuckyHitEvent(const float x, const float y) {
 					jt->DeathBehaviour(SCORE_100);
 					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
 				}
+			}
+			auto& list = GameScene::enemyManager.getGoombaAIList();
+			for (auto it = list.begin(); it != list.end(); ++it) {
+				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(EnemyGoombaAICollide, LuckyLoop))
+					it->BlockHit();
 			}
 			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
 				if (jt->isDestroyed()) continue;

@@ -1,0 +1,30 @@
+#ifndef MFCPP_GOOMBA_HPP
+#define MFCPP_GOOMBA_HPP
+
+#include "Core/Animate/SingleAnimationObject.hpp"
+#include "Core/Object/Enemy.hpp"
+#include "Core/Object/GoombaAIType.hpp"
+
+class Goomba final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
+public:
+    explicit Goomba(EnemyManager& manager, const sf::Vector2f& position);
+    void setPreviousData() override;
+    void interpolateData(float alpha) override;
+    void statusUpdate(float deltaTime) override;
+    void MarioCollision(float MarioYVelocity) override;
+    void XUpdate(float deltaTime) override;
+    void YUpdate(float deltaTime) override;
+    void EnemyCollision() override;
+    void draw() override;
+    void Destroy() override;
+    void Death(unsigned int state) override;
+    void BlockHit() override;
+private:
+    MFCPP::SingleAnimationObject m_animation;
+    sf::Vector2f m_velocity;
+    sf::FloatRect m_wall_hitbox;
+    unsigned m_state;
+    float m_clockRan; // State 1
+    float m_alpha; // State 1
+};
+#endif //MFCPP_GOOMBA_HPP

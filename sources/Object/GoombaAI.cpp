@@ -18,10 +18,12 @@
 #include "Effect/BroAIEffect.hpp"
 #include "Object/BroAI.hpp"
 #include "Core/Logging.hpp"
+#include "Core/Scene/GameScene.hpp"
+#include "Object/Enemy/Goomba.hpp"
 plf::colony<MFCPP::GoombaAI> GoombaAIList;
 static bool GoombaAIDeleteGate = false;
 
-static std::vector<std::string> GoombaAnimName;
+std::vector<std::string> GoombaAnimName;
 static int GOOMBA_IMAGE_WIDTH = 62;
 static int GOOMBA_WIDTH = 31;
 static int GOOMBA_HEIGHT = 32;
@@ -110,11 +112,12 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 	plf::colony<MFCPP::GoombaAI>::colony_iterator<false> it;
 	switch (type) {
 		case GOOMBA:
-			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
-				sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
-				sf::Vector2f(15, 31), false, SkinID, 0.0f);
-			it->setAnimation(0, 1, 11);
-			it->setAnimationSequence(GoombaAnimName);
+			GameScene::enemyManager.addEnemy<Goomba>(sf::Vector2f(x, y));
+			//it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
+				//sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y),
+				//sf::Vector2f(15, 31), false, SkinID, 0.0f);
+			//it->setAnimation(0, 1, 11);
+			//it->setAnimationSequence(GoombaAnimName);
 			break;
 		case KOOPA:
 			switch (SkinID) {

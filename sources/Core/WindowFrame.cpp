@@ -18,7 +18,7 @@ bool isDebug = false;
 float Width = GAME_WIDTH, Height = GAME_HEIGHT;
 sf::RenderWindow window;
 sf::RenderTexture rObject;
-static bool OPTION_SMOOTH = true;
+static bool OPTION_SMOOTH = false;
 static bool OPTION_VSYNC = false;
 static bool OPTION_FULLSCREEN = false;
 
@@ -121,8 +121,8 @@ namespace Window {
 		window.setVerticalSyncEnabled(OPTION_VSYNC);
 		window.setIcon(icon);
 		if (!OPTION_SMOOTH) {
-			window.setFramerateLimit(60);
-			window.setVerticalSyncEnabled(true);
+			window.setFramerateLimit(240);
+			window.setVerticalSyncEnabled(false);
 		}
 		else {
 			window.setFramerateLimit(0); //300
@@ -154,6 +154,7 @@ void windowInit() {
 	Window::ChangeScreenMode(1);
 	timestep.setStep(1.0f / 500.0f);
 	timestep.setMaxAccumulation(1.0f / 30.0f);
+	//timestep.setTimeSpeed(0.5f);
 }
 void GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");

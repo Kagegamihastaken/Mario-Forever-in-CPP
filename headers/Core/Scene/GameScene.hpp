@@ -3,9 +3,12 @@
 
 #include "Core/Scene.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "Core/Object/EnemyManager.hpp"
 
 class GameScene final : public Scene {
 public:
+    static EnemyManager enemyManager;
+
     explicit GameScene(SceneManager& manager);
     void handleInput(const std::optional<sf::Event>& event) override;
     void update(float deltaTime) override;

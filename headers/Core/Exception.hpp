@@ -24,7 +24,17 @@ namespace MFCPP {
                 return messange.c_str();
             }
         };
-    }
+
+        class WhichIdentity final : public std::exception {
+        private:
+            std::string messange;
+        public:
+            explicit WhichIdentity(const std::string_view msg) : messange(msg) {};
+            const char* what() const noexcept override {
+                return messange.c_str();
+            }
+        };
+    };
 }
 
 #endif //EXCEPTION_HPP

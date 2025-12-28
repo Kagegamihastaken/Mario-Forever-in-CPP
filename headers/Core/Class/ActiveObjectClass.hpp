@@ -17,6 +17,8 @@ namespace MFCPP {
         void setOrigin(const sf::Vector2<T>& origin);
         [[nodiscard]] const sf::Vector2<T>& getOrigin() const;
         void move(const sf::Vector2<T>& pos);
+        [[nodiscard]] const sf::Rect<T>& getHitbox() const;
+        void setHitbox(const sf::Rect<T>& hitbox);
         void setCurrentAngle(const sf::Angle& angle);
         [[nodiscard]] const sf::Angle& getCurrentAngle() const;
         void setPreviousAngle(const sf::Angle& angle);
@@ -34,6 +36,7 @@ namespace MFCPP {
         sf::Angle    m_curr_angle{};
         sf::Angle    m_prev_angle{};
         sf::Angle    m_interpolated_angle{};
+        sf::Rect<T>  m_hitbox{};
         bool         m_destroy{};
     };
 

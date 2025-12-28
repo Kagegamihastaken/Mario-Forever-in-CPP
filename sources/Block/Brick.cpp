@@ -1,5 +1,4 @@
 #include "Block/Brick.hpp"
-#include "Core/WindowFrame.hpp"
 #include "Object/Coin.hpp"
 #include "Core/Scroll.hpp"
 #include "Effect/CoinEffect.hpp"
@@ -13,6 +12,7 @@
 #include "Core/Interpolation.hpp"
 #include "Core/Tilemap.hpp"
 #include "Object/BroAI.hpp"
+#include "Core/Scene/GameScene.hpp"
 
 plf::colony<MFCPP::Brick> Bricks;
 static bool BrickDeleteGate = false;
@@ -162,6 +162,11 @@ void HitEvent(const float x, const float y) {
 					SoundManager::PlaySound("Coin");
 					++CoinCount;
 				}
+			}
+			auto& list = GameScene::enemyManager.getGoombaAIList();
+			for (auto it = list.begin(); it != list.end(); ++it) {
+				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(EnemyGoombaAICollide, BrickLoop))
+					it->BlockHit();
 			}
 			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
 				if (jt->isDestroyed()) continue;

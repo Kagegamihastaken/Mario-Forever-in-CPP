@@ -4,6 +4,10 @@
 #define GOOMBAAIEFFECT_HPP
 
 #include "Core/Loading/enum.hpp"
+
+const std::vector<std::string> GoombaDeathEffectFirst = {"DEAD_Goomba_1"};
+const std::vector<std::string> GoombaDeathEffectSecond = {"DEAD_Goomba_2"};
+
 extern void GoombaAIEffectInit();
 extern void DeleteGoombaAIEffect(float x, float y);
 extern void AddGoombaAIEffect(GoombaAIType type, GoombaAIEffectID id, int SkinID, float x, float y);

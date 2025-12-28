@@ -14,6 +14,7 @@ namespace MFCPP {
 		m_TimeRemainSave = 0.0f;
 		m_direction = AnimationDirection::ANIM_RIGHT;
 		m_change_direction = changeAnimDirection;
+		m_color = sf::Color(255, 255, 255);
 	}
 	void SingleAnimationObject::AddAnimationSequence(const std::string& aName) {
 		m_Index.emplace_back(ImageManager::GetReturnTexture(aName));
@@ -36,6 +37,7 @@ namespace MFCPP {
 			m_TimeRun.restart();
 			m_TimeRan = 0.0f;
 			m_TimeRemainSave = 0.0f;
+			m_color = sf::Color(255, 255, 255);
 		}
 		else {
 			m_frequency = frequency;
@@ -43,6 +45,10 @@ namespace MFCPP {
 			m_TimeRan = 0.0f;
 			m_TimeRemainSave = 0.0f;
 		}
+	}
+
+	void SingleAnimationObject::setColor(const sf::Color &color) {
+		m_color = color;
 	}
 	void SingleAnimationObject::setIndexAnimation(const int indexAnimation) {
 		m_indexAnimation = indexAnimation;
@@ -74,6 +80,7 @@ namespace MFCPP {
 		m_Index[m_indexAnimation].setRotation(m_angle);
 		m_Index[m_indexAnimation].setPosition(pos);
 		m_Index[m_indexAnimation].setOrigin(origin);
+		m_Index[m_indexAnimation].setColor(m_color);
 		if (m_direction == AnimationDirection::ANIM_RIGHT)
 			m_Index[m_indexAnimation].setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
 		else

@@ -18,6 +18,7 @@ namespace MFCPP {
 		float m_TimeRan = 0.0f;
 		float m_TimeRemainSave = 0.0f;
 		bool m_change_direction = false;
+		sf::Color m_color;
 		sf::Angle m_angle = sf::degrees(0.f);
 		AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 	public:
@@ -28,6 +29,7 @@ namespace MFCPP {
 		void setEndingIndexAnimation(int endingIndexAnimation);
 		void setFrequencyAnimation(int frequency);
 
+		void setColor(const sf::Color& color);
 		void FrameUpdate();
 		void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
 		void AnimationDraw() const;

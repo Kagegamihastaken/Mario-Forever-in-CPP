@@ -98,6 +98,7 @@ void PlatformPositionUpdate(const float deltaTime) {
 }
 void DrawPlatform() {
     for (auto &i : PlatformList) {
+        i.setColor(sf::Color(255,255,255));
         i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
         i.AnimationDraw();
     }

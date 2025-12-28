@@ -72,5 +72,13 @@ namespace MFCPP {
     bool ActiveObject<T>::isDestroyed() const {
         return m_destroy;
     }
+    template <typename T>
+    void ActiveObject<T>::setHitbox(const sf::Rect<T>& hitbox) {
+        m_hitbox = hitbox;
+    }
+    template <typename T>
+    const sf::Rect<T>& ActiveObject<T>::getHitbox() const {
+        return m_hitbox;
+    }
     template class ActiveObject<float>;
 }

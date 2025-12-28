@@ -33,6 +33,7 @@
 #include "Object/Platform.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
 #include "Core/Checkpoint.hpp"
+#include "Core/Scene/GameScene.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
@@ -253,6 +254,8 @@ void Objectbuilding() {
 	BulletLauncherClear();
 	//Delete Platform
 	DeleteAllPlatform();
+
+	GameScene::enemyManager.DeleteAll();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {

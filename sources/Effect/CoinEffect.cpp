@@ -34,6 +34,7 @@ void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const floa
 	CoinEffectList.back().setAnimationSequence(CoinEffectAnimName);
 }
 void DeleteCoinEffect(const std::vector<MFCPP::CoinEffect>::iterator& it) {
+	if (it->isDestroyed()) return;
 	CoinEffectDeleteGate = true;
 	const sf::Vector2f pos = it->getCurrentPosition();
 	it->setDestroyed(true);
