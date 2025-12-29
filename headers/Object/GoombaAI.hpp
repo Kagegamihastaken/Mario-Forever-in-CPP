@@ -26,4 +26,5 @@ extern void DeleteGoombaAIIndex(const plf::colony<MFCPP::GoombaAI>::colony_itera
 extern std::vector<std::string> GoombaAnimName;
 extern std::vector<std::string> GreenKoopaAnimName;
 extern std::vector<std::string> GreenKoopaShellAnimName;
+extern std::vector<std::string> FireFlowerAnimName;
 #endif // GOOMBAAI_HPP

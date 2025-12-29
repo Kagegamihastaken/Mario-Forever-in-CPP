@@ -53,9 +53,14 @@ void EnemyManager::MarioCollision() const {
             i->MarioCollision(MarioYVelocityBefore);
     }
 }
-void EnemyManager::draw() const {
+void EnemyManager::DrawHighPriority() const {
     for (auto &i : m_enemies) {
-        if (i) i->draw();
+        if (i && !i->isDrawingLowerPriority()) i->draw();
+    }
+}
+void EnemyManager::DrawLowPriority() const {
+    for (auto &i : m_enemies) {
+        if (i && i->isDrawingLowerPriority()) i->draw();
     }
 }
 EnemyManager::EnemyIntrusiveList &EnemyManager::getGoombaAIList() {

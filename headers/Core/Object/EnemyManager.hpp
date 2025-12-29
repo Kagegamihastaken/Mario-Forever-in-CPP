@@ -37,7 +37,8 @@ public:
     void EnemyCollision();
     void EnemyCleanup();
     void DeleteAll();
-    void draw() const;
+    void DrawHighPriority() const;
+    void DrawLowPriority() const;
 private:
     // For EnemyType Only
     EnemyIntrusiveList m_GoombaAI;

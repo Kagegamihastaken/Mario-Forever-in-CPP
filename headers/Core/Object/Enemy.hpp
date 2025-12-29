@@ -36,12 +36,14 @@ namespace MFCPP {
         [[nodiscard]] bool isShellKicking() const { return m_option[3]; }
         void setShellBlocker(const bool val) { m_option[4] = val;}
         [[nodiscard]] bool isShellBlocker() const { return m_option[4]; }
+        void setDrawingLowerPriority(const bool val) { m_option[5] = val; }
+        [[nodiscard]] bool isDrawingLowerPriority() const { return m_option[5]; }
 
         virtual void Destroy() = 0;
         virtual ~Enemy() = default;
     protected:
         EnemyManager& m_enemyManager;
-        std::bitset<5> m_option = 0;
+        std::bitset<6> m_option = 0;
         /*
          * Note:
          * Bit 1: Direction
@@ -49,6 +51,7 @@ namespace MFCPP {
          * Bit 3: Collide Each Other
          * Bit 4: Shell Kicking (Mean enemy die from shell)
          * Bit 5: Shell Blocker
+         * Bit 6: Drawing Lower Priority
          */
     };
 }

@@ -24,6 +24,7 @@ public:
     static void GoombaAIStomping();
 
     static bool GoombaAIEffectDisappearing(float& clock, float& alpha, float deltaTime);
+    static GoombaAIData MushroomAppearing(const GoombaAIData& data, float& appearY, float appearYSpeed, float appearYMax, bool& isAppearing, bool isDisabled, float deltaTime);
 private:
     static GoombaAIData EnemyPlatformXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin);
     static GoombaAIData EnemyAdjustXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float CurrPosXCollide, bool side);

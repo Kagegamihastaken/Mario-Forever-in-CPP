@@ -19,8 +19,10 @@
 #include "Object/BroAI.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Object/Enemy/FireFlower.hpp"
 #include "Object/Enemy/Goomba.hpp"
 #include "Object/Enemy/GreenKoopa.hpp"
+#include "Object/Enemy/Mushroom.hpp"
 plf::colony<MFCPP::GoombaAI> GoombaAIList;
 static bool GoombaAIDeleteGate = false;
 
@@ -28,7 +30,7 @@ std::vector<std::string> GoombaAnimName;
 static int GOOMBA_IMAGE_WIDTH = 62;
 static int GOOMBA_WIDTH = 31;
 static int GOOMBA_HEIGHT = 32;
-static std::vector<std::string> MushroomAnimName;
+static std::vector<std::string> MushroomAnimName; // Unused
 static std::vector<std::string> GreenMushroomAnimName;
 static int MUSHROOM_IMAGE_WIDTH = 31;
 static int MUSHROOM_WIDTH = 31;
@@ -48,7 +50,7 @@ static std::vector<std::string> GreenSpinyAnimName;
 static int SPINY_IMAGE_WIDTH = 66;
 static int SPINY_WIDTH = 33;
 static int SPINY_HEIGHT = 32;
-static std::vector<std::string> FireFlowerAnimName;
+std::vector<std::string> FireFlowerAnimName;
 static int FIRE_FLOWER_IMAGE_WIDTH = 128;
 static int FIRE_FLOWER_WIDTH = 32;
 static int FIRE_FLOWER_HEIGHT = 32;
@@ -123,7 +125,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case KOOPA:
 			switch (SkinID) {
 			case 0:
-					GameScene::enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(x, y), false);
+				GameScene::enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(x, y), false);
 					/*
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
 					sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
@@ -145,11 +147,14 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case MUSHROOM:
 			switch (SkinID) {
 			case 0:
+				GameScene::enemyManager.addEnemy<Mushroom>(sf::Vector2f(x, y));
+					/*
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
 					sf::FloatRect({0.0f, 0.0f}, {31.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 					sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
 				it->setAnimation(0, 0, 100);
 				it->setAnimationSequence(MushroomAnimName);
+				*/
 				break;
 			case 1:
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 2.0f,
@@ -219,11 +224,14 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			}
 			break;
 		case FIRE_FLOWER:
+			GameScene::enemyManager.addEnemy<FireFlower>(sf::Vector2f(x, y));
+			/*
 			it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
 				sf::FloatRect({0.0f, 0.0f}, {32.0f, 32.0f}), sf::Vector2f(x, y + 31.f),
 				sf::Vector2f(16, 31), true, SkinID, 0.0f, false, 0.5f);
 			it->setAnimation(0, 3, 27);
 			it->setAnimationSequence(FireFlowerAnimName);
+			*/
 			break;
 		default: ;
 	}
