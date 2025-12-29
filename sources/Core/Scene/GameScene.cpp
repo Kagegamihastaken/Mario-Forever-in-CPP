@@ -38,6 +38,7 @@
 #include "Core/Checkpoint.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "Object/Enemy/Goomba.hpp"
+#include "Object/Enemy/GreenKoopa.hpp"
 
 EnemyManager GameScene::enemyManager;
 
@@ -47,7 +48,7 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            enemyManager.addEnemy<Goomba>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
+            enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), false);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
@@ -175,6 +176,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     MarioDraw();
     BrickDraw();
     LuckyBlockDraw();
+    enemyManager.draw();
     SpikeDraw();
     CoinDraw();
     DrawBulletBill();
@@ -192,8 +194,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     MarioEffectDraw();
     ExitGateEffectDraw();
     FrameDraw();
-
-    enemyManager.draw();
 
     ImageManager::DrawAllVertex();
     TextDraw();

@@ -23,6 +23,7 @@ void CheckpointInit() {
 void AddCheckpoint(const sf::Vector2f& pos) {
     auto it = CheckpointList.emplace(sf::FloatRect({0.f, 0.f}, {CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT}), pos, sf::Vector2f(45.f, 112.f));
     it->setAnimationSequence(CheckpointAnimName);
+    it->setAnimation(0, 0, 10);
 }
 void CheckpointAnimationUpdate() {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {

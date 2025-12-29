@@ -27,6 +27,8 @@ Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position) : Enemy(mana
     m_state = 0;
     m_clockRan = 0.f;
     m_alpha = 255.f;
+    setShellKicking(true);
+    setShellBlocker(false);
 }
 void Goomba::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;
@@ -90,14 +92,14 @@ void Goomba::XUpdate(const float deltaTime) {
 void Goomba::YUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
     if (m_state < 2) {
-        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, m_direction), deltaTime);
+        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         data = GoombaAIBehavior::GoombaAIYCollision(data, getHitbox(), getOrigin());
         setCurrentPosition(data.position);
         m_velocity = data.velocity;
         setDirection(data.direction);
     }
     else {
-        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, m_direction), deltaTime);
+        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         m_velocity = data.velocity;
         setCurrentPosition(data.position);
     }
@@ -107,6 +109,11 @@ void Goomba::BlockHit() {
     if (m_state > 0) return;
     AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
+    Death(2);
+}
+
+void Goomba::ShellHit() {
+    if (m_state > 0) return;
     Death(2);
 }
 
@@ -130,12 +137,20 @@ void Goomba::Death(unsigned int state) {
         case 1:
             m_animation.setAnimationSequence(GoombaDeathEffectFirst);
             m_animation.setAnimation(0,0,100);
+            setShellKicking(false);
+            setShellBlocker(false);
             break;
         case 2:
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_animation.setAnimationSequence(GoombaDeathEffectSecond);
             m_animation.setAnimation(0,0,100);
+            setShellKicking(false);
+            setShellBlocker(false);
             break;
         default:;
     }
+}
+
+bool Goomba::isDeath() {
+    return m_state > 0;
 }

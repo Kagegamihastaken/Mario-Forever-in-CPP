@@ -24,4 +24,6 @@ extern void GoombaAICleanup();
 extern void DeleteGoombaAIIndex(const plf::colony<MFCPP::GoombaAI>::colony_iterator<false>& it);
 
 extern std::vector<std::string> GoombaAnimName;
+extern std::vector<std::string> GreenKoopaAnimName;
+extern std::vector<std::string> GreenKoopaShellAnimName;
 #endif // GOOMBAAI_HPP

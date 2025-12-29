@@ -20,6 +20,7 @@
 #include "Core/Logging.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/Goomba.hpp"
+#include "Object/Enemy/GreenKoopa.hpp"
 plf::colony<MFCPP::GoombaAI> GoombaAIList;
 static bool GoombaAIDeleteGate = false;
 
@@ -32,12 +33,12 @@ static std::vector<std::string> GreenMushroomAnimName;
 static int MUSHROOM_IMAGE_WIDTH = 31;
 static int MUSHROOM_WIDTH = 31;
 static int MUSHROOM_HEIGHT = 32;
-static std::vector<std::string> GreenKoopaAnimName;
+std::vector<std::string> GreenKoopaAnimName;
 static std::vector<std::string> RedKoopaAnimName;
 static int KOOPA_IMAGE_WIDTH = 64;
 static int KOOPA_WIDTH = 32;
 static int KOOPA_HEIGHT = 47;
-static std::vector<std::string> GreenKoopaShellAnimName;
+std::vector<std::string> GreenKoopaShellAnimName;
 static std::vector<std::string> RedKoopaShellAnimName;
 static int KOOPA_SHELL_IMAGE_WIDTH = 132;
 static int KOOPA_SHELL_WIDTH = 33;
@@ -122,11 +123,14 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case KOOPA:
 			switch (SkinID) {
 			case 0:
+					GameScene::enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(x, y), false);
+					/*
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 1.0f,
 					sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
 					sf::Vector2f(16, 46), false, SkinID, 0.0f);
 				it->setAnimation(0, 1, 12, true);
 				it->setAnimationSequence(GreenKoopaAnimName);
+				*/
 				break;
 			case 1:
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_REDKOOPA, 2.0f,

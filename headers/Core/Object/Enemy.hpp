@@ -1,6 +1,7 @@
 #ifndef MFCPP_ENEMY_HPP
 #define MFCPP_ENEMY_HPP
 
+#include <bitset>
 #include <boost/intrusive/list.hpp>
 #include "Core/Class/ActiveObjectClass.hpp"
 
@@ -21,23 +22,34 @@ namespace MFCPP {
         virtual void EnemyCollision() = 0;
         virtual void Death(unsigned int state) = 0;
         virtual void BlockHit() = 0;
-
+        virtual void ShellHit() = 0;
         virtual void draw() = 0;
+        [[nodiscard]] virtual bool isDeath() = 0;
 
-        void setDirection(const bool dir) { m_direction = dir; }
-        [[nodiscard]] bool getDirection() const { return m_direction; }
-        void setDisabled(const bool val) { m_disabled = val; }
-        [[nodiscard]] bool isDisabled() const { return m_disabled; }
-        void setCollideEachOther(const bool val) {m_collide_each_other = val;}
-        [[nodiscard]] bool isCollideEachOther() const { return m_collide_each_other; }
+        void setDirection(const bool dir) { m_option[0] = dir; }
+        [[nodiscard]] bool getDirection() const { return m_option[0]; }
+        void setDisabled(const bool val) { m_option[1] = val; }
+        [[nodiscard]] bool isDisabled() const { return m_option[1]; }
+        void setCollideEachOther(const bool val) {m_option[2] = val;}
+        [[nodiscard]] bool isCollideEachOther() const { return m_option[2]; }
+        void setShellKicking(const bool val) { m_option[3] = val; }
+        [[nodiscard]] bool isShellKicking() const { return m_option[3]; }
+        void setShellBlocker(const bool val) { m_option[4] = val;}
+        [[nodiscard]] bool isShellBlocker() const { return m_option[4]; }
 
         virtual void Destroy() = 0;
         virtual ~Enemy() = default;
     protected:
         EnemyManager& m_enemyManager;
-        bool m_direction = true;
-        bool m_disabled = false;
-        bool m_collide_each_other = false;
+        std::bitset<5> m_option = 0;
+        /*
+         * Note:
+         * Bit 1: Direction
+         * Bit 2: Disabled
+         * Bit 3: Collide Each Other
+         * Bit 4: Shell Kicking (Mean enemy die from shell)
+         * Bit 5: Shell Blocker
+         */
     };
 }
 

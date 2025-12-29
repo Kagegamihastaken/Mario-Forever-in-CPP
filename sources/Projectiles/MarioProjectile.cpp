@@ -15,6 +15,7 @@
 
 #include "Core/ProjectileBehaviour/Fireball.hpp"
 #include "Core/ProjectileBehaviour/Fireball.hpp"
+#include "Core/Scene/GameScene.hpp"
 
 plf::colony<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;
@@ -59,6 +60,19 @@ void MarioProjectileCollision() {
         if (it->isDestroyed()) continue;
         const sf::FloatRect playerHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin());
         //GoombaAI
+        auto& list = GameScene::enemyManager.getGoombaAIList();
+        for (auto jt = list.begin(); jt != list.end(); ++jt) {
+            if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(EnemyGoombaAICollide, playerHitbox)) {
+                if (!jt->isDeath()) {
+                    jt->ShellHit();
+                    AddScoreEffect(SCORE_100, jt->getCurrentPosition().x, jt->getCurrentPosition().y - jt->getOrigin().y);
+                    SoundManager::PlaySound("Kick2");
+                    DeleteMarioProjectile(it);
+                    break;
+                }
+            }
+        }
+
         for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
             if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
                 if (jt->IsCanDeath()) {

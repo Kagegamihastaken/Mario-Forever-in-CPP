@@ -1,13 +1,15 @@
-#ifndef MFCPP_GOOMBA_HPP
-#define MFCPP_GOOMBA_HPP
+#ifndef MFCPP_GREENKOOPA_HPP
+#define MFCPP_GREENKOOPA_HPP
 
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Object/Enemy.hpp"
 #include "Core/Object/GoombaAIType.hpp"
+#include "SFML/Graphics/Rect.hpp"
+#include "SFML/System/Vector2.hpp"
 
-class Goomba final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
+class GreenKoopa final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
-    explicit Goomba(EnemyManager& manager, const sf::Vector2f& position);
+    explicit GreenKoopa(EnemyManager& manager, const sf::Vector2f& position, bool isShell);
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;
@@ -20,13 +22,14 @@ public:
     void Death(unsigned int state) override;
     void BlockHit() override;
     void ShellHit() override;
+    void ChangeState();
     [[nodiscard]] bool isDeath() override;
 private:
     MFCPP::SingleAnimationObject m_animation;
     sf::Vector2f m_velocity;
     sf::FloatRect m_wall_hitbox;
     short unsigned m_state;
-    float m_clockRan; // State 1
-    float m_alpha; // State 1
+    float m_invincibleTimer;
+    short unsigned m_hit_count;
 };
-#endif //MFCPP_GOOMBA_HPP
+#endif //MFCPP_GREENKOOPA_HPP
