@@ -8,6 +8,7 @@
 const std::vector<std::string> GoombaDeathEffectFirst = {"DEAD_Goomba_1"};
 const std::vector<std::string> GoombaDeathEffectSecond = {"DEAD_Goomba_2"};
 const std::vector<std::string> GreenKoopaDeathEffect = {"DEAD_GreenKoopa"};
+const std::vector<std::string> RedKoopaDeathEffect = {"DEAD_RedKoopa"};
 
 extern void GoombaAIEffectInit();
 extern void DeleteGoombaAIEffect(float x, float y);

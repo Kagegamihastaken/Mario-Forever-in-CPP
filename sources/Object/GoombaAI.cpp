@@ -23,6 +23,7 @@
 #include "Object/Enemy/Goomba.hpp"
 #include "Object/Enemy/GreenKoopa.hpp"
 #include "Object/Enemy/Mushroom.hpp"
+#include "Object/Enemy/RedKoopa.hpp"
 plf::colony<MFCPP::GoombaAI> GoombaAIList;
 static bool GoombaAIDeleteGate = false;
 
@@ -36,12 +37,12 @@ static int MUSHROOM_IMAGE_WIDTH = 31;
 static int MUSHROOM_WIDTH = 31;
 static int MUSHROOM_HEIGHT = 32;
 std::vector<std::string> GreenKoopaAnimName;
-static std::vector<std::string> RedKoopaAnimName;
+std::vector<std::string> RedKoopaAnimName;
 static int KOOPA_IMAGE_WIDTH = 64;
 static int KOOPA_WIDTH = 32;
 static int KOOPA_HEIGHT = 47;
 std::vector<std::string> GreenKoopaShellAnimName;
-static std::vector<std::string> RedKoopaShellAnimName;
+std::vector<std::string> RedKoopaShellAnimName;
 static int KOOPA_SHELL_IMAGE_WIDTH = 132;
 static int KOOPA_SHELL_WIDTH = 33;
 static int KOOPA_SHELL_HEIGHT = 28;
@@ -88,14 +89,6 @@ void GoombaAIInit() {
 		ImageManager::AddTexture(fmt::format("FireFlower_{}", i), "data/resources/FireFlower.png", sf::IntRect({i * FIRE_FLOWER_WIDTH, 0}, {FIRE_FLOWER_WIDTH, FIRE_FLOWER_HEIGHT}));
 		FireFlowerAnimName.push_back(fmt::format("FireFlower_{}", i));
 	}
-	//GoombaAITextureManager.LoadingAnimatedTexture(GOOMBA_TEXTURE, "Goomba", 0, 1, 0, 31, 32);
-	//GoombaAITextureManager.LoadingAnimatedTexture(MUSHROOM_TEXTURE, "Mushroom", 0, 0, 0, 31, 32);
-	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_right_green", 0, 1, 0, 32, 47);
-	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_TEXTURE, "Koopa_left_green", 0, 1, 1, 32, 47);
-	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_idle", 3, 3, 0, 33, 28);
-	//GoombaAITextureManager.LoadingAnimatedTexture(GREEN_KOOPA_SHELL_TEXTURE, "Koopa_Shell_green_moving", 0, 3, 0, 33, 28);
-	//GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_right_red", 0, 1, 0, 33, 32);
-	//GoombaAITextureManager.LoadingAnimatedTexture(RED_SPINY_TEXTURE, "Spiny_left_red", 0, 1, 1, 33, 32);
 }
 void SetPrevGoombaAIPos() {
 	for (auto & i : GoombaAIList) {
@@ -135,11 +128,14 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 				*/
 				break;
 			case 1:
+				GameScene::enemyManager.addEnemy<RedKoopa>(sf::Vector2f(x, y), false);
+					/*
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_REDKOOPA, 2.0f,
 					sf::FloatRect({0.0f, 0.0f}, {32.0f, 47.0f}), sf::Vector2f(x, y),
 					sf::Vector2f(16, 46), false, SkinID, 0.0f);
 				it->setAnimation(0, 1, 12, true);
 				it->setAnimationSequence(RedKoopaAnimName);
+				*/
 				break;
 			default: ;
 			}
@@ -169,23 +165,30 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 		case SHELL:
 			switch (SkinID) {
 			case 0:
+				GameScene::enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(x, y), true);
+					/*
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
 					sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
 					sf::Vector2f(16, 27), false, SkinID, 0.12f);
 				it->setAnimation(3, 3, 100);
 				it->setAnimationSequence(GreenKoopaShellAnimName);
+				*/
 				break;
 			case 1:
+				GameScene::enemyManager.addEnemy<RedKoopa>(sf::Vector2f(x, y), true);
+					/*
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::FULL, GoombaAIBehaviour::GOOMBAAI_NORMAL, 0.0f,
 					sf::FloatRect({0.0f, 0.0f}, {32.0f, 28.0f}), sf::Vector2f(x, y),
 					sf::Vector2f(16, 27), false, SkinID, 0.12f);
 				it->setAnimation(3, 3, 100);
 				it->setAnimationSequence(RedKoopaShellAnimName);
+				*/
 				break;
 			default: ;
 			}
 			break;
 		case SHELL_MOVING:
+			// Unused, remove later
 			switch (SkinID) {
 			case 0:
 				it = GoombaAIList.emplace(type, Dir, GoombaAICollisionType::YES, GoombaAIBehaviour::GOOMBAAI_NORMAL, 5.0f,
