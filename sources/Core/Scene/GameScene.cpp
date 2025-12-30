@@ -40,7 +40,6 @@
 #include "Object/Enemy/Goomba.hpp"
 #include "Object/Enemy/GreenKoopa.hpp"
 #include "Object/Enemy/GreenMushroom.hpp"
-#include "Object/Enemy/GreenSpiny.hpp"
 
 EnemyManager GameScene::enemyManager;
 
@@ -82,14 +81,9 @@ void GameScene::update(const float deltaTime) {
     enemyManager.YUpdate(deltaTime);
     enemyManager.statusUpdate(deltaTime);
 
-    GoombaAIVertXUpdate(deltaTime);
-    GoombaAIVertYUpdate(deltaTime);
-
     BroAIVertXUpdate(deltaTime);
     BroAIVertYUpdate(deltaTime);
     BroAIShootUpdate(deltaTime);
-
-    GoombaAIEffectVertYUpdate(deltaTime);
 
     BroAIProjectileMovementUpdate(deltaTime);
     BroAIProjectileSpin(deltaTime);
@@ -103,9 +97,6 @@ void GameScene::update(const float deltaTime) {
     PiranhaAIShoot(deltaTime);
     PiranhaAIProjectileMovementUpdate(deltaTime);
     PiranhaAIProjectileSpin(deltaTime);
-
-    GoombaStatusUpdate(deltaTime);
-    GoombaAIEffectStatusUpdate(deltaTime);
 
     CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
@@ -121,8 +112,6 @@ void GameScene::update(const float deltaTime) {
 }
 void GameScene::setPreviousPosition() {
     SetPrevMarioPos();
-    SetPrevGoombaAIPos();
-    SetPrevGoombaAIEffectPos();
     SetPrevPiranhaAIPos();
     SetPrevCoinEffectPos();
     SetPrevScoreEffectPos();
@@ -143,8 +132,6 @@ void GameScene::setPreviousPosition() {
 }
 void GameScene::interpolatePosition(const float alpha) {
     InterpolateMarioPos(alpha);
-    InterpolateGoombaAIPos(alpha);
-    InterpolateGoombaAIEffectPos(alpha);
     InterpolatePiranhaAIPos(alpha);
     InterpolateCoinEffectPos(alpha);
     InterpolateScoreEffectPos(alpha);
@@ -173,7 +160,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
-    GoombaAIDraw();
     BroAIDraw();
     MarioDraw();
     enemyManager.DrawLowPriority();
@@ -185,7 +171,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     BulletLauncherDraw();
     enemyManager.DrawHighPriority();
     BrickParticleDraw();
-    GoombaAIEffectDraw();
     BroAIEffectDraw();
     BulletBillEffectDraw();
     CoinEffectDraw();
@@ -202,9 +187,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     TextDraw();
 }
 void GameScene::objectCleanup() {
-    GoombaAICleanup();
     MarioProjectileCleanup();
-    GoombaAIEffectCleanup();
     BroAICleanup();
     BroAIEffectCleanup();
     PiranhaAICleanup();
@@ -229,8 +212,6 @@ void GameScene::postUpdate() {
     MarioProjectileCollision();
     PiranhaAIProjectileCollision();
     BroAIStatusUpdate();
-    GoombaAICheckCollide();
-    GoombaAICollisionUpdate();
 
     enemyManager.MarioCollision();
     enemyManager.EnemyCollision();

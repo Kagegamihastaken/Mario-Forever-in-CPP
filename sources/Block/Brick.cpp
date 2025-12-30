@@ -164,16 +164,9 @@ void HitEvent(const float x, const float y) {
 				}
 			}
 			auto& list = GameScene::enemyManager.getGoombaAIList();
-			for (auto it = list.begin(); it != list.end(); ++it) {
-				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(EnemyGoombaAICollide, BrickLoop))
-					it->BlockHit();
-			}
-			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
-				if (jt->isDestroyed()) continue;
-				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAICollide, BrickLoop)) {
-					jt->DeathBehaviour(SCORE_100);
-					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
-				}
+			for (auto jt = list.begin(); jt != list.end(); ++jt) {
+				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(EnemyGoombaAICollide, BrickLoop))
+					jt->BlockHit();
 			}
 			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
 				if (jt->isDestroyed()) continue;

@@ -235,7 +235,6 @@ void Objectbuilding() {
 	//Delete Effects
 	DeleteAllBrickParticle();
 	DeleteAllCoinEffect();
-	DeleteAllGoombaAIEffect();
 	DeleteAllScoreEffect();
 	DeleteAllBroAIProjectile();
 	DeleteAllMarioProjectile();
@@ -246,7 +245,6 @@ void Objectbuilding() {
 	DeleteAllBrick();
 	DeleteAllCoin();
 	DeleteAllLuckyBlock();
-	DeleteAllGoombaAI();
 	DeleteAllBroAI();
 	ClearPiranhaAI();
 	DeleteAllSpike();

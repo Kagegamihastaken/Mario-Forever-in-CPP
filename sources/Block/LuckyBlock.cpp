@@ -215,17 +215,10 @@ void LuckyHitEvent(const float x, const float y) {
 					++CoinCount;
 				}
 			}
-			for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
-				if (jt->isDestroyed()) continue;
-				if (sf::FloatRect GoombaAICollide = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(GoombaAICollide, LuckyLoop)) {
-					jt->DeathBehaviour(SCORE_100);
-					if (jt->IsCanDeath()) DeleteGoombaAIIndex(jt);
-				}
-			}
 			auto& list = GameScene::enemyManager.getGoombaAIList();
-			for (auto it = list.begin(); it != list.end(); ++it) {
-				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(EnemyGoombaAICollide, LuckyLoop))
-					it->BlockHit();
+			for (auto jt = list.begin(); jt != list.end(); ++jt) {
+				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(EnemyGoombaAICollide, LuckyLoop))
+					jt->BlockHit();
 			}
 			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
 				if (jt->isDestroyed()) continue;

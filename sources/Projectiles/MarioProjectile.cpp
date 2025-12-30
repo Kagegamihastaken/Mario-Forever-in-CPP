@@ -72,17 +72,6 @@ void MarioProjectileCollision() {
                 }
             }
         }
-
-        for (auto jt = GoombaAIList.begin(); jt != GoombaAIList.end(); ++jt) {
-            if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->GetHitboxMain(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                if (jt->IsCanDeath()) {
-                    DeleteMarioProjectile(it);
-                    jt->DeathBehaviour(SCORE_100);
-                    DeleteGoombaAIIndex(jt);
-                    break;
-                }
-            }
-        }
         //BroAI
         for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
             if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
