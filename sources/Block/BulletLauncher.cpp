@@ -2,7 +2,7 @@
 #include "Core/Tilemap.hpp"
 #include "Block/BulletLauncher.hpp"
 #include "Effect/FireballExplosion.hpp"
-#include "Object/BulletBill.hpp"
+#include "Object/BulletBillAI.hpp"
 
 #include "Core/Logging.hpp"
 #include "Core/Scroll.hpp"
@@ -11,8 +11,10 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Class/BulletLauncherClass.hpp"
 #include "Core/ExternalHeaders/plf_colony.h"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Enemy/BulletBill.hpp"
 
 plf::colony<MFCPP::BulletLauncher> BulletLauncherList;
 
@@ -21,7 +23,8 @@ static void BulletLauncherShot(const plf::colony<MFCPP::BulletLauncher>::colony_
     const auto dir = (it->getCurrentPosition().x > player.curr.x ? false : !EffectActive);
 
     AddFireballExplosion(it->getCurrentPosition().x - it->getOrigin().x * (dir ? -1.f : 1.f), it->getCurrentPosition().y - 32.f / 2.f + 1.f);
-    AddBulletBill(BULLET_NORMAL, 3.75f, dir, it->getCurrentPosition().x, it->getCurrentPosition().y);
+    GameScene::enemyManager.addEnemy<BulletBill>(sf::Vector2f(it->getCurrentPosition().x, it->getCurrentPosition().y), 3.75f, dir);
+    //AddBulletBill(BULLET_NORMAL, 3.75f, dir, it->getCurrentPosition().x, it->getCurrentPosition().y);
 }
 
 void BulletLauncherInit() {

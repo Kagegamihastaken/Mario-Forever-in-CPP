@@ -1,5 +1,4 @@
 #include "Core/Scene/GameScene.hpp"
-
 #include "Block/Brick.hpp"
 #include "Block/BulletLauncher.hpp"
 #include "Block/LuckyBlock.hpp"
@@ -17,7 +16,7 @@
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/BroAI.hpp"
-#include "Object/BulletBill.hpp"
+#include "Object/BulletBillAI.hpp"
 #include "Object/Coin.hpp"
 #include "Object/ExitGate.hpp"
 #include "Object/GoombaAI.hpp"
@@ -37,9 +36,11 @@
 #include "Projectiles/ProjectileHelper.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Object/Enemy/Goomba.hpp"
-#include "Object/Enemy/GreenKoopa.hpp"
-#include "Object/Enemy/GreenMushroom.hpp"
+#include "Core/Object/Enemy/RotodiscAIBehavior.hpp"
+#include "Object/RotodiscAI.hpp"
+#include "Object/Enemy/BulletBill.hpp"
+#include "Object/Enemy/RedRotodiscFlower.hpp"
+#include "Object/Enemy/RedRotodiscRound.hpp"
 
 EnemyManager GameScene::enemyManager;
 
@@ -49,7 +50,7 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            enemyManager.addEnemy<GreenMushroom>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
+            enemyManager.addEnemy<RedRotodiscRound>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 1, 150.f, 1.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
@@ -279,6 +280,7 @@ void GameScene::loadResources() {
     BulletBillInit();
     PlatformInit();
     CheckpointInit();
+    RotodiscInit();
 
     AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
     AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
@@ -292,7 +294,7 @@ void GameScene::loadResources() {
         AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    ReadData("data/levels/onedashthree.json");
+    ReadData("data/levels/onedashtwo.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

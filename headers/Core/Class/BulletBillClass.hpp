@@ -7,10 +7,10 @@
 #include "SFML/Graphics/Rect.hpp"
 
 namespace MFCPP {
-    class BulletBill final : public ActiveObject<float>, public SingleAnimationObject {
+    class BulletBillAI final : public ActiveObject<float>, public SingleAnimationObject {
     public:
-        explicit BulletBill(float speed, BulletType type, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
-        ~BulletBill() = default;
+        explicit BulletBillAI(float speed, BulletType type, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
+        ~BulletBillAI() = default;
         void setSpeed(float speed);
         [[nodiscard]] float getSpeed() const;
         void setHitbox(const sf::FloatRect& hitbox);

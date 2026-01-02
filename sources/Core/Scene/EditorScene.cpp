@@ -14,7 +14,7 @@
 #include "Effect/GoombaAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/BroAI.hpp"
-#include "Object/BulletBill.hpp"
+#include "Object/BulletBillAI.hpp"
 #include "Object/Coin.hpp"
 #include "Object/ExitGate.hpp"
 #include "Object/GoombaAI.hpp"

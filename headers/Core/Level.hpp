@@ -10,6 +10,11 @@ struct PlatformData {
     sf::Vector2f end;
     CustomTileProperty props;
 };
+struct RotodiscData {
+    unsigned int data;
+    sf::Vector2f pos;
+    CustomTileProperty props;
+};
 
 extern void Bgbuilding();
 extern void CheckpointBuilding();

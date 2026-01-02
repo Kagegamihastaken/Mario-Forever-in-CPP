@@ -116,6 +116,12 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIEffectYMove(const Goomb
     dataOutput.velocity.y += 1.f * deltaTime * 0.15f;
     return dataOutput;
 }
+GoombaAIBehavior::GoombaAIData GoombaAIBehavior::BulletBillEffectYMove(const GoombaAIData& data, const float deltaTime) {
+    GoombaAIData dataOutput = data;
+    dataOutput.position += sf::Vector2f(0.f, data.velocity.y * deltaTime);
+    dataOutput.velocity.y += 1.f * deltaTime * 0.3f;
+    return dataOutput;
+}
 void GoombaAIBehavior::GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* EnemyB) {
     if (!EnemyB->isCollideEachOther() || !EnemyA->isCollideEachOther()) return;
     if (const sf::FloatRect r1 = getGlobalHitbox(EnemyA->getHitbox(), EnemyA->getCurrentPosition(), EnemyA->getOrigin()); isCollide(r1, getGlobalHitbox(EnemyB->getHitbox(), EnemyB->getCurrentPosition(), EnemyB->getOrigin()))) {

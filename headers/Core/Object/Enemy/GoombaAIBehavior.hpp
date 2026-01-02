@@ -17,6 +17,7 @@ public:
     static GoombaAIData ShellXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin);
 
     static GoombaAIData GoombaAIEffectYMove(const GoombaAIData& data, float deltaTime);
+    static GoombaAIData BulletBillEffectYMove(const GoombaAIData& data, float deltaTime);
     static void GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* EnemyB);
 
     static void ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* Other, unsigned short& val);

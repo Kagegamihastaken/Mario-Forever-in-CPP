@@ -28,12 +28,14 @@
 #include "Projectiles/MarioProjectile.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Time.hpp"
-#include "Object/BulletBill.hpp"
+#include "Object/BulletBillAI.hpp"
 #include "Object/Mario.hpp"
 #include "Object/Platform.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Object/Enemy/RedRotodiscFlower.hpp"
+#include "Object/Enemy/RedRotodiscRound.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
@@ -42,6 +44,7 @@ static std::vector<std::array<float, 5>> BonusData;
 static std::vector<std::array<float, 5>> EnemyData;
 static std::vector<sf::Vector2f> CheckpointData;
 static std::vector<PlatformData> PlatformDataList;
+static std::vector<RotodiscData> RotodiscDataList;
 static sf::Vector2f ExitIndicator;
 static sf::Vector2f ExitGate;
 static sf::Vector2f PlayerData;
@@ -95,6 +98,17 @@ void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos,
 		PlatformDataList.push_back({pos, endPos, custom_props});
 	}
 }
+void RotodiscDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id, const int objID) {
+	if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
+		CustomTileProperty custom_props = TilePage[page][id].prop;
+		const nlohmann::json& propsJson = tileObj.at("properties");
+		for (int i = 0; i < TilePage[page][id].prop.getPropertyCount(); ++i) {
+			TileProperty* prop = custom_props.at(i);
+			from_json(propsJson, *prop);
+		}
+		RotodiscDataList.emplace_back(objID, pos, custom_props);
+	}
+}
 void ReadData(const std::filesystem::path& path) {
 	std::string LevelDataText;
 	LoadLvl(LevelDataText, path.string());
@@ -145,7 +159,10 @@ void ReadData(const std::filesystem::path& path) {
 				}
 				break;
 			case 2:
-				EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
+				if (ReadTile->objectID < 5)
+					EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
+				else
+					RotodiscDataProcess(tileObj, pos, page, id, ReadTile->objectID);
 				break;
 			case 3:
 				PlatformDataProcess(tileObj, pos, page, id);
@@ -296,9 +313,22 @@ void Objectbuilding() {
 			}
 		}
 	}
+	if (!RotodiscDataList.empty()) {
+		for (const auto& i : RotodiscDataList) {
+			switch (i.data) {
+				case 5:
+					GameScene::enemyManager.addEnemy<RedRotodiscRound>(i.pos, i.props.getProperty<IntProps>("Position State")->val, i.props.getProperty<FloatProps>("Radius")->val, i.props.getProperty<IntProps>("Speed")->val);
+					break;
+				case 6:
+					GameScene::enemyManager.addEnemy<RedRotodiscFlower>(i.pos, i.props.getProperty<IntProps>("Position State")->val, i.props.getProperty<FloatProps>("Max Radius")->val, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<FloatProps>("Radius Change Rate")->val);
+					break;
+				default: ;
+			}
+		}
+	}
 	if (!PlatformDataList.empty()) {
 		for (auto &i : PlatformDataList) {
-			AddPlatform(i.start, i.end, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("isSmooth")->val, i.props.getProperty<BoolProps>("isFall")->val, i.props.getProperty<BoolProps>("isWait")->val);
+			AddPlatform(i.start, i.end, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("is Smooth")->val, i.props.getProperty<BoolProps>("is Fall")->val, i.props.getProperty<BoolProps>("is Wait")->val);
 		}
 	}
 }
