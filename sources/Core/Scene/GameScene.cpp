@@ -39,8 +39,7 @@
 #include "Core/Object/Enemy/RotodiscAIBehavior.hpp"
 #include "Object/RotodiscAI.hpp"
 #include "Object/Enemy/BulletBill.hpp"
-#include "Object/Enemy/RedRotodiscFlower.hpp"
-#include "Object/Enemy/RedRotodiscRound.hpp"
+#include "Object/Enemy/HammerBro.hpp"
 
 EnemyManager GameScene::enemyManager;
 
@@ -50,13 +49,15 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            enemyManager.addEnemy<RedRotodiscRound>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 1, 150.f, 1.f);
+            enemyManager.addEnemy<HammerBro>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
             SetPowerState(2);
         else if (mousePressed->button == sf::Mouse::Button::Right) {
-            AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);}
+            AddBroAI(BroAIType::HAMMER_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
+            //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
+        }
     }
 }
 void GameScene::update(const float deltaTime) {
@@ -245,7 +246,6 @@ void GameScene::textUpdate() {
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Score), "_SCORE");
     EditText(fmt::format("{}", getTime()), "_TIME");
-    EditText(fmt::format("GOOMBA_AI: {}", enemyManager.getGoombaAIList().size()), "_ENEMY");
 }
 void GameScene::setView() {
     const sf::Vector2f& ScrollPos = player.property.getPosition();
@@ -287,7 +287,6 @@ void GameScene::loadResources() {
     AddText("_SCORE", "", RIGHT_MARGIN, 138.0f, 34.0f);
     AddText("_TIME", "", RIGHT_MARGIN, 562.0f, 35.0f);
     AddText("_FPS", "", LEFT_MARGIN, 0.0f, 464.0f);
-    AddText("_ENEMY", "", LEFT_MARGIN, 0.0f, 432.0f);
     if (isDebug) {
         AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
         AddText("_VIEWXY", "", RIGHT_MARGIN, 624.0f, 432.0f);

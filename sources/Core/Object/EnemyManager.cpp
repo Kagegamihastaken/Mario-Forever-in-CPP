@@ -67,6 +67,10 @@ EnemyManager::EnemyIntrusiveList &EnemyManager::getGoombaAIList() {
     return m_GoombaAI;
 }
 
+EnemyManager::EnemyIntrusiveList &EnemyManager::getBroAIList() {
+    return m_BroAI;
+}
+
 void EnemyManager::DeleteAll() {
     m_enemies.clear();
 }

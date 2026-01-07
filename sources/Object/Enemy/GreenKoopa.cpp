@@ -69,6 +69,12 @@ void GreenKoopa::EnemyCollision() {
             if (other->isDestroyed() || other->isDisabled()) continue;
             GoombaAIBehavior::ShellMovingCollision(this, other, m_hit_count);
         }
+        for (auto &enemy: m_enemyManager.getBroAIList()) {
+            Enemy* other = &enemy;
+            if (other == this) continue;
+            if (other->isDestroyed() || other->isDisabled()) continue;
+            GoombaAIBehavior::ShellMovingCollision(this, other, m_hit_count);
+        }
     }
 }
 void GreenKoopa::MarioCollision(const float MarioYVelocity) {
@@ -179,6 +185,7 @@ void GreenKoopa::ChangeState() {
             m_animation.setAnimation(3,3,100);
             setCollideEachOther(true);
             m_velocity.x = 0.f;
+            m_hit_count = 0;
             setShellBlocker(false);
             setShellKicking(true);
             setDrawingLowerPriority(true);
@@ -191,6 +198,7 @@ void GreenKoopa::ChangeState() {
             m_animation.setAnimation(0,3,54);
             setCollideEachOther(false);
             m_velocity.x = 5.f;
+            m_hit_count = 0;
             setShellBlocker(true);
             setShellKicking(true);
             setDrawingLowerPriority(true);
@@ -200,6 +208,7 @@ void GreenKoopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
             m_velocity = sf::Vector2f(0.f, -3.f);
+            m_hit_count = 0;
             m_animation.setAnimationSequence(GreenKoopaDeathEffect);
             m_animation.setAnimation(0,0,100);
             setCollideEachOther(false);

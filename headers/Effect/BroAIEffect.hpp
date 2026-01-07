@@ -2,6 +2,8 @@
 #define BROAIEFFECT_HPP
 #include "Core/Loading/enum.hpp"
 
+const std::vector<std::string> HammerBroDeath = {"DEAD_HammerBro"};
+
 extern void BroAIEffectInit();
 extern void SetPrevBroAIEffectPos();
 extern void InterpolateBroAIEffectPos(float alpha);

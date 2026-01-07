@@ -9,7 +9,7 @@
 
 class RedRotodiscFlower final : public MFCPP::Enemy, public MFCPP::RotodiscAIType {
 public:
-    explicit RedRotodiscFlower(EnemyManager& manager, const sf::Vector2f& position, unsigned int arrange_mode, float radius, float speed, float speed_x_change);
+    explicit RedRotodiscFlower(EnemyManager& manager, const sf::Vector2f& position, unsigned int arrange_mode, float radius, float speed, float speed_x_change, float angle);
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;
@@ -26,7 +26,6 @@ public:
 private:
     MFCPP::SingleAnimationObject m_animation;
     MFCPP::StaticAnimationObject m_animation_base;
-    unsigned int m_arrange_mode;
     float m_radius;
     float m_max_radius;
     bool m_change_state;

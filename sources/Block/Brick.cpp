@@ -168,13 +168,10 @@ void HitEvent(const float x, const float y) {
 				if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(EnemyGoombaAICollide, BrickLoop))
 					jt->BlockHit();
 			}
-			for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
-				if (jt->isDestroyed()) continue;
-				if (sf::FloatRect BroAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(BroAICollide, BrickLoop)) {
-					jt->DeathBehaviour(SCORE_200);
-					SoundManager::PlaySound("Kick2");
-					DeleteBroAIIndex(jt);
-				}
+			auto& BroList = GameScene::enemyManager.getBroAIList();
+			for (auto jt = BroList.begin(); jt != BroList.end(); ++jt) {
+				if (sf::FloatRect EnemyBroAICollide = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(EnemyBroAICollide, BrickLoop))
+					jt->BlockHit();
 			}
 			MultiBrickCoin(BrickLoop.position.x, BrickLoop.position.y + 16.f, i);
 			if (i->getAtt() == NORMAL && PowerState == 0) {

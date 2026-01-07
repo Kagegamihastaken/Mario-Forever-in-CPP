@@ -8,7 +8,7 @@
 #include "Object/Mario.hpp"
 #include "Object/RotodiscAI.hpp"
 
-RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed, float speed_x_change) : Enemy(manager) {
+RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed, float speed_x_change, float angle) : Enemy(manager) {
     setCurrentPosition(RotodiscAIBehavior::RotodiscPositionAdjust(position, arrange_mode));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
@@ -29,7 +29,7 @@ RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &
     setShellKicking(false);
     setShellBlocker(false);
     setDrawingLowerPriority(false);
-    m_angle = 0.f;
+    m_angle = angle;
 }
 void RedRotodiscFlower::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;

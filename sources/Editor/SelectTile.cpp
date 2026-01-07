@@ -128,8 +128,8 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"PinkPiranhaLeft_0", CustomTileProperty(), sf::Vector2f(160, 128), sf::Vector2i(10, 16), sf::Vector2f(0.0f, 32.f), 2, 1, 1, 3},
         {"EDITOR_FireBroCanMove", CustomTileProperty(), sf::Vector2f(0, 128), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 0},
         {"EDITOR_FireBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 160), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 1},
-        {"EDITOR_RotodiscRound", CustomTileProperty(FloatProps("Radius", 150.f, 0.f, 9999.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 5, 0, 0},
-        {"EDITOR_RotodiscFlower", CustomTileProperty(FloatProps("Max Radius", 200.f, 0.f, 9999.f), FloatProps("Radius Change Rate", 5.f, 0.f, 30.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 6, 0, 0},
+        {"EDITOR_RotodiscRound", CustomTileProperty(FloatProps("Radius", 150.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 5, 0, 0},
+        {"EDITOR_RotodiscFlower", CustomTileProperty(FloatProps("Max Radius", 200.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), FloatProps("Radius Change Rate", 5.f, 0.f, 30.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 6, 0, 0},
     },
     { // PAGE 4
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},

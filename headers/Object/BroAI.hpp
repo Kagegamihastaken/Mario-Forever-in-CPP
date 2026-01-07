@@ -21,4 +21,7 @@ extern void BroAICheckCollide();
 extern void BroAICleanup();
 extern void DeleteBroAIIndex(const plf::colony<MFCPP::BroAI>::colony_iterator<false>& it);
 
+extern std::vector<std::string> HammerBroAnimName;
+extern std::vector<std::string> HammerBroLaunchAnimName;
+
 #endif //BROAI_HPP

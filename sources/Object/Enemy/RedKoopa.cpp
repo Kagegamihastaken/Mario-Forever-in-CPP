@@ -71,6 +71,12 @@ void RedKoopa::EnemyCollision() {
             if (other->isDestroyed() || other->isDisabled()) continue;
             GoombaAIBehavior::ShellMovingCollision(this, other, m_hit_count);
         }
+        for (auto &enemy: m_enemyManager.getBroAIList()) {
+            Enemy* other = &enemy;
+            if (other == this) continue;
+            if (other->isDestroyed() || other->isDisabled()) continue;
+            GoombaAIBehavior::ShellMovingCollision(this, other, m_hit_count);
+        }
     }
 }
 void RedKoopa::MarioCollision(const float MarioYVelocity) {
@@ -180,6 +186,7 @@ void RedKoopa::ChangeState() {
             m_animation.setAnimationSequence(RedKoopaShellAnimName);
             m_animation.setAnimation(3,3,100);
             setCollideEachOther(true);
+            m_hit_count = 0;
             m_velocity.x = 0.f;
             setShellBlocker(false);
             setShellKicking(true);
@@ -193,6 +200,7 @@ void RedKoopa::ChangeState() {
             m_animation.setAnimationSequence(RedKoopaShellAnimName);
             m_animation.setAnimation(0,3,54);
             setCollideEachOther(false);
+            m_hit_count = 0;
             m_velocity.x = 5.f;
             setShellBlocker(true);
             setShellKicking(true);
@@ -203,6 +211,7 @@ void RedKoopa::ChangeState() {
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
+            m_hit_count = 0;
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_animation.setAnimationSequence(RedKoopaDeathEffect);
             m_animation.setAnimation(0,0,100);

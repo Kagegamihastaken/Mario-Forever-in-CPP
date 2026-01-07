@@ -317,10 +317,10 @@ void Objectbuilding() {
 		for (const auto& i : RotodiscDataList) {
 			switch (i.data) {
 				case 5:
-					GameScene::enemyManager.addEnemy<RedRotodiscRound>(i.pos, i.props.getProperty<IntProps>("Position State")->val, i.props.getProperty<FloatProps>("Radius")->val, i.props.getProperty<IntProps>("Speed")->val);
+					GameScene::enemyManager.addEnemy<RedRotodiscRound>(i.pos, i.props.getProperty<IntProps>("Position State")->val, i.props.getProperty<FloatProps>("Radius")->val, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<FloatProps>("Angle")->val);
 					break;
 				case 6:
-					GameScene::enemyManager.addEnemy<RedRotodiscFlower>(i.pos, i.props.getProperty<IntProps>("Position State")->val, i.props.getProperty<FloatProps>("Max Radius")->val, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<FloatProps>("Radius Change Rate")->val);
+					GameScene::enemyManager.addEnemy<RedRotodiscFlower>(i.pos, i.props.getProperty<IntProps>("Position State")->val, i.props.getProperty<FloatProps>("Max Radius")->val, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<FloatProps>("Radius Change Rate")->val, i.props.getProperty<FloatProps>("Angle")->val);
 					break;
 				default: ;
 			}

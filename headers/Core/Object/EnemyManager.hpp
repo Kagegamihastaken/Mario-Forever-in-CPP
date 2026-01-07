@@ -6,6 +6,7 @@
 #include <type_traits>
 #include <typeinfo>
 
+#include "BroAIType.hpp"
 #include "BulletBillAIType.hpp"
 #include "RotodiscAIType.hpp"
 #include "Core/Exception.hpp"
@@ -27,11 +28,14 @@ public:
             m_BulletBillAI.push_back(*newEnemy);
         else if constexpr (std::is_base_of_v<MFCPP::RotodiscAIType, T>)
             m_RotodiscAI.push_back(*newEnemy);
+        else if constexpr (std::is_base_of_v<MFCPP::BroAIType, T>)
+            m_BroAI.push_back(*newEnemy);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newEnemy).name()));
         m_enemies.push_back(std::move(newEnemy));
     }
 
     [[nodiscard]] EnemyIntrusiveList& getGoombaAIList();
+    [[nodiscard]] EnemyIntrusiveList& getBroAIList();
     [[nodiscard]] bool getDeletionFlag() const;
     void setDeletionFlag(bool val);
     void setPreviousData() const;
@@ -50,6 +54,7 @@ private:
     EnemyIntrusiveList m_GoombaAI;
     EnemyIntrusiveList m_BulletBillAI;
     EnemyIntrusiveList m_RotodiscAI;
+    EnemyIntrusiveList m_BroAI;
     bool m_EnemyDeletionFlag = false;
     std::vector<std::unique_ptr<MFCPP::Enemy>> m_enemies;
 

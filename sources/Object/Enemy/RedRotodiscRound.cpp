@@ -9,7 +9,7 @@
 #include "Object/Mario.hpp"
 #include "Object/RotodiscAI.hpp"
 
-RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed) : Enemy(manager) {
+RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed, float angle) : Enemy(manager) {
     setCurrentPosition(RotodiscAIBehavior::RotodiscPositionAdjust(position, arrange_mode));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
@@ -27,7 +27,7 @@ RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &po
     setShellKicking(false);
     setShellBlocker(false);
     setDrawingLowerPriority(false);
-    m_angle = 0.f;
+    m_angle = angle;
 }
 void RedRotodiscRound::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;

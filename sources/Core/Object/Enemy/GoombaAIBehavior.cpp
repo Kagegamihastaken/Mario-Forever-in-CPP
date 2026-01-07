@@ -59,7 +59,7 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXMove(const GoombaAIDat
 }
 
 GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f &origin) {
-    GoombaAIData dataOutput = EnemyPlatformXCollision(data, hitbox, origin);
+    GoombaAIData dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
     float CurrPosXCollide = 0.f, CurrPosYCollide = 0.f;
     bool NoAdd = false;
     // Loop through obstacles
@@ -76,7 +76,7 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXCollision(const Goomba
 }
 
 GoombaAIBehavior::GoombaAIData GoombaAIBehavior::ShellXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin) {
-    GoombaAIData dataOutput = EnemyPlatformXCollision(data, hitbox, origin);
+    GoombaAIData dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
     float BrickCurrPosX = 0, BrickCurrPosY = 0, LuckyCurrPosX = 0, LuckyCurrPosY = 0, CurrPosXCollide = 0, CurrPosYCollide = 0;;
     bool NoAdd = false;
     const std::pair<bool, bool> BrickCollideRemove = CheckCollisionSide(
@@ -178,22 +178,22 @@ bool GoombaAIBehavior::GoombaAIEffectDisappearing(float& clock, float& alpha, co
     return false;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::EnemyPlatformXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin) {
+sf::Vector2f GoombaAIBehavior::EnemyPlatformXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin) {
     GoombaAIData dataOutput = data;
     if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(data.position, origin, hitbox), PlatDistance, data.velocity.y))
         dataOutput.position.x += PlatDistance;
-    return dataOutput;
+    return dataOutput.position;
 }
 
 GoombaAIBehavior::GoombaAIData GoombaAIBehavior::EnemyAdjustXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float CurrPosXCollide, bool side) {
     GoombaAIData dataOutput = data;
     if (side) {
         dataOutput.direction = !data.direction;
-        dataOutput.position.x = CurrPosXCollide + 32.0f + origin.x;
+        dataOutput.position.x = CurrPosXCollide + 32.0f - hitbox.position.x + origin.x;
     }
     else {
         dataOutput.direction = !data.direction;
-        dataOutput.position.x = CurrPosXCollide - (hitbox.size.x - origin.x);
+        dataOutput.position.x = CurrPosXCollide - (hitbox.position.x + hitbox.size.x - origin.x);
     }
     return dataOutput;
 }

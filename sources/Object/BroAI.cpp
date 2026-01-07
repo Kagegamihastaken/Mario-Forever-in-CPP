@@ -15,8 +15,8 @@
 plf::colony<MFCPP::BroAI> BroAIList;
 static bool BroAIDeleteGate = false;
 
-static std::vector<std::string> HammerBroAnimName;
-static std::vector<std::string> HammerBroLaunchAnimName;
+std::vector<std::string> HammerBroAnimName;
+std::vector<std::string> HammerBroLaunchAnimName;
 static std::vector<std::string> FireBroAnimName;
 static std::vector<std::string> FireBroLaunchAnimName;
 static constexpr int HAMMER_BRO_IMAGE_WIDTH = 96;
@@ -339,7 +339,6 @@ void BroAIVertYUpdate(const float deltaTime) {
                 }
             }
         }
-
         NoAdd = false;
         if (QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(i.getCurrentPosition(), i.getOrigin(), i.getHitbox()), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
             i.setYVelo(0.0f);

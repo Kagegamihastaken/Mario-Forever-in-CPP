@@ -73,13 +73,16 @@ void MarioProjectileCollision() {
             }
         }
         //BroAI
-        for (auto jt = BroAIList.begin(); jt != BroAIList.end(); ++jt) {
+        auto& BroList = GameScene::enemyManager.getBroAIList();
+        for (auto jt = BroList.begin(); jt != BroList.end(); ++jt) {
             if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                DeleteMarioProjectile(it);
-                jt->DeathBehaviour(SCORE_200);
-                SoundManager::PlaySound("Kick2");
-                DeleteBroAIIndex(jt);
-                break;
+                if (!jt->isDeath()) {
+                    jt->ShellHit();
+                    AddScoreEffect(SCORE_200, jt->getCurrentPosition().x, jt->getCurrentPosition().y - jt->getOrigin().y);
+                    SoundManager::PlaySound("Kick2");
+                    DeleteMarioProjectile(it);
+                    break;
+                }
             }
         }
         //Piranha
