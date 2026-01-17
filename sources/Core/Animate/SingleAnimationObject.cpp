@@ -88,8 +88,8 @@ namespace MFCPP {
 				m_Index[m_indexAnimation].setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
 	}
 	void SingleAnimationObject::AnimationDraw() const {
-		ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
-		//window.draw(m_Index[m_indexAnimation], states);
+		//ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
+		window.draw(m_Index[m_indexAnimation]);
 	}
 	void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 		m_direction = dir;

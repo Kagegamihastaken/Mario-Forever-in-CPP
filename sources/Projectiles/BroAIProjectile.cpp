@@ -2,7 +2,6 @@
 #include "Core/Interpolation.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/Class/BroAIClass.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Effect/MarioEffect.hpp"

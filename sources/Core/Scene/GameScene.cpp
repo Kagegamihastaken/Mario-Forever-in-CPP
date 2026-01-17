@@ -9,7 +9,6 @@
 #include "Core/Background/BgGradient.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Effect/BroAIEffect.hpp"
-#include "Effect/BulletBillEffect.hpp"
 #include "Effect/CoinEffect.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Effect/GoombaAIEffect.hpp"
@@ -39,6 +38,7 @@
 #include "Core/Object/Enemy/RotodiscAIBehavior.hpp"
 #include "Object/RotodiscAI.hpp"
 #include "Object/Enemy/BulletBill.hpp"
+#include "Object/Enemy/FireBro.hpp"
 #include "Object/Enemy/HammerBro.hpp"
 
 EnemyManager GameScene::enemyManager;
@@ -83,14 +83,8 @@ void GameScene::update(const float deltaTime) {
     enemyManager.YUpdate(deltaTime);
     enemyManager.statusUpdate(deltaTime);
 
-    BroAIVertXUpdate(deltaTime);
-    BroAIVertYUpdate(deltaTime);
-    BroAIShootUpdate(deltaTime);
-
     BroAIProjectileMovementUpdate(deltaTime);
     BroAIProjectileSpin(deltaTime);
-    BroAIEffectVertYUpdate(deltaTime);
-    BroAIEffectStatusUpdate(deltaTime);
 
     MarioProjectileMovementUpdate(deltaTime);
     MarioProjectileSpin(deltaTime);
@@ -108,8 +102,6 @@ void GameScene::update(const float deltaTime) {
     BrickUpdate(deltaTime);
     LuckyBlockUpdate(deltaTime);
     BulletLauncherStatusUpdate(deltaTime);
-    BulletBillPositionUpdate(deltaTime);
-    BulletBillEffectPositionUpdate(deltaTime);
 
 }
 void GameScene::setPreviousPosition() {
@@ -122,12 +114,8 @@ void GameScene::setPreviousPosition() {
     SetPrevExitGatePos();
     SetPrevBricksPos();
     SetPrevLuckyBlockPos();
-    SetPrevBroAIPos();
     SetPrevBroAIProjectilePos();
-    SetPrevBroAIEffectPos();
     SetPrevMarioProjectilePos();
-    SetPrevBulletBillPos();
-    SetPrevBulletBillEffectPos();
     SetPrevPlatformPos();
     SetPrevPiranhaAIProjectilePos();
     enemyManager.setPreviousData();
@@ -142,12 +130,8 @@ void GameScene::interpolatePosition(const float alpha) {
     InterpolateExitGatePos(alpha);
     InterpolateBricksPos(alpha);
     InterpolateLuckyBlockPos(alpha);
-    InterpolateBroAIPos(alpha);
     InterpolateBroAIProjectilePos(alpha);
-    InterpolateBroAIEffectPos(alpha);
     InterpolateMarioProjectilePos(alpha);
-    InterpolateBulletBillPos(alpha);
-    InterpolateBulletBillEffectPos(alpha);
     InterpolatePlatformPos(alpha);
     InterpolatePiranhaAIProjectilePos(alpha);
     enemyManager.interpolateData(alpha);
@@ -162,19 +146,15 @@ void GameScene::draw(sf::RenderWindow &window) {
     ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
-    BroAIDraw();
     MarioDraw();
     enemyManager.DrawLowPriority();
     BrickDraw();
     LuckyBlockDraw();
     SpikeDraw();
     CoinDraw();
-    DrawBulletBill();
     BulletLauncherDraw();
     enemyManager.DrawHighPriority();
     BrickParticleDraw();
-    BroAIEffectDraw();
-    BulletBillEffectDraw();
     CoinEffectDraw();
     ScoreEffectDraw();
     BroAIProjectileDraw();
@@ -190,12 +170,8 @@ void GameScene::draw(sf::RenderWindow &window) {
 }
 void GameScene::objectCleanup() {
     MarioProjectileCleanup();
-    BroAICleanup();
-    BroAIEffectCleanup();
     PiranhaAICleanup();
     BrickCleanup();
-    BulletBillCleanup();
-    BulletBillEffectCleanup();
     ScoreEffectCleanup();
     BrickParticleCleanup();
     CoinCleanup();
@@ -205,7 +181,6 @@ void GameScene::objectCleanup() {
     PiranhaAIProjectileCleanup();
     BroAIProjectileCleanup();
     CoinEffectCleanup();
-
     enemyManager.EnemyCleanup();
 }
 void GameScene::postUpdate() {
@@ -213,7 +188,6 @@ void GameScene::postUpdate() {
     BroAIProjectileCollision();
     MarioProjectileCollision();
     PiranhaAIProjectileCollision();
-    BroAIStatusUpdate();
 
     enemyManager.MarioCollision();
     enemyManager.EnemyCollision();
@@ -225,11 +199,7 @@ void GameScene::postUpdate() {
     BroAIProjectileStatusUpdate();
     MarioProjectileStatusUpdate();
     PiranhaAIProjectileStatusUpdate();
-    BroAICheckCollide();
     FireballExplosionStatusUpdate();
-    BulletBillCheckCollide();
-    BulletBillStatusUpdate();
-    BulletBillEffectStatusUpdate();
 
     MarioUpdateAnimation();
 }

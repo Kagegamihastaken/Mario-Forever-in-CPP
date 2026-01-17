@@ -154,7 +154,7 @@ void windowInit() {
 	Window::ChangeScreenMode(1);
 	timestep.setStep(1.0f / 500.0f);
 	timestep.setMaxAccumulation(1.0f / 30.0f);
-	//timestep.setTimeSpeed(0.5f);
+	//timestep.setTimeSpeed(0.15f);
 }
 void GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");

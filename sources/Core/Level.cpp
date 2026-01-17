@@ -255,17 +255,14 @@ void Objectbuilding() {
 	DeleteAllScoreEffect();
 	DeleteAllBroAIProjectile();
 	DeleteAllMarioProjectile();
-	DeleteAllBroAIEffect();
 	DeleteAllFireballExplosion();
 	DeleteAllPiranhaAIProjectile();
 	//Delete Objects
 	DeleteAllBrick();
 	DeleteAllCoin();
 	DeleteAllLuckyBlock();
-	DeleteAllBroAI();
 	ClearPiranhaAI();
 	DeleteAllSpike();
-	DeleteAllBulletBill();
 	BulletLauncherClear();
 	//Delete Platform
 	DeleteAllPlatform();

@@ -40,7 +40,7 @@ void InterpolateMarioProjectilePos(const float alpha) {
     }
 }
 void DeleteMarioProjectile(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const bool out = false) {
-    if (!it->isDestroyed() && !out) AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y);
+    if (!it->isDestroyed() && !out) AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y - 7.f);
     it->setDestroyed(true);
     MarioProjectileDeleteGate = true;
 }
@@ -125,7 +125,7 @@ void AddMarioProjectile(const bool direction, const MarioProjectileType type, co
     plf::colony<MFCPP::MarioProjectile>::colony_iterator<false> it;
     switch (type) {
         case MarioProjectileType::FIREBALL:
-            it = MarioProjectileList.emplace(direction, type, FIREBALL_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 8.f));
+            it = MarioProjectileList.emplace(direction, type, FIREBALL_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 16.f));
             it->setTexture("Fireball", direction);
             break;
         default: ;
@@ -170,7 +170,7 @@ void MarioProjectileDraw() {
     for (auto& i : MarioProjectileList) {
         if (i.isDestroyed()) return;
 
-        i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+        i.AnimationUpdate(i.getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), i.getOrigin() - sf::Vector2f(0.f, 9.f));
         i.setRotation(i.getInterpolatedAngle());
         i.AnimationDraw();
     }

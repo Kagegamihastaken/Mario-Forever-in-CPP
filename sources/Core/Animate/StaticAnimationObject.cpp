@@ -1,5 +1,7 @@
 #include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/ImageManager.hpp"
+#include "Core/WindowFrame.hpp"
+
 namespace MFCPP {
     void StaticAnimationObject::setTexture(const std::string& name, bool anim_flip) {
         m_index.setTexture(ImageManager::GetReturnTexture(name), true);
@@ -22,8 +24,8 @@ namespace MFCPP {
         m_index.setRotation(angle);
     }
     void StaticAnimationObject::AnimationDraw() const {
-        ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform(), m_index.getColor());
-        //window.draw(m_index);
+        //ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform(), m_index.getColor());
+        window.draw(m_index);
     }
     sf::Angle StaticAnimationObject::getRotation() const {
         return m_index.getRotation();
