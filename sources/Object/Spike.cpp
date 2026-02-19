@@ -6,12 +6,17 @@
 #include "Core/Collision/Collide.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Loading/enum.hpp"
+#include "Core/Scene/GameScene.hpp"
+#include "Object/Enemy/CastleSpikeUp.hpp"
+#include "Object/Enemy/GreenPiranhaGround.hpp"
 
 plf::colony<MFCPP::Spike> SpikeList;
-static std::vector<std::string> PiranhaGroundAnimName;
+std::vector<std::string> PiranhaGroundAnimName;
+std::vector<std::string> CastleSpikeUpAnimName;
 static bool SpikeDeleteGate = false;
 void SpikeInit() {
-	ImageManager::AddTexture("NormalSpike", "data/resources/Spike/Spike.png");
+	ImageManager::AddTexture("CastleSpikeUp", "data/resources/Spike/Spike.png");
+	CastleSpikeUpAnimName.emplace_back("CastleSpikeUp");
 	for (int i = 0; i < 4; ++i) {
 		ImageManager::AddTexture(fmt::format("PiranhaGreenGround_{}", i), "data/resources/Spike/PiranhaGround.png", sf::IntRect({i * 32, 0}, {32, 32}));
 		PiranhaGroundAnimName.emplace_back(fmt::format("PiranhaGreenGround_{}", i));
@@ -35,14 +40,10 @@ void AddSpike(const SpikeID ID, const float x, const float y) {
 	plf::colony<MFCPP::Spike>::colony_iterator<false> it;
 	switch (ID) {
 		case PIRANHA_GROUND:
-			it = SpikeList.emplace(ID, sf::FloatRect({0.f, 0.f}, {32.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
-			it->setAnimation(0, 3, 22);
-			it->setAnimationSequence(PiranhaGroundAnimName);
+			GameScene::enemyManager.addEnemy<GreenPiranhaGround>(sf::Vector2f(x, y));
 			break;
 		case SPIKE_NORMAL:
-			it = SpikeList.emplace(ID, sf::FloatRect({0.f, 0.f}, {32.f, 32.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
-			it->setAnimation(0, 0, 100);
-			it->AddAnimationSequence("NormalSpike");
+			GameScene::enemyManager.addEnemy<CastleSpikeUp>(sf::Vector2f(x, y));
 			break;
 		default: ;
 	}

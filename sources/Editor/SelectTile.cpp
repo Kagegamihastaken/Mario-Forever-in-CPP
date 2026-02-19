@@ -112,7 +112,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"GreenKoopaShell_3", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
         {"GreenPiranhaUp_0", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
         {"PiranhaGreenGround_0", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
-        {"NormalSpike", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
+        {"CastleSpikeUp", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
         {"EDITOR_HammerBroCanMove", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
         {"EDITOR_HammerBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
         {"BulletLauncher", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},

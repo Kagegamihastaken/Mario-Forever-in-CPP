@@ -14,6 +14,7 @@
 #include "Core/Logging.hpp"
 #include "Core/Object/Enemy.hpp"
 #include "Enemy/Identity/GoombaAIType.hpp"
+#include "Enemy/Identity/SpikeAIType.hpp"
 
 class EnemyManager {
 public:
@@ -33,6 +34,8 @@ public:
             m_BroAI.push_back(*newEnemy);
         else if constexpr (std::is_base_of_v<MFCPP::PiranhaAIType, T>)
             m_PiranhaAI.push_back(*newEnemy);
+        else if constexpr (std::is_base_of_v<MFCPP::SpikeAIType, T>)
+            m_SpikeAI.push_back(*newEnemy);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newEnemy).name()));
         m_enemies.push_back(std::move(newEnemy));
     }
@@ -59,6 +62,7 @@ private:
     EnemyIntrusiveList m_RotodiscAI;
     EnemyIntrusiveList m_BroAI;
     EnemyIntrusiveList m_PiranhaAI;
+    EnemyIntrusiveList m_SpikeAI;
     bool m_EnemyDeletionFlag = false;
     std::vector<std::unique_ptr<MFCPP::Enemy>> m_enemies;
 
