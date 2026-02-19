@@ -3,7 +3,7 @@
 
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Object/Enemy.hpp"
-#include "Core/Object/GoombaAIType.hpp"
+#include "Core/Object/Enemy/Identity/GoombaAIType.hpp"
 
 class RedSpiny final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:

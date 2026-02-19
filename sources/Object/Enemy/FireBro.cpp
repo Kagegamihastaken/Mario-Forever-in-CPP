@@ -5,8 +5,8 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Object/Enemy/BroAIBehavior.hpp"
-#include "Core/Object/Enemy/GoombaAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
@@ -30,7 +30,7 @@ FireBro::FireBro(EnemyManager &manager, const sf::Vector2f &position) : Enemy(ma
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingLowerPriority(true);
+    setDrawingPriority(1);
     //walking value
     m_movingValue = 0.f;
     m_WalkingState = 1;
@@ -181,7 +181,7 @@ void FireBro::Death(unsigned int state) {
     m_animation.setAnimation(0, 0, 100, true);
     setShellKicking(false);
     setShellBlocker(false);
-    setDrawingLowerPriority(false);
+    setDrawingPriority(2);
     if (getCurrentPosition().x > player.curr.x) m_animation.setAnimationDirection(ANIM_LEFT);
     else m_animation.setAnimationDirection(ANIM_RIGHT);
 }
@@ -194,6 +194,7 @@ void FireBro::Destroy() {
 }
 
 void FireBro::draw() {
+    if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
 }

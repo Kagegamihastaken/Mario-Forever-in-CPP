@@ -32,8 +32,8 @@ FireballData FireballY(const sf::Vector2f& pos, const float Xvelo, const float Y
         data.Yvelo = -5.f;
     }
     float CurrPosYCollide, CurrPosXCollide;
-    if (QuickCheckTopCollision(MFCPP::CollisionObject(sf::Vector2f(data.X, data.Y), origin, hitbox), CurrPosXCollide, CurrPosYCollide))
-        data.remove = true;
+    //if (QuickCheckTopCollision(MFCPP::CollisionObject(sf::Vector2f(data.X, data.Y), origin, hitbox), CurrPosXCollide, CurrPosYCollide))
+        //data.remove = true;
     if (QuickCheckBotCollision(MFCPP::CollisionObject(sf::Vector2f(data.X, data.Y), origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
         if (const float offset = data.Xvelo + 1.f; data.Yvelo >= -data.Xvelo) {
             const float floorY = GetCurrFloorY(sf::Vector2f(data.X, data.Y), CurrPosXCollide, CurrPosYCollide);

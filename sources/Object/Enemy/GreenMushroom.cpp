@@ -4,7 +4,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Core/Object/Enemy/GoombaAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 
@@ -27,7 +27,7 @@ GreenMushroom::GreenMushroom(EnemyManager &manager, const sf::Vector2f& position
     setShellKicking(false);
     setShellBlocker(false);
 
-    setDrawingLowerPriority(true);
+    setDrawingPriority(1);
 }
 void GreenMushroom::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;

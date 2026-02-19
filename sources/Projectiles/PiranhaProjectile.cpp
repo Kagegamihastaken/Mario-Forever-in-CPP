@@ -68,10 +68,7 @@ void AddPiranhaAIProjectile(const bool direction, const PiranhaDirection piranha
 void PiranhaAIProjectileMovementUpdate(const float deltaTime) {
     for (auto it = PiranhaAIProjectileList.begin(); it != PiranhaAIProjectileList.end(); ++it) {
         //X
-        if (it->getDirection())
-            it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x - it->getXVelo() * deltaTime, it->getCurrentPosition().y));
-        else
-            it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x + it->getXVelo() * deltaTime, it->getCurrentPosition().y));
+        it->setCurrentPosition(sf::Vector2f(it->getCurrentPosition().x + it->getXVelo() * deltaTime, it->getCurrentPosition().y));
         //Y
         it->move(sf::Vector2f(0.0f, it->getYVelo() * deltaTime));
         it->setYVelo(it->getYVelo() + (it->getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.175f));

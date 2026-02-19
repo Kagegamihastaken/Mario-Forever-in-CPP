@@ -5,14 +5,13 @@
 #include "Core/AudioEngine.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
-#include "Core/WindowFrame.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
 
 std::map<std::string, std::unique_ptr<SoLoud::Wav>> SoundManager::m_sounds;
 std::map<std::string, std::string> SoundManager::m_queue;
 SoLoud::EchoFilter SoundManager::m_echo_filter;
 SoLoud::FreeverbFilter SoundManager::m_reverb_filter;
-SoundEnvironment SoundManager::m_env = UNDERGROUND;
+SoundEnvironment SoundManager::m_env = OVERWORLD;
 
 void SoundManager::UpdateSoundEnvironment(const std::string& name) {
 	switch (m_env) {

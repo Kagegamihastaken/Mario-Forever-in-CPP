@@ -53,14 +53,9 @@ void EnemyManager::MarioCollision() const {
             i->MarioCollision(MarioYVelocityBefore);
     }
 }
-void EnemyManager::DrawHighPriority() const {
+void EnemyManager::DrawPriority(const int index) const {
     for (auto &i : m_enemies) {
-        if (i && !i->isDrawingLowerPriority()) i->draw();
-    }
-}
-void EnemyManager::DrawLowPriority() const {
-    for (auto &i : m_enemies) {
-        if (i && i->isDrawingLowerPriority()) i->draw();
+        if (i && i->getDrawingPriority() == index) i->draw();
     }
 }
 EnemyManager::EnemyIntrusiveList &EnemyManager::getGoombaAIList() {
@@ -69,6 +64,10 @@ EnemyManager::EnemyIntrusiveList &EnemyManager::getGoombaAIList() {
 
 EnemyManager::EnemyIntrusiveList &EnemyManager::getBroAIList() {
     return m_BroAI;
+}
+
+EnemyManager::EnemyIntrusiveList &EnemyManager::getPiranhaAIList() {
+    return m_PiranhaAI;
 }
 
 void EnemyManager::DeleteAll() {

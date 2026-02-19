@@ -4,7 +4,7 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/Object/Enemy.hpp"
-#include "Core/Object/RotodiscAIType.hpp"
+#include "Core/Object/Enemy/Identity/RotodiscAIType.hpp"
 #include "SFML/System/Vector2.hpp"
 
 class RedRotodiscFlower final : public MFCPP::Enemy, public MFCPP::RotodiscAIType {

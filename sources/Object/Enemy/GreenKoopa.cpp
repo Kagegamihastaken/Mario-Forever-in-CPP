@@ -5,7 +5,7 @@
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Core/Object/Enemy/GoombaAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Effect/GoombaAIEffect.hpp"
@@ -18,7 +18,7 @@ GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool
     setDirection(false);
     setDisabled(true);
     setCollideEachOther(true);
-    setDrawingLowerPriority(true);
+    setDrawingPriority(1);
     if (!isShell) {
         setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 47.f}));
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
@@ -188,7 +188,7 @@ void GreenKoopa::ChangeState() {
             m_hit_count = 0;
             setShellBlocker(false);
             setShellKicking(true);
-            setDrawingLowerPriority(true);
+            setDrawingPriority(1);
             break;
         case 2:
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
@@ -201,7 +201,7 @@ void GreenKoopa::ChangeState() {
             m_hit_count = 0;
             setShellBlocker(true);
             setShellKicking(true);
-            setDrawingLowerPriority(true);
+            setDrawingPriority(1);
             break;
         case 3:
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
@@ -214,7 +214,7 @@ void GreenKoopa::ChangeState() {
             setCollideEachOther(false);
             setShellBlocker(false);
             setShellKicking(false);
-            setDrawingLowerPriority(false);
+            setDrawingPriority(2);
             break;
         default:;
     }

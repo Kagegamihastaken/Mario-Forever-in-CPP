@@ -36,14 +36,19 @@ namespace MFCPP {
         [[nodiscard]] bool isShellKicking() const { return m_option[3]; }
         void setShellBlocker(const bool val) { m_option[4] = val;}
         [[nodiscard]] bool isShellBlocker() const { return m_option[4]; }
-        void setDrawingLowerPriority(const bool val) { m_option[5] = val; }
-        [[nodiscard]] bool isDrawingLowerPriority() const { return m_option[5]; }
+        void setDrawingPriority(const int val) {
+            m_option[5] = val & 1;
+            m_option[6] = (val >> 1) & 1;
+        }
+        [[nodiscard]] int getDrawingPriority() const {
+            return m_option[5] + (m_option[6] << 1);
+        }
 
         virtual void Destroy() = 0;
         virtual ~Enemy() = default;
     protected:
         EnemyManager& m_enemyManager;
-        std::bitset<6> m_option = 0;
+        std::bitset<7> m_option = 0;
         /*
          * Note:
          * Bit 1: Direction

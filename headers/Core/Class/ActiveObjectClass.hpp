@@ -37,7 +37,7 @@ namespace MFCPP {
         sf::Angle    m_prev_angle{};
         sf::Angle    m_interpolated_angle{};
         sf::Rect<T>  m_hitbox{};
-        bool         m_destroy{};
+        bool         m_destroy = false;
     };
 
     extern template class ActiveObject<float>;

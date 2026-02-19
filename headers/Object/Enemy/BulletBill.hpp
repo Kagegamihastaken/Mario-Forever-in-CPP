@@ -2,7 +2,7 @@
 #define MFCPP_BULLETBILL_HPP
 
 #include "Core/Animate/StaticAnimationObject.hpp"
-#include "Core/Object/BulletBillAIType.hpp"
+#include "Core/Object/Enemy/Identity/BulletBillAIType.hpp"
 #include "Core/Object/Enemy.hpp"
 
 class BulletBill final : public MFCPP::Enemy, public MFCPP::BulletBillAIType {

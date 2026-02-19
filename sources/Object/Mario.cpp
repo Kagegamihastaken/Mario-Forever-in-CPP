@@ -290,6 +290,14 @@ void MarioUpdateAnimation() {
 				}
 				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 			}
+			else if (MarioCrouchDown && PowerState > 0) {
+				MarioState = 3;
+				if (lastMarioState != MarioState) {
+					MarioAnimation.setAnimation(4, 4, 50, true);
+					lastMarioState = MarioState;
+				}
+				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
+			}
 			else if (Yvelo == 0.f && !(!MarioCurrentFalling && MarioCrouchDown && PowerState > 0)) {
 				if (Xvelo == 0.f && FireTimeCounting >= FireTime) {
 					MarioState = 0;
@@ -317,14 +325,6 @@ void MarioUpdateAnimation() {
 					}
 					MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 				}
-			}
-			else if (MarioCrouchDown && PowerState > 0) {
-				MarioState = 3;
-				if (lastMarioState != MarioState) {
-					MarioAnimation.setAnimation(4, 4, 50, true);
-					lastMarioState = MarioState;
-				}
-				MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(MarioDirection));
 			}
 		}
 		else {

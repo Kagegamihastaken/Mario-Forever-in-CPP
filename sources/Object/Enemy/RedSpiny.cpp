@@ -5,7 +5,7 @@
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Core/Object/Enemy/GoombaAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Effect/GoombaAIEffect.hpp"
@@ -27,7 +27,7 @@ RedSpiny::RedSpiny(EnemyManager &manager, const sf::Vector2f& position) : Enemy(
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingLowerPriority(true);
+    setDrawingPriority(1);
 }
 void RedSpiny::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;
@@ -128,7 +128,7 @@ void RedSpiny::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100, true);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingLowerPriority(false);
+            setDrawingPriority(2);
             break;
         default:;
     }

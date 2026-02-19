@@ -5,7 +5,7 @@
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Core/Object/Enemy/GoombaAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Effect/GoombaAIEffect.hpp"
@@ -29,7 +29,7 @@ Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position) : Enemy(mana
     m_alpha = 255.f;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingLowerPriority(true);
+    setDrawingPriority(1);
 }
 void Goomba::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;
@@ -140,7 +140,7 @@ void Goomba::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingLowerPriority(false);
+            setDrawingPriority(2);
             break;
         case 2:
             m_velocity = sf::Vector2f(0.f, -3.f);
@@ -148,7 +148,7 @@ void Goomba::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingLowerPriority(false);
+            setDrawingPriority(2);
             break;
         default:;
     }

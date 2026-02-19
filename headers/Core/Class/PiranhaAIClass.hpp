@@ -26,8 +26,8 @@ namespace MFCPP {
         [[nodiscard]] bool getState() const;
         void setStopTime(float stop_time);
         [[nodiscard]] float getStopTime() const;
-        void restartStopClock();
-        [[nodiscard]] sf::Clock getStopClock() const;
+        void setStopClock(float val);
+        [[nodiscard]] float getStopClock() const;
         void setStop(bool stop);
         [[nodiscard]] bool getStop() const;
         void setDistanceAppear(float distance_appear);
@@ -51,7 +51,8 @@ namespace MFCPP {
         float            m_position_temporary{};
         bool             m_state{};
         float            m_stop_time{};
-        sf::Clock        m_stop_clock;
+        float            m_stop_clock;
+        //sf::Clock        m_stop_clock;
         bool             m_stop{};
         float            m_distance_appear{};
 

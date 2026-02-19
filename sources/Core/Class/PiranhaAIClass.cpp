@@ -23,6 +23,7 @@ namespace MFCPP {
 		setInterpolatedPosition(getCurrentPosition());
 		setOrigin(origin);
 
+		m_stop_clock = 0.f;
 		m_position_limit = 64.f;
 		m_position_temporary = 64.f;
 		m_state = true;
@@ -79,10 +80,10 @@ namespace MFCPP {
 	float PiranhaAI::getStopTime() const {
 		return m_stop_time;
 	}
-	void PiranhaAI::restartStopClock() {
-		m_stop_clock.restart();
+	void PiranhaAI::setStopClock(float val) {
+		m_stop_clock = val;
 	}
-	sf::Clock PiranhaAI::getStopClock() const {
+	float PiranhaAI::getStopClock() const {
 		return m_stop_clock;
 	}
 	void PiranhaAI::setStop(const bool stop) {

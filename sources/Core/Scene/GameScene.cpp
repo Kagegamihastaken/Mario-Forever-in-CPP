@@ -35,7 +35,7 @@
 #include "Projectiles/ProjectileHelper.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Object/Enemy/RotodiscAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
 #include "Object/RotodiscAI.hpp"
 #include "Object/Enemy/BulletBill.hpp"
 #include "Object/Enemy/FireBro.hpp"
@@ -89,8 +89,6 @@ void GameScene::update(const float deltaTime) {
     MarioProjectileMovementUpdate(deltaTime);
     MarioProjectileSpin(deltaTime);
 
-    PiranhaAIMovementUpdate(deltaTime);
-    PiranhaAIShoot(deltaTime);
     PiranhaAIProjectileMovementUpdate(deltaTime);
     PiranhaAIProjectileSpin(deltaTime);
 
@@ -106,7 +104,6 @@ void GameScene::update(const float deltaTime) {
 }
 void GameScene::setPreviousPosition() {
     SetPrevMarioPos();
-    SetPrevPiranhaAIPos();
     SetPrevCoinEffectPos();
     SetPrevScoreEffectPos();
     SetPrevBrickParticlePos();
@@ -122,7 +119,6 @@ void GameScene::setPreviousPosition() {
 }
 void GameScene::interpolatePosition(const float alpha) {
     InterpolateMarioPos(alpha);
-    InterpolatePiranhaAIPos(alpha);
     InterpolateCoinEffectPos(alpha);
     InterpolateScoreEffectPos(alpha);
     InterpolateBrickParticlePos(alpha);
@@ -142,18 +138,18 @@ void GameScene::draw(sf::RenderWindow &window) {
     BgDraw();
     ExitGateDraw();
     CheckpointDraw();
-    PiranhaAIDraw();
-    ImageManager::DrawAllVertex();
+    enemyManager.DrawPriority(0);
+    //ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
     MarioDraw();
-    enemyManager.DrawLowPriority();
+    enemyManager.DrawPriority(1);
     BrickDraw();
     LuckyBlockDraw();
     SpikeDraw();
     CoinDraw();
     BulletLauncherDraw();
-    enemyManager.DrawHighPriority();
+    enemyManager.DrawPriority(2);
     BrickParticleDraw();
     CoinEffectDraw();
     ScoreEffectDraw();
@@ -165,12 +161,11 @@ void GameScene::draw(sf::RenderWindow &window) {
     ExitGateEffectDraw();
     FrameDraw();
 
-    ImageManager::DrawAllVertex();
+    //ImageManager::DrawAllVertex();
     TextDraw();
 }
 void GameScene::objectCleanup() {
     MarioProjectileCleanup();
-    PiranhaAICleanup();
     BrickCleanup();
     ScoreEffectCleanup();
     BrickParticleCleanup();
@@ -193,7 +188,6 @@ void GameScene::postUpdate() {
     enemyManager.EnemyCollision();
 
     CoinOnTouch();
-    PiranhaAIStatusUpdate();
     SpikeStatusUpdate();
     CheckForDeath();
     BroAIProjectileStatusUpdate();
@@ -263,7 +257,8 @@ void GameScene::loadResources() {
         AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    ReadData("data/levels/onedashtwo.json");
+    //ReadData("data/levels/onedashtwo.json");
+    ReadData("data/levels/test.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

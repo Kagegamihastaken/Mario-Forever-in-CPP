@@ -5,7 +5,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Object/Enemy/GoombaAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 
@@ -23,7 +23,7 @@ BulletBill::BulletBill(EnemyManager &manager, const sf::Vector2f &position, cons
     m_state = 0;
     setShellKicking(false);
     setShellBlocker(false);
-    setDrawingLowerPriority(false);
+    setDrawingPriority(2);
 }
 
 void BulletBill::setPreviousData() {

@@ -1,7 +1,7 @@
 #ifndef MFCPP_HAMMERBRO_HPP
 #define MFCPP_HAMMERBRO_HPP
 #include "Core/Animate/SingleAnimationObject.hpp"
-#include "Core/Object/BroAIType.hpp"
+#include "Core/Object/Enemy/Identity/BroAIType.hpp"
 #include "Core/Object/Enemy.hpp"
 #include "SFML/Graphics/Rect.hpp"
 #include "SFML/System/Vector2.hpp"

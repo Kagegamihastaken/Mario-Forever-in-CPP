@@ -4,17 +4,17 @@
 #include "Core/Class/PiranhaAIClass.hpp"
 #include "Core/Loading/enum.hpp"
 
-extern std::vector<MFCPP::PiranhaAI> PiranhaAIList;
-extern void SetPrevPiranhaAIPos();
-extern void InterpolatePiranhaAIPos(float alpha);
 extern void AddPiranha(PiranhaID ID, PiranhaDirection dir, float x, float y);
 extern void PiranhaAIInit();
-extern void PiranhaAIStatusUpdate();
-extern void PiranhaAIDraw();
-extern void PiranhaAIMovementUpdate(float deltaTime);
-extern void DeletePiranhaAIIndex(int i);
-extern void ClearPiranhaAI();
-extern void PiranhaAICleanup();
-extern void PiranhaAIShoot(float deltaTime);
+
+extern std::vector<std::string> GreenPiranhaUpAnimName;
+extern std::vector<std::string> GreenPiranhaDownAnimName;
+extern std::vector<std::string> GreenPiranhaRightAnimName;
+extern std::vector<std::string> GreenPiranhaLeftAnimName;
+
+extern std::vector<std::string> PinkPiranhaUpAnimName;
+extern std::vector<std::string> PinkPiranhaDownAnimName;
+extern std::vector<std::string> PinkPiranhaRightAnimName;
+extern std::vector<std::string> PinkPiranhaLeftAnimName;
 
 #endif

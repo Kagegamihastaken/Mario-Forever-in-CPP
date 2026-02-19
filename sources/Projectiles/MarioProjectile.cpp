@@ -86,13 +86,16 @@ void MarioProjectileCollision() {
             }
         }
         //Piranha
-        for (int j = 0; j < PiranhaAIList.size(); ++j) {
-            if (sf::FloatRect loopHitbox = getGlobalHitbox(PiranhaAIList[j].getHitbox(), PiranhaAIList[j].getCurrentPosition(), PiranhaAIList[j].getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-                DeleteMarioProjectile(it);
-                AddScoreEffect(SCORE_100, PiranhaAIList[j].getCurrentPosition().x, PiranhaAIList[j].getCurrentPosition().y - PiranhaAIList[j].getOrigin().y);
-                SoundManager::PlaySound("Kick2");
-                DeletePiranhaAIIndex(j);
-                break;
+        auto& PiranhaList = GameScene::enemyManager.getPiranhaAIList();
+        for (auto jt = PiranhaList.begin(); jt != PiranhaList.end(); ++jt) {
+            if (sf::FloatRect loopHitbox = getGlobalHitbox(jt->getHitbox(), jt->getCurrentPosition(), jt->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+                if (!jt->isDeath()) {
+                    jt->Death(0);
+                    AddScoreEffect(SCORE_100, jt->getCurrentPosition().x, jt->getCurrentPosition().y - jt->getOrigin().y);
+                    SoundManager::PlaySound("Kick2");
+                    DeleteMarioProjectile(it);
+                    break;
+                }
             }
         }
     }

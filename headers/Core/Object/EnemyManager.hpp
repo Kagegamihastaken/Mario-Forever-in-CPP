@@ -6,13 +6,14 @@
 #include <type_traits>
 #include <typeinfo>
 
-#include "BroAIType.hpp"
-#include "BulletBillAIType.hpp"
-#include "RotodiscAIType.hpp"
+#include "Enemy/Identity/BroAIType.hpp"
+#include "Enemy/Identity/BulletBillAIType.hpp"
+#include "Enemy/Identity/PiranhaAIType.hpp"
+#include "Enemy/Identity/RotodiscAIType.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Object/Enemy.hpp"
-#include "Core/Object/GoombaAIType.hpp"
+#include "Enemy/Identity/GoombaAIType.hpp"
 
 class EnemyManager {
 public:
@@ -30,12 +31,15 @@ public:
             m_RotodiscAI.push_back(*newEnemy);
         else if constexpr (std::is_base_of_v<MFCPP::BroAIType, T>)
             m_BroAI.push_back(*newEnemy);
+        else if constexpr (std::is_base_of_v<MFCPP::PiranhaAIType, T>)
+            m_PiranhaAI.push_back(*newEnemy);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newEnemy).name()));
         m_enemies.push_back(std::move(newEnemy));
     }
 
     [[nodiscard]] EnemyIntrusiveList& getGoombaAIList();
     [[nodiscard]] EnemyIntrusiveList& getBroAIList();
+    [[nodiscard]] EnemyIntrusiveList& getPiranhaAIList();
     [[nodiscard]] bool getDeletionFlag() const;
     void setDeletionFlag(bool val);
     void setPreviousData() const;
@@ -47,14 +51,14 @@ public:
     void EnemyCollision();
     void EnemyCleanup();
     void DeleteAll();
-    void DrawHighPriority() const;
-    void DrawLowPriority() const;
+    void DrawPriority(int index) const;
 private:
     // For EnemyType Only
     EnemyIntrusiveList m_GoombaAI;
     EnemyIntrusiveList m_BulletBillAI;
     EnemyIntrusiveList m_RotodiscAI;
     EnemyIntrusiveList m_BroAI;
+    EnemyIntrusiveList m_PiranhaAI;
     bool m_EnemyDeletionFlag = false;
     std::vector<std::unique_ptr<MFCPP::Enemy>> m_enemies;
 

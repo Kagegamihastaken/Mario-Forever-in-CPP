@@ -4,7 +4,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Object/Enemy/RotodiscAIBehavior.hpp"
+#include "../../../headers/Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
 #include "Object/Mario.hpp"
 #include "Object/RotodiscAI.hpp"
 
@@ -28,7 +28,7 @@ RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &
     m_speed_x_change = speed_x_change;
     setShellKicking(false);
     setShellBlocker(false);
-    setDrawingLowerPriority(false);
+    setDrawingPriority(2);
     m_angle = angle;
 }
 void RedRotodiscFlower::setPreviousData() {
