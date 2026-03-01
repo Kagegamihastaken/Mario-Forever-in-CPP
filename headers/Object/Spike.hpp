@@ -7,7 +7,6 @@
 
 extern plf::colony<MFCPP::Spike> SpikeList;
 extern std::vector<std::string> PiranhaGroundAnimName;
-extern std::vector<std::string> CastleSpikeUpAnimName;
 
 extern void DeleteAllSpike();
 extern void DeleteSpike(float x, float y);

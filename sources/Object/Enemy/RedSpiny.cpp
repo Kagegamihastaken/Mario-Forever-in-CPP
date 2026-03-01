@@ -6,6 +6,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/HitboxUtils.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Effect/GoombaAIEffect.hpp"
@@ -117,6 +118,7 @@ void RedSpiny::draw() {
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 void RedSpiny::Death(unsigned int state) {
     setCollideEachOther(false);

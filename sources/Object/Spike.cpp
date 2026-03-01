@@ -2,7 +2,6 @@
 #include "Core/ImageManager.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Loading/enum.hpp"
@@ -12,11 +11,9 @@
 
 plf::colony<MFCPP::Spike> SpikeList;
 std::vector<std::string> PiranhaGroundAnimName;
-std::vector<std::string> CastleSpikeUpAnimName;
 static bool SpikeDeleteGate = false;
 void SpikeInit() {
 	ImageManager::AddTexture("CastleSpikeUp", "data/resources/Spike/Spike.png");
-	CastleSpikeUpAnimName.emplace_back("CastleSpikeUp");
 	for (int i = 0; i < 4; ++i) {
 		ImageManager::AddTexture(fmt::format("PiranhaGreenGround_{}", i), "data/resources/Spike/PiranhaGround.png", sf::IntRect({i * 32, 0}, {32, 32}));
 		PiranhaGroundAnimName.emplace_back(fmt::format("PiranhaGreenGround_{}", i));

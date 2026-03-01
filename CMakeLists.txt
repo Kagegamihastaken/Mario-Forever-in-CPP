@@ -10,8 +10,11 @@ if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 #TODO FORCE DEVELOPMENT_BUILD ON WHEN BUILD WITH RelWithDebInfo
+#GAME SETTING
 set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
+
+set(HITBOX_DEBUG OFF)
 
 #Game Config
 set(PLAYER_LIVES 4)
@@ -30,13 +33,6 @@ FetchContent_Declare(SFML
         GIT_PROGRESS ON
         EXCLUDE_FROM_ALL
         SYSTEM)
-FetchContent_Declare(CTRE
-        GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
-        GIT_TAG v3.9.0
-        GIT_SHALLOW ON
-        GIT_PROGRESS ON
-        SYSTEM
-)
 FetchContent_Declare(physfs
         GIT_REPOSITORY https://github.com/icculus/physfs.git
         GIT_TAG release-3.2.0
@@ -102,7 +98,7 @@ FetchContent_Declare(ImGuiFileDialog
 )
 #sfml
 message("Making dependencies available...")
-FetchContent_MakeAvailable(SFML CTRE physfs fmt cpptrace JSON)
+FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON)
 #soloud
 FetchContent_MakeAvailable(soloud)
 file(GLOB_RECURSE SOLOUD_SOURCES CONFIGURE_DEPENDS
@@ -173,7 +169,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES} ${MY_HEADERS})
 target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <SFML/Audio.hpp> <SFML/Graphics.hpp> <vector> <map> <optional>
     <string> <set> <array> <iostream> <algorithm>
-    <random> <utility> <ctre.hpp> <physfs.h> <fstream>
+    <random> <utility> <physfs.h> <fstream>
     <unordered_map> <fmt/core.h> <fmt/base.h> <fmt/color.h> <exception>
     <fmt/format.h>
     #Boost category
@@ -227,7 +223,7 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
 )
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Graphics SFML::System SFML::Window
-    physfs-static ctre::ctre ImGui-SFML::ImGui-SFML
+    physfs-static ImGui-SFML::ImGui-SFML
     Boost::container_hash Boost::uuid Boost::type_index
     fmt::fmt cpptrace::cpptrace SoLoud::soloud Boost::intrusive
     nlohmann_json::nlohmann_json

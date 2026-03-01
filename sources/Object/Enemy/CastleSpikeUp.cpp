@@ -1,4 +1,6 @@
 #include "Object/Enemy/CastleSpikeUp.hpp"
+
+#include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
@@ -13,9 +15,8 @@ CastleSpikeUp::CastleSpikeUp(EnemyManager &manager, const sf::Vector2f &position
     setCurrentPosition(position);
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
-    m_animation.setAnimationSequence(CastleSpikeUpAnimName);
-    m_animation.setAnimation(0, 0, 24);
-    setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
+    m_animation.setTexture("CastleSpikeUp");
+    setHitbox(sf::FloatRect({9.f, 7.f}, {13.f, 25.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
 
     setDirection(false);
@@ -58,11 +59,12 @@ void CastleSpikeUp::YUpdate(float deltaTime) {}
 void CastleSpikeUp::EnemyCollision() {}
 
 void CastleSpikeUp::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
+    m_animation.setAnimationDirection(static_cast<AnimationDirection>(getDirection()));
     if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 64, 64)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition(), sf::Color::Red));
 }
 void CastleSpikeUp::Destroy() {
     if (!isDestroyed()) {

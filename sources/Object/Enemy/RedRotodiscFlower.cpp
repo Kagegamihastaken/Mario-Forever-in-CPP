@@ -5,6 +5,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
+#include "Core/HitboxUtils.hpp"
 #include "Object/Mario.hpp"
 #include "Object/RotodiscAI.hpp"
 
@@ -70,6 +71,7 @@ void RedRotodiscFlower::draw() {
         m_animation_base.AnimationDraw();
     }
     if (!isOutScreen(getInterpolatedPosition().x, getInterpolatedPosition().y, 64, 64)) {
+        HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
         m_animation.setColor(sf::Color(255, 255, 255));
         m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
         m_animation.AnimationDraw();

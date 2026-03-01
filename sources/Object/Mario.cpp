@@ -5,6 +5,7 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/ImageManager.hpp"
 #include "Block/LuckyBlock.hpp"
+#include "Core/HitboxUtils.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Sound.hpp"
 #include "Core/Level.hpp"
@@ -385,6 +386,7 @@ void CheckForDeath() {
 }
 void MarioDraw() {
 	// check power state here
+	HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(player.hitboxMain, player.curr - player.property.getOrigin(), sf::Color::Blue));
 	if (static_cast<float>(AppearingTimer.getElapsedTime().asMilliseconds()) > (3000.0f / 91.0f) * 15.0f) MarioAppearing = false;
 	if (PowerState != lastPowerState) {
 		MarioAppearing = true;

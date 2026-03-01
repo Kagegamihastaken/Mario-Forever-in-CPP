@@ -21,6 +21,7 @@ namespace MFCPP {
     extern void setTileMapSize(float LevelX, float LevelY);
     extern void printTileMapSize();
     extern int getTilemap(int x, int y);
+    extern sf::Vector2f getTilemap(int id);
     extern void setIndexTilemapCollision(float x, float y, bool val);
     extern bool getIndexTilemapCollision(float x, float y);
     extern bool getIndexTilemapCollision(int x, int y);
@@ -30,5 +31,6 @@ namespace MFCPP {
     extern void setIndexTilemapFloorY(float x, float y, std::pair<float, float> val);
     extern std::pair<float, float> getIndexTilemapFloorY(float x, float y);
     extern float getTileSize();
+    extern void drawHitboxMap();
 }
 #endif //TILEMAP_HPP

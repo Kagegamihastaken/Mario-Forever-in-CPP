@@ -90,7 +90,8 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 			else {
 				dataOutput.state = false;
 				//Set back to normal
-				dataOutput.fire_counting = dataOutput.fire_count;
+				if (!isOutScreen(dataOutput.pos.x, dataOutput.pos.y, 64.f, 64.f))
+					dataOutput.fire_counting = dataOutput.fire_count;
 				dataOutput.pos -= sf::Vector2f(dataOutput.pos_temp * static_cast<float>(dir == PIRANHA_RIGHT || dir == PIRANHA_LEFT), dataOutput.pos_temp * static_cast<float>(dir == PIRANHA_UP || dir == PIRANHA_DOWN));
 				dataOutput.pos_temp = 0.f;
 				dataOutput.stop = true;

@@ -1,5 +1,6 @@
 #include "Object/Enemy/PinkPiranhaDown.hpp"
 
+#include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
@@ -63,6 +64,7 @@ void PinkPiranhaDown::statusUpdate(float deltaTime) {
         if (isDisabled()) setDisabled(false);
 
     //Movement
+    if (isDisabled()) return;
     PiranhaAIBehavior::PiranhaAIData data = PiranhaAIBehavior::PiranhaMovementUpdate(PiranhaAIBehavior::PiranhaAIData(
         getCurrentPosition(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
         m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PIRANHA_DOWN, deltaTime
@@ -102,6 +104,7 @@ void PinkPiranhaDown::draw() {
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 void PinkPiranhaDown::Destroy() {
     if (!isDestroyed()) {

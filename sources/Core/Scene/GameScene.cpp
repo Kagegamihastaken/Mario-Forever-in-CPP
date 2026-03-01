@@ -36,6 +36,8 @@
 #include "Core/Checkpoint.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
+#include "Core/HitboxUtils.hpp"
+#include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
 #include "Object/Enemy/BulletBill.hpp"
 #include "Object/Enemy/FireBro.hpp"
@@ -133,6 +135,8 @@ void GameScene::interpolatePosition(const float alpha) {
     enemyManager.interpolateData(alpha);
 }
 void GameScene::draw(sf::RenderWindow &window) {
+    MFCPP::drawHitboxMap();
+
     BgGradientDraw();
 
     BgDraw();
@@ -160,6 +164,8 @@ void GameScene::draw(sf::RenderWindow &window) {
     MarioEffectDraw();
     ExitGateEffectDraw();
     FrameDraw();
+
+    HitboxUtils::drawHitbox();
 
     //ImageManager::DrawAllVertex();
     TextDraw();
@@ -258,7 +264,7 @@ void GameScene::loadResources() {
     }
     //Load Level
     //ReadData("data/levels/onedashtwo.json");
-    ReadData("data/levels/test.json");
+    ReadData("data/levels/onedashthree.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

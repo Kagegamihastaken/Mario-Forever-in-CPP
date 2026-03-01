@@ -1,7 +1,7 @@
 #ifndef MFCPP_CASTLESPIKEUP_HPP
 #define MFCPP_CASTLESPIKEUP_HPP
 
-#include "Core/Animate/SingleAnimationObject.hpp"
+#include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/Object/Enemy.hpp"
 #include "Core/Object/Enemy/Identity/SpikeAIType.hpp"
 #include "SFML/System/Vector2.hpp"
@@ -23,7 +23,7 @@ public:
     void ShellHit() override;
     [[nodiscard]] bool isDeath() override;
 private:
-    MFCPP::SingleAnimationObject m_animation;
+    MFCPP::StaticAnimationObject m_animation;
 };
 
 #endif //MFCPP_CASTLESPIKEUP_HPP

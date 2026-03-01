@@ -6,6 +6,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/HitboxUtils.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 
@@ -93,6 +94,7 @@ void BulletBill::draw() {
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 
 void BulletBill::Death(unsigned int state) {

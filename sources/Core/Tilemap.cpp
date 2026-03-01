@@ -1,4 +1,6 @@
 #include "Core/Tilemap.hpp"
+
+#include "Core/HitboxUtils.hpp"
 constexpr int TILEMAP_MAX = 5;
 namespace MFCPP {
     std::unordered_map<int, Tile> ObstaclesTilemap;
@@ -13,6 +15,9 @@ namespace MFCPP {
     }
     int getTilemap(const int x, const int y) {
         return std::max(-TILEMAP_MAX, x) + std::max(-TILEMAP_MAX, y) * tileMapSizeX;
+    }
+    sf::Vector2f getTilemap(const int id) {
+        return {id % tileMapSizeX * tileSize, id / tileMapSizeX * tileSize};
     }
     void setIndexCollectableMapID(const float x, const float y, const unsigned val) {
         CollectableMap[getTilemap(static_cast<int>(x / tileSize), static_cast<int>(y / tileSize))].id = val;
@@ -62,5 +67,10 @@ namespace MFCPP {
     }
     float getTileSize() {
         return tileSize;
+    }
+    void drawHitboxMap() {
+        for (const auto &i : ObstaclesTilemap) {
+            if (i.second.collide) HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}), getTilemap(i.first), sf::Color::Green));
+        }
     }
 }

@@ -7,6 +7,7 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/HitboxUtils.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
@@ -197,6 +198,7 @@ void FireBro::draw() {
     if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 bool FireBro::isDeath() {
     return m_state != 0;

@@ -2,6 +2,7 @@
 
 #ifndef SCROLL_HPP
 #define SCROLL_HPP
+#include "Class/CollisionObjectClass.hpp"
 
 extern void ViewInit();
 extern bool MarioLockedView;
@@ -16,5 +17,6 @@ extern bool isOutScreenX(float xPos, float OffsetX);
 extern bool isOutScreenY(float yPos, float OffsetY);
 extern bool isOutScreenYBottom(float yPos, float OffsetY);
 extern void moveView(float x, float y);
+extern bool isOutOfScreen(const MFCPP::CollisionObject& obj, float offset);
 
 #endif // SCROLL_HPP
