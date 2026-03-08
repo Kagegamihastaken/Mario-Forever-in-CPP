@@ -5,6 +5,7 @@
 #include "Block/LuckyBlock.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Collision/Collide.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 #include "SFML/Graphics/Rect.hpp"
@@ -77,35 +78,17 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXCollision(const Goomba
 
 GoombaAIBehavior::GoombaAIData GoombaAIBehavior::ShellXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin) {
     GoombaAIData dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
-    float BrickCurrPosX = 0, BrickCurrPosY = 0, LuckyCurrPosX = 0, LuckyCurrPosY = 0, CurrPosXCollide = 0, CurrPosYCollide = 0;;
-    bool NoAdd = false;
-    const std::pair<bool, bool> BrickCollideRemove = CheckCollisionSide(
-        MFCPP::CollisionObject(dataOutput.position, origin, hitbox_wall), BrickCurrPosX, BrickCurrPosY, NoAdd, 1);
-    if (BrickCollideRemove.first || BrickCollideRemove.second) {
-        BrickBreak(BrickCurrPosX, BrickCurrPosY);
-    }
-    const std::pair<bool, bool> LuckyCollideRemove = CheckCollisionSide(
-        MFCPP::CollisionObject(dataOutput.position, origin, hitbox_wall), LuckyCurrPosX, LuckyCurrPosY, NoAdd, 2);
-    if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
-        LuckyHit(LuckyCurrPosX, LuckyCurrPosY);
+    float CurrPosXCollide = 0, CurrPosYCollide = 0;;
+    for (auto& bonus : GameScene::customTileManager.getBonusList()) {
+        if (const sf::FloatRect BrickHitbox = getGlobalHitbox(bonus.getHitbox(), bonus.getCurrentPosition(), bonus.getOrigin()); isCollide(BrickHitbox, getGlobalHitbox(hitbox, dataOutput.position, origin)))
+            bonus.KickEvent();
     }
 
-    NoAdd = false;
-
-    if (BrickCollideRemove.first || BrickCollideRemove.second) {
-        CurrPosXCollide = BrickCurrPosX;
-        CurrPosYCollide = BrickCurrPosY;
-    }
-    else if (LuckyCollideRemove.first || LuckyCollideRemove.second) {
-        CurrPosXCollide = LuckyCurrPosX;
-        CurrPosYCollide = LuckyCurrPosY;
-    }
-    const auto [fst, snd] = QuickCheckOnlyObstaclesSideCollision(
-        MFCPP::CollisionObject(dataOutput.position, origin, hitbox_wall),
-        dataOutput.direction, CurrPosXCollide, CurrPosYCollide, NoAdd);
-    if (fst || BrickCollideRemove.first || LuckyCollideRemove.first)
+    const auto [fst, snd] = QuickCheckSideCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox_wall),
+                                                    dataOutput.direction, CurrPosXCollide, CurrPosYCollide);
+    if (fst)
         dataOutput = EnemyAdjustXCollision(dataOutput, hitbox, origin, CurrPosXCollide, true);
-    if (snd || BrickCollideRemove.second || LuckyCollideRemove.second)
+    if (snd)
         dataOutput = EnemyAdjustXCollision(dataOutput, hitbox, origin, CurrPosXCollide, false);
     return dataOutput;
 }

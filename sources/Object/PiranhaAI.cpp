@@ -1,14 +1,6 @@
 #include "Object/PiranhaAI.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/enum.hpp"
-#include "Core/Animate/SingleAnimationObject.hpp"
-#include "Core/Collision/Collide.hpp"
-#include "Object/Mario.hpp"
-#include "Core/Scroll.hpp"
-#include "Core/WindowFrame.hpp"
-#include "Core/Interpolation.hpp"
-#include "Core/SoundManager.hpp"
-#include "Core/Class/PiranhaAIClass.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/GreenPiranhaDown.hpp"
 #include "Object/Enemy/GreenPiranhaLeft.hpp"
@@ -18,7 +10,6 @@
 #include "Object/Enemy/PinkPiranhaLeft.hpp"
 #include "Object/Enemy/PinkPiranhaRight.hpp"
 #include "Object/Enemy/PinkPiranhaUp.hpp"
-#include "Projectiles/PiranhaProjectile.hpp"
 std::vector<std::string> GreenPiranhaUpAnimName;
 std::vector<std::string> GreenPiranhaDownAnimName;
 std::vector<std::string> GreenPiranhaRightAnimName;

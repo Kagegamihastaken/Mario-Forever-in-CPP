@@ -1,5 +1,3 @@
-#include "Block/Brick.hpp"
-#include "Block/LuckyBlock.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Sound.hpp"

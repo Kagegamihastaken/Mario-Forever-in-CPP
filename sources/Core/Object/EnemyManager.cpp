@@ -2,7 +2,6 @@
 
 #include <queue>
 
-#include "Core/Logging.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 

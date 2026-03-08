@@ -215,7 +215,7 @@ void MarioPosYUpdate(const float deltaTime) {
 		if (Yvelo > 10.0f) Yvelo = 10.0f;
 	}
 }
-void MarioVertYUpdate() {
+void MarioVertYBottomUpdate() {
 	if (CanControlMario) {
 		float CurrPosYCollide, CurrPosXCollide;
 		//Collision With Platform
@@ -235,30 +235,20 @@ void MarioVertYUpdate() {
 				return;
 			}
 		}
-		// top update
+	}
+}
+void MarioVertYTopUpdate() {
+	if (CanControlMario) {
+		float CurrPosYCollide, CurrPosXCollide;
 		bool NoAdd = false;
-		const bool ObstacleCollision = QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide, NoAdd);
-		const std::vector<std::pair<float, float>> BrickCollision = CheckCollisionTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
-		const std::vector<std::pair<float, float>> LuckyCollision = CheckCollisionTopDetailed(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
-		if (ObstacleCollision || !BrickCollision.empty() || !LuckyCollision.empty()) {
-			// Start event Brick
-			if (!BrickCollision.empty()) {
-				for (const auto&[fst, snd] : BrickCollision) {
-					HitEvent(fst, snd);
-				}
-			}
-			if (!LuckyCollision.empty()) {
-				for (const auto&[fst, snd] : LuckyCollision) {
-					LuckyHitEvent(fst, snd);
-				}
-			}
+		const bool ObstacleCollision = QuickCheckTopCollision(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxFloor), CurrPosXCollide, CurrPosYCollide);
+		if (ObstacleCollision) {
 			//snap back
 			if (PowerState > 0 && !MarioCrouchDown)
 				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y) };
 			else if ((PowerState > 0 && MarioCrouchDown) || (PowerState == 0 && MarioAppearing) || (PowerState == 0 && !MarioCrouchDown))
 				player.curr = { player.curr.x, CurrPosYCollide + (32.0f + player.property.getOrigin().y - 23.0f) };
 			Yvelo = 0.0f;
-			return;
 		}
 	}
 }
@@ -340,7 +330,7 @@ void MarioUpdateAnimation() {
 }
 void PowerDown() {
 	//return; //Skip death, remove later
-	if (LevelCompleteEffect) return;
+	if (LevelCompleteEffect || Invincible) return;
 
 	if (!Invincible) {
 		if (PowerState > 1) {

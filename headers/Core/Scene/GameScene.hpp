@@ -3,11 +3,14 @@
 
 #include "Core/Scene.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
+
+#include "Core/Object/CustomTileManager.hpp"
 #include "Core/Object/EnemyManager.hpp"
 
 class GameScene final : public Scene {
 public:
     static EnemyManager enemyManager;
+    static CustomTileManager customTileManager;
 
     explicit GameScene(SceneManager& manager);
     void handleInput(const std::optional<sf::Event>& event) override;

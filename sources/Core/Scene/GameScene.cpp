@@ -35,15 +35,15 @@
 #include "Projectiles/ProjectileHelper.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "../../../headers/Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
+#include "Block/Obstacles.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
-#include "Object/Enemy/BulletBill.hpp"
-#include "Object/Enemy/FireBro.hpp"
 #include "Object/Enemy/HammerBro.hpp"
 
 EnemyManager GameScene::enemyManager;
+CustomTileManager GameScene::customTileManager;
 
 GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
@@ -79,11 +79,17 @@ void GameScene::update(const float deltaTime) {
     MarioPosXUpdate(deltaTime);
     MarioVertXUpdate();
     MarioPosYUpdate(deltaTime);
-    MarioVertYUpdate();
+    MarioVertYBottomUpdate();
+    customTileManager.HitEvent();
+    MarioVertYTopUpdate();
 
     enemyManager.XUpdate(deltaTime);
     enemyManager.YUpdate(deltaTime);
     enemyManager.statusUpdate(deltaTime);
+
+    customTileManager.updateCollision();
+
+    customTileManager.statusUpdate(deltaTime);
 
     BroAIProjectileMovementUpdate(deltaTime);
     BroAIProjectileSpin(deltaTime);
@@ -99,8 +105,6 @@ void GameScene::update(const float deltaTime) {
     BrickParticleStatusUpdate(deltaTime);
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
-    BrickUpdate(deltaTime);
-    LuckyBlockUpdate(deltaTime);
     BulletLauncherStatusUpdate(deltaTime);
 
 }
@@ -111,13 +115,12 @@ void GameScene::setPreviousPosition() {
     SetPrevBrickParticlePos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
-    SetPrevBricksPos();
-    SetPrevLuckyBlockPos();
     SetPrevBroAIProjectilePos();
     SetPrevMarioProjectilePos();
     SetPrevPlatformPos();
     SetPrevPiranhaAIProjectilePos();
     enemyManager.setPreviousData();
+    customTileManager.setPreviousData();
 }
 void GameScene::interpolatePosition(const float alpha) {
     InterpolateMarioPos(alpha);
@@ -126,13 +129,12 @@ void GameScene::interpolatePosition(const float alpha) {
     InterpolateBrickParticlePos(alpha);
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
-    InterpolateBricksPos(alpha);
-    InterpolateLuckyBlockPos(alpha);
     InterpolateBroAIProjectilePos(alpha);
     InterpolateMarioProjectilePos(alpha);
     InterpolatePlatformPos(alpha);
     InterpolatePiranhaAIProjectilePos(alpha);
     enemyManager.interpolateData(alpha);
+    customTileManager.interpolateData(alpha);
 }
 void GameScene::draw(sf::RenderWindow &window) {
     MFCPP::drawHitboxMap();
@@ -148,9 +150,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     DrawPlatform();
     MarioDraw();
     enemyManager.DrawPriority(1);
-    BrickDraw();
-    LuckyBlockDraw();
-    SpikeDraw();
+    customTileManager.Draw();
     CoinDraw();
     BulletLauncherDraw();
     enemyManager.DrawPriority(2);
@@ -172,17 +172,15 @@ void GameScene::draw(sf::RenderWindow &window) {
 }
 void GameScene::objectCleanup() {
     MarioProjectileCleanup();
-    BrickCleanup();
     ScoreEffectCleanup();
     BrickParticleCleanup();
     CoinCleanup();
-    SpikeCleanup();
-    LuckyBlockCleanup();
     PlatformCleanup();
     PiranhaAIProjectileCleanup();
     BroAIProjectileCleanup();
     CoinEffectCleanup();
     enemyManager.EnemyCleanup();
+    customTileManager.CustomTileCleanup();
 }
 void GameScene::postUpdate() {
     PlatformStatusUpdate();
@@ -194,7 +192,6 @@ void GameScene::postUpdate() {
     enemyManager.EnemyCollision();
 
     CoinOnTouch();
-    SpikeStatusUpdate();
     CheckForDeath();
     BroAIProjectileStatusUpdate();
     MarioProjectileStatusUpdate();
@@ -232,8 +229,8 @@ void GameScene::loadResources() {
     loadMarioRes();
     BrickParticleInit();
     BricksInit();
-    LoadLuckyBlock();
     GoombaAIInit();
+    LoadLuckyBlock();
     BroAILoadRes();
     BroAIEffectInit();
     CoinEffectInit();
@@ -263,15 +260,13 @@ void GameScene::loadResources() {
         AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    //ReadData("data/levels/onedashtwo.json");
-    ReadData("data/levels/onedashthree.json");
+    ReadData("data/levels/onedashtwo.json");
+    //ReadData("data/levels/leveltest.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();
     Objectbuilding();
     ExitGateBuilding();
-
-    //enemyManager.addEnemy<Goomba>(sf::Vector2f(128.f, 128.f));
 }
 void GameScene::unloadResources() {
     //implement later

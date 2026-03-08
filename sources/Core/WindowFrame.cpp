@@ -122,11 +122,11 @@ namespace Window {
 		window.setIcon(icon);
 		if (!OPTION_SMOOTH) {
 			window.setFramerateLimit(240);
-			window.setVerticalSyncEnabled(false);
+			//window.setVerticalSyncEnabled(false);
 		}
 		else {
 			window.setFramerateLimit(0); //300
-			window.setVerticalSyncEnabled(false);
+			//window.setVerticalSyncEnabled(false);
 		}
 	}
 	void WindowEventUpdate(const std::optional<sf::Event>& event) {

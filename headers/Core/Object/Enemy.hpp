@@ -41,6 +41,8 @@ namespace MFCPP {
             m_option[6] = (val >> 1) & 1;
         }
         [[nodiscard]] int getDrawingPriority() const {
+
+
             return m_option[5] + (m_option[6] << 1);
         }
 

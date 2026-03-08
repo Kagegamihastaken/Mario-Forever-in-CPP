@@ -45,7 +45,6 @@ void GreenMushroom::MarioCollision(const float MarioYVelocity) {
     const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         AddScoreEffect(SCORE_1UP, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
-        if (PowerState == 0) SetPowerState(1);
         Destroy();
     }
 }

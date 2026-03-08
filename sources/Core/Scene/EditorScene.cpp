@@ -3,6 +3,7 @@
 #include "Block/Brick.hpp"
 #include "Block/BulletLauncher.hpp"
 #include "Block/LuckyBlock.hpp"
+#include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/Bg.hpp"
 #include "Core/Background/BgGradient.hpp"

@@ -261,15 +261,13 @@ void Objectbuilding() {
 	DeleteAllFireballExplosion();
 	DeleteAllPiranhaAIProjectile();
 	//Delete Objects
-	DeleteAllBrick();
 	DeleteAllCoin();
-	DeleteAllLuckyBlock();
-	DeleteAllSpike();
 	BulletLauncherClear();
 	//Delete Platform
 	DeleteAllPlatform();
 
 	GameScene::enemyManager.DeleteAll();
+	GameScene::customTileManager.DeleteAll();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
@@ -279,8 +277,8 @@ void Objectbuilding() {
 				MFCPP::setIndexCollectableMapCollision(i[3], i[4], true);
 			}
 			else if (i[0] == 2) {
-				MFCPP::setIndexTilemapCollision(i[3], i[4], true);
-				MFCPP::setIndexTilemapID(i[3], i[4], 1);
+				// MFCPP::setIndexTilemapCollision(i[3], i[4], true);
+				// MFCPP::setIndexTilemapID(i[3], i[4], 1);
 				AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
 			}
 			else if (i[0] == 3) {

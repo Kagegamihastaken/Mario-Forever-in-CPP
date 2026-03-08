@@ -1,7 +1,6 @@
 #ifndef PIRANHAAI_HPP
 #define PIRANHAAI_HPP
 
-#include "Core/Class/PiranhaAIClass.hpp"
 #include "Core/Loading/enum.hpp"
 
 extern void AddPiranha(PiranhaID ID, PiranhaDirection dir, float x, float y);
