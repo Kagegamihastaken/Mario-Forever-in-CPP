@@ -7,6 +7,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/CustomTileManager.hpp"
 #include "Core/Object/CustomTile/Behavior/BumpBehavior.hpp"
+#include "Core/Object/CustomTile/Behavior/HitBehavior.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Object/Mario.hpp"
 
@@ -60,6 +61,8 @@ void NormalBrick::HitEvent() {
             m_updown = false;
             m_state_count = 0.f;
             SoundManager::PlaySound("Bump");
+            //Hit Event
+            HitBehavior::HitDetection(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()));
         }
     }
 }

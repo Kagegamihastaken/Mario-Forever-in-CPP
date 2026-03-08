@@ -8,6 +8,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/CustomTileManager.hpp"
 #include "Core/Object/CustomTile/Behavior/BumpBehavior.hpp"
+#include "Core/Object/CustomTile/Behavior/HitBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Object/Mario.hpp"
@@ -57,6 +58,9 @@ void LuckyBlockGreenMushroom::Hit() {
     m_animation.setAnimation(3, 3, 9);
     GameScene::enemyManager.addEnemy<GreenMushroom>(getCurrentPosition() + sf::Vector2f(16.f, 0.f));
     SoundManager::PlaySound("Vine");
+
+    //Hit Event
+    HitBehavior::HitDetection(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()));
 }
 
 void LuckyBlockGreenMushroom::KickEvent() {

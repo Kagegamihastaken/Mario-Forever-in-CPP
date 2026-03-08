@@ -7,6 +7,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/CustomTileManager.hpp"
 #include "Core/Object/CustomTile/Behavior/BumpBehavior.hpp"
+#include "Core/Object/CustomTile/Behavior/HitBehavior.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Effect/CoinEffect.hpp"
 #include "Object/Coin.hpp"
@@ -69,6 +70,9 @@ void NormalCoinBrick::Hit() {
     AddCoinEffect(COIN_NORMAL, ONE_COIN, getCurrentPosition().x + 15.0f, getCurrentPosition().y);
     ++CoinCount;
     SoundManager::PlaySound("Coin");
+
+    //Hit Event
+    HitBehavior::HitDetection(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()));
 }
 
 void NormalCoinBrick::KickEvent() {
