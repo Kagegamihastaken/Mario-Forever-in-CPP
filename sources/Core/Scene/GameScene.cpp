@@ -105,7 +105,6 @@ void GameScene::update(const float deltaTime) {
     BrickParticleStatusUpdate(deltaTime);
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
-    BulletLauncherStatusUpdate(deltaTime);
 
 }
 void GameScene::setPreviousPosition() {
@@ -152,7 +151,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     enemyManager.DrawPriority(1);
     customTileManager.Draw();
     CoinDraw();
-    BulletLauncherDraw();
     enemyManager.DrawPriority(2);
     BrickParticleDraw();
     CoinEffectDraw();

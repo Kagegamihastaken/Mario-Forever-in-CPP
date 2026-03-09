@@ -102,7 +102,7 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 	else {
 		if (dataOutput.stop_clock <= dataOutput.stop_time)
 			dataOutput.stop_clock += deltaTime;
-		if (dataOutput.stop_clock > dataOutput.stop_time && f_abs(player.curr.x - dataOutput.pos.x) > dataOutput.distance_appear && dataOutput.state) dataOutput.stop = false;
+		if (dataOutput.stop_clock > dataOutput.stop_time && f_abs(player.curr.x - dataOutput.pos.x) > dataOutput.distance_appear && dataOutput.state && !isOutScreen(dataOutput.pos.x, dataOutput.pos.y, 128.f, 128.f)) dataOutput.stop = false;
 		else if (dataOutput.stop_clock > dataOutput.stop_time && !dataOutput.state) dataOutput.stop = false;
 	}
 	return dataOutput;

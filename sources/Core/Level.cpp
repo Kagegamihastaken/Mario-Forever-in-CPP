@@ -262,7 +262,6 @@ void Objectbuilding() {
 	DeleteAllPiranhaAIProjectile();
 	//Delete Objects
 	DeleteAllCoin();
-	BulletLauncherClear();
 	//Delete Platform
 	DeleteAllPlatform();
 
