@@ -7,7 +7,8 @@
 class PiranhaAIBehavior {
 public:
     struct PiranhaAIData {
-        sf::Vector2f pos;
+        sf::Vector2f pos, origin;
+        sf::FloatRect hitbox;
         bool stop, state;
         float speed, pos_temp, pos_limit, stop_clock, stop_time, distance_appear;
         int fire_counting, fire_count;

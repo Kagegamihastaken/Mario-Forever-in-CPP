@@ -127,7 +127,7 @@ void Goomba::Destroy() {
 }
 
 void Goomba::draw() {
-    if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255, m_alpha));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();

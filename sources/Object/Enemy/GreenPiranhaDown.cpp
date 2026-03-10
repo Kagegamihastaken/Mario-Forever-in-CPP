@@ -60,13 +60,13 @@ void GreenPiranhaDown::interpolateData(float alpha) {
 void GreenPiranhaDown::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (!isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 64.f, 64.f))
+    if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
         if (isDisabled()) setDisabled(false);
 
     //Movement
     if (isDisabled()) return;
     PiranhaAIBehavior::PiranhaAIData data = PiranhaAIBehavior::PiranhaMovementUpdate(PiranhaAIBehavior::PiranhaAIData(
-        getCurrentPosition(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
+        getCurrentPosition(), getOrigin(), getHitbox(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
         m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PIRANHA_DOWN, deltaTime
     );
     setCurrentPosition(data.pos);
@@ -91,7 +91,7 @@ void GreenPiranhaDown::EnemyCollision() {}
 
 void GreenPiranhaDown::draw() {
     m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
-    if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 64, 64)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();

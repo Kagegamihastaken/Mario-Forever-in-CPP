@@ -195,7 +195,7 @@ void FireBro::Destroy() {
 }
 
 void FireBro::draw() {
-    if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));

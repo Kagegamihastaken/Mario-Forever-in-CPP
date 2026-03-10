@@ -5,7 +5,7 @@
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/GoombaAI.hpp"
@@ -172,7 +172,7 @@ void RedKoopa::Destroy() {
 
 void RedKoopa::draw() {
     m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
-    if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.AnimationDraw();

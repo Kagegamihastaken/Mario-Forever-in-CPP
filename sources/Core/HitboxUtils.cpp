@@ -19,7 +19,7 @@ void HitboxUtils::drawHitbox() {
     hitbox.setOutlineThickness(1.f);
     const sf::Vector2f outlineOffset(hitbox.getOutlineThickness(), hitbox.getOutlineThickness());
     while (!m_hitboxDebug.empty()) {
-        if (isOutOfScreen(MFCPP::CollisionObject(m_hitboxDebug.front().position, sf::Vector2f(0.f, 0.f), m_hitboxDebug.front().hitbox), 32.f)) {
+        if (isOutOfScreen(MFCPP::CollisionObject(m_hitboxDebug.front().position, sf::Vector2f(0.f, 0.f), m_hitboxDebug.front().hitbox), 0.f)) {
             m_hitboxDebug.pop();
             continue;
         }
