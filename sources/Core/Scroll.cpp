@@ -4,6 +4,7 @@
 #include "Core/Level.hpp"
 #include "Editor/Editor.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
+#include "Core/Collision/Collide.hpp"
 
 bool MarioLockedView = false;
 sf::View view;
@@ -65,11 +66,14 @@ static bool isPointOutOfScreen(const sf::Vector2f& pos, const float offset) {
 	return (pos.x < ViewX - offset || pos.x > ViewX + Width + offset || pos.y < ViewY - offset || pos.y > ViewY + Height + offset);
 }
 bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset) {
-	if (!isPointOutOfScreen(obj.GetPosition() + obj.GetLeftHitbox().position, offset)) return false;
-	if (!isPointOutOfScreen(obj.GetPosition() + obj.GetLeftHitbox().position + sf::Vector2f(obj.GetLeftHitbox().size.x, 0.f), offset)) return false;
-	if (!isPointOutOfScreen(obj.GetPosition() + obj.GetLeftHitbox().position + sf::Vector2f(0.f, obj.GetLeftHitbox().size.y), offset)) return false;
-	if (!isPointOutOfScreen(obj.GetPosition() + obj.GetLeftHitbox().position + obj.GetLeftHitbox().size, offset)) return false;
-	return true;
+	return !isCollide(
+		getGlobalHitbox(obj.GetLeftHitbox(), obj.GetPosition(), obj.GetOrigin()),
+		HitboxExtend(getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {Width, Height}), sf::Vector2f(ViewX, ViewY), sf::Vector2f(0.f, 0.f)), offset)
+		);
+	// return (obj.GetPosition().x < ViewX + Width + offset &&
+	// 	obj.GetPosition().x + obj.GetLeftHitbox().size.x > ViewX - offset &&
+	// 	obj.GetPosition().y < ViewY + Height + offset &&
+	// 	obj.GetPosition().y + obj.GetLeftHitbox().size.y > ViewY - offset);
 }
 bool isOutScreen(float xPos, float yPos, float OffsetX, float OffsetY) {
 	if (xPos - ViewX < 0.0f - OffsetX || xPos - ViewX > Width + OffsetX - 32.0f || yPos - ViewY < 0.0f - OffsetY || yPos - ViewY > Height + OffsetY - 32.0f) {

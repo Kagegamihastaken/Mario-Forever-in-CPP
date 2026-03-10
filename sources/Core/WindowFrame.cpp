@@ -23,7 +23,7 @@ static bool OPTION_VSYNC = false;
 static bool OPTION_FULLSCREEN = false;
 
 static bool PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
-static std::string PROGRAM_NAME = "Mario Forever";
+static std::string PROGRAM_NAME = "Mario Forever - Test";
 static unsigned int OPTION_SCALE = 0;
 sf::VideoMode x1({ static_cast<unsigned int>(Width), static_cast<unsigned int>(Height) });
 sf::VideoMode x15({ static_cast<unsigned int>(Width * 1.5f), static_cast<unsigned int>(Height* 1.5f) });

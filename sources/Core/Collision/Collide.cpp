@@ -8,6 +8,9 @@
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
 	hitbox = Sethitbox;
 }
+sf::FloatRect HitboxExtend(const sf::FloatRect& hitbox, const float val) {
+	return {{hitbox.position.x - val, hitbox.position.y - val}, {hitbox.size.x + val * 2.f, hitbox.size.y + val * 2.f}};
+}
 sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin) {
 	return {{ pos.x + hitbox.position.x - origin.x, pos.y + hitbox.position.y - origin.y }, { hitbox.size.x, hitbox.size.y }};
 }
