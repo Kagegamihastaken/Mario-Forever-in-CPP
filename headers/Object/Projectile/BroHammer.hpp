@@ -1,13 +1,13 @@
-#ifndef MFCPP_BROFIREBALL_HPP
-#define MFCPP_BROFIREBALL_HPP
+#ifndef MFCPP_BROHAMMER_HPP
+#define MFCPP_BROHAMMER_HPP
 #include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/Object/Projectile.hpp"
 #include "Core/Object/Projectile/Identity/EnemyProjectileType.hpp"
 #include "SFML/System/Vector2.hpp"
 
-class BroFireball final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
+class BroHammer final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
-    explicit BroFireball(ProjectileManager& manager, bool direction, const sf::Vector2f& position);
+    explicit BroHammer(ProjectileManager& manager, bool direction, const sf::Vector2f& position);
     void FireballEffect() const;
     void setPreviousData() override;
     void interpolateData(float alpha) override;

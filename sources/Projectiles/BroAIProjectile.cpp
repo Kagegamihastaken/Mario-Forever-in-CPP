@@ -10,6 +10,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Object/Projectile/BroFireball.hpp"
+#include "Object/Projectile/BroHammer.hpp"
 
 std::vector<MFCPP::BroAIProjectile> BroAIProjectileList;
 static bool BroAIProjectileDeleteGate = false;
@@ -77,8 +78,9 @@ void BroAIProjectileSpin(const float deltaTime) {
 void AddBroAIProjectile(const bool direction, const BroAIProjectileType type, const float x, const float y) {
     switch (type) {
         case BroAIProjectileType::BROAI_HAMMER:
-            BroAIProjectileList.emplace_back(direction, type, BROAI_HAMMER_BEHAVIOUR, 1.f + static_cast<float>(RandomIntNumberGenerator(0, 4)), (6.f + static_cast<float>(RandomIntNumberGenerator(0, 4))) * -1.f, sf::FloatRect({0.f, 0.f}, {24.f, 24.f}), sf::Vector2f(x, y), sf::Vector2f(13.f, 18.f));
-            BroAIProjectileList.back().setTexture("Hammer", direction);
+            GameScene::projectileManager.addProjectile<BroHammer>(direction, sf::Vector2f(x, y));
+            // BroAIProjectileList.emplace_back(direction, type, BROAI_HAMMER_BEHAVIOUR, 1.f + static_cast<float>(RandomIntNumberGenerator(0, 4)), (6.f + static_cast<float>(RandomIntNumberGenerator(0, 4))) * -1.f, sf::FloatRect({0.f, 0.f}, {24.f, 24.f}), sf::Vector2f(x, y), sf::Vector2f(13.f, 18.f));
+            // BroAIProjectileList.back().setTexture("Hammer", direction);
             break;
         case BroAIProjectileType::BROAI_FIREBALL:
             GameScene::projectileManager.addProjectile<BroFireball>(direction, sf::Vector2f(x, y));
