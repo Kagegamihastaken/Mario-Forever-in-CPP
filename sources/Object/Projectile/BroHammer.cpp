@@ -32,10 +32,6 @@ void BroHammer::interpolateData(const float alpha) {
     setInterpolatedAngle(linearInterpolation(getPreviousAngle(), getCurrentAngle(), alpha));
 }
 
-void BroHammer::FireballEffect() const {
-    AddFireballExplosion(getCurrentPosition().x, getCurrentPosition().y - 7.f);
-}
-
 void BroHammer::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Spin

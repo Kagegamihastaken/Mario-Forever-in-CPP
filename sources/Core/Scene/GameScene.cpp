@@ -93,12 +93,6 @@ void GameScene::update(const float deltaTime) {
 
     projectileManager.statusUpdate(deltaTime);
 
-    BroAIProjectileMovementUpdate(deltaTime);
-    BroAIProjectileSpin(deltaTime);
-
-    MarioProjectileMovementUpdate(deltaTime);
-    MarioProjectileSpin(deltaTime);
-
     PiranhaAIProjectileMovementUpdate(deltaTime);
     PiranhaAIProjectileSpin(deltaTime);
 
@@ -116,8 +110,6 @@ void GameScene::setPreviousPosition() {
     SetPrevBrickParticlePos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
-    SetPrevBroAIProjectilePos();
-    SetPrevMarioProjectilePos();
     SetPrevPlatformPos();
     SetPrevPiranhaAIProjectilePos();
     enemyManager.setPreviousData();
@@ -131,8 +123,6 @@ void GameScene::interpolatePosition(const float alpha) {
     InterpolateBrickParticlePos(alpha);
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
-    InterpolateBroAIProjectilePos(alpha);
-    InterpolateMarioProjectilePos(alpha);
     InterpolatePlatformPos(alpha);
     InterpolatePiranhaAIProjectilePos(alpha);
     enemyManager.interpolateData(alpha);
@@ -159,8 +149,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     BrickParticleDraw();
     CoinEffectDraw();
     ScoreEffectDraw();
-    BroAIProjectileDraw();
-    MarioProjectileDraw();
     PiranhaAIProjectileDraw();
     projectileManager.Draw();
     FireballExplosionDraw();
@@ -174,13 +162,11 @@ void GameScene::draw(sf::RenderWindow &window) {
     TextDraw();
 }
 void GameScene::objectCleanup() {
-    MarioProjectileCleanup();
     ScoreEffectCleanup();
     BrickParticleCleanup();
     CoinCleanup();
     PlatformCleanup();
     PiranhaAIProjectileCleanup();
-    BroAIProjectileCleanup();
     CoinEffectCleanup();
     enemyManager.EnemyCleanup();
     customTileManager.CustomTileCleanup();
@@ -188,8 +174,6 @@ void GameScene::objectCleanup() {
 }
 void GameScene::postUpdate() {
     PlatformStatusUpdate();
-    BroAIProjectileCollision();
-    MarioProjectileCollision();
     PiranhaAIProjectileCollision();
 
     enemyManager.MarioCollision();
@@ -199,8 +183,6 @@ void GameScene::postUpdate() {
 
     CoinOnTouch();
     CheckForDeath();
-    BroAIProjectileStatusUpdate();
-    MarioProjectileStatusUpdate();
     PiranhaAIProjectileStatusUpdate();
     FireballExplosionStatusUpdate();
 

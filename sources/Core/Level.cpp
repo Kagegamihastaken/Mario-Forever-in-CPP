@@ -256,8 +256,6 @@ void Objectbuilding() {
 	DeleteAllBrickParticle();
 	DeleteAllCoinEffect();
 	DeleteAllScoreEffect();
-	DeleteAllBroAIProjectile();
-	DeleteAllMarioProjectile();
 	DeleteAllFireballExplosion();
 	DeleteAllPiranhaAIProjectile();
 	//Delete Objects

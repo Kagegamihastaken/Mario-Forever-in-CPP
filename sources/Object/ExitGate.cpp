@@ -82,7 +82,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic("LevelComplete");
 			ExitGateForeActive = false;
-			LevelEndMarioProjectileCleanup();
+			//LevelEndMarioProjectileCleanup();
 		}
 		if (isCollide(getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin()), getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
 			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) AddScoreEffect(SCORE_10000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
@@ -98,7 +98,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			ExitGateForeEffect.setCurrentPosition(ExitGateFore.getCurrentPosition());
 			ExitGateForeEffect.setPreviousPosition(ExitGateForeEffect.getCurrentPosition());
 			ExitGateForeEffect.setInterpolatedPosition(ExitGateForeEffect.getCurrentPosition());
-			LevelEndMarioProjectileCleanup();
+			//LevelEndMarioProjectileCleanup();
 
 			ExitGateForeEffectSpeed = RandomFloatNumberGenerator(123.75f, 146.25f) * M_PI / 180.0f;
 			ExitGateForeActive = false;
