@@ -17,6 +17,7 @@
 
 #include "Core/Logging.hpp"
 #include "Core/Time.hpp"
+#include "Core/Scene/GameScene.hpp"
 //texture loading
 void UpdateSequenceAnimation() {
 	switch (PowerState) {
@@ -140,7 +141,7 @@ void KeyboardMovement(const float deltaTime) {
 	}
 	if (FireTimeCounting < FireTime) FireTimeCounting += 1.f * deltaTime;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !isFireHolding && CanControlMario && !LevelCompleteEffect) {
-		if (FireTimeCounting >= FireTime && PowerState > 1 && getAmountProjectile() < 2 && !MarioCrouchDown) {
+		if (FireTimeCounting >= FireTime && PowerState > 1 && GameScene::projectileManager.getMarioProjectileList().size() < 2 && !MarioCrouchDown) {
 			SoundManager::PlaySound("Fireball");
 			FireTimeCounting = 0.f;
 			switch (PowerState) {

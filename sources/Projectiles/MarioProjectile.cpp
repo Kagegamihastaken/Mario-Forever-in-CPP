@@ -13,9 +13,10 @@
 #include "Object/Mario.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 
-#include "Core/ProjectileBehaviour/Fireball.hpp"
-#include "Core/ProjectileBehaviour/Fireball.hpp"
+#include "../../headers/Core/Object/Projectile/Behavior/FireballBehavior.hpp"
+#include "../../headers/Core/Object/Projectile/Behavior/FireballBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Object/Projectile/MarioFireball.hpp"
 
 plf::colony<MFCPP::MarioProjectile> MarioProjectileList;
 static bool MarioProjectileDeleteGate = false;
@@ -125,35 +126,36 @@ void LevelEndMarioProjectileCleanup() {
     }
 }
 void AddMarioProjectile(const bool direction, const MarioProjectileType type, const float x, const float y) {
-    plf::colony<MFCPP::MarioProjectile>::colony_iterator<false> it;
-    switch (type) {
-        case MarioProjectileType::FIREBALL:
-            it = MarioProjectileList.emplace(direction, type, FIREBALL_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 16.f));
-            it->setTexture("Fireball", direction);
-            break;
-        default: ;
-    }
+    GameScene::projectileManager.addProjectile<MarioFireball>(direction, sf::Vector2f(x, y));
+    // plf::colony<MFCPP::MarioProjectile>::colony_iterator<false> it;
+    // switch (type) {
+    //     case MarioProjectileType::FIREBALL:
+    //         it = MarioProjectileList.emplace(direction, type, FIREBALL_BEHAVIOUR, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 16.f));
+    //         it->setTexture("Fireball", direction);
+    //         break;
+    //     default: ;
+    // }
 }
 //Behaviour
 static void FireballYUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
-    const auto [Xvel, Yvel, X, Y, remove] = FireballY(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), deltaTime, it->getHitbox(), it->getOrigin());
-    if (remove) {
+    const auto data = FireballBehavior::FireballY(it->getCurrentPosition(), sf::Vector2f(it->getXVelo(), it->getYVelo()), deltaTime, it->getHitbox(), it->getOrigin());
+    if (data.remove) {
         DeleteMarioProjectile(it);
         return;
     }
-    it->setCurrentPosition(sf::Vector2f(X, Y));
-    it->setXVelo(Xvel);
-    it->setYVelo(Yvel);
+    it->setCurrentPosition(data.position);
+    it->setXVelo(data.velocity.x);
+    it->setYVelo(data.velocity.y);
 }
 static void FireballXUpdate(const plf::colony<MFCPP::MarioProjectile>::colony_iterator<false>& it, const float deltaTime) {
-    const auto [Xvel, Yvel, X, Y, remove] = FireballX(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
-    if (remove) {
+    const auto data = FireballBehavior::FireballX(it->getCurrentPosition(), sf::Vector2f(it->getXVelo(), it->getYVelo()), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
+    if (data.remove) {
         DeleteMarioProjectile(it);
         return;
     }
-    it->setCurrentPosition(sf::Vector2f(X, Y));
-    it->setXVelo(Xvel);
-    it->setYVelo(Yvel);
+    it->setCurrentPosition(data.position);
+    it->setXVelo(data.velocity.x);
+    it->setYVelo(data.velocity.y);
 }
 
 void MarioProjectileMovementUpdate(const float deltaTime) {

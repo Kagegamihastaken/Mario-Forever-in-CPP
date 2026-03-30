@@ -267,6 +267,7 @@ void Objectbuilding() {
 
 	GameScene::enemyManager.DeleteAll();
 	GameScene::customTileManager.DeleteAll();
+	GameScene::projectileManager.DeleteAll();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {

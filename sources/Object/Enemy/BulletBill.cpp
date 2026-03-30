@@ -5,7 +5,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"

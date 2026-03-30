@@ -40,11 +40,11 @@ static MFCPP::SingleAnimationObject CoinHUD;
 static MFCPP::StaticAnimationObject TimeHUD;
 
 int RandomIntNumberGenerator(const int a, const int b) {
-	std::uniform_int_distribution<int> dis(a, b);
+	std::uniform_int_distribution dis(a, b);
 	return dis(seed);
 }
 float RandomFloatNumberGenerator(const float a, const float b) {
-	std::uniform_real_distribution<float> dis(a, b);
+	std::uniform_real_distribution dis(a, b);
 	return dis(seed);
 }
 float f_mod(const float a, const float b) { return a - std::floor(a / b) * b;}

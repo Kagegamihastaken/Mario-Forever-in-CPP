@@ -6,8 +6,10 @@
 #include "Core/Loading/enum.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
-#include "Core/ProjectileBehaviour/Fireball.hpp"
+#include "../../headers/Core/Object/Projectile/Behavior/FireballBehavior.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/FireballExplosion.hpp"
+#include "Object/Projectile/BroFireball.hpp"
 
 std::vector<MFCPP::BroAIProjectile> BroAIProjectileList;
 static bool BroAIProjectileDeleteGate = false;
@@ -79,8 +81,9 @@ void AddBroAIProjectile(const bool direction, const BroAIProjectileType type, co
             BroAIProjectileList.back().setTexture("Hammer", direction);
             break;
         case BroAIProjectileType::BROAI_FIREBALL:
-            BroAIProjectileList.emplace_back(direction, type, BROAI_FIREBALL_BEHAVIOUR, 8.125f, 0.f, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 8.f));
-            BroAIProjectileList.back().setTexture("Fireball", direction);
+            GameScene::projectileManager.addProjectile<BroFireball>(direction, sf::Vector2f(x, y));
+            // BroAIProjectileList.emplace_back(direction, type, BROAI_FIREBALL_BEHAVIOUR, 8.125f, 0.f, sf::FloatRect({0.f, 0.f}, {15.f, 16.f}), sf::Vector2f(x, y), sf::Vector2f(7.f, 8.f));
+            // BroAIProjectileList.back().setTexture("Fireball", direction);
             break;
         default: ;
     }
@@ -97,24 +100,24 @@ static void HammerBroY(const std::vector<MFCPP::BroAIProjectile>::iterator& it, 
     it->setYVelo(it->getYVelo() + (it->getYVelo() >= 10.0f ? 0.0f : 1.0f * deltaTime * 0.215f));
 }
 static void FireBroX(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const float deltaTime) {
-    const auto [Xvel, Yvel, X, Y, remove] = FireballX(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
-    if (remove) {
+    const auto data = FireballBehavior::FireballX(it->getCurrentPosition(), sf::Vector2f(it->getXVelo(), it->getYVelo()), it->getDirection(), deltaTime, it->getHitbox(), it->getOrigin());
+    if (data.remove) {
         DeleteBroAIProjectile(it);
         return;
     }
-    it->setCurrentPosition(sf::Vector2f(X, Y));
-    it->setXVelo(Xvel);
-    it->setYVelo(Yvel);
+    it->setCurrentPosition(data.position);
+    it->setXVelo(data.velocity.x);
+    it->setYVelo(data.velocity.y);
 }
 static void FireBroY(const std::vector<MFCPP::BroAIProjectile>::iterator& it, const float deltaTime) {
-    const auto [Xvel, Yvel, X, Y, remove] = FireballY(it->getCurrentPosition(), it->getXVelo(), it->getYVelo(), deltaTime, it->getHitbox(), it->getOrigin());
-    if (remove) {
+    const auto data = FireballBehavior::FireballY(it->getCurrentPosition(), sf::Vector2f(it->getXVelo(), it->getYVelo()), deltaTime, it->getHitbox(), it->getOrigin());
+    if (data.remove) {
         DeleteBroAIProjectile(it);
         return;
     }
-    it->setCurrentPosition(sf::Vector2f(X, Y));
-    it->setXVelo(Xvel);
-    it->setYVelo(Yvel);
+    it->setCurrentPosition(data.position);
+    it->setXVelo(data.velocity.x);
+    it->setYVelo(data.velocity.y);
 }
 void BroAIProjectileMovementUpdate(const float deltaTime) {
     for (auto it = BroAIProjectileList.begin(); it != BroAIProjectileList.end(); ++it) {

@@ -6,11 +6,13 @@
 
 #include "Core/Object/CustomTileManager.hpp"
 #include "Core/Object/EnemyManager.hpp"
+#include "Core/Object/ProjectileManager.hpp"
 
 class GameScene final : public Scene {
 public:
     static EnemyManager enemyManager;
     static CustomTileManager customTileManager;
+    static ProjectileManager projectileManager;
 
     explicit GameScene(SceneManager& manager);
     void handleInput(const std::optional<sf::Event>& event) override;

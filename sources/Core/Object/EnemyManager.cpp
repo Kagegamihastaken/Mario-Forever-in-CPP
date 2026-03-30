@@ -1,7 +1,6 @@
 #include "Core/Object/EnemyManager.hpp"
 
 #include <queue>
-
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
