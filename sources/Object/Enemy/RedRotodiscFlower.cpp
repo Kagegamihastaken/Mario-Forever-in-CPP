@@ -43,10 +43,10 @@ void RedRotodiscFlower::interpolateData(const float alpha) {
 void RedRotodiscFlower::EnemyCollision() {}
 void RedRotodiscFlower::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled()) return;
-    if (f_abs(player.curr.x - getCurrentPosition().x) >= 80.f) return;
-    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect RotodiscHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(RotodiscHitbox, hitbox_mario)) {
-        PowerDown();
+        Mario::PowerDown();
     }
 }
 void RedRotodiscFlower::statusUpdate(const float deltaTime) {

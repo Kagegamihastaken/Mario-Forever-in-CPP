@@ -41,42 +41,42 @@ void AddScoreEffect(const ScoreID id, float x, float y) {
 		case SCORE_100:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(12, 15));
 			it->setTexture("Score_100");
-			Score += 100;
+			Mario::setScore(Mario::getScore() + 100);
 			break;
 		case SCORE_200:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(14, 15));
 			it->setTexture("Score_200");
-			Score += 200;
+			Mario::setScore(Mario::getScore() + 200);
 			break;
 		case SCORE_500:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(13, 15));
 			it->setTexture("Score_500");
-			Score += 500;
+			Mario::setScore(Mario::getScore() + 500);
 			break;
 		case SCORE_1000:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(16, 15));
 			it->setTexture("Score_1000");
-			Score += 1000;
+			Mario::setScore(Mario::getScore() + 1000);
 			break;
 		case SCORE_2000:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(16, 15));
 			it->setTexture("Score_2000");
-			Score += 2000;
+			Mario::setScore(Mario::getScore() + 2000);
 			break;
 		case SCORE_5000:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(16, 15));
 			it->setTexture("Score_5000");
-			Score += 5000;
+			Mario::setScore(Mario::getScore() + 5000);
 			break;
 		case SCORE_10000:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(20, 15));
 			it->setTexture("Score_10000");
-			Score += 10000;
+			Mario::setScore(Mario::getScore() + 10000);
 			break;
 		case SCORE_1UP:
 			it = ScoreEffectList.emplace(sf::Vector2f(x, y), sf::Vector2f(14, 15));
 			it->setTexture("Score_1UP");
-			++Lives;
+			Mario::setLives(Mario::getLives() + 1);
 			SoundManager::PlaySound("1UP");
 			break;
 		default: ;

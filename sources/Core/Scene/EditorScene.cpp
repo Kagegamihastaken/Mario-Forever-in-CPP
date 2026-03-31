@@ -30,7 +30,7 @@
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
     loadObstacleTemp();
-    loadMarioRes();
+    Mario::loadMarioRes();
 
     BrickParticleInit();
     BricksInitTemp();

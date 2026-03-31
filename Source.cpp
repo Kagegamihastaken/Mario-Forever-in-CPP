@@ -109,14 +109,14 @@ int WinMain() {
 			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
 			ImageManager::ClearAllVertex();
 			GameObjectEditText();
-			MarioOutSideScreen();
+			Mario::MarioOutSideScreen();
 			fpsLite.update();
 			timestep.addFrame();
 			while (timestep.isUpdateRequired()) {
 				GameObjectSetPrev();
 				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50);
 				GameObjectCollision();
-				InvincibleStateUpdate();
+				Mario::InvincibleStateUpdate();
 			}
 			if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
 			else alpha = 1.0f;

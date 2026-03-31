@@ -44,13 +44,13 @@ void FireFlower::interpolateData(const float alpha) {
 void FireFlower::EnemyCollision() {}
 void FireFlower::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_isappearing) return;
-    if (f_abs(player.curr.x - getCurrentPosition().x) >= 80.0f) return;
-    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         SoundManager::PlaySound("Powerup");
         AddScoreEffect(SCORE_1000, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
-        if (PowerState > 0) SetPowerState(2);
-        else if (PowerState == 0) SetPowerState(1);
+        if (Mario::getPowerState() > 0) Mario::SetPowerState(2);
+        else if (Mario::getPowerState() == 0) Mario::SetPowerState(1);
         Destroy();
     }
 }

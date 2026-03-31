@@ -246,10 +246,11 @@ void Objectbuilding() {
 	MusicManager::PlayMusic(MusicData);
 	*/
 
-	player.property.setPosition(getStartPosition());
+	Mario::setCurrentPosition(getStartPosition());
+	Mario::resetPreviousPosition();
 
-	player.curr = player.prev = player.property.getPosition();
-	MarioDirection = FirstMarioDirection;
+	Mario::setDirection(Mario::getFirstDirection());
+
 	WindowSetView();
 	updateView();
 	//Delete Effects

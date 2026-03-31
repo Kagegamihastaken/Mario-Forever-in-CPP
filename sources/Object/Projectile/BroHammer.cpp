@@ -50,9 +50,9 @@ void BroHammer::statusUpdate(float deltaTime) {
 void BroHammer::CollisionUpdate() {
     if (isDestroyed()) return;
     if (EffectActive) return;
-    const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    const sf::FloatRect playerHitbox = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (sf::FloatRect loopHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-        PowerDown();
+        Mario::PowerDown();
     }
 }
 

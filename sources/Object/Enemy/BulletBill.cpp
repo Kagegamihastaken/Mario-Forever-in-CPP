@@ -40,17 +40,17 @@ void BulletBill::interpolateData(const float alpha) {
 void BulletBill::EnemyCollision() {}
 void BulletBill::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    if (f_abs(player.curr.x - getCurrentPosition().x) >= 80.f) return;
-    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect other = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(other, hitbox_mario)) {
-        if (getCurrentPosition().y - 16.f > player.curr.y && MarioYVelocity > 0.f) {
+        if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
             AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }
-        if (getCurrentPosition().y - 16.f < player.curr.y)
-            PowerDown();
+        if (getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
+            Mario::PowerDown();
     }
 }
 

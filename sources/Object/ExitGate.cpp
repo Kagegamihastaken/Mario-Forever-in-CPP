@@ -76,15 +76,15 @@ void InterpolateExitGatePos(const float alpha) {
 }
 void ExitGateStatusUpdate(const float deltaTime) {
 	if (ExitGateForeActive) {
-		if (ExitGateIndicator.getCurrentPosition().x <= player.curr.x - 24.0f && !PreJump && !MarioCurrentFalling) {
-			AddScoreEffect(SCORE_100, player.curr.x, player.curr.y);
+		if (ExitGateIndicator.getCurrentPosition().x <= Mario::getCurrentPosition().x - 24.0f && !Mario::isPrejump() && !Mario::isFalling()) {
+			AddScoreEffect(SCORE_100, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic("LevelComplete");
 			ExitGateForeActive = false;
 			//LevelEndMarioProjectileCleanup();
 		}
-		if (isCollide(getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin()), getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
+		if (isCollide(getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin()), getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
 			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) AddScoreEffect(SCORE_10000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
 			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f) AddScoreEffect(SCORE_5000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
 			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f) AddScoreEffect(SCORE_2000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);

@@ -45,7 +45,7 @@ void EnemyManager::EnemyCollision() {
 
 void EnemyManager::MarioCollision() const {
     if (EffectActive) return;
-    const float MarioYVelocityBefore = Yvelo;
+    const float MarioYVelocityBefore = Mario::getYvelocity();
     for (const auto &i : m_enemies) {
         if (i)
             i->MarioCollision(MarioYVelocityBefore);

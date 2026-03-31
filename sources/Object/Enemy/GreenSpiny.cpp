@@ -51,10 +51,10 @@ void GreenSpiny::EnemyCollision() {
 }
 void GreenSpiny::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    if (f_abs(player.curr.x - getCurrentPosition().x) >= 80.0f) return;
-    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario))
-        PowerDown();
+        Mario::PowerDown();
 }
 void GreenSpiny::statusUpdate(const float deltaTime) {
     if (isDestroyed()) return;

@@ -144,8 +144,8 @@ void GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
     }
 }
 void GoombaAIBehavior::GoombaAIStomping() {
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Yvelo = -8.0f;
-    else Yvelo = -13.0f;
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Mario::setYvelocity(-8.f);
+    else Mario::setYvelocity(-13.f);
     SoundManager::PlaySound("Stomp");
 }
 

@@ -8,7 +8,7 @@ BulletBillLauncherBehavior::BulletBillLauncherData BulletBillLauncherBehavior::B
     BulletBillLauncherData newData = data;
     output = false;
     if (!EffectActive) {
-        if (f_abs(newData.position.x - player.curr.x) > 80.f) newData.disabled = false;
+        if (f_abs(newData.position.x - Mario::getCurrentPosition().x) > 80.f) newData.disabled = false;
         else newData.disabled = true;
     }
     else newData.disabled = false;

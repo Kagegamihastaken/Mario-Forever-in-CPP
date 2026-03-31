@@ -48,10 +48,10 @@ void DeleteAllCoin() {
 void CoinOnTouch() {
 	if (CoinList.empty() || EffectActive) return;
 	std::vector<sf::Vector2f> CoinPos{};
-	CoinPos = isAccurateCollideMainCollectable(MFCPP::CollisionObject(player.curr, player.property.getOrigin(), player.hitboxMain), 0, sf::FloatRect({ 6, 2 }, { 19, 28 }));
+	CoinPos = isAccurateCollideMainCollectable(MFCPP::CollisionObject(Mario::getCurrentPosition(), Mario::getOrigin(), Mario::getHitbox()), 0, sf::FloatRect({ 6, 2 }, { 19, 28 }));
 	for (const auto &i : CoinPos) {
 		MFCPP::setIndexCollectableMapCollision(i.x, i.y, false);
-		Score += 200;
+		Mario::setScore(Mario::getScore() + 200);
 		SoundManager::PlaySound("Coin");
 		++CoinCount;
 		DeleteCoin(i.x, i.y);
@@ -60,7 +60,7 @@ void CoinOnTouch() {
 void CoinDraw() {
 	if (CoinCount > 99) {
 		CoinCount = 0;
-		AddScoreEffect(SCORE_1UP, player.property.getPosition().x, player.property.getPosition().y);
+		AddScoreEffect(SCORE_1UP, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
 	}
 	for (auto &i : CoinList) {
 		if (i.isDestroyed()) continue;

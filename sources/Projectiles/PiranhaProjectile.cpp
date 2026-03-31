@@ -33,16 +33,16 @@ void DeleteAllPiranhaAIProjectile() {
     PiranhaAIProjectileList.clear();
 }
 void PiranhaAIProjectileCollision() {
-    if (EffectActive) return;
-    if (PiranhaAIProjectileList.empty()) return;
-    const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
-    for (auto it = PiranhaAIProjectileList.begin(); it != PiranhaAIProjectileList.end(); ++it) {
-        if (sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
-            AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y);
-            DeletePiranhaAIProjectile(it);
-            PowerDown();
-        }
-    }
+    // if (EffectActive) return;
+    // if (PiranhaAIProjectileList.empty()) return;
+    // const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    // for (auto it = PiranhaAIProjectileList.begin(); it != PiranhaAIProjectileList.end(); ++it) {
+    //     if (sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getCurrentPosition(), it->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+    //         AddFireballExplosion(it->getCurrentPosition().x, it->getCurrentPosition().y);
+    //         DeletePiranhaAIProjectile(it);
+    //         PowerDown();
+    //     }
+    // }
 }
 void PiranhaAIProjectileStatusUpdate() {
     for (auto it = PiranhaAIProjectileList.begin(); it != PiranhaAIProjectileList.end(); ++it) {

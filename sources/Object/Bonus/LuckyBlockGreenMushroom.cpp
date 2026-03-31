@@ -45,7 +45,7 @@ void LuckyBlockGreenMushroom::Break() {
     AddBrickParticle(BRICK_NORMAL, getCurrentPosition().x, m_ypos);
     SoundManager::PlaySound("Break");
     m_customTileManager.setCollision(sf::Vector2f(getCurrentPosition().x, m_ypos), false);
-    Score += 50;
+    Mario::setScore(Mario::getScore() + 50);
     setDestroyed(true);
     m_customTileManager.setDeletionFlag(true);
 }
@@ -69,7 +69,7 @@ void LuckyBlockGreenMushroom::KickEvent() {
 
 void LuckyBlockGreenMushroom::HitEvent() {
     if (isDestroyed() || m_disabled) return;
-    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxWall, player.curr, player.property.getOrigin());
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitboxWall(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect BrickHitbox = getGlobalHitbox(getHitbox(), sf::Vector2f(getCurrentPosition().x, m_ypos), getOrigin()); isCollide(BrickHitbox, hitbox_mario)) {
         Hit();
     }

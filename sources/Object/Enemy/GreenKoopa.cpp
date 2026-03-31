@@ -82,23 +82,23 @@ void GreenKoopa::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state == 3) return;
     if (m_invincibleTimer < 0.12f * 50 && m_state == 1) return;
     if (m_invincibleTimer < 0.6f * 50 && m_state == 2) return;
-    if (f_abs(player.curr.x - getCurrentPosition().x) >= 80.0f) return;
-    const sf::FloatRect hitbox_mario = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         m_invincibleTimer = 0.f;
         if (m_state != 1) {
-            if (getCurrentPosition().y - 16.f > player.curr.y && MarioYVelocity > 0.0f) {
+            if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
                 AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
                 Death(1);
                 return;
             }
-            if (getCurrentPosition().y - 16.f < player.curr.y)
-                PowerDown();
+            if (getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
+                Mario::PowerDown();
         }
         else if (m_state == 1) {
             SoundManager::PlaySound("Kick2");
-            if (getCurrentPosition().x >= player.curr.x) setDirection(true);
+            if (getCurrentPosition().x >= Mario::getCurrentPosition().x) setDirection(true);
             else setDirection(false);
             m_state = 2;
             ChangeState();

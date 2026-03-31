@@ -35,7 +35,7 @@ void CheckpointAnimationUpdate() {
     }
 }
 void CheckpointCollision() {
-    const sf::FloatRect playerHitbox = getGlobalHitbox(player.hitboxMain, player.curr, player.property.getOrigin());
+    const sf::FloatRect playerHitbox = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
         if (it->getTouch()) continue;
 

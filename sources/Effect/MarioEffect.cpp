@@ -27,9 +27,9 @@ void InterpolateMarioEffectPos(const float alpha) {
 void MarioEffectStatusUpdate(const float deltaTime) {
 	if (EffectActive) {
 		if (MarioEffectTimer.getElapsedTime().asSeconds() >= 4.0f) {
-			CanControlMario = true;
+			Mario::setCanControl(true);
 			EffectActive = false;
-			Death();
+			Mario::Death();
 		}
 		else if (MarioEffectTimer.getElapsedTime().asSeconds() >= 0.5f && MarioEffectTimer.getElapsedTime().asSeconds() < 4.0f) {
 			MarioEffectYVelo += (MarioEffectYVelo >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f);
@@ -42,7 +42,7 @@ void ActiveMarioEffect() {
 		MusicManager::StopAllMusic();
 		MusicManager::PlayMusic("MarioDeath");
 		EffectActive = true;
-		playerPos.setCurrentPosition({ player.property.getPosition().x - 14.0f, player.property.getPosition().y - 30.0f });
+		playerPos.setCurrentPosition({ Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f });
 		playerPos.setPreviousPosition(playerPos.getCurrentPosition());
 		playerPos.setInterpolatedPosition(playerPos.getCurrentPosition());
 		MarioEffectTimer.restart();

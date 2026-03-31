@@ -56,7 +56,7 @@ void GameScene::handleInput(const std::optional<sf::Event>& event) {
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
-            SetPowerState(2);
+            Mario::SetPowerState(2);
         else if (mousePressed->button == sf::Mouse::Button::Right) {
             AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
             //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
@@ -75,14 +75,14 @@ void GameScene::update(const float deltaTime) {
     ExitGateClockUpdate(deltaTime);
     PlatformPositionUpdate(deltaTime);
 
-    KeyboardMovement(deltaTime);
-    MarioUpdateHitbox();
-    MarioPosXUpdate(deltaTime);
-    MarioVertXUpdate();
-    MarioPosYUpdate(deltaTime);
-    MarioVertYBottomUpdate();
+    Mario::KeyboardMovement(deltaTime);
+    Mario::MarioUpdateHitbox();
+    Mario::MarioPosXUpdate(deltaTime);
+    Mario::MarioVertXUpdate();
+    Mario::MarioPosYUpdate(deltaTime);
+    Mario::MarioVertYBottomUpdate();
     customTileManager.HitEvent();
-    MarioVertYTopUpdate();
+    Mario::MarioVertYTopUpdate();
 
     enemyManager.XUpdate(deltaTime);
     enemyManager.YUpdate(deltaTime);
@@ -104,7 +104,7 @@ void GameScene::update(const float deltaTime) {
 
 }
 void GameScene::setPreviousPosition() {
-    SetPrevMarioPos();
+    Mario::SetPrevMarioPos();
     SetPrevCoinEffectPos();
     SetPrevScoreEffectPos();
     SetPrevBrickParticlePos();
@@ -117,7 +117,7 @@ void GameScene::setPreviousPosition() {
     projectileManager.setPreviousData();
 }
 void GameScene::interpolatePosition(const float alpha) {
-    InterpolateMarioPos(alpha);
+    Mario::InterpolateMarioPos(alpha);
     InterpolateCoinEffectPos(alpha);
     InterpolateScoreEffectPos(alpha);
     InterpolateBrickParticlePos(alpha);
@@ -141,7 +141,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     //ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
-    MarioDraw();
+    Mario::MarioDraw();
     enemyManager.DrawPriority(1);
     customTileManager.Draw();
     CoinDraw();
@@ -182,28 +182,28 @@ void GameScene::postUpdate() {
     projectileManager.CollisionUpdate();
 
     CoinOnTouch();
-    CheckForDeath();
+    Mario::CheckForDeath();
     PiranhaAIProjectileStatusUpdate();
     FireballExplosionStatusUpdate();
 
-    MarioUpdateAnimation();
+    Mario::MarioUpdateAnimation();
 }
 void GameScene::HUDPositionUpdate() {
     BgUpdatePos();
 }
 void GameScene::textUpdate() {
-    EditText(fmt::format("{}", Lives), "_LIVE");
+    EditText(fmt::format("{}", Mario::getLives()), "_LIVE");
     EditText(fmt::format("FPS: {}", static_cast<int>(std::round(fpsLite.getFps()))), "_FPS");
     if (isDebug) {
         EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
         EditText(std::to_string(static_cast<int>(ViewX)) + "/" + std::to_string(static_cast<int>(ViewY)) + "  V", "_VIEWXY");
     }
     EditText(fmt::format("{}", CoinCount), "_COIN");
-    EditText(fmt::format("{}", Score), "_SCORE");
+    EditText(fmt::format("{}", Mario::getScore()), "_SCORE");
     EditText(fmt::format("{}", getTime()), "_TIME");
 }
 void GameScene::setView() {
-    const sf::Vector2f& ScrollPos = player.property.getPosition();
+    const sf::Vector2f& ScrollPos = Mario::getInterpolatedPosition();
     view.setCenter({ std::min(std::max(Width / 2.0f, ScrollPos.x), LevelWidth - Width / 2.f), std::min(std::max(Height / 2.0f, ScrollPos.y), LevelHeight - Height / 2.f) });
 }
 void GameScene::loadResources() {
@@ -214,7 +214,7 @@ void GameScene::loadResources() {
     //Init Projectile Texture First then anything else
     ProjectileInit();
     //Force Load
-    loadMarioRes();
+    Mario::loadMarioRes();
     BrickParticleInit();
     BricksInit();
     GoombaAIInit();
