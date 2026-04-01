@@ -53,7 +53,8 @@ BeetrootBehavior::BeetrootData BeetrootBehavior::BeetrootYCollision(const sf::Ve
     if (data.count > 2) return data;
     if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(data.position, origin, hitbox), PlatPosY, data.velocity.y, false)) {
         data.position.y = PlatPosY;
-        do_stuff = true;
+        ++data.count;
+        do_stuff = 1;
         //data.velocity.y = -5.f;
     }
     float CurrPosYCollide, CurrPosXCollide;

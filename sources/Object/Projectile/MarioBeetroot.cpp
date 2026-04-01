@@ -86,6 +86,7 @@ void MarioBeetroot::statusUpdate(float deltaTime) {
 }
 
 void MarioBeetroot::CollisionUpdate() {
+    if (m_hit_count > 2) return;
     const sf::FloatRect playerHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin());
     //GoombaAI
     auto& list = GameScene::enemyManager.getGoombaAIList();
