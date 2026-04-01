@@ -24,6 +24,7 @@ void SoundInit() {
 	SoundManager::AddSound("Bullet3", "data/sounds/bullet3.ogg");
 	SoundManager::AddSound("Timeout", "data/sounds/timeout.ogg");
 	SoundManager::AddSound("Throw", "data/sounds/throw.ogg");
+	SoundManager::AddSound("Stun", "data/sounds/stun.ogg");
 	//Editor
 	SoundManager::AddSound("EDITOR_PLACE", "data/sounds/Editor/EDITOR_place.ogg");
 	SoundManager::AddSound("EDITOR_DELETE", "data/sounds/Editor/EDITOR_delete.ogg");

@@ -16,4 +16,5 @@ extern std::vector<std::string> RedKoopaAnimName;
 extern std::vector<std::string> RedKoopaShellAnimName;
 extern std::vector<std::string> RedSpinyAnimName;
 extern std::vector<std::string> GreenSpinyAnimName;
+extern std::vector<std::string> BeetrootAnimName;
 #endif // GOOMBAAI_HPP

@@ -40,6 +40,10 @@ std::vector<std::string> FireFlowerAnimName;
 static int FIRE_FLOWER_IMAGE_WIDTH = 128;
 static int FIRE_FLOWER_WIDTH = 32;
 static int FIRE_FLOWER_HEIGHT = 32;
+std::vector<std::string> BeetrootAnimName;
+static int BEETROOT_IMAGE_WIDTH = 128;
+static int BEETROOT_WIDTH = 32;
+static int BEETROOT_HEIGHT = 33;
 
 void GoombaAIInit() {
 	for (int i = 0; i < GOOMBA_IMAGE_WIDTH / GOOMBA_WIDTH; i++) {
@@ -73,6 +77,10 @@ void GoombaAIInit() {
 	for (int i = 0; i < FIRE_FLOWER_IMAGE_WIDTH / FIRE_FLOWER_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("FireFlower_{}", i), "data/resources/FireFlower.png", sf::IntRect({i * FIRE_FLOWER_WIDTH, 0}, {FIRE_FLOWER_WIDTH, FIRE_FLOWER_HEIGHT}));
 		FireFlowerAnimName.push_back(fmt::format("FireFlower_{}", i));
+	}
+	for (int i = 0; i < BEETROOT_IMAGE_WIDTH / BEETROOT_WIDTH; ++i) {
+		ImageManager::AddTexture(fmt::format("Beetroot_{}", i), "data/resources/Beetroot.png", sf::IntRect({i * BEETROOT_WIDTH, 0}, {BEETROOT_WIDTH, BEETROOT_HEIGHT}));
+		BeetrootAnimName.push_back(fmt::format("Beetroot_{}", i));
 	}
 }
 void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, const GoombaAIDirection Dir = LEFT) {

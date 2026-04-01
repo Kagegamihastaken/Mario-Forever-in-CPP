@@ -191,6 +191,7 @@ void GreenKoopa::ChangeState() {
             setShellBlocker(false);
             setShellKicking(true);
             setDrawingPriority(1);
+            setDisabled(false);
             break;
         case 2:
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
@@ -204,6 +205,7 @@ void GreenKoopa::ChangeState() {
             setShellBlocker(true);
             setShellKicking(true);
             setDrawingPriority(1);
+            setDisabled(false);
             break;
         case 3:
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
@@ -217,6 +219,7 @@ void GreenKoopa::ChangeState() {
             setShellBlocker(false);
             setShellKicking(false);
             setDrawingPriority(2);
+            setDisabled(false);
             break;
         default:;
     }

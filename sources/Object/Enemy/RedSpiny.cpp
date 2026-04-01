@@ -125,6 +125,7 @@ void RedSpiny::Death(unsigned int state) {
     m_state = state;
     switch (m_state) {
         case 1:
+            setDisabled(false);
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_animation.setAnimationSequence(RedSpinyDeathEffect);
             m_animation.setAnimation(0,0,100, true);

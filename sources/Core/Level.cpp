@@ -33,6 +33,7 @@
 #include "Object/Platform.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
 #include "Core/Checkpoint.hpp"
+#include "Core/Game.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/RedRotodiscFlower.hpp"
 #include "Object/Enemy/RedRotodiscRound.hpp"
@@ -250,6 +251,7 @@ void Objectbuilding() {
 	Mario::resetPreviousPosition();
 
 	Mario::setDirection(Mario::getFirstDirection());
+	GameObjectUpdateView();
 
 	WindowSetView();
 	updateView();

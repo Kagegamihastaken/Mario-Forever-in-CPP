@@ -44,6 +44,9 @@ void GameObjectInterpolateMovement(const float alpha) {
 void GameObjectCollision() {
     sceneManager.postUpdate();
 }
+void GameObjectUpdateView() {
+    sceneManager.setView();
+}
 void GameObjectMiscUpdate() {
     WindowSetView();
     sceneManager.setView();

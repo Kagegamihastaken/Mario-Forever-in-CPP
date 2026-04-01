@@ -194,6 +194,7 @@ void RedKoopa::ChangeState() {
             setShellKicking(true);
             setDrawingPriority(1);
             m_turnback = false;
+            setDisabled(false);
             break;
         case 2:
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
@@ -208,6 +209,7 @@ void RedKoopa::ChangeState() {
             setShellKicking(true);
             setDrawingPriority(1);
             m_turnback = false;
+            setDisabled(false);
             break;
         case 3:
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
@@ -222,6 +224,7 @@ void RedKoopa::ChangeState() {
             setShellKicking(false);
             setDrawingPriority(2);
             m_turnback = false;
+            setDisabled(false);
             break;
         default:;
     }

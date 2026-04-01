@@ -3,6 +3,7 @@
 #include "Core/Loading/enum.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Object/Bonus/LuckyBlockBeetroot.hpp"
 #include "Object/Bonus/LuckyBlockCoin.hpp"
 #include "Object/Bonus/LuckyBlockFlower.hpp"
 #include "Object/Bonus/LuckyBlockGreenMushroom.hpp"
@@ -61,6 +62,9 @@ void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, floa
 			break;
 		case LUCKY_COIN:
 			GameScene::customTileManager.addCustomTile<LuckyBlockCoin>(sf::Vector2f(x, y));
+			break;
+		case LUCKY_BEETROOT:
+			GameScene::customTileManager.addCustomTile<LuckyBlockBeetroot>(sf::Vector2f(x, y));
 			break;
 		default: ;
 	}

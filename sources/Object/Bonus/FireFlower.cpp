@@ -1,11 +1,11 @@
-#include "../../../headers/Object/Bonus/FireFlower.hpp"
+#include "Object/Bonus/FireFlower.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/GoombaAI.hpp"
@@ -19,7 +19,7 @@ FireFlower::FireFlower(EnemyManager &manager, const sf::Vector2f& position) : En
     m_animation.setAnimationSequence(FireFlowerAnimName);
     setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 32.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-    setOrigin(sf::Vector2f(16.f, 31.f));
+    setOrigin(sf::Vector2f(16.f, 32.f));
     m_velocity = sf::Vector2f(0.f, 0.f);
     setDirection(true);
     setDisabled(true);

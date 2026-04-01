@@ -107,26 +107,10 @@ private:
 	static constexpr int MARIO_OFFSET_X = 4.f;
 };
 
-class MovableObject {
-public:
-	sf::FloatRect hitboxMain;
-	sf::FloatRect hitboxBot;
-	sf::FloatRect hitboxBot2;
-	sf::FloatRect hitboxLeft;
-	sf::FloatRect hitboxRight;
-	sf::FloatRect hitboxTop;
-	sf::FloatRect hitboxSlopeBot;
-	sf::Vector2f curr;
-	sf::Vector2f prev;
-	sf::Sprite property = sf::Sprite(tempTex);
-
-	sf::FloatRect hitboxWall;
-	sf::FloatRect hitboxFloor;
-};
-
 static std::vector<std::string> SmallMario;
 static std::vector<std::string> BigMario;
 static std::vector<std::string> FireMario;
+static std::vector<std::string> BeetrootMario;
 
 //define here
 // 0 for right; 1 for left

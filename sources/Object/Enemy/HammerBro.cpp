@@ -186,6 +186,7 @@ void HammerBro::Death(unsigned int state) {
     setDrawingPriority(2);
     if (getCurrentPosition().x > Mario::getCurrentPosition().x) m_animation.setAnimationDirection(ANIM_LEFT);
     else m_animation.setAnimationDirection(ANIM_RIGHT);
+    setDisabled(false);
 }
 
 void HammerBro::Destroy() {

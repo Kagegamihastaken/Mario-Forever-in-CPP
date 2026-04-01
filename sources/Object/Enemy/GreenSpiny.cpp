@@ -131,6 +131,7 @@ void GreenSpiny::Death(unsigned int state) {
             setShellKicking(false);
             setShellBlocker(false);
             setDrawingPriority(2);
+            setDisabled(false);
             break;
         default:;
     }

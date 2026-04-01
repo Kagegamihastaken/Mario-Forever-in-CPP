@@ -56,12 +56,15 @@ void BroFireball::statusUpdate(float deltaTime) {
     }
     setCurrentPosition(data.position);
     m_velocity = data.velocity;
-    data = FireballBehavior::FireballY(getCurrentPosition(), m_velocity, deltaTime, getHitbox(), getOrigin());
+    bool bounce = false;
+    data = FireballBehavior::FireballY(getCurrentPosition(), bounce, m_velocity, deltaTime, getHitbox(), getOrigin());
     if (data.remove) {
         FireballEffect();
         Destroy();
         return;
     }
+    if (bounce)
+        m_velocity.y = -5.f;
     setCurrentPosition(data.position);
     m_velocity = data.velocity;
 }

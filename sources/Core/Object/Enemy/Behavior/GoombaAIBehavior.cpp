@@ -80,7 +80,7 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::ShellXCollision(const GoombaAID
     GoombaAIData dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
     float CurrPosXCollide = 0, CurrPosYCollide = 0;;
     for (auto& bonus : GameScene::customTileManager.getBonusList()) {
-        if (const sf::FloatRect BrickHitbox = getGlobalHitbox(bonus.getHitbox(), bonus.getCurrentPosition(), bonus.getOrigin()); isCollide(BrickHitbox, getGlobalHitbox(hitbox, dataOutput.position, origin)))
+        if (const sf::FloatRect BonusHitbox = getGlobalHitbox(bonus.getHitbox(), bonus.getCurrentPosition(), bonus.getOrigin()); isCollide(BonusHitbox, getGlobalHitbox(hitbox, dataOutput.position, origin)))
             bonus.KickEvent();
     }
 

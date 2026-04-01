@@ -143,6 +143,7 @@ void Goomba::Death(unsigned int state) {
             setShellKicking(false);
             setShellBlocker(false);
             setDrawingPriority(2);
+            setDisabled(false);
             break;
         case 2:
             m_velocity = sf::Vector2f(0.f, -3.f);
@@ -151,6 +152,7 @@ void Goomba::Death(unsigned int state) {
             setShellKicking(false);
             setShellBlocker(false);
             setDrawingPriority(2);
+            setDisabled(false);
             break;
         default:;
     }

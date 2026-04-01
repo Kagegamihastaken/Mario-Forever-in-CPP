@@ -21,15 +21,17 @@ FireballBehavior::FireballData FireballBehavior::FireballX(const sf::Vector2f& p
         data.remove = true;
     return data;
 }
-FireballBehavior::FireballData FireballBehavior::FireballY(const sf::Vector2f& pos, const sf::Vector2f& velocity, const float deltaTime, const sf::FloatRect& hitbox, const sf::Vector2f& origin) {
+FireballBehavior::FireballData FireballBehavior::FireballY(const sf::Vector2f& pos, bool& do_stuff, const sf::Vector2f& velocity, const float deltaTime, const sf::FloatRect& hitbox, const sf::Vector2f& origin) {
     FireballData data{pos, velocity, false};
+    do_stuff = false;
     data.position.y += data.velocity.y * deltaTime;
     data.velocity.y += (data.velocity.y >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f);
     if (data.velocity.y > 10.f) data.velocity.y = 10.f;
 
     if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(data.position, origin, hitbox), PlatPosY, data.velocity.y, false)) {
         data.position.y = PlatPosY;
-        data.velocity.y = -5.f;
+        do_stuff = true;
+        //data.velocity.y = -5.f;
     }
     float CurrPosYCollide, CurrPosXCollide;
     //if (QuickCheckTopCollision(MFCPP::CollisionObject(sf::Vector2f(data.X, data.Y), origin, hitbox), CurrPosXCollide, CurrPosYCollide))
@@ -39,7 +41,8 @@ FireballBehavior::FireballData FireballBehavior::FireballY(const sf::Vector2f& p
             const float floorY = GetCurrFloorY(data.position, CurrPosXCollide, CurrPosYCollide);
             if (data.position.y < CurrPosYCollide + floorY - offset) return data;
             data.position.y = CurrPosYCollide + floorY - (hitbox.size.y - origin.y);
-            data.velocity.y = -5.f;
+            do_stuff = true;
+            //data.velocity.y = -5.f;
         }
     }
     return data;

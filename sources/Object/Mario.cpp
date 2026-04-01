@@ -16,6 +16,8 @@
 
 #include "Core/Time.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Object/Projectile/MarioBeetroot.hpp"
+#include "Object/Projectile/MarioFireball.hpp"
 
 sf::FloatRect Mario::m_hitboxFloor;
 sf::FloatRect Mario::m_hitboxTop;
@@ -60,6 +62,10 @@ void Mario::UpdateSequenceAnimation() {
 			break;
 		case 2:
 			m_MarioAnimation.setAnimationSequence(FireMario);
+			break;
+		case 3:
+			m_MarioAnimation.setAnimationSequence(BeetrootMario);
+			break;
 		default: ;
 	}
 }
@@ -79,6 +85,8 @@ void Mario::loadMarioRes() {
 		BigMario.push_back(fmt::format("BigMario_{}", i));
 		ImageManager::AddTexture(fmt::format("FireMario_{}", i), "data/resources/FireMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		FireMario.push_back(fmt::format("FireMario_{}", i));
+		ImageManager::AddTexture(fmt::format("BeetrootMario_{}", i), "data/resources/BeetrootMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
+		BeetrootMario.push_back(fmt::format("BeetrootMario_{}", i));
 	}
 
 	UpdateSequenceAnimation();
@@ -177,7 +185,11 @@ void Mario::KeyboardMovement(const float deltaTime) {
 			m_FireTimeCounting = 0.f;
 			switch (m_PowerState) {
 				case 2:
-					AddMarioProjectile(m_MarioDirection, FIREBALL, m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)), m_player.getCurrentPosition().y - 23.f);
+					GameScene::projectileManager.addProjectile<MarioFireball>(m_MarioDirection, sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)), m_player.getCurrentPosition().y - 23.f));
+					break;
+				case 3:
+					GameScene::projectileManager.addProjectile<MarioBeetroot>(m_MarioDirection, sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)), m_player.getCurrentPosition().y - 23.f));
+					break;
 				default: ;
 			}
 		}
@@ -398,7 +410,7 @@ void Mario::Death() {
 	ExitGateEffectReset();
 }
 void Mario::CheckForDeath() {
-	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {
+	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 64.f)) {
 		m_CanControlMario = false;
 		ActiveMarioEffect();
 	}
