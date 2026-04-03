@@ -118,5 +118,5 @@ void PinkPiranhaRight::Death(unsigned int state) {
 void PinkPiranhaRight::BlockHit() {}
 void PinkPiranhaRight::ShellHit() {}
 bool PinkPiranhaRight::isDeath() {
-    return false;
+    return isDestroyed();
 }

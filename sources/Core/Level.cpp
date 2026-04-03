@@ -260,7 +260,6 @@ void Objectbuilding() {
 	DeleteAllCoinEffect();
 	DeleteAllScoreEffect();
 	DeleteAllFireballExplosion();
-	DeleteAllPiranhaAIProjectile();
 	//Delete Objects
 	DeleteAllCoin();
 	//Delete Platform

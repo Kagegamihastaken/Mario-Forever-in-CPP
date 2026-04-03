@@ -56,7 +56,7 @@ void GameScene::handleInput(const std::optional<sf::Event>& event) {
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
-            Mario::SetPowerState(3);
+            Mario::SetPowerState(2);
         else if (mousePressed->button == sf::Mouse::Button::Right) {
             AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
             //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
@@ -92,9 +92,7 @@ void GameScene::update(const float deltaTime) {
     customTileManager.statusUpdate(deltaTime);
 
     projectileManager.statusUpdate(deltaTime);
-
-    PiranhaAIProjectileMovementUpdate(deltaTime);
-    PiranhaAIProjectileSpin(deltaTime);
+    projectileManager.CollisionUpdate();
 
     CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
@@ -111,7 +109,6 @@ void GameScene::setPreviousPosition() {
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
     SetPrevPlatformPos();
-    SetPrevPiranhaAIProjectilePos();
     enemyManager.setPreviousData();
     customTileManager.setPreviousData();
     projectileManager.setPreviousData();
@@ -124,7 +121,6 @@ void GameScene::interpolatePosition(const float alpha) {
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
     InterpolatePlatformPos(alpha);
-    InterpolatePiranhaAIProjectilePos(alpha);
     enemyManager.interpolateData(alpha);
     customTileManager.interpolateData(alpha);
     projectileManager.interpolateData(alpha);
@@ -149,7 +145,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     BrickParticleDraw();
     CoinEffectDraw();
     ScoreEffectDraw();
-    PiranhaAIProjectileDraw();
     projectileManager.Draw();
     FireballExplosionDraw();
     MarioEffectDraw();
@@ -166,7 +161,6 @@ void GameScene::objectCleanup() {
     BrickParticleCleanup();
     CoinCleanup();
     PlatformCleanup();
-    PiranhaAIProjectileCleanup();
     CoinEffectCleanup();
     enemyManager.EnemyCleanup();
     customTileManager.CustomTileCleanup();
@@ -174,16 +168,12 @@ void GameScene::objectCleanup() {
 }
 void GameScene::postUpdate() {
     PlatformStatusUpdate();
-    PiranhaAIProjectileCollision();
 
     enemyManager.MarioCollision();
     enemyManager.EnemyCollision();
 
-    projectileManager.CollisionUpdate();
-
     CoinOnTouch();
     Mario::CheckForDeath();
-    PiranhaAIProjectileStatusUpdate();
     FireballExplosionStatusUpdate();
 
     Mario::MarioUpdateAnimation();
@@ -248,7 +238,8 @@ void GameScene::loadResources() {
         AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    ReadData("data/levels/onedashthree.json");
+    //ReadData("data/levels/onedashthree.json");
+    ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/leveltest.json");
     Bgbuilding();
     CheckpointBuilding();
@@ -259,7 +250,9 @@ void GameScene::loadResources() {
 void GameScene::unloadResources() {
     //implement later
 }
-
+//TODO: Implement Koopaparatroopa
+//TODO: Implement PlatformManager
+//TODO: Implement Scenery
 
 
 

@@ -80,7 +80,7 @@ void MarioFireball::CollisionUpdate() {
                 SoundManager::PlaySound("Kick2");
                 FireballEffect();
                 Destroy();
-                break;
+                return;
             }
         }
     }
@@ -94,21 +94,21 @@ void MarioFireball::CollisionUpdate() {
                 SoundManager::PlaySound("Kick2");
                 FireballEffect();
                 Destroy();
-                break;
+                return;
             }
         }
     }
     //Piranha
     auto& PiranhaList = GameScene::enemyManager.getPiranhaAIList();
     for (auto & jt : PiranhaList) {
-        if (sf::FloatRect loopHitbox = getGlobalHitbox(jt.getHitbox(), jt.getCurrentPosition(), jt.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+        if (sf::FloatRect loopPiranhaHitbox = getGlobalHitbox(jt.getHitbox(), jt.getCurrentPosition(), jt.getOrigin()); isCollide(loopPiranhaHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.Death(0);
                 AddScoreEffect(SCORE_100, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
                 SoundManager::PlaySound("Kick2");
                 FireballEffect();
                 Destroy();
-                break;
+                return;
             }
         }
     }

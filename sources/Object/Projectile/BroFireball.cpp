@@ -66,7 +66,7 @@ void BroFireball::statusUpdate(float deltaTime) {
     if (bounce)
         m_velocity.y = -5.f;
     setCurrentPosition(data.position);
-    m_velocity = data.velocity;
+    if (!bounce) m_velocity.y = data.velocity.y;
 }
 
 void BroFireball::CollisionUpdate() {

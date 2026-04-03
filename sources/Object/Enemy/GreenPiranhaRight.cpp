@@ -108,5 +108,5 @@ void GreenPiranhaRight::Death(unsigned int state) {
 void GreenPiranhaRight::BlockHit() {}
 void GreenPiranhaRight::ShellHit() {}
 bool GreenPiranhaRight::isDeath() {
-    return false;
+    return isDestroyed();
 }

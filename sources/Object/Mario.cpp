@@ -12,7 +12,6 @@
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
-#include "Projectiles/MarioProjectile.hpp"
 
 #include "Core/Time.hpp"
 #include "Core/Scene/GameScene.hpp"
@@ -188,7 +187,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
 					GameScene::projectileManager.addProjectile<MarioFireball>(m_MarioDirection, sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)), m_player.getCurrentPosition().y - 23.f));
 					break;
 				case 3:
-					GameScene::projectileManager.addProjectile<MarioBeetroot>(m_MarioDirection, sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)), m_player.getCurrentPosition().y - 23.f));
+					GameScene::projectileManager.addProjectile<MarioBeetroot>(m_MarioDirection, sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)), m_player.getCurrentPosition().y - 11.f));
 					break;
 				default: ;
 			}
