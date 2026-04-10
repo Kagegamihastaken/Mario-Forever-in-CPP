@@ -160,6 +160,7 @@ file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
 )
 #header project
 file(GLOB_RECURSE MY_HEADERS CONFIGURE_DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/image_sources/*.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/resource.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/headers/*.hpp"
 )

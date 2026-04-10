@@ -37,8 +37,7 @@ void EnemyManager::statusUpdate(const float deltaTime) const {
 
 void EnemyManager::EnemyCollision() {
     // GoombaAI-Only Collision
-    for (auto it = m_GoombaAI.begin(); it != m_GoombaAI.end(); ++it) {
-        MFCPP::Enemy& enemyFirst = *it;
+    for (auto & enemyFirst : m_GoombaAI) {
         enemyFirst.EnemyCollision();
     }
 }

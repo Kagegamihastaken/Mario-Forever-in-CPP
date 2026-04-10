@@ -19,7 +19,7 @@ enum TextMarginID { LEFT_MARGIN, RIGHT_MARGIN };
 enum AnimationDirection {ANIM_RIGHT, ANIM_LEFT};
 
 //enum for GoombsAI
-enum GoombaAIType { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER };
+enum GoombaAIType { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER, KOOPA_PARATROOPA };
 enum GoombaAIDirection { RIGHT, LEFT };
 enum GoombaAICollisionType { YES, NO, FULL };
 enum GoombaAIBehaviour {GOOMBAAI_NORMAL, GOOMBAAI_REDKOOPA};

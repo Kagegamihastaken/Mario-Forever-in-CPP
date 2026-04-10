@@ -108,7 +108,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         },
     { // PAGE 3
         {"Goomba_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
-        {"GreenKoopa_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 0},
+        {"GreenKoopa_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 0},
         {"RedSpiny_0", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
         {"GreenKoopaShell_3", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
         {"GreenPiranhaUp_0", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
@@ -117,7 +117,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"EDITOR_HammerBroCanMove", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
         {"EDITOR_HammerBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
         {"BulletLauncher", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},
-        {"RedKoopa_0", CustomTileProperty(), sf::Vector2f(192, 0), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 47.0f), 2, 0, 2, 1},
+        {"RedKoopa_0", CustomTileProperty(), sf::Vector2f(192, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 1},
         {"RedKoopaShell_3", CustomTileProperty(), sf::Vector2f(224, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 1},
         {"GreenSpiny_0", CustomTileProperty(), sf::Vector2f(256, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 1},
         {"GreenPiranhaDown_0", CustomTileProperty(), sf::Vector2f(128, 32), sf::Vector2i(16, 10), sf::Vector2f(32.0f, 0.f), 2, 1, 0, 1},
@@ -131,6 +131,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"EDITOR_FireBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 160), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 1},
         {"EDITOR_RotodiscRound", CustomTileProperty(FloatProps("Radius", 150.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 5, 0, 0},
         {"EDITOR_RotodiscFlower", CustomTileProperty(FloatProps("Max Radius", 200.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), FloatProps("Radius Change Rate", 5.f, 0.f, 30.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 6, 0, 0},
+        {"GreenKoopaParatroopa_0", CustomTileProperty(), sf::Vector2f(96, 32), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 7, 0},
     },
     { // PAGE 4
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
@@ -138,7 +139,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"ExitGateBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)},
         {"Checkpoint_0", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(32, 0), sf::Vector2f(45.f, 112.f), 4, 0, 0, 0}
     },
-    { // PAGE
+    { // PAGE 5
         {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
     }
 }};

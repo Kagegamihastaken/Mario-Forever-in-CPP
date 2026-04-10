@@ -40,11 +40,13 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
+#include "Object/Enemy/GreenKoopaParatroopa.hpp"
 #include "Object/Enemy/HammerBro.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
 ProjectileManager GameScene::projectileManager;
+MovingBlockManager GameScene::movingBlockManager;
 
 GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
@@ -52,11 +54,11 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            enemyManager.addEnemy<HammerBro>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
+            enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
-            Mario::SetPowerState(2);
+            Mario::SetPowerState(3);
         else if (mousePressed->button == sf::Mouse::Button::Right) {
             AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
             //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
@@ -94,6 +96,8 @@ void GameScene::update(const float deltaTime) {
     projectileManager.statusUpdate(deltaTime);
     projectileManager.CollisionUpdate();
 
+    movingBlockManager.statusUpdate(deltaTime);
+
     CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
     BrickParticleStatusUpdate(deltaTime);
@@ -112,6 +116,7 @@ void GameScene::setPreviousPosition() {
     enemyManager.setPreviousData();
     customTileManager.setPreviousData();
     projectileManager.setPreviousData();
+    movingBlockManager.setPreviousData();
 }
 void GameScene::interpolatePosition(const float alpha) {
     Mario::InterpolateMarioPos(alpha);
@@ -124,6 +129,7 @@ void GameScene::interpolatePosition(const float alpha) {
     enemyManager.interpolateData(alpha);
     customTileManager.interpolateData(alpha);
     projectileManager.interpolateData(alpha);
+    movingBlockManager.interpolateData(alpha);
 }
 void GameScene::draw(sf::RenderWindow &window) {
     MFCPP::drawHitboxMap();
@@ -134,9 +140,9 @@ void GameScene::draw(sf::RenderWindow &window) {
     ExitGateDraw();
     CheckpointDraw();
     enemyManager.DrawPriority(0);
-    //ImageManager::DrawAllVertex();
     ObstaclesDraw();
     DrawPlatform();
+    movingBlockManager.draw();
     Mario::MarioDraw();
     enemyManager.DrawPriority(1);
     customTileManager.Draw();
@@ -152,8 +158,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     FrameDraw();
 
     HitboxUtils::drawHitbox();
-
-    //ImageManager::DrawAllVertex();
     TextDraw();
 }
 void GameScene::objectCleanup() {
@@ -162,6 +166,7 @@ void GameScene::objectCleanup() {
     CoinCleanup();
     PlatformCleanup();
     CoinEffectCleanup();
+    movingBlockManager.MovingBlockCleanup();
     enemyManager.EnemyCleanup();
     customTileManager.CustomTileCleanup();
     projectileManager.ProjectileCleanup();

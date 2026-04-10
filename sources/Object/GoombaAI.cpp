@@ -9,6 +9,7 @@
 #include "../../headers/Object/Bonus/GreenMushroom.hpp"
 #include "Object/Enemy/GreenSpiny.hpp"
 #include "../../headers/Object/Bonus/Mushroom.hpp"
+#include "Object/Enemy/GreenKoopaParatroopa.hpp"
 #include "Object/Enemy/RedKoopa.hpp"
 #include "Object/Enemy/RedSpiny.hpp"
 
@@ -26,6 +27,10 @@ std::vector<std::string> RedKoopaAnimName;
 static int KOOPA_IMAGE_WIDTH = 64;
 static int KOOPA_WIDTH = 32;
 static int KOOPA_HEIGHT = 47;
+std::vector<std::string> GreenKoopaParatroopaAnimName;
+static int KOOPA_PARATROOPA_IMAGE_WIDTH = 66;
+static int KOOPA_PARATROOPA_WIDTH = 33;
+static int KOOPA_PARATROOPA_HEIGHT = 47;
 std::vector<std::string> GreenKoopaShellAnimName;
 std::vector<std::string> RedKoopaShellAnimName;
 static int KOOPA_SHELL_IMAGE_WIDTH = 132;
@@ -61,6 +66,10 @@ void GoombaAIInit() {
 		GreenKoopaAnimName.push_back(fmt::format("GreenKoopa_{}", i));
 		ImageManager::AddTexture(fmt::format("RedKoopa_{}", i), "data/resources/Koopa/RedKoopa.png", sf::IntRect({i * KOOPA_WIDTH, 0}, {KOOPA_WIDTH, KOOPA_HEIGHT}));
 		RedKoopaAnimName.push_back(fmt::format("RedKoopa_{}", i));
+	}
+	for (int i = 0; i < KOOPA_PARATROOPA_IMAGE_WIDTH / KOOPA_PARATROOPA_WIDTH; ++i) {
+		ImageManager::AddTexture(fmt::format("GreenKoopaParatroopa_{}", i), "data/resources/Koopa/GreenKoopaParatroopa.png", sf::IntRect({i * KOOPA_PARATROOPA_WIDTH, 0}, {KOOPA_PARATROOPA_WIDTH, KOOPA_PARATROOPA_HEIGHT}));
+		GreenKoopaParatroopaAnimName.push_back(fmt::format("GreenKoopaParatroopa_{}", i));
 	}
 	for (int i = 0; i < KOOPA_SHELL_IMAGE_WIDTH / KOOPA_SHELL_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("GreenKoopaShell_{}", i), "data/resources/Koopa/GreenKoopaShell.png", sf::IntRect({i * KOOPA_SHELL_WIDTH, 0}, {KOOPA_SHELL_WIDTH, KOOPA_SHELL_HEIGHT}));
@@ -134,6 +143,9 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			break;
 		case FIRE_FLOWER:
 			GameScene::enemyManager.addEnemy<FireFlower>(sf::Vector2f(x, y));
+			break;
+		case KOOPA_PARATROOPA:
+			GameScene::enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(x, y), 0.f);
 			break;
 		default: ;
 	}

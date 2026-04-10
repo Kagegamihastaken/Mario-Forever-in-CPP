@@ -8,7 +8,6 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
-#include "Core/Class/ActiveObjectClass.hpp"
 
 #if defined _DEBUG
 bool isDebug = true;
@@ -154,7 +153,6 @@ void windowInit() {
 	Window::ChangeScreenMode(1);
 	timestep.setStep(1.0f / 500.0f);
 	timestep.setMaxAccumulation(1.0f / 30.0f);
-	//timestep.setTimeSpeed(0.15f);
 }
 void GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");

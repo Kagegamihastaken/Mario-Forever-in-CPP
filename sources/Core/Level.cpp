@@ -241,11 +241,9 @@ void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Music
 
-	/*
 	MusicManager::StopAllMusic();
 	MusicManager::SetLoop(MusicData, true);
 	MusicManager::PlayMusic(MusicData);
-	*/
 
 	Mario::setCurrentPosition(getStartPosition());
 	Mario::resetPreviousPosition();
@@ -268,6 +266,7 @@ void Objectbuilding() {
 	GameScene::enemyManager.DeleteAll();
 	GameScene::customTileManager.DeleteAll();
 	GameScene::projectileManager.DeleteAll();
+	GameScene::movingBlockManager.DeleteAll();
 	//(Re)build Objects
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
