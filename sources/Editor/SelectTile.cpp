@@ -95,6 +95,7 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"Tile_61", CustomTileProperty(), sf::Vector2f(64, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 61},
         {"Tile_62", CustomTileProperty(), sf::Vector2f(96, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 62},
         {"Tile_63", CustomTileProperty(), sf::Vector2f(96, 160), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 63},
+        {"Tile_64", CustomTileProperty(), sf::Vector2f(96, 128), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 64},
     },
     { // PAGE 2
             {"Coin_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
@@ -140,7 +141,8 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"Checkpoint_0", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(32, 0), sf::Vector2f(45.f, 112.f), 4, 0, 0, 0}
     },
     { // PAGE 5
-        {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
+        {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
+        {"BluePlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 1, 0},
     }
 }};
 std::array<MFCPP::TabButton, 5> TabList{};

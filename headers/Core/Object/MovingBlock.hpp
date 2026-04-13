@@ -15,6 +15,7 @@ namespace MFCPP {
         virtual void setPreviousData() = 0;
         virtual void interpolateData(float alpha) = 0;
         virtual void statusUpdate(float deltaTime) = 0;
+        virtual void activate() = 0;
         virtual void draw() = 0;
     protected:
         MovingBlockManager& m_movingBlockManager;

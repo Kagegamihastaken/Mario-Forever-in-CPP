@@ -537,7 +537,7 @@ void PlaceTile() {
                 if (EDITOR_isLeftHolding) return;
                 if (!EDITOR_CanPlace) {
                     if (CurrPage == PlatformTab) {
-                        if (CurrSelectTile == 0) {
+                        if (CurrSelectTile >= 0 && CurrSelectTile <= 1) {
                             Tile.erase(RenderTile(EDITOR_SavePos, EDITOR_SavePosPage));
 
                             RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), EDITOR_SavePos, CurrPage, CurrSelectTile, sf::Vector2f(TileX, TileY));
@@ -561,6 +561,11 @@ void PlaceTile() {
                     if (CurrPage == PlatformTab) {
                         switch (CurrSelectTile) {
                             case 0:
+                                EDITOR_SavePos = sf::Vector2f(TileX, TileY);
+                                EDITOR_SavePosPage = CurrPage;
+                                EDITOR_CanPlace = false;
+                                break;
+                            case 1:
                                 EDITOR_SavePos = sf::Vector2f(TileX, TileY);
                                 EDITOR_SavePosPage = CurrPage;
                                 EDITOR_CanPlace = false;

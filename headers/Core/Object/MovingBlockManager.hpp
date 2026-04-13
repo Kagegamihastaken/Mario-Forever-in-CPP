@@ -32,6 +32,7 @@ public:
     void draw() const;
     void DeleteAll();
     void MovingBlockCleanup();
+    void activate() const;
 private:
     MovingBlockIntrusiveList m_platforms;
     bool m_MovingBLockDeletionFlag = false;

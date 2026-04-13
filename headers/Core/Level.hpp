@@ -8,6 +8,7 @@
 struct PlatformData {
     sf::Vector2f start;
     sf::Vector2f end;
+    int SkinID;
     CustomTileProperty props;
 };
 struct RotodiscData {

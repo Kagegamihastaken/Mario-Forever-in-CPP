@@ -96,7 +96,7 @@ void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos,
 			TileProperty* prop = custom_props.at(i);
 			from_json(propsJson, *prop);
 		}
-		PlatformDataList.push_back({pos, endPos, custom_props});
+		PlatformDataList.push_back({pos, endPos, TilePage[page][id].customID1, custom_props});
 	}
 }
 void RotodiscDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id, const int objID) {
@@ -261,8 +261,6 @@ void Objectbuilding() {
 	//Delete Objects
 	DeleteAllCoin();
 	//Delete Platform
-	DeleteAllPlatform();
-
 	GameScene::enemyManager.DeleteAll();
 	GameScene::customTileManager.DeleteAll();
 	GameScene::projectileManager.DeleteAll();
@@ -324,7 +322,7 @@ void Objectbuilding() {
 	}
 	if (!PlatformDataList.empty()) {
 		for (auto &i : PlatformDataList) {
-			AddPlatform(i.start, i.end, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("is Smooth")->val, i.props.getProperty<BoolProps>("is Fall")->val, i.props.getProperty<BoolProps>("is Wait")->val);
+			AddPlatform(i.start, i.end, i.SkinID, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("is Smooth")->val, i.props.getProperty<BoolProps>("is Fall")->val, i.props.getProperty<BoolProps>("is Wait")->val, (i.props.getProperty<BoolProps>("is Small") != nullptr ? i.props.getProperty<BoolProps>("is Small")->val : false));
 		}
 	}
 }

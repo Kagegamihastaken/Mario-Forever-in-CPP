@@ -196,7 +196,6 @@ endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -ffunction-sections -fdata-sections)
     target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--gc-sections)
-    # Apply aggressive optimization for non-development (production) release builds
     if(NOT DEVELOPMENT_BUILD)
         message(STATUS "Production Build detected. Applying -O3.")
         target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O3>)

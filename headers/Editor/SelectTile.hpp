@@ -61,7 +61,7 @@ private:
         if (m_prop_size >= m_prop.size()) return;
         m_prop[m_prop_size++] = arg;
     }
-    std::array<TileProperty, 4> m_prop;
+    std::array<TileProperty, 10> m_prop;
     size_t                      m_prop_size = 0;
 };
 struct SelectTileData {

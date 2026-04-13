@@ -75,7 +75,8 @@ void GameScene::update(const float deltaTime) {
     CheckpointCollision();
 
     ExitGateClockUpdate(deltaTime);
-    PlatformPositionUpdate(deltaTime);
+
+    movingBlockManager.statusUpdate(deltaTime);
 
     Mario::KeyboardMovement(deltaTime);
     Mario::MarioUpdateHitbox();
@@ -96,7 +97,6 @@ void GameScene::update(const float deltaTime) {
     projectileManager.statusUpdate(deltaTime);
     projectileManager.CollisionUpdate();
 
-    movingBlockManager.statusUpdate(deltaTime);
 
     CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
@@ -112,7 +112,6 @@ void GameScene::setPreviousPosition() {
     SetPrevBrickParticlePos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
-    SetPrevPlatformPos();
     enemyManager.setPreviousData();
     customTileManager.setPreviousData();
     projectileManager.setPreviousData();
@@ -125,7 +124,6 @@ void GameScene::interpolatePosition(const float alpha) {
     InterpolateBrickParticlePos(alpha);
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
-    InterpolatePlatformPos(alpha);
     enemyManager.interpolateData(alpha);
     customTileManager.interpolateData(alpha);
     projectileManager.interpolateData(alpha);
@@ -141,7 +139,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     CheckpointDraw();
     enemyManager.DrawPriority(0);
     ObstaclesDraw();
-    DrawPlatform();
     movingBlockManager.draw();
     Mario::MarioDraw();
     enemyManager.DrawPriority(1);
@@ -164,7 +161,6 @@ void GameScene::objectCleanup() {
     ScoreEffectCleanup();
     BrickParticleCleanup();
     CoinCleanup();
-    PlatformCleanup();
     CoinEffectCleanup();
     movingBlockManager.MovingBlockCleanup();
     enemyManager.EnemyCleanup();
@@ -172,8 +168,6 @@ void GameScene::objectCleanup() {
     projectileManager.ProjectileCleanup();
 }
 void GameScene::postUpdate() {
-    PlatformStatusUpdate();
-
     enemyManager.MarioCollision();
     enemyManager.EnemyCollision();
 

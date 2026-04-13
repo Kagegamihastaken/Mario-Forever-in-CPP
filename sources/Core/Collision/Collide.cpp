@@ -3,6 +3,7 @@
 
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/Platform.hpp"
 
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
@@ -335,7 +336,7 @@ float GetCurrFloorY(const sf::Vector2f& pos, const float CurrX, const float Curr
 }
 bool PlatformYCollisionEdge(const MFCPP::CollisionObject& CollideObj, const float Yvelo, const bool direction) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), sf::Vector2f(CollideObj.GetPosition().x + CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f), CollideObj.GetPosition().y), CollideObj.GetOrigin());
-	for (auto & it : PlatformList) {
+	for (auto &it : GameScene::movingBlockManager.getPlatformList()) {
 		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
@@ -348,14 +349,15 @@ bool PlatformYCollisionEdge(const MFCPP::CollisionObject& CollideObj, const floa
 }
 bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut, const float Yvelo, const bool ActivatePlatform) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (auto & it : PlatformList) {
+	for (auto &it : GameScene::movingBlockManager.getPlatformList()) {
 		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
 				if (Yvelo >= 0.f) {
 					if (ActivatePlatform) {
-						if (it.isFall()) it.setIsFall(true);
-						if (it.isWait() && it.getWaitState() == 0) it.setWaitSate(1);
+						it.activate();
+						//if (it.isFall()) it.setIsFall(true);
+						//if (it.isWait() && it.getWaitState() == 0) it.setWaitSate(1);
 					}
 					YPosOut = it.getCurrentPosition().y;
 					return true;
@@ -370,7 +372,7 @@ bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut
 }
 bool PlatformXCollision(const MFCPP::CollisionObject& CollideObj, float& XDistance, const float Yvelo) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (auto & it : PlatformList) {
+	for (auto &it : GameScene::movingBlockManager.getPlatformList()) {
 		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (Yvelo >= 0.f) {

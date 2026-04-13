@@ -6,9 +6,9 @@ class BroAIBehavior {
 public:
     struct BroAIData {
         sf::Vector2f position;
-        float movingValue, timeTicking, tickingValue, speed, stop_duration, randomWalking;
-        bool directionMoving;
-        unsigned int state;
+        float movingValue{}, timeTicking{}, tickingValue{}, speed{}, stop_duration{}, randomWalking{};
+        bool directionMoving{};
+        unsigned int state{};
     };
     struct BroAIShootData {
         float launchTickingTime, launchInterval, launchIntervalTicking, launchRNG, launchWaitTime;
