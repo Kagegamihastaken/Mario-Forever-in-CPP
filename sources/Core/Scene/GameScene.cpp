@@ -249,8 +249,6 @@ void GameScene::loadResources() {
 void GameScene::unloadResources() {
     //implement later
 }
-//TODO: Implement Koopaparatroopa
-//TODO: Implement PlatformManager
 //TODO: Implement Scenery
 
 

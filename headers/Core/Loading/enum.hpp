@@ -42,6 +42,6 @@ enum MarioProjectileBehavior {FIREBALL_BEHAVIOUR};
 //enum for Sound
 enum SoundEnvironment {OVERWORLD, UNDERGROUND};
 //enum for Bullet
-enum BulletType {BULLET_NORMAL};
+enum BulletType {BULLET_NORMAL, BULLET_NORMAL_FLIPPED};
 
 #endif // ENUM_HPP
