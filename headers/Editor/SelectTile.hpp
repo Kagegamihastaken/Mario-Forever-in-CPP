@@ -78,8 +78,8 @@ struct SelectTileData {
 };
 extern bool EDITOR_SELECTTILE;
 extern sf::Clock EDITOR_SELECTILE_CLOCK;
-extern const std::array<std::vector<SelectTileData>, 5> TilePage;
-extern std::array<MFCPP::TabButton, 5> TabList;
+extern const std::array<std::vector<SelectTileData>, 6> TilePage;
+extern std::array<MFCPP::TabButton, 6> TabList;
 extern MFCPP::TabButton SettingButton;
 
 extern int CurrSelectTile;
@@ -88,8 +88,8 @@ extern int CurrPage;
 extern int PrevPage;
 extern int PreviewPage;
 
-constexpr int LevelTab = 3;
-constexpr int PlatformTab = 4;
+constexpr int LevelTab = 4;
+constexpr int PlatformTab = 5;
 
 extern void SelectTileInit();
 extern void SelectTilePosUpdate();

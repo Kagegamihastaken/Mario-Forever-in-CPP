@@ -11,6 +11,7 @@ sf::VertexBuffer buffer;
 
 void BgInit() {
 	ImageManager::PreloadTexture("BlueBackground", "data/resources/Background/BlueBackground.png", {}, true);
+	ImageManager::PreloadTexture("BlueForeground", "data/resources/Background/BlueForeground.png", {}, true);
 	ImageManager::PreloadTexture("GreenBackground", "data/resources/Background/GreenBackground.png", {}, true);
 	ImageManager::PreloadTexture("GreenFore", "data/resources/Background/GreenFore.png", {}, true);
 	ImageManager::PreloadTexture("GreenMid", "data/resources/Background/GreenMid.png", {}, true);

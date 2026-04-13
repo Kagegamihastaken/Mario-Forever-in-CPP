@@ -40,13 +40,16 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
+#include "Object/SceneryHelper.hpp"
 #include "Object/Enemy/GreenKoopaParatroopa.hpp"
 #include "Object/Enemy/HammerBro.hpp"
+#include "Object/Scenery/BlueCloud.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
 ProjectileManager GameScene::projectileManager;
 MovingBlockManager GameScene::movingBlockManager;
+SceneryManager GameScene::sceneryManager;
 
 GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
@@ -54,7 +57,8 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
+            sceneryManager.addScenery<BlueCloud>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
+            //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
@@ -116,6 +120,7 @@ void GameScene::setPreviousPosition() {
     customTileManager.setPreviousData();
     projectileManager.setPreviousData();
     movingBlockManager.setPreviousData();
+    sceneryManager.setPreviousData();
 }
 void GameScene::interpolatePosition(const float alpha) {
     Mario::InterpolateMarioPos(alpha);
@@ -128,6 +133,7 @@ void GameScene::interpolatePosition(const float alpha) {
     customTileManager.interpolateData(alpha);
     projectileManager.interpolateData(alpha);
     movingBlockManager.interpolateData(alpha);
+    sceneryManager.interpolateData(alpha);
 }
 void GameScene::draw(sf::RenderWindow &window) {
     MFCPP::drawHitboxMap();
@@ -135,6 +141,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     BgGradientDraw();
 
     BgDraw();
+    sceneryManager.draw();
     ExitGateDraw();
     CheckpointDraw();
     enemyManager.DrawPriority(0);
@@ -166,6 +173,7 @@ void GameScene::objectCleanup() {
     enemyManager.EnemyCleanup();
     customTileManager.CustomTileCleanup();
     projectileManager.ProjectileCleanup();
+    sceneryManager.SceneryCleanup();
 }
 void GameScene::postUpdate() {
     enemyManager.MarioCollision();
@@ -203,6 +211,7 @@ void GameScene::loadResources() {
     //Init Projectile Texture First then anything else
     ProjectileInit();
     //Force Load
+    SceneryInit();
     Mario::loadMarioRes();
     BrickParticleInit();
     BricksInit();

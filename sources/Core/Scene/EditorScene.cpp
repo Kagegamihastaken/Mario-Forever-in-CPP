@@ -26,6 +26,7 @@
 #include "Projectiles/ProjectileHelper.hpp"
 #include "Text/Text.hpp"
 #include "Core/Checkpoint.hpp"
+#include "Object/SceneryHelper.hpp"
 
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
@@ -53,6 +54,7 @@ void EditorScene::loadResources() {
     BulletBillInit();
     PlatformInit();
     CheckpointInit();
+    SceneryInit();
     //
     SelectTileInit();
     EditorInit();

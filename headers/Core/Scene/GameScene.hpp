@@ -8,6 +8,7 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/MovingBlockManager.hpp"
 #include "Core/Object/ProjectileManager.hpp"
+#include "Core/Object/SceneryManager.hpp"
 
 class GameScene final : public Scene {
 public:
@@ -15,6 +16,7 @@ public:
     static CustomTileManager customTileManager;
     static ProjectileManager projectileManager;
     static MovingBlockManager movingBlockManager;
+    static SceneryManager sceneryManager;
 
     explicit GameScene(SceneManager& manager);
     void handleInput(const std::optional<sf::Event>& event) override;

@@ -76,7 +76,7 @@ void Mario::loadMarioRes() {
 	m_AppearingTimer.restart();
 	// Resources Loader;
 	m_MarioAnimation.setAnimation(0, 0, 0, true);
-	m_player.setOrigin({ 15, 62 });
+	m_player.setOrigin({ 15, 61 });
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("SmallMario_{}", i), "data/resources/SmallMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		SmallMario.push_back(fmt::format("SmallMario_{}", i));
@@ -263,7 +263,7 @@ void Mario::MarioVertYBottomUpdate() {
 		float CurrPosYCollide, CurrPosXCollide;
 		//Collision With Platform
 		if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), PlatPosY, m_velocity.y, true)) {
-			m_player.setCurrentPosition({m_player.getCurrentPosition().x, PlatPosY + 1.f});
+			m_player.setCurrentPosition({m_player.getCurrentPosition().x, PlatPosY});
 			m_MarioCurrentFalling = false;
 			m_velocity.y = 0.f;
 		}
@@ -273,7 +273,7 @@ void Mario::MarioVertYBottomUpdate() {
 				const float floorY = GetCurrFloorY(m_player.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
 				if (m_player.getCurrentPosition().y < CurrPosYCollide + floorY - offset) return;
 				if (m_MarioCurrentFalling) m_MarioCurrentFalling = false;
-				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + floorY - (MARIO_HEIGHT - m_player.getOrigin().y)});
+				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + floorY - (MARIO_HEIGHT - 1.f - m_player.getOrigin().y)});
 				m_velocity.y = 0.f;
 			}
 		}

@@ -29,7 +29,7 @@ static float TilePosX, TilePosY;
 
 static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
 static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
-const std::array<std::vector<SelectTileData>, 5> TilePage = {{
+const std::array<std::vector<SelectTileData>, 6> TilePage = {{
     { // PAGE 1
         {"Tile_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 0},
         {"Tile_1", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 1},
@@ -97,6 +97,10 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"Tile_63", CustomTileProperty(), sf::Vector2f(96, 160), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 63},
         {"Tile_64", CustomTileProperty(), sf::Vector2f(96, 128), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 64},
     },
+    {
+        {"BlueCloud_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 0},
+        {"BlueGrass_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 1},
+    },
     { // PAGE 2
             {"Coin_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
             {"EDITOR_CoinLuckyblock", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
@@ -135,18 +139,18 @@ const std::array<std::vector<SelectTileData>, 5> TilePage = {{
         {"GreenKoopaParatroopa_0", CustomTileProperty(), sf::Vector2f(96, 32), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 7, 0},
         {"BulletLauncherFlipped", CustomTileProperty(), sf::Vector2f(160, 160), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 1, 0},
     },
-    { // PAGE 4
+    { // PAGE 5
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
         {"ExitGateIndicator_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
         {"ExitGateBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)},
         {"Checkpoint_0", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(32, 0), sf::Vector2f(45.f, 112.f), 4, 0, 0, 0}
     },
-    { // PAGE 5
+    { // PAGE 6
         {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
         {"BluePlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 1, 0},
     }
 }};
-std::array<MFCPP::TabButton, 5> TabList{};
+std::array<MFCPP::TabButton, 6> TabList{};
 MFCPP::TabButton SettingButton;
 
 int CurrSelectTile = 0;
@@ -162,16 +166,18 @@ void SelectTileInit() {
     //TAB
     ImageManager::AddTexture("EDITOR_TileTab", "data/resources/Editor/EDITOR_TAB/EDITOR_TileTab.png");
     ImageManager::AddTexture("EDITOR_BonusTab", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
-    ImageManager::AddTexture( "EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
-    ImageManager::AddTexture( "EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
-    ImageManager::AddTexture( "EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
-    ImageManager::AddTexture( "EDITOR_SettingButton", "data/resources/Editor/EDITOR_TAB/EDITOR_Settings.png");
+    ImageManager::AddTexture("EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
+    ImageManager::AddTexture("EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
+    ImageManager::AddTexture("EDITOR_SceneryTab", "data/resources/Editor/EDITOR_TAB/EDITOR_SceneryTab.png");
+    ImageManager::AddTexture("EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
+    ImageManager::AddTexture("EDITOR_SettingButton", "data/resources/Editor/EDITOR_TAB/EDITOR_Settings.png");
 
     TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
-    TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
-    TabList[2].setTexture(*ImageManager::GetReturnTexture("EDITOR_EnemyTab"));
-    TabList[3].setTexture(*ImageManager::GetReturnTexture("EDITOR_LevelTab"));
-    TabList[4].setTexture(*ImageManager::GetReturnTexture("EDITOR_PlatformTab"));
+    TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_SceneryTab"));
+    TabList[2].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
+    TabList[3].setTexture(*ImageManager::GetReturnTexture("EDITOR_EnemyTab"));
+    TabList[4].setTexture(*ImageManager::GetReturnTexture("EDITOR_LevelTab"));
+    TabList[5].setTexture(*ImageManager::GetReturnTexture("EDITOR_PlatformTab"));
 
     SettingButton.setTexture(*ImageManager::GetReturnTexture("EDITOR_SettingButton"));
 
@@ -233,6 +239,7 @@ void SelectTilePosUpdate() {
     TabList[2].setPosition(sf::Vector2f(212.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
     TabList[3].setPosition(sf::Vector2f(254.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
     TabList[4].setPosition(sf::Vector2f(296.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
+    TabList[5].setPosition(sf::Vector2f(338.0f + EditorInterpolatedPos.x, 29.0f + EditorInterpolatedPos.y));
 
     SettingButton.setPosition(sf::Vector2f(29.f, 10.f) + EditorInterpolatedPos);
 

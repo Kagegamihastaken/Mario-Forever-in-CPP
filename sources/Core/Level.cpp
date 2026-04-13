@@ -11,7 +11,6 @@
 #include "Object/GoombaAI.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Effect/CoinEffect.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/PiranhaAI.hpp"
 #include "Object/Spike.hpp"
@@ -21,26 +20,23 @@
 #include "Object/ExitGate.hpp"
 #include "Editor/SelectTile.hpp"
 #include "Core/Background/BgGradient.hpp"
-#include "Effect/BroAIEffect.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Object/BroAI.hpp"
-#include "Projectiles/BroAIProjectile.hpp"
-#include "Projectiles/MarioProjectile.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Time.hpp"
-#include "Object/BulletBillAI.hpp"
 #include "Object/Mario.hpp"
 #include "Object/Platform.hpp"
-#include "Projectiles/PiranhaProjectile.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Game.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Object/SceneryHelper.hpp"
 #include "Object/Enemy/RedRotodiscFlower.hpp"
 #include "Object/Enemy/RedRotodiscRound.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
 static std::vector<std::array<float, 3>> LevelData;
+static std::vector<std::array<float, 3>> SceneryData;
 static std::vector<std::array<float, 5>> BonusData;
 static std::vector<std::array<float, 5>> EnemyData;
 static std::vector<sf::Vector2f> CheckpointData;
@@ -175,6 +171,9 @@ void ReadData(const std::filesystem::path& path) {
 					break;
 				default: ;
 				}
+			case 5:
+				SceneryData.push_back({static_cast<float>(ReadTile->objectID), pos.x, pos.y});
+				break;
 			default: ;
 		}
 	}
@@ -265,7 +264,13 @@ void Objectbuilding() {
 	GameScene::customTileManager.DeleteAll();
 	GameScene::projectileManager.DeleteAll();
 	GameScene::movingBlockManager.DeleteAll();
+	GameScene::sceneryManager.DeleteAll();
 	//(Re)build Objects
+	if (!SceneryData.empty()) {
+		for (const auto& i : SceneryData) {
+			AddScenery(i[0], sf::Vector2f(i[1], i[2]));
+		}
+	}
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
 			if (i[0] == 1) {
