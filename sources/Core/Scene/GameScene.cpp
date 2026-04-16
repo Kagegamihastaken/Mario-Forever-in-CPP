@@ -50,6 +50,7 @@ CustomTileManager GameScene::customTileManager;
 ProjectileManager GameScene::projectileManager;
 MovingBlockManager GameScene::movingBlockManager;
 SceneryManager GameScene::sceneryManager;
+EffectManager GameScene::effectManager;
 
 GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
@@ -101,6 +102,7 @@ void GameScene::update(const float deltaTime) {
     projectileManager.statusUpdate(deltaTime);
     projectileManager.CollisionUpdate();
 
+    effectManager.statusUpdate(deltaTime);
 
     CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
@@ -121,6 +123,7 @@ void GameScene::setPreviousPosition() {
     projectileManager.setPreviousData();
     movingBlockManager.setPreviousData();
     sceneryManager.setPreviousData();
+    effectManager.setPreviousData();
 }
 void GameScene::interpolatePosition(const float alpha) {
     Mario::InterpolateMarioPos(alpha);
@@ -134,6 +137,7 @@ void GameScene::interpolatePosition(const float alpha) {
     projectileManager.interpolateData(alpha);
     movingBlockManager.interpolateData(alpha);
     sceneryManager.interpolateData(alpha);
+    effectManager.interpolateData(alpha);
 }
 void GameScene::draw(sf::RenderWindow &window) {
     MFCPP::drawHitboxMap();
@@ -159,6 +163,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     FireballExplosionDraw();
     MarioEffectDraw();
     ExitGateEffectDraw();
+    effectManager.Draw();
     FrameDraw();
 
     HitboxUtils::drawHitbox();
@@ -174,6 +179,7 @@ void GameScene::objectCleanup() {
     customTileManager.CustomTileCleanup();
     projectileManager.ProjectileCleanup();
     sceneryManager.SceneryCleanup();
+    effectManager.EffectCleanup();
 }
 void GameScene::postUpdate() {
     enemyManager.MarioCollision();

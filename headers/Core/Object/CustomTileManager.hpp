@@ -31,7 +31,7 @@ public:
     [[nodiscard]] CustomTileIntrusiveList& getSolidList();
 
     void setDeletionFlag(bool val);
-    bool getDeletionFlag() const;
+    [[nodiscard]] bool getDeletionFlag() const;
     void setPreviousData() const;
     void interpolateData(float alpha) const;
     void statusUpdate(float deltaTime) const;
@@ -42,15 +42,15 @@ public:
     void DeleteAll();
     void Draw() const;
 private:
-    struct _QueueCustomTileData {
+    struct QueueCustomTileData {
         sf::Vector2f pos;
-        bool val;
+        bool val{};
     };
     CustomTileIntrusiveList m_Bonus;
     CustomTileIntrusiveList m_Solid;
     std::vector<std::unique_ptr<MFCPP::CustomTile>> m_customTiles;
     bool m_CustomTileDeletionFlag = false;
-    std::queue<_QueueCustomTileData> m_queue_data;
+    std::queue<QueueCustomTileData> m_queue_data;
 };
 
 #endif //MFCPP_CUSTOMTILEMANAGER_HPP

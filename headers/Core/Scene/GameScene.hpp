@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Core/Object/CustomTileManager.hpp"
+#include "Core/Object/EffectManager.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/MovingBlockManager.hpp"
 #include "Core/Object/ProjectileManager.hpp"
@@ -12,11 +13,13 @@
 
 class GameScene final : public Scene {
 public:
+    // Object Manager, split into 6 to optimize memory usage
     static EnemyManager enemyManager;
     static CustomTileManager customTileManager;
     static ProjectileManager projectileManager;
     static MovingBlockManager movingBlockManager;
     static SceneryManager sceneryManager;
+    static EffectManager effectManager;
 
     explicit GameScene(SceneManager& manager);
     void handleInput(const std::optional<sf::Event>& event) override;

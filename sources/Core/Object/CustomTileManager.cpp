@@ -28,7 +28,7 @@ void CustomTileManager::statusUpdate(float deltaTime) const {
 }
 
 void CustomTileManager::setCollision(const sf::Vector2f &pos, bool val) {
-    m_queue_data.push(_QueueCustomTileData(pos, val));
+    m_queue_data.push(QueueCustomTileData(pos, val));
 }
 
 void CustomTileManager::updateCollision() {
