@@ -163,7 +163,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) m_Holding = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !m_MarioCrouchDown && window.hasFocus()) m_player_speed = 7.5f;
 		else m_player_speed = 4.375f;
-		if (!m_MarioCurrentFalling && m_PreJump) m_PreJump = false;
+		if ((!m_MarioCurrentFalling || m_velocity.y < 0.f) && m_PreJump) m_PreJump = false;
 
 		//Fire
 		//MFCPP::Log::InfoPrint(fmt::format("Speed: {}, Limit: {}, Comp: {}", Xvelo, player_speed, Xvelo > player_speed));
@@ -524,4 +524,12 @@ bool Mario::getCanControl() {
 
 sf::Vector2f Mario::getInterpolatedPosition() {
 	return m_player.getInterpolatedPosition();
+}
+
+void Mario::setHolding(bool val) {
+	m_Holding = val;
+}
+
+bool Mario::getHolding() {
+	return m_Holding;
 }

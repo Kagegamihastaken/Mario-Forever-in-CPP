@@ -147,6 +147,7 @@ void GoombaAIBehavior::GoombaAIStomping() {
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Mario::setYvelocity(-8.f);
     else Mario::setYvelocity(-13.f);
     SoundManager::PlaySound("Stomp");
+    if (!Mario::getHolding()) Mario::setHolding(true);
 }
 
 bool GoombaAIBehavior::GoombaAIEffectDisappearing(float& clock, float& alpha, const float deltaTime) {

@@ -56,6 +56,8 @@ public:
 	static void setCanControl(bool val);
 	[[nodiscard]] static bool getCanControl();
 	[[nodiscard]] static sf::Vector2f getInterpolatedPosition();
+	static void setHolding(bool val);
+	[[nodiscard]] static bool getHolding();
 
 	// extern float player_speed;
 	// extern bool MarioCrouchDown;

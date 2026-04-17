@@ -19,7 +19,7 @@ FireFlower::FireFlower(EnemyManager &manager, const sf::Vector2f& position) : En
     m_animation.setAnimationSequence(FireFlowerAnimName);
     setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 32.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-    setOrigin(sf::Vector2f(16.f, 32.f));
+    setOrigin(sf::Vector2f(16.f, 31.f));
     m_velocity = sf::Vector2f(0.f, 0.f);
     setDirection(true);
     setDisabled(true);
