@@ -7,7 +7,6 @@
 
 #include "MovingBlock.hpp"
 #include "Core/Exception.hpp"
-#include "fmt/color.h"
 #include "MovingBlock/Identity/PlatformType.hpp"
 
 class MovingBlockManager {
@@ -21,7 +20,7 @@ public:
         if constexpr (std::is_base_of_v<MFCPP::PlatformType, T>)
             m_platforms.push_back(*newMovingBlock);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newMovingBlock).name()));
-        m_movingblocks.push_back(std::move(newMovingBlock));
+        m_movingblocks.emplace_back(std::move(newMovingBlock));
     }
     [[nodiscard]] MovingBlockIntrusiveList& getPlatformList();
     [[nodiscard]] bool getDeletionFlag() const;

@@ -253,7 +253,7 @@ void Objectbuilding() {
 	WindowSetView();
 	updateView();
 	//Delete Effects
-	DeleteAllBrickParticle();
+	GameScene::effectManager.DeleteAll();
 	DeleteAllCoinEffect();
 	DeleteAllScoreEffect();
 	DeleteAllFireballExplosion();

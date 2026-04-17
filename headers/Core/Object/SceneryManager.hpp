@@ -20,7 +20,7 @@ public:
         if constexpr (std::is_base_of_v<MFCPP::GenericSceneryType, T>)
             m_generic_scenery.push_back(*newScenery);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newScenery).name()));
-        m_scenery.push_back(std::move(newScenery));
+        m_scenery.emplace_back(std::move(newScenery));
     }
     [[nodiscard]] SceneryIntrusiveList& getGenericScenery();
     [[nodiscard]] bool getDeletionFlag() const;

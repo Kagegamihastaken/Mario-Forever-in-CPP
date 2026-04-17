@@ -5,10 +5,10 @@
 #include <boost/intrusive/list.hpp>
 #include "Projectile.hpp"
 #include "Core/Exception.hpp"
-#include "Core/Logging.hpp"
 #include "fmt/format.h"
 #include "Projectile/Identity/EnemyProjectileType.hpp"
 #include "Projectile/Identity/MarioProjectileType.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 
 class ProjectileManager {
 public:
@@ -23,7 +23,7 @@ public:
         else if constexpr (std::is_base_of_v<MFCPP::EnemyProjectileType, T>)
             m_Enemy.push_back(*newProjectile);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newProjectile).name()));
-        m_projectile.push_back(std::move(newProjectile));
+        m_projectile.emplace(std::move(newProjectile));
     }
 
     [[nodiscard]] ProjectileIntrusiveList& getMarioProjectileList();
@@ -41,7 +41,7 @@ public:
 private:
     ProjectileIntrusiveList m_Mario;
     ProjectileIntrusiveList m_Enemy;
-    std::vector<std::unique_ptr<MFCPP::Projectile>> m_projectile;
+    plf::colony<std::unique_ptr<MFCPP::Projectile>> m_projectile;
     bool m_ProjectileDeletionFlag = false;
 };
 

@@ -6,6 +6,7 @@
 #include <boost/intrusive/list.hpp>
 #include "Effect.hpp"
 #include "Core/Exception.hpp"
+#include "Core/ExternalHeaders/plf_colony.h"
 #include "Effect/Identity/GenericEffectType.hpp"
 
 class EffectManager {
@@ -19,7 +20,7 @@ public:
         if constexpr (std::is_base_of_v<MFCPP::GenericEffectType, T>)
             m_GenericEffect.push_back(*newEffect);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newEffect).name()));
-        m_effects.push_back(std::move(newEffect));
+        m_effects.emplace(std::move(newEffect));
     }
 
     [[nodiscard]] EffectIntrusiveList& getGenericList();
@@ -34,7 +35,7 @@ public:
 
 private:
     EffectIntrusiveList m_GenericEffect;
-    std::vector<std::unique_ptr<MFCPP::Effect>> m_effects;
+    plf::colony<std::unique_ptr<MFCPP::Effect>> m_effects;
     bool m_EffectDeletionFlag = false;
 };
 

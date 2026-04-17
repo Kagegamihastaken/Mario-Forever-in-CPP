@@ -24,7 +24,7 @@ public:
         else if constexpr (std::is_base_of_v<MFCPP::SolidType, T>)
             m_Solid.push_back(*newCustomTile);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newCustomTile).name()));
-        m_customTiles.push_back(std::move(newCustomTile));
+        m_customTiles.emplace_back(std::move(newCustomTile));
     }
 
     [[nodiscard]] CustomTileIntrusiveList& getBonusList();

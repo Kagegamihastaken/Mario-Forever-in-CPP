@@ -58,8 +58,7 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            sceneryManager.addScenery<BlueCloud>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
-            //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
+            enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle)
@@ -106,7 +105,6 @@ void GameScene::update(const float deltaTime) {
 
     CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
-    BrickParticleStatusUpdate(deltaTime);
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
 
@@ -115,7 +113,6 @@ void GameScene::setPreviousPosition() {
     Mario::SetPrevMarioPos();
     SetPrevCoinEffectPos();
     SetPrevScoreEffectPos();
-    SetPrevBrickParticlePos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
     enemyManager.setPreviousData();
@@ -129,7 +126,6 @@ void GameScene::interpolatePosition(const float alpha) {
     Mario::InterpolateMarioPos(alpha);
     InterpolateCoinEffectPos(alpha);
     InterpolateScoreEffectPos(alpha);
-    InterpolateBrickParticlePos(alpha);
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
     enemyManager.interpolateData(alpha);
@@ -156,7 +152,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     customTileManager.Draw();
     CoinDraw();
     enemyManager.DrawPriority(2);
-    BrickParticleDraw();
     CoinEffectDraw();
     ScoreEffectDraw();
     projectileManager.Draw();
@@ -171,7 +166,6 @@ void GameScene::draw(sf::RenderWindow &window) {
 }
 void GameScene::objectCleanup() {
     ScoreEffectCleanup();
-    BrickParticleCleanup();
     CoinCleanup();
     CoinEffectCleanup();
     movingBlockManager.MovingBlockCleanup();
