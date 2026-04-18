@@ -4,18 +4,8 @@
 #define COINEFFECT_HPP
 
 #include "Core/Loading/enum.hpp"
-#include "Core/Class/CoinEffectClass.hpp"
-extern std::vector<MFCPP::CoinEffect> CoinEffectList;
-extern void SetPrevCoinEffectPos();
-extern void InterpolateCoinEffectPos(float alpha);
-extern void ScoreEffectInit();
 extern void CoinEffectInit();
-extern void DeleteAllCoinEffect();
 extern void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y);
-extern void CoinEffectDraw();
-extern void DeleteCoinEffect(float x, float y);
-extern void CoinEffectStatusUpdate(float deltaTime);
-extern void CoinEffectCleanup();
 
 //Animation
 static std::vector<std::string> CoinEffectAnimName = {

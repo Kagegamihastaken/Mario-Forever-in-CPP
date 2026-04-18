@@ -23,9 +23,6 @@
 #include "Object/PiranhaAI.hpp"
 #include "Object/Platform.hpp"
 #include "Object/Spike.hpp"
-#include "Projectiles/BroAIProjectile.hpp"
-#include "Projectiles/MarioProjectile.hpp"
-#include "Projectiles/PiranhaProjectile.hpp"
 #include "Text/Text.hpp"
 
 #include <fmt/format.h>
@@ -42,8 +39,6 @@
 #include "Object/RotodiscAI.hpp"
 #include "Object/SceneryHelper.hpp"
 #include "Object/Enemy/GreenKoopaParatroopa.hpp"
-#include "Object/Enemy/HammerBro.hpp"
-#include "Object/Scenery/BlueCloud.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -103,7 +98,6 @@ void GameScene::update(const float deltaTime) {
 
     effectManager.statusUpdate(deltaTime);
 
-    CoinEffectStatusUpdate(deltaTime);
     ScoreEffectStatusUpdate(deltaTime);
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
@@ -111,7 +105,6 @@ void GameScene::update(const float deltaTime) {
 }
 void GameScene::setPreviousPosition() {
     Mario::SetPrevMarioPos();
-    SetPrevCoinEffectPos();
     SetPrevScoreEffectPos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
@@ -124,7 +117,6 @@ void GameScene::setPreviousPosition() {
 }
 void GameScene::interpolatePosition(const float alpha) {
     Mario::InterpolateMarioPos(alpha);
-    InterpolateCoinEffectPos(alpha);
     InterpolateScoreEffectPos(alpha);
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
@@ -152,7 +144,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     customTileManager.Draw();
     CoinDraw();
     enemyManager.DrawPriority(2);
-    CoinEffectDraw();
     ScoreEffectDraw();
     projectileManager.Draw();
     FireballExplosionDraw();
@@ -167,7 +158,6 @@ void GameScene::draw(sf::RenderWindow &window) {
 void GameScene::objectCleanup() {
     ScoreEffectCleanup();
     CoinCleanup();
-    CoinEffectCleanup();
     movingBlockManager.MovingBlockCleanup();
     enemyManager.EnemyCleanup();
     customTileManager.CustomTileCleanup();

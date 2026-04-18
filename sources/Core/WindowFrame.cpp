@@ -161,7 +161,7 @@ void GameSceneInit() {
 		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
 		CoinHUDAnimName.emplace_back(fmt::format("CoinHUD_{}", i));
 	}
-	CoinHUD.setAnimation(0, 2, 16);
+	CoinHUD.setAnimation(0, 2, 16, true);
 	CoinHUD.setAnimationSequence(CoinHUDAnimName);
 	MarioHUD.setTexture("MarioHUD");
 	TimeHUD.setTexture("TimeHUD");

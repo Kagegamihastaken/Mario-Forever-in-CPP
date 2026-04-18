@@ -8,6 +8,7 @@
 #include "Core/Class/ScoreEffectClass.hpp"
 
 extern plf::colony<MFCPP::ScoreEffect> ScoreEffectList;
+extern void ScoreEffectInit();
 extern void SetPrevScoreEffectPos();
 extern void InterpolateScoreEffectPos(float alpha);
 extern void AddScoreEffect(ScoreID id, float x, float y);
