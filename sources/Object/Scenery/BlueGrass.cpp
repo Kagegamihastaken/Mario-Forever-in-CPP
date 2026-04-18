@@ -9,7 +9,7 @@ BlueGrass::BlueGrass(SceneryManager &manager, const sf::Vector2f &position) : Sc
     setPreviousPosition(position);
     setInterpolatedPosition(position);
     m_animation.setAnimationSequence(BlueGrassAnimName);
-    m_animation.setAnimation(0, 2, 14, false);
+    m_animation.setAnimation(0, 2, 14, true);
     setHitbox(sf::FloatRect({0.f, 0.f}, {64.f, 32.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
 }

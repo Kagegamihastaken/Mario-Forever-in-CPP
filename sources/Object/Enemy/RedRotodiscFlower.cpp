@@ -14,7 +14,7 @@ RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_position_center = getCurrentPosition();
-    m_animation.setAnimation(0, 25, 100);
+    m_animation.setAnimation(0, 25, 100, true);
     m_animation.setAnimationSequence(RotodiscAnimName);
     m_animation_base.setTexture("RotodiscBase");
     setHitbox(sf::FloatRect({0.f, 0.f}, {34.f, 32.f}));

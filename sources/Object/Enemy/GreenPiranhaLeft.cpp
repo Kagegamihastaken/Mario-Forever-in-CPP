@@ -17,7 +17,7 @@ GreenPiranhaLeft::GreenPiranhaLeft(EnemyManager &manager, const sf::Vector2f &po
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimationSequence(GreenPiranhaLeftAnimName);
-    m_animation.setAnimation(0, 3, 24);
+    m_animation.setAnimation(0, 3, 24, true);
     setHitbox(sf::FloatRect({ 0.f, 17.f }, { 47.f, 31.f }));
     setOrigin(sf::Vector2f(0.f, 32.f));
 
@@ -90,7 +90,6 @@ void GreenPiranhaLeft::YUpdate(float deltaTime) {}
 void GreenPiranhaLeft::EnemyCollision() {}
 
 void GreenPiranhaLeft::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());

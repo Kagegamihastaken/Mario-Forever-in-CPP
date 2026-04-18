@@ -17,12 +17,13 @@ namespace MFCPP {
 		sf::Clock m_TimeRun;
 		float m_TimeRan = 0.0f;
 		float m_TimeRemainSave = 0.0f;
-		bool m_change_direction = false;
+		bool m_reached_the_end = false;
+		bool m_loop = true;
 		sf::Color m_color;
 		sf::Angle m_angle = sf::degrees(0.f);
 		AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 	public:
-		void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50, bool changeAnimDirection = false);
+		void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50, bool loop = false);
 		void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 		void setIndexAnimation(int indexAnimation);
 		void setStartingIndexAnimation(int startingIndexAnimation);

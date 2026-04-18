@@ -16,7 +16,7 @@ Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position) : Enemy(mana
     setCurrentPosition(position);
     setPreviousPosition(position);
     setInterpolatedPosition(position);
-    m_animation.setAnimation(0, 1, 11);
+    m_animation.setAnimation(0, 1, 11, true);
     m_animation.setAnimationSequence(GoombaAnimName);
     setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 32.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));

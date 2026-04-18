@@ -17,7 +17,7 @@ GreenPiranhaUp::GreenPiranhaUp(EnemyManager &manager, const sf::Vector2f &positi
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimationSequence(GreenPiranhaUpAnimName);
-    m_animation.setAnimation(0, 3, 24);
+    m_animation.setAnimation(0, 3, 24, true);
     setHitbox(sf::FloatRect({16.f, 17.f}, {31.f, 47.f}));
     setOrigin(sf::Vector2f(32.f, 63.f));
 
@@ -90,7 +90,6 @@ void GreenPiranhaUp::YUpdate(float deltaTime) {}
 void GreenPiranhaUp::EnemyCollision() {}
 
 void GreenPiranhaUp::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());

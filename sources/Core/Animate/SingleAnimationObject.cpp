@@ -4,7 +4,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-	void SingleAnimationObject::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency, const bool changeAnimDirection) {
+	void SingleAnimationObject::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency, const bool loop) {
 		m_startingIndexAnimation = startingIndexAnimation;
 		m_indexAnimation = startingIndexAnimation;
 		m_endingIndexAnimation = endingIndexAnimation;
@@ -12,8 +12,8 @@ namespace MFCPP {
 		m_TimeRun.restart();
 		m_TimeRan = 0.0f;
 		m_TimeRemainSave = 0.0f;
+		m_loop = loop;
 		m_direction = AnimationDirection::ANIM_RIGHT;
-		m_change_direction = changeAnimDirection;
 		m_color = sf::Color(255, 255, 255);
 	}
 	void SingleAnimationObject::AddAnimationSequence(const std::string& aName) {
@@ -68,7 +68,11 @@ namespace MFCPP {
 			if (const float FrameTime = 2000.0f / static_cast<float>(m_frequency) / static_cast<float>(timestep.getTimeSpeed());
 				m_TimeRan >= FrameTime) {
 				const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
-				m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
+				if (m_indexAnimation - m_startingIndexAnimation + FrameCount >= m_endingIndexAnimation - m_startingIndexAnimation + 1 && !m_reached_the_end) m_reached_the_end = true;
+				if (m_loop)
+					m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
+				else
+					m_indexAnimation = m_startingIndexAnimation + std::min((m_indexAnimation - m_startingIndexAnimation + FrameCount),(m_endingIndexAnimation - m_startingIndexAnimation));
 				m_TimeRemainSave = m_TimeRan - static_cast<float>(FrameCount) * FrameTime;
 				m_TimeRun.restart();
 				}
@@ -84,8 +88,7 @@ namespace MFCPP {
 		if (m_direction == AnimationDirection::ANIM_RIGHT)
 			m_Index[m_indexAnimation].setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
 		else
-			if (m_change_direction)
-				m_Index[m_indexAnimation].setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
+			m_Index[m_indexAnimation].setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
 	}
 	void SingleAnimationObject::AnimationDraw() const {
 		//ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
@@ -94,12 +97,8 @@ namespace MFCPP {
 	void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 		m_direction = dir;
 	}
-	//sf::IntRect LocalAnimationManager::getAnimationTextureRect() const {
-	//return sf::IntRect({ this->indexAnimation * this->sizex, y * this->sizey }, { this->sizex, this->sizey });
-	//}
 	bool SingleAnimationObject::isAnimationAtTheEnd() const {
-		int temp = this->m_endingIndexAnimation;
-		return (this->m_indexAnimation == temp);
+		return m_reached_the_end;
 	}
 	void SingleAnimationObject::setRotation(const sf::Angle angle) {
 		m_angle = angle;

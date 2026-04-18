@@ -17,7 +17,7 @@ PinkPiranhaLeft::PinkPiranhaLeft(EnemyManager &manager, const sf::Vector2f &posi
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimationSequence(PinkPiranhaLeftAnimName);
-    m_animation.setAnimation(0, 1, 24);
+    m_animation.setAnimation(0, 1, 24, true);
     setHitbox(sf::FloatRect({ 0.f, 17.f }, { 47.f, 31.f }));
     setOrigin(sf::Vector2f(0.f, 32.f));
 
@@ -99,7 +99,6 @@ void PinkPiranhaLeft::YUpdate(float deltaTime) {}
 void PinkPiranhaLeft::EnemyCollision() {}
 
 void PinkPiranhaLeft::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());

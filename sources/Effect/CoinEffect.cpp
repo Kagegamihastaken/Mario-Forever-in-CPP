@@ -30,7 +30,7 @@ void InterpolateCoinEffectPos(const float alpha) {
 }
 void AddCoinEffect(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinEffectList.emplace_back(ID, att, sf::Vector2f(x, y), sf::Vector2f(18.f, 31.f));
-	CoinEffectList.back().setAnimation(0, 20, 70);
+	CoinEffectList.back().setAnimation(0, 20, 70, false);
 	CoinEffectList.back().setAnimationSequence(CoinEffectAnimName);
 }
 void DeleteCoinEffect(const std::vector<MFCPP::CoinEffect>::iterator& it) {

@@ -118,7 +118,7 @@ void GreenKoopaParatroopa::Destroy() {
 }
 
 void GreenKoopaParatroopa::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
+    if (m_state == 0) m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());

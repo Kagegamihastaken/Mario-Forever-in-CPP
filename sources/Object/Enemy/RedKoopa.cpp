@@ -36,7 +36,7 @@ RedKoopa::RedKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isS
         setOrigin(sf::Vector2f(16,27));
         m_velocity = sf::Vector2f(0.f, 0.f);
         m_animation.setAnimationSequence(RedKoopaShellAnimName);
-        m_animation.setAnimation(3,3,100);
+        m_animation.setAnimation(3,3,100, true);
         m_state = 1;
         m_turnback = false;
     }
@@ -171,7 +171,7 @@ void RedKoopa::Destroy() {
 }
 
 void RedKoopa::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
+    if (m_state == 0) m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
@@ -186,7 +186,7 @@ void RedKoopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
             m_animation.setAnimationSequence(RedKoopaShellAnimName);
-            m_animation.setAnimation(3,3,100);
+            m_animation.setAnimation(3,3,100, true);
             setCollideEachOther(true);
             m_hit_count = 0;
             m_velocity.x = 0.f;
@@ -201,7 +201,7 @@ void RedKoopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
             m_animation.setAnimationSequence(RedKoopaShellAnimName);
-            m_animation.setAnimation(0,3,54);
+            m_animation.setAnimation(0,3,54, true);
             setCollideEachOther(false);
             m_hit_count = 0;
             m_velocity.x = 5.f;
@@ -218,7 +218,7 @@ void RedKoopa::ChangeState() {
             m_hit_count = 0;
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_animation.setAnimationSequence(RedKoopaDeathEffect);
-            m_animation.setAnimation(0,0,100);
+            m_animation.setAnimation(0,0,100, true);
             setCollideEachOther(false);
             setShellBlocker(false);
             setShellKicking(false);

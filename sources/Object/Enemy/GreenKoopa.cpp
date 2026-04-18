@@ -35,7 +35,7 @@ GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool
         setOrigin(sf::Vector2f(16,27));
         m_velocity = sf::Vector2f(0.f, 0.f);
         m_animation.setAnimationSequence(GreenKoopaShellAnimName);
-        m_animation.setAnimation(3,3,100);
+        m_animation.setAnimation(3,3,100, true);
         m_state = 1;
     }
     m_invincibleTimer = 0.f;
@@ -169,7 +169,7 @@ void GreenKoopa::Destroy() {
 }
 
 void GreenKoopa::draw() {
-    m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
+    if (m_state == 0) m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
@@ -184,7 +184,7 @@ void GreenKoopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
             m_animation.setAnimationSequence(GreenKoopaShellAnimName);
-            m_animation.setAnimation(3,3,100);
+            m_animation.setAnimation(3,3,100, true);
             setCollideEachOther(true);
             m_velocity.x = 0.f;
             m_hit_count = 0;
@@ -198,7 +198,7 @@ void GreenKoopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
             m_animation.setAnimationSequence(GreenKoopaShellAnimName);
-            m_animation.setAnimation(0,3,54);
+            m_animation.setAnimation(0,3,54, true);
             setCollideEachOther(false);
             m_velocity.x = 5.f;
             m_hit_count = 0;
@@ -214,7 +214,7 @@ void GreenKoopa::ChangeState() {
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_hit_count = 0;
             m_animation.setAnimationSequence(GreenKoopaDeathEffect);
-            m_animation.setAnimation(0,0,100);
+            m_animation.setAnimation(0,0,100, true);
             setCollideEachOther(false);
             setShellBlocker(false);
             setShellKicking(false);

@@ -22,7 +22,7 @@ void CoinInit() {
 		ImageManager::PreloadTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
 		CoinAnimName.emplace_back(fmt::format("Coin_{}", i));
 	}
-	CoinAnimation.setAnimation(0, 2, 20);
+	CoinAnimation.setAnimation(0, 2, 20, true);
 	CoinAnimation.setAnimationSequence(CoinAnimName);
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {

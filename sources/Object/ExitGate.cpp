@@ -60,7 +60,7 @@ void ExitGateInit() {
 	ExitGateForeEffectObject.setTexture("ExitGateForeEffect", true);
 	ExitGateForeEffect.setOrigin({ 21.0f, 7.0f });
 
-	ExitGateIndicatorAnimation.setAnimation(0, 2, 50);
+	ExitGateIndicatorAnimation.setAnimation(0, 2, 50, true);
 	ExitGateIndicatorAnimation.setAnimationSequence(ExitIndicatorAnimName);
 	ExitGateIndicator.setOrigin(sf::Vector2f( 0.0f, 31.0f ));
 }

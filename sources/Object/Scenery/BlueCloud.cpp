@@ -9,7 +9,7 @@ BlueCloud::BlueCloud(SceneryManager &manager, const sf::Vector2f &position) : Sc
     setPreviousPosition(position);
     setInterpolatedPosition(position);
     m_animation.setAnimationSequence(BlueCloudAnimName);
-    m_animation.setAnimation(0, 2, 8, false);
+    m_animation.setAnimation(0, 2, 8, true);
     setHitbox(sf::FloatRect({0.f, 0.f}, {64.f, 64.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
 }
