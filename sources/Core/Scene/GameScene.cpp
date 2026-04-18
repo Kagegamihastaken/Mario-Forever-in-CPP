@@ -146,7 +146,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     enemyManager.DrawPriority(2);
     ScoreEffectDraw();
     projectileManager.Draw();
-    FireballExplosionDraw();
     MarioEffectDraw();
     ExitGateEffectDraw();
     effectManager.Draw();
@@ -171,7 +170,6 @@ void GameScene::postUpdate() {
 
     CoinOnTouch();
     Mario::CheckForDeath();
-    FireballExplosionStatusUpdate();
 
     Mario::MarioUpdateAnimation();
 }

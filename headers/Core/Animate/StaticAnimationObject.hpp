@@ -11,8 +11,8 @@ namespace MFCPP {
         std::string m_name;
     public:
         void setTexture(const std::string& name, bool anim_flip = false);
-        void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
-        void AnimationDraw() const;
+        void animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
+        void animationDraw() const;
         void setColor(const sf::Color& color);
         void setRotation(sf::Angle angle);
         void setAnimationDirection(bool val);

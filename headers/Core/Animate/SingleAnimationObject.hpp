@@ -24,23 +24,24 @@ namespace MFCPP {
 		AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 	public:
 		void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50, bool loop = false);
-		void SetRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
+		void setRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
 		void setIndexAnimation(int indexAnimation);
 		void setStartingIndexAnimation(int startingIndexAnimation);
 		void setEndingIndexAnimation(int endingIndexAnimation);
 		void setFrequencyAnimation(int frequency);
 
 		void setColor(const sf::Color& color);
-		void FrameUpdate();
-		void AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
-		void AnimationDraw() const;
+		void frameUpdate();
+		void animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
+		void animationDraw() const;
 		void setAnimationDirection(const AnimationDirection& dir);
 		//sf::IntRect getAnimationTextureRect() const;
 		[[nodiscard]] bool isAnimationAtTheEnd() const;
 		[[nodiscard]] AnimationDirection getAnimationDirection() const;
-		void AddAnimationSequence(const std::string& aName);
+		void addAnimationSequence(const std::string& aName);
 		void setAnimationSequence(const std::vector<std::string>& aName);
 		void setRotation(sf::Angle angle);
+		void setLoop(bool val);
 	};
 }
 #endif // LOCALANIMATIONMANAGER_HPP

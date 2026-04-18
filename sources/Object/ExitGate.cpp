@@ -160,22 +160,22 @@ void ExitGateEffectReset() {
 }
 void ExitGateDraw() {
 	if (!isOutScreen(ExitGateIndicator.getCurrentPosition().x, ExitGateIndicator.getCurrentPosition().y, 64, 64)) {
-		ExitGateIndicatorAnimation.AnimationUpdate(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin());
-		ExitGateIndicatorAnimation.AnimationDraw();
+		ExitGateIndicatorAnimation.animationUpdate(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin());
+		ExitGateIndicatorAnimation.animationDraw();
 	}
 	if (!isOutScreen(ExitGateBack.getCurrentPosition().x, ExitGateBack.getCurrentPosition().y, 64, 64)) {
-		ExitGateBackObject.AnimationUpdate(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin());
-		ExitGateBackObject.AnimationDraw();
+		ExitGateBackObject.animationUpdate(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin());
+		ExitGateBackObject.animationDraw();
 	}
 	if (!isOutScreen(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y, 64, 64) && ExitGateForeRender) {
-		ExitGateForeObject.AnimationUpdate(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin());
-		ExitGateForeObject.AnimationDraw();
+		ExitGateForeObject.animationUpdate(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin());
+		ExitGateForeObject.animationDraw();
 	}
 }
 void ExitGateEffectDraw() {
 	if (!isOutScreen(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y, 64, 64) && !ExitGateForeRender) {
 		ExitGateForeEffectObject.setRotation(ExitGateForeEffect.getInterpolatedAngle());
-		ExitGateForeEffectObject.AnimationUpdate(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin());
-		ExitGateForeEffectObject.AnimationDraw();
+		ExitGateForeEffectObject.animationUpdate(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin());
+		ExitGateForeEffectObject.animationDraw();
 	}
 }

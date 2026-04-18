@@ -53,8 +53,8 @@ void ActiveMarioEffect() {
 void MarioEffectDraw() {
 	if (EffectActive) {
 		if (!isOutScreen(playerPos.getInterpolatedPosition().x, playerPos.getInterpolatedPosition().y, 32, 32)) {
-			playerEffect.AnimationUpdate(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f));
-			playerEffect.AnimationDraw();
+			playerEffect.animationUpdate(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f));
+			playerEffect.animationDraw();
 		}
 	}
 }

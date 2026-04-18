@@ -255,7 +255,6 @@ void Objectbuilding() {
 	//Delete Effects
 	GameScene::effectManager.DeleteAll();
 	DeleteAllScoreEffect();
-	DeleteAllFireballExplosion();
 	//Delete Objects
 	DeleteAllCoin();
 	//Delete Platform

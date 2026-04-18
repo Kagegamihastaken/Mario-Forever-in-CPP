@@ -97,8 +97,8 @@ void Beetroot::Destroy() {
 }
 void Beetroot::draw() {
     if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
-    m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
-    m_animation.AnimationDraw();
+    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Magenta));
 }
 void Beetroot::Death(unsigned int state) {}

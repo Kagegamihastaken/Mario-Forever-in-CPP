@@ -167,12 +167,12 @@ void GameSceneInit() {
 	TimeHUD.setTexture("TimeHUD");
 }
 void FrameDraw() {
-	CoinHUD.AnimationUpdate(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
-	CoinHUD.AnimationDraw();
-	MarioHUD.AnimationUpdate(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
-	MarioHUD.AnimationDraw();
-	TimeHUD.AnimationUpdate(sf::Vector2f(513.f + ViewX, 15.f + ViewY), sf::Vector2f(0.f, 0.f));
-	TimeHUD.AnimationDraw();
+	CoinHUD.animationUpdate(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
+	CoinHUD.animationDraw();
+	MarioHUD.animationUpdate(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
+	MarioHUD.animationDraw();
+	TimeHUD.animationUpdate(sf::Vector2f(513.f + ViewX, 15.f + ViewY), sf::Vector2f(0.f, 0.f));
+	TimeHUD.animationDraw();
 }
 void updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);

@@ -8,7 +8,7 @@ namespace MFCPP {
         m_anim_flip = anim_flip;
         m_name = name;
     }
-    void StaticAnimationObject::AnimationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
+    void StaticAnimationObject::animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
         const sf::IntRect rect = m_index.getTextureRect();
         m_index.setPosition(pos);
         m_index.setOrigin(origin);
@@ -23,7 +23,7 @@ namespace MFCPP {
     void StaticAnimationObject::setRotation(const sf::Angle angle) {
         m_index.setRotation(angle);
     }
-    void StaticAnimationObject::AnimationDraw() const {
+    void StaticAnimationObject::animationDraw() const {
         //ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform(), m_index.getColor());
         window.draw(m_index);
     }

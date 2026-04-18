@@ -111,8 +111,8 @@ void ScoreEffectDraw() {
 	for (auto & i : ScoreEffectList) {
 		if (i.isDestroyed()) continue;
 
-		i.AnimationUpdate(i.getInterpolatedPosition(), i.getOrigin());
-		i.AnimationDraw();
+		i.animationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+		i.animationDraw();
 	}
 }
 void ScoreEffectCleanup() {

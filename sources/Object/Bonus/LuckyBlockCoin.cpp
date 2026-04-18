@@ -87,6 +87,6 @@ void LuckyBlockCoin::statusUpdate(float deltaTime) {
 
 void LuckyBlockCoin::draw() {
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
-    m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
-    m_animation.AnimationDraw();
+    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationDraw();
 }

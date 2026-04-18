@@ -97,8 +97,8 @@ void FireFlower::Destroy() {
 }
 void FireFlower::draw() {
     if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
-    m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
-    m_animation.AnimationDraw();
+    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Magenta));
 }
 void FireFlower::Death(unsigned int state) {}

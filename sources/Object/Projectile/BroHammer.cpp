@@ -59,9 +59,9 @@ void BroHammer::CollisionUpdate() {
 void BroHammer::draw() {
     //if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setAnimationDirection(m_direction);
-    m_animation.AnimationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
+    m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
     m_animation.setRotation(getInterpolatedAngle());
-    m_animation.AnimationDraw();
+    m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 

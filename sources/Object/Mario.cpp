@@ -424,14 +424,14 @@ void Mario::MarioDraw() {
 		m_lastPowerState = m_PowerState;
 	}
 	//draw
-	m_MarioAnimation.AnimationUpdate(m_player.getInterpolatedPosition(), m_player.getOrigin());
+	m_MarioAnimation.animationUpdate(m_player.getInterpolatedPosition(), m_player.getOrigin());
 	if (m_InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) m_Invincible = false;
 	if (!m_Invincible) {
-		if (m_CanControlMario) m_MarioAnimation.AnimationDraw();
+		if (m_CanControlMario) m_MarioAnimation.animationDraw();
 	}
 	else {
 		if (!m_InvincibleState)
-			if (m_CanControlMario) m_MarioAnimation.AnimationDraw();
+			if (m_CanControlMario) m_MarioAnimation.animationDraw();
 	}
 }
 void Mario::InvincibleStateUpdate() {

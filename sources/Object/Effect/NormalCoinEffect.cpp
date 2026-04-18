@@ -51,8 +51,7 @@ void NormalCoinEffect::Destroy() {
 
 void NormalCoinEffect::draw() {
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
-    m_animation.setRotation(getInterpolatedAngle());
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
-    m_animation.AnimationDraw();
+    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationDraw();
 }

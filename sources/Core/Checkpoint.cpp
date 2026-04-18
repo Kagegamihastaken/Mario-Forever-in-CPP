@@ -29,8 +29,8 @@ void CheckpointAnimationUpdate() {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
         if (it->getLastState() == it->getTouch()) continue;
 
-        if (!it->getTouch()) it->SetRangeIndexAnimation(0, 0, 10);
-        else it->SetRangeIndexAnimation(1, 2, 10);
+        if (!it->getTouch()) it->setRangeIndexAnimation(0, 0, 10);
+        else it->setRangeIndexAnimation(1, 2, 10);
         it->setLastState(it->getTouch());
     }
 }
@@ -49,8 +49,8 @@ void CheckpointCollision() {
 void CheckpointDraw() {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
         if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT)) {
-            it->AnimationUpdate(it->getInterpolatedPosition(), it->getOrigin());
-            it->AnimationDraw();
+            it->animationUpdate(it->getInterpolatedPosition(), it->getOrigin());
+            it->animationDraw();
         }
     }
 }

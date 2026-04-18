@@ -116,8 +116,8 @@ void GreenSpiny::draw() {
     m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.AnimationUpdate(getInterpolatedPosition(), getOrigin());
-    m_animation.AnimationDraw();
+    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 void GreenSpiny::Death(unsigned int state) {
