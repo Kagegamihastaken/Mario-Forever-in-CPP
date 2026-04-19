@@ -30,7 +30,7 @@ Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position) : Enemy(mana
     m_alpha = 255.f;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingPriority(1);
+    setDrawingPriority(0);
 }
 void Goomba::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;
@@ -142,7 +142,7 @@ void Goomba::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingPriority(2);
+            setDrawingPriority(3);
             setDisabled(false);
             break;
         case 2:
@@ -151,7 +151,7 @@ void Goomba::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingPriority(2);
+            setDrawingPriority(3);
             setDisabled(false);
             break;
         default:;

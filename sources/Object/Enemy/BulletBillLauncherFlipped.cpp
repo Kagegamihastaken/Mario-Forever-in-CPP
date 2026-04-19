@@ -21,6 +21,7 @@ BulletBillLauncherFlipped::BulletBillLauncherFlipped(CustomTileManager &manager,
     setOrigin(sf::Vector2f(16.f, 31.f));
     MFCPP::setIndexTilemapCollision(position.x, position.y, true);
     MFCPP::setIndexTilemapID(position.x, position.y, 0);
+    setDrawingPriority(1);
 
     m_launch_interval = 75.f;
 

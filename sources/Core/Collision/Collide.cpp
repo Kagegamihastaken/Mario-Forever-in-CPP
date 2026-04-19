@@ -71,8 +71,8 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 	//bool isCollideLeftBool = false, isCollideRightBool = false;
 	std::pair<bool, bool> isCollideSide; //First:Left, Second:Right
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f); ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f); ++j) {
+	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f)); ++i) {
+		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f)); ++j) {
 			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
 			// Check if collide
 			const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0});
@@ -100,8 +100,8 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::CollisionObject& CollideObj, const unsigned ID, const sf::FloatRect& rect) {
 	std::vector<sf::Vector2f> result;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f); ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f); ++j) {
+	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f)); ++i) {
+		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f)); ++j) {
 			if (!MFCPP::getIndexCollectableMapCollision(i, j) || MFCPP::getIndexCollectableMapID(i, j) != ID) continue;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(rect, sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) result.emplace_back(static_cast<float>(i) * MFCPP::getTileSize(), static_cast<float>(j) * MFCPP::getTileSize());
 		}
@@ -112,10 +112,10 @@ std::vector<sf::Vector2f> isAccurateCollideMainCollectable(const MFCPP::Collisio
 bool isAccurateCollideBotStopEdge(const MFCPP::CollisionObject& CollideObj, const bool direction) {
 	//if (NoAdd) return false;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), {CollideObj.GetPosition().x + CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f), CollideObj.GetPosition().y}, CollideObj.GetOrigin());
-	const int SizeX = static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f);
-	const int SizeY = static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f);
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= SizeX; ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= SizeY; ++j) {
+	const int SizeX = static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f));
+	const int SizeY = static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f));
+	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= SizeX; ++i) {
+		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= SizeY; ++j) {
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
 				if (f_abs(hitbox_intersect.position.x - CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f) - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
 				//if (f_abs(CollideObj.GetPosition().x - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
@@ -140,10 +140,10 @@ bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, float& CurrP
 	bool isCollideBotBool = false;
 	bool willCollide = false;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	const int SizeX = static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f);
-	const int SizeY = static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f);
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= SizeX; ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= SizeY; ++j) {
+	const int SizeX = static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f));
+	const int SizeY = static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f));
+	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= SizeX; ++i) {
+		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= SizeY; ++j) {
 			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
 				if ((CollideObj.GetPosition().x - hitbox_loop.position.x) / MFCPP::getTileSize() < 0.f && !(i == SizeX && i == SizeY) && willCollide) continue;
@@ -164,8 +164,8 @@ bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, float& CurrP
 std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, unsigned ID) {
 	std::vector<std::pair<float, float>> result;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f); ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f); ++j) {
+	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f)); ++i) {
+		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f)); ++j) {
 			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
 				if (hitbox_intersect.position.y >= hitbox_loop.position.y + 16.0f && hitbox_intersect.position.y <= hitbox_loop.position.y + 32.0f) {
@@ -185,8 +185,8 @@ bool isAccurateCollideTop(const MFCPP::CollisionObject& CollideObj, float& CurrP
 	if (NoAdd) return false;
 	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	bool isCollideTopBool = false;
-	for (int i = static_cast<int>(hitbox_intersect.position.x / 32.f); i <= static_cast<int>((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f); ++i) {
-		for (int j = static_cast<int>(hitbox_intersect.position.y / 32.f); j <= static_cast<int>((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f); ++j) {
+	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f)); ++i) {
+		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f)); ++j) {
 			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
 			//if (SaveList.size() > 0) hitbox_loop.position.y = SaveList[i].second;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {

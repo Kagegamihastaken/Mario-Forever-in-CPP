@@ -28,7 +28,7 @@ namespace MFCPP {
     extern void setIndexTilemapID(float x, float y, unsigned val);
     extern unsigned getIndexTilemapID(int x, int y);
     extern unsigned getIndexTilemapID(float x, float y);
-    extern void setIndexTilemapFloorY(float x, float y, std::pair<float, float> val);
+    extern void setIndexTilemapFloorY(float x, float y, const std::pair<float, float> &val);
     extern std::pair<float, float> getIndexTilemapFloorY(float x, float y);
     extern float getTileSize();
     extern void drawHitboxMap();

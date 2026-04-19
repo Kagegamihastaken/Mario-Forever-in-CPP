@@ -1,6 +1,7 @@
 #ifndef MFCPP_CUSTOMTILE_HPP
 #define MFCPP_CUSTOMTILE_HPP
 
+#include <bitset>
 #include <boost/intrusive/list.hpp>
 #include "Core/Class/ActiveObjectClass.hpp"
 
@@ -18,8 +19,17 @@ namespace MFCPP {
         virtual void HitEvent() = 0;
         virtual void KickEvent() = 0;
         virtual void draw() = 0;
+
+        void setDrawingPriority(const int val) {
+            m_option[0] = val & 1;
+            m_option[1] = (val >> 1) & 1;
+        }
+        [[nodiscard]] int getDrawingPriority() const {
+            return m_option[0] + (m_option[1] << 1);
+        }
     protected:
         CustomTileManager& m_customTileManager;
+        std::bitset<2> m_option = 0;
     };
 }
 

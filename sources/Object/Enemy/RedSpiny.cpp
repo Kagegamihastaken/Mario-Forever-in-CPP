@@ -28,7 +28,7 @@ RedSpiny::RedSpiny(EnemyManager &manager, const sf::Vector2f& position) : Enemy(
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingPriority(1);
+    setDrawingPriority(0);
 }
 void RedSpiny::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;
@@ -131,7 +131,7 @@ void RedSpiny::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100, true);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingPriority(2);
+            setDrawingPriority(3);
             break;
         default:;
     }

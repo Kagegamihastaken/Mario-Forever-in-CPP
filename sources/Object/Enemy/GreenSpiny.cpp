@@ -28,7 +28,7 @@ GreenSpiny::GreenSpiny(EnemyManager &manager, const sf::Vector2f& position) : En
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingPriority(1);
+    setDrawingPriority(0);
 }
 void GreenSpiny::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;
@@ -130,7 +130,7 @@ void GreenSpiny::Death(unsigned int state) {
             m_animation.setAnimation(0,0,100, true);
             setShellKicking(false);
             setShellBlocker(false);
-            setDrawingPriority(2);
+            setDrawingPriority(3);
             setDisabled(false);
             break;
         default:;

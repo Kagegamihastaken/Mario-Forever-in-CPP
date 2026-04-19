@@ -19,7 +19,7 @@ RedKoopa::RedKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isS
     setDirection(false);
     setDisabled(true);
     setCollideEachOther(true);
-    setDrawingPriority(1);
+    setDrawingPriority(0);
     if (!isShell) {
         setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 47.f}));
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
@@ -192,7 +192,7 @@ void RedKoopa::ChangeState() {
             m_velocity.x = 0.f;
             setShellBlocker(false);
             setShellKicking(true);
-            setDrawingPriority(1);
+            setDrawingPriority(0);
             m_turnback = false;
             setDisabled(false);
             break;
@@ -207,7 +207,7 @@ void RedKoopa::ChangeState() {
             m_velocity.x = 5.f;
             setShellBlocker(true);
             setShellKicking(true);
-            setDrawingPriority(1);
+            setDrawingPriority(0);
             m_turnback = false;
             setDisabled(false);
             break;
@@ -222,7 +222,7 @@ void RedKoopa::ChangeState() {
             setCollideEachOther(false);
             setShellBlocker(false);
             setShellKicking(false);
-            setDrawingPriority(2);
+            setDrawingPriority(3);
             m_turnback = false;
             setDisabled(false);
             break;

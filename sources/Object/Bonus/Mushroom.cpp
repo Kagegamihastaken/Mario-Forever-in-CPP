@@ -29,7 +29,7 @@ Mushroom::Mushroom(EnemyManager &manager, const sf::Vector2f& position) : Enemy(
     setShellKicking(false);
     setShellBlocker(false);
 
-    setDrawingPriority(1);
+    setDrawingPriority(0);
 }
 void Mushroom::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;

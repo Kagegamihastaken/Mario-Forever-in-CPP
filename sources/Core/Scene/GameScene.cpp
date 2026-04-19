@@ -134,13 +134,15 @@ void GameScene::draw(sf::RenderWindow &window) {
     ExitGateDraw();
     CheckpointDraw();
     enemyManager.DrawPriority(0);
-    ObstaclesDraw();
-    movingBlockManager.draw();
     Mario::MarioDraw();
+    ObstaclesDraw();
     enemyManager.DrawPriority(1);
-    customTileManager.Draw();
+    movingBlockManager.draw();
+    customTileManager.DrawPriority(0);
     CoinDraw();
     enemyManager.DrawPriority(2);
+    customTileManager.DrawPriority(1);
+    enemyManager.DrawPriority(3);
     projectileManager.Draw();
     MarioEffectDraw();
     ExitGateEffectDraw();

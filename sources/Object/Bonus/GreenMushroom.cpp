@@ -28,7 +28,7 @@ GreenMushroom::GreenMushroom(EnemyManager &manager, const sf::Vector2f& position
     setShellKicking(false);
     setShellBlocker(false);
 
-    setDrawingPriority(1);
+    setDrawingPriority(0);
 }
 void GreenMushroom::setPreviousData() {
     if (isDestroyed() || isDisabled()) return;

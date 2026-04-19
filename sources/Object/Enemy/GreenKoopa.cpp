@@ -19,7 +19,7 @@ GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool
     setDirection(false);
     setDisabled(true);
     setCollideEachOther(true);
-    setDrawingPriority(1);
+    setDrawingPriority(0);
     if (!isShell) {
         setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 47.f}));
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
@@ -190,7 +190,7 @@ void GreenKoopa::ChangeState() {
             m_hit_count = 0;
             setShellBlocker(false);
             setShellKicking(true);
-            setDrawingPriority(1);
+            setDrawingPriority(0);
             setDisabled(false);
             break;
         case 2:
@@ -204,7 +204,7 @@ void GreenKoopa::ChangeState() {
             m_hit_count = 0;
             setShellBlocker(true);
             setShellKicking(true);
-            setDrawingPriority(1);
+            setDrawingPriority(0);
             setDisabled(false);
             break;
         case 3:
@@ -218,7 +218,7 @@ void GreenKoopa::ChangeState() {
             setCollideEachOther(false);
             setShellBlocker(false);
             setShellKicking(false);
-            setDrawingPriority(2);
+            setDrawingPriority(3);
             setDisabled(false);
             break;
         default:;

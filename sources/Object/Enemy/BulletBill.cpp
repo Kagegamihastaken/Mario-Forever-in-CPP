@@ -99,8 +99,8 @@ void BulletBill::draw() {
 
 void BulletBill::Death(unsigned int state) {
     m_state = state;
-    // if (m_state == 1)
-    //     setDrawingPriority(2);
+    if (m_state == 1)
+        setDrawingPriority(3);
 }
 
 bool BulletBill::isDeath() {

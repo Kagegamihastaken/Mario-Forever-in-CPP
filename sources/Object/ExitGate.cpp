@@ -10,9 +10,9 @@
 #include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Time.hpp"
+#include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Projectiles/MarioProjectile.hpp"
 #include "Object/Mario.hpp"
 
 static MFCPP::SingleAnimationObject ExitGateIndicatorAnimation;

@@ -32,7 +32,7 @@ HammerBro::HammerBro(EnemyManager &manager, const sf::Vector2f &position) : Enem
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
-    setDrawingPriority(1);
+    setDrawingPriority(0);
     //walking value
     m_movingValue = 0.f;
     m_WalkingState = 1;
@@ -183,7 +183,7 @@ void HammerBro::Death(unsigned int state) {
     m_animation.setAnimation(0, 0, 100, true);
     setShellKicking(false);
     setShellBlocker(false);
-    setDrawingPriority(2);
+    setDrawingPriority(3);
     if (getCurrentPosition().x > Mario::getCurrentPosition().x) m_animation.setAnimationDirection(ANIM_LEFT);
     else m_animation.setAnimationDirection(ANIM_RIGHT);
     setDisabled(false);

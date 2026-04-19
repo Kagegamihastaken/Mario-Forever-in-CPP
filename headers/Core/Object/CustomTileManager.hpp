@@ -40,7 +40,7 @@ public:
     void HitEvent() const;
     void CustomTileCleanup();
     void DeleteAll();
-    void Draw() const;
+    void DrawPriority(int index) const;
 private:
     struct QueueCustomTileData {
         sf::Vector2f pos;

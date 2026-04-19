@@ -57,9 +57,9 @@ void CustomTileManager::setDeletionFlag(bool val) {
     m_CustomTileDeletionFlag = val;
 }
 
-void CustomTileManager::Draw() const {
+void CustomTileManager::DrawPriority(const int index) const {
     for (const auto &i : m_customTiles) {
-        if (i) i->draw();
+        if (i && i->getDrawingPriority() == index) i->draw();
     }
 }
 

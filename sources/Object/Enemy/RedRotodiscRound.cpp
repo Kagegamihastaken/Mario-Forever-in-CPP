@@ -27,7 +27,7 @@ RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &po
     m_speed = speed;
     setShellKicking(false);
     setShellBlocker(false);
-    setDrawingPriority(2);
+    setDrawingPriority(1);
     m_angle = angle;
 }
 void RedRotodiscRound::setPreviousData() {
@@ -65,14 +65,21 @@ void RedRotodiscRound::BlockHit() {}
 void RedRotodiscRound::ShellHit() {}
 void RedRotodiscRound::draw() {
     if (!isOutOfScreen(MFCPP::CollisionObject(m_position_center, sf::Vector2f(16.f, 16.f), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 32.f)) {
-        m_animation_base.animationUpdate(m_position_center, sf::Vector2f(16.f, 16.f));
-        m_animation_base.animationDraw();
+        if (getDrawingPriority() == 1) {
+            m_animation_base.animationUpdate(m_position_center, sf::Vector2f(16.f, 16.f));
+            m_animation_base.animationDraw();
+            setDrawingPriority(3);
+            return;
+        }
     }
     if (!isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) {
-        HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
-        m_animation.setColor(sf::Color(255, 255, 255));
-        m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
-        m_animation.animationDraw();
+        if (getDrawingPriority() == 3) {
+            HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+            m_animation.setColor(sf::Color(255, 255, 255));
+            m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+            m_animation.animationDraw();
+            setDrawingPriority(1);
+        }
     }
 }
 void RedRotodiscRound::Destroy() {
