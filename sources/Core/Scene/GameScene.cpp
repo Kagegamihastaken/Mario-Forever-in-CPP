@@ -98,14 +98,12 @@ void GameScene::update(const float deltaTime) {
 
     effectManager.statusUpdate(deltaTime);
 
-    ScoreEffectStatusUpdate(deltaTime);
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
 
 }
 void GameScene::setPreviousPosition() {
     Mario::SetPrevMarioPos();
-    SetPrevScoreEffectPos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
     enemyManager.setPreviousData();
@@ -117,7 +115,6 @@ void GameScene::setPreviousPosition() {
 }
 void GameScene::interpolatePosition(const float alpha) {
     Mario::InterpolateMarioPos(alpha);
-    InterpolateScoreEffectPos(alpha);
     InterpolateMarioEffectPos(alpha);
     InterpolateExitGatePos(alpha);
     enemyManager.interpolateData(alpha);
@@ -144,7 +141,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     customTileManager.Draw();
     CoinDraw();
     enemyManager.DrawPriority(2);
-    ScoreEffectDraw();
     projectileManager.Draw();
     MarioEffectDraw();
     ExitGateEffectDraw();
@@ -155,7 +151,6 @@ void GameScene::draw(sf::RenderWindow &window) {
     TextDraw();
 }
 void GameScene::objectCleanup() {
-    ScoreEffectCleanup();
     CoinCleanup();
     movingBlockManager.MovingBlockCleanup();
     enemyManager.EnemyCleanup();

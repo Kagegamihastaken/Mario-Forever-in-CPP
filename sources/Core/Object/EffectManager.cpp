@@ -14,6 +14,10 @@ EffectManager::EffectIntrusiveList &EffectManager::getGenericList() {
     return m_GenericEffect;
 }
 
+EffectManager::EffectIntrusiveList &EffectManager::getScrollBasedList() {
+    return m_ScrollBasedEffect;
+}
+
 void EffectManager::setPreviousData() const {
     for (const auto &i : m_effects) {
         if (i) i->setPreviousData();
