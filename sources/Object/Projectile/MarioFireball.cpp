@@ -42,7 +42,9 @@ void MarioFireball::statusUpdate(float deltaTime) {
     if (m_direction) setCurrentAngle(getCurrentAngle() - sf::degrees(11.5f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(11.5f * deltaTime));
     //Status
-    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f)) {
+    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        isOutOfScreenXRight(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }

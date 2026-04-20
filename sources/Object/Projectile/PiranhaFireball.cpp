@@ -70,7 +70,7 @@ void PiranhaFireball::statusUpdate(float deltaTime) {
     if (m_velocity.x < 0.f) setCurrentAngle(getCurrentAngle() - sf::degrees(11.5f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(11.5f * deltaTime));
     //Status
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f)) {
+    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }
@@ -91,7 +91,7 @@ void PiranhaFireball::CollisionUpdate() {
 }
 
 void PiranhaFireball::draw() {
-    //if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
     m_animation.setAnimationDirection(m_velocity.x > 0.f);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
     m_animation.setRotation(getInterpolatedAngle());

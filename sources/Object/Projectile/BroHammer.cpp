@@ -38,7 +38,7 @@ void BroHammer::statusUpdate(float deltaTime) {
     if (m_direction) setCurrentAngle(getCurrentAngle() - sf::degrees(5.f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(5.f * deltaTime));
     //Status
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f)) {
+    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }

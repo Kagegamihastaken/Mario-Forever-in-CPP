@@ -18,7 +18,7 @@ namespace MFCPP {
         return std::max(-TILEMAP_MAX, std::min(x, tileMapSizeX)) + std::max(-TILEMAP_MAX, std::min(y, tileMapSizeY)) * (tileMapSizeX + TILEMAP_MAX + 1);
     }
     sf::Vector2f getTilemap(const int id) {
-        return {((id + TILEMAP_MAX) % (tileMapSizeX + TILEMAP_MAX + 1) - TILEMAP_MAX) * tileSize, (id + TILEMAP_MAX) / (tileMapSizeX + TILEMAP_MAX + 1) * tileSize};
+        return {static_cast<float>((id + TILEMAP_MAX) % (tileMapSizeX + TILEMAP_MAX + 1) - TILEMAP_MAX) * tileSize, static_cast<float>((id + TILEMAP_MAX) / (tileMapSizeX + TILEMAP_MAX + 1)) * tileSize};
     }
     void setIndexCollectableMapID(const float x, const float y, const unsigned val) {
         CollectableMap[getTilemap(static_cast<int>(std::floor(x / tileSize)), static_cast<int>(std::floor(y / tileSize)))].id = val;

@@ -76,7 +76,13 @@ bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset) {
 	// 	obj.GetPosition().y + obj.GetLeftHitbox().size.y > ViewY - offset);
 }
 bool isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, const float offset) {
-	return obj.GetPosition().y > ViewY + Height + offset;
+	return obj.GetPosition().y - obj.GetOrigin().y > ViewY + Height + offset;
+}
+bool isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset) {
+	return obj.GetPosition().x - obj.GetOrigin().x + obj.GetLeftHitbox().size.x < ViewX - offset;
+}
+bool isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset) {
+	return obj.GetPosition().x - obj.GetOrigin().x > ViewX + Width + offset;
 }
 bool isOutScreen(float xPos, float yPos, float OffsetX, float OffsetY) {
 	if (xPos - ViewX < 0.0f - OffsetX || xPos - ViewX > Width + OffsetX - 32.0f || yPos - ViewY < 0.0f - OffsetY || yPos - ViewY > Height + OffsetY - 32.0f) {

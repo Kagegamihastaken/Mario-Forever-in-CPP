@@ -55,7 +55,9 @@ void MarioBeetroot::interpolateData(const float alpha) {
 void MarioBeetroot::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Status
-    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f)) {
+    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        isOutOfScreenXRight(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }

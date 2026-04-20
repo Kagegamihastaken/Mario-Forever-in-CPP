@@ -409,7 +409,7 @@ void Mario::Death() {
 	ExitGateEffectReset();
 }
 void Mario::CheckForDeath() {
-	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 64.f)) {
+	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {
 		m_CanControlMario = false;
 		ActiveMarioEffect();
 	}

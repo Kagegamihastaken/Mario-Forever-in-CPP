@@ -19,5 +19,7 @@ extern bool isOutScreenYBottom(float yPos, float OffsetY);
 extern void moveView(float x, float y);
 extern bool isOutOfScreen(const MFCPP::CollisionObject& obj, float offset);
 extern bool isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, float offset);
+extern bool isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset);
+extern bool isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset);
 
 #endif // SCROLL_HPP
