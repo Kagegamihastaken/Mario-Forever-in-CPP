@@ -30,7 +30,7 @@ bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::
 // This only meant for slope
 bool GetRelativeTilemapSlopeUp(const float CurrPosXCollide, const float CurrPosYCollide) {
 	const std::pair<float, float> floorY = MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide);
-	const bool condition = floorY.first - floorY.second < 0;
+	const bool condition = floorY.first < floorY.second;
 	if (MFCPP::getIndexTilemapID(CurrPosXCollide + MFCPP::getTileSize() * (condition ? 1.f : -1.f), CurrPosYCollide) == 3) {
 		const std::pair<float, float> direction = MFCPP::getIndexTilemapFloorY(CurrPosXCollide + MFCPP::getTileSize() * (condition ? 1.f : -1.f), CurrPosYCollide);
 		if ((direction.first - direction.second < 0) == condition) return true;
@@ -43,9 +43,13 @@ bool GetRelativeTilemapSlopeUp(const float CurrPosXCollide, const float CurrPosY
 }
 bool GetRelativeTilemapSlopeDown(const float CurrPosXCollide, const float CurrPosYCollide) {
 	const auto [fst, snd] = MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide);
-	const bool condition = fst - snd < 0;
-	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize() * (condition ? 1.f : -1.f), CurrPosYCollide) == 3) return true;
-	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize() * (condition ? 1.f : -1.f), CurrPosYCollide + MFCPP::getTileSize()) == 3) return true;
+	const bool condition = fst < snd;
+	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize() * (condition ? 1.f : -1.f), CurrPosYCollide) == 3) {
+		return true;
+	}
+	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize() * (condition ? 1.f : -1.f), CurrPosYCollide + MFCPP::getTileSize()) == 3) {
+		return true;
+	}
 	return false;
 }
 bool GetRelativeTilemapSlopeLeft(const float CurrPosXCollide, const float CurrPosYCollide) {
@@ -314,7 +318,7 @@ float GetCurrFloorY(const sf::Vector2f& pos, const float CurrX, const float Curr
 	const bool SlopeRelaUp = GetRelativeTilemapSlopeUp(CurrX, CurrY);
 	const bool SlopeRelaDown = GetRelativeTilemapSlopeDown(CurrX, CurrY);
 	const std::pair<float, float> CurrFloorY = MFCPP::getIndexTilemapFloorY(CurrX, CurrY);
-	const bool CurrCondition = CurrFloorY.first - CurrFloorY.second <= 0;
+	const bool CurrCondition = CurrFloorY.first - CurrFloorY.second < 0;
 	if (!SlopeRelaUp)
 		if (!SlopeRelaDown)
 			t = (std::max(std::min(pos.x, CurrX + MFCPP::getTileSize()), CurrX) - CurrX) / MFCPP::getTileSize();

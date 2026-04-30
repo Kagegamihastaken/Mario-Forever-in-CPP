@@ -268,7 +268,7 @@ void Mario::MarioVertYBottomUpdate() {
 			m_velocity.y = 0.f;
 		}
 		//Collision With Obstacles
-		if (QuickCheckBotCollision(MFCPP::CollisionObject({m_player.getCurrentPosition().x, m_player.getCurrentPosition().y + 1.0f}, m_player.getOrigin(), m_hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
+		if (QuickCheckBotCollision(MFCPP::CollisionObject({m_player.getCurrentPosition().x, m_player.getCurrentPosition().y}, m_player.getOrigin(), m_hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			if (const float offset = std::min(m_velocity.x + 1.f, 3.f); m_velocity.y >= -m_velocity.x) {
 				const float floorY = GetCurrFloorY(m_player.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
 				if (m_player.getCurrentPosition().y < CurrPosYCollide + floorY - offset) return;
