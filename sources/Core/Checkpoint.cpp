@@ -1,4 +1,6 @@
 #include "Core/Checkpoint.hpp"
+
+#include "Core/AutoScroll.hpp"
 #include "Core/Class/CheckpointClass.hpp"
 #include "Core/ExternalHeaders/plf_colony.h"
 #include "Core/ImageManager.hpp"
@@ -42,6 +44,7 @@ void CheckpointCollision() {
         if (sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getInterpolatedPosition(), it->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             it->setTouch(true);
             StartPos = it->getCurrentPosition();
+            MFCPP::AutoScroll::setOriginPosition(it->getCurrentPosition());
             SoundManager::PlaySound("Vine");
         }
     }

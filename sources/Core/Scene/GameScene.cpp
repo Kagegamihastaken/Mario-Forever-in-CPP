@@ -34,6 +34,7 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
 #include "Block/Obstacles.hpp"
+#include "Core/AutoScroll.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
@@ -68,6 +69,9 @@ void GameScene::update(const float deltaTime) {
     // UI Update
     TimeUpdate(deltaTime);
     TimeRingBehavior();
+
+    if (MFCPP::AutoScroll::getAutoScrollMode() && !EffectActive)
+        MFCPP::AutoScroll::UpdateSpeed(deltaTime);
 
     //Checkpoint
     CheckpointAnimationUpdate();
@@ -185,7 +189,12 @@ void GameScene::textUpdate() {
     EditText(fmt::format("{}", getTime()), "_TIME");
 }
 void GameScene::setView() {
-    const sf::Vector2f& ScrollPos = Mario::getInterpolatedPosition();
+    sf::Vector2f ScrollPos;
+    if (MFCPP::AutoScroll::getAutoScrollMode()) {
+        ScrollPos = MFCPP::AutoScroll::getPosition();
+    }
+    else
+        ScrollPos = Mario::getInterpolatedPosition();
     view.setCenter({ std::min(std::max(Width / 2.0f, ScrollPos.x), LevelWidth - Width / 2.f), std::min(std::max(Height / 2.0f, ScrollPos.y), LevelHeight - Height / 2.f) });
 }
 void GameScene::loadResources() {
@@ -231,8 +240,8 @@ void GameScene::loadResources() {
         AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    ReadData("data/levels/onedashthree.json");
-    //ReadData("data/levels/twodashone.json");
+    //ReadData("data/levels/onedashthree.json");
+    ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
     Bgbuilding();
     CheckpointBuilding();

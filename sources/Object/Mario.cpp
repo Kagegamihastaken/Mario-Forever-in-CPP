@@ -1,5 +1,6 @@
 #include "Object/Mario.hpp"
 #include "Block/Brick.hpp"
+#include "Core/AutoScroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
@@ -45,6 +46,7 @@ bool Mario::m_Invincible = false;
 bool Mario::m_InvincibleState = false;
 bool Mario::m_MarioAppearing = false;
 bool Mario::m_OutsideWallLeft = false;
+bool Mario::m_OutsideWallRight = false;
 float Mario::m_FireTime = 4.f;
 float Mario::m_FireTimeCounting = m_FireTime;
 bool Mario::m_isFireHolding = false;
@@ -68,6 +70,12 @@ void Mario::UpdateSequenceAnimation() {
 		default: ;
 	}
 }
+
+void Mario::MarioEffectActivate() {
+	ActiveMarioEffect();
+	m_CanControlMario = false;
+}
+
 void Mario::SetPowerState(const int ps) {
 	m_PowerState = ps;
 	UpdateSequenceAnimation();
@@ -98,12 +106,27 @@ void Mario::InterpolateMarioPos(const float alpha) {
 	m_player.setInterpolatedPosition(linearInterpolation(m_player.getPreviousPosition(), m_player.getCurrentPosition(), alpha));
 }
 void Mario::MarioOutSideScreen() {
-	if (m_player.getCurrentPosition().x <= m_player.getOrigin().x + ViewX) {
-		m_player.setCurrentPosition({m_player.getOrigin().x + ViewX, m_player.getCurrentPosition().y});
-		m_OutsideWallLeft = true;
+	float temp = 0;
+	const auto [fst, snd] = QuickCheckSideCollision(
+			MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), extendHitbox(m_hitboxWall, 1.f)), m_MarioDirection, temp, temp);
+	if (m_player.getCurrentPosition().x < m_player.getOrigin().x + ViewX) {
+		if (!snd)
+			m_player.setCurrentPosition({m_player.getOrigin().x + ViewX + (MFCPP::AutoScroll::getSpeed() - 1.f), m_player.getCurrentPosition().y});
 		if (m_velocity.x > 0.f) m_velocity.x = 0.f;
+		m_OutsideWallLeft = true;
 	}
-	else if (m_player.getCurrentPosition().x > m_player.getOrigin().x + ViewX) m_OutsideWallLeft = false;
+	else m_OutsideWallLeft = false;
+
+	if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width) {
+		if (!fst)
+			m_player.setCurrentPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
+		if (m_velocity.x > 0.f) m_velocity.x = 0.f;
+		m_OutsideWallRight = true;
+	}
+	else m_OutsideWallRight = false;
+
+	if (isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), m_hitboxWall), 0.f))
+		MarioEffectActivate();
 }
 //false: right, true: left
 void Mario::KeyboardMovement(const float deltaTime) {
@@ -199,7 +222,7 @@ void Mario::MarioPosXUpdate(const float deltaTime) {
 	if (!EffectActive) {
 		if (!m_MarioDirection) m_player.setCurrentPosition({m_player.getCurrentPosition().x + m_velocity.x * deltaTime, m_player.getCurrentPosition().y});
 		else {
-			if (!m_OutsideWallLeft)
+			if (!m_OutsideWallLeft && !m_OutsideWallRight)
 				m_player.setCurrentPosition({ m_player.getCurrentPosition().x + (0 - m_velocity.x) * deltaTime, m_player.getCurrentPosition().y });
 			else m_velocity.x = 0.f;
 		}
@@ -389,8 +412,7 @@ void Mario::PowerDown() {
 			m_InvincibleState = false;
 		}
 		else if (m_PowerState == 0 && m_CanControlMario && !LevelCompleteEffect) {
-			m_CanControlMario = false;
-			ActiveMarioEffect();
+			MarioEffectActivate();
 		}
 	}
 }
@@ -407,6 +429,9 @@ void Mario::Death() {
 	if (m_MarioCrouchDown) m_MarioCrouchDown = false;
 	TimeReset();
 	ExitGateEffectReset();
+
+	if (MFCPP::AutoScroll::getAutoScrollMode())
+		MFCPP::AutoScroll::resetPosition();
 }
 void Mario::CheckForDeath() {
 	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {

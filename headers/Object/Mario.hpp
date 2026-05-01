@@ -59,6 +59,8 @@ public:
 	static void setHolding(bool val);
 	[[nodiscard]] static bool getHolding();
 
+	static void MarioEffectActivate();
+
 	// extern float player_speed;
 	// extern bool MarioCrouchDown;
 	// extern bool MarioAppearing;
@@ -96,6 +98,7 @@ private:
 	static bool m_MarioAppearing;
 
 	static bool m_OutsideWallLeft;
+	static bool m_OutsideWallRight;
 
 	static float m_FireTime;
 	static float m_FireTimeCounting;
