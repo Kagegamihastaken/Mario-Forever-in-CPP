@@ -5,6 +5,7 @@
 #include "Object/Coin.hpp"
 #include "Block/Brick.hpp"
 #include "Block/BulletLauncher.hpp"
+#include "Block/CustomBlock.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/Loading/enum.hpp"
@@ -38,6 +39,7 @@ float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
 static std::vector<std::array<float, 3>> LevelData;
 static std::vector<std::array<float, 3>> SceneryData;
+static std::vector<std::array<float, 3>> CustomTileData;
 static std::vector<std::array<float, 5>> BonusData;
 static std::vector<std::array<float, 5>> EnemyData;
 static std::vector<sf::Vector2f> CheckpointData;
@@ -175,6 +177,9 @@ void ReadData(const std::filesystem::path& path) {
 			case 5:
 				SceneryData.push_back({static_cast<float>(ReadTile->objectID), pos.x, pos.y});
 				break;
+			case 6:
+				CustomTileData.push_back({static_cast<float>(ReadTile->objectID), pos.x, pos.y});
+				break;
 			default: ;
 		}
 	}
@@ -269,6 +274,11 @@ void Objectbuilding() {
 	if (!SceneryData.empty()) {
 		for (const auto& i : SceneryData) {
 			AddScenery(i[0], sf::Vector2f(i[1], i[2]));
+		}
+	}
+	if (!CustomTileData.empty()) {
+		for (const auto &i : CustomTileData) {
+			AddCustomTile(i[0], sf::Vector2f(i[1], i[2]));
 		}
 	}
 	if (!BonusData.empty()) {

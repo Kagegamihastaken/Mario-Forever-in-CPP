@@ -27,7 +27,7 @@ void ForceLoadLuckyBlockTexture(const LuckyBlockID ID) {
 	switch (ID) {
 		case LUCKY_BLOCK:
 			for (int i = 0; i < 3; ++i)
-				ImageManager::LoadTexture(fmt::format("NormalLuckyBlock_{}", i));
+			ImageManager::LoadTexture(fmt::format("NormalLuckyBlock_{}", i));
 			ImageManager::LoadTexture("NormalLuckyBlockHit");
 			break;
 		case TREE_LUCKY_BLOCK:

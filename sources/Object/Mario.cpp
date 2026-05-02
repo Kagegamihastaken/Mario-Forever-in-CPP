@@ -121,7 +121,7 @@ void Mario::MarioOutSideScreen() {
 		if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width) {
 			if (!fst)
 				m_player.setCurrentPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
-			//if (m_velocity.x > 0.f) m_velocity.x = 0.f;
+			if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 			m_OutsideWallRight = true;
 		}
 		else m_OutsideWallRight = false;

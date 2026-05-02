@@ -2,6 +2,7 @@
 
 #include "Block/Brick.hpp"
 #include "Block/BulletLauncher.hpp"
+#include "Block/CustomBlock.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
@@ -56,6 +57,7 @@ void EditorScene::loadResources() {
     PlatformInit();
     CheckpointInit();
     SceneryInit();
+    CustomBlockInit();
     //
     SelectTileInit();
     EditorInit();

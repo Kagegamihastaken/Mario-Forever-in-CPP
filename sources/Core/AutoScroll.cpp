@@ -8,13 +8,12 @@ sf::Vector2f MFCPP::AutoScroll::m_position = sf::Vector2f(0.f,0.f);
 sf::Vector2f MFCPP::AutoScroll::m_origin_pos = sf::Vector2f(0.f, 0.f);
 bool MFCPP::AutoScroll::m_autoScrollMode = true;
 bool MFCPP::AutoScroll::m_tankMode = true;
-float MFCPP::AutoScroll::m_speed = 2.f;
+float MFCPP::AutoScroll::m_speed = 1.f;
 
 void MFCPP::AutoScroll::AutoScrollBuild() {
     if (!m_autoScrollMode) return;
 
     if (m_tankMode) {
-        Log::InfoPrint(fmt::format("Built"));
         GameScene::movingBlockManager.addMovingBlock<TankGround>(sf::Vector2f(m_origin_pos.x - Width / 2.f, Height - 64.f));
     }
 }

@@ -27,6 +27,7 @@
 
 #include <fmt/format.h>
 
+#include "Block/CustomBlock.hpp"
 #include "Core/Level.hpp"
 #include "Core/Time.hpp"
 #include "Projectiles/ProjectileHelper.hpp"
@@ -230,6 +231,7 @@ void GameScene::loadResources() {
     PlatformInit();
     CheckpointInit();
     RotodiscInit();
+    CustomBlockInit();
 
     AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
     AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
@@ -245,7 +247,8 @@ void GameScene::loadResources() {
     //ReadData("data/levels/onedashthree.json");
     //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
-    ReadData("data/levels/test.json");
+    //ReadData("data/levels/test.json");
+    ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();
