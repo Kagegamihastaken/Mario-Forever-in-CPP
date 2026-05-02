@@ -38,6 +38,7 @@ public:
 
 	[[nodiscard]] static sf::FloatRect getHitbox();
 	[[nodiscard]] static sf::FloatRect getHitboxWall();
+	[[nodiscard]] static sf::FloatRect getHitboxFloor();
 	[[nodiscard]] static sf::Vector2f getOrigin();
 	static void setCurrentPosition(const sf::Vector2f& val);
 	[[nodiscard]] static sf::Vector2f getCurrentPosition();
@@ -58,6 +59,7 @@ public:
 	[[nodiscard]] static sf::Vector2f getInterpolatedPosition();
 	static void setHolding(bool val);
 	[[nodiscard]] static bool getHolding();
+	[[nodiscard]] static bool getCurrentFalling();
 
 	static void MarioEffectActivate();
 
@@ -67,6 +69,8 @@ public:
 	// extern bool Holding;
 private:
 	static void UpdateSequenceAnimation();
+
+	static void CheckXCollision();
 
 	static sf::FloatRect m_hitboxFloor;
 	static sf::FloatRect m_hitboxTop;

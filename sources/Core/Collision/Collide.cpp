@@ -23,6 +23,9 @@ sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Sprite& spr
 sf::FloatRect extendHitbox(const sf::FloatRect& hitbox, float val) {
 	return sf::FloatRect(hitbox.position - sf::Vector2f(val, val), hitbox.size + sf::Vector2f(val * 2.f, val * 2.f));
 }
+sf::FloatRect extendHitboxX(const sf::FloatRect& hitbox, float val) {
+	return sf::FloatRect(hitbox.position - sf::Vector2f(val, 0.f), hitbox.size + sf::Vector2f(val * 2.f, 0.f));
+}
 bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other) {
 	return static_cast<bool>(hitbox.findIntersection(other));
 }
@@ -396,14 +399,9 @@ bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut
 				if (Yvelo >= 0.f) {
 					if (ActivatePlatform) {
 						it.activate();
-						//if (it.isFall()) it.setIsFall(true);
-						//if (it.isWait() && it.getWaitState() == 0) it.setWaitSate(1);
 					}
 					YPosOut = it.getCurrentPosition().y;
 					return true;
-					//MarioCurrentFalling = false;
-					//Yvelo = 0.f;
-					//break;
 				}
 			}
 		}
@@ -413,6 +411,8 @@ bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut
 bool PlatformXCollision(const MFCPP::CollisionObject& CollideObj, float& XDistance, const float Yvelo) {
 	const sf::FloatRect CollideHitbox = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
 	for (auto &it : GameScene::movingBlockManager.getPlatformList()) {
+		if (it.canCollision()) continue;
+
 		if (const sf::FloatRect PlatformHitbox = getGlobalHitbox(it.getHitbox(), it.getPreviousPosition(), it.getOrigin()); isCollide(CollideHitbox, PlatformHitbox)) {
 			//Only Bottom allowed to collide
 			if (Yvelo >= 0.f) {

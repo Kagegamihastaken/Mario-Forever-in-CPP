@@ -109,7 +109,6 @@ int WinMain() {
 			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
 			ImageManager::ClearAllVertex();
 			GameObjectEditText();
-			Mario::MarioOutSideScreen();
 			fpsLite.update();
 			timestep.addFrame();
 			while (timestep.isUpdateRequired()) {

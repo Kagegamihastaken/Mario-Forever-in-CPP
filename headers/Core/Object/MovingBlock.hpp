@@ -1,6 +1,7 @@
 #ifndef MFCPP_MOVINGBLOCK_HPP
 #define MFCPP_MOVINGBLOCK_HPP
 
+#include <bitset>
 #include <boost/intrusive/list_hook.hpp>
 #include "Core/Class/ActiveObjectClass.hpp"
 
@@ -17,7 +18,11 @@ namespace MFCPP {
         virtual void statusUpdate(float deltaTime) = 0;
         virtual void activate() = 0;
         virtual void draw() = 0;
+
+        void setCanCollision(const bool val) { m_option[0] = val;}
+        [[nodiscard]] bool canCollision() const { return m_option[0]; }
     protected:
+        std::bitset<1> m_option;
         MovingBlockManager& m_movingBlockManager;
     };
 }

@@ -109,21 +109,23 @@ void Mario::MarioOutSideScreen() {
 	float temp = 0;
 	const auto [fst, snd] = QuickCheckSideCollision(
 			MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), extendHitbox(m_hitboxWall, 1.f)), m_MarioDirection, temp, temp);
-	if (m_player.getCurrentPosition().x < m_player.getOrigin().x + ViewX) {
+	if (m_player.getCurrentPosition().x <= m_player.getOrigin().x + ViewX) {
 		if (!snd)
-			m_player.setCurrentPosition({m_player.getOrigin().x + ViewX + (MFCPP::AutoScroll::getSpeed() - 1.f), m_player.getCurrentPosition().y});
-		if (m_velocity.x > 0.f) m_velocity.x = 0.f;
+			m_player.setCurrentPosition({m_player.getOrigin().x + ViewX, m_player.getCurrentPosition().y});
+		//if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 		m_OutsideWallLeft = true;
 	}
 	else m_OutsideWallLeft = false;
 
-	if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width) {
-		if (!fst)
-			m_player.setCurrentPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
-		if (m_velocity.x > 0.f) m_velocity.x = 0.f;
-		m_OutsideWallRight = true;
+	if (!LevelCompleteEffect) {
+		if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width) {
+			if (!fst)
+				m_player.setCurrentPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
+			//if (m_velocity.x > 0.f) m_velocity.x = 0.f;
+			m_OutsideWallRight = true;
+		}
+		else m_OutsideWallRight = false;
 	}
-	else m_OutsideWallRight = false;
 
 	if (isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), m_hitboxWall), 0.f))
 		MarioEffectActivate();
@@ -219,6 +221,14 @@ void Mario::KeyboardMovement(const float deltaTime) {
 	m_isFireHolding = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X);
 }
 void Mario::MarioPosXUpdate(const float deltaTime) {
+	if (m_CanControlMario) {
+		if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), PlatDistance, m_velocity.y)) {
+			m_player.setCurrentPosition({m_player.getCurrentPosition().x + PlatDistance, m_player.getCurrentPosition().y});
+		}
+	}
+
+	CheckXCollision();
+
 	if (!EffectActive) {
 		if (!m_MarioDirection) m_player.setCurrentPosition({m_player.getCurrentPosition().x + m_velocity.x * deltaTime, m_player.getCurrentPosition().y});
 		else {
@@ -243,10 +253,10 @@ void Mario::MarioPosXUpdate(const float deltaTime) {
 	}
 }
 void Mario::MarioVertXUpdate() {
+	CheckXCollision();
+}
+void Mario::CheckXCollision() {
 	if (m_CanControlMario) {
-		if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), PlatDistance, m_velocity.y)) {
-			m_player.setCurrentPosition({m_player.getCurrentPosition().x + PlatDistance, m_player.getCurrentPosition().y});
-		}
 		float CurrPosXCollide = 0, CurrPosYCollide = 0;
 		const auto [fst, snd] = QuickCheckSideCollision(
 			MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxWall), m_MarioDirection, CurrPosXCollide, CurrPosYCollide);
@@ -429,9 +439,6 @@ void Mario::Death() {
 	if (m_MarioCrouchDown) m_MarioCrouchDown = false;
 	TimeReset();
 	ExitGateEffectReset();
-
-	if (MFCPP::AutoScroll::getAutoScrollMode())
-		MFCPP::AutoScroll::resetPosition();
 }
 void Mario::CheckForDeath() {
 	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {
@@ -539,6 +546,10 @@ sf::FloatRect Mario::getHitboxWall() {
 	return m_hitboxWall;
 }
 
+sf::FloatRect Mario::getHitboxFloor() {
+	return m_hitboxFloor;
+}
+
 void Mario::setCanControl(bool val) {
 	m_CanControlMario = val;
 }
@@ -557,4 +568,8 @@ void Mario::setHolding(bool val) {
 
 bool Mario::getHolding() {
 	return m_Holding;
+}
+
+bool Mario::getCurrentFalling() {
+	return m_MarioCurrentFalling;
 }

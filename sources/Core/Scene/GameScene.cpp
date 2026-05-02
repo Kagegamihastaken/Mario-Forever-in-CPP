@@ -72,6 +72,7 @@ void GameScene::update(const float deltaTime) {
 
     if (MFCPP::AutoScroll::getAutoScrollMode() && !EffectActive)
         MFCPP::AutoScroll::UpdateSpeed(deltaTime);
+    Mario::MarioOutSideScreen();
 
     //Checkpoint
     CheckpointAnimationUpdate();
@@ -200,6 +201,7 @@ void GameScene::setView() {
 void GameScene::loadResources() {
     //Load Resources
     GameSceneInit();
+    MFCPP::AutoScroll::AutoScrollInit();
     //Preload
     loadObstacleRes();
     //Init Projectile Texture First then anything else
@@ -241,8 +243,9 @@ void GameScene::loadResources() {
     }
     //Load Level
     //ReadData("data/levels/onedashthree.json");
-    ReadData("data/levels/twodashone.json");
+    //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
+    ReadData("data/levels/test.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

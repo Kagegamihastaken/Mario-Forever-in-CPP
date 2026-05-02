@@ -6,6 +6,7 @@
 #include "Block/Brick.hpp"
 #include "Block/BulletLauncher.hpp"
 #include "Block/LuckyBlock.hpp"
+#include "Core/AutoScroll.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Object/GoombaAI.hpp"
@@ -244,6 +245,8 @@ void Objectbuilding() {
 	// MusicManager::SetLoop(MusicData, true);
 	// MusicManager::PlayMusic(MusicData);
 
+	MFCPP::AutoScroll::resetPosition();
+
 	Mario::setCurrentPosition(getStartPosition());
 	Mario::resetPreviousPosition();
 
@@ -327,6 +330,7 @@ void Objectbuilding() {
 			AddPlatform(i.start, i.end, i.SkinID, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("is Smooth")->val, i.props.getProperty<BoolProps>("is Fall")->val, i.props.getProperty<BoolProps>("is Wait")->val, (i.props.getProperty<BoolProps>("is Small") != nullptr ? i.props.getProperty<BoolProps>("is Small")->val : false));
 		}
 	}
+	MFCPP::AutoScroll::AutoScrollBuild();
 }
 std::string getMusicLevelName() {
 	return MusicData;

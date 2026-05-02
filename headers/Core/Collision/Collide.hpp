@@ -13,6 +13,7 @@ extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vect
 extern bool isCollide(const sf::FloatRect& hitbox, const sf::Sprite& sprite, const sf::FloatRect& other);
 extern bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other);
 extern sf::FloatRect extendHitbox(const sf::FloatRect& hitbox, float val);
+extern sf::FloatRect extendHitboxX(const sf::FloatRect& hitbox, float val);
 
 extern bool GetRelativeTilemapSlopeUp(float CurrPosXCollide, float CurrPosYCollide);
 extern bool GetRelativeTilemapSlopeDown(float CurrPosXCollide, float CurrPosYCollide);

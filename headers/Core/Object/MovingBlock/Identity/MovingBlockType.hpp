@@ -2,7 +2,7 @@
 #define MFCPP_MOVINGBLOCKTYPE_HPP
 
 namespace MFCPP {
-    enum MovingBlockEnum {PLATFORM, MOVING_SOLID};
+    enum MovingBlockEnum {PLATFORM, MOVING_SOLID, TANK_GROUND};
 
     class MovingBlockType {
     public:

@@ -36,6 +36,7 @@ RedPlatform::RedPlatform(MovingBlockManager &manager, const sf::Vector2f &start,
     m_y_velocity = 0.f;
     m_waitState = 0;
     m_willFall = false;
+    setCanCollision(false);
 }
 
 void RedPlatform::setPreviousData() {

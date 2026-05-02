@@ -12,11 +12,15 @@ namespace MFCPP {
         static void setAutoScrollMode(bool val);
         [[nodiscard]] static bool getAutoScrollMode();
         [[nodiscard]] static float getSpeed();
+        [[nodiscard]] static bool getTankMode();
+        static void AutoScrollBuild();
+        static void AutoScrollInit();
     private:
         static sf::Vector2f m_position;
         static sf::Vector2f m_origin_pos;
         static float m_speed;
-        static bool autoScrollMode;
+        static bool m_autoScrollMode;
+        static bool m_tankMode;
     };
 }
 
