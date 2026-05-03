@@ -30,6 +30,7 @@ namespace MFCPP {
     extern unsigned getIndexTilemapID(float x, float y);
     extern void setIndexTilemapFloorY(float x, float y, const std::pair<float, float> &val);
     extern std::pair<float, float> getIndexTilemapFloorY(float x, float y);
+    extern std::pair<float, float> getIndexTilemapFloorY(int x, int y);
     extern float getTileSize();
     extern void drawHitboxMap();
 }

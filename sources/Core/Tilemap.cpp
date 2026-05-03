@@ -54,6 +54,9 @@ namespace MFCPP {
     void setIndexTilemapFloorY(const float x, const float y, const std::pair<float, float> &val) {
         ObstaclesTilemap[getTilemap(static_cast<int>(std::floor(x / tileSize)), static_cast<int>(std::floor(y / tileSize)))].floorY = val;
     }
+    std::pair<float, float> getIndexTilemapFloorY(const int x, const int y) {
+        return ObstaclesTilemap[getTilemap(x, y)].floorY;
+    }
     std::pair<float, float> getIndexTilemapFloorY(const float x, const float y) {
         return ObstaclesTilemap[getTilemap(static_cast<int>(std::floor(x / tileSize)), static_cast<int>(std::floor(y / tileSize)))].floorY;
     }

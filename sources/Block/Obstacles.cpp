@@ -1,4 +1,6 @@
 #include "Block/Obstacles.hpp"
+
+#include "Core/Exception.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/ImageManager.hpp"
 

@@ -227,8 +227,6 @@ void Mario::MarioPosXUpdate(const float deltaTime) {
 		}
 	}
 
-	CheckXCollision();
-
 	if (!EffectActive) {
 		if (!m_MarioDirection) m_player.setCurrentPosition({m_player.getCurrentPosition().x + m_velocity.x * deltaTime, m_player.getCurrentPosition().y});
 		else {
