@@ -102,6 +102,14 @@ const std::array<std::vector<SelectTileData>, 6> TilePage = {{
         {"Tile_68", CustomTileProperty(), sf::Vector2f(192, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 68},
         {"Tile_69", CustomTileProperty(), sf::Vector2f(224, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 69},
         {"Tile_70", CustomTileProperty(), sf::Vector2f(256, 96), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 70},
+        {"Tile_71", CustomTileProperty(), sf::Vector2f(0, 224), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 71},
+        {"Tile_72", CustomTileProperty(), sf::Vector2f(32, 224), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 72},
+        {"Tile_73", CustomTileProperty(), sf::Vector2f(224, 192), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 73},
+        {"Tile_74", CustomTileProperty(), sf::Vector2f(256, 192), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 74},
+        {"Tile_75", CustomTileProperty(), sf::Vector2f(224, 224), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 75},
+        {"Tile_76", CustomTileProperty(), sf::Vector2f(256, 224), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 76},
+        {"Tile_77", CustomTileProperty(), sf::Vector2f(224, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 77},
+        {"Tile_78", CustomTileProperty(), sf::Vector2f(256, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 78},
     },
     { // PAGE 2
         {"BlueCloud_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 0},
@@ -109,17 +117,17 @@ const std::array<std::vector<SelectTileData>, 6> TilePage = {{
     },
     { // PAGE 3
         {"Coin_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
-    {"EDITOR_CoinLuckyblock", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
-    {"EDITOR_MushroomLuckyblock", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
-    {"NormalBrick", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
-    {"EDITOR_CoinBrick", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
-    {"EDITOR_FireFlowerLuckyblock", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
-    {"EDITOR_GreenMushroomLuckyblock", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 3},
-    {"EDITOR_BeetrootLuckyblock", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 4},
-    {"TankGearLeft_0", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 0},
-    {"TankGearMiddle_0", CustomTileProperty(), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 1},
-    {"TankGearRight_0", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 2},
-        },
+        {"EDITOR_CoinLuckyblock", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
+        {"EDITOR_MushroomLuckyblock", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
+        {"NormalBrick", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
+        {"EDITOR_CoinBrick", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
+        {"EDITOR_FireFlowerLuckyblock", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
+        {"EDITOR_GreenMushroomLuckyblock", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 3},
+        {"EDITOR_BeetrootLuckyblock", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 4},
+        {"TankGearLeft_0", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 0},
+        {"TankGearMiddle_0", CustomTileProperty(), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 1},
+        {"TankGearRight_0", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 2},
+    },
     { // PAGE 4
         {"Goomba_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
         {"GreenKoopa_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 0},
@@ -206,32 +214,6 @@ void SelectTileInit() {
     SelectTileBox.setTexture(ImageManager::GetTexture("EDITOR_SelectTileBox"), true);
 }
 
-int CheckExistPos() {
-    for (int i = 0; i < TilePage[PreviewPage].size(); ++i) {
-        if (TilePosX == TilePage[PreviewPage][i].position.x && TilePosY == TilePage[PreviewPage][i].position.y) return i;
-    }
-    return -1;
-}
-
-void SelectTileDisplayUpdate() {
-    SelectTileRender.clear(sf::Color::Transparent);
-    for (const auto &i : TilePage[PreviewPage]) {
-        sf::Sprite loop(ImageManager::GetTexture(i.name));
-        loop.setTextureRect(sf::IntRect(i.texPos, {std::min(static_cast<int>(loop.getGlobalBounds().size.x - i.texPos.x), 32), std::min(static_cast<int>(loop.getGlobalBounds().size.y - i.texPos.y), 32)}));
-        loop.setPosition(i.position);
-        SelectTileRender.draw(loop);
-    }
-    SelectTileRender.display();
-}
-
-void SelectTileAlphaUpdate(const float dt) {
-    AlphaUpdate(SelectTileAlpha, SelectTileAlphaState, SELECT_TILE_ALPHA_MIN, SELECT_TILE_ALPHA_MAX, SELECT_TILE_ALPHA_CHANGE, dt);
-    SelectTileBox.setColor(sf::Color(255, 255, 255, static_cast<int>(SelectTileAlpha)));
-
-    AlphaUpdate(SelectTileGridAlpha, SelectTileGridAlphaState, SELECT_TILE_GRID_ALPHA_MIN, SELECT_TILE_GRID_ALPHA_MAX, SELECT_TILE_GRID_ALPHA_CHANGE, dt);
-    SelectTileGrid[0].color = SelectTileGrid[1].color = SelectTileGrid[2].color = SelectTileGrid[3].color = sf::Color(255, 255, 255, SelectTileGridAlpha);
-}
-
 void SelectTilePosUpdate() {
     SelectTileBackground[0].position = sf::Vector2f(EditorInterpolatedPos.x, EditorInterpolatedPos.y);
     SelectTileBackground[1].position = sf::Vector2f(EditorInterpolatedPos.x + 640.0f, EditorInterpolatedPos.y);
@@ -280,4 +262,30 @@ void SelectTileDraw() {
         window.draw(i);
     if (TilePosX >= 0 && TilePosY >= 0) window.draw(SelectTileBox);
     SettingDialog();
+}
+
+void SelectTileAlphaUpdate(const float dt) {
+    AlphaUpdate(SelectTileAlpha, SelectTileAlphaState, SELECT_TILE_ALPHA_MIN, SELECT_TILE_ALPHA_MAX, SELECT_TILE_ALPHA_CHANGE, dt);
+    SelectTileBox.setColor(sf::Color(255, 255, 255, static_cast<int>(SelectTileAlpha)));
+
+    AlphaUpdate(SelectTileGridAlpha, SelectTileGridAlphaState, SELECT_TILE_GRID_ALPHA_MIN, SELECT_TILE_GRID_ALPHA_MAX, SELECT_TILE_GRID_ALPHA_CHANGE, dt);
+    SelectTileGrid[0].color = SelectTileGrid[1].color = SelectTileGrid[2].color = SelectTileGrid[3].color = sf::Color(255, 255, 255, SelectTileGridAlpha);
+}
+
+void SelectTileDisplayUpdate() {
+    SelectTileRender.clear(sf::Color::Transparent);
+    for (const auto &i : TilePage[PreviewPage]) {
+        sf::Sprite loop(ImageManager::GetTexture(i.name));
+        loop.setTextureRect(sf::IntRect(i.texPos, {std::min(static_cast<int>(loop.getGlobalBounds().size.x - i.texPos.x), 32), std::min(static_cast<int>(loop.getGlobalBounds().size.y - i.texPos.y), 32)}));
+        loop.setPosition(i.position);
+        SelectTileRender.draw(loop);
+    }
+    SelectTileRender.display();
+}
+
+int CheckExistPos() {
+    for (int i = 0; i < TilePage[PreviewPage].size(); ++i) {
+        if (TilePosX == TilePage[PreviewPage][i].position.x && TilePosY == TilePage[PreviewPage][i].position.y) return i;
+    }
+    return -1;
 }

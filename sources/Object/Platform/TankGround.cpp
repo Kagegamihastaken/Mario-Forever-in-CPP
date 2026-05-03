@@ -45,7 +45,7 @@ void TankGround::statusUpdate(float deltaTime) {
         if (!Mario::getCurrentFalling()) m_step = false;
     }
 
-    if (m_step) {
+    if (m_step || Mario::getCurrentFalling()) {
         float temp;
         const auto [fst, snd] = QuickCheckSideCollision(
             MFCPP::CollisionObject(Mario::getCurrentPosition(), Mario::getOrigin(), extendHitboxX(Mario::getHitboxWall(), 2.f)), Mario::getDirection(), temp, temp);
