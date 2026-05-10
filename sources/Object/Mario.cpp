@@ -12,6 +12,7 @@
 #include "Effect/MarioEffect.hpp"
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/Tilemap.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 
 #include "Core/Time.hpp"
@@ -316,10 +317,11 @@ void Mario::MarioVertYTopUpdate() {
 		bool NoAdd = false;
 		if (QuickCheckTopCollision(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			//snap back
+			float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
 			if (m_PowerState > 0 && !m_MarioCrouchDown)
-				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + (32.0f + m_player.getOrigin().y - 10.f)});
+				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + (ceilY + m_player.getOrigin().y - 10.f)});
 			else if ((m_PowerState > 0 && m_MarioCrouchDown) || (m_PowerState == 0 && m_MarioAppearing) || (m_PowerState == 0 && !m_MarioCrouchDown))
-				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + (32.0f + m_player.getOrigin().y - 10.f - 23.0f)});
+				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + (ceilY + m_player.getOrigin().y - 10.f - 23.0f)});
 			m_velocity.y = 0.0f;
 		}
 	}

@@ -1,6 +1,7 @@
 #include "../../../../../headers/Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
 
 #include "Core/Scroll.hpp"
+#include "Core/Tilemap.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Collision/Collide.hpp"
@@ -153,8 +154,9 @@ GoombaAIBehavior::GoombaAIData BroAIBehavior::BroAIYCollision(const GoombaAIBeha
     }
     NoAdd = false;
     if (QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
+        float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
         dataOutput.velocity.y = 0.f;
-        dataOutput.position.y = CurrPosYCollide - hitbox.position.y + (32.0f + origin.y);
+        dataOutput.position.y = CurrPosYCollide - hitbox.position.y + (ceilY + origin.y);
     }
     return dataOutput;
 }

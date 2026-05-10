@@ -71,8 +71,7 @@ void GameScene::update(const float deltaTime) {
     TimeUpdate(deltaTime);
     TimeRingBehavior();
 
-    if (MFCPP::AutoScroll::getAutoScrollMode() && !EffectActive)
-        MFCPP::AutoScroll::UpdateSpeed(deltaTime);
+    MFCPP::AutoScroll::UpdateSpeed(deltaTime);
     Mario::MarioOutSideScreen();
 
     //Checkpoint

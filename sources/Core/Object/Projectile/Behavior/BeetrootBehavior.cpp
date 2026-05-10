@@ -3,6 +3,7 @@
 #include "Core/Collision/Collide.hpp"
 #include <SFML/System/Vector2.hpp>
 
+#include "Core/Tilemap.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
 BeetrootBehavior::BeetrootData BeetrootBehavior::BeetrootXUpdate(const sf::Vector2f &pos, int hit_count, const sf::Vector2f &velocity, bool direction, float deltaTime) {
@@ -59,7 +60,8 @@ BeetrootBehavior::BeetrootData BeetrootBehavior::BeetrootYCollision(const sf::Ve
     }
     float CurrPosYCollide, CurrPosXCollide;
     if (QuickCheckTopCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
-        data.position.y = CurrPosYCollide + (32.0f + origin.y);
+        float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
+        data.position.y = CurrPosYCollide + (ceilY + origin.y);
         ++data.count;
         do_stuff = 2;
     }

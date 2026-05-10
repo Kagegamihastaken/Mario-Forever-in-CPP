@@ -1,9 +1,8 @@
-#include "../../../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include <algorithm>
 
-#include "Block/Brick.hpp"
-#include "Block/LuckyBlock.hpp"
 #include "Core/SoundManager.hpp"
+#include "Core/Tilemap.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Effect/ScoreEffect.hpp"
@@ -47,8 +46,9 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIYCollision(const Goomba
         }
     }
     if (QuickCheckTopCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
+        float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
         dataOutput.velocity.y = 0.f;
-        dataOutput.position.y = CurrPosYCollide + (32.0f + origin.y);
+        dataOutput.position.y = CurrPosYCollide + (ceilY + origin.y);
     }
     return dataOutput;
 }
