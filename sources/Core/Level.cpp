@@ -32,6 +32,7 @@
 #include "Core/Game.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/SceneryHelper.hpp"
+#include "Object/Enemy/GearLauncher.hpp"
 #include "Object/Enemy/RedRotodiscFlower.hpp"
 #include "Object/Enemy/RedRotodiscRound.hpp"
 // Level data
@@ -159,7 +160,7 @@ void ReadData(const std::filesystem::path& path) {
 				}
 				break;
 			case 2:
-				if (ReadTile->objectID < 5)
+				if (ReadTile->objectID != 5)
 					EnemyData.push_back({static_cast<float>(ReadTile->objectID), static_cast<float>(ReadTile->customID1), static_cast<float>(ReadTile->customID2), pos.x, pos.y});
 				else
 					RotodiscDataProcess(tileObj, pos, page, id, ReadTile->objectID);
@@ -246,9 +247,9 @@ void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Music
 
-	// MusicManager::StopAllMusic();
-	// MusicManager::SetLoop(MusicData, true);
-	// MusicManager::PlayMusic(MusicData);
+	MusicManager::StopAllMusic();
+	MusicManager::SetLoop(MusicData, true);
+	MusicManager::PlayMusic(MusicData);
 
 	MFCPP::AutoScroll::resetPosition();
 
@@ -317,6 +318,9 @@ void Objectbuilding() {
 					break;
 				case 4:
 					AddBulletLauncher(static_cast<BulletType>(i[1]), i[3], i[4]);
+					break;
+				case 6:
+					GameScene::customTileManager.addCustomTile<GearLauncher>(sf::Vector2f(i[3], i[4]));
 					break;
 				default: ;
 			}

@@ -16,6 +16,7 @@ TankGearLeft::TankGearLeft(CustomTileManager &manager, const sf::Vector2f &posit
     setOrigin(sf::Vector2f(0.f, 0.f));
     MFCPP::setIndexTilemapCollision(position.x, position.y, true);
     MFCPP::setIndexTilemapID(position.x, position.y, 0);
+    MFCPP::setIndexTilemapFloorY(position.x, position.y, {0, 32});
     setDrawingPriority(0);
 }
 

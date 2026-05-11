@@ -155,6 +155,7 @@ const std::array<std::vector<SelectTileData>, 6> TilePage = {{
         {"EDITOR_RotodiscFlower", CustomTileProperty(FloatProps("Max Radius", 200.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), FloatProps("Radius Change Rate", 5.f, 0.f, 30.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 6, 0, 0},
         {"GreenKoopaParatroopa_0", CustomTileProperty(), sf::Vector2f(96, 32), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 7, 0},
         {"BulletLauncherFlipped", CustomTileProperty(), sf::Vector2f(160, 160), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 1, 0},
+        {"GearLauncherUp", CustomTileProperty(), sf::Vector2f(64, 32), sf::Vector2i(0, 32), sf::Vector2f(32.0f, 22.0f), 2, 6, 0, 0},
     },
     { // PAGE 5
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},

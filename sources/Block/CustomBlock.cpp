@@ -15,6 +15,7 @@ static int TANK_GEAR_WIDTH = 32;
 static int TANK_GEAR_HEIGHT = 32;
 
 void CustomBlockInit() {
+	ImageManager::AddTexture("GearLauncherUp", "data/resources/GearLauncherUp.png");
 	for (int i = 0; i < TANK_GEAR_IMAGE_WIDTH / TANK_GEAR_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("TankGearLeft_{}", i), "data/resources/TankGearLeft.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
 		TankGearLeftAnimName.push_back(fmt::format("TankGearLeft_{}", i));
