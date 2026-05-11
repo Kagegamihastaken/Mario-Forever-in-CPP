@@ -15,6 +15,8 @@ public:
     void draw() override;
 private:
     MFCPP::StaticAnimationObject m_animation;
+    float m_timePass;
+    float m_timePassLimit;
 };
 
 #endif //MFCPP_GEARLAUNCHER_HPP

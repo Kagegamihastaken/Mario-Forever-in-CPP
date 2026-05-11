@@ -14,7 +14,7 @@ endif()
 set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
 
-set(HITBOX_DEBUG OFF)
+set(HITBOX_DEBUG ON)
 
 #Game Config
 set(PLAYER_LIVES 4)
