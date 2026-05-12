@@ -40,7 +40,7 @@
 #include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
 #include "Object/SceneryHelper.hpp"
-#include "Object/Projectile/GearProjectile.hpp"
+#include "Object/Projectile/FireLauncherProjectile.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -55,7 +55,7 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            projectileManager.addProjectile<GearProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
+            projectileManager.addProjectile<FireLauncherProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), sf::Vector2f(-8.5f, 0.f));
             //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
@@ -147,10 +147,11 @@ void GameScene::draw(sf::RenderWindow &window) {
     customTileManager.DrawPriority(0);
     CoinDraw();
     enemyManager.DrawPriority(2);
+    projectileManager.DrawPriority(0);
     customTileManager.DrawPriority(1);
     enemyManager.DrawPriority(3);
-    projectileManager.DrawPriority(0);
     projectileManager.DrawPriority(1);
+    projectileManager.DrawPriority(2);
     MarioEffectDraw();
     ExitGateEffectDraw();
     effectManager.Draw();

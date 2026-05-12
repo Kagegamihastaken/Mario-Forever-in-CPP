@@ -19,7 +19,7 @@ PiranhaFireball::PiranhaFireball(ProjectileManager &manager, const PiranhaDirect
     m_animation.setTexture("Fireball", true);
     setOrigin(sf::Vector2f(7.f, 16.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {15.f, 16.f}));
-    setDrawingPriority(1);
+    setDrawingPriority(2);
     switch (direction) {
         case PIRANHA_UP:
             m_velocity = {static_cast<float>(RandomIntNumberGenerator(0, 4)) - static_cast<float>(RandomIntNumberGenerator(0, 4)),

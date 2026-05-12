@@ -4,6 +4,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/BulletBillLauncher.hpp"
 #include "Object/Enemy/BulletBillLauncherFlipped.hpp"
+#include "Object/Enemy/FireLauncher.hpp"
 
 void BulletLauncherInit() {
     ImageManager::AddTexture("BulletLauncher", "data/resources/BulletLauncher.png");
@@ -16,6 +17,9 @@ void AddBulletLauncher(const BulletType type, const float x, const float y) {
             break;
         case BULLET_NORMAL_FLIPPED:
             GameScene::customTileManager.addCustomTile<BulletBillLauncherFlipped>(sf::Vector2f(x, y));
+            break;
+        case FIRE_LAUNCHER:
+            GameScene::customTileManager.addCustomTile<FireLauncher>(sf::Vector2f(x, y));
             break;
         default: ;
     }

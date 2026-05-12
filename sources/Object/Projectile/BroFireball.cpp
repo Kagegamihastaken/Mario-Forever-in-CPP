@@ -20,7 +20,7 @@ BroFireball::BroFireball(ProjectileManager &manager, const bool direction, const
     setOrigin(sf::Vector2f(7.f, 16.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {15.f, 16.f}));
     m_velocity = {8.125f, 0.f};
-    setDrawingPriority(1);
+    setDrawingPriority(2);
 }
 
 void BroFireball::setPreviousData() {

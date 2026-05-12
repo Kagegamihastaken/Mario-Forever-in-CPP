@@ -21,7 +21,7 @@ MarioBeetroot::MarioBeetroot(ProjectileManager &manager, const bool direction, c
     setHitbox(sf::FloatRect({0.f, 0.f}, {23.f, 32.f}));
     m_velocity = {2.125f, -5.f};
     m_hit_count = 0.f;
-    setDrawingPriority(1);
+    setDrawingPriority(2);
 }
 
 void MarioBeetroot::spin(const bool flip, const bool sound = true) {

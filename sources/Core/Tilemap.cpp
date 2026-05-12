@@ -74,7 +74,8 @@ namespace MFCPP {
     }
     void drawHitboxMap() {
         for (const auto &i : ObstaclesTilemap) {
-            if (i.second.collide) HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}), getTilemap(i.first), sf::Color::Green));
+            if (i.second.collide)
+                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({0.f, i.second.id != 3 ? i.second.floorY.first : 0.f}, {32.f, i.second.id != 3 ? i.second.floorY.second - i.second.floorY.first : 32.f}), getTilemap(i.first), sf::Color::Green));
         }
     }
 }

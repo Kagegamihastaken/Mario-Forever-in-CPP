@@ -23,7 +23,7 @@ GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &p
     m_timeEffect = 0.f;
     m_timeEffectMax = 2.5f;
     m_velocity = {static_cast<float>(RandomIntNumberGenerator(0, 2)) - static_cast<float>(RandomIntNumberGenerator(0, 4)), (8.f + static_cast<float>(RandomIntNumberGenerator(0, 2))) * -1.f};
-    setDrawingPriority(1);
+    setDrawingPriority(2);
 }
 
 void GearProjectile::setPreviousData() {

@@ -26,6 +26,7 @@ void SoundInit() {
 	SoundManager::AddSound("Throw", "data/sounds/throw.ogg");
 	SoundManager::AddSound("Stun", "data/sounds/stun.ogg");
 	SoundManager::AddSound("Chilun", "data/sounds/chilun.ogg");
+	SoundManager::AddSound("Volcano", "data/sounds/volcano.ogg");
 	//Editor
 	SoundManager::AddSound("EDITOR_PLACE", "data/sounds/Editor/EDITOR_place.ogg");
 	SoundManager::AddSound("EDITOR_DELETE", "data/sounds/Editor/EDITOR_delete.ogg");
