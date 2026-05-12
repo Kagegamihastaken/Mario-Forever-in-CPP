@@ -38,6 +38,7 @@ namespace MFCPP {
 		//sf::IntRect getAnimationTextureRect() const;
 		[[nodiscard]] bool isAnimationAtTheEnd() const;
 		[[nodiscard]] AnimationDirection getAnimationDirection() const;
+		[[nodiscard]] int getFrequency() const;
 		void addAnimationSequence(const std::string& aName);
 		void setAnimationSequence(const std::vector<std::string>& aName);
 		void setRotation(sf::Angle angle);

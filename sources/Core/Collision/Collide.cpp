@@ -102,11 +102,13 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 					if (!GetRelativeTilemapSlopeBetween(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 					else if (GetRelativeTilemapSlopeLeft(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 					else if (GetRelativeTilemapSlopeLeftReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
+					else if (GetRelativeTilemapSlopeRightReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 				}
 				if (hitbox_intersect.position.x + hitbox_intersect.size.x < hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x < hitbox_loop.position.x + 16.0f) {
 					if (!GetRelativeTilemapSlopeBetween(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
 					else if (GetRelativeTilemapSlopeRight(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
 					else if (GetRelativeTilemapSlopeRightReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
+					else if (GetRelativeTilemapSlopeLeftReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
 				}
 
 				if (CurrPosXCollide != i * MFCPP::getTileSize() || CurrPosYCollide != j * MFCPP::getTileSize()) {

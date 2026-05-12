@@ -20,7 +20,7 @@ FireLauncherProjectile::FireLauncherProjectile(ProjectileManager &manager, const
     setDrawingPriority(0);
     m_velocity = velocity;
     m_timePass = 0.f;
-    m_timePassLimit = 2.5f;
+    m_timePassLimit = 3.25f;
 }
 
 void FireLauncherProjectile::setPreviousData() {

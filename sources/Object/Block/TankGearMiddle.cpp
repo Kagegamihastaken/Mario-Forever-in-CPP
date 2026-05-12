@@ -1,6 +1,7 @@
 #include "Object/Block/TankGearMiddle.hpp"
 
 #include "Block/CustomBlock.hpp"
+#include "Core/AutoScroll.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Tilemap.hpp"
@@ -32,7 +33,10 @@ void TankGearMiddle::interpolateData(float alpha) {
 
 void TankGearMiddle::KickEvent() {}
 void TankGearMiddle::HitEvent() {}
-void TankGearMiddle::statusUpdate(float deltaTime) {}
+void TankGearMiddle::statusUpdate(float deltaTime) {
+    if (MFCPP::AutoScroll::getTankAnimationStop() && m_animation.getFrequency() > 0)
+        m_animation.setFrequencyAnimation(0);
+}
 void TankGearMiddle::draw() {
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());

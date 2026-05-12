@@ -10,6 +10,8 @@ sf::Vector2f MFCPP::AutoScroll::m_origin_pos = sf::Vector2f(0.f, 0.f);
 bool MFCPP::AutoScroll::m_autoScrollMode = true;
 bool MFCPP::AutoScroll::m_tankMode = true;
 float MFCPP::AutoScroll::m_speed = 1.f;
+//Dont touch
+bool MFCPP::AutoScroll::m_tankAnimationStop = false;
 
 void MFCPP::AutoScroll::AutoScrollBuild() {
     if (!m_autoScrollMode) return;
@@ -26,7 +28,10 @@ void MFCPP::AutoScroll::AutoScrollInit() {
 void MFCPP::AutoScroll::UpdateSpeed(float deltaTime) {
     if (!m_autoScrollMode) return;
     m_position += sf::Vector2f(m_speed * deltaTime, 0.f);
-    if (m_position.x >= LevelWidth - Width / 2.f) m_position.x = LevelWidth - Width / 2.f;
+    if (m_position.x >= LevelWidth - Width / 2.f) {
+        m_position.x = LevelWidth - Width / 2.f;
+        if (!m_tankAnimationStop) m_tankAnimationStop = true;
+    }
 }
 
 void MFCPP::AutoScroll::resetPosition() {
@@ -51,4 +56,12 @@ bool MFCPP::AutoScroll::getAutoScrollMode() {
 
 float MFCPP::AutoScroll::getSpeed() {
     return m_speed;
+}
+
+bool MFCPP::AutoScroll::getTankMode() {
+    return m_tankMode;
+}
+
+bool MFCPP::AutoScroll::getTankAnimationStop() {
+    return m_tankAnimationStop;
 }

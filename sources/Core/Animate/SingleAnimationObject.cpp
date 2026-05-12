@@ -107,6 +107,10 @@ namespace MFCPP {
 		return m_direction;
 	}
 
+	int SingleAnimationObject::getFrequency() const {
+		return m_frequency;
+	}
+
 	void SingleAnimationObject::setLoop(bool val) {
 		m_loop = val;
 	}

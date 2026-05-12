@@ -25,7 +25,7 @@ void InterpolateMarioEffectPos(const float alpha) {
 	playerPos.setInterpolatedPosition(linearInterpolation(playerPos.getPreviousPosition(), playerPos.getCurrentPosition(), alpha));
 }
 void MoveMarioEffect(const sf::Vector2f& pos) {
-	playerPos.setCurrentPosition(playerPos.getCurrentPosition() + pos);
+	playerPos.forceSetPosition(playerPos.getCurrentPosition() + pos);
 }
 void MarioEffectStatusUpdate(const float deltaTime) {
 	if (EffectActive) {
