@@ -37,7 +37,7 @@ public:
     void CollisionUpdate() const;
     void ProjectileCleanup();
     void DeleteAll();
-    void Draw() const;
+    void DrawPriority(int index) const;
 private:
     ProjectileIntrusiveList m_Mario;
     ProjectileIntrusiveList m_Enemy;

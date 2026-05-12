@@ -26,9 +26,9 @@ void ProjectileManager::statusUpdate(float deltaTime) const {
     }
 }
 
-void ProjectileManager::Draw() const {
+void ProjectileManager::DrawPriority(int index) const {
     for (const auto &i : m_projectile) {
-        if (i) i->draw();
+        if (i && i->getDrawingPriority() == index) i->draw();
     }
 }
 

@@ -11,6 +11,7 @@
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Projectile/GearProjectileEffect.hpp"
 
 GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &position) : Projectile(manager) {
     setCurrentPosition(position);
@@ -19,7 +20,10 @@ GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &p
     m_animation.setTexture("GearProjectile", true);
     setOrigin(sf::Vector2f(20.f, 20.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {40.f, 40.f}));
+    m_timeEffect = 0.f;
+    m_timeEffectMax = 2.5f;
     m_velocity = {static_cast<float>(RandomIntNumberGenerator(0, 2)) - static_cast<float>(RandomIntNumberGenerator(0, 4)), (8.f + static_cast<float>(RandomIntNumberGenerator(0, 2))) * -1.f};
+    setDrawingPriority(1);
 }
 
 void GearProjectile::setPreviousData() {
@@ -33,13 +37,16 @@ void GearProjectile::interpolateData(const float alpha) {
     setInterpolatedAngle(linearInterpolation(getPreviousAngle(), getCurrentAngle(), alpha));
 }
 
-void GearProjectile::FireballEffect() const {
-    AddFireballExplosion(getCurrentPosition().x, getCurrentPosition().y - 7.f);
-}
+void GearProjectile::FireballEffect() const {}
 
 void GearProjectile::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Spin
+    m_timeEffect += deltaTime;
+    if (m_timeEffect >= m_timeEffectMax) {
+        m_timeEffect = f_mod(m_timeEffect, m_timeEffectMax);
+        m_manager.addProjectile<GearProjectileEffect>(getCurrentPosition(), getCurrentAngle(), m_velocity.x > 0.f);
+    }
     if (m_velocity.x < 0.f) setCurrentAngle(getCurrentAngle() - sf::degrees(11.5f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(11.5f * deltaTime));
     //Status

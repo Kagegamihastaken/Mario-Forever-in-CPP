@@ -1,5 +1,6 @@
 #include "Object/Enemy/GearLauncher.hpp"
 
+#include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
@@ -57,9 +58,10 @@ void GearLauncher::HitEvent() {}
 
 void GearLauncher::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
+    //Update before checking if outside screen
+    m_timePass += deltaTime;
     if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 0.f, 0.f)) return;
 
-    m_timePass += deltaTime;
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;
         GameScene::projectileManager.addProjectile<GearProjectile>(getCurrentPosition());
@@ -71,5 +73,6 @@ void GearLauncher::draw() {
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Blue));
 }
 

@@ -19,6 +19,7 @@ public:
 private:
     MFCPP::StaticAnimationObject m_animation;
     sf::Vector2f m_velocity;
+    float m_timeEffect, m_timeEffectMax;
 };
 
 #endif //MFCPP_GEARPROJECTILE_HPP

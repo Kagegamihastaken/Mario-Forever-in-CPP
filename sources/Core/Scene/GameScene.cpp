@@ -54,19 +54,19 @@ GameScene::GameScene(SceneManager &manager)
     : Scene(manager) {}
 
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
-    if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
-        if (mousePressed->button == sf::Mouse::Button::Left) {
-            projectileManager.addProjectile<GearProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
-            //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
-            //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
-        }
-        else if (mousePressed->button == sf::Mouse::Button::Middle)
-            Mario::SetPowerState(3);
-        else if (mousePressed->button == sf::Mouse::Button::Right) {
-            AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
-            //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
-        }
-    }
+    // if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+    //     if (mousePressed->button == sf::Mouse::Button::Left) {
+    //         projectileManager.addProjectile<GearProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f));
+    //         //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
+    //         //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
+    //     }
+    //     else if (mousePressed->button == sf::Mouse::Button::Middle)
+    //         Mario::SetPowerState(3);
+    //     else if (mousePressed->button == sf::Mouse::Button::Right) {
+    //         AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
+    //         //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
+    //     }
+    // }
 }
 void GameScene::update(const float deltaTime) {
     // UI Update
@@ -150,7 +150,8 @@ void GameScene::draw(sf::RenderWindow &window) {
     enemyManager.DrawPriority(2);
     customTileManager.DrawPriority(1);
     enemyManager.DrawPriority(3);
-    projectileManager.Draw();
+    projectileManager.DrawPriority(0);
+    projectileManager.DrawPriority(1);
     MarioEffectDraw();
     ExitGateEffectDraw();
     effectManager.Draw();
@@ -248,8 +249,8 @@ void GameScene::loadResources() {
     //ReadData("data/levels/onedashthree.json");
     //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
-    ReadData("data/levels/gearuptest.json");
-    //ReadData("data/levels/sevendashone.json");
+    //ReadData("data/levels/gearuptest.json");
+    ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

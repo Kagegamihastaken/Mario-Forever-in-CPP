@@ -7,6 +7,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/MovingBlockManager.hpp"
 #include "Core/Scene/GameScene.hpp"
+#include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
 TankGround::TankGround(MovingBlockManager &manager, const sf::Vector2f &pos) : MovingBlock(manager) {
@@ -43,6 +44,9 @@ void TankGround::statusUpdate(float deltaTime) {
     }
     else {
         if (!Mario::getCurrentFalling()) m_step = false;
+    }
+    if (EffectActive) {
+        MoveMarioEffect(sf::Vector2f(sf::Vector2f(ViewX - m_prev_ViewX, 0.f)));
     }
 
     if (m_step || Mario::getCurrentFalling()) {

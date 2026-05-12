@@ -3,6 +3,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Scenery/BlueCloud.hpp"
 #include "Object/Scenery/BlueGrass.hpp"
+#include "Object/Scenery/TankTileBack.hpp"
 
 std::vector<std::string> BlueCloudAnimName;
 static constexpr int CLOUD_IMAGE_WIDTH = 192;
@@ -13,6 +14,7 @@ static constexpr int GRASS_IMAGE_WIDTH = 192;
 static constexpr int GRASS_WIDTH = 64;
 static constexpr int GRASS_HEIGHT = 32;
 void SceneryInit() {
+    ImageManager::AddTexture("TankTileBack", "data/resources/Scenery/TankTileBack.png");
     for (int i = 0; i < CLOUD_IMAGE_WIDTH / CLOUD_WIDTH; i++) {
         ImageManager::AddTexture(fmt::format("BlueCloud_{}", i), "data/resources/Scenery/BlueCloud.png", sf::IntRect({i * CLOUD_WIDTH, 0}, {CLOUD_WIDTH, CLOUD_HEIGHT}));
         BlueCloudAnimName.push_back(fmt::format("BlueCloud_{}", i));
@@ -29,6 +31,9 @@ void AddScenery(const int id, const sf::Vector2f& pos) {
             break;
         case 1:
             GameScene::sceneryManager.addScenery<BlueGrass>(pos);
+            break;
+        case 2:
+            GameScene::sceneryManager.addScenery<TankTileBack>(pos);
             break;
         default: ;
     }
