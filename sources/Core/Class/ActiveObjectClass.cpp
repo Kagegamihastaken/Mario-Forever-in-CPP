@@ -80,5 +80,10 @@ namespace MFCPP {
     const sf::Rect<T>& ActiveObject<T>::getHitbox() const {
         return m_hitbox;
     }
+    template <typename T>
+    void ActiveObject<T>::forceSetPosition(const sf::Vector2<T>& position) {
+        m_curr = position;
+        m_prev = position;
+    }
     template class ActiveObject<float>;
 }

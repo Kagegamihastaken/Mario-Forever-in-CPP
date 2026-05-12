@@ -37,7 +37,7 @@ public:
         else if constexpr (std::is_base_of_v<MFCPP::SpikeAIType, T>)
             m_SpikeAI.push_back(*newEnemy);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newEnemy).name()));
-        m_enemies.emplace(std::move(newEnemy));
+        m_enemies.emplace_back(std::move(newEnemy));
     }
 
     [[nodiscard]] EnemyIntrusiveList& getGoombaAIList();
@@ -64,7 +64,7 @@ private:
     EnemyIntrusiveList m_PiranhaAI;
     EnemyIntrusiveList m_SpikeAI;
     bool m_EnemyDeletionFlag = false;
-    plf::colony<std::unique_ptr<MFCPP::Enemy>> m_enemies;
+    std::vector<std::unique_ptr<MFCPP::Enemy>> m_enemies;
 
 };
 

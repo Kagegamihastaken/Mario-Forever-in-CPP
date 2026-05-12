@@ -23,7 +23,7 @@ public:
         else if constexpr (std::is_base_of_v<MFCPP::ScrollBasedEffectType, T>)
             m_ScrollBasedEffect.push_back(*newEffect);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newEffect).name()));
-        m_effects.emplace(std::move(newEffect));
+        m_effects.emplace_back(std::move(newEffect));
     }
 
     [[nodiscard]] EffectIntrusiveList& getGenericList();
@@ -40,7 +40,7 @@ public:
 private:
     EffectIntrusiveList m_GenericEffect;
     EffectIntrusiveList m_ScrollBasedEffect;
-    plf::colony<std::unique_ptr<MFCPP::Effect>> m_effects;
+    std::vector<std::unique_ptr<MFCPP::Effect>> m_effects;
     bool m_EffectDeletionFlag = false;
 };
 

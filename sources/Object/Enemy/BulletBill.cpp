@@ -22,6 +22,7 @@ BulletBill::BulletBill(EnemyManager &manager, const sf::Vector2f &position, cons
     setDisabled(true);
     setCollideEachOther(false);
     m_state = 0;
+    m_timePass = 0.f;
     setShellKicking(false);
     setShellBlocker(false);
     setDrawingPriority(2);
@@ -57,6 +58,12 @@ void BulletBill::MarioCollision(float MarioYVelocity) {
 void BulletBill::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     if (m_state == 0) {
+        if (m_timePass >= 33.f) {
+            setDrawingPriority(3);
+            m_timePass = 33.f;
+        }
+        else m_timePass += deltaTime;
+
         if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 512, 512))
             Destroy();
         if (!isOutScreen(getCurrentPosition().x - getOrigin().x, getCurrentPosition().y, 32, 80)) {

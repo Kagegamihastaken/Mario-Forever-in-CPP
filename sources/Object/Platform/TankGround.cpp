@@ -1,9 +1,11 @@
 #include "Object/Platform/TankGround.hpp"
 
+#include "Core/AutoScroll.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/MovingBlockManager.hpp"
 #include "Core/Scene/GameScene.hpp"
@@ -18,7 +20,7 @@ TankGround::TankGround(MovingBlockManager &manager, const sf::Vector2f &pos) : M
     setOrigin(sf::Vector2f(0.f, 0.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {1920.f, 64.f}));
     m_animation.setTexture("TankGround");
-    m_prev_ViewX = ViewX;
+    m_prev_ViewX = MFCPP::AutoScroll::getPosition().x;
     m_step = false;
     setCanCollision(true);
 }
@@ -46,7 +48,7 @@ void TankGround::statusUpdate(float deltaTime) {
         if (!Mario::getCurrentFalling()) m_step = false;
     }
     if (EffectActive) {
-        MoveMarioEffect(sf::Vector2f(sf::Vector2f(ViewX - m_prev_ViewX, 0.f)));
+        MoveMarioEffect(sf::Vector2f(sf::Vector2f(MFCPP::AutoScroll::getPosition().x - m_prev_ViewX, 0.f)));
     }
 
     if (m_step || Mario::getCurrentFalling()) {
@@ -54,16 +56,16 @@ void TankGround::statusUpdate(float deltaTime) {
         const auto [fst, snd] = QuickCheckSideCollision(
             MFCPP::CollisionObject(Mario::getCurrentPosition(), Mario::getOrigin(), extendHitboxX(Mario::getHitboxWall(), 2.f)), Mario::getDirection(), temp, temp);
         if (!snd)
-            Mario::setCurrentPosition(Mario::getCurrentPosition() + sf::Vector2f(sf::Vector2f(ViewX - m_prev_ViewX, 0.f)));
+            Mario::forceSetPosition(Mario::getCurrentPosition() + sf::Vector2f(sf::Vector2f(MFCPP::AutoScroll::getPosition().x - m_prev_ViewX, 0.f)));
     }
     //ScoreEffect
     for (auto &score: GameScene::effectManager.getScrollBasedList()) {
-        score.setCurrentPosition(score.getCurrentPosition() + sf::Vector2f(ViewX - m_prev_ViewX, 0.f));
+        score.forceSetPosition(score.getCurrentPosition() + sf::Vector2f(MFCPP::AutoScroll::getPosition().x - m_prev_ViewX, 0.f));
     }
-
-    setCurrentPosition(getCurrentPosition() + sf::Vector2f(ViewX - m_prev_ViewX, 0.f));
+    //setCurrentPosition(sf::Vector2f(MFCPP::AutoScroll::getPosition().x - Width / 2, getCurrentPosition().y));
+    setCurrentPosition(getCurrentPosition() + sf::Vector2f(MFCPP::AutoScroll::getPosition().x - m_prev_ViewX, 0.f));
     setPreviousPosition(getCurrentPosition());
-    m_prev_ViewX = ViewX;
+    m_prev_ViewX = MFCPP::AutoScroll::getPosition().x;
 }
 
 void TankGround::Destroy() {

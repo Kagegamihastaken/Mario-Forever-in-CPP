@@ -24,6 +24,7 @@ public:
 private:
     MFCPP::StaticAnimationObject m_animation;
     sf::Vector2f m_velocity;
+    float m_timePass;
     unsigned int m_state;
 };
 

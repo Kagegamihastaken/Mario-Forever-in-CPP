@@ -23,7 +23,7 @@ public:
         else if constexpr (std::is_base_of_v<MFCPP::EnemyProjectileType, T>)
             m_Enemy.push_back(*newProjectile);
         else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newProjectile).name()));
-        m_projectile.emplace(std::move(newProjectile));
+        m_projectile.emplace_back(std::move(newProjectile));
     }
 
     [[nodiscard]] ProjectileIntrusiveList& getMarioProjectileList();
@@ -41,7 +41,7 @@ public:
 private:
     ProjectileIntrusiveList m_Mario;
     ProjectileIntrusiveList m_Enemy;
-    plf::colony<std::unique_ptr<MFCPP::Projectile>> m_projectile;
+    std::vector<std::unique_ptr<MFCPP::Projectile>> m_projectile;
     bool m_ProjectileDeletionFlag = false;
 };
 

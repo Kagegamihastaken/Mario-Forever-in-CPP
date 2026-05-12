@@ -1,5 +1,6 @@
 #include "Core/AutoScroll.hpp"
 
+#include "Core/Level.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Platform/TankGround.hpp"
@@ -25,6 +26,7 @@ void MFCPP::AutoScroll::AutoScrollInit() {
 void MFCPP::AutoScroll::UpdateSpeed(float deltaTime) {
     if (!m_autoScrollMode) return;
     m_position += sf::Vector2f(m_speed * deltaTime, 0.f);
+    if (m_position.x >= LevelWidth - Width / 2.f) m_position.x = LevelWidth - Width / 2.f;
 }
 
 void MFCPP::AutoScroll::resetPosition() {

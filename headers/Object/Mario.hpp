@@ -41,6 +41,7 @@ public:
 	[[nodiscard]] static sf::FloatRect getHitboxFloor();
 	[[nodiscard]] static sf::Vector2f getOrigin();
 	static void setCurrentPosition(const sf::Vector2f& val);
+	static void forceSetPosition(const sf::Vector2f& val);
 	[[nodiscard]] static sf::Vector2f getCurrentPosition();
 	static void resetPreviousPosition();
 	static void setDirection(bool val);

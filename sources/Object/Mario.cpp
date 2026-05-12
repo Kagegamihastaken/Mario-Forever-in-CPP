@@ -112,7 +112,7 @@ void Mario::MarioOutSideScreen() {
 			MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), extendHitbox(m_hitboxWall, 1.f)), m_MarioDirection, temp, temp);
 	if (m_player.getCurrentPosition().x <= m_player.getOrigin().x + ViewX) {
 		if (!snd)
-			m_player.setCurrentPosition({m_player.getOrigin().x + ViewX, m_player.getCurrentPosition().y});
+			m_player.forceSetPosition({m_player.getOrigin().x + ViewX, m_player.getCurrentPosition().y});
 		//if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 		m_OutsideWallLeft = true;
 	}
@@ -121,7 +121,7 @@ void Mario::MarioOutSideScreen() {
 	if (!LevelCompleteEffect) {
 		if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width) {
 			if (!fst)
-				m_player.setCurrentPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
+				m_player.forceSetPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
 			if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 			m_OutsideWallRight = true;
 		}
@@ -501,6 +501,11 @@ sf::Vector2f Mario::getCurrentPosition() {
 void Mario::resetPreviousPosition() {
 	m_player.setPreviousPosition(m_player.getCurrentPosition());
 	m_player.setInterpolatedPosition(m_player.getCurrentPosition());
+}
+
+void Mario::forceSetPosition(const sf::Vector2f &val) {
+	m_player.setCurrentPosition(val);
+	m_player.setPreviousPosition(val);
 }
 
 void Mario::setDirection(bool val) {

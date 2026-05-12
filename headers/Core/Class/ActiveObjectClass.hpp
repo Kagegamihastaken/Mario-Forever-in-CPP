@@ -30,6 +30,7 @@ namespace MFCPP {
         void setInterpolatedAngle(const sf::Angle& angle);
         void setDestroyed(bool val);
         [[nodiscard]] bool isDestroyed() const;
+        void forceSetPosition(const sf::Vector2<T>& position);
     private:
         sf::Vector2<T> m_curr{};
         sf::Vector2<T> m_prev{};

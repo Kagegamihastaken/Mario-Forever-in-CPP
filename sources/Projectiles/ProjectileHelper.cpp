@@ -6,4 +6,5 @@ void ProjectileInit() {
     ImageManager::AddTexture("Fireball", "data/resources/Projectiles/Fireball.png");
     ImageManager::AddTexture("Beetroot_Projectile", "data/resources/Projectiles/Beetroot_Projectile.png");
     ImageManager::AddTexture("GearProjectile", "data/resources/Projectiles/GearProjectile.png");
+    ImageManager::AddTexture("FireLauncherProjectile", "data/resources/Projectiles/FireLauncherProjectile.png");
 }
