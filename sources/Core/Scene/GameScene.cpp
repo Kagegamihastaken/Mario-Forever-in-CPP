@@ -55,14 +55,15 @@ GameScene::GameScene(SceneManager &manager)
 void GameScene::handleInput(const std::optional<sf::Event>& event) {
     if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
-            projectileManager.addProjectile<FireLauncherProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), sf::Vector2f(-8.5f, 0.f));
+            //projectileManager.addProjectile<FireLauncherProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), sf::Vector2f(-8.5f, 0.f));
             //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
-        else if (mousePressed->button == sf::Mouse::Button::Middle)
-            Mario::SetPowerState(3);
+        else if (mousePressed->button == sf::Mouse::Button::Middle) {
+            //Mario::SetPowerState(3);
+        }
         else if (mousePressed->button == sf::Mouse::Button::Right) {
-            AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
+            //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
             //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
         }
     }

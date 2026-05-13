@@ -127,8 +127,9 @@ GoombaAIBehavior::GoombaAIData BroAIBehavior::BroAIYCollision(const GoombaAIBeha
         dataOutput.velocity.y = 0.f;
     }
     bool NoAdd = false;
-    if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
-        if (const float offset = std::min(dataOutput.velocity.x + 1.f, 3.f); dataOutput.velocity.y >= -dataOutput.velocity.x) {
+    const float offset = std::min(dataOutput.velocity.x + 1.f, 3.f);
+    if (QuickCheckOnlyObstacleBotCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox), offset, CurrPosXCollide, CurrPosYCollide, NoAdd)) {
+        if (dataOutput.velocity.y >= -dataOutput.velocity.x) {
             const float floorY = GetCurrFloorY(dataOutput.position, CurrPosXCollide, CurrPosYCollide);
             if (dataOutput.position.y >= CurrPosYCollide + floorY - offset) {
                 dataOutput.velocity.y = (jumpingBehavior.isJump ? -8.f : 0.f);
@@ -137,7 +138,7 @@ GoombaAIBehavior::GoombaAIData BroAIBehavior::BroAIYCollision(const GoombaAIBeha
         }
     }
     else {
-        if (QuickCheckOnlyHittableBotCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide, NoAdd) && dataOutput.velocity.y > 0.f) {
+        if (QuickCheckOnlyHittableBotCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox), offset, CurrPosXCollide, CurrPosYCollide, NoAdd) && dataOutput.velocity.y > 0.f) {
             if (!isFalling) {
                 if (dataOutput.velocity.y >= 0.0f) {
                     dataOutput.velocity.y = 0.f;

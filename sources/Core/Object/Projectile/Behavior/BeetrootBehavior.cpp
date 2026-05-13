@@ -65,8 +65,9 @@ BeetrootBehavior::BeetrootData BeetrootBehavior::BeetrootYCollision(const sf::Ve
         ++data.count;
         do_stuff = 2;
     }
-    if (QuickCheckBotCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
-        if (const float offset = data.velocity.x + 1.f; data.velocity.y >= -data.velocity.x) {
+    const float offset = data.velocity.x + 1.f;
+    if (QuickCheckBotCollision(MFCPP::CollisionObject(data.position, origin, hitbox), offset, CurrPosXCollide, CurrPosYCollide)) {
+        if (data.velocity.y >= -data.velocity.x) {
             const float floorY = GetCurrFloorY(data.position, CurrPosXCollide, CurrPosYCollide);
             if (data.position.y < CurrPosYCollide + floorY - offset) return data;
             data.position.y = CurrPosYCollide + floorY - (hitbox.size.y - origin.y);

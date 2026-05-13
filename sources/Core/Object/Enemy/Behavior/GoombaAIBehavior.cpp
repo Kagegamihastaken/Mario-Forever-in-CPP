@@ -29,7 +29,8 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIYCollision(const Goomba
         dataOutput.position.y = PlatPosY;
         dataOutput.velocity.y = 0.f;
     }
-    if (QuickCheckBotCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
+    const float offset = std::min(data.velocity.x + 1.f, 3.f);
+    if (QuickCheckBotCollision(MFCPP::CollisionObject(data.position, origin, hitbox), offset, CurrPosXCollide, CurrPosYCollide)) {
         if (RedKoopaAIEnabled) {
             if (!isAccurateCollideBotStopEdge(MFCPP::CollisionObject({data.position.x, data.position.y + 1.f}, origin, hitbox), !data.direction)) {
                 dataOutput.position.x = prevX;
@@ -37,7 +38,7 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIYCollision(const Goomba
             }
         }
 
-        if (const float offset = std::min(data.velocity.x + 1.f, 3.f); data.velocity.y >= -data.velocity.x) {
+        if (data.velocity.y >= -data.velocity.x) {
             const float floorY = GetCurrFloorY(data.position, CurrPosXCollide, CurrPosYCollide);
             if (data.position.y < CurrPosYCollide + floorY - offset) return dataOutput;
             dataOutput.velocity.y = 0.f;

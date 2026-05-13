@@ -87,13 +87,13 @@ int WinMain() {
 				}
 				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
 					if (keyPressed->code == sf::Keyboard::Key::Q) {
-						MFCPP::Log::InfoPrint("Pressed Q");
-						if (SoundManager::GetEnvironment() == OVERWORLD) {
-							SoundManager::SetEnvironment(UNDERGROUND);
-						}
-						else {
-							SoundManager::SetEnvironment(OVERWORLD);
-						}
+						// MFCPP::Log::InfoPrint("Pressed Q");
+						// if (SoundManager::GetEnvironment() == OVERWORLD) {
+						// 	SoundManager::SetEnvironment(UNDERGROUND);
+						// }
+						// else {
+						// 	SoundManager::SetEnvironment(OVERWORLD);
+						// }
 					}
 					/*
 					else if (keyPressed->code == sf::Keyboard::Key::P) {

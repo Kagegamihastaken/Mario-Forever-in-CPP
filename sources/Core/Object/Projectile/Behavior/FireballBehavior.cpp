@@ -36,8 +36,9 @@ FireballBehavior::FireballData FireballBehavior::FireballY(const sf::Vector2f& p
     float CurrPosYCollide, CurrPosXCollide;
     //if (QuickCheckTopCollision(MFCPP::CollisionObject(sf::Vector2f(data.X, data.Y), origin, hitbox), CurrPosXCollide, CurrPosYCollide))
         //data.remove = true;
-    if (QuickCheckBotCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
-        if (const float offset = data.velocity.x + 1.f; data.velocity.y >= -data.velocity.x) {
+    const float offset = data.velocity.x + 1.f;
+    if (QuickCheckBotCollision(MFCPP::CollisionObject(data.position, origin, hitbox), offset, CurrPosXCollide, CurrPosYCollide)) {
+        if (data.velocity.y >= -data.velocity.x) {
             const float floorY = GetCurrFloorY(data.position, CurrPosXCollide, CurrPosYCollide);
             if (data.position.y < CurrPosYCollide + floorY - offset) return data;
             data.position.y = CurrPosYCollide + floorY - (hitbox.size.y - origin.y);

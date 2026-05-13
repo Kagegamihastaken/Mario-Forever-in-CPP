@@ -77,7 +77,7 @@ void PiranhaFireball::statusUpdate(float deltaTime) {
     }
     //Movement
     setCurrentPosition(sf::Vector2f(getCurrentPosition().x + m_velocity.x * deltaTime, getCurrentPosition().y + m_velocity.y * deltaTime));
-    m_velocity.y += (m_velocity.y >= 10.0f ? 0.0f : deltaTime * 0.175f);
+    m_velocity.y += deltaTime * 0.175f;
 }
 
 void PiranhaFireball::CollisionUpdate() {

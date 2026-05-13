@@ -88,6 +88,11 @@ bool GetRelativeTilemapSlopeBetween(const float CurrPosXCollide, const float Cur
 	if (MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize(), CurrPosYCollide) == 3) return true;
 	return false;
 }
+bool GetInbetweenTilemapSlope(const float CurrPosXCollide, const float CurrPosYCollide) {
+	if (MFCPP::getIndexTilemapID(CurrPosXCollide + MFCPP::getTileSize(), CurrPosYCollide) == 3 && MFCPP::getIndexTilemapID(CurrPosXCollide - MFCPP::getTileSize(), CurrPosYCollide) == 3)
+		return true;
+	return false;
+}
 std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
 	//bool isCollideLeftBool = false, isCollideRightBool = false;
 	std::pair<bool, bool> isCollideSide; //First:Left, Second:Right
@@ -100,12 +105,14 @@ std::pair<bool, bool> isAccurateCollideSide(const MFCPP::CollisionObject& Collid
 			if (isCollide(hitbox_intersect, hitbox_loop)) {
 				if (hitbox_intersect.position.x >= hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x + hitbox_intersect.size.x >= hitbox_loop.position.x + 16.0f) {
 					if (!GetRelativeTilemapSlopeBetween(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
+					else if (GetInbetweenTilemapSlope(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 					else if (GetRelativeTilemapSlopeLeft(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 					else if (GetRelativeTilemapSlopeLeftReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 					else if (GetRelativeTilemapSlopeRightReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.first = true;
 				}
 				if (hitbox_intersect.position.x + hitbox_intersect.size.x < hitbox_loop.position.x + 16.0f || hitbox_intersect.position.x < hitbox_loop.position.x + 16.0f) {
 					if (!GetRelativeTilemapSlopeBetween(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
+					else if (GetInbetweenTilemapSlope(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
 					else if (GetRelativeTilemapSlopeRight(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
 					else if (GetRelativeTilemapSlopeRightReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
 					else if (GetRelativeTilemapSlopeLeftReverse(i * MFCPP::getTileSize(), j * MFCPP::getTileSize())) isCollideSide.second = true;
@@ -160,7 +167,7 @@ bool isAccurateCollideBotStopEdge(const MFCPP::CollisionObject& CollideObj, cons
 	}
 	return false;
 }
-bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
+bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, const float offset, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
 	//if (NoAdd) return false;
 	bool isCollideBotBool = false;
 	bool willCollide = false;
@@ -171,41 +178,27 @@ bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, float& CurrP
 		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= SizeY; ++j) {
 			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, (MFCPP::getIndexTilemapID(i, j) != 3 ? MFCPP::getIndexTilemapFloorY(i, j).first : 0.f)}, {MFCPP::getTileSize(), (MFCPP::getIndexTilemapID(i, j) != 3 ? MFCPP::getIndexTilemapFloorY(i, j).second - MFCPP::getIndexTilemapFloorY(i, j).first : MFCPP::getTileSize())}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
-				if ((CollideObj.GetPosition().x - hitbox_loop.position.x) / MFCPP::getTileSize() < 0.f && !(i == SizeX && i == SizeY) && willCollide) continue;
+				if ((CollideObj.GetPosition().x - i * MFCPP::getTileSize()) / MFCPP::getTileSize() < 0.f && willCollide) continue;
 				willCollide = true;
 				//if (hitbox_intersect.position.x < hitbox_loop.position.x || hitbox_intersect.position.x > hitbox_loop.position.x + hitbox_loop.size.x) continue;
-				if (hitbox_intersect.position.y + hitbox_intersect.size.y < hitbox_loop.position.y + hitbox_loop.size.y / 2.f && MFCPP::getIndexTilemapID(i, j) != 3 || MFCPP::getIndexTilemapID(i, j) == 3) {
+				if ((hitbox_intersect.position.y + hitbox_intersect.size.y < hitbox_loop.position.y + hitbox_loop.size.y / 2.f && MFCPP::getIndexTilemapID(i, j) != 3) || MFCPP::getIndexTilemapID(i, j) == 3) {
+					if (MFCPP::getIndexTilemapID(i * MFCPP::getTileSize(), j * MFCPP::getTileSize()) == 3) {
+						bool BlockDirection = MFCPP::getIndexTilemapFloorY(i * MFCPP::getTileSize(), j * MFCPP::getTileSize()).first < MFCPP::getIndexTilemapFloorY(i * MFCPP::getTileSize(), j * MFCPP::getTileSize()).second;
+						if (MFCPP::getIndexTilemapID(i * MFCPP::getTileSize() - (BlockDirection ? MFCPP::getTileSize() : -MFCPP::getTileSize()), j * MFCPP::getTileSize()) != 3 && MFCPP::getIndexTilemapCollision(i * MFCPP::getTileSize() - (BlockDirection ? MFCPP::getTileSize() : -MFCPP::getTileSize()), j * MFCPP::getTileSize())) {
+							const float floorY = GetCurrFloorY(CollideObj.GetPosition(), i * MFCPP::getTileSize(), j * MFCPP::getTileSize());
+							if (CollideObj.GetPosition().y < j * MFCPP::getTileSize() + floorY - offset) continue;
+						}
+					}
 					isCollideBotBool = true;
 					if (CurrPosYCollide <= j * MFCPP::getTileSize() || MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) != 3) {
 						CurrPosYCollide = j * MFCPP::getTileSize();
 						CurrPosXCollide = i * MFCPP::getTileSize();
 					}
 				}
-				break;
 			}
 		}
 	}
 	return isCollideBotBool;
-}
-std::vector<std::pair<float, float>> isCollideTopDetailed(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, unsigned ID) {
-	std::vector<std::pair<float, float>> result;
-	const sf::FloatRect hitbox_intersect = getGlobalHitbox(CollideObj.GetLeftHitbox(), CollideObj.GetPosition(), CollideObj.GetOrigin());
-	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f)); ++i) {
-		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f)); ++j) {
-			if (!MFCPP::getIndexTilemapCollision(i, j) || MFCPP::getIndexTilemapID(i, j) != ID) continue;
-			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
-				if (hitbox_intersect.position.y >= hitbox_loop.position.y + 16.0f && hitbox_intersect.position.y <= hitbox_loop.position.y + 32.0f) {
-					if (!NoAdd) {
-						CurrPosYCollide = hitbox_loop.position.y;
-						CurrPosXCollide = hitbox_loop.position.x;
-						NoAdd = true;
-					}
-					result.emplace_back( hitbox_loop.position.x, hitbox_loop.position.y );
-				}
-			}
-		}
-	}
-	return std::move(result);
 }
 bool isAccurateCollideTop(const MFCPP::CollisionObject& CollideObj, float& CurrPosXCollide, float& CurrPosYCollide, bool& NoAdd, const unsigned ID) {
 	if (NoAdd) return false;
@@ -246,16 +239,12 @@ std::pair<bool, bool> CheckCollisionSide(const MFCPP::CollisionObject& CollideOb
 	std::pair<bool, bool> CollideLoop = isAccurateCollideSide(CollideObj, CurrX, CurrY, NoAdd, ID);
 	return CollideLoop;
 }
-bool CheckCollisionBot(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd, const unsigned ID) {
-	const bool CollideLoop = isAccurateCollideBot(CollideObj, CurrX, CurrY, NoAdd, ID);
+bool CheckCollisionBot(const MFCPP::CollisionObject& CollideObj, const float offset, float& CurrX, float& CurrY, bool& NoAdd, const unsigned ID) {
+	const bool CollideLoop = isAccurateCollideBot(CollideObj, offset, CurrX, CurrY, NoAdd, ID);
 	return CollideLoop;
 }
 bool CheckCollisionTop(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd, const unsigned ID) {
 	const bool CollideLoop = isAccurateCollideTop(CollideObj, CurrX, CurrY, NoAdd, ID);
-	return CollideLoop;
-}
-std::vector<std::pair<float, float>> CheckCollisionTopDetailed(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd, const unsigned ID) {
-	const std::vector<std::pair<float, float>> CollideLoop = isCollideTopDetailed(CollideObj, CurrX, CurrY, NoAdd, ID);
 	return CollideLoop;
 }
 bool CheckCollisionMain(const MFCPP::CollisionObject& CollideObj, const unsigned ID) {
@@ -297,19 +286,19 @@ bool QuickCheckOnlyObstacleMainCollision(const MFCPP::CollisionObject& CollideOb
 	out |= CheckCollisionMain(CollideObj, 3);
 	return out;
 }
-bool QuickCheckOnlyObstacleBotCollision(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd) {
+bool QuickCheckOnlyObstacleBotCollision(const MFCPP::CollisionObject& CollideObj, const float offset, float& CurrX, float& CurrY, bool& NoAdd) {
 	float CurrPosYCollide = 0.f, CurrPosXCollide = 0.f;
 	bool out = false;
-	out |= CheckCollisionBot(CollideObj, CurrPosXCollide, CurrPosYCollide, NoAdd, 0);
-	out |= CheckCollisionBot(CollideObj, CurrPosXCollide, CurrPosYCollide, NoAdd, 3);
+	out |= CheckCollisionBot(CollideObj, offset, CurrPosXCollide, CurrPosYCollide, NoAdd, 0);
+	out |= CheckCollisionBot(CollideObj, offset, CurrPosXCollide, CurrPosYCollide, NoAdd, 3);
 	if (out) CurrY = CurrPosYCollide, CurrX = CurrPosXCollide;
 	return out;
 }
-bool QuickCheckOnlyHittableBotCollision(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY, bool& NoAdd) {
+bool QuickCheckOnlyHittableBotCollision(const MFCPP::CollisionObject& CollideObj, const float offset, float& CurrX, float& CurrY, bool& NoAdd) {
 	float CurrPosYCollide = 0.f, CurrPosXCollide = 0.f;
 	bool out = false;
-	out |= CheckCollisionBot(CollideObj, CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
-	out |= CheckCollisionBot(CollideObj, CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
+	out |= CheckCollisionBot(CollideObj, offset, CurrPosXCollide, CurrPosYCollide, NoAdd, 1);
+	out |= CheckCollisionBot(CollideObj, offset, CurrPosXCollide, CurrPosYCollide, NoAdd, 2);
 	if (out) CurrY = CurrPosYCollide, CurrX = CurrPosXCollide;
 	return out;
 }
@@ -340,15 +329,15 @@ std::pair<bool, bool> QuickCheckSideCollision(const MFCPP::CollisionObject& Coll
 	CurrX = CurrPosXCollide, CurrY = CurrPosYCollide;
 	return out;
 }
-bool QuickCheckBotCollision(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY) {
+bool QuickCheckBotCollision(const MFCPP::CollisionObject& CollideObj, const float offset, float& CurrX, float& CurrY) {
 	float CurrPosYCollide, CurrPosXCollide;
 	bool NoAdd = false;
 
 	//const MFCPP::CollisionObject obj({CollideObj.GetPosition().x, CollideObj.GetPosition().y + 1.f}, CollideObj.GetOrigin(), CollideObj.GetLeftHitbox());
 
 	bool out = false;
-	out |= QuickCheckOnlyHittableBotCollision(CollideObj, CurrPosXCollide, CurrPosYCollide, NoAdd);
-	out |= QuickCheckOnlyObstacleBotCollision(CollideObj, CurrPosXCollide, CurrPosYCollide, NoAdd);
+	out |= QuickCheckOnlyHittableBotCollision(CollideObj, offset, CurrPosXCollide, CurrPosYCollide, NoAdd);
+	out |= QuickCheckOnlyObstacleBotCollision(CollideObj, offset, CurrPosXCollide, CurrPosYCollide, NoAdd);
 	CurrX = CurrPosXCollide, CurrY = CurrPosYCollide;
 	return out;
 }

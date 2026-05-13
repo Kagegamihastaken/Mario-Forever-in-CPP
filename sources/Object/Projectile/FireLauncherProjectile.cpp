@@ -52,7 +52,7 @@ void FireLauncherProjectile::statusUpdate(float deltaTime) {
     }
     //Movement
     setCurrentPosition(sf::Vector2f(getCurrentPosition().x + m_velocity.x * deltaTime, getCurrentPosition().y + m_velocity.y * deltaTime));
-    m_velocity.y += (m_velocity.y >= 10.0f ? 0.0f : deltaTime * 0.35f);
+    m_velocity.y += deltaTime * 0.35f;
 }
 
 void FireLauncherProjectile::CollisionUpdate() {
