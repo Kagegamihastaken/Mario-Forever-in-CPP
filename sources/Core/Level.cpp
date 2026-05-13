@@ -11,9 +11,6 @@
 #include "Core/Loading/enum.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Object/GoombaAI.hpp"
-#include "Effect/BrickParticle.hpp"
-#include "Effect/CoinEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/PiranhaAI.hpp"
 #include "Object/Spike.hpp"
 #include "Core/Scroll.hpp"
@@ -22,7 +19,6 @@
 #include "Object/ExitGate.hpp"
 #include "Editor/SelectTile.hpp"
 #include "Core/Background/BgGradient.hpp"
-#include "Effect/FireballExplosion.hpp"
 #include "Object/BroAI.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Time.hpp"
@@ -33,6 +29,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/SceneryHelper.hpp"
 #include "Object/Enemy/GearLauncher.hpp"
+#include "Object/Enemy/GearLauncherFlipped.hpp"
 #include "Object/Enemy/RedRotodiscFlower.hpp"
 #include "Object/Enemy/RedRotodiscRound.hpp"
 // Level data
@@ -320,7 +317,15 @@ void Objectbuilding() {
 					AddBulletLauncher(static_cast<BulletType>(i[1]), i[3], i[4]);
 					break;
 				case 6:
-					GameScene::customTileManager.addCustomTile<GearLauncher>(sf::Vector2f(i[3], i[4]));
+					switch (static_cast<int>(i[1])) {
+					case 0:
+						GameScene::customTileManager.addCustomTile<GearLauncher>(sf::Vector2f(i[3], i[4]));
+						break;
+					case 1:
+						GameScene::customTileManager.addCustomTile<GearLauncherFlipped>(sf::Vector2f(i[3], i[4]));
+						break;
+					default: ;
+					}
 					break;
 				default: ;
 			}

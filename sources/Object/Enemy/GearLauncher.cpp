@@ -5,6 +5,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/WindowFrame.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Effect/FireballExplosion.hpp"
 #include "Object/Projectile/GearProjectile.hpp"
@@ -64,7 +65,7 @@ void GearLauncher::statusUpdate(float deltaTime) {
 
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;
-        GameScene::projectileManager.addProjectile<GearProjectile>(getCurrentPosition());
+        GameScene::projectileManager.addProjectile<GearProjectile>(getCurrentPosition(), sf::Vector2f(static_cast<float>(RandomIntNumberGenerator(0, 2)) - static_cast<float>(RandomIntNumberGenerator(0, 4)), (8.f + static_cast<float>(RandomIntNumberGenerator(0, 2))) * -1.f));
         AddFireballExplosion(getCurrentPosition().x, getCurrentPosition().y);
         SoundManager::PlaySound("Chilun");
     }

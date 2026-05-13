@@ -7,13 +7,12 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 #include "Object/Projectile/GearProjectileEffect.hpp"
 
-GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &position) : Projectile(manager) {
+GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &position, const sf::Vector2f& velocity) : Projectile(manager) {
     setCurrentPosition(position);
     setPreviousPosition(position);
     setInterpolatedPosition(position);
@@ -22,7 +21,7 @@ GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &p
     setHitbox(sf::FloatRect({0.f, 0.f}, {40.f, 40.f}));
     m_timeEffect = 0.f;
     m_timeEffectMax = 2.5f;
-    m_velocity = {static_cast<float>(RandomIntNumberGenerator(0, 2)) - static_cast<float>(RandomIntNumberGenerator(0, 4)), (8.f + static_cast<float>(RandomIntNumberGenerator(0, 2))) * -1.f};
+    m_velocity = velocity;
     setDrawingPriority(2);
 }
 

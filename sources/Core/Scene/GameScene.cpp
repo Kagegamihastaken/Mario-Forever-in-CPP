@@ -229,7 +229,6 @@ void GameScene::loadResources() {
     BgInit();
     ExitGateInit();
     FireballExplosionInit();
-    BulletLauncherInit();
     BulletBillInit();
     PlatformInit();
     CheckpointInit();

@@ -15,15 +15,20 @@ static int TANK_GEAR_WIDTH = 32;
 static int TANK_GEAR_HEIGHT = 32;
 
 void CustomBlockInit() {
+	ImageManager::AddTexture("BulletLauncher", "data/resources/BulletLauncher.png");
+	ImageManager::AddTexture("BulletLauncherFlipped", "data/resources/BulletLauncherFlipped.png");
 	ImageManager::AddTexture("GearLauncherUp", "data/resources/GearLauncherUp.png");
+	ImageManager::AddTexture("GearLauncherDown", "data/resources/GearLauncherDown.png");
 	ImageManager::AddTexture("FireLauncher", "data/resources/FireLauncher.png");
+	ImageManager::AddTexture("FireLauncherFlipped", "data/resources/FireLauncherFlipped.png");
+	ImageManager::AddTexture("FireLauncherStand", "data/resources/FireLauncherStand.png");
 	for (int i = 0; i < TANK_GEAR_IMAGE_WIDTH / TANK_GEAR_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("TankGearLeft_{}", i), "data/resources/TankGearLeft.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
 		TankGearLeftAnimName.push_back(fmt::format("TankGearLeft_{}", i));
-    	ImageManager::AddTexture(fmt::format("TankGearMiddle_{}", i), "data/resources/TankGearMiddle.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
-    	TankGearMiddleAnimName.push_back(fmt::format("TankGearMiddle_{}", i));
-    	ImageManager::AddTexture(fmt::format("TankGearRight_{}", i), "data/resources/TankGearRight.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
-    	TankGearRightAnimName.push_back(fmt::format("TankGearRight_{}", i));
+		ImageManager::AddTexture(fmt::format("TankGearMiddle_{}", i), "data/resources/TankGearMiddle.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
+		TankGearMiddleAnimName.push_back(fmt::format("TankGearMiddle_{}", i));
+		ImageManager::AddTexture(fmt::format("TankGearRight_{}", i), "data/resources/TankGearRight.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
+		TankGearRightAnimName.push_back(fmt::format("TankGearRight_{}", i));
 	}
 }
 void AddCustomTile(int id, const sf::Vector2f& pos) {

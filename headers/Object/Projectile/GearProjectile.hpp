@@ -7,7 +7,7 @@
 
 class GearProjectile final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
-    explicit GearProjectile(ProjectileManager& manager, const sf::Vector2f& position);
+    explicit GearProjectile(ProjectileManager& manager, const sf::Vector2f& position, const sf::Vector2f& velocity);
     void FireballEffect() const;
     void setPreviousData() override;
     void interpolateData(float alpha) override;

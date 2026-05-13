@@ -3,6 +3,7 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Scene/GameScene.hpp"
@@ -15,9 +16,12 @@ FireLauncherProjectile::FireLauncherProjectile(ProjectileManager &manager, const
     setPreviousPosition(position);
     setInterpolatedPosition(position);
     m_animation.setTexture("FireLauncherProjectile", true);
-    setOrigin(sf::Vector2f(12.f, 12.f));
+    setOrigin(sf::Vector2f(12.f, 13.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {25.f, 26.f}));
     setDrawingPriority(0);
+    setCurrentAngle(sf::degrees(RandomFloatNumberGenerator(0, 359.9f)));
+    setPreviousAngle(getCurrentAngle());
+    setInterpolatedAngle(getCurrentAngle());
     m_velocity = velocity;
     m_timePass = 0.f;
     m_timePassLimit = 3.25f;

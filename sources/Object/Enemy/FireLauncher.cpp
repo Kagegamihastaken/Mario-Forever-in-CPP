@@ -5,6 +5,7 @@
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/WindowFrame.hpp"
+#include "Core/Object/CustomTile/Behavior/FireLauncherBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
 #include "Object/Enemy/BulletBill.hpp"
@@ -47,29 +48,16 @@ void FireLauncher::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 0.f, 0.f)) return;
 
-    if (m_FireIntervalCounting > 0.f) {
-        m_FireIntervalCounting -= deltaTime;
-    }
-    else if (m_FireIntervalCounting <= 0.f) {
-        m_FireIntervalCounting = m_FireInterval;
-        m_ProjectileCounting = m_ProjectileCount;
-    }
-
-    if (m_ProjectileCounting > 0) {
-        if (!m_playSound) {
-            SoundManager::PlaySound("Volcano");
-            m_playSound = true;
-        }
-        m_FireBetweenIntervalCounting += deltaTime;
-        if (m_FireBetweenIntervalCounting >= m_FireBetweenInterval) {
-            m_FireBetweenIntervalCounting = f_mod(m_FireBetweenIntervalCounting, m_FireBetweenInterval);
-            GameScene::projectileManager.addProjectile<FireLauncherProjectile>(getCurrentPosition() + sf::Vector2f(16.f, 16.f), sf::Vector2f(-8.5f, 0.f));
-            m_ProjectileCounting -= 1;
-        }
-    }
-    else {
-        if (m_playSound) m_playSound = false;
-    }
+    bool launch = false, sound = false;
+    auto data = FireLauncherBehavior::FireLauncherStatusUpdate(FireLauncherBehavior::FireLauncherData(m_FireInterval, m_FireIntervalCounting, m_ProjectileCount, m_ProjectileCounting, m_FireBetweenInterval, m_FireBetweenIntervalCounting, m_playSound), launch, sound, deltaTime);
+    if (sound)
+        SoundManager::PlaySound("Volcano");
+    if (launch)
+        GameScene::projectileManager.addProjectile<FireLauncherProjectile>(getCurrentPosition() + sf::Vector2f(16.f, 16.f), sf::Vector2f(-8.5f, 0.f));
+    m_FireBetweenIntervalCounting = data.FireBetweenIntervalCounting;
+    m_ProjectileCounting = data.ProjectileCounting;
+    m_FireIntervalCounting = data.FireIntervalCounting;
+    m_playSound = data.PlaySound;
 }
 void FireLauncher::draw() {
     if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;

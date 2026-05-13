@@ -158,6 +158,9 @@ const std::array<std::vector<SelectTileData>, 6> TilePage = {{
         {"BulletLauncherFlipped", CustomTileProperty(), sf::Vector2f(160, 160), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 1, 0},
         {"GearLauncherUp", CustomTileProperty(), sf::Vector2f(64, 32), sf::Vector2i(0, 32), sf::Vector2f(32.0f, 22.0f), 2, 6, 0, 0},
         {"FireLauncher", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 2, 0},
+        {"FireLauncherFlipped", CustomTileProperty(), sf::Vector2f(64, 96), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 3, 0},
+        {"GearLauncherDown", CustomTileProperty(), sf::Vector2f(64, 128), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 41.0f), 2, 6, 1, 0},
+        {"FireLauncherStand", CustomTileProperty(), sf::Vector2f(64, 160), sf::Vector2i(2, 27), sf::Vector2f(0.f, 0.f), 2, 4, 4, 0},
     },
     { // PAGE 5
         {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},

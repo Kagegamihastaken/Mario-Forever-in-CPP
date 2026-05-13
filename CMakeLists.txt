@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.1.0)
+project(MFCPP VERSION 0.0.1.1)
 
 # --- Global Project Settings ---
 set(CMAKE_CXX_STANDARD 20)
