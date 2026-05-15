@@ -248,9 +248,9 @@ void GameScene::loadResources() {
     //Load Level
     //ReadData("data/levels/onedashthree.json");
     //ReadData("data/levels/twodashone.json");
-    //ReadData("data/levels/untitled.json");
+    ReadData("data/levels/untitled-2.json");
     //ReadData("data/levels/gearuptest.json");
-    ReadData("data/levels/sevendashone.json");
+    //ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

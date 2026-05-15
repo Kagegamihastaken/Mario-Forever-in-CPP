@@ -244,9 +244,9 @@ void Objectbuilding() {
 	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
 	//Music
 
-	MusicManager::StopAllMusic();
-	MusicManager::SetLoop(MusicData, true);
-	MusicManager::PlayMusic(MusicData);
+	//MusicManager::StopAllMusic();
+	//MusicManager::SetLoop(MusicData, true);
+	//MusicManager::PlayMusic(MusicData);
 
 	MFCPP::AutoScroll::resetPosition();
 
