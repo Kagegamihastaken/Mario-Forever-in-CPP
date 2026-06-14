@@ -97,7 +97,7 @@ void MarioBeetroot::CollisionUpdate() {
         if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt.getHitbox(), jt.getCurrentPosition(), jt.getOrigin()); isCollide(EnemyGoombaAICollide, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.ShellHit();
-                AddScoreEffect(SCORE_100, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
                 SoundManager::PlaySound("Kick2");
                 spin(false, false);
                 ++m_hit_count;
@@ -111,7 +111,7 @@ void MarioBeetroot::CollisionUpdate() {
         if (sf::FloatRect loopHitbox = getGlobalHitbox(jt.getHitbox(), jt.getCurrentPosition(), jt.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.ShellHit();
-                AddScoreEffect(SCORE_200, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_200, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
                 SoundManager::PlaySound("Kick2");
                 spin(false, false);
                 ++m_hit_count;
@@ -125,7 +125,7 @@ void MarioBeetroot::CollisionUpdate() {
         if (sf::FloatRect loopHitbox = getGlobalHitbox(jt.getHitbox(), jt.getCurrentPosition(), jt.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.Death(0);
-                AddScoreEffect(SCORE_100, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, jt.getCurrentPosition().x, jt.getCurrentPosition().y - jt.getOrigin().y);
                 SoundManager::PlaySound("Kick2");
                 spin(false, false);
                 ++m_hit_count;
@@ -148,6 +148,6 @@ void MarioBeetroot::Destroy() {
 }
 
 void MarioBeetroot::LevelEndCleanup() {
-    AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }

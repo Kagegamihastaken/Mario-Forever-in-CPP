@@ -302,7 +302,7 @@ void Objectbuilding() {
 		for (const auto& i : EnemyData) {
 			switch (static_cast<int>(i[0])) {
 				case 0:
-					AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], LEFT);
+					AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], GoombaAIDirection::LEFT);
 					break;
 				case 1:
 					AddPiranha(static_cast<PiranhaID>(i[1]), static_cast<PiranhaDirection>(i[2]), i[3], i[4]);

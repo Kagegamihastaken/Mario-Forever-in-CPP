@@ -60,8 +60,8 @@ void EditorScene::loadResources() {
     //
     SelectTileInit();
     EditorInit();
-    AddText("_FPS", "", LEFT_MARGIN, 0.0f, 464.0f);
-    AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
+    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
+    AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
 }
 void EditorScene::unloadResources() {}
 void EditorScene::handleInput(const std::optional<sf::Event> &event) {

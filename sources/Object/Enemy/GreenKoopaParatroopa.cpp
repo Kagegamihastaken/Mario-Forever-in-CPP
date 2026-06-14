@@ -55,7 +55,7 @@ void GreenKoopaParatroopa::MarioCollision(const float MarioYVelocity) {
         if (m_state == 0) {
             if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
-                AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
                 m_enemyManager.addEnemy<GreenKoopa>(getCurrentPosition(), false);
                 Destroy();
                 return;

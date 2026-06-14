@@ -78,7 +78,7 @@ void HammerBro::MarioCollision(const float MarioYVelocity) {
     if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
         if (getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }
@@ -125,9 +125,9 @@ void HammerBro::statusUpdate(float deltaTime) {
     }
     if (ShootingData.isFire) {
         if (m_animation.getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BROAI_HAMMER, getCurrentPosition().x + 5.f, getCurrentPosition().y - 31.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_HAMMER, getCurrentPosition().x + 5.f, getCurrentPosition().y - 31.f);
         else
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BROAI_HAMMER, getCurrentPosition().x - 5.f, getCurrentPosition().y - 31.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_HAMMER, getCurrentPosition().x - 5.f, getCurrentPosition().y - 31.f);
         SoundManager::PlaySound("Hammer");
     }
 }
@@ -172,7 +172,7 @@ void HammerBro::YUpdate(float deltaTime) {
 }
 void HammerBro::BlockHit() {
     if (m_state != 0) return;
-    AddScoreEffect(SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(1);
 }

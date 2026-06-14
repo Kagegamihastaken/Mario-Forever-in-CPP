@@ -21,24 +21,24 @@ PiranhaFireball::PiranhaFireball(ProjectileManager &manager, const PiranhaDirect
     setHitbox(sf::FloatRect({0.f, 0.f}, {15.f, 16.f}));
     setDrawingPriority(2);
     switch (direction) {
-        case PIRANHA_UP:
+        case PiranhaDirection::PIRANHA_UP:
             m_velocity = {static_cast<float>(RandomIntNumberGenerator(0, 4)) - static_cast<float>(RandomIntNumberGenerator(0, 4)),
     (3.f + static_cast<float>(RandomIntNumberGenerator(0, 8))) * -1.f
             };
             break;
-        case PIRANHA_DOWN:
+        case PiranhaDirection::PIRANHA_DOWN:
             m_velocity = {
             static_cast<float>(RandomIntNumberGenerator(0, 4)) - static_cast<float>(RandomIntNumberGenerator(0, 4)),
             (3.f + static_cast<float>(RandomIntNumberGenerator(0, 3)))
         };
             break;
-        case PIRANHA_RIGHT:
+        case PiranhaDirection::PIRANHA_RIGHT:
             m_velocity = {
             (3.f + static_cast<float>(RandomIntNumberGenerator(0, 3))) * -1.f,
             static_cast<float>(RandomIntNumberGenerator(0, 9)) - static_cast<float>(RandomIntNumberGenerator(0, 9))
         };
             break;
-        case PIRANHA_LEFT:
+        case PiranhaDirection::PIRANHA_LEFT:
             m_velocity = {
             (3.f + static_cast<float>(RandomIntNumberGenerator(0, 3))),
             static_cast<float>(RandomIntNumberGenerator(0, 9)) - static_cast<float>(RandomIntNumberGenerator(0, 9))
@@ -106,6 +106,6 @@ void PiranhaFireball::Destroy() {
 }
 
 void PiranhaFireball::LevelEndCleanup() {
-    AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }

@@ -59,24 +59,11 @@ int WinMain() {
 		MusicManager::ForceLoadMusic("MarioDeath");
 		MusicManager::ForceLoadMusic("LevelComplete");
 
-		//MFCPP::SimpleSprite test;
+		// MFCPP::SimpleSprite test;
+		// ImageManager::AddTexture("TempTexImage", "data/resources/testImage.png");
+		// test.setTexture(ImageManager::GetReturnTexture("TempTexImage"), true);
+		// test.setTextureRect(sf::IntRect({16, 16}, {32, 32}));
 
-		//sf::RectangleShape test(sf::Vector2f(32.f, 32.f));
-		//test.setPointCount(4);
-		//test.setPoint(0, {0.f, 0.f});
-		//test.setPoint(1, {32.f, 0.f});
-		//test.setPoint(2, {32.f, 32.f});
-		//test.setPoint(3, {0.f, 32.f});
-		//sf::RectangleShape test(sf::Vector2f(32.0f, 32.0f));
-
-		//ImageManager::AddImage("TempTexImage", "data/resources/testImage.png");
-		//ImageManager::CreateTestImage("TempTexImage", "TempTexImageFixed");
-		//ImageManager::AddTexture("TempTexImage", "TempTexTexture");
-
-		//test.setTexture(ImageManager::GetReturnTexture("TempTexTexture"), true);
-		//test.setTextureRect(sf::IntRect({1, 1}, {32, 32}));
-		//render.setStep(1.0f / 300.0f);
-		//AddPlatform(sf::Vector2f(0.f, 352.f), sf::Vector2f(192.f - 32.f, 352.f - 96.f));
 		AudioEnginePlay();
 		while (window.isOpen()) {
 			while (const std::optional event = window.pollEvent()) {
@@ -115,6 +102,7 @@ int WinMain() {
 				GameObjectSetPrev();
 				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50);
 				GameObjectCollision();
+				// test.setPosition(Mario::getCurrentPosition());
 				Mario::InvincibleStateUpdate();
 			}
 			if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
@@ -129,6 +117,7 @@ int WinMain() {
 			window.clear(sf::Color::Transparent);
 			GameObjectDraw();
 			ImGui::SFML::Render(window);
+			// window.draw(test);
 			window.display();
 			//ImageManager::printDrawCount();
 		}

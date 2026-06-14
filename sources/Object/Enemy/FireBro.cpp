@@ -77,7 +77,7 @@ void FireBro::MarioCollision(const float MarioYVelocity) {
     if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
         if (getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }
@@ -124,9 +124,9 @@ void FireBro::statusUpdate(float deltaTime) {
     }
     if (ShootingData.isFire) {
         if (m_animation.getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BROAI_FIREBALL, getCurrentPosition().x + 6.f, getCurrentPosition().y - 21.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, getCurrentPosition().x + 6.f, getCurrentPosition().y - 21.f);
         else
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BROAI_FIREBALL, getCurrentPosition().x - 6.f, getCurrentPosition().y - 21.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, getCurrentPosition().x - 6.f, getCurrentPosition().y - 21.f);
         SoundManager::PlaySound("Fireball");
     }
 }
@@ -171,7 +171,7 @@ void FireBro::YUpdate(float deltaTime) {
 }
 void FireBro::BlockHit() {
     if (m_state != 0) return;
-    AddScoreEffect(SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(1);
 }

@@ -91,7 +91,7 @@ void RedKoopa::MarioCollision(const float MarioYVelocity) {
         if (m_state != 1) {
             if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
-                AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
                 Death(1);
                 return;
             }
@@ -158,7 +158,7 @@ void RedKoopa::YUpdate(const float deltaTime) {
 
 void RedKoopa::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(3);
 }

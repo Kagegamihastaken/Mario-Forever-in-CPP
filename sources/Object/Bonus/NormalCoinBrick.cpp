@@ -46,7 +46,7 @@ void NormalCoinBrick::interpolateData(float alpha) {
 }
 
 void NormalCoinBrick::Break() {
-    AddBrickParticle(BRICK_NORMAL, getCurrentPosition().x, m_ypos);
+    AddBrickParticle(BrickID::BRICK_NORMAL, getCurrentPosition().x, m_ypos);
     SoundManager::PlaySound("Break");
     m_customTileManager.setCollision(sf::Vector2f(getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
@@ -69,7 +69,7 @@ void NormalCoinBrick::Hit() {
     m_state = true;
     m_updown = false;
     m_state_count = 0.f;
-    AddCoinEffect(COIN_NORMAL, ONE_COIN, getCurrentPosition().x + 15.0f, getCurrentPosition().y);
+    AddCoinEffect(CoinID::COIN_NORMAL, CoinAtt::ONE_COIN, getCurrentPosition().x + 15.0f, getCurrentPosition().y);
     ++CoinCount;
     SoundManager::PlaySound("Coin");
 

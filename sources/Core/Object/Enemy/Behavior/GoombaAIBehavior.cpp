@@ -125,7 +125,7 @@ void GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
         if (!Other->isShellKicking()) {
             if (Other->isShellBlocker()) {
                 SoundManager::PlaySound("Kick2");
-                AddScoreEffect(SCORE_100, Shell->getCurrentPosition().x, Shell->getCurrentPosition().y - Shell->getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, Shell->getCurrentPosition().x, Shell->getCurrentPosition().y - Shell->getOrigin().y);
                 Shell->ShellHit();
             }
             return;
@@ -137,8 +137,8 @@ void GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
         }
         else if (Other->isShellBlocker()){
             SoundManager::PlaySound("Kick2");
-            AddScoreEffect(SCORE_100, Shell->getCurrentPosition().x, Shell->getCurrentPosition().y - Shell->getOrigin().y);
-            AddScoreEffect(SCORE_100, Other->getCurrentPosition().x, Other->getCurrentPosition().y - Other->getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, Shell->getCurrentPosition().x, Shell->getCurrentPosition().y - Shell->getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, Other->getCurrentPosition().x, Other->getCurrentPosition().y - Other->getOrigin().y);
             Shell->ShellHit();
             Other->ShellHit();
         }
@@ -187,37 +187,37 @@ short unsigned int GoombaAIBehavior::Kicking(const sf::Vector2f& pos, const sf::
     switch (val) {
         case 0:
             SoundManager::PlaySound("Kick2");
-            AddScoreEffect(SCORE_100, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_100, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 1:
             SoundManager::PlaySound("Kick3");
-            AddScoreEffect(SCORE_200, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_200, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 2:
             SoundManager::PlaySound("Kick4");
-            AddScoreEffect(SCORE_500, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_500, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 3:
             SoundManager::PlaySound("Kick5");
-            AddScoreEffect(SCORE_1000, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_1000, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 4:
             SoundManager::PlaySound("Kick6");
-            AddScoreEffect(SCORE_2000, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_2000, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 5:
             SoundManager::PlaySound("Kick7");
-            AddScoreEffect(SCORE_5000, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_5000, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 6:
             SoundManager::PlaySound("Kick8");
-            AddScoreEffect(SCORE_1UP, pos.x, pos.y - origin.y);
+            AddScoreEffect(ScoreID::SCORE_1UP, pos.x, pos.y - origin.y);
             output = 0;
             break;
         default: ;

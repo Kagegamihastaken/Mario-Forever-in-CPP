@@ -46,7 +46,7 @@ void BulletBill::MarioCollision(float MarioYVelocity) {
     if (const sf::FloatRect other = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(other, hitbox_mario)) {
         if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }

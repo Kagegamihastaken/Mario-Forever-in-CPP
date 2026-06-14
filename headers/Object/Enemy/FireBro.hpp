@@ -27,9 +27,9 @@ private:
     MFCPP::SingleAnimationObject m_animation;
     sf::Vector2f m_velocity;
     sf::FloatRect m_wall_hitbox;
-    short unsigned m_state;
+    uint8_t m_state;
     float m_movingValue, m_timeTicking, m_tickingValue, m_stop_duration, m_randomWalking;
-    unsigned int m_WalkingState;
+    uint32_t m_WalkingState;
     float m_RNG_walking_range, m_RNG_ticking_range;
     bool m_isFalling;
     float m_timeCounter, m_lastY;

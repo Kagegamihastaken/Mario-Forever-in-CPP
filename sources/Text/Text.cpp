@@ -84,8 +84,8 @@ void UpdatePositionCharacter() {
 	for (int i = 0; i < MFText.List.size(); ++i) {
 		const int iTextSize = static_cast<int>(MFText.List[i].m_SpriteText.size());
 		for (int j = 0; j < iTextSize; ++j) {
-			if (MFText.List[i].getMargin() == LEFT_MARGIN) MFText.List[i].m_SpriteText[j].setPosition({ MFText.List[i].getPosition().x + static_cast<float>(j) + MFText.GetFontSize().x * j + view.getCenter().x - (Width / 2.0f), MFText.List[i].getPosition().y + view.getCenter().y - (Height / 2.0f) });
-			else if (MFText.List[i].getMargin() == RIGHT_MARGIN) MFText.List[i].m_SpriteText[j].setPosition({ MFText.List[i].getPosition().x + view.getCenter().x - (Width / 2.0f) - (MFText.List[i].m_SpriteText.size() - 1 - j) * MFText.GetFontSize().x - (iTextSize - 1 - j), MFText.List[i].getPosition().y + view.getCenter().y - (Height / 2.0f) });
+			if (MFText.List[i].getMargin() == TextMarginID::LEFT_MARGIN) MFText.List[i].m_SpriteText[j].setPosition({ MFText.List[i].getPosition().x + static_cast<float>(j) + MFText.GetFontSize().x * j + view.getCenter().x - (Width / 2.0f), MFText.List[i].getPosition().y + view.getCenter().y - (Height / 2.0f) });
+			else if (MFText.List[i].getMargin() == TextMarginID::RIGHT_MARGIN) MFText.List[i].m_SpriteText[j].setPosition({ MFText.List[i].getPosition().x + view.getCenter().x - (Width / 2.0f) - (MFText.List[i].m_SpriteText.size() - 1 - j) * MFText.GetFontSize().x - (iTextSize - 1 - j), MFText.List[i].getPosition().y + view.getCenter().y - (Height / 2.0f) });
 		}
 	}
 }

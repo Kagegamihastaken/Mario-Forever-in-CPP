@@ -60,7 +60,7 @@ void CoinOnTouch() {
 void CoinDraw() {
 	if (CoinCount > 99) {
 		CoinCount = 0;
-		AddScoreEffect(SCORE_1UP, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
+		AddScoreEffect(ScoreID::SCORE_1UP, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
 	}
 	for (auto &i : CoinList) {
 		if (i.isDestroyed()) continue;

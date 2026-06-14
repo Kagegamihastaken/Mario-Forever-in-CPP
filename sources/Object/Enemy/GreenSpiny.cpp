@@ -95,7 +95,7 @@ void GreenSpiny::YUpdate(const float deltaTime) {
 
 void GreenSpiny::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(1);
 }

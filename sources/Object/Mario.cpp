@@ -332,13 +332,11 @@ void Mario::MarioUpdateHitbox() {
 		m_player.setHitbox(sf::FloatRect({ 0.0f + 4.f, 0.f + 10.f }, { 23.0f, 52.0f }));
 		m_hitboxWall = sf::FloatRect({ 0.0f + 4.f, 0.f + 10.f}, { 23.0f, 46.0f });
 		m_hitboxFloor = sf::FloatRect({ 0.0f + 4.f, 0.f + 10.f }, { 23.0f, 52.0f });
-		m_hitboxTop = sf::FloatRect({ 0.0f + 4.f, -1.0f + 10.f }, { 23.0f, 2.0f });
 	}
 	else if ((m_PowerState > 0 && m_MarioCrouchDown) || (m_PowerState == 0 && m_MarioAppearing) || (m_PowerState == 0 && !m_MarioCrouchDown)) {
 		m_player.setHitbox(sf::FloatRect({ 0.0f + 4.f, 0.0f + 10.f + 23.0f }, { 23.0f, 29.0f })); // 30
 		m_hitboxWall = sf::FloatRect({ 0.0f + 4.f, 0.0f + 10.f + 23.0f }, { 23.0f, 23.0f });
 		m_hitboxFloor = sf::FloatRect({ 0.0f + 4.f, 0.0f + 10.f + 23.0f }, { 23.0f, 29.0f }); // 30
-		m_hitboxTop = sf::FloatRect({ 0.0f + 4.f, -1.0f + 10.f + 23.0f }, { 23.0f, 2.0f });
 	}
 }
 void Mario::MarioUpdateAnimation() {

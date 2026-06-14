@@ -4,7 +4,7 @@
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
-	void SingleAnimationObject::setAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency, const bool loop) {
+	void SingleAnimationObject::setAnimation(const uint32_t startingIndexAnimation, const uint32_t endingIndexAnimation, const uint8_t frequency, const bool loop) {
 		m_startingIndexAnimation = startingIndexAnimation;
 		m_indexAnimation = startingIndexAnimation;
 		m_endingIndexAnimation = endingIndexAnimation;
@@ -28,7 +28,7 @@ namespace MFCPP {
 			m_AnimName.emplace_back(str);
 		}
 	}
-	void SingleAnimationObject::setRangeIndexAnimation(const int startingIndexAnimation, const int endingIndexAnimation, const int frequency) {
+	void SingleAnimationObject::setRangeIndexAnimation(const uint32_t startingIndexAnimation, const uint32_t endingIndexAnimation, const uint8_t frequency) {
 		if (m_startingIndexAnimation != startingIndexAnimation || m_endingIndexAnimation != endingIndexAnimation) {
 			m_startingIndexAnimation = startingIndexAnimation;
 			m_endingIndexAnimation = endingIndexAnimation;
@@ -50,16 +50,16 @@ namespace MFCPP {
 	void SingleAnimationObject::setColor(const sf::Color &color) {
 		m_color = color;
 	}
-	void SingleAnimationObject::setIndexAnimation(const int indexAnimation) {
+	void SingleAnimationObject::setIndexAnimation(const uint32_t indexAnimation) {
 		m_indexAnimation = indexAnimation;
 	}
-	void SingleAnimationObject::setStartingIndexAnimation(const int startingIndexAnimation) {
+	void SingleAnimationObject::setStartingIndexAnimation(const uint32_t startingIndexAnimation) {
 		m_startingIndexAnimation = startingIndexAnimation;
 	}
-	void SingleAnimationObject::setEndingIndexAnimation(const int endingIndexAnimation) {
+	void SingleAnimationObject::setEndingIndexAnimation(const uint32_t endingIndexAnimation) {
 		m_endingIndexAnimation = endingIndexAnimation;
 	}
-	void SingleAnimationObject::setFrequencyAnimation(const int frequency) {
+	void SingleAnimationObject::setFrequencyAnimation(const uint32_t frequency) {
 		m_frequency = frequency;
 	}
 	void SingleAnimationObject::frameUpdate() {

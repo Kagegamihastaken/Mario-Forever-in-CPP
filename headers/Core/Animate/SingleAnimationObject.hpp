@@ -9,26 +9,25 @@ namespace MFCPP {
 		std::string m_lastAnim = "";
 		std::vector<SimpleSprite> m_Index;
 		std::vector<std::string> m_AnimName;
-
-		int m_indexAnimation = 0;
-		int m_startingIndexAnimation = 0;
-		int m_endingIndexAnimation = 0;
-		int m_frequency = 50;
 		sf::Clock m_TimeRun;
+		uint32_t m_indexAnimation = 0;
+		uint32_t m_startingIndexAnimation = 0;
+		uint32_t m_endingIndexAnimation = 0;
 		float m_TimeRan = 0.0f;
 		float m_TimeRemainSave = 0.0f;
+		sf::Angle m_angle = sf::degrees(0.f);
+		uint8_t m_frequency = 50;
 		bool m_reached_the_end = false;
 		bool m_loop = true;
 		sf::Color m_color;
-		sf::Angle m_angle = sf::degrees(0.f);
 		AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 	public:
-		void setAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50, bool loop = false);
-		void setRangeIndexAnimation(int startingIndexAnimation, int endingIndexAnimation, int frequency = 50);
-		void setIndexAnimation(int indexAnimation);
-		void setStartingIndexAnimation(int startingIndexAnimation);
-		void setEndingIndexAnimation(int endingIndexAnimation);
-		void setFrequencyAnimation(int frequency);
+		void setAnimation(uint32_t startingIndexAnimation, uint32_t endingIndexAnimation, uint8_t frequency = 50, bool loop = false);
+		void setRangeIndexAnimation(uint32_t startingIndexAnimation, uint32_t endingIndexAnimation, uint8_t frequency = 50);
+		void setIndexAnimation(uint32_t indexAnimation);
+		void setStartingIndexAnimation(uint32_t startingIndexAnimation);
+		void setEndingIndexAnimation(uint32_t endingIndexAnimation);
+		void setFrequencyAnimation(uint32_t frequency);
 
 		void setColor(const sf::Color& color);
 		void frameUpdate();

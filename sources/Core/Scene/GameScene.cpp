@@ -60,7 +60,7 @@ void GameScene::handleInput(const std::optional<sf::Event>& event) {
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
         }
         else if (mousePressed->button == sf::Mouse::Button::Middle) {
-            //Mario::SetPowerState(3);
+            Mario::SetPowerState(3);
         }
         else if (mousePressed->button == sf::Mouse::Button::Right) {
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
@@ -235,22 +235,22 @@ void GameScene::loadResources() {
     RotodiscInit();
     CustomBlockInit();
 
-    AddText("_COIN", "", RIGHT_MARGIN, 287.0f, 15.0f);
-    AddText("_LIVE", "", LEFT_MARGIN, 138.0f, 15.0f);
-    AddText("_SCORE", "", RIGHT_MARGIN, 138.0f, 34.0f);
-    AddText("_TIME", "", RIGHT_MARGIN, 562.0f, 35.0f);
-    AddText("_FPS", "", LEFT_MARGIN, 0.0f, 464.0f);
+    AddText("_COIN", "", TextMarginID::RIGHT_MARGIN, 287.0f, 15.0f);
+    AddText("_LIVE", "", TextMarginID::LEFT_MARGIN, 138.0f, 15.0f);
+    AddText("_SCORE", "", TextMarginID::RIGHT_MARGIN, 138.0f, 34.0f);
+    AddText("_TIME", "", TextMarginID::RIGHT_MARGIN, 562.0f, 35.0f);
+    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
     if (isDebug) {
-        AddText("_MOUSEXY", "", RIGHT_MARGIN, 624.0f, 464.0f);
-        AddText("_VIEWXY", "", RIGHT_MARGIN, 624.0f, 432.0f);
-        AddText("_APPE", "", LEFT_MARGIN, 0.0f, 64.0f);
+        AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
+        AddText("_VIEWXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 432.0f);
+        AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
     //ReadData("data/levels/onedashthree.json");
     //ReadData("data/levels/twodashone.json");
-    ReadData("data/levels/untitled-2.json");
+    //ReadData("data/levels/untitled-2.json");
     //ReadData("data/levels/gearuptest.json");
-    //ReadData("data/levels/sevendashone.json");
+    ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

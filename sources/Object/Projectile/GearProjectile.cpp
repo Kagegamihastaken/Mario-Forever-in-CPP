@@ -82,6 +82,6 @@ void GearProjectile::Destroy() {
 }
 
 void GearProjectile::LevelEndCleanup() {
-    AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }

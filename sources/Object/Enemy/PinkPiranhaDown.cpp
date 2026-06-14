@@ -13,7 +13,7 @@
 #include "Projectiles/PiranhaProjectile.hpp"
 
 PinkPiranhaDown::PinkPiranhaDown(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
-    setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PIRANHA_DOWN, position));
+    setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_DOWN, position));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimationSequence(PinkPiranhaDownAnimName);
@@ -67,7 +67,7 @@ void PinkPiranhaDown::statusUpdate(float deltaTime) {
     if (isDisabled()) return;
     PiranhaAIBehavior::PiranhaAIData data = PiranhaAIBehavior::PiranhaMovementUpdate(PiranhaAIBehavior::PiranhaAIData(
         getCurrentPosition(), getOrigin(), getHitbox(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
-        m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PIRANHA_DOWN, deltaTime
+        m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PiranhaDirection::PIRANHA_DOWN, deltaTime
     );
     bool fire = false;
     data = PiranhaAIBehavior::PiranhaFireUpdate(fire, data, deltaTime);
@@ -81,7 +81,7 @@ void PinkPiranhaDown::statusUpdate(float deltaTime) {
     m_fire_ticking = data.fire_ticking;
     if (fire) {
         SoundManager::PlaySound("Fireball");
-        AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PIRANHA_DOWN, PIRANHA_FIREBALL, getCurrentPosition().x, getCurrentPosition().y + 51.f);
+        AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PiranhaDirection::PIRANHA_DOWN, PiranhaProjectileType::PIRANHA_FIREBALL, getCurrentPosition().x, getCurrentPosition().y + 51.f);
     }
 }
 

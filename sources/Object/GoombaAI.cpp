@@ -92,12 +92,12 @@ void GoombaAIInit() {
 		BeetrootAnimName.push_back(fmt::format("Beetroot_{}", i));
 	}
 }
-void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, const GoombaAIDirection Dir = LEFT) {
+void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, const GoombaAIDirection Dir = GoombaAIDirection::LEFT) {
 	switch (type) {
-		case GOOMBA:
+		case GoombaAIType::GOOMBA:
 			GameScene::enemyManager.addEnemy<Goomba>(sf::Vector2f(x, y));
 			break;
-		case KOOPA:
+		case GoombaAIType::KOOPA:
 			switch (SkinID) {
 			case 0:
 				GameScene::enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(x, y), false);
@@ -108,7 +108,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			default: ;
 			}
 			break;
-		case MUSHROOM:
+		case GoombaAIType::MUSHROOM:
 			switch (SkinID) {
 			case 0:
 				GameScene::enemyManager.addEnemy<Mushroom>(sf::Vector2f(x, y));
@@ -119,7 +119,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			default: ;
 			}
 			break;
-		case SHELL:
+		case GoombaAIType::SHELL:
 			switch (SkinID) {
 			case 0:
 				GameScene::enemyManager.addEnemy<GreenKoopa>(sf::Vector2f(x, y), true);
@@ -130,7 +130,7 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			default: ;
 			}
 			break;
-		case SPINY:
+		case GoombaAIType::SPINY:
 			switch (SkinID) {
 			case 0:
 				GameScene::enemyManager.addEnemy<RedSpiny>(sf::Vector2f(x, y));
@@ -141,10 +141,10 @@ void AddGoombaAI(GoombaAIType type, int SkinID, const float x, const float y, co
 			default: ;
 			}
 			break;
-		case FIRE_FLOWER:
+		case GoombaAIType::FIRE_FLOWER:
 			GameScene::enemyManager.addEnemy<FireFlower>(sf::Vector2f(x, y));
 			break;
-		case KOOPA_PARATROOPA:
+		case GoombaAIType::KOOPA_PARATROOPA:
 			GameScene::enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(x, y), 0.f);
 			break;
 		default: ;

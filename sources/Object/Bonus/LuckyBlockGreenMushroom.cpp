@@ -44,7 +44,7 @@ void LuckyBlockGreenMushroom::interpolateData(float alpha) {
 }
 
 void LuckyBlockGreenMushroom::Break() {
-    AddBrickParticle(BRICK_NORMAL, getCurrentPosition().x, m_ypos);
+    AddBrickParticle(BrickID::BRICK_NORMAL, getCurrentPosition().x, m_ypos);
     SoundManager::PlaySound("Break");
     m_customTileManager.setCollision(sf::Vector2f(getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);

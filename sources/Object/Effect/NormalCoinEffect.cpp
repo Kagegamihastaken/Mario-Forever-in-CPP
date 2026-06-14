@@ -43,7 +43,7 @@ void NormalCoinEffect::statusUpdate(float deltaTime) {
 
 void NormalCoinEffect::Destroy() {
     if (!isDestroyed()) {
-        AddScoreEffect(SCORE_200, getCurrentPosition().x, getCurrentPosition().y);
+        AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y);
         setDestroyed(true);
         m_effectManager.setDeletionFlag(true);
     }

@@ -13,7 +13,7 @@
 #include "Projectiles/PiranhaProjectile.hpp"
 
 GreenPiranhaUp::GreenPiranhaUp(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
-    setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PIRANHA_UP, position));
+    setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_UP, position));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimationSequence(GreenPiranhaUpAnimName);
@@ -67,7 +67,7 @@ void GreenPiranhaUp::statusUpdate(float deltaTime) {
     if (isDisabled()) return;
     PiranhaAIBehavior::PiranhaAIData data = PiranhaAIBehavior::PiranhaMovementUpdate(PiranhaAIBehavior::PiranhaAIData(
         getCurrentPosition(), getOrigin(), getHitbox(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
-        m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PIRANHA_UP, deltaTime
+        m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PiranhaDirection::PIRANHA_UP, deltaTime
     );
     setCurrentPosition(data.pos);
     m_position_moving = data.pos_temp;

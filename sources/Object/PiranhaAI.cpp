@@ -47,27 +47,27 @@ void PiranhaAIInit() {
 }
 void AddPiranha(const PiranhaID ID, const PiranhaDirection dir, const float x, const float y) {
 	switch (ID) {
-		case GREEN:
+		case PiranhaID::GREEN:
 			switch (dir) {
-			case PIRANHA_UP:
+			case PiranhaDirection::PIRANHA_UP:
 				GameScene::enemyManager.addEnemy<GreenPiranhaUp>(sf::Vector2f(x, y));
 				// PiranhaAIList.emplace_back(ID, PIRANHA_UP, 1.f, 70.f, 0, 10.f, sf::FloatRect({ 16, 17 }, { 31, 47 }), sf::Vector2f(x, y), sf::Vector2f(32, 63));
 				// PiranhaAIList.back().setAnimation(0, 3, 24);
 				// PiranhaAIList.back().setAnimationSequence(GreenPiranhaUpAnimName);
 				break;
-			case PIRANHA_DOWN:
+			case PiranhaDirection::PIRANHA_DOWN:
 				GameScene::enemyManager.addEnemy<GreenPiranhaDown>(sf::Vector2f(x, y));
 				// PiranhaAIList.emplace_back(ID, PIRANHA_DOWN, 1.f, 70.f, 0, 10.f, sf::FloatRect({ 16, 0 }, { 31, 47 }), sf::Vector2f(x, y), sf::Vector2f(32, 0));
 				// PiranhaAIList.back().setAnimation(0, 3, 24);
 				// PiranhaAIList.back().setAnimationSequence(GreenPiranhaDownAnimName);
 				break;
-			case PIRANHA_RIGHT:
+			case PiranhaDirection::PIRANHA_RIGHT:
 				GameScene::enemyManager.addEnemy<GreenPiranhaRight>(sf::Vector2f(x, y));
 				// PiranhaAIList.emplace_back(ID, PIRANHA_RIGHT, 1.f, 70.f, 0, 10.f, sf::FloatRect({ 17, 17 }, { 47, 31 }), sf::Vector2f(x, y), sf::Vector2f(63, 32));
 				// PiranhaAIList.back().setAnimation(0, 3, 24);
 				// PiranhaAIList.back().setAnimationSequence(GreenPiranhaRightAnimName);
 				break;
-			case PIRANHA_LEFT:
+			case PiranhaDirection::PIRANHA_LEFT:
 				GameScene::enemyManager.addEnemy<GreenPiranhaLeft>(sf::Vector2f(x, y));
 				// PiranhaAIList.emplace_back(ID, PIRANHA_LEFT, 1.f, 70.f, 0, 10.f, sf::FloatRect({ 0, 17 }, { 47, 31 }), sf::Vector2f(x, y), sf::Vector2f(0, 32));
 				// PiranhaAIList.back().setAnimation(0, 3, 24);
@@ -76,27 +76,27 @@ void AddPiranha(const PiranhaID ID, const PiranhaDirection dir, const float x, c
 			default: ;
 			}
 			break;
-		case PINK:
+		case PiranhaID::PINK:
 			switch (dir) {
-			case PIRANHA_UP:
+			case PiranhaDirection::PIRANHA_UP:
 				GameScene::enemyManager.addEnemy<PinkPiranhaUp>(sf::Vector2f(x, y));
 					// PiranhaAIList.emplace_back(ID, PIRANHA_UP, 1.f, 70.f, 3, 10.f, sf::FloatRect({ 16, 17 }, { 31, 47 }), sf::Vector2f(x, y), sf::Vector2f(32, 63));
 					// PiranhaAIList.back().setAnimation(0, 1, 24);
 					// PiranhaAIList.back().setAnimationSequence(PinkPiranhaUpAnimName);
 				break;
-			case PIRANHA_DOWN:
+			case PiranhaDirection::PIRANHA_DOWN:
 				GameScene::enemyManager.addEnemy<PinkPiranhaDown>(sf::Vector2f(x, y));
 					// PiranhaAIList.emplace_back(ID, PIRANHA_DOWN, 1.f, 70.f, 3, 10.f, sf::FloatRect({ 16, 0 }, { 31, 47 }), sf::Vector2f(x, y), sf::Vector2f(32, 0));
 					// PiranhaAIList.back().setAnimation(0, 1, 24);
 					// PiranhaAIList.back().setAnimationSequence(PinkPiranhaDownAnimName);
 				break;
-			case PIRANHA_RIGHT:
+			case PiranhaDirection::PIRANHA_RIGHT:
 				GameScene::enemyManager.addEnemy<PinkPiranhaRight>(sf::Vector2f(x, y));
 					// PiranhaAIList.emplace_back(ID, PIRANHA_RIGHT, 1.f, 70.f, 3, 10.f, sf::FloatRect({ 17, 17 }, { 47, 31 }), sf::Vector2f(x, y), sf::Vector2f(63, 32));
 					// PiranhaAIList.back().setAnimation(0, 1, 24);
 					// PiranhaAIList.back().setAnimationSequence(PinkPiranhaRightAnimName);
 				break;
-			case PIRANHA_LEFT:
+			case PiranhaDirection::PIRANHA_LEFT:
 				GameScene::enemyManager.addEnemy<PinkPiranhaLeft>(sf::Vector2f(x, y));
 					// PiranhaAIList.emplace_back(ID, PIRANHA_LEFT, 1.f, 70.f, 3, 10.f, sf::FloatRect({ 0, 17 }, { 47, 31 }), sf::Vector2f(x, y), sf::Vector2f(0, 32));
 					// PiranhaAIList.back().setAnimation(0, 1, 24);

@@ -77,7 +77,7 @@ void InterpolateExitGatePos(const float alpha) {
 void ExitGateStatusUpdate(const float deltaTime) {
 	if (ExitGateForeActive) {
 		if (ExitGateIndicator.getCurrentPosition().x <= Mario::getCurrentPosition().x - 24.0f && !Mario::isPrejump() && !Mario::isFalling()) {
-			AddScoreEffect(SCORE_100, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
+			AddScoreEffect(ScoreID::SCORE_100, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic("LevelComplete");
@@ -85,12 +85,12 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			//LevelEndMarioProjectileCleanup();
 		}
 		if (isCollide(getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin()), getGlobalHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }), ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
-			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) AddScoreEffect(SCORE_10000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f) AddScoreEffect(SCORE_5000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f) AddScoreEffect(SCORE_2000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f) AddScoreEffect(SCORE_1000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) AddScoreEffect(SCORE_500, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y > ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) AddScoreEffect(SCORE_200, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) AddScoreEffect(ScoreID::SCORE_10000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f) AddScoreEffect(ScoreID::SCORE_5000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f) AddScoreEffect(ScoreID::SCORE_2000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f) AddScoreEffect(ScoreID::SCORE_1000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) AddScoreEffect(ScoreID::SCORE_500, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			else if (ExitGateFore.getCurrentPosition().y > ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) AddScoreEffect(ScoreID::SCORE_200, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
 
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();

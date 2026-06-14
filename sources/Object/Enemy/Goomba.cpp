@@ -58,7 +58,7 @@ void Goomba::MarioCollision(const float MarioYVelocity) {
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }
@@ -109,7 +109,7 @@ void Goomba::YUpdate(const float deltaTime) {
 
 void Goomba::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(2);
 }

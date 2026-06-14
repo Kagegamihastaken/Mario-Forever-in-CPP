@@ -11,15 +11,15 @@ std::map<std::string, std::unique_ptr<SoLoud::Wav>> SoundManager::m_sounds;
 std::map<std::string, std::string> SoundManager::m_queue;
 SoLoud::EchoFilter SoundManager::m_echo_filter;
 SoLoud::FreeverbFilter SoundManager::m_reverb_filter;
-SoundEnvironment SoundManager::m_env = OVERWORLD;
+SoundEnvironment SoundManager::m_env = SoundEnvironment::OVERWORLD;
 
 void SoundManager::UpdateSoundEnvironment(const std::string& name) {
 	switch (m_env) {
-		case UNDERGROUND:
+		case SoundEnvironment::UNDERGROUND:
 			m_sounds[name]->setFilter(0, &m_echo_filter);
 			m_sounds[name]->setFilter(1, &m_reverb_filter);
 			break;
-		case OVERWORLD:
+		case SoundEnvironment::OVERWORLD:
 			m_sounds[name]->setFilter(0, nullptr);
 			m_sounds[name]->setFilter(1, nullptr);
 			break;
@@ -81,11 +81,11 @@ void SoundManager::PlaySound(const std::string &name) {
 	const SoLoud::handle handle = audio_engine.play(*m_sounds[name]);
 	audio_engine.setInaudibleBehavior(handle,false, false);
 	switch (m_env) {
-		case UNDERGROUND:
+		case SoundEnvironment::UNDERGROUND:
 			audio_engine.setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
 			audio_engine.setVolume(handle, 0.8f);
 			break;
-		case OVERWORLD:
+		case SoundEnvironment::OVERWORLD:
 			audio_engine.setVolume(handle, 1.6f);
 			break;
 		default: ;

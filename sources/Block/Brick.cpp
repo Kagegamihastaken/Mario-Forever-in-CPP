@@ -13,12 +13,12 @@ void BricksInitTemp() {
 }
 void ForceLoadBricksTexture(const BrickID ID) {
 	switch (ID) {
-		case BRICK_NORMAL:
+		case BrickID::BRICK_NORMAL:
 			ImageManager::LoadTexture(R"(NormalBrick)");
 			ImageManager::LoadTexture(R"(NormalHittedBrick)");
 			ImageManager::LoadTexture(R"(NormalBrickParticle)");
 			break;
-		case BRICK_GRAY:
+		case BrickID::BRICK_GRAY:
 			ImageManager::LoadTexture("GrayBrick");
 			ImageManager::LoadTexture("GrayHittedBrick");
 			ImageManager::LoadTexture("GrayBrickParticle");
@@ -36,10 +36,10 @@ void BricksInit() {
 }
 void AddBrick(const BrickID ID, const BrickAtt att, const float x, const float y) {
 	switch (att) {
-		case NORMAL:
+		case BrickAtt::NORMAL:
 			GameScene::customTileManager.addCustomTile<NormalBrick>(sf::Vector2f(x, y));
 			break;
-		case MULTICOIN:
+		case BrickAtt::MULTICOIN:
 			GameScene::customTileManager.addCustomTile<NormalCoinBrick>(sf::Vector2f(x, y));
 			break;
 		default: ;

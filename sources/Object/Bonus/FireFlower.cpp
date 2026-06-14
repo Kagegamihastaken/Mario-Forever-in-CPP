@@ -48,7 +48,7 @@ void FireFlower::MarioCollision(const float MarioYVelocity) {
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         SoundManager::PlaySound("Powerup");
-        AddScoreEffect(SCORE_1000, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+        AddScoreEffect(ScoreID::SCORE_1000, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
         if (Mario::getPowerState() > 0) Mario::SetPowerState(2);
         else if (Mario::getPowerState() == 0) Mario::SetPowerState(1);
         Destroy();
