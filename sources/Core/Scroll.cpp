@@ -10,7 +10,7 @@ bool MarioLockedView = false;
 sf::View view;
 float ViewX, ViewY;
 float ViewXOff, ViewYOff;
-float lastX = std::round(std::min(std::max(Width / 2.0f, Mario::getInterpolatedPosition().x), LevelWidth - Width / 2.f));
+float lastX = std::round(std::min(std::max(WindowFrame::getGameSize().x / 2.0f, Mario::getInterpolatedPosition().x), LevelWidth - WindowFrame::getGameSize().y / 2.f));
 sf::Vector2f ScrollPos(0.f, 0.f);
 sf::View getLetterboxView(sf::View view, const int windowWidth, const int windowHeight) {
 	const float windowRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
@@ -41,10 +41,10 @@ sf::View getLetterboxView(sf::View view, const int windowWidth, const int window
 	return view;
 }
 void ViewInit() {
-	view = sf::View(sf::FloatRect({ 0, 0 }, { Width, Height}));
+	view = sf::View(sf::FloatRect({ 0, 0 }, { WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}));
 }
 void WindowSetView() {
-	view = getLetterboxView(view, window.getSize().x, window.getSize().y);
+	view = getLetterboxView(view, WindowFrame::getWindow().getSize().x, WindowFrame::getWindow().getSize().y);
 }
 void moveView(const float x, const float y) {
 	view.setCenter({ view.getCenter().x + x, view.getCenter().y + y });
@@ -53,22 +53,22 @@ void setRotate(int degree) {
 	//view.setRotation(sf::Angle(degree));
 }
 void updateView() {
-	const float vx = window.getSize().x / Width;
-	const float vy = window.getSize().y / Height;
+	const float vx = WindowFrame::getWindow().getSize().x / WindowFrame::getGameSize().x;
+	const float vy = WindowFrame::getWindow().getSize().y / WindowFrame::getGameSize().y;
 	const float min = std::min(vx, vy);
-	ViewXOff = window.getSize().x - (Width * min);
-	ViewYOff = window.getSize().y - (Height * min);
-	ViewX = view.getCenter().x - Width / 2.0f;
-	ViewY = view.getCenter().y - Height / 2.0f;
-	window.setView(view);
+	ViewXOff = WindowFrame::getWindow().getSize().x - (WindowFrame::getGameSize().x * min);
+	ViewYOff = WindowFrame::getWindow().getSize().y - (WindowFrame::getGameSize().y * min);
+	ViewX = view.getCenter().x - WindowFrame::getGameSize().x / 2.0f;
+	ViewY = view.getCenter().y - WindowFrame::getGameSize().y / 2.0f;
+	WindowFrame::getWindow().setView(view);
 }
 static bool isPointOutOfScreen(const sf::Vector2f& pos, const float offset) {
-	return (pos.x < ViewX - offset || pos.x > ViewX + Width + offset || pos.y < ViewY - offset || pos.y > ViewY + Height + offset);
+	return (pos.x < ViewX - offset || pos.x > ViewX + WindowFrame::getGameSize().x + offset || pos.y < ViewY - offset || pos.y > ViewY + WindowFrame::getGameSize().y + offset);
 }
 bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset) {
 	return !isCollide(
 		getGlobalHitbox(obj.GetLeftHitbox(), obj.GetPosition(), obj.GetOrigin()),
-		HitboxExtend(getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {Width, Height}), sf::Vector2f(ViewX, ViewY), sf::Vector2f(0.f, 0.f)), offset)
+		HitboxExtend(getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}), sf::Vector2f(ViewX, ViewY), sf::Vector2f(0.f, 0.f)), offset)
 		);
 	// return (obj.GetPosition().x < ViewX + Width + offset &&
 	// 	obj.GetPosition().x + obj.GetLeftHitbox().size.x > ViewX - offset &&
@@ -76,34 +76,34 @@ bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset) {
 	// 	obj.GetPosition().y + obj.GetLeftHitbox().size.y > ViewY - offset);
 }
 bool isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, const float offset) {
-	return obj.GetPosition().y - obj.GetOrigin().y > ViewY + Height + offset;
+	return obj.GetPosition().y - obj.GetOrigin().y > ViewY + WindowFrame::getGameSize().y + offset;
 }
 bool isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset) {
 	return obj.GetPosition().x - obj.GetOrigin().x + obj.GetLeftHitbox().size.x < ViewX - offset;
 }
 bool isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset) {
-	return obj.GetPosition().x - obj.GetOrigin().x > ViewX + Width + offset;
+	return obj.GetPosition().x - obj.GetOrigin().x > ViewX + WindowFrame::getGameSize().x + offset;
 }
 bool isOutScreen(float xPos, float yPos, float OffsetX, float OffsetY) {
-	if (xPos - ViewX < 0.0f - OffsetX || xPos - ViewX > Width + OffsetX - 32.0f || yPos - ViewY < 0.0f - OffsetY || yPos - ViewY > Height + OffsetY - 32.0f) {
+	if (xPos - ViewX < 0.0f - OffsetX || xPos - ViewX > WindowFrame::getGameSize().x + OffsetX - 32.0f || yPos - ViewY < 0.0f - OffsetY || yPos - ViewY > WindowFrame::getGameSize().y + OffsetY - 32.0f) {
 		return true;
 	}
 	return false;
 }
 bool isOutScreenX(float xPos, float OffsetX) {
-	if (xPos - ViewX < 0.0f - OffsetX || xPos - ViewX > Width + OffsetX - 32.0f) {
+	if (xPos - ViewX < 0.0f - OffsetX || xPos - ViewX > WindowFrame::getGameSize().x + OffsetX - 32.0f) {
 		return true;
 	}
 	return false;
 }
 bool isOutScreenY(float yPos, float OffsetY) {
-	if (yPos - ViewY < 0.0f - OffsetY || yPos - ViewY > Height + OffsetY - 32.0f) {
+	if (yPos - ViewY < 0.0f - OffsetY || yPos - ViewY > WindowFrame::getGameSize().y + OffsetY - 32.0f) {
 		return true;
 	}
 	return false;
 }
 bool isOutScreenYBottom(float yPos, float OffsetY) {
-	if (yPos - ViewY > Height + OffsetY - 32.0f) {
+	if (yPos - ViewY > WindowFrame::getGameSize().y + OffsetY - 32.0f) {
 		return true;
 	}
 	return false;

@@ -29,6 +29,7 @@
 #include "Core/Checkpoint.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/SceneryHelper.hpp"
+#include "Core/Scroll.hpp"
 
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
@@ -79,8 +80,8 @@ void EditorScene::setPreviousPosition() {
     SetPrevEditor();
 }
 void EditorScene::textUpdate() {
-    EditText(fmt::format("FPS: {}", static_cast<int>(fpsLite.getFps())), "_FPS");
-    EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
+    EditText(fmt::format("FPS: {}", static_cast<int>(WindowFrame::getFpsLite().getFps())), "_FPS");
+    EditText(std::to_string(static_cast<int>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(static_cast<int>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
 }
 void EditorScene::HUDPositionUpdate() {
     SelectedTilePosUpdate();
@@ -91,7 +92,7 @@ void EditorScene::draw(sf::RenderWindow &window) {
     DrawTile();
     SelectTileDraw();
     TextDraw();
-    ImageManager::DrawAllVertex();
+    //ImageManager::DrawAllVertex();
 }
 void EditorScene::postUpdate() {
     PlaceTile();

@@ -103,5 +103,5 @@ void loadObstacleTemp() {
 		ImageManager::AddTexture(fmt::format("Tile_{}", ID_list[i][0]), "data/resources/Tileset.png", sf::IntRect({ID_list[i][1], ID_list[i][2]}, {32, 32}));
 }
 void ObstaclesDraw() {
-	window.draw(ObstaclesVA, &ObstacleRTexture.getTexture());
+	WindowFrame::getWindow().draw(ObstaclesVA, &ObstacleRTexture.getTexture());
 }

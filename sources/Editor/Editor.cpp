@@ -17,7 +17,7 @@
 #include "Core/Background/BgGradient.hpp"
 
 sf::Vector2f getEditorPosOffset() {
-    return sf::Vector2f((640.f - Width) / 2.f, (480.f - Height) / 2.f);
+    return sf::Vector2f((640.f - WindowFrame::getGameSize().x) / 2.f, (480.f - WindowFrame::getGameSize().y) / 2.f);
 }
 void SetPrevEditor() {
     EditorPrevPos = EditorPos;
@@ -158,7 +158,7 @@ static void AddBGPopup() {
 void SettingDialog() {
     if (EDITOR_Setting) {
         ImGui::Begin("Setting", &EDITOR_Setting, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
-        ImGui::SetWindowPos(ImVec2(static_cast<float>(window.getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(window.getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
+        ImGui::SetWindowPos(ImVec2(static_cast<float>(WindowFrame::getWindow().getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(WindowFrame::getWindow().getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
         if (ImGui::BeginTabBar("SettingTab")) {
             if (ImGui::BeginTabItem("BGGradient")) {
                 for (int i = 0; i < BgColor.getPropertyCount(); ++i) {
@@ -226,7 +226,7 @@ void EditPropertyDialog() {
     if (EDITOR_ShowProperty) {
         ImGui::Begin("Edit Property", &EDITOR_ShowProperty, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
         //ImGui::SetWindowSize("Edit Property", ImVec2(256.f, 256.f));
-        ImGui::SetWindowPos(ImVec2(static_cast<float>(window.getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(window.getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
+        ImGui::SetWindowPos(ImVec2(static_cast<float>(WindowFrame::getWindow().getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(WindowFrame::getWindow().getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
         if (ImGui::BeginTabBar("EditPropertyTab")) {
             if (ImGui::BeginTabItem("Property")) {
                 for (int i = 0; i < SaveTile.getProperty().getPropertyCount(); ++i) {
@@ -363,7 +363,7 @@ void OpenFileDialog() {
         config.path = ".";
         ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Open File", ".json", config);
     }
-    if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(Width / 2.f, Height / 2.f))) {
+    if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(WindowFrame::getGameSize().x / 2.f, WindowFrame::getGameSize().y / 2.f))) {
         if (ImGuiFileDialog::Instance()->IsOk())
             FileLoad(ImGuiFileDialog::Instance()->GetFilePathName());
         EDITOR_SELECTILE_CLOCK.restart();
@@ -381,7 +381,7 @@ void SaveFileDialog() {
         config.flags = ImGuiFileDialogFlags_ConfirmOverwrite;
         ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save File As...", ".json", config);
     }
-    if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(Width / 2.f, Height / 2.f))) {
+    if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(WindowFrame::getGameSize().x / 2.f, WindowFrame::getGameSize().y / 2.f))) {
         if (ImGuiFileDialog::Instance()->IsOk())
             FileSave(ImGuiFileDialog::Instance()->GetFilePathName());
         EDITOR_SELECTILE_CLOCK.restart();
@@ -404,8 +404,8 @@ void SelectedTilePosUpdate() {
 }
 void TilePosUpdate(const float dt) {
     if (!EDITOR_ShowProperty && !EDITOR_OpenDialog && !EDITOR_SaveDialog) {
-        TileX = std::floor((MouseX + EditorPos.x + getEditorPosOffset().x) / 32.0f) * 32.0f; // 640 default width
-        TileY = std::floor((MouseY + EditorPos.y + getEditorPosOffset().y) / 32.0f) * 32.0f; // 480 default height
+        TileX = std::floor((WindowFrame::getMousePosition().x + EditorPos.x + getEditorPosOffset().x) / 32.0f) * 32.0f; // 640 default width
+        TileY = std::floor((WindowFrame::getMousePosition().y + EditorPos.y + getEditorPosOffset().y) / 32.0f) * 32.0f; // 480 default height
     }
     AlphaUpdate(SelectBoxAlpha, SelectBoxAlphaState, SELECTBOXALPHA_MIN, SELECTBOXALPHA_MAX, SELECTBOXALPHA_CHANGE, dt);
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
@@ -460,11 +460,11 @@ void EditorEvent(const std::optional<sf::Event>& event) {
             case sf::Mouse::Button::Left:
                 if (EDITOR_Setting) return;
                 if (EDITOR_SELECTTILE) {
-                    if (SettingButton.isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY)))
+                    if (SettingButton.isMouseHovered(EditorInterpolatedPos, WindowFrame::getMousePosition()))
                         EDITOR_Setting = true;
                     bool isClickedTab = false;
                     for (int i = 0; i < TabList.size(); ++i) {
-                        if (TabList[i].isMouseHovered(EditorInterpolatedPos, sf::Vector2f(MouseX, MouseY))) {
+                        if (TabList[i].isMouseHovered(EditorInterpolatedPos, WindowFrame::getMousePosition())) {
                             PreviewPage = i;
                             isClickedTab = true;
                             break;
@@ -495,7 +495,7 @@ void PlaceTile() {
 
     if (EDITOR_ShowProperty || EDITOR_OpenDialog || EDITOR_SaveDialog) return;
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && window.hasFocus()) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && WindowFrame::getWindow().hasFocus()) {
         if ((lastDeleteX != TileX || lastDeleteY != TileY) || (lastPlaceX == TileX && lastPlaceY == TileY)) {
             if (EDITOR_BuildMode) {
                 if (CurrPage != LevelTab || (CurrPage == LevelTab && CurrSelectTile > 2)) {
@@ -527,7 +527,7 @@ void PlaceTile() {
             }
         }
     }
-    else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && window.hasFocus()) {
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && WindowFrame::getWindow().hasFocus()) {
         if (!EDITOR_BuildMode) return;
         if ((lastPlaceX != TileX || lastPlaceY != TileY) || (lastDeleteX == TileX && lastDeleteY == TileY)) {
             if (CurrPage != LevelTab || (CurrPage == LevelTab && CurrSelectTile > 2)) {
@@ -612,9 +612,9 @@ void EditorScreenMove(const float dt) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) EditorPos.y -= 8.0f * dt;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) EditorPos.y += 8.0f * dt;
         if (EditorPos.x <= -5 * 32.f) EditorPos.x = -5 * 32.f;
-        else if (EditorPos.x >= LevelSize.getProperty<FloatProps>("Level Width")->val - Width + 5 * 32.f) EditorPos.x = LevelSize.getProperty<FloatProps>("Level Width")->val - Width + 5 * 32.f;
+        else if (EditorPos.x >= LevelSize.getProperty<FloatProps>("Level Width")->val - WindowFrame::getGameSize().x + 5 * 32.f) EditorPos.x = LevelSize.getProperty<FloatProps>("Level Width")->val - WindowFrame::getGameSize().x + 5 * 32.f;
         if (EditorPos.y <= -5 * 32.f) EditorPos.y = -5 * 32.f;
-        else if (EditorPos.y >= LevelSize.getProperty<FloatProps>("Level Height")->val - Height + 5 * 32.f) EditorPos.y = LevelSize.getProperty<FloatProps>("Level Height")->val - Height + 5 * 32.f;
+        else if (EditorPos.y >= LevelSize.getProperty<FloatProps>("Level Height")->val - WindowFrame::getGameSize().y + 5 * 32.f) EditorPos.y = LevelSize.getProperty<FloatProps>("Level Height")->val - WindowFrame::getGameSize().y + 5 * 32.f;
     }
 }
 
@@ -637,13 +637,13 @@ void DrawTile() {
 
                     line[0].color = sf::Color::Black;
                     line[1].color = sf::Color::Black;
-                    window.draw(line);
+                    WindowFrame::getWindow().draw(line);
 
                     MFCPP::SimpleSprite R(i.getTexture());
                     R.setPosition(i.getEndPos());
                     R.setOrigin(i.getOrigin());
                     R.setColor(sf::Color(255, 255, 255, 160 - 255 + PageDiff));
-                    window.draw(R);
+                    WindowFrame::getWindow().draw(R);
                 }
                 MFCPP::SimpleSprite T(i.getTexture());
                 T.setPosition(i.getPosition());
@@ -653,14 +653,14 @@ void DrawTile() {
                     T.setRenderTexture(false);
                 }
                 else T.setColor(sf::Color(255, 255, 255, PageDiff));
-                window.draw(T);
+                WindowFrame::getWindow().draw(T);
             }
         }
     }
-    window.draw(EDITOR_ExitGate);
-    window.draw(EDITOR_Mario);
-    window.draw(EDITOR_ExitGateIndicator);
-    if (EDITOR_BuildMode) window.draw(SelectBox);
-    window.draw(Grid, ImageManager::GetReturnTexture("EDITOR_Grid"));
-    window.draw(SelectedBlock);
+    WindowFrame::getWindow().draw(EDITOR_ExitGate);
+    WindowFrame::getWindow().draw(EDITOR_Mario);
+    WindowFrame::getWindow().draw(EDITOR_ExitGateIndicator);
+    if (EDITOR_BuildMode) WindowFrame::getWindow().draw(SelectBox);
+    WindowFrame::getWindow().draw(Grid, ImageManager::GetReturnTexture("EDITOR_Grid"));
+    WindowFrame::getWindow().draw(SelectedBlock);
 }

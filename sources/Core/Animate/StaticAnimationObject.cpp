@@ -25,7 +25,7 @@ namespace MFCPP {
     }
     void StaticAnimationObject::animationDraw() const {
         //ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform(), m_index.getColor());
-        window.draw(m_index);
+        WindowFrame::getWindow().draw(m_index);
     }
     sf::Angle StaticAnimationObject::getRotation() const {
         return m_index.getRotation();

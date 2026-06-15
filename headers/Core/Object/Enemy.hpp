@@ -45,7 +45,7 @@ namespace MFCPP {
         }
 
         virtual void Destroy() = 0;
-        virtual ~Enemy() = default;
+        ~Enemy() override = default;
     protected:
         EnemyManager& m_enemyManager;
         std::bitset<7> m_option = 0;

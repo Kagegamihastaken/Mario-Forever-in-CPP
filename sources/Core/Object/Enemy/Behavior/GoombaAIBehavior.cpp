@@ -9,14 +9,14 @@
 #include "Object/Mario.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIYMove(const GoombaAIData& data, const float deltaTime) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::GoombaAIYMove(const GoombaAIData& data, const float deltaTime) -> GoombaAIData {
+    auto dataOutput = data;
     dataOutput.position += sf::Vector2f(0.f, data.velocity.y * deltaTime);
     dataOutput.velocity.y += (data.velocity.y >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f);
     return dataOutput;
 }
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIYCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, const bool RedKoopaAIEnabled, const float prevX) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::GoombaAIYCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, const bool RedKoopaAIEnabled, const float prevX) -> GoombaAIData {
+    auto dataOutput = data;
     float CurrPosXCollide, CurrPosYCollide;
     // Bottom check
     if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(data.position, origin, hitbox), PlatPosY, data.velocity.y, false)) {
@@ -54,14 +54,14 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIYCollision(const Goomba
     return dataOutput;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXMove(const GoombaAIData &data, const float deltaTime) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::GoombaAIXMove(const GoombaAIData &data, const float deltaTime) -> GoombaAIData {
+    auto dataOutput = data;
     dataOutput.position.x += data.velocity.x * (data.direction ? 1.f : -1.f) * deltaTime;
     return dataOutput;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f &origin) {
-    GoombaAIData dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
+auto GoombaAIBehavior::GoombaAIXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f &origin) -> GoombaAIData {
+    auto dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
     float CurrPosXCollide = 0.f, CurrPosYCollide = 0.f;
     bool NoAdd = false;
     // Loop through obstacles
@@ -77,8 +77,8 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIXCollision(const Goomba
     return dataOutput;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::ShellXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin) {
-    GoombaAIData dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
+auto GoombaAIBehavior::ShellXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin) -> GoombaAIData{
+    auto dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
     float CurrPosXCollide = 0, CurrPosYCollide = 0;;
     for (auto& bonus : GameScene::customTileManager.getBonusList()) {
         if (const sf::FloatRect BonusHitbox = getGlobalHitbox(bonus.getHitbox(), bonus.getCurrentPosition(), bonus.getOrigin()); isCollide(BonusHitbox, getGlobalHitbox(hitbox, dataOutput.position, origin)))
@@ -94,19 +94,19 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::ShellXCollision(const GoombaAID
     return dataOutput;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::GoombaAIEffectYMove(const GoombaAIData& data, const float deltaTime) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::GoombaAIEffectYMove(const GoombaAIData& data, const float deltaTime) -> GoombaAIData {
+    auto dataOutput = data;
     dataOutput.position += sf::Vector2f(0.f, data.velocity.y * deltaTime);
     dataOutput.velocity.y += 1.f * deltaTime * 0.15f;
     return dataOutput;
 }
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::BulletBillEffectYMove(const GoombaAIData& data, const float deltaTime) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::BulletBillEffectYMove(const GoombaAIData& data, const float deltaTime) -> GoombaAIData {
+    auto dataOutput = data;
     dataOutput.position += sf::Vector2f(0.f, data.velocity.y * deltaTime);
     dataOutput.velocity.y += 1.f * deltaTime * 0.3f;
     return dataOutput;
 }
-void GoombaAIBehavior::GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* EnemyB) {
+auto GoombaAIBehavior::GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* EnemyB) -> void {
     if (!EnemyB->isCollideEachOther() || !EnemyA->isCollideEachOther()) return;
     if (const sf::FloatRect r1 = getGlobalHitbox(EnemyA->getHitbox(), EnemyA->getCurrentPosition(), EnemyA->getOrigin()); isCollide(r1, getGlobalHitbox(EnemyB->getHitbox(), EnemyB->getCurrentPosition(), EnemyB->getOrigin()))) {
         if (EnemyA->getCurrentPosition().x > EnemyB->getCurrentPosition().x) {
@@ -119,7 +119,7 @@ void GoombaAIBehavior::GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* Ene
     }
 }
 
-void GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* Other, unsigned short& val) {
+auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* Other, unsigned short& val) -> void {
     if (!Shell->isShellKicking() || !Shell->isShellBlocker()) return;
     if (const sf::FloatRect r1 = getGlobalHitbox(Shell->getHitbox(), Shell->getCurrentPosition(), Shell->getOrigin()); isCollide(r1, getGlobalHitbox(Other->getHitbox(), Other->getCurrentPosition(), Other->getOrigin()))) {
         if (!Other->isShellKicking()) {
@@ -144,14 +144,14 @@ void GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
         }
     }
 }
-void GoombaAIBehavior::GoombaAIStomping() {
+auto GoombaAIBehavior::GoombaAIStomping() -> void {
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Mario::setYvelocity(-8.f);
     else Mario::setYvelocity(-13.f);
     SoundManager::PlaySound("Stomp");
     if (!Mario::getHolding()) Mario::setHolding(true);
 }
 
-bool GoombaAIBehavior::GoombaAIEffectDisappearing(float& clock, float& alpha, const float deltaTime) {
+auto GoombaAIBehavior::GoombaAIEffectDisappearing(float& clock, float& alpha, const float deltaTime) -> bool {
     if (clock >= 4.f * 50) {
         if (alpha > 0) {
             alpha -= 7.5f * deltaTime;
@@ -163,15 +163,15 @@ bool GoombaAIBehavior::GoombaAIEffectDisappearing(float& clock, float& alpha, co
     return false;
 }
 
-sf::Vector2f GoombaAIBehavior::EnemyPlatformXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::EnemyPlatformXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin) -> sf::Vector2f {
+    auto dataOutput = data;
     if (float PlatDistance; PlatformXCollision(MFCPP::CollisionObject(data.position, origin, hitbox), PlatDistance, data.velocity.y))
         dataOutput.position.x += PlatDistance;
     return dataOutput.position;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::EnemyAdjustXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float CurrPosXCollide, bool side) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::EnemyAdjustXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float CurrPosXCollide, bool side) -> GoombaAIData {
+    auto dataOutput = data;
     if (side) {
         dataOutput.direction = !data.direction;
         dataOutput.position.x = CurrPosXCollide + 32.0f - hitbox.position.x + origin.x;
@@ -182,8 +182,8 @@ GoombaAIBehavior::GoombaAIData GoombaAIBehavior::EnemyAdjustXCollision(const Goo
     }
     return dataOutput;
 }
-short unsigned int GoombaAIBehavior::Kicking(const sf::Vector2f& pos, const sf::Vector2f& origin, const short unsigned int val) {
-    short unsigned int output = val;
+auto GoombaAIBehavior::Kicking(const sf::Vector2f& pos, const sf::Vector2f& origin, const uint8_t val) -> uint8_t {
+    auto output = val;
     switch (val) {
         case 0:
             SoundManager::PlaySound("Kick2");
@@ -225,8 +225,8 @@ short unsigned int GoombaAIBehavior::Kicking(const sf::Vector2f& pos, const sf::
     return output;
 }
 
-GoombaAIBehavior::GoombaAIData GoombaAIBehavior::MushroomAppearing(const GoombaAIData &data, float &appearY, const float appearYSpeed, const float appearYMax, bool& isAppearing, const bool isDisabled, const float deltaTime) {
-    GoombaAIData dataOutput = data;
+auto GoombaAIBehavior::MushroomAppearing(const GoombaAIData &data, float &appearY, const float appearYSpeed, const float appearYMax, bool& isAppearing, const bool isDisabled, const float deltaTime) -> GoombaAIData {
+    auto dataOutput = data;
     if (isAppearing && !isDisabled) {
         appearY += appearYSpeed * deltaTime;
         if (appearY >= appearYMax) {

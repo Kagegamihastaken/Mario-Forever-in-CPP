@@ -14,41 +14,44 @@
 #include "Object/Enemy/RedSpiny.hpp"
 
 std::vector<std::string> GoombaAnimName;
-static int GOOMBA_IMAGE_WIDTH = 62;
-static int GOOMBA_WIDTH = 31;
-static int GOOMBA_HEIGHT = 32;
-static std::vector<std::string> MushroomAnimName; // Unused
-static std::vector<std::string> GreenMushroomAnimName; // Unused
-static int MUSHROOM_IMAGE_WIDTH = 31;
-static int MUSHROOM_WIDTH = 31;
-static int MUSHROOM_HEIGHT = 32;
+static constexpr uint16_t GOOMBA_IMAGE_WIDTH = 62;
+static constexpr uint16_t GOOMBA_WIDTH = 31;
+static constexpr uint16_t GOOMBA_HEIGHT = 32;
+std::vector<std::string> MushroomAnimName;
+std::vector<std::string> GreenMushroomAnimName;
+static constexpr uint16_t MUSHROOM_IMAGE_WIDTH = 31;
+static constexpr uint16_t MUSHROOM_WIDTH = 31;
+static constexpr uint16_t MUSHROOM_HEIGHT = 32;
 std::vector<std::string> GreenKoopaAnimName;
 std::vector<std::string> RedKoopaAnimName;
-static int KOOPA_IMAGE_WIDTH = 64;
-static int KOOPA_WIDTH = 32;
-static int KOOPA_HEIGHT = 47;
+static constexpr uint16_t KOOPA_IMAGE_WIDTH = 64;
+static constexpr uint16_t KOOPA_WIDTH = 32;
+static constexpr uint16_t KOOPA_HEIGHT = 47;
 std::vector<std::string> GreenKoopaParatroopaAnimName;
-static int KOOPA_PARATROOPA_IMAGE_WIDTH = 66;
-static int KOOPA_PARATROOPA_WIDTH = 33;
-static int KOOPA_PARATROOPA_HEIGHT = 47;
+static constexpr uint16_t KOOPA_PARATROOPA_IMAGE_WIDTH = 66;
+static constexpr uint16_t KOOPA_PARATROOPA_WIDTH = 33;
+static constexpr uint16_t KOOPA_PARATROOPA_HEIGHT = 47;
 std::vector<std::string> GreenKoopaShellAnimName;
 std::vector<std::string> RedKoopaShellAnimName;
-static int KOOPA_SHELL_IMAGE_WIDTH = 132;
-static int KOOPA_SHELL_WIDTH = 33;
-static int KOOPA_SHELL_HEIGHT = 28;
+static constexpr uint16_t KOOPA_SHELL_IMAGE_WIDTH = 132;
+static constexpr uint16_t KOOPA_SHELL_WIDTH = 33;
+static constexpr uint16_t KOOPA_SHELL_HEIGHT = 28;
 std::vector<std::string> RedSpinyAnimName;
 std::vector<std::string> GreenSpinyAnimName;
-static int SPINY_IMAGE_WIDTH = 66;
-static int SPINY_WIDTH = 33;
-static int SPINY_HEIGHT = 32;
+static constexpr uint16_t SPINY_IMAGE_WIDTH = 66;
+static constexpr uint16_t SPINY_WIDTH = 33;
+static constexpr uint16_t SPINY_HEIGHT = 32;
 std::vector<std::string> FireFlowerAnimName;
-static int FIRE_FLOWER_IMAGE_WIDTH = 128;
-static int FIRE_FLOWER_WIDTH = 32;
-static int FIRE_FLOWER_HEIGHT = 32;
+static constexpr uint16_t FIRE_FLOWER_IMAGE_WIDTH = 128;
+static constexpr uint16_t FIRE_FLOWER_WIDTH = 32;
+static constexpr uint16_t FIRE_FLOWER_HEIGHT = 32;
 std::vector<std::string> BeetrootAnimName;
-static int BEETROOT_IMAGE_WIDTH = 128;
-static int BEETROOT_WIDTH = 32;
-static int BEETROOT_HEIGHT = 33;
+static constexpr uint16_t BEETROOT_IMAGE_WIDTH = 128;
+static constexpr uint16_t BEETROOT_WIDTH = 32;
+static constexpr uint16_t BEETROOT_HEIGHT = 33;
+std::vector<std::string> ThwompAnimName;
+static constexpr uint16_t THWOMP_WIDTH = 64;
+static constexpr uint16_t THWOMP_HEIGHT = 66;
 
 void GoombaAIInit() {
 	for (int i = 0; i < GOOMBA_IMAGE_WIDTH / GOOMBA_WIDTH; i++) {

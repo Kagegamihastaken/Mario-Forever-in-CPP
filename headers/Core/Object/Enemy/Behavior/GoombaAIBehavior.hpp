@@ -29,7 +29,7 @@ public:
     static GoombaAIData EnemyAdjustXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float CurrPosXCollide, bool side);
     static sf::Vector2f EnemyPlatformXCollision(const GoombaAIData &data, const sf::FloatRect &hitbox, const sf::Vector2f &origin);
 private:
-    static short unsigned int Kicking(const sf::Vector2f& pos, const sf::Vector2f& origin, short unsigned int val);
+    static auto Kicking(const sf::Vector2f& pos, const sf::Vector2f& origin, uint8_t val) -> uint8_t;
 };
 
 #endif //MFCPP_GOOMBAAIBEHAVIOR_HPP

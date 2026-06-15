@@ -65,7 +65,7 @@ namespace MFCPP {
 	void SingleAnimationObject::frameUpdate() {
 		m_TimeRan = m_TimeRemainSave + static_cast<float>(m_TimeRun.getElapsedTime().asMicroseconds()) / 1000.0f;
 		if (m_frequency != 0) {
-			if (const float FrameTime = 2000.0f / static_cast<float>(m_frequency) / static_cast<float>(timestep.getTimeSpeed());
+			if (const float FrameTime = 2000.0f / static_cast<float>(m_frequency) / static_cast<float>(WindowFrame::getTimestep().getTimeSpeed());
 				m_TimeRan >= FrameTime) {
 				const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
 				if (m_indexAnimation - m_startingIndexAnimation + FrameCount >= m_endingIndexAnimation - m_startingIndexAnimation + 1 && !m_reached_the_end) m_reached_the_end = true;
@@ -92,7 +92,7 @@ namespace MFCPP {
 	}
 	void SingleAnimationObject::animationDraw() const {
 		//ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
-		window.draw(m_Index[m_indexAnimation]);
+		WindowFrame::getWindow().draw(m_Index[m_indexAnimation]);
 	}
 	void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 		m_direction = dir;

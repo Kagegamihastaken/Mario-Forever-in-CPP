@@ -11,6 +11,11 @@
 class Mario {
 public:
 	Mario() = delete;
+	Mario(const Mario&) = delete;
+	Mario(Mario&&) = delete;
+	Mario& operator=(const Mario&) = delete;
+	Mario& operator=(Mario&&) = delete;
+
 	static void MarioUpdateAnimation();
 
 	static void SetPrevMarioPos();
@@ -48,10 +53,10 @@ public:
 	static void setFirstDirection(bool val);
 	[[nodiscard]] static bool getDirection();
 	[[nodiscard]] static bool getFirstDirection();
-	static void setLives(int val);
-	static void setScore(long long val);
-	[[nodiscard]] static int getLives();
-	[[nodiscard]] static int getScore();
+	static void setLives(uint16_t val);
+	static void setScore(uint64_t val);
+	[[nodiscard]] static uint16_t getLives();
+	[[nodiscard]] static uint64_t getScore();
 	[[nodiscard]] static bool isPrejump();
 	[[nodiscard]] static bool isFalling();
 	[[nodiscard]] static int getPowerState();
@@ -69,7 +74,7 @@ public:
 	// extern bool MarioAppearing;
 	// extern bool Holding;
 private:
-	static void UpdateSequenceAnimation();
+	static auto UpdateSequenceAnimation() -> void;
 
 	static void CheckXCollision();
 
@@ -87,15 +92,15 @@ private:
 	static bool m_Holding;
 	static bool m_MarioCrouchDown;
 	static float m_player_speed;
-	static int m_MarioState;
-	static int m_lastMarioState;
-	static int m_PowerState;
-	static int m_lastPowerState;
+	static int8_t m_MarioState;
+	static int8_t m_lastMarioState;
+	static int8_t m_PowerState;
+	static int8_t m_lastPowerState;
 
-	static int m_Lives;
+	static uint16_t m_Lives;
 
 	static bool m_OverSpeed;
-	static long long int m_Score;
+	static uint64_t m_Score;
 	static sf::Clock m_AppearingTimer;
 	static sf::Clock m_InvincibleTimer;
 	static bool m_Invincible;
@@ -111,10 +116,10 @@ private:
 
 	static bool m_CanControlMario;
 
-	static constexpr int MARIO_IMAGE_WIDTH = 310;
-	static constexpr int MARIO_WIDTH = 31;
-	static constexpr int MARIO_HEIGHT = 62;
-	static constexpr int MARIO_OFFSET_X = 4.f;
+	static constexpr uint16_t MARIO_IMAGE_WIDTH = 310;
+	static constexpr uint16_t MARIO_WIDTH = 31;
+	static constexpr uint16_t MARIO_HEIGHT = 62;
+	static constexpr uint16_t MARIO_OFFSET_X = 4;
 };
 
 static std::vector<std::string> SmallMario;
@@ -122,7 +127,6 @@ static std::vector<std::string> BigMario;
 static std::vector<std::string> FireMario;
 static std::vector<std::string> BeetrootMario;
 
-//define here
 // 0 for right; 1 for left
 
 #endif //MARIO_HPP

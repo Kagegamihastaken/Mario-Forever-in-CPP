@@ -34,13 +34,13 @@ bool Mario::m_PreJump = false;
 bool Mario::m_Holding;
 bool Mario::m_MarioCrouchDown = false;
 float Mario::m_player_speed;
-int Mario::m_MarioState = 0;
-int Mario::m_lastMarioState = -1;
-int Mario::m_PowerState = 0;
-int Mario::m_lastPowerState = 0;
-int Mario::m_Lives = PLAYER_LIVES;
+int8_t Mario::m_MarioState = 0;
+int8_t Mario::m_lastMarioState = -1;
+int8_t Mario::m_PowerState = 0;
+int8_t Mario::m_lastPowerState = 0;
+uint16_t Mario::m_Lives = PLAYER_LIVES;
 bool Mario::m_OverSpeed = false;
-long long int Mario::m_Score = 0;
+uint64_t Mario::m_Score = 0;
 sf::Clock Mario::m_AppearingTimer;
 sf::Clock Mario::m_InvincibleTimer;
 bool Mario::m_Invincible = false;
@@ -119,9 +119,9 @@ void Mario::MarioOutSideScreen() {
 	else m_OutsideWallLeft = false;
 
 	if (!LevelCompleteEffect) {
-		if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width) {
+		if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x) {
 			if (!fst)
-				m_player.forceSetPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + Width, m_player.getCurrentPosition().y});
+				m_player.forceSetPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x, m_player.getCurrentPosition().y});
 			if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 			m_OutsideWallRight = true;
 		}
@@ -134,7 +134,7 @@ void Mario::MarioOutSideScreen() {
 //false: right, true: left
 void Mario::KeyboardMovement(const float deltaTime) {
 	if (m_CanControlMario && !LevelCompleteEffect) {
-		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && ((!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) && window.hasFocus()) {
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && ((!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) && WindowFrame::getWindow().hasFocus()) {
 			if (m_velocity.x == 0) m_MarioDirection = true;
 			else if (!m_MarioDirection) {
 				m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.375f * deltaTime);
@@ -147,7 +147,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
 				if (m_velocity.x > 7.5f) m_velocity.x = 7.5f;
 			}
 		}
-		else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && ((!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) && window.hasFocus()) {
+		else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && ((!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) && WindowFrame::getWindow().hasFocus()) {
 			if (m_velocity.x == 0) m_MarioDirection = false;
 			else if (m_MarioDirection) {
 				m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.375f * deltaTime);
@@ -164,7 +164,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
 			else m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.25f * deltaTime);
 		}
 		if (m_velocity.x < 0.0f) m_velocity.x = 0.0f;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !m_MarioCurrentFalling && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !m_MarioCurrentFalling && WindowFrame::getWindow().hasFocus()) {
 			if (!m_PreJump && !m_Holding) {
 				SoundManager::PlaySound("Jump");
 				m_velocity.y = -13.0f;
@@ -177,17 +177,17 @@ void Mario::KeyboardMovement(const float deltaTime) {
 				m_Holding = true;
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !m_MarioCurrentFalling && m_PowerState > 0 && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !m_MarioCurrentFalling && m_PowerState > 0 && WindowFrame::getWindow().hasFocus()) {
 			m_MarioCrouchDown = true;
 		}
 		else if (!m_MarioCurrentFalling) m_MarioCrouchDown = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && WindowFrame::getWindow().hasFocus()) {
 			if (m_velocity.x < 0.625f && m_velocity.y < 0.0f) m_velocity.y -= 0.4f * deltaTime;
 			if (m_velocity.x >= 0.625f && m_velocity.y < 0.0f) m_velocity.y -= 0.5f * deltaTime;
 			if (m_velocity.y >= 0.0f && !m_Holding) m_PreJump = true;
 		}
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && window.hasFocus()) m_Holding = false;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !m_MarioCrouchDown && window.hasFocus()) m_player_speed = 7.5f;
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && WindowFrame::getWindow().hasFocus()) m_Holding = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !m_MarioCrouchDown && WindowFrame::getWindow().hasFocus()) m_player_speed = 7.5f;
 		else m_player_speed = 4.375f;
 		if ((!m_MarioCurrentFalling || m_velocity.y < 0.f) && m_PreJump) m_PreJump = false;
 
@@ -204,7 +204,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
 		if (m_velocity.x < 0.0f) m_velocity.x = 0.0f;
 	}
 	if (m_FireTimeCounting < m_FireTime) m_FireTimeCounting += 1.f * deltaTime;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && window.hasFocus() && !m_isFireHolding && m_CanControlMario && !LevelCompleteEffect) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && WindowFrame::getWindow().hasFocus() && !m_isFireHolding && m_CanControlMario && !LevelCompleteEffect) {
 		if (m_FireTimeCounting >= m_FireTime && m_PowerState > 1 && GameScene::projectileManager.getMarioProjectileList().size() < 2 && !m_MarioCrouchDown) {
 			SoundManager::PlaySound("Fireball");
 			m_FireTimeCounting = 0.f;
@@ -315,7 +315,6 @@ void Mario::MarioVertYBottomUpdate() {
 void Mario::MarioVertYTopUpdate() {
 	if (m_CanControlMario) {
 		float CurrPosYCollide, CurrPosXCollide;
-		bool NoAdd = false;
 		if (QuickCheckTopCollision(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			//snap back
 			float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
@@ -426,7 +425,7 @@ void Mario::PowerDown() {
 	}
 }
 void Mario::Death() {
-	if (m_Lives <= 0) window.close();
+	if (m_Lives <= 0) WindowFrame::getWindow().close();
 	else --m_Lives;
 	Objectbuilding();
 	m_velocity = {0.f, 0.f};
@@ -522,16 +521,16 @@ bool Mario::getDirection() {
 bool Mario::getFirstDirection() {
 	return m_FirstMarioDirection;
 }
-void Mario::setLives(int val) {
+void Mario::setLives(uint16_t val) {
 	m_Lives = val;
 }
-void Mario::setScore(long long val) {
+void Mario::setScore(uint64_t val) {
 	m_Score = val;
 }
-int Mario::getLives() {
+uint16_t Mario::getLives() {
 	return m_Lives;
 }
-int Mario::getScore() {
+uint64_t Mario::getScore() {
 	return m_Score;
 }
 

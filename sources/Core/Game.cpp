@@ -15,7 +15,7 @@ SceneManager sceneManager;
 void GameObjectInit() {
     //Essential
     InitTempTex();
-    windowInit();
+    WindowFrame::WindowInit();
     SoundInit();
     loadFontRes();
     MusicInit();
@@ -35,7 +35,7 @@ void GameObjectDeltaMovement(const float dt) {
     sceneManager.update(dt);
 }
 void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
-    Window::WindowEventUpdate(event);
+    WindowFrame::Window::WindowEventUpdate(event);
     sceneManager.handleInput(event);
 }
 void GameObjectInterpolateMovement(const float alpha) {
@@ -50,17 +50,14 @@ void GameObjectUpdateView() {
 void GameObjectMiscUpdate() {
     WindowSetView();
     sceneManager.setView();
-    updateFrame();
+    WindowFrame::updateFrame();
     updateView();
     UpdatePositionCharacter();
     sceneManager.HUDPositionUpdate();
 }
 void GameObjectDraw() {
-    sceneManager.draw(window);
+    sceneManager.draw(WindowFrame::getWindow());
 }
 void GameCleanUp() {
     sceneManager.objectCleanup();
-    // if (CurrentScene == SceneID::SCENE_GAMEPLAY) {
-    //     //TODO: Change to plf colony
-    // }
 }

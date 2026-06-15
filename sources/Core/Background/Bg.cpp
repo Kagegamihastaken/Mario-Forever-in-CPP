@@ -62,6 +62,6 @@ void DeleteAllBg() {
 void BgDraw() {
 	for (int i = 0; i < BgList.size(); ++i) {
 		buffer.update(BgList[i].data());
-		window.draw(buffer, &ImageManager::GetTexture(BgTextureNameList[i]));
+		WindowFrame::getWindow().draw(buffer, &ImageManager::GetTexture(BgTextureNameList[i]));
 	}
 }

@@ -1,9 +1,6 @@
 #include "Core/WindowFrame.hpp"
-#include "Effect/MarioEffect.hpp"
-#include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "Core/ExternalHeaders/Kairos.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Game.hpp"
 #include <config.h>
@@ -13,30 +10,12 @@
 #include "Core/AudioEngine.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
-
-#include "Object/Platform.hpp"
-#include <imgui.h>
 #include <imgui-SFML.h>
-
-#include "Core/Time.hpp"
-
 float alpha = 1.0f;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
 
 // TODO: Add encrypt protection for value can be easily cheat
-/*
- * To archive this, I need to use encryption library
- * Then create a static class called "Protected Value"
- * This class can took "int", "float", "string", etc. With std::variant
- * Create a std::map with REAL value to actually store variable
- * Then create another std::map to "queue" value to store that REAL value (this map will use encrypted)
- * But this will guarantee hurt fps if check every value EVERY FRAME.
- * To Prevent this, It just needs to check value between 5 seconds to not put stress to CPU
- * And tada, I now have a very own "Protected Value"
- *
- * Why build this? Because I was aware how easily cheat a CTF Game, it just flip value from positive to negative and so on.
-*/
 #if DEVELOPMENT_BUILD
 int main() {
 #else
@@ -54,7 +33,7 @@ int WinMain() {
 		SoundManager::SoundManagerInit();
 		IOInit();
 		GameObjectInit();
-		if (!ImGui::SFML::Init(window)) throw std::runtime_error("Cannot Load ImGui");
+		if (!ImGui::SFML::Init(WindowFrame::getWindow())) throw std::runtime_error("Cannot Load ImGui");
 		sf::Clock deltaClock;
 		MusicManager::ForceLoadMusic("MarioDeath");
 		MusicManager::ForceLoadMusic("LevelComplete");
@@ -65,12 +44,12 @@ int WinMain() {
 		// test.setTextureRect(sf::IntRect({16, 16}, {32, 32}));
 
 		AudioEnginePlay();
-		while (window.isOpen()) {
-			while (const std::optional event = window.pollEvent()) {
-				ImGui::SFML::ProcessEvent(window, *event);
+		while (WindowFrame::getWindow().isOpen()) {
+			while (const std::optional event = WindowFrame::getWindow().pollEvent()) {
+				ImGui::SFML::ProcessEvent(WindowFrame::getWindow(), *event);
 				if (event->is<sf::Event::Closed>()) {
 					MFCPP::Log::InfoPrint("Closing...");
-					window.close();
+					WindowFrame::getWindow().close();
 				}
 				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
 					if (keyPressed->code == sf::Keyboard::Key::Q) {
@@ -96,29 +75,29 @@ int WinMain() {
 			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
 			ImageManager::ClearAllVertex();
 			GameObjectEditText();
-			fpsLite.update();
-			timestep.addFrame();
-			while (timestep.isUpdateRequired()) {
+			WindowFrame::getFpsLite().update();
+			WindowFrame::getTimestep().addFrame();
+			while (WindowFrame::getTimestep().isUpdateRequired()) {
 				GameObjectSetPrev();
-				GameObjectDeltaMovement(timestep.getStepAsFloat() * 50);
+				GameObjectDeltaMovement(WindowFrame::getTimestep().getStepAsFloat() * 50);
 				GameObjectCollision();
 				// test.setPosition(Mario::getCurrentPosition());
 				Mario::InvincibleStateUpdate();
 			}
-			if (isInterpolation) alpha = timestep.getInterpolationAlphaAsFloat();
+			if (isInterpolation) alpha = WindowFrame::getTimestep().getInterpolationAlphaAsFloat();
 			else alpha = 1.0f;
 			GameObjectInterpolateMovement(alpha);
 			//ImGui::ShowDemoWindow();
 			GameObjectMiscUpdate();
 			GameCleanUp();
 
-			ImGui::SFML::Update(window, deltaClock.restart());
+			ImGui::SFML::Update(WindowFrame::getWindow(), deltaClock.restart());
 			//draw
-			window.clear(sf::Color::Transparent);
+			WindowFrame::getWindow().clear(sf::Color::Transparent);
 			GameObjectDraw();
-			ImGui::SFML::Render(window);
+			ImGui::SFML::Render(WindowFrame::getWindow());
 			// window.draw(test);
-			window.display();
+			WindowFrame::getWindow().display();
 			//ImageManager::printDrawCount();
 		}
 	} CPPTRACE_CATCH (std::exception& e) {

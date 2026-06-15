@@ -68,7 +68,7 @@ void ImageManager::AddToVertex(const std::string &name_tex, const sf::IntRect& t
 void ImageManager::DrawAllVertex() {
 	while (!m_vertex_queue.empty()) {
 		const std::string& tex_name = m_vertex_queue.front();
-		window.draw(m_vertex_array.at(tex_name), m_textures.at(tex_name).get());
+		WindowFrame::getWindow().draw(m_vertex_array.at(tex_name), m_textures.at(tex_name).get());
 		m_vertex_queue.pop();
 		++draw_count;
 	}

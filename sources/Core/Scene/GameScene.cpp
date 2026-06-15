@@ -156,7 +156,7 @@ void GameScene::draw(sf::RenderWindow &window) {
     MarioEffectDraw();
     ExitGateEffectDraw();
     effectManager.Draw();
-    FrameDraw();
+    WindowFrame::FrameDraw();
 
     HitboxUtils::drawHitbox();
     TextDraw();
@@ -184,10 +184,10 @@ void GameScene::HUDPositionUpdate() {
 }
 void GameScene::textUpdate() {
     EditText(fmt::format("{}", Mario::getLives()), "_LIVE");
-    EditText(fmt::format("FPS: {}", static_cast<int>(std::round(fpsLite.getFps()))), "_FPS");
-    if (isDebug) {
-        EditText(std::to_string(static_cast<int>(MouseX)) + "/" + std::to_string(static_cast<int>(MouseY)) + "  R", "_MOUSEXY");
-        EditText(std::to_string(static_cast<int>(ViewX)) + "/" + std::to_string(static_cast<int>(ViewY)) + "  V", "_VIEWXY");
+    EditText(fmt::format("FPS: {}", static_cast<int32_t>(std::round(WindowFrame::getFpsLite().getFps()))), "_FPS");
+    if (WindowFrame::isDebug()) {
+        EditText(std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
+        EditText(std::to_string(static_cast<int32_t>(ViewX)) + "/" + std::to_string(static_cast<int32_t>(ViewY)) + "  V", "_VIEWXY");
     }
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Mario::getScore()), "_SCORE");
@@ -200,11 +200,11 @@ void GameScene::setView() {
     }
     else
         ScrollPos = Mario::getInterpolatedPosition();
-    view.setCenter({ std::min(std::max(Width / 2.0f, ScrollPos.x), LevelWidth - Width / 2.f), std::min(std::max(Height / 2.0f, ScrollPos.y), LevelHeight - Height / 2.f) });
+    view.setCenter({ std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x), LevelWidth - WindowFrame::getGameSize().x / 2.f), std::min(std::max(WindowFrame::getGameSize().y / 2.0f, ScrollPos.y), LevelHeight - WindowFrame::getGameSize().y / 2.f) });
 }
 void GameScene::loadResources() {
     //Load Resources
-    GameSceneInit();
+    WindowFrame::GameSceneInit();
     MFCPP::AutoScroll::AutoScrollInit();
     //Preload
     loadObstacleRes();
@@ -240,17 +240,17 @@ void GameScene::loadResources() {
     AddText("_SCORE", "", TextMarginID::RIGHT_MARGIN, 138.0f, 34.0f);
     AddText("_TIME", "", TextMarginID::RIGHT_MARGIN, 562.0f, 35.0f);
     AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
-    if (isDebug) {
+    if (WindowFrame::isDebug()) {
         AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
         AddText("_VIEWXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 432.0f);
         AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
     //ReadData("data/levels/onedashthree.json");
-    //ReadData("data/levels/twodashone.json");
+    ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled-2.json");
     //ReadData("data/levels/gearuptest.json");
-    ReadData("data/levels/sevendashone.json");
+    //ReadData("data/levels/testlevel.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();
@@ -260,7 +260,6 @@ void GameScene::loadResources() {
 void GameScene::unloadResources() {
     //implement later
 }
-//TODO: Implement Scenery
 
 
 

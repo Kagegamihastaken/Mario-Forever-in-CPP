@@ -7,9 +7,9 @@
 
 sf::Vector2f MFCPP::AutoScroll::m_position = sf::Vector2f(0.f,0.f);
 sf::Vector2f MFCPP::AutoScroll::m_origin_pos = sf::Vector2f(0.f, 0.f);
-bool MFCPP::AutoScroll::m_autoScrollMode = true;
-bool MFCPP::AutoScroll::m_tankMode = true;
-float MFCPP::AutoScroll::m_speed = 2.f;
+bool MFCPP::AutoScroll::m_autoScrollMode = false;
+bool MFCPP::AutoScroll::m_tankMode = false;
+float MFCPP::AutoScroll::m_speed = 1.f;
 //Dont touch
 bool MFCPP::AutoScroll::m_tankAnimationStop = false;
 
@@ -17,19 +17,19 @@ void MFCPP::AutoScroll::AutoScrollBuild() {
     if (!m_autoScrollMode) return;
 
     if (m_tankMode) {
-        GameScene::movingBlockManager.addMovingBlock<TankGround>(sf::Vector2f(m_origin_pos.x - Width / 2.f, Height - 64.f));
+        GameScene::movingBlockManager.addMovingBlock<TankGround>(sf::Vector2f(m_origin_pos.x - WindowFrame::getGameSize().x / 2.f, WindowFrame::getGameSize().y - 64.f));
     }
 }
 
 void MFCPP::AutoScroll::AutoScrollInit() {
-    if (m_tankMode) m_origin_pos.x = Width / 2.f;
+    if (m_tankMode) m_origin_pos.x = WindowFrame::getGameSize().x / 2.f;
 }
 
 void MFCPP::AutoScroll::UpdateSpeed(float deltaTime) {
     if (!m_autoScrollMode) return;
     m_position += sf::Vector2f(m_speed * deltaTime, 0.f);
-    if (m_position.x >= LevelWidth - Width / 2.f) {
-        m_position.x = LevelWidth - Width / 2.f;
+    if (m_position.x >= LevelWidth - WindowFrame::getGameSize().x / 2.f) {
+        m_position.x = LevelWidth - WindowFrame::getGameSize().x / 2.f;
         if (!m_tankAnimationStop) m_tankAnimationStop = true;
     }
 }

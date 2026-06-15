@@ -16,5 +16,5 @@ void BgGradientInitPos(const float Width, const float Height) {
 	bgGradient[3].position = sf::Vector2f(Width, Height);
 }
 void BgGradientDraw() {
-	window.draw(bgGradient);
+	WindowFrame::getWindow().draw(bgGradient);
 }

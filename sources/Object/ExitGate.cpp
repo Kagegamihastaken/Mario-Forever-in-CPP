@@ -143,7 +143,7 @@ void ExitGateClockUpdate(const float deltaTime) {
 
 	if (ExitGateClock >= 9.f * 50) {
 		//win behavior, but implement later
-		window.close();
+		WindowFrame::getWindow().close();
 	}
 }
 void ExitGateEffectReset() {

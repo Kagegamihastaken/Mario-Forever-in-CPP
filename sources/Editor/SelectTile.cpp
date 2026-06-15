@@ -245,8 +245,8 @@ void SelectTilePosUpdate() {
     const float ModY = f_mod(SelectTileBackground[0].position.y, 32.0f);
     const float BoxTileX = static_cast<int>(SelectTileBackground[0].position.x - ModX);
     const float BoxTileY = static_cast<int>(SelectTileBackground[0].position.y - ModY);
-    SelectTileX = std::floor((MouseX + BoxTileX + getEditorPosOffset().x) / 32.0f) * 32.0f + ModX; // 640 default width
-    SelectTileY = std::floor((MouseY + BoxTileY + getEditorPosOffset().y) / 32.0f) * 32.0f + ModY; // 480 default height
+    SelectTileX = std::floor((WindowFrame::getMousePosition().x + BoxTileX + getEditorPosOffset().x) / 32.0f) * 32.0f + ModX; // 640 default width
+    SelectTileY = std::floor((WindowFrame::getMousePosition().y + BoxTileY + getEditorPosOffset().y) / 32.0f) * 32.0f + ModY; // 480 default height
     //Update Tile Select Position
     const float TilePosXBefore = SelectTileX - BoxTileX - ModX - 128.0f;
     const float TilePosYBefore = SelectTileY - BoxTileY - ModY - 96.0f;
@@ -259,14 +259,14 @@ void SelectTilePosUpdate() {
 void SelectTileDraw() {
     if (!EDITOR_SELECTTILE) return;
 
-    window.draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
-    window.draw(SelectTileRenderVA, &SelectTileRender.getTexture());
-    window.draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
-    window.draw(SettingButton);
+    WindowFrame::getWindow().draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
+    WindowFrame::getWindow().draw(SelectTileRenderVA, &SelectTileRender.getTexture());
+    WindowFrame::getWindow().draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
+    WindowFrame::getWindow().draw(SettingButton);
 
     for (const auto &i : TabList)
-        window.draw(i);
-    if (TilePosX >= 0 && TilePosY >= 0) window.draw(SelectTileBox);
+        WindowFrame::getWindow().draw(i);
+    if (TilePosX >= 0 && TilePosY >= 0) WindowFrame::getWindow().draw(SelectTileBox);
     SettingDialog();
 }
 
