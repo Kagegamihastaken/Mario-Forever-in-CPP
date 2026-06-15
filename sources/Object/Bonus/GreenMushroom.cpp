@@ -6,6 +6,7 @@
 #include "Core/Collision/Collide.hpp"
 #include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
+#include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 
@@ -41,7 +42,7 @@ void GreenMushroom::interpolateData(const float alpha) {
 void GreenMushroom::EnemyCollision() {}
 void GreenMushroom::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_isappearing) return;
-    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         AddScoreEffect(ScoreID::SCORE_1UP, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);

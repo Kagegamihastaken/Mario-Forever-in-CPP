@@ -1,7 +1,7 @@
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 
 #include "Core/Scroll.hpp"
-#include "Core/WindowFrame.hpp"
+#include "Core/Utility.hpp"
 #include "Object/Mario.hpp"
 
 sf::Vector2f PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection dir, const sf::Vector2f& pos) {
@@ -102,7 +102,7 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 	else {
 		if (dataOutput.stop_clock <= dataOutput.stop_time)
 			dataOutput.stop_clock += deltaTime;
-		if (dataOutput.stop_clock > dataOutput.stop_time && f_abs(Mario::getCurrentPosition().x - dataOutput.pos.x) > dataOutput.distance_appear && dataOutput.state && !isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 128.f)) dataOutput.stop = false;
+		if (dataOutput.stop_clock > dataOutput.stop_time && Utility::f_abs(Mario::getCurrentPosition().x - dataOutput.pos.x) > dataOutput.distance_appear && dataOutput.state && !isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 128.f)) dataOutput.stop = false;
 		else if (dataOutput.stop_clock > dataOutput.stop_time && !dataOutput.state) dataOutput.stop = false;
 	}
 	return dataOutput;

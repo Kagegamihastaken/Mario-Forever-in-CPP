@@ -7,6 +7,7 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
+#include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 
@@ -41,9 +42,9 @@ void BulletBill::interpolateData(const float alpha) {
 void BulletBill::EnemyCollision() {}
 void BulletBill::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect other = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(other, hitbox_mario)) {
+    if (const sf::FloatRect other = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(hitbox_mario, other)) {
         if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
             AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);

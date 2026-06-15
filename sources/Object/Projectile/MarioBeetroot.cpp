@@ -4,6 +4,7 @@
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
@@ -37,7 +38,7 @@ void MarioBeetroot::spin(const bool flip, const bool sound = true) {
     }
     else {
         AddFireballExplosion(getCurrentPosition().x, getCurrentPosition().y);
-        m_velocity.x = (10 + RandomIntNumberGenerator(0, 31)) / 8.f;
+        m_velocity.x = (10 + Utility::RandomIntNumberGenerator(0, 31)) / 8.f;
         m_direction = !m_direction;
         m_velocity.y = -8.f;
     }

@@ -1,5 +1,5 @@
-#include "../../../../../headers/Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
-
+#include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
+#include "Core/Utility.hpp"
 #include "Core/Logging.hpp"
 #include "Core/WindowFrame.hpp"
 
@@ -20,7 +20,7 @@ float RotodiscAIBehavior::RotodiscAngleUpdate(float angle, float speed, float de
     float Output_angle = angle;
     Output_angle += speed * deltaTime;
     if (Output_angle > 360.f) {
-        Output_angle = f_mod(Output_angle, 360.f);
+        Output_angle = Utility::f_mod(Output_angle, 360.f);
     }
     return Output_angle;
 }

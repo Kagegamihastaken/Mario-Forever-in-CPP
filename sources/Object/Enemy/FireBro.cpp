@@ -8,6 +8,7 @@
 #include "Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
+#include "Core/Utility.hpp"
 #include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
@@ -72,7 +73,7 @@ void FireBro::interpolateData(float alpha) {
 void FireBro::EnemyCollision() {}
 void FireBro::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state != 0) return;
-    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
         if (getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {

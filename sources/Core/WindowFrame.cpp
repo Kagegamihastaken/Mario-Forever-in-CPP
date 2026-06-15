@@ -34,34 +34,6 @@ kairos::Timestep WindowFrame::timestep;
 kairos::FpsLite WindowFrame::fpsLite;
 sf::Vector2f WindowFrame::MousePosition;
 
-std::random_device seed;
-
-int RandomIntNumberGenerator(const int a, const int b) {
-	std::uniform_int_distribution dis(a, b);
-	return dis(seed);
-}
-float RandomFloatNumberGenerator(const float a, const float b) {
-	std::uniform_real_distribution dis(a, b);
-	return dis(seed);
-}
-float f_mod(const float a, const float b) { return a - std::floor(a / b) * b;}
-float f_min(const float a, const float b) { return a < b ? a : b; }
-float f_max(const float a, const float b) { return a > b ? a : b; }
-float f_abs(const float a) { return a < 0 ? -a : a; }
-float f_round(const float val) {
-	if (const float fl = std::trunc(val); val - fl < 0.5f) return fl;
-	else return fl+1.0f;
-}
-float VectorGetLength(const sf::Vector2f& val) {
-	return std::sqrt(val.x * val.x + val.y * val.y);
-}
-sf::Vector2f VectorNormalized(const sf::Vector2f& val) {
-	if (const float len = VectorGetLength(val); len > 0)
-		return sf::Vector2f(val.x / len, val.y / len);
-	return sf::Vector2f(0.f, 0.f);
-}
-int hex_to_int(const std::string &hex) { return std::stoi(hex, nullptr, 16); }
-
 static std::vector<std::string> CoinHUDAnimName;
 static constexpr uint16_t COINHUD_IMAGE_WIDTH = 86;
 static constexpr uint16_t COINHUD_WIDTH = 28;

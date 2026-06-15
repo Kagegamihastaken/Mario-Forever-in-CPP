@@ -1,5 +1,5 @@
 #include "Core/Object/CustomTile/Behavior/FireLauncherBehavior.hpp"
-#include "Core/WindowFrame.hpp"
+#include "Core/Utility.hpp"
 
 FireLauncherBehavior::FireLauncherData FireLauncherBehavior::FireLauncherStatusUpdate(const FireLauncherData &data, bool& launch, bool& sound, float deltaTime) {
     FireLauncherData newData = data;
@@ -20,7 +20,7 @@ FireLauncherBehavior::FireLauncherData FireLauncherBehavior::FireLauncherStatusU
         }
         newData.FireBetweenIntervalCounting += deltaTime;
         if (newData.FireBetweenIntervalCounting >= newData.FireBetweenInterval) {
-            newData.FireBetweenIntervalCounting = f_mod(newData.FireBetweenIntervalCounting, newData.FireBetweenInterval);
+            newData.FireBetweenIntervalCounting = Utility::f_mod(newData.FireBetweenIntervalCounting, newData.FireBetweenInterval);
             launch = true;
             newData.ProjectileCounting -= 1;
         }

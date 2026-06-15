@@ -16,6 +16,7 @@
 #include "Core/Class/CollisionObjectClass.hpp"
 
 #include "Core/Time.hpp"
+#include "Core/Utility.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Projectile/MarioBeetroot.hpp"
 #include "Object/Projectile/MarioFireball.hpp"
@@ -377,7 +378,7 @@ void Mario::MarioUpdateAnimation() {
 						m_lastMarioState = m_MarioState;
 					}
 					m_MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(m_MarioDirection));
-					m_MarioAnimation.setFrequencyAnimation(f_max(12.0f, f_min(m_velocity.x * 8.0f, 45.0f)));
+					m_MarioAnimation.setFrequencyAnimation(Utility::f_max(12.0f, Utility::f_min(m_velocity.x * 8.0f, 45.0f)));
 					//MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
 				}
 				else if (m_FireTimeCounting < m_FireTime && m_PowerState > 1) {

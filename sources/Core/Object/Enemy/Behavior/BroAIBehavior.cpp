@@ -1,5 +1,5 @@
-#include "../../../../../headers/Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
-
+#include "Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
+#include "Core/Utility.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/WindowFrame.hpp"
@@ -11,7 +11,7 @@ const float BroAIBehavior::m_fixed_ticking_value = 1.f;
 
 bool BroAIBehavior::SetWalkingValue(const float randomWalkingValue, float& movingValue, const int multiply, const bool reverse) {
     const float value = multiply * (randomWalkingValue + m_fixed_walking_value) * (reverse ? -1.f : 1.f);
-    movingValue = f_abs(value);
+    movingValue = Utility::f_abs(value);
     if (value >= 0.f) return false;
     return true;
 }
@@ -65,8 +65,8 @@ BroAIBehavior::BroAIData BroAIBehavior::BroAIXUpdate(const BroAIData& data, cons
             }
             break;
         case 7:
-            dataOutput.tickingValue = m_fixed_ticking_value + static_cast<float>(RandomIntNumberGenerator(0, static_cast<int>(tickingRNGRange-1.f)));
-            dataOutput.randomWalking = static_cast<float>(RandomIntNumberGenerator(0, static_cast<int>(walkingRNGRange-1.f))) * -1.f;
+            dataOutput.tickingValue = m_fixed_ticking_value + static_cast<float>(Utility::RandomIntNumberGenerator(0, static_cast<int>(tickingRNGRange-1.f)));
+            dataOutput.randomWalking = static_cast<float>(Utility::RandomIntNumberGenerator(0, static_cast<int>(walkingRNGRange-1.f))) * -1.f;
             dataOutput.state = 1;
             break;
         default:;
@@ -94,7 +94,7 @@ BroAIBehavior::JumpingBehavior BroAIBehavior::BroAIYUpdateJump(float& timeCounte
     if (canJump) {
         if (timeCounter >= 0.2f * 50) {
             timeCounter = 0.f;
-            switch (RandomIntNumberGenerator(0, 19)) {
+            switch (Utility::RandomIntNumberGenerator(0, 19)) {
                 case 1:
                     output.isFall = true;
                     break;
@@ -167,7 +167,7 @@ BroAIBehavior::BroAIShootingData BroAIBehavior::ShootUpdate(const GoombaAIBehavi
     if (shootData.launchTickingTime == 0.f) {
         shootData.launchIntervalTicking += deltaTime;
         if (shootData.launchIntervalTicking >= shootData.launchInterval) {
-            if (RandomIntNumberGenerator(0, static_cast<int>(shootData.launchRNG)) == 1 && !isOutScreen(
+            if (Utility::RandomIntNumberGenerator(0, static_cast<int>(shootData.launchRNG)) == 1 && !isOutScreen(
                         data.position.x, data.position.y, 32.f, 32.f)) {
                 shootData.launchTickingTime += deltaTime;
                 Output.willFire = true;

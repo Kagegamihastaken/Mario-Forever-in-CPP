@@ -10,6 +10,7 @@
 #include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Time.hpp"
+#include "Core/Utility.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Effect/MarioEffect.hpp"
@@ -100,7 +101,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			ExitGateForeEffect.setInterpolatedPosition(ExitGateForeEffect.getCurrentPosition());
 			//LevelEndMarioProjectileCleanup();
 
-			ExitGateForeEffectSpeed = RandomFloatNumberGenerator(123.75f, 146.25f) * M_PI / 180.0f;
+			ExitGateForeEffectSpeed = Utility::RandomFloatNumberGenerator(123.75f, 146.25f) * M_PI / 180.0f;
 			ExitGateForeActive = false;
 			ExitGateForeRender = false;
 		}

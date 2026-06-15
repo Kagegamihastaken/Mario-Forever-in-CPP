@@ -1,4 +1,6 @@
 #include "Core/Object/MovingBlock/Behavior/PlatformBehavior.hpp"
+
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 
 PlatformBehavior::PlatformData PlatformBehavior::PlatformStatusUpdate(const PlatformData &data, float deltaTime) {
@@ -8,9 +10,9 @@ PlatformBehavior::PlatformData PlatformBehavior::PlatformStatusUpdate(const Plat
     if (newData.wait && newData.waitState != 1) return newData;
 
     const sf::Vector2f targetPoint = (newData.movingToEnd ? newData.end : newData.start);
-    const sf::Vector2f direction = VectorNormalized(targetPoint - newData.position);
+    const sf::Vector2f direction = Utility::VectorNormalized(targetPoint - newData.position);
 
-    if (const float distanceToTarget = VectorGetLength(targetPoint - newData.position); newData.smoothStore >= distanceToTarget) {
+    if (const float distanceToTarget = Utility::VectorGetLength(targetPoint - newData.position); newData.smoothStore >= distanceToTarget) {
         if (newData.speed > 0.f) {
             const float maxValue = (newData.smooth ? std::max(newData.speed - 0.1f * deltaTime, 0.f) : 0.f);
             newData.speed = maxValue;

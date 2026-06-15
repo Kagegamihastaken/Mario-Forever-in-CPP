@@ -4,6 +4,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Object/CustomTile/Behavior/BulletBillLauncherBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
@@ -59,7 +60,7 @@ void BulletBillLauncherFlipped::statusUpdate(float deltaTime) {
     m_timing = data.timing;
 
     if (shoot) {
-        SoundManager::PlaySound(fmt::format("Bullet{}", RandomIntNumberGenerator(1, 3)));
+        SoundManager::PlaySound(fmt::format("Bullet{}", Utility::RandomIntNumberGenerator(1, 3)));
         const auto dir = (getCurrentPosition().x > Mario::getCurrentPosition().x ? false : !EffectActive);
         AddFireballExplosion(getCurrentPosition().x - getOrigin().x * (dir ? -1.f : 1.f), getCurrentPosition().y - 32.f / 2.f + 1.f);
         GameScene::enemyManager.addEnemy<BulletBill>(sf::Vector2f(getCurrentPosition().x, getCurrentPosition().y), 3.75f, dir);

@@ -3,6 +3,7 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
@@ -18,7 +19,7 @@ BroHammer::BroHammer(ProjectileManager &manager, const bool direction, const sf:
     m_animation.setTexture("Hammer", true);
     setOrigin(sf::Vector2f(13.f, 18.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {24.f, 24.f}));
-    m_velocity = {1.f + static_cast<float>(RandomIntNumberGenerator(0, 4)), (6.f + static_cast<float>(RandomIntNumberGenerator(0, 4))) * -1.f};
+    m_velocity = {1.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)), (6.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 4))) * -1.f};
     setDrawingPriority(2);
 }
 

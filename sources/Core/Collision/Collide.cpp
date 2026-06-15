@@ -3,6 +3,7 @@
 
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Utility.hpp"
 #include "Core/Scene/GameScene.hpp"
 
 void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
@@ -21,10 +22,10 @@ sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Sprite& spr
 	return sprite.getTransform().transformRect(hitbox);
 }
 sf::FloatRect extendHitbox(const sf::FloatRect& hitbox, float val) {
-	return sf::FloatRect(hitbox.position - sf::Vector2f(val, val), hitbox.size + sf::Vector2f(val * 2.f, val * 2.f));
+	return {hitbox.position - sf::Vector2f(val, val), hitbox.size + sf::Vector2f(val * 2.f, val * 2.f)};
 }
 sf::FloatRect extendHitboxX(const sf::FloatRect& hitbox, float val) {
-	return sf::FloatRect(hitbox.position - sf::Vector2f(val, 0.f), hitbox.size + sf::Vector2f(val * 2.f, 0.f));
+	return {hitbox.position - sf::Vector2f(val, 0.f), hitbox.size + sf::Vector2f(val * 2.f, 0.f)};
 }
 bool isCollide(const sf::FloatRect& hitbox, const sf::FloatRect& other) {
 	return static_cast<bool>(hitbox.findIntersection(other));
@@ -153,7 +154,7 @@ bool isAccurateCollideBotStopEdge(const MFCPP::CollisionObject& CollideObj, cons
 	for (int i = static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); i <= SizeX; ++i) {
 		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= SizeY; ++j) {
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {MFCPP::getTileSize(), MFCPP::getTileSize()}), sf::Vector2f(static_cast<float>(i) * MFCPP::getTileSize(),  static_cast<float>(j) * MFCPP::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
-				if (f_abs(hitbox_intersect.position.x - CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f) - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
+				if (Utility::f_abs(hitbox_intersect.position.x - CollideObj.GetLeftHitbox().size.x * (direction ? -1.f : 1.f) - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
 				//if (f_abs(CollideObj.GetPosition().x - hitbox_loop.position.x) > MFCPP::getTileSize()) continue;
 
 				if (MFCPP::getIndexTilemapCollision(hitbox_loop.position.x, hitbox_loop.position.y))

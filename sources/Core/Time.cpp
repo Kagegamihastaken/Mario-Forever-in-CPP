@@ -1,6 +1,7 @@
 #include "Core/Time.hpp"
 
 #include "Core/SoundManager.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/ExitGate.hpp"
@@ -48,7 +49,7 @@ void TimeCounting(const float deltaTime) {
     TimeRanCountingSound += deltaTime;
     if (TimeRanCountingSound >= 5.f) {
         SoundManager::PlaySound("Throw");
-        TimeRanCountingSound = f_mod(TimeRanCountingSound, 5.f);
+        TimeRanCountingSound = Utility::f_mod(TimeRanCountingSound, 5.f);
     }
 }
 int getTime() {

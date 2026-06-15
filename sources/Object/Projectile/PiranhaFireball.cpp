@@ -3,6 +3,7 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
@@ -22,26 +23,26 @@ PiranhaFireball::PiranhaFireball(ProjectileManager &manager, const PiranhaDirect
     setDrawingPriority(2);
     switch (direction) {
         case PiranhaDirection::PIRANHA_UP:
-            m_velocity = {static_cast<float>(RandomIntNumberGenerator(0, 4)) - static_cast<float>(RandomIntNumberGenerator(0, 4)),
-    (3.f + static_cast<float>(RandomIntNumberGenerator(0, 8))) * -1.f
+            m_velocity = {static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)),
+    (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 8))) * -1.f
             };
             break;
         case PiranhaDirection::PIRANHA_DOWN:
             m_velocity = {
-            static_cast<float>(RandomIntNumberGenerator(0, 4)) - static_cast<float>(RandomIntNumberGenerator(0, 4)),
-            (3.f + static_cast<float>(RandomIntNumberGenerator(0, 3)))
+            static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)),
+            (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 3)))
         };
             break;
         case PiranhaDirection::PIRANHA_RIGHT:
             m_velocity = {
-            (3.f + static_cast<float>(RandomIntNumberGenerator(0, 3))) * -1.f,
-            static_cast<float>(RandomIntNumberGenerator(0, 9)) - static_cast<float>(RandomIntNumberGenerator(0, 9))
+            (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 3))) * -1.f,
+            static_cast<float>(Utility::RandomIntNumberGenerator(0, 9)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 9))
         };
             break;
         case PiranhaDirection::PIRANHA_LEFT:
             m_velocity = {
-            (3.f + static_cast<float>(RandomIntNumberGenerator(0, 3))),
-            static_cast<float>(RandomIntNumberGenerator(0, 9)) - static_cast<float>(RandomIntNumberGenerator(0, 9))
+            (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 3))),
+            static_cast<float>(Utility::RandomIntNumberGenerator(0, 9)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 9))
         };
             break;
         default:

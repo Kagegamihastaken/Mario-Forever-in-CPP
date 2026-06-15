@@ -4,13 +4,13 @@
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 #include "Object/Mario.hpp"
 #include "Object/PiranhaAI.hpp"
-#include "Projectiles/PiranhaProjectile.hpp"
 
 GreenPiranhaDown::GreenPiranhaDown(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
     setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_DOWN, position));
@@ -78,7 +78,7 @@ void GreenPiranhaDown::statusUpdate(float deltaTime) {
 
 void GreenPiranhaDown::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled()) return;
-    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect PiranhaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(PiranhaAIHitbox, hitbox_mario)) {
         Mario::PowerDown();

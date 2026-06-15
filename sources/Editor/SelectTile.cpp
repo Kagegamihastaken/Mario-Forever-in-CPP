@@ -4,6 +4,7 @@
 #include "Editor/SelectTile.hpp"
 
 #include "Core/Logging.hpp"
+#include "Core/Utility.hpp"
 #include "Editor/TabButton.hpp"
 
 static sf::VertexArray SelectTileBackground(sf::PrimitiveType::TriangleStrip, 4);
@@ -241,8 +242,9 @@ void SelectTilePosUpdate() {
     SettingButton.setPosition(sf::Vector2f(29.f, 10.f) + EditorInterpolatedPos);
 
     if (!EDITOR_SELECTTILE) return;
-    const float ModX = f_mod(SelectTileBackground[0].position.x, 32.0f);
-    const float ModY = f_mod(SelectTileBackground[0].position.y, 32.0f);
+
+    const float ModX = Utility::f_mod(SelectTileBackground[0].position.x, 32.0f);
+    const float ModY = Utility::f_mod(SelectTileBackground[0].position.y, 32.0f);
     const float BoxTileX = static_cast<int>(SelectTileBackground[0].position.x - ModX);
     const float BoxTileY = static_cast<int>(SelectTileBackground[0].position.y - ModY);
     SelectTileX = std::floor((WindowFrame::getMousePosition().x + BoxTileX + getEditorPosOffset().x) / 32.0f) * 32.0f + ModX; // 640 default width

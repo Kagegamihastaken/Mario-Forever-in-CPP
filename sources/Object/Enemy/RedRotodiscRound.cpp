@@ -7,6 +7,7 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
+#include "Core/Utility.hpp"
 #include "Object/Mario.hpp"
 #include "Object/RotodiscAI.hpp"
 
@@ -41,7 +42,7 @@ void RedRotodiscRound::interpolateData(const float alpha) {
 void RedRotodiscRound::EnemyCollision() {}
 void RedRotodiscRound::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled()) return;
-    if (f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect RotodiscHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(RotodiscHitbox, hitbox_mario)) {
         Mario::PowerDown();

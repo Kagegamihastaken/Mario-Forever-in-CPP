@@ -3,6 +3,7 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
@@ -43,7 +44,7 @@ void GearProjectile::statusUpdate(float deltaTime) {
     //Spin
     m_timeEffect += deltaTime;
     if (m_timeEffect >= m_timeEffectMax) {
-        m_timeEffect = f_mod(m_timeEffect, m_timeEffectMax);
+        m_timeEffect = Utility::f_mod(m_timeEffect, m_timeEffectMax);
         m_manager.addProjectile<GearProjectileEffect>(getCurrentPosition(), getCurrentAngle(), m_velocity.x > 0.f);
     }
     if (m_velocity.x < 0.f) setCurrentAngle(getCurrentAngle() - sf::degrees(11.5f * deltaTime));

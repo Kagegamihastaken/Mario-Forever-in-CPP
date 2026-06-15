@@ -3,6 +3,7 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
@@ -19,7 +20,7 @@ FireLauncherProjectile::FireLauncherProjectile(ProjectileManager &manager, const
     setOrigin(sf::Vector2f(12.f, 13.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {25.f, 26.f}));
     setDrawingPriority(0);
-    setCurrentAngle(sf::degrees(RandomFloatNumberGenerator(0, 359.9f)));
+    setCurrentAngle(sf::degrees(Utility::RandomFloatNumberGenerator(0, 359.9f)));
     setPreviousAngle(getCurrentAngle());
     setInterpolatedAngle(getCurrentAngle());
     m_velocity = velocity;
