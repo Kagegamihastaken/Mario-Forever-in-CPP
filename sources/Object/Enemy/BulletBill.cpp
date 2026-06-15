@@ -65,14 +65,14 @@ void BulletBill::statusUpdate(float deltaTime) {
         }
         else m_timePass += deltaTime;
 
-        if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 512, 512))
+        if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 480))
             Destroy();
-        if (!isOutScreen(getCurrentPosition().x - getOrigin().x, getCurrentPosition().y, 32, 80)) {
+        if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
             if (isDisabled()) setDisabled(false);
         }
     }
     else if (m_state == 1)
-        if (isOutScreenYBottom(getCurrentPosition().y, 64)) Destroy();
+        if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
 }
 void BulletBill::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
@@ -98,7 +98,7 @@ void BulletBill::Destroy() {
 }
 void BulletBill::draw() {
     m_animation.setAnimationDirection(!getDirection());
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

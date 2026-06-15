@@ -84,7 +84,7 @@ void BroFireball::CollisionUpdate() {
 }
 
 void BroFireball::draw() {
-    //if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
     m_animation.setAnimationDirection(m_direction);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
     m_animation.setRotation(getInterpolatedAngle());

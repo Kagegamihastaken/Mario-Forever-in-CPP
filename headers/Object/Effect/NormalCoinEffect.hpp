@@ -1,7 +1,6 @@
 #ifndef MFCPP_NORMALCOINEFFECT_HPP
 #define MFCPP_NORMALCOINEFFECT_HPP
 
-#include "cmake-build-minsizerel/_deps/sfml-src/include/SFML/System/Vector2.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Object/Effect.hpp"
 #include "Core/Object/Effect/Identity/GenericEffectType.hpp"

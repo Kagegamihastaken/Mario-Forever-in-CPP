@@ -51,7 +51,7 @@ void CheckpointCollision() {
 }
 void CheckpointDraw() {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
-        if (!isOutScreen(it->getInterpolatedPosition().x, it->getInterpolatedPosition().y, CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT)) {
+        if (!isOutOfScreen(MFCPP::CollisionObject(it->getInterpolatedPosition(), it->getOrigin(), it->getHitbox()), 0.f)) {
             it->animationUpdate(it->getInterpolatedPosition(), it->getOrigin());
             it->animationDraw();
         }

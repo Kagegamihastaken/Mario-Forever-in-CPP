@@ -161,14 +161,13 @@ GoombaAIBehavior::GoombaAIData BroAIBehavior::BroAIYCollision(const GoombaAIBeha
     }
     return dataOutput;
 }
-BroAIBehavior::BroAIShootingData BroAIBehavior::ShootUpdate(const GoombaAIBehavior::GoombaAIData& data, BroAIShootData& shootData, bool willFire, const float deltaTime) {
+BroAIBehavior::BroAIShootingData BroAIBehavior::ShootUpdate(const GoombaAIBehavior::GoombaAIData& data, BroAIShootData& shootData, const sf::Vector2f& origin, const sf::FloatRect& hitbox, bool willFire, const float deltaTime) {
     BroAIShootingData Output(willFire, false); // Animation purpose only
                                                      // isFire always reset no matter what for 1 times only
     if (shootData.launchTickingTime == 0.f) {
         shootData.launchIntervalTicking += deltaTime;
         if (shootData.launchIntervalTicking >= shootData.launchInterval) {
-            if (Utility::RandomIntNumberGenerator(0, static_cast<int>(shootData.launchRNG)) == 1 && !isOutScreen(
-                        data.position.x, data.position.y, 32.f, 32.f)) {
+            if (Utility::RandomIntNumberGenerator(0, static_cast<int>(shootData.launchRNG)) == 1 && !isOutOfScreen(MFCPP::CollisionObject(data.position, origin, hitbox), 32.f)) {
                 shootData.launchTickingTime += deltaTime;
                 Output.willFire = true;
             }

@@ -6,8 +6,6 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
-#include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
 GearProjectileEffect::GearProjectileEffect(ProjectileManager &manager, const sf::Vector2f &position, const sf::Angle& angle, bool dir) : Projectile(manager) {
@@ -47,7 +45,7 @@ void GearProjectileEffect::statusUpdate(float deltaTime) {
 void GearProjectileEffect::CollisionUpdate() {}
 
 void GearProjectileEffect::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
     m_animation.setColor(sf::Color(255.f, 255.f, 255.f, m_alpha));
     m_animation.setAnimationDirection(m_dir);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 0.f), getOrigin() - sf::Vector2f(0.f, 0.f));

@@ -54,7 +54,7 @@ void NormalBrickParticle::Destroy() {
 
 void NormalBrickParticle::draw() {
     m_animation.setAnimationDirection(!m_direction);
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 16.f)) return;
     m_animation.setRotation(getInterpolatedAngle());
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());

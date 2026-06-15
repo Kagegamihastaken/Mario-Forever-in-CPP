@@ -22,7 +22,7 @@ public:
     static sf::Vector2f BroAIXCollision(const GoombaAIBehavior::GoombaAIData& data, const sf::FloatRect &hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f &origin);
     static GoombaAIBehavior::GoombaAIData BroAIYCollision(const GoombaAIBehavior::GoombaAIData& data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float& timeCounter, bool& isFalling, float& lastY, float canJump, float deltaTime);
     static GoombaAIBehavior::GoombaAIData BroAIYUpdateMovement(const GoombaAIBehavior::GoombaAIData& data, float deltaTime);
-    static BroAIShootingData ShootUpdate(const GoombaAIBehavior::GoombaAIData& data, BroAIShootData& shootData, bool willFire, float deltaTime);
+    static BroAIShootingData ShootUpdate(const GoombaAIBehavior::GoombaAIData& data, BroAIShootData& shootData, const sf::Vector2f& origin, const sf::FloatRect& hitbox, bool willFire, float deltaTime);
     static const float m_fixed_walking_value;
     static const float m_fixed_ticking_value;
 private:

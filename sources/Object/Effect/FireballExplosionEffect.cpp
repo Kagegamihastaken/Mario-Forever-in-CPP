@@ -44,7 +44,7 @@ void FireballExplosionEffect::Destroy() {
 }
 
 void FireballExplosionEffect::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

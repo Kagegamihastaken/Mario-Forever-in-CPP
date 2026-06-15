@@ -65,7 +65,7 @@ void CoinDraw() {
 	for (auto &i : CoinList) {
 		if (i.isDestroyed()) continue;
 
-		if (isOutScreen(i.getInterpolatedPosition().x, i.getInterpolatedPosition().y, 32, 32)) continue;
+		if (isOutOfScreen(MFCPP::CollisionObject(i.getInterpolatedPosition(), i.getOrigin(), i.getHitbox()), 0)) continue;
 		CoinAnimation.animationUpdate(i.getInterpolatedPosition(), i.getOrigin());
 		CoinAnimation.animationDraw();
 	}

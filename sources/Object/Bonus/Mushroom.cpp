@@ -55,9 +55,9 @@ void Mushroom::MarioCollision(const float MarioYVelocity) {
 void Mushroom::statusUpdate(const float deltaTime) {
     if (isDestroyed()) return;
 
-    if (isOutScreenYBottom(getCurrentPosition().y, 80))
+    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
         Destroy();
-    if (!isOutScreen(getCurrentPosition().x - getOrigin().x, getCurrentPosition().y, 32, 80)) {
+    if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
         if (isDisabled()) setDisabled(false);
     }
 }
@@ -94,7 +94,7 @@ void Mushroom::Destroy() {
     }
 }
 void Mushroom::draw() {
-    if (isOutScreen(getInterpolatedPosition().x - getOrigin().x, getInterpolatedPosition().y, 32, 80)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Magenta));

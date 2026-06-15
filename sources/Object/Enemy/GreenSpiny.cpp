@@ -61,14 +61,14 @@ void GreenSpiny::statusUpdate(const float deltaTime) {
     if (isDestroyed()) return;
 
     if (m_state == 0) {
-        if (isOutScreenYBottom(getCurrentPosition().y, 80))
+        if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
             Destroy();
-        if (!isOutScreen(getCurrentPosition().x - getOrigin().x, getCurrentPosition().y, 32, 80)) {
+        if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
             if (isDisabled()) setDisabled(false);
         }
     }
     if (m_state == 1)
-        if (isOutScreenYBottom(getCurrentPosition().y, 64)) Destroy();
+        if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
 }
 void GreenSpiny::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
@@ -115,7 +115,7 @@ void GreenSpiny::Destroy() {
 
 void GreenSpiny::draw() {
     m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

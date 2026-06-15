@@ -91,9 +91,9 @@ void FireBro::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     // Status Update
     if (m_state == 0) {
-        if (isOutScreenYBottom(getCurrentPosition().y, 80))
+        if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
             Destroy();
-        if (!isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 64.f, 64.f))
+        if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
             if (isDisabled()) {
                 setDisabled(false);
                 return;
@@ -105,13 +105,13 @@ void FireBro::statusUpdate(float deltaTime) {
         else m_animation.setAnimationDirection(ANIM_LEFT);
     }
     else {
-        if (isOutScreenYBottom(getCurrentPosition().y, 64.f)) Destroy();
+        if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
     }
 
     // Shooting Update
     if (isDisabled() || m_state != 0) return;
     BroAIBehavior::BroAIShootData data(m_launchTickingTime, m_LaunchInterval, m_launchIntervalTicking, m_launchRNG, m_launchWaitTime, m_launchCount, m_launchCounting, m_launchIntervalBetween, m_launchIntervalBetweenTicking);
-    const BroAIBehavior::BroAIShootingData ShootingData = BroAIBehavior::ShootUpdate(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), data, m_IsLaunching, deltaTime);
+    const BroAIBehavior::BroAIShootingData ShootingData = BroAIBehavior::ShootUpdate(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), data, getOrigin(), getHitbox(), m_IsLaunching, deltaTime);
 
     m_launchTickingTime = data.launchTickingTime;
     m_launchIntervalTicking = data.launchIntervalTicking;
@@ -197,7 +197,7 @@ void FireBro::Destroy() {
 }
 
 void FireBro::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));

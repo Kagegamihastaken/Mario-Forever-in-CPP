@@ -62,7 +62,7 @@ void GearLauncher::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Update before checking if outside screen
     m_timePass += deltaTime;
-    if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 0.f, 0.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;

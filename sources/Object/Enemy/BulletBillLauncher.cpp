@@ -49,7 +49,7 @@ void BulletBillLauncher::HitEvent() {}
 
 void BulletBillLauncher::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
-    if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 32.f, 32.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     bool shoot = false;
     BulletBillLauncherBehavior::BulletBillLauncherData data = BulletBillLauncherBehavior::BulletBillLauncherUpdate(BulletBillLauncherBehavior::BulletBillLauncherData(

@@ -45,7 +45,7 @@ void FireLauncherFlipped::HitEvent() {}
 
 void FireLauncherFlipped::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
-    if (isOutScreen(getCurrentPosition().x, getCurrentPosition().y, 0.f, 0.f)) return;
+    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     bool launch = false, sound = false;
     auto data = FireLauncherBehavior::FireLauncherStatusUpdate(FireLauncherBehavior::FireLauncherData(m_FireInterval, m_FireIntervalCounting, m_ProjectileCount, m_ProjectileCounting, m_FireBetweenInterval, m_FireBetweenIntervalCounting, m_playSound), launch, sound, deltaTime);

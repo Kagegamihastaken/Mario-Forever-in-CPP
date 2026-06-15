@@ -55,7 +55,7 @@ void ActiveMarioEffect() {
 }
 void MarioEffectDraw() {
 	if (EffectActive) {
-		if (!isOutScreen(playerPos.getInterpolatedPosition().x, playerPos.getInterpolatedPosition().y, 32, 32)) {
+		if (!isOutOfScreen(MFCPP::CollisionObject(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 32.f)) {
 			playerEffect.animationUpdate(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f));
 			playerEffect.animationDraw();
 		}
