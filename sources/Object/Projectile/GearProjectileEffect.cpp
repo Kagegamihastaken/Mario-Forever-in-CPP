@@ -45,7 +45,7 @@ void GearProjectileEffect::statusUpdate(float deltaTime) {
 void GearProjectileEffect::CollisionUpdate() {}
 
 void GearProjectileEffect::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
     m_animation.setColor(sf::Color(255.f, 255.f, 255.f, m_alpha));
     m_animation.setAnimationDirection(m_dir);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 0.f), getOrigin() - sf::Vector2f(0.f, 0.f));

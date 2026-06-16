@@ -111,25 +111,25 @@ void Mario::MarioOutSideScreen() {
 	float temp = 0;
 	const auto [fst, snd] = QuickCheckSideCollision(
 			MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), extendHitbox(m_hitboxWall, 1.f)), m_MarioDirection, temp, temp);
-	if (m_player.getCurrentPosition().x <= m_player.getOrigin().x + ViewX) {
+	if (m_player.getCurrentPosition().x <= m_player.getOrigin().x + Scroll::getViewPosition().x) {
 		if (!snd)
-			m_player.forceSetPosition({m_player.getOrigin().x + ViewX, m_player.getCurrentPosition().y});
+			m_player.forceSetPosition({m_player.getOrigin().x + Scroll::getViewPosition().x, m_player.getCurrentPosition().y});
 		//if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 		m_OutsideWallLeft = true;
 	}
 	else m_OutsideWallLeft = false;
 
 	if (!LevelCompleteEffect) {
-		if (m_player.getCurrentPosition().x > ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x) {
+		if (m_player.getCurrentPosition().x > Scroll::getViewPosition().x - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x) {
 			if (!fst)
-				m_player.forceSetPosition({ViewX - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x, m_player.getCurrentPosition().y});
+				m_player.forceSetPosition({Scroll::getViewPosition().x - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x, m_player.getCurrentPosition().y});
 			if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 			m_OutsideWallRight = true;
 		}
 		else m_OutsideWallRight = false;
 	}
 
-	if (isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), m_hitboxWall), 0.f))
+	if (Scroll::isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), m_hitboxWall), 0.f))
 		MarioEffectActivate();
 }
 //false: right, true: left
@@ -440,7 +440,7 @@ void Mario::Death() {
 	ExitGateEffectReset();
 }
 void Mario::CheckForDeath() {
-	if (isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {
+	if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {
 		m_CanControlMario = false;
 		ActiveMarioEffect();
 	}

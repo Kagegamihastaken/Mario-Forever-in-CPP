@@ -39,7 +39,7 @@ void BroHammer::statusUpdate(float deltaTime) {
     if (m_direction) setCurrentAngle(getCurrentAngle() - sf::degrees(5.f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(5.f * deltaTime));
     //Status
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }
@@ -58,7 +58,7 @@ void BroHammer::CollisionUpdate() {
 }
 
 void BroHammer::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 16.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 16.f)) return;
     m_animation.setAnimationDirection(m_direction);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
     m_animation.setRotation(getInterpolatedAngle());

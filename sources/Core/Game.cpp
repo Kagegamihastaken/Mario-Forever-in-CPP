@@ -15,11 +15,11 @@ SceneManager sceneManager;
 void GameObjectInit() {
     //Essential
     InitTempTex();
-    WindowFrame::WindowInit();
+    WindowFrame::Init();
     SoundInit();
     loadFontRes();
     MusicInit();
-    ViewInit();
+    Scroll::Init();
     //Scene
     sceneManager.addScene<GameScene>("Game");
     sceneManager.addScene<EditorScene>("Editor");
@@ -48,10 +48,10 @@ void GameObjectUpdateView() {
     sceneManager.setView();
 }
 void GameObjectMiscUpdate() {
-    WindowSetView();
+    Scroll::setWindowView();
     sceneManager.setView();
     WindowFrame::updateFrame();
-    updateView();
+    Scroll::updateView();
     UpdatePositionCharacter();
     sceneManager.HUDPositionUpdate();
 }

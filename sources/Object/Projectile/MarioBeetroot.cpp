@@ -57,9 +57,9 @@ void MarioBeetroot::interpolateData(const float alpha) {
 void MarioBeetroot::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Status
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
-        isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
-        isOutOfScreenXRight(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        Scroll::isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        Scroll::isOutOfScreenXRight(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }
@@ -137,7 +137,7 @@ void MarioBeetroot::CollisionUpdate() {
 }
 
 void MarioBeetroot::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
     m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));

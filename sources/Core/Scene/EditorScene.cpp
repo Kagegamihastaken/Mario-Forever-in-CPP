@@ -99,7 +99,7 @@ void EditorScene::postUpdate() {
 }
 void EditorScene::objectCleanup() {}
 void EditorScene::setView() {
-    view.setCenter({320.0f + EditorInterpolatedPos.x, 240.0f+ EditorInterpolatedPos.y});
+    Scroll::getView().setCenter({320.0f + EditorInterpolatedPos.x, 240.0f+ EditorInterpolatedPos.y});
 }
 
 

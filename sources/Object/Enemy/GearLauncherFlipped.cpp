@@ -62,7 +62,7 @@ void GearLauncherFlipped::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Update before checking if outside screen
     m_timePass += deltaTime;
-    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;
@@ -72,7 +72,7 @@ void GearLauncherFlipped::statusUpdate(float deltaTime) {
     }
 }
 void GearLauncherFlipped::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Blue));

@@ -628,7 +628,7 @@ void DrawTile() {
             if (i.getPage() != j) continue;
 
             const bool isTileTouch = TileX == i.getPosition().x && TileY == i.getPosition().y;
-            if (!isOutOfScreen(MFCPP::CollisionObject(i.getPosition(), i.getOrigin(), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 32)) {
+            if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(i.getPosition(), i.getOrigin(), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 32)) {
                 const unsigned int PageDiff = (CurrPage != i.getPage() ? 160 : 255);
                 if (i.getEndPos() != sf::Vector2f(-1.f, -1.f)) {
                     sf::VertexArray line(sf::PrimitiveType::Lines, 2);

@@ -157,7 +157,7 @@ sf::Vector2f WindowFrame::getGameSize() {
 	return GameSize;
 }
 
-void WindowFrame::WindowInit() {
+void WindowFrame::Init() {
 	LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);
 	timestep.setStep(1.0f / 500.0f);
@@ -176,15 +176,15 @@ void WindowFrame::GameSceneInit() {
 	TimeHUD.setTexture("TimeHUD");
 }
 void WindowFrame::FrameDraw() {
-	CoinHUD.animationUpdate(sf::Vector2f(236.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
+	CoinHUD.animationUpdate(sf::Vector2f(236.0f + Scroll::getViewPosition().x, 15.0f + Scroll::getViewPosition().y), sf::Vector2f(0.f, 0.f));
 	CoinHUD.animationDraw();
-	MarioHUD.animationUpdate(sf::Vector2f(35.0f + ViewX, 15.0f + ViewY), sf::Vector2f(0.f, 0.f));
+	MarioHUD.animationUpdate(sf::Vector2f(35.0f + Scroll::getViewPosition().x, 15.0f + Scroll::getViewPosition().y), sf::Vector2f(0.f, 0.f));
 	MarioHUD.animationDraw();
-	TimeHUD.animationUpdate(sf::Vector2f(513.f + ViewX, 15.f + ViewY), sf::Vector2f(0.f, 0.f));
+	TimeHUD.animationUpdate(sf::Vector2f(513.f + Scroll::getViewPosition().x, 15.f + Scroll::getViewPosition().y), sf::Vector2f(0.f, 0.f));
 	TimeHUD.animationDraw();
 }
 void WindowFrame::updateFrame() {
 	const sf::Vector2i mouse = sf::Mouse::getPosition(window);
-	MousePosition.x = (static_cast<float>(mouse.x) - ViewXOff / 2.0f) * (GameSize.x / (static_cast<float>(window.getSize().x) - ViewXOff));
-	MousePosition.y = (static_cast<float>(mouse.y) - ViewYOff / 2.0f) * (GameSize.y / (static_cast<float>(window.getSize().y) - ViewYOff));
+	MousePosition.x = (static_cast<float>(mouse.x) - Scroll::getViewPositionOff().x / 2.0f) * (GameSize.x / (static_cast<float>(window.getSize().x) - Scroll::getViewPositionOff().x));
+	MousePosition.y = (static_cast<float>(mouse.y) - Scroll::getViewPositionOff().y / 2.0f) * (GameSize.y / (static_cast<float>(window.getSize().y) - Scroll::getViewPositionOff().y));
 }

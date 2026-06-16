@@ -167,7 +167,7 @@ BroAIBehavior::BroAIShootingData BroAIBehavior::ShootUpdate(const GoombaAIBehavi
     if (shootData.launchTickingTime == 0.f) {
         shootData.launchIntervalTicking += deltaTime;
         if (shootData.launchIntervalTicking >= shootData.launchInterval) {
-            if (Utility::RandomIntNumberGenerator(0, static_cast<int>(shootData.launchRNG)) == 1 && !isOutOfScreen(MFCPP::CollisionObject(data.position, origin, hitbox), 0.f)) {
+            if (Utility::RandomIntNumberGenerator(0, static_cast<int>(shootData.launchRNG)) == 1 && !Scroll::isOutOfScreen(MFCPP::CollisionObject(data.position, origin, hitbox), 0.f)) {
                 shootData.launchTickingTime += deltaTime;
                 Output.willFire = true;
             }

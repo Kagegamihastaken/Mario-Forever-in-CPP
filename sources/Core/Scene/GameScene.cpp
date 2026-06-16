@@ -1,3 +1,5 @@
+#include <fmt/format.h>
+
 #include "Core/Scene/GameScene.hpp"
 #include "Block/Brick.hpp"
 #include "Block/BulletLauncher.hpp"
@@ -25,8 +27,6 @@
 #include "Object/Spike.hpp"
 #include "Text/Text.hpp"
 
-#include <fmt/format.h>
-
 #include "Block/CustomBlock.hpp"
 #include "Core/Level.hpp"
 #include "Core/Time.hpp"
@@ -40,7 +40,6 @@
 #include "Core/Tilemap.hpp"
 #include "Object/RotodiscAI.hpp"
 #include "Object/SceneryHelper.hpp"
-#include "Object/Projectile/FireLauncherProjectile.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -187,20 +186,15 @@ void GameScene::textUpdate() {
     EditText(fmt::format("FPS: {}", static_cast<int32_t>(std::round(WindowFrame::getFpsLite().getFps()))), "_FPS");
     if (WindowFrame::isDebug()) {
         EditText(std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
-        EditText(std::to_string(static_cast<int32_t>(ViewX)) + "/" + std::to_string(static_cast<int32_t>(ViewY)) + "  V", "_VIEWXY");
+        EditText(std::to_string(static_cast<int32_t>(Scroll::getViewPosition().x)) + "/" + std::to_string(static_cast<int32_t>(Scroll::getViewPosition().y)) + "  V", "_VIEWXY");
     }
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Mario::getScore()), "_SCORE");
     EditText(fmt::format("{}", getTime()), "_TIME");
 }
 void GameScene::setView() {
-    sf::Vector2f ScrollPos;
-    if (MFCPP::AutoScroll::getAutoScrollMode()) {
-        ScrollPos = MFCPP::AutoScroll::getPosition();
-    }
-    else
-        ScrollPos = Mario::getInterpolatedPosition();
-    view.setCenter({ std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x), LevelWidth - WindowFrame::getGameSize().x / 2.f), std::min(std::max(WindowFrame::getGameSize().y / 2.0f, ScrollPos.y), LevelHeight - WindowFrame::getGameSize().y / 2.f) });
+    const sf::Vector2f ScrollPos = (MFCPP::AutoScroll::getAutoScrollMode() ? MFCPP::AutoScroll::getPosition() : Mario::getInterpolatedPosition());
+    Scroll::getView().setCenter({ std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x), LevelWidth - WindowFrame::getGameSize().x / 2.f), std::min(std::max(WindowFrame::getGameSize().y / 2.0f, ScrollPos.y), LevelHeight - WindowFrame::getGameSize().y / 2.f) });
 }
 void GameScene::loadResources() {
     //Load Resources
@@ -247,10 +241,10 @@ void GameScene::loadResources() {
     }
     //Load Level
     //ReadData("data/levels/onedashthree.json");
-    ReadData("data/levels/twodashone.json");
+    //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled-2.json");
     //ReadData("data/levels/gearuptest.json");
-    //ReadData("data/levels/testlevel.json");
+    ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

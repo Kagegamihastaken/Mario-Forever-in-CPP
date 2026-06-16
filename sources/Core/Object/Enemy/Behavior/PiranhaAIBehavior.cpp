@@ -90,7 +90,7 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 			else {
 				dataOutput.state = false;
 				//Set back to normal
-				if (!isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 32.f))
+				if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 32.f))
 					dataOutput.fire_counting = dataOutput.fire_count;
 				dataOutput.pos -= sf::Vector2f(dataOutput.pos_temp * static_cast<float>(dir == PiranhaDirection::PIRANHA_RIGHT || dir == PiranhaDirection::PIRANHA_LEFT), dataOutput.pos_temp * static_cast<float>(dir == PiranhaDirection::PIRANHA_UP || dir == PiranhaDirection::PIRANHA_DOWN));
 				dataOutput.pos_temp = 0.f;
@@ -102,7 +102,7 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 	else {
 		if (dataOutput.stop_clock <= dataOutput.stop_time)
 			dataOutput.stop_clock += deltaTime;
-		if (dataOutput.stop_clock > dataOutput.stop_time && Utility::f_abs(Mario::getCurrentPosition().x - dataOutput.pos.x) > dataOutput.distance_appear && dataOutput.state && !isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 128.f)) dataOutput.stop = false;
+		if (dataOutput.stop_clock > dataOutput.stop_time && Utility::f_abs(Mario::getCurrentPosition().x - dataOutput.pos.x) > dataOutput.distance_appear && dataOutput.state && !Scroll::isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 128.f)) dataOutput.stop = false;
 		else if (dataOutput.stop_clock > dataOutput.stop_time && !dataOutput.state) dataOutput.stop = false;
 	}
 	return dataOutput;

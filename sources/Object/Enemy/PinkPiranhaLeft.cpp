@@ -61,7 +61,7 @@ void PinkPiranhaLeft::interpolateData(float alpha) {
 void PinkPiranhaLeft::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
+    if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
         if (isDisabled()) setDisabled(false);
 
     //Movement
@@ -100,7 +100,7 @@ void PinkPiranhaLeft::YUpdate(float deltaTime) {}
 void PinkPiranhaLeft::EnemyCollision() {}
 
 void PinkPiranhaLeft::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

@@ -60,7 +60,7 @@ void GreenPiranhaDown::interpolateData(float alpha) {
 void GreenPiranhaDown::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (!isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
+    if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
         if (isDisabled()) setDisabled(false);
 
     //Movement
@@ -90,7 +90,7 @@ void GreenPiranhaDown::YUpdate(float deltaTime) {}
 void GreenPiranhaDown::EnemyCollision() {}
 
 void GreenPiranhaDown::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

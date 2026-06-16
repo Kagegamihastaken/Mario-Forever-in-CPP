@@ -1,24 +1,30 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
-#include "Object/Mario.hpp"
-#include "Core/Level.hpp"
 #include "Editor/Editor.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Collision/Collide.hpp"
 
-bool MarioLockedView = false;
-sf::View view;
-float ViewX, ViewY;
-float ViewXOff, ViewYOff;
-float lastX = std::round(std::min(std::max(WindowFrame::getGameSize().x / 2.0f, Mario::getInterpolatedPosition().x), LevelWidth - WindowFrame::getGameSize().y / 2.f));
-sf::Vector2f ScrollPos(0.f, 0.f);
-sf::View getLetterboxView(sf::View view, const int windowWidth, const int windowHeight) {
-	const float windowRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
-	const float viewRatio = view.getSize().x / view.getSize().y;
-	float sizeX = 1;
-	float sizeY = 1;
-	float posX = 0;
-	float posY = 0;
+sf::View Scroll::View;
+sf::Vector2f Scroll::ViewPosition;
+sf::Vector2f Scroll::ViewPositionOff;
+
+sf::View &Scroll::getView() {
+	return View;
+}
+
+const sf::Vector2f &Scroll::getViewPosition() {
+	return ViewPosition;
+}
+
+const sf::Vector2f &Scroll::getViewPositionOff() {
+	return ViewPositionOff;
+}
+
+void Scroll::setLetterboxView(sf::View& viewVal, const sf::Vector2u& windowSize) {
+	const float windowRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
+	const float viewRatio = viewVal.getSize().x / viewVal.getSize().y;
+	sf::Vector2f size(1.f, 1.f);
+	sf::Vector2f pos(0.f, 0.f);
 
 	bool horizontalSpacing = true;
 	if (windowRatio < viewRatio)
@@ -28,59 +34,51 @@ sf::View getLetterboxView(sf::View view, const int windowWidth, const int window
 	// Otherwise, the black bars will appear on the top and bottom.
 
 	if (horizontalSpacing) {
-		sizeX = viewRatio / windowRatio;
-		posX = (1 - sizeX) / 2.f;
+		size.x = viewRatio / windowRatio;
+		pos.x = (1 - size.x) / 2.f;
 	}
 
 	else {
-		sizeY = windowRatio / viewRatio;
+		size.y = windowRatio / viewRatio;
 	}
-		posY = (1 - sizeY) / 2.f;
-	view.setViewport(sf::FloatRect({ posX, posY }, { sizeX, sizeY }));
-
-	return view;
+		pos.y = (1 - size.y) / 2.f;
+	viewVal.setViewport(sf::FloatRect(pos, size));
 }
-void ViewInit() {
-	view = sf::View(sf::FloatRect({ 0, 0 }, { WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}));
+void Scroll::Init() {
+	View = sf::View(sf::FloatRect({ 0, 0 }, { WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}));
 }
-void WindowSetView() {
-	view = getLetterboxView(view, WindowFrame::getWindow().getSize().x, WindowFrame::getWindow().getSize().y);
+void Scroll::setWindowView() {
+	setLetterboxView(View, WindowFrame::getWindow().getSize());
 }
-void moveView(const float x, const float y) {
-	view.setCenter({ view.getCenter().x + x, view.getCenter().y + y });
+void Scroll::moveView(const sf::Vector2f& pos) {
+	View.setCenter(View.getCenter() + pos);
 }
-void setRotate(int degree) {
-	//view.setRotation(sf::Angle(degree));
-}
-void updateView() {
+void Scroll::updateView() {
 	const float vx = WindowFrame::getWindow().getSize().x / WindowFrame::getGameSize().x;
 	const float vy = WindowFrame::getWindow().getSize().y / WindowFrame::getGameSize().y;
 	const float min = std::min(vx, vy);
-	ViewXOff = WindowFrame::getWindow().getSize().x - (WindowFrame::getGameSize().x * min);
-	ViewYOff = WindowFrame::getWindow().getSize().y - (WindowFrame::getGameSize().y * min);
-	ViewX = view.getCenter().x - WindowFrame::getGameSize().x / 2.0f;
-	ViewY = view.getCenter().y - WindowFrame::getGameSize().y / 2.0f;
-	WindowFrame::getWindow().setView(view);
+	ViewPositionOff.x = WindowFrame::getWindow().getSize().x - (WindowFrame::getGameSize().x * min);
+	ViewPositionOff.y = WindowFrame::getWindow().getSize().y - (WindowFrame::getGameSize().y * min);
+	ViewPosition.x = View.getCenter().x - WindowFrame::getGameSize().x / 2.0f;
+	ViewPosition.y = View.getCenter().y - WindowFrame::getGameSize().y / 2.0f;
+	WindowFrame::getWindow().setView(View);
 }
-static bool isPointOutOfScreen(const sf::Vector2f& pos, const float offset) {
-	return (pos.x < ViewX - offset || pos.x > ViewX + WindowFrame::getGameSize().x + offset || pos.y < ViewY - offset || pos.y > ViewY + WindowFrame::getGameSize().y + offset);
-}
-bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset) {
+bool Scroll::isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset) {
 	return !isCollide(
 		getGlobalHitbox(obj.GetLeftHitbox(), obj.GetPosition(), obj.GetOrigin()),
-		HitboxExtend(getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}), sf::Vector2f(ViewX, ViewY), sf::Vector2f(0.f, 0.f)), offset)
+		HitboxExtend(getGlobalHitbox(sf::FloatRect({0.f, 0.f}, {WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}), ViewPosition, sf::Vector2f(0.f, 0.f)), offset)
 		);
 	// return (obj.GetPosition().x < ViewX + Width + offset &&
 	// 	obj.GetPosition().x + obj.GetLeftHitbox().size.x > ViewX - offset &&
 	// 	obj.GetPosition().y < ViewY + Height + offset &&
 	// 	obj.GetPosition().y + obj.GetLeftHitbox().size.y > ViewY - offset);
 }
-bool isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, const float offset) {
-	return obj.GetPosition().y - obj.GetOrigin().y > ViewY + WindowFrame::getGameSize().y + offset;
+bool Scroll::isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, const float offset) {
+	return obj.GetPosition().y - obj.GetOrigin().y > ViewPosition.y + WindowFrame::getGameSize().y + offset;
 }
-bool isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset) {
-	return obj.GetPosition().x - obj.GetOrigin().x + obj.GetLeftHitbox().size.x < ViewX - offset;
+bool Scroll::isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset) {
+	return obj.GetPosition().x - obj.GetOrigin().x + obj.GetLeftHitbox().size.x < ViewPosition.x - offset;
 }
-bool isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset) {
-	return obj.GetPosition().x - obj.GetOrigin().x > ViewX + WindowFrame::getGameSize().x + offset;
+bool Scroll::isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset) {
+	return obj.GetPosition().x - obj.GetOrigin().x > ViewPosition.x + WindowFrame::getGameSize().x + offset;
 }

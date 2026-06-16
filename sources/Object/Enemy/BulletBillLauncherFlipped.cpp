@@ -49,7 +49,7 @@ void BulletBillLauncherFlipped::HitEvent() {}
 
 void BulletBillLauncherFlipped::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
-    if (isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     bool shoot = false;
     BulletBillLauncherBehavior::BulletBillLauncherData data = BulletBillLauncherBehavior::BulletBillLauncherUpdate(BulletBillLauncherBehavior::BulletBillLauncherData(
@@ -67,7 +67,7 @@ void BulletBillLauncherFlipped::statusUpdate(float deltaTime) {
     }
 }
 void BulletBillLauncherFlipped::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }

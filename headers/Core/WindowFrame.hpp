@@ -46,7 +46,7 @@ public:
     WindowFrame& operator=(const WindowFrame&) = delete;
     WindowFrame& operator=(WindowFrame&&) = delete;
 
-    static void WindowInit();
+    static void Init();
     static void GameSceneInit();
     static void FrameDraw();
     static void updateFrame();

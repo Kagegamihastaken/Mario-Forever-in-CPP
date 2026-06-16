@@ -44,9 +44,9 @@ void BroFireball::statusUpdate(float deltaTime) {
     if (m_direction) setCurrentAngle(getCurrentAngle() - sf::degrees(11.5f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(11.5f * deltaTime));
     //Status
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
-        isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
-        isOutOfScreenXRight(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        Scroll::isOutOfScreenXLeft(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f) ||
+        Scroll::isOutOfScreenXRight(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }
@@ -84,7 +84,7 @@ void BroFireball::CollisionUpdate() {
 }
 
 void BroFireball::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
     m_animation.setAnimationDirection(m_direction);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 7.f), getOrigin() - sf::Vector2f(0.f, 9.f));
     m_animation.setRotation(getInterpolatedAngle());

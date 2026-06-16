@@ -161,21 +161,21 @@ void ExitGateEffectReset() {
 	ExitGateForeRender = true;
 }
 void ExitGateDraw() {
-	if (!isOutOfScreen(MFCPP::CollisionObject(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin(), sf::FloatRect({0.f, 0.f}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT})), 0)) {
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin(), sf::FloatRect({0.f, 0.f}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT})), 0)) {
 		ExitGateIndicatorAnimation.animationUpdate(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin());
 		ExitGateIndicatorAnimation.animationDraw();
 	}
-	if (!isOutOfScreen(MFCPP::CollisionObject(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin(), sf::FloatRect({0.f, 0.f}, {95.f, 288.f})), 0)) {
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin(), sf::FloatRect({0.f, 0.f}, {95.f, 288.f})), 0)) {
 		ExitGateBackObject.animationUpdate(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin());
 		ExitGateBackObject.animationDraw();
 	}
-	if (!isOutOfScreen(MFCPP::CollisionObject(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin(), ExitGateFore.getHitbox()), 0)) {
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin(), ExitGateFore.getHitbox()), 0)) {
 		ExitGateForeObject.animationUpdate(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin());
 		ExitGateForeObject.animationDraw();
 	}
 }
 void ExitGateEffectDraw() {
-	if (!isOutOfScreen(MFCPP::CollisionObject(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin(), sf::FloatRect({0.f, 0.f}, {44.f, 16.f})), 48) && !ExitGateForeRender) {
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin(), sf::FloatRect({0.f, 0.f}, {44.f, 16.f})), 48) && !ExitGateForeRender) {
 		ExitGateForeEffectObject.setRotation(ExitGateForeEffect.getInterpolatedAngle());
 		ExitGateForeEffectObject.animationUpdate(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin());
 		ExitGateForeEffectObject.animationDraw();

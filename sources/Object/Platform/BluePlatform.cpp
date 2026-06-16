@@ -53,7 +53,7 @@ void BluePlatform::interpolateData(float alpha) {
 void BluePlatform::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 64) && m_willFall) {
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 64) && m_willFall) {
         Destroy();
         return;
     }
@@ -82,7 +82,7 @@ void BluePlatform::activate() {
 }
 
 void BluePlatform::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

@@ -256,8 +256,8 @@ void Objectbuilding() {
 	Mario::setDirection(Mario::getFirstDirection());
 	GameObjectUpdateView();
 
-	WindowSetView();
-	updateView();
+	Scroll::setWindowView();
+	Scroll::updateView();
 	//Delete Effects
 	GameScene::effectManager.DeleteAll();
 	//Delete Objects

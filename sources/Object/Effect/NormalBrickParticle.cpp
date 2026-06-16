@@ -31,7 +31,7 @@ void NormalBrickParticle::interpolateData(float alpha) {
 void NormalBrickParticle::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
         Destroy();
     move(m_velocity * deltaTime);
     if (m_velocity.x > 0.f) {
@@ -54,7 +54,7 @@ void NormalBrickParticle::Destroy() {
 
 void NormalBrickParticle::draw() {
     m_animation.setAnimationDirection(!m_direction);
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 16.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 16.f)) return;
     m_animation.setRotation(getInterpolatedAngle());
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());

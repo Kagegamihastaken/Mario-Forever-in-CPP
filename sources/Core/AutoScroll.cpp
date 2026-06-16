@@ -7,8 +7,8 @@
 
 sf::Vector2f MFCPP::AutoScroll::m_position = sf::Vector2f(0.f,0.f);
 sf::Vector2f MFCPP::AutoScroll::m_origin_pos = sf::Vector2f(0.f, 0.f);
-bool MFCPP::AutoScroll::m_autoScrollMode = false;
-bool MFCPP::AutoScroll::m_tankMode = false;
+bool MFCPP::AutoScroll::m_autoScrollMode = true;
+bool MFCPP::AutoScroll::m_tankMode = true;
 float MFCPP::AutoScroll::m_speed = 1.f;
 //Dont touch
 bool MFCPP::AutoScroll::m_tankAnimationStop = false;

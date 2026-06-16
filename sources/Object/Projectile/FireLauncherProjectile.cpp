@@ -51,7 +51,7 @@ void FireLauncherProjectile::statusUpdate(float deltaTime) {
     if (m_velocity.x < 0.f) setCurrentAngle(getCurrentAngle() - sf::degrees(45.f * deltaTime));
     else setCurrentAngle(getCurrentAngle() + sf::degrees(45.f * deltaTime));
     //Status
-    if (isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0.f)) {
         Destroy();
         return;
     }
@@ -72,7 +72,7 @@ void FireLauncherProjectile::CollisionUpdate() {
 }
 
 void FireLauncherProjectile::draw() {
-    if (isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 8.f)) return;
     m_animation.setAnimationDirection(m_velocity.x > 0.f);
     m_animation.animationUpdate(getInterpolatedPosition() - sf::Vector2f(0.f, 0.f), getOrigin() - sf::Vector2f(0.f, 0.f));
     m_animation.setRotation(getInterpolatedAngle());
