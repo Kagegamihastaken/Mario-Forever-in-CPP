@@ -169,7 +169,7 @@ void ExitGateDraw() {
 		ExitGateBackObject.animationUpdate(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin());
 		ExitGateBackObject.animationDraw();
 	}
-	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin(), ExitGateFore.getHitbox()), 0)) {
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin(), ExitGateFore.getHitbox()), 0) && ExitGateForeRender) {
 		ExitGateForeObject.animationUpdate(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin());
 		ExitGateForeObject.animationDraw();
 	}

@@ -62,11 +62,11 @@ void GearLauncherFlipped::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Update before checking if outside screen
     m_timePass += deltaTime;
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), -32.f)) return;
 
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;
-        GameScene::projectileManager.addProjectile<GearProjectile>(getCurrentPosition(), sf::Vector2f(static_cast<float>(Utility::RandomIntNumberGenerator(0, 2)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)), 4.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 1))));
+        GameScene::projectileManager.addProjectile<GearProjectile>(getCurrentPosition(), sf::Vector2f(Utility::RandomFloatNumberGenerator(0.f, 2.f) - Utility::RandomFloatNumberGenerator(0, 4), 4.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 1))));
         AddFireballExplosion(getCurrentPosition().x, getCurrentPosition().y);
         SoundManager::PlaySound("Chilun");
     }
