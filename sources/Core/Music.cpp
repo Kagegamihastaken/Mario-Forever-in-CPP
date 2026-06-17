@@ -3,6 +3,7 @@
 
 void MusicInit() {
 	MusicManager::AddMusic("night", "data/musics/night.ogg");
+	MusicManager::AddMusic("yky", "data/musics/yky.ogg");
 	MusicManager::AddMusic("underground", "data/musics/underground1.ogg");
 	MusicManager::AddMusic("apoplexy", "data/musics/apoplexy.ogg");
 	MusicManager::AddMusic("MarioDeath", "data/musics/1-Music-Die.ogg");

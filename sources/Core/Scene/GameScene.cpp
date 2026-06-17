@@ -183,7 +183,7 @@ void GameScene::HUDPositionUpdate() {
 }
 void GameScene::textUpdate() {
     EditText(fmt::format("{}", Mario::getLives()), "_LIVE");
-    EditText(fmt::format("FPS: {}", static_cast<int32_t>(std::round(WindowFrame::getFpsLite().getFps()))), "_FPS");
+    //EditText(fmt::format("FPS: {}", static_cast<int32_t>(std::round(WindowFrame::getFpsLite().getFps()))), "_FPS");
     if (WindowFrame::isDebug()) {
         EditText(std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
         EditText(std::to_string(static_cast<int32_t>(Scroll::getViewPosition().x)) + "/" + std::to_string(static_cast<int32_t>(Scroll::getViewPosition().y)) + "  V", "_VIEWXY");
@@ -232,18 +232,18 @@ void GameScene::loadResources() {
     AddText("_LIVE", "", TextMarginID::LEFT_MARGIN, 138.0f, 15.0f);
     AddText("_SCORE", "", TextMarginID::RIGHT_MARGIN, 138.0f, 34.0f);
     AddText("_TIME", "", TextMarginID::RIGHT_MARGIN, 562.0f, 35.0f);
-    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
+    //AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
     if (WindowFrame::isDebug()) {
         AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
         AddText("_VIEWXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 432.0f);
         AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    //ReadData("data/levels/onedashthree.json");
-    ReadData("data/levels/twodashone.json");
+    //ReadData("data/levels/onedashtwo.json");
+    //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled-2.json");
     //ReadData("data/levels/gearuptest.json");
-    //ReadData("data/levels/sevendashone.json");
+    ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

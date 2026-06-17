@@ -8,7 +8,6 @@ namespace MFCPP {
 	class SingleAnimationObject {
 		std::string m_lastAnim = "";
 		std::vector<SimpleSprite> m_Index;
-		std::vector<std::string> m_AnimName;
 		sf::Clock m_TimeRun;
 		uint32_t m_indexAnimation = 0;
 		uint32_t m_startingIndexAnimation = 0;

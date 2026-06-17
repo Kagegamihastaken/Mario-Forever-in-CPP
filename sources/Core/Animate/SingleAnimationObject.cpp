@@ -18,14 +18,11 @@ namespace MFCPP {
 	}
 	void SingleAnimationObject::addAnimationSequence(const std::string& aName) {
 		m_Index.emplace_back(ImageManager::GetReturnTexture(aName));
-		m_AnimName.emplace_back(aName);
 	}
 	void SingleAnimationObject::setAnimationSequence(const std::vector<std::string>& aName) {
 		m_Index.clear();
-		m_AnimName.clear();
 		for (const auto& str : aName) {
 			m_Index.emplace_back(ImageManager::GetReturnTexture(str));
-			m_AnimName.emplace_back(str);
 		}
 	}
 	void SingleAnimationObject::setRangeIndexAnimation(const uint32_t startingIndexAnimation, const uint32_t endingIndexAnimation, const uint8_t frequency) {
