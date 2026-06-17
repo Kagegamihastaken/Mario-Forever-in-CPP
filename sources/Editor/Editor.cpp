@@ -208,6 +208,16 @@ void SettingDialog() {
                     for (int i = 0; i < TimeSetting.getPropertyCount(); ++i) {
                         EditPropertyHelper(*TimeSetting.at(i));
                     }
+                    ImGui::SeparatorText("Environment");
+                    for (int i = 0; i < LevelEnvironment.getPropertyCount(); ++i) {
+                        EditPropertyHelper(*LevelEnvironment.at(i));
+                    }
+                }
+                if (ImGui::CollapsingHeader("Music")) {
+                    ImGui::SeparatorText("Music");
+                    for (int i = 0; i < LevelMusic.getPropertyCount(); ++i) {
+                        EditPropertyHelper(*LevelMusic.at(i));
+                    }
                 }
                 if (ImGui::CollapsingHeader("AutoScroll")) {
                     ImGui::SeparatorText("AutoScroll");
@@ -263,8 +273,8 @@ void FileSave(const std::filesystem::path& path) {
     levelJson["level_properties"]["autoscroll"] = AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val;
     levelJson["level_properties"]["tank_mode"] = AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val;
     levelJson["level_properties"]["autoscroll_speed"] = AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val;
-    //TODO: Add Custom Music
-    levelJson["level_properties"]["music"] = "DansLaRue";
+    levelJson["level_properties"]["env_id"] = LevelEnvironment.getProperty<IntProps>("Environment ID")->val;
+    levelJson["level_properties"]["music"] = LevelMusic.getProperty<StringProps>("Music Name")->val;
     levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
     levelJson["level_properties"]["background_second_color"] = BgColor.getProperty<ColorProps>("Second Background Color")->val;
 
@@ -331,6 +341,12 @@ void FileLoad(const std::filesystem::path& path) {
     AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val = levelJson["level_properties"].value("autoscroll", false);
     AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val = levelJson["level_properties"].value("tank_mode", false);
     AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val = levelJson["level_properties"].value("autoscroll_speed", 1.f);
+    LevelEnvironment.getProperty<IntProps>("Environment ID")->val = levelJson["level_properties"].value("env_id", 0);
+    //set value for music
+    const std::string val = levelJson["level_properties"].value("music", "default");
+    std::memset(LevelMusic.getProperty<StringProps>("Music Name")->val, 0, sizeof(LevelMusic.getProperty<StringProps>("Music Name")->val));
+    val.copy(LevelMusic.getProperty<StringProps>("Music Name")->val, sizeof(LevelMusic.getProperty<StringProps>("Music Name")->val) - 1);
+    LevelMusic.getProperty<StringProps>("Music Name")->val[val.length()] = '\0';
     PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
     ExitGateData = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384, 320));
     ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));

@@ -34,6 +34,20 @@ void SoundManager::UpdateSoundEnvironment(const std::string& name) {
 	}
 }
 
+void SoundManager::setEnvironmentID(uint8_t val) {
+	switch (val) {
+		case 0:
+			m_env = SoundEnvironment::OVERWORLD;
+			break;
+		case 1:
+			m_env = SoundEnvironment::UNDERGROUND;
+			break;
+		default:
+			m_env = SoundEnvironment::OVERWORLD;
+			break;
+	}
+}
+
 void SoundManager::SoundManagerInit() {
 	m_echo_filter.setParams(0.04f, 0.5f);
 	m_reverb_filter.setParams(0, 0.45f, 0.5f, 0.86f);

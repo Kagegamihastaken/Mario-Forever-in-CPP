@@ -30,6 +30,7 @@ public:
 	SoundManager& operator=(const SoundManager&) = delete;
 	SoundManager& operator=(SoundManager&&) = delete;
 
+	static void setEnvironmentID(uint8_t val);
 	static void SoundManagerInit();
 	static void AddSound(const std::string& name, const std::string& path, bool changeEnv);
 	[[nodiscard]] static SoLoud::Wav GetSound(const std::string &name);

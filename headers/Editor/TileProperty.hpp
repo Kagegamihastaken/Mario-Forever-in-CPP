@@ -10,9 +10,9 @@
 
 struct IntProps {
     std::string name;
-    int val;
-    int min;
-    int max;
+    int32_t val;
+    int32_t min;
+    int32_t max;
 };
 struct BoolProps {
     std::string name;

@@ -26,6 +26,7 @@
 #include "Object/Platform.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Game.hpp"
+#include "Core/SoundManager.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/SceneryHelper.hpp"
 #include "Object/Enemy/GearLauncher.hpp"
@@ -49,6 +50,7 @@ static sf::Vector2f PlayerData;
 static std::string MusicData;
 static MFCPP::Color BGFirstColor;
 static MFCPP::Color BGSecondColor;
+uint8_t LevelEnvironment = 0;
 //Autoscroll Data
 static bool AutoScrollMode, TankMode;
 static float AutoScrollSpeed = 0.f;
@@ -126,6 +128,7 @@ void ReadData(const std::filesystem::path& path) {
 	AutoScrollMode = levelJson["level_properties"].value("autoscroll", false);
 	AutoScrollSpeed = levelJson["level_properties"].value("autoscroll_speed", 1.f);
 	TankMode = levelJson["level_properties"].value("tank_mode", false);
+	LevelEnvironment = levelJson["level_properties"].value("env_id", 0);
 	setDefaultTime(levelJson["level_properties"].value("time", 360));
 	PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
 	ExitGate = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384.f, 320.f));
@@ -250,12 +253,14 @@ void ExitGateBuilding() {
 	ExitGateFore.setInterpolatedPosition(ExitGateFore.getCurrentPosition());
 }
 void Objectbuilding() {
-	std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; });
+	//std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; }); ?
+
 	//Music
 
-	// MusicManager::StopAllMusic();
-	// MusicManager::SetLoop(MusicData, true);
-	// MusicManager::PlayMusic(MusicData);
+	MusicManager::StopAllMusic();
+	MusicManager::SetLoop(MusicData, true);
+	MusicManager::PlayMusic(MusicData);
+	SoundManager::setEnvironmentID(LevelEnvironment);
 	MFCPP::AutoScroll::AutoScrollInit();
 	MFCPP::AutoScroll::resetPosition();
 
