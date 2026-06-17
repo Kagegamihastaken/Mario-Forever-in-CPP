@@ -10,6 +10,8 @@ namespace MFCPP {
         [[nodiscard]] static sf::Vector2f getPosition();
         static void setOriginPosition(const sf::Vector2f& pos);
         static void setAutoScrollMode(bool val);
+        static void setTankMode(bool val);
+        static void setAutoScrollSpeed(float val);
         [[nodiscard]] static bool getAutoScrollMode();
         [[nodiscard]] static float getSpeed();
         [[nodiscard]] static bool getTankMode();

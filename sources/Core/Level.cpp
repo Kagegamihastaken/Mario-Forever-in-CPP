@@ -49,6 +49,9 @@ static sf::Vector2f PlayerData;
 static std::string MusicData;
 static MFCPP::Color BGFirstColor;
 static MFCPP::Color BGSecondColor;
+//Autoscroll Data
+static bool AutoScrollMode, TankMode;
+static float AutoScrollSpeed = 0.f;
 //Texture Gate
 static std::set<std::string> ObstacleTexture;
 static std::set<BrickID> BricksTexture;
@@ -120,6 +123,9 @@ void ReadData(const std::filesystem::path& path) {
 	}
 	LevelWidth = levelJson["level_properties"].value("width", 10016.f);
 	LevelHeight = levelJson["level_properties"].value("height", 480.f);
+	AutoScrollMode = levelJson["level_properties"].value("autoscroll", false);
+	AutoScrollSpeed = levelJson["level_properties"].value("autoscroll_speed", 1.f);
+	TankMode = levelJson["level_properties"].value("tank_mode", false);
 	setDefaultTime(levelJson["level_properties"].value("time", 360));
 	PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
 	ExitGate = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384.f, 320.f));
@@ -182,7 +188,10 @@ void ReadData(const std::filesystem::path& path) {
 		}
 	}
 	setStartPosition(PlayerData + sf::Vector2f(0.f, 7.f));
-
+	//Build necessary things
+	MFCPP::AutoScroll::setAutoScrollSpeed(AutoScrollSpeed);
+	MFCPP::AutoScroll::setAutoScrollMode(AutoScrollMode);
+	MFCPP::AutoScroll::setTankMode(TankMode);
 	ObstaclesTextureBuild();
 	BricksTextureBuild();
 	LuckyBlockTextureBuild();
@@ -247,7 +256,7 @@ void Objectbuilding() {
 	// MusicManager::StopAllMusic();
 	// MusicManager::SetLoop(MusicData, true);
 	// MusicManager::PlayMusic(MusicData);
-
+	MFCPP::AutoScroll::AutoScrollInit();
 	MFCPP::AutoScroll::resetPosition();
 
 	Mario::setCurrentPosition(getStartPosition());

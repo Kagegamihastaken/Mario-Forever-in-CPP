@@ -198,15 +198,22 @@ void SettingDialog() {
                 AddBGPopup();
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("Level Size")) {
-                for (int i = 0; i < LevelSize.getPropertyCount(); ++i) {
-                    EditPropertyHelper(*LevelSize.at(i));
+            if (ImGui::BeginTabItem("Level Settings")) {
+                if (ImGui::CollapsingHeader("Level Data")) {
+                    ImGui::SeparatorText("Level Size");
+                    for (int i = 0; i < LevelSize.getPropertyCount(); ++i) {
+                        EditPropertyHelper(*LevelSize.at(i));
+                    }
+                    ImGui::SeparatorText("Time");
+                    for (int i = 0; i < TimeSetting.getPropertyCount(); ++i) {
+                        EditPropertyHelper(*TimeSetting.at(i));
+                    }
                 }
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("Time")) {
-                for (int i = 0; i < TimeSetting.getPropertyCount(); ++i) {
-                    EditPropertyHelper(*TimeSetting.at(i));
+                if (ImGui::CollapsingHeader("AutoScroll")) {
+                    ImGui::SeparatorText("AutoScroll");
+                    for (int i = 0; i < AutoScrollSetting.getPropertyCount(); ++i) {
+                        EditPropertyHelper(*AutoScrollSetting.at(i));
+                    }
                 }
                 ImGui::EndTabItem();
             }
@@ -253,6 +260,9 @@ void FileSave(const std::filesystem::path& path) {
     levelJson["level_properties"]["width"] = LevelSize.getProperty<FloatProps>("Level Width")->val;
     levelJson["level_properties"]["height"] = LevelSize.getProperty<FloatProps>("Level Height")->val;
     levelJson["level_properties"]["time"] = TimeSetting.getProperty<IntProps>("Time")->val;
+    levelJson["level_properties"]["autoscroll"] = AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val;
+    levelJson["level_properties"]["tank_mode"] = AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val;
+    levelJson["level_properties"]["autoscroll_speed"] = AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val;
     //TODO: Add Custom Music
     levelJson["level_properties"]["music"] = "DansLaRue";
     levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
@@ -318,6 +328,9 @@ void FileLoad(const std::filesystem::path& path) {
     LevelSize.getProperty<FloatProps>("Level Width")->val = levelJson["level_properties"].value("width", 10016.f);
     LevelSize.getProperty<FloatProps>("Level Height")->val = levelJson["level_properties"].value("height", 480.f);
     TimeSetting.getProperty<IntProps>("Time")->val = levelJson["level_properties"].value("time", 360);
+    AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val = levelJson["level_properties"].value("autoscroll", false);
+    AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val = levelJson["level_properties"].value("tank_mode", false);
+    AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val = levelJson["level_properties"].value("autoscroll_speed", 1.f);
     PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
     ExitGateData = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384, 320));
     ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));

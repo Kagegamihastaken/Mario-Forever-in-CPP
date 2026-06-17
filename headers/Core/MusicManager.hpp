@@ -3,7 +3,6 @@
 #ifndef MUSIC_MANAGER_HPP
 #define MUSIC_MANAGER_HPP
 
-#include "soloud_openmpt.h"
 #include "soloud_wav.h"
 
 struct PreMusic {

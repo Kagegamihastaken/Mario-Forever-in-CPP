@@ -7,8 +7,8 @@
 
 sf::Vector2f MFCPP::AutoScroll::m_position = sf::Vector2f(0.f,0.f);
 sf::Vector2f MFCPP::AutoScroll::m_origin_pos = sf::Vector2f(0.f, 0.f);
-bool MFCPP::AutoScroll::m_autoScrollMode = true;
-bool MFCPP::AutoScroll::m_tankMode = true;
+bool MFCPP::AutoScroll::m_autoScrollMode = false;
+bool MFCPP::AutoScroll::m_tankMode = false;
 float MFCPP::AutoScroll::m_speed = 1.f;
 //Dont touch
 bool MFCPP::AutoScroll::m_tankAnimationStop = false;
@@ -22,7 +22,7 @@ void MFCPP::AutoScroll::AutoScrollBuild() {
 }
 
 void MFCPP::AutoScroll::AutoScrollInit() {
-    if (m_tankMode) m_origin_pos.x = WindowFrame::getGameSize().x / 2.f;
+    m_origin_pos.x = (m_tankMode ? WindowFrame::getGameSize().x / 2.f : 0.f);
 }
 
 void MFCPP::AutoScroll::UpdateSpeed(float deltaTime) {
@@ -46,7 +46,7 @@ void MFCPP::AutoScroll::setOriginPosition(const sf::Vector2f &pos) {
     m_origin_pos = pos;
 }
 
-void MFCPP::AutoScroll::setAutoScrollMode(bool val) {
+void MFCPP::AutoScroll::setAutoScrollMode(const bool val) {
     m_autoScrollMode = val;
 }
 
@@ -64,4 +64,12 @@ bool MFCPP::AutoScroll::getTankMode() {
 
 bool MFCPP::AutoScroll::getTankAnimationStop() {
     return m_tankAnimationStop;
+}
+
+void MFCPP::AutoScroll::setAutoScrollSpeed(const float val) {
+    m_speed = val;
+}
+
+void MFCPP::AutoScroll::setTankMode(const bool val) {
+    m_tankMode = val;
 }

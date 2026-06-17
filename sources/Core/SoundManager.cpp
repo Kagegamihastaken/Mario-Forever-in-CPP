@@ -8,12 +8,19 @@
 #include "Core/Loading/PhysFsStream.hpp"
 
 std::map<std::string, std::unique_ptr<SoLoud::Wav>> SoundManager::m_sounds;
-std::map<std::string, std::string> SoundManager::m_queue;
+std::map<std::string, SoundManager::QueueData> SoundManager::m_queue;
+std::map<std::string, bool> SoundManager::m_changeEnv;
 SoLoud::EchoFilter SoundManager::m_echo_filter;
 SoLoud::FreeverbFilter SoundManager::m_reverb_filter;
-SoundEnvironment SoundManager::m_env = SoundEnvironment::OVERWORLD;
+SoundEnvironment SoundManager::m_env = SoundEnvironment::UNDERGROUND;
 
 void SoundManager::UpdateSoundEnvironment(const std::string& name) {
+	if (!m_changeEnv[name]) {
+		m_sounds[name]->setFilter(0, nullptr);
+		m_sounds[name]->setFilter(1, nullptr);
+		return;
+	}
+
 	switch (m_env) {
 		case SoundEnvironment::UNDERGROUND:
 			m_sounds[name]->setFilter(0, &m_echo_filter);
@@ -31,21 +38,20 @@ void SoundManager::SoundManagerInit() {
 	m_echo_filter.setParams(0.04f, 0.5f);
 	m_reverb_filter.setParams(0, 0.45f, 0.5f, 0.86f);
 }
-void SoundManager::AddSound(const std::string& name, const std::string& path) {
+void SoundManager::AddSound(const std::string& name, const std::string& path, const bool changeEnv) {
 	if (m_queue.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", name));
-	m_queue[name] = path;
+	m_queue[name].path = path;
+	m_queue[name].changeEnv = changeEnv;
 }
-void SoundManager::AddPlaySound(const std::string& name, const std::string& path, const float delay, const float decay) {
+void SoundManager::AddPlaySound(const std::string& name, const std::string& path, bool changeEnv) {
 	if (m_sounds.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", name));
 	auto wav = std::make_unique<SoLoud::Wav>();
 	PhysFsSoLoudStream file;
 	if (!file.open(path.c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path));
 	if (wav->loadFile(&file) != SoLoud::SO_NO_ERROR) throw std::runtime_error(fmt::format("SoundManager: Cannot load sound {}", path));
 	m_sounds[name] = std::move(wav);
+	m_changeEnv[name] = changeEnv;
 	UpdateSoundEnvironment(name);
-	//const std::vector<uint8_t> Data = GetFileDataInByte(path);
-	//m_sounds[name].loadMem(Data.data(), Data.size(), true);
-	//m_sounds[name].setSingleInstance(true);
 }
 SoLoud::Wav SoundManager::GetSound(const std::string &name) {
 	return *m_sounds[name];
@@ -74,12 +80,16 @@ void SoundManager::StopAllSound() {
 }
 void SoundManager::PlaySound(const std::string &name) {
 	if (!m_sounds.contains(name))
-		AddPlaySound(name, m_queue[name]);
+		AddPlaySound(name, m_queue[name].path, m_queue[name].changeEnv);
 		//throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", name));
 	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 80) return;
 	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 48) m_sounds[name]->stop();
 	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(*m_sounds[name]);
 	AudioEngine::getAudioEngine().setInaudibleBehavior(handle,false, false);
+	if (!m_changeEnv[name]) {
+		AudioEngine::getAudioEngine().setVolume(handle, 1.6f);
+		return;
+	}
 	switch (m_env) {
 		case SoundEnvironment::UNDERGROUND:
 			AudioEngine::getAudioEngine().setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
