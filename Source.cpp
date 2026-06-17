@@ -29,10 +29,10 @@ int WinMain() {
 		MFCPP::Log::InfoPrint("Current build in Release Mode");
 #endif
 		MFCPP::Log::InfoPrint(fmt::format("Version: {}", PROJECT_VERSION));
-		AudioEngineInit();
+		AudioEngine::Init();
 		SoundManager::SoundManagerInit();
 		IOInit();
-		GameObjectInit();
+		Game::Init();
 		if (!ImGui::SFML::Init(WindowFrame::getWindow())) throw std::runtime_error("Cannot Load ImGui");
 		sf::Clock deltaClock;
 		MusicManager::ForceLoadMusic("MarioDeath");
@@ -43,7 +43,7 @@ int WinMain() {
 		// test.setTexture(ImageManager::GetReturnTexture("TempTexImage"), true);
 		// test.setTextureRect(sf::IntRect({16, 16}, {32, 32}));
 
-		AudioEnginePlay();
+		AudioEngine::SoundManagerParamsInit();
 		while (WindowFrame::getWindow().isOpen()) {
 			while (const std::optional event = WindowFrame::getWindow().pollEvent()) {
 				ImGui::SFML::ProcessEvent(WindowFrame::getWindow(), *event);
@@ -70,31 +70,31 @@ int WinMain() {
 					}
 					*/
 				}
-				GameObjectRetrieveEvent(event);
+				Game::RetrieveEvent(event);
 			}
 			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
 			ImageManager::ClearAllVertex();
-			GameObjectEditText();
+			Game::EditText();
 			WindowFrame::getFpsLite().update();
 			WindowFrame::getTimestep().addFrame();
 			while (WindowFrame::getTimestep().isUpdateRequired()) {
-				GameObjectSetPrev();
-				GameObjectDeltaMovement(WindowFrame::getTimestep().getStepAsFloat() * 50);
-				GameObjectCollision();
+				Game::SetPrev();
+				Game::DeltaMovement(WindowFrame::getTimestep().getStepAsFloat() * 50);
+				Game::Collision();
 				// test.setPosition(Mario::getCurrentPosition());
 				Mario::InvincibleStateUpdate();
 			}
 			if (isInterpolation) alpha = WindowFrame::getTimestep().getInterpolationAlphaAsFloat();
 			else alpha = 1.0f;
-			GameObjectInterpolateMovement(alpha);
+			Game::InterpolateMovement(alpha);
 			//ImGui::ShowDemoWindow();
-			GameObjectMiscUpdate();
-			GameCleanUp();
+			Game::MiscUpdate();
+			Game::Cleanup();
 
 			ImGui::SFML::Update(WindowFrame::getWindow(), deltaClock.restart());
 			//draw
 			WindowFrame::getWindow().clear(sf::Color::Black);
-			GameObjectDraw();
+			Game::Draw();
 			ImGui::SFML::Render(WindowFrame::getWindow());
 			// window.draw(test);
 			WindowFrame::getWindow().display();
@@ -106,7 +106,7 @@ int WinMain() {
 		std::exit(EXIT_FAILURE);
 	}
 	IODeinit();
-	AudioEngineDeInit();
+	AudioEngine::DeInit();
 	SoundManager::CleanUp();
 	ImageManager::Cleanup();
 	MusicManager::CleanUp();

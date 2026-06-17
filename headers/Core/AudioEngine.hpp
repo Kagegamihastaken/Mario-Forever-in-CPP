@@ -1,10 +1,21 @@
-#ifndef SOLOUDINIT_HPP
-#define SOLOUDINIT_HPP
+#ifndef AUDIOENGINE_HPP
+#define AUDIOENGINE_HPP
 
 #include "soloud.h"
 
-extern SoLoud::Soloud audio_engine;
-extern void AudioEngineInit();
-extern void AudioEngineDeInit();
-extern void AudioEnginePlay();
-#endif //SOLOUDINIT_HPP
+class AudioEngine {
+public:
+    AudioEngine() = delete;
+    AudioEngine(const AudioEngine&) = delete;
+    AudioEngine(AudioEngine&&) = delete;
+    AudioEngine& operator=(const AudioEngine&) = delete;
+    AudioEngine& operator=(AudioEngine&&) = delete;
+
+    [[nodiscard]] static SoLoud::Soloud& getAudioEngine();
+    static void Init();
+    static void DeInit();
+    static void SoundManagerParamsInit();
+private:
+    static SoLoud::Soloud audioEngine;
+};
+#endif //AUDIOENGINE_HPP

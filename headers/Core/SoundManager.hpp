@@ -19,6 +19,11 @@ class SoundManager {
 	static void UpdateSoundEnvironment(const std::string& name);
 public:
 	SoundManager() = delete;
+	SoundManager(const SoundManager&) = delete;
+	SoundManager(SoundManager&&) = delete;
+	SoundManager& operator=(const SoundManager&) = delete;
+	SoundManager& operator=(SoundManager&&) = delete;
+
 	static void SoundManagerInit();
 	static void AddSound(const std::string& name, const std::string& path);
 	[[nodiscard]] static SoLoud::Wav GetSound(const std::string &name);

@@ -48,13 +48,13 @@ void MusicManager::SetLoop(const std::string &name, const bool loop) {
 }
 void MusicManager::StopMusic(const std::string &name) {
 	if (!m_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	audio_engine.stopAudioSource(*m_musics[name]);
+	AudioEngine::getAudioEngine().stopAudioSource(*m_musics[name]);
 	m_musics_handle.erase(name);
 }
 void MusicManager::StopAllMusic() {
 	std::set<std::string> keys;
 	for (const auto &fst: m_musics | std::views::keys) {
-		audio_engine.stopAudioSource(*m_musics[fst]);
+		AudioEngine::getAudioEngine().stopAudioSource(*m_musics[fst]);
 		keys.insert(fst);
 	}
 	for (const auto &i : keys) {
@@ -65,21 +65,21 @@ void MusicManager::PlayMusic(const std::string &name) {
 	if (!m_musics.contains(name))
 		AddPlayMusic(name, m_pre_musics[name].path);
 		//throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	const SoLoud::handle handle = audio_engine.play(*m_musics[name]);
-	audio_engine.setProtectVoice(handle, true);
-	audio_engine.setLooping(handle, m_pre_musics[name].isLoop);
-	audio_engine.setVolume(handle, m_pre_musics[name].volume);
-	if (audio_engine.isValidVoiceHandle(handle))
+	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(*m_musics[name]);
+	AudioEngine::getAudioEngine().setProtectVoice(handle, true);
+	AudioEngine::getAudioEngine().setLooping(handle, m_pre_musics[name].isLoop);
+	AudioEngine::getAudioEngine().setVolume(handle, m_pre_musics[name].volume);
+	if (AudioEngine::getAudioEngine().isValidVoiceHandle(handle))
 		m_musics_handle[name] = handle;
 }
 void MusicManager::PauseMusic(const std::string &name) {
 	if (!m_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
 
-	if (!audio_engine.isValidVoiceHandle(m_musics_handle[name])) {
+	if (!AudioEngine::getAudioEngine().isValidVoiceHandle(m_musics_handle[name])) {
 		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", name));
 		return;
 	}
-	audio_engine.setPause(m_musics_handle[name], !audio_engine.getPause(m_musics_handle[name]));
+	AudioEngine::getAudioEngine().setPause(m_musics_handle[name], !AudioEngine::getAudioEngine().getPause(m_musics_handle[name]));
 }
 void MusicManager::CleanUp() {
 	MFCPP::Log::InfoPrint("MusicManager cleanup...");
@@ -92,18 +92,18 @@ void MusicManager::SetMusicVolume(const std::string &name, const float volume) {
 }
 bool MusicManager::IsMusicPlaying(const std::string &name) {
 	if (!m_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	return audio_engine.isValidVoiceHandle(m_musics_handle[name]);
+	return AudioEngine::getAudioEngine().isValidVoiceHandle(m_musics_handle[name]);
 }
 bool MusicManager::IsMusicStopped(const std::string &name) {
 	if (!m_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	return !audio_engine.isValidVoiceHandle(m_musics_handle[name]);
+	return !AudioEngine::getAudioEngine().isValidVoiceHandle(m_musics_handle[name]);
 }
 bool MusicManager::IsMusicPaused(const std::string &name) {
 	if (!m_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
 
-	if (!audio_engine.isValidVoiceHandle(m_musics_handle[name])) {
+	if (!AudioEngine::getAudioEngine().isValidVoiceHandle(m_musics_handle[name])) {
 		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", name));
 		return false;
 	}
-	return audio_engine.getPause(m_musics_handle[name]);
+	return AudioEngine::getAudioEngine().getPause(m_musics_handle[name]);
 }

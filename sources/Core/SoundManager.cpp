@@ -76,17 +76,17 @@ void SoundManager::PlaySound(const std::string &name) {
 	if (!m_sounds.contains(name))
 		AddPlaySound(name, m_queue[name]);
 		//throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", name));
-	if (audio_engine.getActiveVoiceCount() > 80) return;
-	if (audio_engine.getActiveVoiceCount() > 48) m_sounds[name]->stop();
-	const SoLoud::handle handle = audio_engine.play(*m_sounds[name]);
-	audio_engine.setInaudibleBehavior(handle,false, false);
+	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 80) return;
+	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 48) m_sounds[name]->stop();
+	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(*m_sounds[name]);
+	AudioEngine::getAudioEngine().setInaudibleBehavior(handle,false, false);
 	switch (m_env) {
 		case SoundEnvironment::UNDERGROUND:
-			audio_engine.setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
-			audio_engine.setVolume(handle, 0.8f);
+			AudioEngine::getAudioEngine().setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
+			AudioEngine::getAudioEngine().setVolume(handle, 0.8f);
 			break;
 		case SoundEnvironment::OVERWORLD:
-			audio_engine.setVolume(handle, 1.6f);
+			AudioEngine::getAudioEngine().setVolume(handle, 1.6f);
 			break;
 		default: ;
 	}

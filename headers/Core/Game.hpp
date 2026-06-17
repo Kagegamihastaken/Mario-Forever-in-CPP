@@ -1,16 +1,28 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+#include "SceneManager.hpp"
 
-extern void GameObjectInit();
-extern void GameObjectEditText();
-extern void GameObjectSetPrev();
-extern void GameObjectDeltaMovement(float dt);
-extern void GameObjectInterpolateMovement(float alpha);
-extern void GameObjectCollision();
-extern void GameObjectMiscUpdate();
-extern void GameObjectDraw();
-extern void GameObjectRetrieveEvent(const std::optional<sf::Event>& event);
-extern void GameCleanUp();
-extern void GameObjectUpdateView();
+class Game {
+public:
+    Game() = delete;
+    Game(const Game&) = delete;
+    Game(Game&&) = delete;
+    Game& operator=(const Game&) = delete;
+    Game& operator=(Game&&) = delete;
+
+    static void Init();
+    static void EditText();
+    static void SetPrev();
+    static void DeltaMovement(float dt);
+    static void InterpolateMovement(float alpha);
+    static void Collision();
+    static void MiscUpdate();
+    static void Draw();
+    static void RetrieveEvent(const std::optional<sf::Event>& event);
+    static void Cleanup();
+    static void UpdateView();
+private:
+    static SceneManager sceneManager;
+};
 
 #endif //GAME_HPP

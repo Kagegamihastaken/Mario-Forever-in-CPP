@@ -1,18 +1,25 @@
-#include "Core/AudioEngine.hpp"
 #include <stdexcept>
+#include "Core/AudioEngine.hpp"
+
+#include "Core/Logging.hpp"
 #include "Core/SoundManager.hpp"
-SoLoud::Soloud audio_engine;
-void AudioEngineInit() {
-    if (audio_engine.init() != 0) throw std::runtime_error("AudioEngine: Failed to Init");
-    audio_engine.setMaxActiveVoiceCount(85);
+SoLoud::Soloud AudioEngine::audioEngine;
+void AudioEngine::Init() {
+    if (audioEngine.init() != 0) throw std::runtime_error("AudioEngine: Failed to Init");
+    MFCPP::Log::InfoPrint("AudioEngine Successfully Initialized.");
+    audioEngine.setMaxActiveVoiceCount(85);
 }
-void AudioEnginePlay() {
+void AudioEngine::SoundManagerParamsInit() {
     //SoundManager
     //SoundManager::getBuffer().
     SoundManager::SoundManagerInit();
     //audio_engine.setVolume(i, 1.5f);
-
 }
-void AudioEngineDeInit() {
-    audio_engine.deinit();
+void AudioEngine::DeInit() {
+    audioEngine.deinit();
+    MFCPP::Log::InfoPrint("AudioEngine Deinitialized...");
+}
+
+SoLoud::Soloud &AudioEngine::getAudioEngine() {
+    return audioEngine;
 }

@@ -21,6 +21,11 @@ private:
 	static bool CheckValidWavType(const std::string_view& str);
 public:
 	MusicManager() = delete;
+	MusicManager(const MusicManager&) = delete;
+	MusicManager(MusicManager&&) = delete;
+	MusicManager& operator=(const MusicManager&) = delete;
+	MusicManager& operator=(MusicManager&&) = delete;
+
 	static void ForceLoadMusic(const std::string& name);
 	static void AddMusic(const std::string &name, const std::filesystem::path &path);
 	static void AddPlayMusic(const std::string &name, const std::filesystem::path &path);

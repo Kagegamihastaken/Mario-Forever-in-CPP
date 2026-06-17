@@ -6,13 +6,12 @@
 #include "Text/Text.hpp"
 #include "Editor/Editor.hpp"
 #include "Core/Game.hpp"
-#include "Core/SceneManager.hpp"
 #include "Core/Scene/EditorScene.hpp"
 #include "Core/Scene/GameScene.hpp"
 
-SceneManager sceneManager;
+SceneManager Game::sceneManager;
 
-void GameObjectInit() {
+void Game::Init() {
     //Essential
     InitTempTex();
     WindowFrame::Init();
@@ -25,29 +24,29 @@ void GameObjectInit() {
     sceneManager.addScene<EditorScene>("Editor");
     sceneManager.changeScene("Game");
 }
-void GameObjectEditText() {
+void Game::EditText() {
     sceneManager.textUpdate();
 }
-void GameObjectSetPrev() {
+void Game::SetPrev() {
     sceneManager.setPreviousPosition();
 }
-void GameObjectDeltaMovement(const float dt) {
+void Game::DeltaMovement(const float dt) {
     sceneManager.update(dt);
 }
-void GameObjectRetrieveEvent(const std::optional<sf::Event>& event) {
+void Game::RetrieveEvent(const std::optional<sf::Event>& event) {
     WindowFrame::Window::WindowEventUpdate(event);
     sceneManager.handleInput(event);
 }
-void GameObjectInterpolateMovement(const float alpha) {
+void Game::InterpolateMovement(const float alpha) {
     sceneManager.interpolatePosition(alpha);
 }
-void GameObjectCollision() {
+void Game::Collision() {
     sceneManager.postUpdate();
 }
-void GameObjectUpdateView() {
+void Game::UpdateView() {
     sceneManager.setView();
 }
-void GameObjectMiscUpdate() {
+void Game::MiscUpdate() {
     Scroll::setWindowView();
     sceneManager.setView();
     WindowFrame::updateFrame();
@@ -55,9 +54,9 @@ void GameObjectMiscUpdate() {
     UpdatePositionCharacter();
     sceneManager.HUDPositionUpdate();
 }
-void GameObjectDraw() {
+void Game::Draw() {
     sceneManager.draw(WindowFrame::getWindow());
 }
-void GameCleanUp() {
+void Game::Cleanup() {
     sceneManager.objectCleanup();
 }
