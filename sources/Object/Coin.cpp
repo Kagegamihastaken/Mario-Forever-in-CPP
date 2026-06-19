@@ -10,6 +10,7 @@
 #include "Effect/ScoreEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Core/ImageManager.hpp"
+#include "Core/Logging.hpp"
 #include "Core/Tilemap.hpp"
 
 plf::colony<MFCPP::Coin> CoinList;
@@ -36,9 +37,11 @@ void DeleteIndexCoin(const plf::colony<MFCPP::Coin>::colony_iterator<false>& ind
 	CoinDeleteGate = true;
 }
 void ForceLoadCoinTexture() {
-	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i)
-		if (!ImageManager::isExist(fmt::format("Coin_{}", i)))
+	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i) {
+		if (ImageManager::isExist(fmt::format("Coin_{}", i))) {
 			ImageManager::LoadTexture(fmt::format("Coin_{}", i));
+		}
+	}
 }
 void DeleteCoin(const float x, const float y) {
 	for (auto it = CoinList.begin(); it != CoinList.end(); ++it)
