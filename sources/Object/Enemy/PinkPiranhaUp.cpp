@@ -100,7 +100,10 @@ void PinkPiranhaUp::YUpdate(float deltaTime) {}
 void PinkPiranhaUp::EnemyCollision() {}
 
 void PinkPiranhaUp::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+        m_animation.frameUpdate();
+        return;
+    }
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();

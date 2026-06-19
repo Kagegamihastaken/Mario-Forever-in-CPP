@@ -81,6 +81,7 @@ void RedRotodiscFlower::draw() {
             m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
             m_animation.animationDraw();
         }
+        else m_animation.frameUpdate();
         setDrawingPriority(1);
     }
 }

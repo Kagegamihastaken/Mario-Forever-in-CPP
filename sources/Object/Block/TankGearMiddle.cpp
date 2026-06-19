@@ -38,7 +38,10 @@ void TankGearMiddle::statusUpdate(float deltaTime) {
         m_animation.setFrequencyAnimation(0);
 }
 void TankGearMiddle::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+        m_animation.frameUpdate();
+        return;
+    }
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }
