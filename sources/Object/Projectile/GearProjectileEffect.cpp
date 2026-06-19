@@ -61,3 +61,5 @@ void GearProjectileEffect::Destroy() {
 void GearProjectileEffect::LevelEndCleanup() {
     Destroy();
 }
+
+void GearProjectileEffect::animationUpdate(float deltaTime) {}

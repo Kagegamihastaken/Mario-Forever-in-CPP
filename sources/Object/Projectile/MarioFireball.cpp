@@ -135,3 +135,5 @@ void MarioFireball::LevelEndCleanup() {
     AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }
+
+void MarioFireball::animationUpdate(float deltaTime) {}

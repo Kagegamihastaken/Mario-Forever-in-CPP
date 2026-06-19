@@ -1,5 +1,6 @@
 #include "Core/Checkpoint.hpp"
 
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/Class/CheckpointClass.hpp"
 #include "Core/ExternalHeaders/plf_colony.h"
@@ -21,14 +22,16 @@ void CheckpointInit() {
         ImageManager::AddTexture(fmt::format("Checkpoint_{}", i), "data/resources/Checkpoint.png", sf::IntRect({ CHECKPOINT_WIDTH * i, 0}, {CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT}));
         CheckpointAnimName.emplace_back(fmt::format("Checkpoint_{}", i));
     }
+    MFCPP::AnimationSequenceManager::addData("CheckpointAnimName", CheckpointAnimName);
 }
 void AddCheckpoint(const sf::Vector2f& pos) {
     auto it = CheckpointList.emplace(sf::FloatRect({0.f, 0.f}, {CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT}), pos, sf::Vector2f(45.f, 112.f));
-    it->setAnimationSequence(CheckpointAnimName);
+    it->setAnimationSequence("CheckpointAnimName");
     it->setAnimation(0, 0, 10, true);
 }
-void CheckpointAnimationUpdate() {
+void CheckpointAnimationUpdate(float deltaTime) {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
+        it->frameTimeAccumulate(deltaTime);
         if (it->getLastState() == it->getTouch()) continue;
 
         if (!it->getTouch()) it->setRangeIndexAnimation(0, 0, 10);

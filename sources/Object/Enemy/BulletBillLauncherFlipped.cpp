@@ -72,3 +72,5 @@ void BulletBillLauncherFlipped::draw() {
     m_animation.animationDraw();
 }
 
+void BulletBillLauncherFlipped::animationUpdate(float deltaTime) {}
+

@@ -61,4 +61,10 @@ void ProjectileManager::ProjectileCleanup() {
     setDeletionFlag(false);
 }
 
+void ProjectileManager::animationUpdate(float deltaTime) const {
+    for (const auto &i : m_projectile) {
+        if (i) i->animationUpdate(deltaTime);
+    }
+}
+
 

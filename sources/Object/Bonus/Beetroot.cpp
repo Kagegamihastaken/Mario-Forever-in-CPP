@@ -17,7 +17,7 @@ Beetroot::Beetroot(EnemyManager &manager, const sf::Vector2f& position) : Enemy(
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimation(0, 3, 8);
-    m_animation.setAnimationSequence(BeetrootAnimName);
+    m_animation.setAnimationSequence("BeetrootAnimName");
     setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 32.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     setOrigin(sf::Vector2f(16.f, 31.f));
@@ -105,4 +105,8 @@ void Beetroot::draw() {
 void Beetroot::Death(unsigned int state) {}
 bool Beetroot::isDeath() {
     return true; // Means no collision
+}
+
+void Beetroot::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

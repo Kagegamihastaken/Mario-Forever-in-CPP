@@ -55,6 +55,7 @@ public:
     void EnemyCleanup();
     void DeleteAll();
     void DrawPriority(int index) const;
+    void animationUpdate(float deltaTime) const;
 private:
     // For EnemyType Only
     EnemyIntrusiveList m_GoombaAI;

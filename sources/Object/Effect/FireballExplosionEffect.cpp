@@ -11,7 +11,7 @@ FireballExplosionEffect::FireballExplosionEffect(EffectManager &manager, const s
     setCurrentPosition(position);
     setPreviousPosition(position);
     setInterpolatedPosition(position);
-    m_animation.setAnimationSequence(FireballExplosionAnimName);
+    m_animation.setAnimationSequence("FireballExplosionAnimName");
     m_animation.setAnimation(0, 2, 24, false);
     setOrigin(sf::Vector2f(16.f, 15.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {33.f, 30.f}));
@@ -51,4 +51,8 @@ void FireballExplosionEffect::draw() {
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
+}
+
+void FireballExplosionEffect::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

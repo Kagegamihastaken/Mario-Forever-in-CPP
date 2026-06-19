@@ -45,3 +45,9 @@ void SceneryManager::draw() const {
         if (i) i->draw();
     }
 }
+
+void SceneryManager::animationUpdate(float deltaTime) const {
+    for (const auto &i : m_scenery) {
+        if (i) i->animationUpdate(deltaTime);
+    }
+}

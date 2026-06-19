@@ -9,8 +9,6 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Object/GoombaAI.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Object/Mario.hpp"
 
 GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isShell) : Enemy(manager) {
@@ -27,7 +25,7 @@ GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool
         setOrigin(sf::Vector2f(16.f, 46.f));
         m_velocity = sf::Vector2f(1.f, 0.f);
         m_animation.setAnimation(0, 1, 11, true);
-        m_animation.setAnimationSequence(GreenKoopaAnimName);
+        m_animation.setAnimationSequence("GreenKoopaAnimName");
         m_state = 0;
     }
     else {
@@ -35,7 +33,7 @@ GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
         setOrigin(sf::Vector2f(16,27));
         m_velocity = sf::Vector2f(0.f, 0.f);
-        m_animation.setAnimationSequence(GreenKoopaShellAnimName);
+        m_animation.setAnimationSequence("GreenKoopaShellAnimName");
         m_animation.setAnimation(3,3,100, true);
         m_state = 1;
     }
@@ -184,7 +182,7 @@ void GreenKoopa::ChangeState() {
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
-            m_animation.setAnimationSequence(GreenKoopaShellAnimName);
+            m_animation.setAnimationSequence("GreenKoopaShellAnimName");
             m_animation.setAnimation(3,3,100, true);
             setCollideEachOther(true);
             m_velocity.x = 0.f;
@@ -198,7 +196,7 @@ void GreenKoopa::ChangeState() {
             setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
-            m_animation.setAnimationSequence(GreenKoopaShellAnimName);
+            m_animation.setAnimationSequence("GreenKoopaShellAnimName");
             m_animation.setAnimation(0,3,54, true);
             setCollideEachOther(false);
             m_velocity.x = 5.f;
@@ -214,7 +212,7 @@ void GreenKoopa::ChangeState() {
             setOrigin(sf::Vector2f(16,27));
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_hit_count = 0;
-            m_animation.setAnimationSequence(GreenKoopaDeathEffect);
+            m_animation.setAnimationSequence("GreenKoopaDeathEffect");
             m_animation.setAnimation(0,0,100, true);
             setCollideEachOther(false);
             setShellBlocker(false);
@@ -237,4 +235,8 @@ void GreenKoopa::ShellHit() {
 
 bool GreenKoopa::isDeath() {
     return m_state == 3;
+}
+
+void GreenKoopa::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

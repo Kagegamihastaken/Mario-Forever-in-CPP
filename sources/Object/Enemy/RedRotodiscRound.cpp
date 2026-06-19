@@ -17,7 +17,7 @@ RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &po
     setInterpolatedPosition(getCurrentPosition());
     m_position_center = getCurrentPosition();
     m_animation.setAnimation(0, 25, 100, true);
-    m_animation.setAnimationSequence(RotodiscAnimName);
+    m_animation.setAnimationSequence("RotodiscAnimName");
     m_animation_base.setTexture("RotodiscBase");
     setHitbox(sf::FloatRect({0.f, 0.f}, {34.f, 32.f}));
     setOrigin(sf::Vector2f(17.f, 16.f));
@@ -94,4 +94,8 @@ void RedRotodiscRound::Death(unsigned int state) {
 }
 bool RedRotodiscRound::isDeath() {
     return true;
+}
+
+void RedRotodiscRound::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

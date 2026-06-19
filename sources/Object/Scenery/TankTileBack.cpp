@@ -25,3 +25,5 @@ void TankTileBack::draw() {
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }
+
+void TankTileBack::animationUpdate(float deltaTime) {}

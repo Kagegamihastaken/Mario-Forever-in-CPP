@@ -12,10 +12,9 @@ struct PreMusic {
 };
 
 class MusicManager {
-private:
-	static std::map<std::string, std::unique_ptr<SoLoud::AudioSource>> m_musics;
-	static std::map<std::string, SoLoud::handle> m_musics_handle;
-	static std::map<std::string, PreMusic> m_pre_musics;
+	static std::unordered_map<std::string, std::unique_ptr<SoLoud::AudioSource>> m_musics;
+	static std::unordered_map<std::string, SoLoud::handle> m_musics_handle;
+	static std::unordered_map<std::string, PreMusic> m_pre_musics;
 
 	static bool CheckValidWavType(const std::string_view& str);
 public:

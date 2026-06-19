@@ -1,14 +1,16 @@
 #include "Object/BroAI.hpp"
+
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/ExternalHeaders/plf_colony.h"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/FireBro.hpp"
 #include "Object/Enemy/HammerBro.hpp"
 
-std::vector<std::string> HammerBroAnimName;
-std::vector<std::string> HammerBroLaunchAnimName;
-std::vector<std::string> FireBroAnimName;
-std::vector<std::string> FireBroLaunchAnimName;
+static std::vector<std::string> HammerBroAnimName;
+static std::vector<std::string> HammerBroLaunchAnimName;
+static std::vector<std::string> FireBroAnimName;
+static std::vector<std::string> FireBroLaunchAnimName;
 static constexpr int HAMMER_BRO_IMAGE_WIDTH = 96;
 static constexpr int HAMMER_BRO_WIDTH = 48;
 static constexpr int HAMMER_BRO_HEIGHT = 64;
@@ -25,6 +27,10 @@ void BroAILoadRes() {
         ImageManager::AddTexture(fmt::format("FireBroLaunch_{}", i), "data/resources/Bro/FireBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
         FireBroLaunchAnimName.push_back(fmt::format("FireBroLaunch_{}", i));
     }
+    MFCPP::AnimationSequenceManager::addData("HammerBroAnimName", HammerBroAnimName);
+    MFCPP::AnimationSequenceManager::addData("FireBroAnimName", FireBroAnimName);
+    MFCPP::AnimationSequenceManager::addData("HammerBroLaunchAnimName", HammerBroLaunchAnimName);
+    MFCPP::AnimationSequenceManager::addData("FireBroLaunchAnimName", FireBroLaunchAnimName);
 }
 void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const float x, const float y) {
     switch (type) {

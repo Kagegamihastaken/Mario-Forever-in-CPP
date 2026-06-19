@@ -114,3 +114,5 @@ void BulletBill::Death(unsigned int state) {
 bool BulletBill::isDeath() {
     return true;
 }
+
+void BulletBill::animationUpdate(float deltaTime) {}

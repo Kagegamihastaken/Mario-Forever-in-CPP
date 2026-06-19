@@ -35,6 +35,7 @@ public:
 	static void InvincibleStateUpdate();
 	static void MarioUpdateHitbox();
 	static void MarioOutSideScreen();
+	static void MarioAnimationUpdate(float deltaTime);
 	//get & set function
 	static void setXvelocity(float val);
 	static void setYvelocity(float val);

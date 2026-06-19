@@ -9,7 +9,6 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Object/GoombaAI.hpp"
 #include "Object/Mario.hpp"
 
 FireFlower::FireFlower(EnemyManager &manager, const sf::Vector2f& position) : Enemy(manager) {
@@ -17,7 +16,7 @@ FireFlower::FireFlower(EnemyManager &manager, const sf::Vector2f& position) : En
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
     m_animation.setAnimation(0, 3, 27, true);
-    m_animation.setAnimationSequence(FireFlowerAnimName);
+    m_animation.setAnimationSequence("FireFlowerAnimName");
     setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 32.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     setOrigin(sf::Vector2f(16.f, 31.f));
@@ -105,4 +104,8 @@ void FireFlower::draw() {
 void FireFlower::Death(unsigned int state) {}
 bool FireFlower::isDeath() {
     return true; // Means no collision
+}
+
+void FireFlower::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

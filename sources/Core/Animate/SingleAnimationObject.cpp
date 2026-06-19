@@ -1,5 +1,7 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
+
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Loading/enum.hpp"
 
@@ -9,21 +11,13 @@ namespace MFCPP {
 		m_indexAnimation = startingIndexAnimation;
 		m_endingIndexAnimation = endingIndexAnimation;
 		m_frequency = frequency;
-		m_TimeRun.restart();
 		m_TimeRan = 0.0f;
-		m_TimeRemainSave = 0.0f;
 		m_loop = loop;
 		m_direction = AnimationDirection::ANIM_RIGHT;
 		m_color = sf::Color(255, 255, 255);
 	}
-	void SingleAnimationObject::addAnimationSequence(const std::string& aName) {
-		m_Index.emplace_back(ImageManager::GetReturnTexture(aName));
-	}
-	void SingleAnimationObject::setAnimationSequence(const std::vector<std::string>& aName) {
-		m_Index.clear();
-		for (const auto& str : aName) {
-			m_Index.emplace_back(ImageManager::GetReturnTexture(str));
-		}
+	void SingleAnimationObject::setAnimationSequence(std::string_view aName) {
+		m_sequenceName = aName;
 	}
 	void SingleAnimationObject::setRangeIndexAnimation(const uint32_t startingIndexAnimation, const uint32_t endingIndexAnimation, const uint8_t frequency) {
 		if (m_startingIndexAnimation != startingIndexAnimation || m_endingIndexAnimation != endingIndexAnimation) {
@@ -31,16 +25,12 @@ namespace MFCPP {
 			m_endingIndexAnimation = endingIndexAnimation;
 			m_frequency = frequency;
 			m_indexAnimation = startingIndexAnimation;
-			m_TimeRun.restart();
 			m_TimeRan = 0.0f;
-			m_TimeRemainSave = 0.0f;
 			m_color = sf::Color(255, 255, 255);
 		}
 		else {
 			m_frequency = frequency;
-			m_TimeRun.restart();
 			m_TimeRan = 0.0f;
-			m_TimeRemainSave = 0.0f;
 		}
 	}
 
@@ -59,37 +49,41 @@ namespace MFCPP {
 	void SingleAnimationObject::setFrequencyAnimation(const uint32_t frequency) {
 		m_frequency = frequency;
 	}
+
+	void SingleAnimationObject::frameTimeAccumulate(float deltaTime) {
+		m_TimeRan += deltaTime;
+	}
 	void SingleAnimationObject::frameUpdate() {
-		m_TimeRan = m_TimeRemainSave + static_cast<float>(m_TimeRun.getElapsedTime().asMicroseconds()) / 1000.0f;
 		if (m_frequency != 0) {
-			if (const float FrameTime = 2000.0f / static_cast<float>(m_frequency) / static_cast<float>(WindowFrame::getTimestep().getTimeSpeed());
-				m_TimeRan >= FrameTime) {
+			if (const float FrameTime = 100.0f / static_cast<float>(m_frequency); m_TimeRan >= FrameTime) {
 				const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
 				if (m_indexAnimation - m_startingIndexAnimation + FrameCount >= m_endingIndexAnimation - m_startingIndexAnimation + 1 && !m_reached_the_end) m_reached_the_end = true;
 				if (m_loop)
 					m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
 				else
 					m_indexAnimation = m_startingIndexAnimation + std::min((m_indexAnimation - m_startingIndexAnimation + FrameCount),(m_endingIndexAnimation - m_startingIndexAnimation));
-				m_TimeRemainSave = m_TimeRan - static_cast<float>(FrameCount) * FrameTime;
-				m_TimeRun.restart();
-				}
+
+				m_TimeRan -= static_cast<float>(FrameCount) * FrameTime;
+			}
 		}
 	}
 	void SingleAnimationObject::animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
 		frameUpdate();
-		const sf::IntRect rect = m_Index[m_indexAnimation].getTextureRect();
-		m_Index[m_indexAnimation].setRotation(m_angle);
-		m_Index[m_indexAnimation].setPosition(pos);
-		m_Index[m_indexAnimation].setOrigin(origin);
-		m_Index[m_indexAnimation].setColor(m_color);
+		SimpleSprite& index = ImageManager::getSpritePreCompute(AnimationSequenceManager::getData(m_sequenceName)[m_indexAnimation]);
+		const sf::IntRect rect = index.getTextureRect();
+		index.setRotation(m_angle);
+		index.setPosition(pos);
+		index.setOrigin(origin);
+		index.setColor(m_color);
 		if (m_direction == AnimationDirection::ANIM_RIGHT)
-			m_Index[m_indexAnimation].setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
+			index.setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
 		else
-			m_Index[m_indexAnimation].setTextureRect(sf::IntRect({std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
+			index.setTextureRect(sf::IntRect({std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
 	}
 	void SingleAnimationObject::animationDraw() const {
+		SimpleSprite& index = ImageManager::getSpritePreCompute(AnimationSequenceManager::getData(m_sequenceName)[m_indexAnimation]);
 		//ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
-		WindowFrame::getWindow().draw(m_Index[m_indexAnimation]);
+		WindowFrame::getWindow().draw(index);
 	}
 	void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
 		m_direction = dir;

@@ -14,6 +14,7 @@ namespace MFCPP {
         virtual void setPreviousData() = 0;
         virtual void interpolateData(float alpha) = 0;
         virtual void draw() = 0;
+        virtual void animationUpdate(float deltaTime) = 0;
     protected:
         SceneryManager& m_manager;
     };

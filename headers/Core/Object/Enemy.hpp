@@ -24,6 +24,7 @@ namespace MFCPP {
         virtual void BlockHit() = 0;
         virtual void ShellHit() = 0;
         virtual void draw() = 0;
+        virtual void animationUpdate(float deltaTime) = 0;
         [[nodiscard]] virtual bool isDeath() = 0;
 
         void setDirection(const bool dir) { m_option[0] = dir; }

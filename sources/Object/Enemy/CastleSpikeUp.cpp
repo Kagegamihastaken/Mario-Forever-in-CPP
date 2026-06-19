@@ -79,3 +79,5 @@ void CastleSpikeUp::ShellHit() {}
 bool CastleSpikeUp::isDeath() {
     return false;
 }
+
+void CastleSpikeUp::animationUpdate(float deltaTime) {}

@@ -13,6 +13,7 @@ public:
     void HitEvent() override;
     void KickEvent() override;
     void draw() override;
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::SingleAnimationObject m_animation;
 };

@@ -8,7 +8,6 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Object/Mario.hpp"
-#include "Object/RotodiscAI.hpp"
 
 RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed, float speed_x_change, float angle) : Enemy(manager) {
     setCurrentPosition(RotodiscAIBehavior::RotodiscPositionAdjust(position, arrange_mode));
@@ -16,7 +15,7 @@ RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &
     setInterpolatedPosition(getCurrentPosition());
     m_position_center = getCurrentPosition();
     m_animation.setAnimation(0, 25, 100, true);
-    m_animation.setAnimationSequence(RotodiscAnimName);
+    m_animation.setAnimationSequence("RotodiscAnimName");
     m_animation_base.setTexture("RotodiscBase");
     setHitbox(sf::FloatRect({0.f, 0.f}, {34.f, 32.f}));
     setOrigin(sf::Vector2f(17.f, 16.f));
@@ -96,4 +95,8 @@ void RedRotodiscFlower::Death(unsigned int state) {
 }
 bool RedRotodiscFlower::isDeath() {
     return true;
+}
+
+void RedRotodiscFlower::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

@@ -64,3 +64,5 @@ void FireLauncherFlipped::draw() {
     m_animation.animationDraw();
 }
 
+void FireLauncherFlipped::animationUpdate(float deltaTime) {}
+

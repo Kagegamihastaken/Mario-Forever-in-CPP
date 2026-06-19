@@ -30,6 +30,7 @@ public:
     void draw() const;
     void DeleteAll();
     void SceneryCleanup();
+    void animationUpdate(float deltaTime) const;
 private:
     SceneryIntrusiveList m_generic_scenery;
     bool m_SceneryDeletionFlag = false;

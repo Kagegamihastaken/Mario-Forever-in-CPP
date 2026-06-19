@@ -82,3 +82,5 @@ void TankGround::draw() {
     m_animation.animationDraw();
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
+
+void TankGround::animationUpdate(float deltaTime) {}

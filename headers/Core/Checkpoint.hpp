@@ -3,7 +3,7 @@
 
 extern void CheckpointInit();
 extern void AddCheckpoint(const sf::Vector2f& pos);
-extern void CheckpointAnimationUpdate();
+extern void CheckpointAnimationUpdate(float deltaTime);
 extern void CheckpointCollision();
 extern void CheckpointDraw();
 extern void setStartPosition(const sf::Vector2f& pos);

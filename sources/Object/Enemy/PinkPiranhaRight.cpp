@@ -17,7 +17,7 @@ PinkPiranhaRight::PinkPiranhaRight(EnemyManager &manager, const sf::Vector2f &po
     setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_RIGHT, position));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
-    m_animation.setAnimationSequence(PinkPiranhaRightAnimName);
+    m_animation.setAnimationSequence("PinkPiranhaRightAnimName");
     m_animation.setAnimation(0, 1, 24, true);
     setHitbox(sf::FloatRect({ 17.f, 17.f }, { 47.f, 31.f }));
     setOrigin(sf::Vector2f(63.f, 32.f));
@@ -119,4 +119,8 @@ void PinkPiranhaRight::BlockHit() {}
 void PinkPiranhaRight::ShellHit() {}
 bool PinkPiranhaRight::isDeath() {
     return isDestroyed();
+}
+
+void PinkPiranhaRight::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

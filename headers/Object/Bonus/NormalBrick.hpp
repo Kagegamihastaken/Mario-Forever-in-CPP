@@ -15,6 +15,7 @@ public:
     void HitEvent() override;
     void KickEvent() override;
     void draw() override;
+    void animationUpdate(float deltaTime) override;
 private:
     void Break();
     MFCPP::StaticAnimationObject m_animation;

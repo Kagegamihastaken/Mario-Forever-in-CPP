@@ -10,14 +10,13 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
 
 PinkPiranhaDown::PinkPiranhaDown(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
     setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_DOWN, position));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
-    m_animation.setAnimationSequence(PinkPiranhaDownAnimName);
+    m_animation.setAnimationSequence("PinkPiranhaDownAnimName");
     m_animation.setAnimation(0, 1, 24, true);
     setHitbox(sf::FloatRect({16.f, 0.f}, {31.f, 47.f}));
     setOrigin(sf::Vector2f(32.f, 0.f));
@@ -119,4 +118,8 @@ void PinkPiranhaDown::BlockHit() {}
 void PinkPiranhaDown::ShellHit() {}
 bool PinkPiranhaDown::isDeath() {
     return isDestroyed();
+}
+
+void PinkPiranhaDown::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

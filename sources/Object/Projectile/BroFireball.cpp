@@ -101,3 +101,5 @@ void BroFireball::LevelEndCleanup() {
     AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }
+
+void BroFireball::animationUpdate(float deltaTime) {}

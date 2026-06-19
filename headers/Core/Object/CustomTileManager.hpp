@@ -36,6 +36,7 @@ public:
     void interpolateData(float alpha) const;
     void statusUpdate(float deltaTime) const;
     void setCollision(const sf::Vector2f& pos, bool val);
+    void animationUpdate(float deltaTime) const;
     void updateCollision();
     void HitEvent() const;
     void CustomTileCleanup();

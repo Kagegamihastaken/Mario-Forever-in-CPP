@@ -59,3 +59,5 @@ void Score1UPEffect::draw() {
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }
+
+void Score1UPEffect::animationUpdate(float deltaTime) {}

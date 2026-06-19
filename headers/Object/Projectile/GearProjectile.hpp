@@ -16,6 +16,7 @@ public:
     void LevelEndCleanup() override;
     void Destroy();
     void draw() override;
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::StaticAnimationObject m_animation;
     sf::Vector2f m_velocity;

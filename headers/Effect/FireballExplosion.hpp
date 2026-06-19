@@ -4,7 +4,6 @@
 extern void FireballExplosionInit();
 extern void AddFireballExplosion(float x, float y);
 
-extern std::vector<std::string> FireballExplosionAnimName;
 static constexpr int FIREBALLEXPLOSION_IMAGE_WIDTH = 99;
 static constexpr int FIREBALLEXPLOSION_WIDTH = 33;
 static constexpr int FIREBALLEXPLOSION_HEIGHT = 30;

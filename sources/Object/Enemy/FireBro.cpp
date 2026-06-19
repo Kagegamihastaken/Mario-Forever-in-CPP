@@ -9,7 +9,6 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/BroAI.hpp"
@@ -21,7 +20,7 @@ FireBro::FireBro(EnemyManager &manager, const sf::Vector2f &position) : Enemy(ma
     setPreviousPosition(position);
     setInterpolatedPosition(position);
     m_animation.setAnimation(0, 1, 14, true);
-    m_animation.setAnimationSequence(FireBroAnimName);
+    m_animation.setAnimationSequence("FireBroAnimName");
     setHitbox(sf::FloatRect({7.f, 16.f}, {32.f, 48.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     setOrigin(sf::Vector2f(24.f, 63.f));
@@ -134,9 +133,9 @@ void FireBro::statusUpdate(float deltaTime) {
 
 void FireBro::AnimationUpdate(const bool val) {
     if (val)
-        m_animation.setAnimationSequence(FireBroLaunchAnimName);
+        m_animation.setAnimationSequence("FireBroLaunchAnimName");
     else
-        m_animation.setAnimationSequence(FireBroAnimName);
+        m_animation.setAnimationSequence("FireBroAnimName");
 }
 
 void FireBro::XUpdate(const float deltaTime) {
@@ -179,7 +178,7 @@ void FireBro::BlockHit() {
 void FireBro::Death(unsigned int state) {
     m_state = state;
     m_velocity = sf::Vector2f(0.f, 0.f);
-    m_animation.setAnimationSequence(FireBroDeath);
+    m_animation.setAnimationSequence("FireBroDeath");
     m_animation.setAnimation(0, 0, 100, true);
     setShellKicking(false);
     setShellBlocker(false);
@@ -208,4 +207,8 @@ bool FireBro::isDeath() {
 void FireBro::ShellHit() {
     if (m_state != 0) return;
     Death(1);
+}
+
+void FireBro::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

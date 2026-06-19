@@ -4,31 +4,29 @@
 
 namespace MFCPP {
     void StaticAnimationObject::setTexture(const std::string& name, bool anim_flip) {
-        m_index.setTexture(ImageManager::GetReturnTexture(name), true);
         m_anim_flip = anim_flip;
         m_name = name;
     }
     void StaticAnimationObject::animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
-        const sf::IntRect rect = m_index.getTextureRect();
-        m_index.setPosition(pos);
-        m_index.setOrigin(origin);
+        const sf::IntRect rect = ImageManager::getSpritePreCompute(m_name).getTextureRect();
+        ImageManager::getSpritePreCompute(m_name).setPosition(pos);
+        ImageManager::getSpritePreCompute(m_name).setOrigin(origin);
         if (!m_anim_flip)
-            m_index.setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
+            ImageManager::getSpritePreCompute(m_name).setTextureRect(sf::IntRect({0, rect.position.y}, {std::abs(rect.size.x), rect.size.y}));
         else
-            m_index.setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
+            ImageManager::getSpritePreCompute(m_name).setTextureRect(sf::IntRect({1 * std::abs(rect.size.x), rect.position.y}, {-std::abs(rect.size.x), rect.size.y}));
     }
     void StaticAnimationObject::setColor(const sf::Color& color) {
-        m_index.setColor(color);
+        ImageManager::getSpritePreCompute(m_name).setColor(color);
     }
     void StaticAnimationObject::setRotation(const sf::Angle angle) {
-        m_index.setRotation(angle);
+        ImageManager::getSpritePreCompute(m_name).setRotation(angle);
     }
     void StaticAnimationObject::animationDraw() const {
-        //ImageManager::AddToVertex(m_name, m_index.getTextureRect(), m_index.getTransform(), m_index.getColor());
-        WindowFrame::getWindow().draw(m_index);
+        WindowFrame::getWindow().draw(ImageManager::getSpritePreCompute(m_name));
     }
     sf::Angle StaticAnimationObject::getRotation() const {
-        return m_index.getRotation();
+        return ImageManager::getSpritePreCompute(m_name).getRotation();
     }
     void StaticAnimationObject::setAnimationDirection(const bool val) {
         m_anim_flip = val;

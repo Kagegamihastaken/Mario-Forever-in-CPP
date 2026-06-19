@@ -27,13 +27,13 @@ void AddBg(const std::string& name, const sf::Vector2f& parallax) {
 	BgList.emplace_back();
 	BgList.back()[0].texCoords = sf::Vector2f(0, 0);
 	BgList.back()[1].texCoords = sf::Vector2f(LevelWidth, 0);
-	BgList.back()[2].texCoords = sf::Vector2f(0, static_cast<float>(ImageManager::GetReturnTexture(name)->getSize().y));
-	BgList.back()[3].texCoords = sf::Vector2f(LevelWidth, static_cast<float>(ImageManager::GetReturnTexture(name)->getSize().y));
+	BgList.back()[2].texCoords = sf::Vector2f(0, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
+	BgList.back()[3].texCoords = sf::Vector2f(LevelWidth, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
 
 	BgList.back()[0].position = sf::Vector2f(0, 0);
 	BgList.back()[1].position = sf::Vector2f(LevelWidth, 0);
-	BgList.back()[2].position = sf::Vector2f(0, static_cast<float>(ImageManager::GetReturnTexture(name)->getSize().y));
-	BgList.back()[3].position = sf::Vector2f(LevelWidth, static_cast<float>(ImageManager::GetReturnTexture(name)->getSize().y));
+	BgList.back()[2].position = sf::Vector2f(0, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
+	BgList.back()[3].position = sf::Vector2f(LevelWidth, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
 	const sf::Vector2f parNormalize(parallax.x > 1.f ? 1.f : parallax.x, parallax.y > 1.f ? 1.f : parallax.y);
 	BgParallaxList.push_back(parNormalize);
 }
@@ -50,8 +50,8 @@ void BgUpdatePos() {
 		//BgList[i][3].position = sf::Vector2f(ViewX + view.getSize().x, ViewY + view.getSize().y);
 		BgList[i][0].position = sf::Vector2f(Scroll::getViewPosition().x * (1.f - BgParallaxList[i].x), Scroll::getViewPosition().y * (1.f - BgParallaxList[i].y));
 		BgList[i][1].position = sf::Vector2f(Scroll::getViewPosition().x * (1.f - BgParallaxList[i].x) + LevelWidth, Scroll::getViewPosition().y * (1.f - BgParallaxList[i].y));
-		BgList[i][2].position = sf::Vector2f(Scroll::getViewPosition().x * (1.f - BgParallaxList[i].x), Scroll::getViewPosition().y * (1.f - BgParallaxList[i].y) + static_cast<float>(ImageManager::GetReturnTexture(BgTextureNameList[i])->getSize().y));
-		BgList[i][3].position = sf::Vector2f(Scroll::getViewPosition().x * (1.f - BgParallaxList[i].x) + LevelWidth, Scroll::getViewPosition().y * (1.f - BgParallaxList[i].y) + static_cast<float>(ImageManager::GetReturnTexture(BgTextureNameList[i])->getSize().y));
+		BgList[i][2].position = sf::Vector2f(Scroll::getViewPosition().x * (1.f - BgParallaxList[i].x), Scroll::getViewPosition().y * (1.f - BgParallaxList[i].y) + static_cast<float>(ImageManager::getReturnTexture(BgTextureNameList[i])->getSize().y));
+		BgList[i][3].position = sf::Vector2f(Scroll::getViewPosition().x * (1.f - BgParallaxList[i].x) + LevelWidth, Scroll::getViewPosition().y * (1.f - BgParallaxList[i].y) + static_cast<float>(ImageManager::getReturnTexture(BgTextureNameList[i])->getSize().y));
 	}
 }
 void DeleteAllBg() {
@@ -62,6 +62,6 @@ void DeleteAllBg() {
 void BgDraw() {
 	for (int i = 0; i < BgList.size(); ++i) {
 		buffer.update(BgList[i].data());
-		WindowFrame::getWindow().draw(buffer, &ImageManager::GetTexture(BgTextureNameList[i]));
+		WindowFrame::getWindow().draw(buffer, &ImageManager::getTexture(BgTextureNameList[i]));
 	}
 }

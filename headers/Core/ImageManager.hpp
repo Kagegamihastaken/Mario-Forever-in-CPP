@@ -4,6 +4,10 @@
 #define TEXTURE_MANAGER_HPP
 #include <queue>
 
+namespace MFCPP {
+	class SimpleSprite;
+}
+
 extern sf::Texture tempTex;
 extern void InitTempTex();
 struct PreTexture {
@@ -14,25 +18,23 @@ struct PreTexture {
 class ImageManager {
 	static std::unordered_map<std::string, std::unique_ptr<sf::Texture>> m_textures;
 	static std::unordered_map<std::string, PreTexture> m_pre_textures;
-	static std::unordered_map<std::string, sf::VertexArray> m_vertex_array;
-	//Drawing only
-	static std::unordered_set<std::string> m_vertex_set;
-	static std::queue<std::string> m_vertex_queue;
-	static size_t draw_count;
+	static std::unordered_map<std::string, MFCPP::SimpleSprite> m_pre_compute_render;
 public:
 	ImageManager() = delete;
-	static void ClearAllVertex();
-	static void AddToVertex(const std::string& name_tex, const sf::IntRect& texRect, const sf::Transform& trans, const sf::Color &color);
-	static void DrawAllVertex();
-	static void AddTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect = {}, const bool &isRepeated = false);
-	static void PreloadTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect, const bool &isRepeated = false);
-	static void LoadTexture(const std::string &name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect = {}, const bool &isRepeated = false);
-	static void LoadTexture(const std::string& name_tex);
-	static sf::Texture& GetTexture(const std::string &name);
-	static sf::Texture* GetReturnTexture(const std::string& name);
-	static bool isExist(const std::string& name_tex);
+	ImageManager(const ImageManager&) = delete;
+	ImageManager(ImageManager&&) = delete;
+	ImageManager& operator=(const ImageManager&) = delete;
+	ImageManager& operator=(ImageManager&&) = delete;
+
+	static void AddTexture(std::string_view name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect = {}, const bool &isRepeated = false);
+	static void PreloadTexture(std::string_view name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect, const bool &isRepeated = false);
+	static void LoadTexture(std::string_view name_tex, const std::filesystem::path &path, const sf::IntRect &tex_rect = {}, const bool &isRepeated = false);
+	static void LoadTexture(std::string_view name_tex);
+	static sf::Texture& getTexture(std::string_view name);
+	static sf::Texture* getReturnTexture(std::string_view name);
+	static bool isExist(std::string_view name_tex);
+	static MFCPP::SimpleSprite& getSpritePreCompute(std::string_view name);
 	static void Cleanup();
-	static void printDrawCount();
 };
 
 #endif

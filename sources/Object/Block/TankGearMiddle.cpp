@@ -11,7 +11,7 @@ TankGearMiddle::TankGearMiddle(CustomTileManager &manager, const sf::Vector2f &p
     setCurrentPosition(position);
     setPreviousPosition(position);
     setInterpolatedPosition(position);
-    m_animation.setAnimationSequence(TankGearMiddleAnimName);
+    m_animation.setAnimationSequence("TankGearMiddleAnimName");
     m_animation.setAnimation(0, 2, 50, true);
     setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
@@ -43,3 +43,6 @@ void TankGearMiddle::draw() {
     m_animation.animationDraw();
 }
 
+void TankGearMiddle::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
+}

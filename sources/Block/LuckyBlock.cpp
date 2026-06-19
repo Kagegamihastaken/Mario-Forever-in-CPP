@@ -1,4 +1,6 @@
 #include "Block/LuckyBlock.hpp"
+
+#include "Core/AnimationSequenceManager.hpp"
 #include "Object/Coin.hpp"
 #include "Core/Loading/enum.hpp"
 #include "Core/ImageManager.hpp"
@@ -28,6 +30,7 @@ void ForceLoadLuckyBlockTexture(const LuckyBlockID ID) {
 		case LuckyBlockID::LUCKY_BLOCK:
 			for (int i = 0; i < 3; ++i)
 			ImageManager::LoadTexture(fmt::format("NormalLuckyBlock_{}", i));
+			MFCPP::AnimationSequenceManager::addData("NormLuckyBlockAnimName", NormLuckyBlockAnimName);
 			ImageManager::LoadTexture("NormalLuckyBlockHit");
 			break;
 		case LuckyBlockID::TREE_LUCKY_BLOCK:

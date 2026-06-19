@@ -16,7 +16,7 @@ GreenPiranhaUp::GreenPiranhaUp(EnemyManager &manager, const sf::Vector2f &positi
     setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_UP, position));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
-    m_animation.setAnimationSequence(GreenPiranhaUpAnimName);
+    m_animation.setAnimationSequence("GreenPiranhaUpAnimName");
     m_animation.setAnimation(0, 3, 24, true);
     setHitbox(sf::FloatRect({16.f, 17.f}, {31.f, 47.f}));
     setOrigin(sf::Vector2f(32.f, 63.f));
@@ -109,4 +109,8 @@ void GreenPiranhaUp::BlockHit() {}
 void GreenPiranhaUp::ShellHit() {}
 bool GreenPiranhaUp::isDeath() {
     return isDestroyed();
+}
+
+void GreenPiranhaUp::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

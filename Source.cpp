@@ -14,8 +14,6 @@
 float alpha = 1.0f;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
-
-// TODO: Add encrypt protection for value can be easily cheat
 #if DEVELOPMENT_BUILD
 int main() {
 #else
@@ -38,29 +36,15 @@ int WinMain() {
 		MusicManager::ForceLoadMusic("MarioDeath");
 		MusicManager::ForceLoadMusic("LevelComplete");
 
-		// MFCPP::SimpleSprite test;
-		// ImageManager::AddTexture("TempTexImage", "data/resources/testImage.png");
-		// test.setTexture(ImageManager::GetReturnTexture("TempTexImage"), true);
-		// test.setTextureRect(sf::IntRect({16, 16}, {32, 32}));
-
 		AudioEngine::SoundManagerParamsInit();
 		while (WindowFrame::getWindow().isOpen()) {
 			while (const std::optional event = WindowFrame::getWindow().pollEvent()) {
 				ImGui::SFML::ProcessEvent(WindowFrame::getWindow(), *event);
 				if (event->is<sf::Event::Closed>()) {
-					MFCPP::Log::InfoPrint("Closing...");
+					MFCPP::Log::InfoPrint("Closing Game...");
 					WindowFrame::getWindow().close();
 				}
 				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-					if (keyPressed->code == sf::Keyboard::Key::Q) {
-						// MFCPP::Log::InfoPrint("Pressed Q");
-						// if (SoundManager::GetEnvironment() == OVERWORLD) {
-						// 	SoundManager::SetEnvironment(UNDERGROUND);
-						// }
-						// else {
-						// 	SoundManager::SetEnvironment(OVERWORLD);
-						// }
-					}
 					/*
 					else if (keyPressed->code == sf::Keyboard::Key::P) {
 						MusicManager::PauseMusic(getMusicLevelName());
@@ -72,8 +56,6 @@ int WinMain() {
 				}
 				Game::RetrieveEvent(event);
 			}
-			//MFCPP::Log::SuccessPrint(fmt::format("{}", tvalue.GetValue()));
-			ImageManager::ClearAllVertex();
 			Game::EditText();
 			WindowFrame::getFpsLite().update();
 			WindowFrame::getTimestep().addFrame();
@@ -81,7 +63,6 @@ int WinMain() {
 				Game::SetPrev();
 				Game::DeltaMovement(WindowFrame::getTimestep().getStepAsFloat() * 50);
 				Game::Collision();
-				// test.setPosition(Mario::getCurrentPosition());
 				Mario::InvincibleStateUpdate();
 			}
 			if (isInterpolation) alpha = WindowFrame::getTimestep().getInterpolationAlphaAsFloat();
@@ -96,9 +77,7 @@ int WinMain() {
 			WindowFrame::getWindow().clear(sf::Color::Black);
 			Game::Draw();
 			ImGui::SFML::Render(WindowFrame::getWindow());
-			// window.draw(test);
 			WindowFrame::getWindow().display();
-			//ImageManager::printDrawCount();
 		}
 	} CPPTRACE_CATCH (std::exception& e) {
 		MFCPP::Log::ExceptionPrint(&e);

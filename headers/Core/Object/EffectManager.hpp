@@ -36,6 +36,7 @@ public:
     void DeleteAll();
     void Draw() const;
     void EffectCleanup();
+    void animationUpdate(float deltaTime) const;
 
 private:
     EffectIntrusiveList m_GenericEffect;

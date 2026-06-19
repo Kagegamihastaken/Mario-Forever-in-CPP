@@ -1,6 +1,8 @@
 #include "Core/WindowFrame.hpp"
 
 #include <config.h>
+
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"
@@ -171,8 +173,9 @@ void WindowFrame::GameSceneInit() {
 		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
 		CoinHUDAnimName.emplace_back(fmt::format("CoinHUD_{}", i));
 	}
+	MFCPP::AnimationSequenceManager::addData("CoinHUDAnimName", CoinHUDAnimName);
 	CoinHUD.setAnimation(0, 2, 16, true);
-	CoinHUD.setAnimationSequence(CoinHUDAnimName);
+	CoinHUD.setAnimationSequence("CoinHUDAnimName");
 	MarioHUD.setTexture("MarioHUD");
 	TimeHUD.setTexture("TimeHUD");
 }

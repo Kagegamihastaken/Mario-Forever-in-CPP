@@ -16,6 +16,7 @@ namespace MFCPP {
         virtual void interpolateData(float alpha) = 0;
         virtual void statusUpdate(float deltaTime) = 0;
         virtual void draw() = 0;
+        virtual void animationUpdate(float deltaTime) = 0;
     protected:
         EffectManager& m_effectManager;
     };

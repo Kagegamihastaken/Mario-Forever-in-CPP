@@ -82,3 +82,5 @@ void FireLauncherStand::draw() {
     m_animation.animationDraw();
 }
 
+void FireLauncherStand::animationUpdate(float deltaTime) {}
+

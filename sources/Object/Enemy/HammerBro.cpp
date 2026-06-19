@@ -10,7 +10,6 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/BroAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Object/BroAI.hpp"
@@ -22,7 +21,7 @@ HammerBro::HammerBro(EnemyManager &manager, const sf::Vector2f &position) : Enem
     setPreviousPosition(position);
     setInterpolatedPosition(position);
     m_animation.setAnimation(0, 1, 14, true);
-    m_animation.setAnimationSequence(HammerBroAnimName);
+    m_animation.setAnimationSequence("HammerBroAnimName");
     setHitbox(sf::FloatRect({7.f, 16.f}, {32.f, 48.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     setOrigin(sf::Vector2f(24.f, 63.f));
@@ -135,9 +134,9 @@ void HammerBro::statusUpdate(float deltaTime) {
 
 void HammerBro::AnimationUpdate(const bool val) {
     if (val)
-        m_animation.setAnimationSequence(HammerBroLaunchAnimName);
+        m_animation.setAnimationSequence("HammerBroLaunchAnimName");
     else
-        m_animation.setAnimationSequence(HammerBroAnimName);
+        m_animation.setAnimationSequence("HammerBroAnimName");
 }
 
 void HammerBro::XUpdate(const float deltaTime) {
@@ -180,7 +179,7 @@ void HammerBro::BlockHit() {
 void HammerBro::Death(unsigned int state) {
     m_state = state;
     m_velocity = sf::Vector2f(0.f, 0.f);
-    m_animation.setAnimationSequence(HammerBroDeath);
+    m_animation.setAnimationSequence("HammerBroDeath");
     m_animation.setAnimation(0, 0, 100, true);
     setShellKicking(false);
     setShellBlocker(false);
@@ -209,4 +208,8 @@ bool HammerBro::isDeath() {
 void HammerBro::ShellHit() {
     if (m_state != 0) return;
     Death(1);
+}
+
+void HammerBro::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

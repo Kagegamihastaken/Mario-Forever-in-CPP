@@ -152,3 +152,5 @@ void MarioBeetroot::LevelEndCleanup() {
     AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }
+
+void MarioBeetroot::animationUpdate(float deltaTime) {}

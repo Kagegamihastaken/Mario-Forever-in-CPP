@@ -196,17 +196,17 @@ void SelectTileInit() {
     ImageManager::AddTexture("EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
     ImageManager::AddTexture("EDITOR_SettingButton", "data/resources/Editor/EDITOR_TAB/EDITOR_Settings.png");
 
-    TabList[0].setTexture(*ImageManager::GetReturnTexture("EDITOR_TileTab"));
-    TabList[1].setTexture(*ImageManager::GetReturnTexture("EDITOR_SceneryTab"));
-    TabList[2].setTexture(*ImageManager::GetReturnTexture("EDITOR_BonusTab"));
-    TabList[3].setTexture(*ImageManager::GetReturnTexture("EDITOR_EnemyTab"));
-    TabList[4].setTexture(*ImageManager::GetReturnTexture("EDITOR_LevelTab"));
-    TabList[5].setTexture(*ImageManager::GetReturnTexture("EDITOR_PlatformTab"));
+    TabList[0].setTexture(*ImageManager::getReturnTexture("EDITOR_TileTab"));
+    TabList[1].setTexture(*ImageManager::getReturnTexture("EDITOR_SceneryTab"));
+    TabList[2].setTexture(*ImageManager::getReturnTexture("EDITOR_BonusTab"));
+    TabList[3].setTexture(*ImageManager::getReturnTexture("EDITOR_EnemyTab"));
+    TabList[4].setTexture(*ImageManager::getReturnTexture("EDITOR_LevelTab"));
+    TabList[5].setTexture(*ImageManager::getReturnTexture("EDITOR_PlatformTab"));
 
-    SettingButton.setTexture(*ImageManager::GetReturnTexture("EDITOR_SettingButton"));
+    SettingButton.setTexture(*ImageManager::getReturnTexture("EDITOR_SettingButton"));
 
-    SelectTileWidth = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
-    SelectTileHeight = ImageManager::GetReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
+    SelectTileWidth = ImageManager::getReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
+    SelectTileHeight = ImageManager::getReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
 
     SelectTileBackground[0].texCoords = sf::Vector2f(0.0f, 0.0f);
     SelectTileBackground[1].texCoords = sf::Vector2f(640.0f, 0.0f);
@@ -218,7 +218,7 @@ void SelectTileInit() {
     SelectTileGrid[2].texCoords = SelectTileRenderVA[2].texCoords = sf::Vector2f(0.0f, 352.0f);
     SelectTileGrid[3].texCoords = SelectTileRenderVA[3].texCoords = sf::Vector2f(480.0f, 352.0f);
 
-    SelectTileBox.setTexture(ImageManager::GetTexture("EDITOR_SelectTileBox"), true);
+    SelectTileBox.setTexture(ImageManager::getTexture("EDITOR_SelectTileBox"), true);
 }
 
 void SelectTilePosUpdate() {
@@ -261,9 +261,9 @@ void SelectTilePosUpdate() {
 void SelectTileDraw() {
     if (!EDITOR_SELECTTILE) return;
 
-    WindowFrame::getWindow().draw(SelectTileBackground, ImageManager::GetReturnTexture("EDITOR_SelectTileBackground"));
+    WindowFrame::getWindow().draw(SelectTileBackground, ImageManager::getReturnTexture("EDITOR_SelectTileBackground"));
     WindowFrame::getWindow().draw(SelectTileRenderVA, &SelectTileRender.getTexture());
-    WindowFrame::getWindow().draw(SelectTileGrid, ImageManager::GetReturnTexture("EDITOR_SelectTileGrid"));
+    WindowFrame::getWindow().draw(SelectTileGrid, ImageManager::getReturnTexture("EDITOR_SelectTileGrid"));
     WindowFrame::getWindow().draw(SettingButton);
 
     for (const auto &i : TabList)
@@ -283,7 +283,7 @@ void SelectTileAlphaUpdate(const float dt) {
 void SelectTileDisplayUpdate() {
     SelectTileRender.clear(sf::Color::Transparent);
     for (const auto &i : TilePage[PreviewPage]) {
-        sf::Sprite loop(ImageManager::GetTexture(i.name));
+        sf::Sprite loop(ImageManager::getTexture(i.name));
         loop.setTextureRect(sf::IntRect(i.texPos, {std::min(static_cast<int>(loop.getGlobalBounds().size.x - i.texPos.x), 32), std::min(static_cast<int>(loop.getGlobalBounds().size.y - i.texPos.y), 32)}));
         loop.setPosition(i.position);
         SelectTileRender.draw(loop);

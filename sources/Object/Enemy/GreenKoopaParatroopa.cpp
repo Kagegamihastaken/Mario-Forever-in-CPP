@@ -33,7 +33,7 @@ GreenKoopaParatroopa::GreenKoopaParatroopa(EnemyManager &manager, const sf::Vect
     m_speed = 2.f;
     m_angle = angle;
     m_animation.setAnimation(0, 1, 11, true);
-    m_animation.setAnimationSequence(GreenKoopaParatroopaAnimName);
+    m_animation.setAnimationSequence("GreenKoopaParatroopaAnimName");
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
@@ -134,7 +134,7 @@ void GreenKoopaParatroopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             setOrigin(sf::Vector2f(16,27));
             m_velocity = sf::Vector2f(0.f, -3.f);
-            m_animation.setAnimationSequence(GreenKoopaDeathEffect);
+            m_animation.setAnimationSequence("GreenKoopaDeathEffect");
             m_animation.setAnimation(0,0,100);
             setCollideEachOther(false);
             setShellBlocker(false);
@@ -157,4 +157,8 @@ void GreenKoopaParatroopa::ShellHit() {
 
 bool GreenKoopaParatroopa::isDeath() {
     return m_state == 1;
+}
+
+void GreenKoopaParatroopa::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

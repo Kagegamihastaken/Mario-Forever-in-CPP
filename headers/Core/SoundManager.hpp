@@ -14,9 +14,9 @@ class SoundManager {
 		bool changeEnv = true;
 	};
 
-	static std::map<std::string, std::unique_ptr<SoLoud::Wav>> m_sounds;
-	static std::map<std::string, QueueData> m_queue;
-	static std::map<std::string, bool> m_changeEnv;
+	static std::unordered_map<std::string, std::unique_ptr<SoLoud::Wav>> m_sounds;
+	static std::unordered_map<std::string, QueueData> m_queue;
+	static std::unordered_map<std::string, bool> m_changeEnv;
 	static SoLoud::EchoFilter m_echo_filter;
 	static SoLoud::FreeverbFilter m_reverb_filter;
 	static SoundEnvironment m_env;

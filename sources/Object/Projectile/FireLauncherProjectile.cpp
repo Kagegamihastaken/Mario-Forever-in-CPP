@@ -86,3 +86,5 @@ void FireLauncherProjectile::Destroy() {
 }
 
 void FireLauncherProjectile::LevelEndCleanup() {}
+
+void FireLauncherProjectile::animationUpdate(float deltaTime) {}

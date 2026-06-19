@@ -14,7 +14,7 @@ GreenPiranhaGround::GreenPiranhaGround(EnemyManager &manager, const sf::Vector2f
     setCurrentPosition(position);
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
-    m_animation.setAnimationSequence(PiranhaGroundAnimName);
+    m_animation.setAnimationSequence("PiranhaGroundAnimName");
     m_animation.setAnimation(0, 3, 24, true);
     setHitbox(sf::FloatRect({9.f, 7.f}, {13.f, 25.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
@@ -78,4 +78,8 @@ void GreenPiranhaGround::BlockHit() {}
 void GreenPiranhaGround::ShellHit() {}
 bool GreenPiranhaGround::isDeath() {
     return false;
+}
+
+void GreenPiranhaGround::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

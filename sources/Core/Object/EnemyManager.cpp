@@ -87,3 +87,9 @@ void EnemyManager::EnemyCleanup() {
     }
     setDeletionFlag(false);
 }
+
+void EnemyManager::animationUpdate(float deltaTime) const {
+    for (const auto &i : m_enemies) {
+        if (i) i->animationUpdate(deltaTime);
+    }
+}

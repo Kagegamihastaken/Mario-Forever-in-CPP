@@ -18,7 +18,7 @@ GreenSpiny::GreenSpiny(EnemyManager &manager, const sf::Vector2f& position) : En
     setPreviousPosition(position);
     setInterpolatedPosition(position);
     m_animation.setAnimation(0, 1, 14, true);
-    m_animation.setAnimationSequence(GreenSpinyAnimName);
+    m_animation.setAnimationSequence("GreenSpinyAnimName");
     setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     setOrigin(sf::Vector2f(16.f, 31.f));
@@ -127,7 +127,7 @@ void GreenSpiny::Death(unsigned int state) {
     switch (m_state) {
         case 1:
             m_velocity = sf::Vector2f(0.f, -3.f);
-            m_animation.setAnimationSequence(GreenSpinyDeathEffect);
+            m_animation.setAnimationSequence("GreenSpinyDeathEffect");
             m_animation.setAnimation(0,0,100, true);
             setShellKicking(false);
             setShellBlocker(false);
@@ -140,4 +140,8 @@ void GreenSpiny::Death(unsigned int state) {
 
 bool GreenSpiny::isDeath() {
     return m_state > 0;
+}
+
+void GreenSpiny::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

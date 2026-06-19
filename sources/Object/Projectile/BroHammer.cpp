@@ -75,3 +75,5 @@ void BroHammer::LevelEndCleanup() {
     AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
     Destroy();
 }
+
+void BroHammer::animationUpdate(float deltaTime) {}

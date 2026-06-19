@@ -51,3 +51,15 @@ void MovingBlockManager::DeleteAll() {
 MovingBlockManager::MovingBlockIntrusiveList &MovingBlockManager::getPlatformList() {
     return m_platforms;
 }
+
+void MovingBlockManager::activate() const {
+    for (const auto &i : m_movingblocks) {
+        if (i) i->activate();
+    }
+}
+
+void MovingBlockManager::animationUpdate(float deltaTime) const {
+    for (const auto &i : m_movingblocks) {
+        if (i) i->animationUpdate(deltaTime);
+    }
+}

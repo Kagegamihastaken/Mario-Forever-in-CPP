@@ -18,6 +18,7 @@ namespace MFCPP {
         virtual void statusUpdate(float deltaTime) = 0;
         virtual void activate() = 0;
         virtual void draw() = 0;
+        virtual void animationUpdate(float deltaTime) = 0;
 
         void setCanCollision(const bool val) { m_option[0] = val;}
         [[nodiscard]] bool canCollision() const { return m_option[0]; }

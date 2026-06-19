@@ -78,3 +78,5 @@ void GearLauncher::draw() {
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Blue));
 }
 
+void GearLauncher::animationUpdate(float deltaTime) {}
+

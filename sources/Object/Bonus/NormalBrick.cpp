@@ -83,3 +83,5 @@ void NormalBrick::draw() {
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }
+
+void NormalBrick::animationUpdate(float deltaTime) {}

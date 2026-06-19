@@ -14,6 +14,7 @@ public:
     void statusUpdate(float deltaTime) override;
     void draw() override;
     void Destroy();
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::StaticAnimationObject m_animation;
     sf::Vector2f m_velocity;

@@ -38,6 +38,7 @@ public:
     void ProjectileCleanup();
     void DeleteAll();
     void DrawPriority(int index) const;
+    void animationUpdate(float deltaTime) const;
 private:
     ProjectileIntrusiveList m_Mario;
     ProjectileIntrusiveList m_Enemy;

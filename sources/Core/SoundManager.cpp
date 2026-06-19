@@ -7,9 +7,9 @@
 #include "Core/Logging.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
 
-std::map<std::string, std::unique_ptr<SoLoud::Wav>> SoundManager::m_sounds;
-std::map<std::string, SoundManager::QueueData> SoundManager::m_queue;
-std::map<std::string, bool> SoundManager::m_changeEnv;
+std::unordered_map<std::string, std::unique_ptr<SoLoud::Wav>> SoundManager::m_sounds;
+std::unordered_map<std::string, SoundManager::QueueData> SoundManager::m_queue;
+std::unordered_map<std::string, bool> SoundManager::m_changeEnv;
 SoLoud::EchoFilter SoundManager::m_echo_filter;
 SoLoud::FreeverbFilter SoundManager::m_reverb_filter;
 SoundEnvironment SoundManager::m_env = SoundEnvironment::UNDERGROUND;

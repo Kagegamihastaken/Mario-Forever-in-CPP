@@ -18,6 +18,7 @@ namespace MFCPP {
         virtual void CollisionUpdate() = 0;
         virtual void LevelEndCleanup() = 0;
         virtual void draw() = 0;
+        virtual void animationUpdate(float deltaTime) = 0;
 
         void setDrawingPriority(const int val) {
             m_option[0] = val & 1;

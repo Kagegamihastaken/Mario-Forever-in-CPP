@@ -10,6 +10,7 @@ public:
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void draw() override;
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::StaticAnimationObject m_animation;
 };

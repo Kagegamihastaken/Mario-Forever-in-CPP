@@ -103,3 +103,5 @@ void Mushroom::Death(unsigned int state) {}
 bool Mushroom::isDeath() {
     return true; // Means no collision
 }
+
+void Mushroom::animationUpdate(float deltaTime) {}

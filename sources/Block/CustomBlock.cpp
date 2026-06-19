@@ -1,5 +1,6 @@
 #include "Block/CustomBlock.hpp"
 
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Block/TankGearLeft.hpp"
@@ -30,6 +31,9 @@ void CustomBlockInit() {
 		ImageManager::AddTexture(fmt::format("TankGearRight_{}", i), "data/resources/TankGearRight.png", sf::IntRect({i * TANK_GEAR_WIDTH, 0}, {TANK_GEAR_WIDTH, TANK_GEAR_HEIGHT}));
 		TankGearRightAnimName.push_back(fmt::format("TankGearRight_{}", i));
 	}
+	MFCPP::AnimationSequenceManager::addData("TankGearLeftAnimName", TankGearLeftAnimName);
+	MFCPP::AnimationSequenceManager::addData("TankGearMiddleAnimName", TankGearMiddleAnimName);
+	MFCPP::AnimationSequenceManager::addData("TankGearRightAnimName", TankGearRightAnimName);
 }
 void AddCustomTile(int id, const sf::Vector2f& pos) {
 	switch (id) {

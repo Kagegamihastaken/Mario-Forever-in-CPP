@@ -18,7 +18,7 @@ LuckyBlockMushroom::LuckyBlockMushroom(CustomTileManager &manager, const sf::Vec
     setCurrentPosition(position);
     setPreviousPosition(position);
     setInterpolatedPosition(position);
-    m_animation.setAnimationSequence(NormLuckyBlockAnimName);
+    m_animation.setAnimationSequence("NormLuckyBlockAnimName");
     m_animation.setAnimation(0, 2, 9, true);
     setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
@@ -89,4 +89,8 @@ void LuckyBlockMushroom::draw() {
     if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
+}
+
+void LuckyBlockMushroom::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

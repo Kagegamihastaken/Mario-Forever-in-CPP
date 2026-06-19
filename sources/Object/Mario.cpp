@@ -1,5 +1,6 @@
 #include "Object/Mario.hpp"
 #include "Block/Brick.hpp"
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
@@ -58,16 +59,16 @@ bool Mario::m_CanControlMario = true;
 void Mario::UpdateSequenceAnimation() {
 	switch (m_PowerState) {
 		case 0:
-			m_MarioAnimation.setAnimationSequence(SmallMario);
+			m_MarioAnimation.setAnimationSequence("SmallMario");
 			break;
 		case 1:
-			m_MarioAnimation.setAnimationSequence(BigMario);
+			m_MarioAnimation.setAnimationSequence("BigMario");
 			break;
 		case 2:
-			m_MarioAnimation.setAnimationSequence(FireMario);
+			m_MarioAnimation.setAnimationSequence("FireMario");
 			break;
 		case 3:
-			m_MarioAnimation.setAnimationSequence(BeetrootMario);
+			m_MarioAnimation.setAnimationSequence("BeetrootMario");
 			break;
 		default: ;
 	}
@@ -97,7 +98,10 @@ void Mario::loadMarioRes() {
 		ImageManager::AddTexture(fmt::format("BeetrootMario_{}", i), "data/resources/BeetrootMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		BeetrootMario.push_back(fmt::format("BeetrootMario_{}", i));
 	}
-
+	MFCPP::AnimationSequenceManager::addData("SmallMario", SmallMario);
+	MFCPP::AnimationSequenceManager::addData("BigMario", BigMario);
+	MFCPP::AnimationSequenceManager::addData("FireMario", FireMario);
+	MFCPP::AnimationSequenceManager::addData("BeetrootMario", BeetrootMario);
 	UpdateSequenceAnimation();
 }
 //sprite function
@@ -191,9 +195,6 @@ void Mario::KeyboardMovement(const float deltaTime) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !m_MarioCrouchDown && WindowFrame::getWindow().hasFocus()) m_player_speed = 7.5f;
 		else m_player_speed = 4.375f;
 		if ((!m_MarioCurrentFalling || m_velocity.y < 0.f) && m_PreJump) m_PreJump = false;
-
-		//Fire
-		//MFCPP::Log::InfoPrint(fmt::format("Speed: {}, Limit: {}, Comp: {}", Xvelo, player_speed, Xvelo > player_speed));
 	}
 	else if (LevelCompleteEffect) {
 		if (m_MarioDirection) m_MarioDirection = false;
@@ -445,6 +446,11 @@ void Mario::CheckForDeath() {
 		ActiveMarioEffect();
 	}
 }
+
+void Mario::MarioAnimationUpdate(const float deltaTime) {
+	m_MarioAnimation.frameTimeAccumulate(deltaTime);
+}
+
 void Mario::MarioDraw() {
 	// check power state
 	HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(m_player.getHitbox(), m_player.getCurrentPosition() - m_player.getOrigin(), sf::Color::Blue));

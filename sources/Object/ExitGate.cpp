@@ -1,6 +1,8 @@
 #define USE_MATH_DEFINES
 #include <cmath>
 #include "Object/ExitGate.hpp"
+
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
@@ -52,6 +54,7 @@ void ExitGateInit() {
 		ImageManager::AddTexture(fmt::format("ExitGateIndicator_{}", i), "data/resources/ExitGateIndicator.png", sf::IntRect({i * EXIT_INDICATOR_WIDTH, 0}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT}));
 		ExitIndicatorAnimName.push_back(fmt::format("ExitGateIndicator_{}", i));
 	}
+	MFCPP::AnimationSequenceManager::addData("ExitIndicatorAnimName", ExitIndicatorAnimName);
 	ExitGateBackObject.setTexture("ExitGateBack");
 	ExitGateBack.setOrigin(sf::Vector2f(0.0f, 287.0f));
 
@@ -63,7 +66,7 @@ void ExitGateInit() {
 	ExitGateForeEffect.setOrigin({ 21.0f, 7.0f });
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50, true);
-	ExitGateIndicatorAnimation.setAnimationSequence(ExitIndicatorAnimName);
+	ExitGateIndicatorAnimation.setAnimationSequence("ExitIndicatorAnimName");
 	ExitGateIndicator.setOrigin(sf::Vector2f( 0.0f, 31.0f ));
 }
 void SetPrevExitGatePos() {
@@ -173,6 +176,9 @@ void ExitGateDraw() {
 		ExitGateForeObject.animationUpdate(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin());
 		ExitGateForeObject.animationDraw();
 	}
+}
+void ExitGateAnimationUpdate(float deltaTime) {
+	ExitGateIndicatorAnimation.frameTimeAccumulate(deltaTime);
 }
 void ExitGateEffectDraw() {
 	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin(), sf::FloatRect({0.f, 0.f}, {44.f, 16.f})), 48) && !ExitGateForeRender) {

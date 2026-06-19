@@ -4,7 +4,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
@@ -100,3 +100,5 @@ void GreenMushroom::Death(unsigned int state) {}
 bool GreenMushroom::isDeath() {
     return true; // Means no collision
 }
+
+void GreenMushroom::animationUpdate(float deltaTime) {}

@@ -23,6 +23,7 @@ public:
     void BlockHit() override;
     void ShellHit() override;
     [[nodiscard]] bool isDeath() override;
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::SingleAnimationObject m_animation;
     sf::Vector2f m_velocity;

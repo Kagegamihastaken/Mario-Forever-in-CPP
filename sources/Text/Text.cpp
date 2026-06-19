@@ -31,7 +31,7 @@ void AddText(const std::string &id, const std::string &text, const TextMarginID 
 		MFText.List.back().setMargin(margin);
 		int Counter = 0;
 		for (const auto& i : text) {
-			MFText.List.back().m_SpriteText.emplace_back(ImageManager::GetTexture(fmt::format("Font_{}", i)));
+			MFText.List.back().m_SpriteText.emplace_back(ImageManager::getTexture(fmt::format("Font_{}", i)));
 			//TextList.back().m_SpriteText.push_back(sf::Sprite(ImageManager::GetTexture("Font_" + std::to_string(i))));
 			MFText.List.back().m_SpriteText[Counter].setPosition({ x + MFText.GetFontSize().x * Counter + Counter, y });
 			++Counter;
@@ -56,7 +56,7 @@ void EditText(const std::string &NewText, const std::string &id) {
 			//std::vector<sf::Sprite> Init;
 			int Counter = 0;
 			for (const auto& i : NewText) {
-				MFText.List[IndexCounter].m_SpriteText.emplace_back(ImageManager::GetTexture(fmt::format("Font_{}", i)));
+				MFText.List[IndexCounter].m_SpriteText.emplace_back(ImageManager::getTexture(fmt::format("Font_{}", i)));
 				MFText.List[IndexCounter].m_SpriteText[Counter].setPosition({ MFText.List[IndexCounter].getPosition().x + MFText.GetFontSize().x * Counter, MFText.List[IndexCounter].getPosition().y });
 				++Counter;
 			}

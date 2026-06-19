@@ -55,3 +55,9 @@ void EffectManager::EffectCleanup() {
     }
     setDeletionFlag(false);
 }
+
+void EffectManager::animationUpdate(float deltaTime) const {
+    for (const auto &i : m_effects) {
+        if (i) i->animationUpdate(deltaTime);
+    }
+}

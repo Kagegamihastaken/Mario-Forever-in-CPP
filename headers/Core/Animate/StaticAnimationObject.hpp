@@ -6,7 +6,6 @@
 
 namespace MFCPP {
     class StaticAnimationObject {
-        SimpleSprite m_index;
         bool m_anim_flip = false;
         std::string m_name;
     public:

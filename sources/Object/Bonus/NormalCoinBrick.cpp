@@ -105,3 +105,5 @@ void NormalCoinBrick::draw() {
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }
+
+void NormalCoinBrick::animationUpdate(float deltaTime) {}

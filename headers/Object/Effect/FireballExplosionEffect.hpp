@@ -16,6 +16,7 @@ public:
     void statusUpdate(const float deltaTime) override;
     void draw() override;
     void Destroy();
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::SingleAnimationObject m_animation;
 };

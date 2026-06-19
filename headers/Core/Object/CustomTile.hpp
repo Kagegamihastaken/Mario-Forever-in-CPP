@@ -19,6 +19,7 @@ namespace MFCPP {
         virtual void HitEvent() = 0;
         virtual void KickEvent() = 0;
         virtual void draw() = 0;
+        virtual void animationUpdate(float deltaTime) = 0;
 
         void setDrawingPriority(const int val) {
             m_option[0] = val & 1;

@@ -60,19 +60,19 @@ void EditorInit() {
     ImageManager::AddTexture("EDITOR_RotodiscRound", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Round.png");
     ImageManager::AddTexture("EDITOR_RotodiscFlower", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Flower.png");
 
-    SelectBox.setTexture(ImageManager::GetTexture("EDITOR_SelectBox"), true);
-    if (ImageManager::GetReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
+    SelectBox.setTexture(ImageManager::getTexture("EDITOR_SelectBox"), true);
+    if (ImageManager::getReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
-    EDITOR_Mario.setTexture(ImageManager::GetReturnTexture(TilePage[LevelTab][0].name), true);
-    EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[LevelTab][0].name)->getSize().y) - 32.0f));
+    EDITOR_Mario.setTexture(ImageManager::getReturnTexture(TilePage[LevelTab][0].name), true);
+    EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[LevelTab][0].name)->getSize().y) - 32.0f));
 
     EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(256, 320));
-    EDITOR_ExitGateIndicator.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][1].name), true);
-    EDITOR_ExitGateIndicator.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[LevelTab][1].name)->getSize().y) - 32.0f));
+    EDITOR_ExitGateIndicator.setTexture(*ImageManager::getReturnTexture(TilePage[LevelTab][1].name), true);
+    EDITOR_ExitGateIndicator.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[LevelTab][1].name)->getSize().y) - 32.0f));
 
     EDITOR_ExitGate.setPosition(sf::Vector2f(384, 320));
-    EDITOR_ExitGate.setTexture(*ImageManager::GetReturnTexture(TilePage[LevelTab][2].name), true);
-    EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[LevelTab][2].name)->getSize().y) - 32.0f));
+    EDITOR_ExitGate.setTexture(*ImageManager::getReturnTexture(TilePage[LevelTab][2].name), true);
+    EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[LevelTab][2].name)->getSize().y) - 32.0f));
 
     BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
     BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
@@ -363,8 +363,8 @@ void FileLoad(const std::filesystem::path& path) {
         const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
         const sf::Vector2f endPos = tileObj.value("end_position", sf::Vector2f(-1.f, -1.f));
 
-        const sf::Vector2f origin_tile(0.0f, static_cast<float>(ImageManager::GetReturnTexture(TilePage[page][id].name)->getSize().y) - 32.f);
-        RenderTile tile(TilePage[page][id].prop, *ImageManager::GetReturnTexture(TilePage[page][id].name), pos - TilePage[page][id].origin + origin_tile, page, id, endPos);
+        const sf::Vector2f origin_tile(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[page][id].name)->getSize().y) - 32.f);
+        RenderTile tile(TilePage[page][id].prop, *ImageManager::getReturnTexture(TilePage[page][id].name), pos - TilePage[page][id].origin + origin_tile, page, id, endPos);
         tile.setOrigin(origin_tile);
         if (tileObj.contains("properties")) {
             const nlohmann::json& propsJson = tileObj.at("properties");
@@ -440,7 +440,7 @@ void TilePosUpdate(const float dt) {
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
 
     if (PrevSelectTile != CurrSelectTile || PrevPage != CurrPage) {
-        SelectedBlock.setTexture(ImageManager::GetTexture(TilePage[CurrPage][CurrSelectTile].name), true);
+        SelectedBlock.setTexture(ImageManager::getTexture(TilePage[CurrPage][CurrSelectTile].name), true);
         SelectedBlock.setTextureRect(sf::IntRect(TilePage[CurrPage][CurrSelectTile].texPos, {std::min(static_cast<int>(SelectedBlock.getGlobalBounds().size.x - TilePage[CurrPage][CurrSelectTile].texPos.x), 32), std::min(static_cast<int>(SelectedBlock.getGlobalBounds().size.y - TilePage[CurrPage][CurrSelectTile].texPos.y), 32)}));
         PrevSelectTile = CurrSelectTile;
         PrevPage = CurrPage;
@@ -569,8 +569,8 @@ void PlaceTile() {
                         if (CurrSelectTile >= 0 && CurrSelectTile <= 1) {
                             Tile.erase(RenderTile(EDITOR_SavePos, EDITOR_SavePosPage));
 
-                            RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), EDITOR_SavePos, CurrPage, CurrSelectTile, sf::Vector2f(TileX, TileY));
-                            tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
+                            RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name), EDITOR_SavePos, CurrPage, CurrSelectTile, sf::Vector2f(TileX, TileY));
+                            tile.setOrigin(sf::Vector2f(0.0f, ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
                             Tile.insert(tile);
                             EDITOR_SavePos = sf::Vector2f(0.f, 0.f);
                             EDITOR_SavePosPage = CurrPage;
@@ -584,8 +584,8 @@ void PlaceTile() {
 
                 if (!Tile.contains(RenderTile(sf::Vector2f(TileX, TileY), CurrPage))) {
                     SoundManager::PlaySound("EDITOR_PLACE");
-                    RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
-                    tile.setOrigin(sf::Vector2f(0.0f, ImageManager::GetReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
+                    RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
+                    tile.setOrigin(sf::Vector2f(0.0f, ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
                     Tile.insert(tile);
                     if (CurrPage == PlatformTab) {
                         switch (CurrSelectTile) {
@@ -690,6 +690,6 @@ void DrawTile() {
     WindowFrame::getWindow().draw(EDITOR_Mario);
     WindowFrame::getWindow().draw(EDITOR_ExitGateIndicator);
     if (EDITOR_BuildMode) WindowFrame::getWindow().draw(SelectBox);
-    WindowFrame::getWindow().draw(Grid, ImageManager::GetReturnTexture("EDITOR_Grid"));
+    WindowFrame::getWindow().draw(Grid, ImageManager::getReturnTexture("EDITOR_Grid"));
     WindowFrame::getWindow().draw(SelectedBlock);
 }

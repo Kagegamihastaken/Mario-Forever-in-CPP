@@ -15,7 +15,7 @@ NormalCoinEffect::NormalCoinEffect(EffectManager &manager, const sf::Vector2f &p
     setOrigin(sf::Vector2f(18.f, 31.f));
     setHitbox(sf::FloatRect({0.f, 0.f}, {37.f, 32.f}));
     m_velocity = sf::Vector2f(0.f, -3.5f);
-    m_animation.setAnimationSequence(CoinEffectAnimName);
+    m_animation.setAnimationSequence("CoinEffectAnimName");
     m_animation.setAnimation(0, 20, 70, false);
 }
 
@@ -58,4 +58,8 @@ void NormalCoinEffect::draw() {
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
+}
+
+void NormalCoinEffect::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

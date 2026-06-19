@@ -73,3 +73,9 @@ void CustomTileManager::CustomTileCleanup() {
     setDeletionFlag(false);
 }
 
+void CustomTileManager::animationUpdate(float deltaTime) const {
+    for (const auto &i : m_customTiles) {
+        if (i) i->animationUpdate(deltaTime);
+    }
+}
+

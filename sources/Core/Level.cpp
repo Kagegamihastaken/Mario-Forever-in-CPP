@@ -229,7 +229,7 @@ void Obstaclebuilding() {
 		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 6> &compare) {
 			return compare[0] == static_cast<int>(i[0]);
 		}) - (ID_list.begin());
-		sf::Sprite obstaclesRender(ImageManager::GetTexture(fmt::format("Tile_{}", posTextureIndex)));
+		sf::Sprite obstaclesRender(ImageManager::getTexture(fmt::format("Tile_{}", posTextureIndex)));
 		obstaclesRender.setPosition({ i[1], i[2] });
 		MFCPP::setIndexTilemapCollision(i[1], i[2], true);
 		MFCPP::setIndexTilemapID(i[1], i[2], ID_list[posTextureIndex][3]);

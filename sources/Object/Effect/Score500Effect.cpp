@@ -57,3 +57,5 @@ void Score500Effect::draw() {
     m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
     m_animation.animationDraw();
 }
+
+void Score500Effect::animationUpdate(float deltaTime) {}

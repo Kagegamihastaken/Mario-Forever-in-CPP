@@ -1,4 +1,6 @@
 #include "Object/Coin.hpp"
+
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Scroll.hpp"
@@ -22,8 +24,9 @@ void CoinInit() {
 		ImageManager::PreloadTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
 		CoinAnimName.emplace_back(fmt::format("Coin_{}", i));
 	}
+	MFCPP::AnimationSequenceManager::addData("CoinAnimName", CoinAnimName);
 	CoinAnimation.setAnimation(0, 2, 20, true);
-	CoinAnimation.setAnimationSequence(CoinAnimName);
+	CoinAnimation.setAnimationSequence("CoinAnimName");
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinList.emplace(ID, att, sf::FloatRect({6.f, 2.f}, {19.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
@@ -56,6 +59,9 @@ void CoinOnTouch() {
 		++CoinCount;
 		DeleteCoin(i.x, i.y);
 	}
+}
+void CoinAnimationUpdate(float deltaTime) {
+	CoinAnimation.frameTimeAccumulate(deltaTime);
 }
 void CoinDraw() {
 	if (CoinCount > 99) {

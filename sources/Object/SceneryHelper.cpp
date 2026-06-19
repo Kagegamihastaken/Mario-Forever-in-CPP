@@ -1,15 +1,16 @@
 #include "Object/SceneryHelper.hpp"
 
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Scenery/BlueCloud.hpp"
 #include "Object/Scenery/BlueGrass.hpp"
 #include "Object/Scenery/TankTileBack.hpp"
 
-std::vector<std::string> BlueCloudAnimName;
+static std::vector<std::string> BlueCloudAnimName;
 static constexpr int CLOUD_IMAGE_WIDTH = 192;
 static constexpr int CLOUD_WIDTH = 64;
 static constexpr int CLOUD_HEIGHT = 64;
-std::vector<std::string> BlueGrassAnimName;
+static std::vector<std::string> BlueGrassAnimName;
 static constexpr int GRASS_IMAGE_WIDTH = 192;
 static constexpr int GRASS_WIDTH = 64;
 static constexpr int GRASS_HEIGHT = 32;
@@ -19,10 +20,12 @@ void SceneryInit() {
         ImageManager::AddTexture(fmt::format("BlueCloud_{}", i), "data/resources/Scenery/BlueCloud.png", sf::IntRect({i * CLOUD_WIDTH, 0}, {CLOUD_WIDTH, CLOUD_HEIGHT}));
         BlueCloudAnimName.push_back(fmt::format("BlueCloud_{}", i));
     }
+    MFCPP::AnimationSequenceManager::addData("BlueCloudAnimName", BlueCloudAnimName);
     for (int i = 0; i < GRASS_IMAGE_WIDTH / GRASS_WIDTH; i++) {
         ImageManager::AddTexture(fmt::format("BlueGrass_{}", i), "data/resources/Scenery/BlueGrass.png", sf::IntRect({i * GRASS_WIDTH, 0}, {GRASS_WIDTH, GRASS_HEIGHT}));
         BlueGrassAnimName.push_back(fmt::format("BlueGrass_{}", i));
     }
+    MFCPP::AnimationSequenceManager::addData("BlueGrassAnimName", BlueGrassAnimName);
 }
 void AddScenery(const int id, const sf::Vector2f& pos) {
     switch (id) {

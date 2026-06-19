@@ -57,3 +57,7 @@ void Thwomp::Death(unsigned int state) {
 bool Thwomp::isDeath() {
 
 }
+
+void Thwomp::animationUpdate(float deltaTime) {
+
+}

@@ -10,13 +10,12 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
 
 GreenPiranhaDown::GreenPiranhaDown(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
     setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_DOWN, position));
     setPreviousPosition(getCurrentPosition());
     setInterpolatedPosition(getCurrentPosition());
-    m_animation.setAnimationSequence(GreenPiranhaDownAnimName);
+    m_animation.setAnimationSequence("GreenPiranhaDownAnimName");
     m_animation.setAnimation(0, 3, 24, true);
     setHitbox(sf::FloatRect({16.f, 0.f}, {31.f, 47.f}));
     setOrigin(sf::Vector2f(32.f, 0.f));
@@ -109,4 +108,8 @@ void GreenPiranhaDown::BlockHit() {}
 void GreenPiranhaDown::ShellHit() {}
 bool GreenPiranhaDown::isDeath() {
     return isDestroyed();
+}
+
+void GreenPiranhaDown::animationUpdate(float deltaTime) {
+    m_animation.frameTimeAccumulate(deltaTime);
 }

@@ -22,6 +22,7 @@ public:
     void BlockHit() override;
     void ShellHit() override;
     [[nodiscard]] bool isDeath() override;
+    void animationUpdate(float deltaTime) override;
 private:
     MFCPP::SingleAnimationObject m_animation;
     float m_stop_clock, m_stop_time, m_speed;
