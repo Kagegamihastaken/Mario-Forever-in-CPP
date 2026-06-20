@@ -33,7 +33,7 @@ void CustomTileManager::setCollision(const sf::Vector2f &pos, bool val) {
 
 void CustomTileManager::updateCollision() {
     while (!m_queue_data.empty()) {
-        MFCPP::setIndexTilemapCollision(m_queue_data.front().pos.x, m_queue_data.front().pos.y, m_queue_data.front().val);
+        MFCPP::Tilemap::setIndexTilemapCollision(m_queue_data.front().pos.x, m_queue_data.front().pos.y, m_queue_data.front().val);
         m_queue_data.pop();
     }
 }

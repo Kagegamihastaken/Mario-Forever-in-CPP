@@ -20,9 +20,9 @@ BulletBillLauncher::BulletBillLauncher(CustomTileManager &manager, const sf::Vec
     m_animation.setTexture("BulletLauncher");
     setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
     setOrigin(sf::Vector2f(16.f, 31.f));
-    MFCPP::setIndexTilemapCollision(position.x - getOrigin().x, position.y - getOrigin().y, true);
-    MFCPP::setIndexTilemapID(position.x - getOrigin().x, position.y - getOrigin().y, 0);
-    MFCPP::setIndexTilemapFloorY(position.x - getOrigin().x, position.y - getOrigin().y, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(position.x - getOrigin().x, position.y - getOrigin().y, true);
+    MFCPP::Tilemap::setIndexTilemapID(position.x - getOrigin().x, position.y - getOrigin().y, 0);
+    MFCPP::Tilemap::setIndexTilemapFloorY(position.x - getOrigin().x, position.y - getOrigin().y, {0, 32});
     setDrawingPriority(1);
 
     m_launch_interval = 75.f;

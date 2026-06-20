@@ -47,7 +47,7 @@ auto GoombaAIBehavior::GoombaAIYCollision(const GoombaAIData& data, const sf::Fl
         }
     }
     if (QuickCheckTopCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
-        float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
+        float ceilY = (MFCPP::Tilemap::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
         dataOutput.velocity.y = 0.f;
         dataOutput.position.y = CurrPosYCollide + (ceilY + origin.y);
     }

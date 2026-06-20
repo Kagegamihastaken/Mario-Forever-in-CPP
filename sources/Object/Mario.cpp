@@ -319,7 +319,7 @@ void Mario::MarioVertYTopUpdate() {
 		float CurrPosYCollide, CurrPosXCollide;
 		if (QuickCheckTopCollision(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), CurrPosXCollide, CurrPosYCollide)) {
 			//snap back
-			float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
+			float ceilY = (MFCPP::Tilemap::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
 			if (m_PowerState > 0 && !m_MarioCrouchDown)
 				m_player.setCurrentPosition({m_player.getCurrentPosition().x, CurrPosYCollide + (ceilY + m_player.getOrigin().y - 10.f)});
 			else if ((m_PowerState > 0 && m_MarioCrouchDown) || (m_PowerState == 0 && m_MarioAppearing) || (m_PowerState == 0 && !m_MarioCrouchDown))

@@ -34,7 +34,7 @@ namespace MFCPP {
 		}
 	}
 
-	void SingleAnimationObject::setColor(const sf::Color &color) {
+	void SingleAnimationObject::setColor(sf::Color color) {
 		m_color = color;
 	}
 	void SingleAnimationObject::setIndexAnimation(const uint32_t indexAnimation) {
@@ -67,7 +67,7 @@ namespace MFCPP {
 			}
 		}
 	}
-	void SingleAnimationObject::animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
+	void SingleAnimationObject::animationUpdate(sf::Vector2f pos, sf::Vector2f origin) {
 		frameUpdate();
 		SimpleSprite& index = ImageManager::getSpritePreCompute(AnimationSequenceManager::getData(m_sequenceName)[m_indexAnimation]);
 		const sf::IntRect rect = index.getTextureRect();
@@ -85,7 +85,7 @@ namespace MFCPP {
 		//ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
 		WindowFrame::getWindow().draw(index);
 	}
-	void SingleAnimationObject::setAnimationDirection(const AnimationDirection& dir) {
+	void SingleAnimationObject::setAnimationDirection(AnimationDirection dir) {
 		m_direction = dir;
 	}
 	bool SingleAnimationObject::isAnimationAtTheEnd() const {
@@ -98,7 +98,7 @@ namespace MFCPP {
 		return m_direction;
 	}
 
-	int SingleAnimationObject::getFrequency() const {
+	int32_t SingleAnimationObject::getFrequency() const {
 		return m_frequency;
 	}
 

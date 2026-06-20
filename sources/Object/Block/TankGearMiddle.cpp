@@ -15,9 +15,9 @@ TankGearMiddle::TankGearMiddle(CustomTileManager &manager, const sf::Vector2f &p
     m_animation.setAnimation(0, 2, 50, true);
     setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
-    MFCPP::setIndexTilemapCollision(position.x, position.y, true);
-    MFCPP::setIndexTilemapID(position.x, position.y, 0);
-    MFCPP::setIndexTilemapFloorY(position.x, position.y, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);
+    MFCPP::Tilemap::setIndexTilemapID(position.x, position.y, 0);
+    MFCPP::Tilemap::setIndexTilemapFloorY(position.x, position.y, {0, 32});
     setDrawingPriority(0);
 }
 

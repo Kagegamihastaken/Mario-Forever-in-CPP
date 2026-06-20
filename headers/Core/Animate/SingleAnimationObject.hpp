@@ -1,7 +1,6 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
-#include "Core/SimpleSprite.hpp"
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
@@ -25,15 +24,15 @@ namespace MFCPP {
 		void setEndingIndexAnimation(uint32_t endingIndexAnimation);
 		void setFrequencyAnimation(uint32_t frequency);
 
-		void setColor(const sf::Color& color);
+		void setColor(sf::Color color);
 		void frameTimeAccumulate(float deltaTime);
 		void frameUpdate();
-		void animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
+		void animationUpdate(sf::Vector2f pos, sf::Vector2f origin);
 		void animationDraw() const;
-		void setAnimationDirection(const AnimationDirection& dir);
+		void setAnimationDirection(AnimationDirection dir);
 		[[nodiscard]] bool isAnimationAtTheEnd() const;
 		[[nodiscard]] AnimationDirection getAnimationDirection() const;
-		[[nodiscard]] int getFrequency() const;
+		[[nodiscard]] int32_t getFrequency() const;
 		void setAnimationSequence(std::string_view aName);
 		void setRotation(sf::Angle angle);
 		void setLoop(bool val);

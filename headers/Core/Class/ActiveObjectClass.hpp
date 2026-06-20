@@ -8,29 +8,28 @@ namespace MFCPP {
     class ActiveObject {
     public:
         virtual ~ActiveObject() = default;
-
         explicit ActiveObject() = default;
-        void setCurrentPosition(const sf::Vector2<T>& position);
-        [[nodiscard]] const sf::Vector2<T>& getCurrentPosition() const;
-        void setPreviousPosition(const sf::Vector2<T>& position);
-        [[nodiscard]] const sf::Vector2<T>& getPreviousPosition() const;
-        void setInterpolatedPosition(const sf::Vector2<T>& pos);
-        [[nodiscard]] const sf::Vector2<T>& getInterpolatedPosition() const;
-        void setOrigin(const sf::Vector2<T>& origin);
-        [[nodiscard]] const sf::Vector2<T>& getOrigin() const;
-        void move(const sf::Vector2<T>& pos);
-        [[nodiscard]] const sf::Rect<T>& getHitbox() const;
-        void setHitbox(const sf::Rect<T>& hitbox);
-        void setCurrentAngle(const sf::Angle& angle);
-        [[nodiscard]] const sf::Angle& getCurrentAngle() const;
-        void setPreviousAngle(const sf::Angle& angle);
-        [[nodiscard]] const sf::Angle& getPreviousAngle() const;
-        void rotate(const sf::Angle& angle);
-        [[nodiscard]] const sf::Angle& getInterpolatedAngle() const;
-        void setInterpolatedAngle(const sf::Angle& angle);
-        void setDestroyed(bool val);
-        [[nodiscard]] bool isDestroyed() const;
-        void forceSetPosition(const sf::Vector2<T>& position);
+        void setCurrentPosition(sf::Vector2<T> position) noexcept;
+        [[nodiscard]] sf::Vector2<T> getCurrentPosition() const noexcept;
+        void setPreviousPosition(sf::Vector2<T> position) noexcept;
+        [[nodiscard]] sf::Vector2<T> getPreviousPosition() const noexcept;
+        void setInterpolatedPosition(sf::Vector2<T> pos) noexcept;
+        [[nodiscard]] sf::Vector2<T> getInterpolatedPosition() const noexcept;
+        void setOrigin(sf::Vector2<T> origin) noexcept;
+        [[nodiscard]] sf::Vector2<T> getOrigin() const noexcept;
+        void move(sf::Vector2<T> pos) noexcept;
+        [[nodiscard]] const sf::Rect<T>& getHitbox() const noexcept;
+        void setHitbox(const sf::Rect<T>& hitbox) noexcept;
+        void setCurrentAngle(sf::Angle angle) noexcept;
+        [[nodiscard]] sf::Angle getCurrentAngle() const noexcept;
+        void setPreviousAngle(sf::Angle angle) noexcept;
+        [[nodiscard]] sf::Angle getPreviousAngle() const noexcept;
+        void rotate(sf::Angle angle) noexcept;
+        [[nodiscard]] sf::Angle getInterpolatedAngle() const noexcept;
+        void setInterpolatedAngle(sf::Angle angle) noexcept;
+        void setDestroyed(bool val) noexcept;
+        [[nodiscard]] bool isDestroyed() const noexcept;
+        void forceSetPosition(sf::Vector2<T> position) noexcept;
     private:
         sf::Vector2<T> m_curr{};
         sf::Vector2<T> m_prev{};
@@ -43,7 +42,7 @@ namespace MFCPP {
         bool         m_destroy = false;
     };
 
-    extern template class ActiveObject<float>;
+    template class ActiveObject<float>;
 }
 
 #endif

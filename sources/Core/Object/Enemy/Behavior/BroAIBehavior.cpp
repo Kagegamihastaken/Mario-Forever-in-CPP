@@ -155,7 +155,7 @@ GoombaAIBehavior::GoombaAIData BroAIBehavior::BroAIYCollision(const GoombaAIBeha
     }
     NoAdd = false;
     if (QuickCheckOnlyObstacleTopCollision(MFCPP::CollisionObject(dataOutput.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide, NoAdd)) {
-        float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
+        float ceilY = (MFCPP::Tilemap::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
         dataOutput.velocity.y = 0.f;
         dataOutput.position.y = CurrPosYCollide - hitbox.position.y + (ceilY + origin.y);
     }

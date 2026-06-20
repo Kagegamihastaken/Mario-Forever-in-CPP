@@ -21,21 +21,21 @@ FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vecto
 
     const sf::Vector2f original_pos = position - getOrigin();
 
-    MFCPP::setIndexTilemapCollision(original_pos.x, original_pos.y + 32.f, true);
-    MFCPP::setIndexTilemapID(original_pos.x, original_pos.y + 32.f, 0);
-    MFCPP::setIndexTilemapFloorY(original_pos.x, original_pos.y + 32.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x, original_pos.y + 32.f, true);
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x, original_pos.y + 32.f, 0);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x, original_pos.y + 32.f, {0, 32});
 
-    MFCPP::setIndexTilemapCollision(original_pos.x + 32.f, original_pos.y + 32.f, true);
-    MFCPP::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 32.f, 0);
-    MFCPP::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 32.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x + 32.f, original_pos.y + 32.f, true);
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 32.f, 0);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 32.f, {0, 32});
 
-    MFCPP::setIndexTilemapCollision(original_pos.x, original_pos.y + 64.f, true);
-    MFCPP::setIndexTilemapID(original_pos.x, original_pos.y + 64.f, 0);
-    MFCPP::setIndexTilemapFloorY(original_pos.x, original_pos.y + 64.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x, original_pos.y + 64.f, true);
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x, original_pos.y + 64.f, 0);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x, original_pos.y + 64.f, {0, 32});
 
-    MFCPP::setIndexTilemapCollision(original_pos.x + 32.f, original_pos.y + 64.f, true);
-    MFCPP::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 64.f, 0);
-    MFCPP::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 64.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x + 32.f, original_pos.y + 64.f, true);
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 64.f, 0);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 64.f, {0, 32});
 
 
     setDrawingPriority(1);

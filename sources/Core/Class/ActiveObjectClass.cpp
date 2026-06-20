@@ -1,89 +1,88 @@
 #include "Core/Class/ActiveObjectClass.hpp"
 namespace MFCPP {
     template <typename T>
-    void ActiveObject<T>::setCurrentPosition(const sf::Vector2<T>& position) {
+    void ActiveObject<T>::setCurrentPosition(sf::Vector2<T> position) noexcept {
         m_curr = position;
     }
     template <typename T>
-    const sf::Vector2<T>& ActiveObject<T>::getCurrentPosition() const {
+    sf::Vector2<T> ActiveObject<T>::getCurrentPosition() const noexcept {
         return m_curr;
     }
     template <typename T>
-    void ActiveObject<T>::setPreviousPosition(const sf::Vector2<T> &position) {
+    void ActiveObject<T>::setPreviousPosition(sf::Vector2<T> position) noexcept {
         m_prev = position;
     }
     template <typename T>
-    const sf::Vector2<T>& ActiveObject<T>::getPreviousPosition() const {
+    sf::Vector2<T> ActiveObject<T>::getPreviousPosition() const noexcept {
         return m_prev;
     }
     template <typename T>
-    void ActiveObject<T>::setInterpolatedPosition(const sf::Vector2<T>& pos) {
+    void ActiveObject<T>::setInterpolatedPosition(sf::Vector2<T> pos) noexcept {
         m_interpolated_pos = pos;
     }
     template <typename T>
-    const sf::Vector2<T>& ActiveObject<T>::getInterpolatedPosition() const {
+    sf::Vector2<T> ActiveObject<T>::getInterpolatedPosition() const noexcept {
         return m_interpolated_pos;
     }
     template <typename T>
-    void ActiveObject<T>::setOrigin(const sf::Vector2<T>& origin) {
+    void ActiveObject<T>::setOrigin(sf::Vector2<T> origin) noexcept {
         m_origin = origin;
     }
     template <typename T>
-    const sf::Vector2<T>& ActiveObject<T>::getOrigin() const {
+    sf::Vector2<T> ActiveObject<T>::getOrigin() const noexcept {
         return m_origin;
     }
     template <typename T>
-    void ActiveObject<T>::move(const sf::Vector2<T>& pos) {
+    void ActiveObject<T>::move(sf::Vector2<T> pos) noexcept {
         m_curr += pos;
     }
     template <typename T>
-    void ActiveObject<T>::setCurrentAngle(const sf::Angle& angle) {
+    void ActiveObject<T>::setCurrentAngle(sf::Angle angle) noexcept {
         m_curr_angle = angle;
     }
     template <typename T>
-    const sf::Angle& ActiveObject<T>::getCurrentAngle() const {
+    sf::Angle ActiveObject<T>::getCurrentAngle() const noexcept {
         return m_curr_angle;
     }
     template <typename T>
-    void ActiveObject<T>::setPreviousAngle(const sf::Angle& angle) {
+    void ActiveObject<T>::setPreviousAngle(sf::Angle angle) noexcept {
         m_prev_angle = angle;
     }
     template <typename T>
-    const sf::Angle& ActiveObject<T>::getPreviousAngle() const {
+    sf::Angle ActiveObject<T>::getPreviousAngle() const noexcept {
         return m_prev_angle;
     }
     template <typename T>
-    void ActiveObject<T>::rotate(const sf::Angle& angle) {
+    void ActiveObject<T>::rotate(sf::Angle angle) noexcept {
         m_curr_angle += angle;
     }
     template <typename T>
-    const sf::Angle& ActiveObject<T>::getInterpolatedAngle() const {
+    sf::Angle ActiveObject<T>::getInterpolatedAngle() const noexcept {
         return m_interpolated_angle;
     }
     template <typename T>
-    void ActiveObject<T>::setInterpolatedAngle(const sf::Angle& angle) {
+    void ActiveObject<T>::setInterpolatedAngle(sf::Angle angle) noexcept {
         m_interpolated_angle = angle;
     }
     template <typename T>
-    void ActiveObject<T>::setDestroyed(const bool val) {
+    void ActiveObject<T>::setDestroyed(bool val) noexcept {
         m_destroy = val;
     }
     template <typename T>
-    bool ActiveObject<T>::isDestroyed() const {
+    bool ActiveObject<T>::isDestroyed() const noexcept {
         return m_destroy;
     }
     template <typename T>
-    void ActiveObject<T>::setHitbox(const sf::Rect<T>& hitbox) {
+    void ActiveObject<T>::setHitbox(const sf::Rect<T>& hitbox) noexcept {
         m_hitbox = hitbox;
     }
     template <typename T>
-    const sf::Rect<T>& ActiveObject<T>::getHitbox() const {
+    const sf::Rect<T>& ActiveObject<T>::getHitbox() const noexcept {
         return m_hitbox;
     }
     template <typename T>
-    void ActiveObject<T>::forceSetPosition(const sf::Vector2<T>& position) {
+    void ActiveObject<T>::forceSetPosition(sf::Vector2<T> position) noexcept {
         m_curr = position;
         m_prev = position;
     }
-    template class ActiveObject<float>;
 }

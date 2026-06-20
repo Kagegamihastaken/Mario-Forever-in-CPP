@@ -1,7 +1,6 @@
 #include "Object/Coin.hpp"
 
 #include "Core/AnimationSequenceManager.hpp"
-#include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
@@ -56,7 +55,7 @@ void CoinOnTouch() {
 	std::vector<sf::Vector2f> CoinPos{};
 	CoinPos = isAccurateCollideMainCollectable(MFCPP::CollisionObject(Mario::getCurrentPosition(), Mario::getOrigin(), Mario::getHitbox()), 0, sf::FloatRect({ 6, 2 }, { 19, 28 }));
 	for (const auto &i : CoinPos) {
-		MFCPP::setIndexCollectableMapCollision(i.x, i.y, false);
+		MFCPP::Tilemap::setIndexCollectableMapCollision(i.x, i.y, false);
 		Mario::setScore(Mario::getScore() + 200);
 		SoundManager::PlaySound("Coin");
 		++CoinCount;

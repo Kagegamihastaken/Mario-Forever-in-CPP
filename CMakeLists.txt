@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.1.1)
+project(MFCPP VERSION 0.0.1.2)
 
 # --- Global Project Settings ---
 set(CMAKE_CXX_STANDARD 20)
@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
-#TODO FORCE DEVELOPMENT_BUILD ON WHEN BUILD WITH RelWithDebInfo
+
 #GAME SETTING
 set(DEVELOPMENT_BUILD OFF)
 set(LOGGING_ENABLE OFF)
@@ -111,6 +111,7 @@ file(GLOB_RECURSE SOLOUD_SOURCES CONFIGURE_DEPENDS
         "${soloud_SOURCE_DIR}/src/filter/*.cpp"
         "${soloud_SOURCE_DIR}/src/filter/*.c"
 )
+#miniaudio work?
 if(WIN32)
     file(GLOB_RECURSE SOLOUD_BACKEND
             "${soloud_SOURCE_DIR}/src/backend/miniaudio/*.cpp"
@@ -166,7 +167,7 @@ file(GLOB_RECURSE MY_HEADERS CONFIGURE_DEPENDS
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES} ${MY_HEADERS})
-# Use precompiled headers to speed up compilation of common, stable headers.
+# Using precompiled headers
 target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <SFML/Audio.hpp> <SFML/Graphics.hpp> <vector> <map> <optional>
     <string> <set> <array> <iostream> <algorithm>
@@ -201,7 +202,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O3>)
     else()
         message(STATUS "Development Build detected. Applying -O2.")
-        target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O3>)
+        target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:Release>:-O2>)
     endif()
 endif()
 
@@ -240,21 +241,6 @@ if(WIN32)
         endif()
     endif()
 endif()
-
-# --- Post-Build and Debugger Settings ---
-# Copy the libopenmpt DLL to the executable's directory after a successful build
-#add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#        "${CMAKE_CURRENT_SOURCE_DIR}/data.zip"
-#        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>
-#        COMMENT "Copying data.zip to build directory..."
-#)
-#add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        "${CMAKE_CURRENT_SOURCE_DIR}/musics"
-#        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/musics"
-#        COMMENT "Copying music files to build directory..."
-#)
 
 # Set the working directory for debugging in Visual Studio
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")

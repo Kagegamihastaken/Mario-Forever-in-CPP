@@ -210,7 +210,7 @@ void CheckpointBuilding() {
 void Obstaclebuilding() {
 	if (!ObstacleRTexture.resize({static_cast<unsigned>(LevelWidth), static_cast<unsigned>(LevelHeight)}))
 		throw std::runtime_error("Cannot resize Obstacles Texture");
-	MFCPP::setTileMapSize(LevelWidth, LevelHeight);
+	MFCPP::Tilemap::setTileMapSize(LevelWidth, LevelHeight);
 
 	ObstacleRTexture.clear(sf::Color::Transparent);
 	ObstaclesVA.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
@@ -231,9 +231,9 @@ void Obstaclebuilding() {
 		}) - (ID_list.begin());
 		sf::Sprite obstaclesRender(ImageManager::getTexture(fmt::format("Tile_{}", posTextureIndex)));
 		obstaclesRender.setPosition({ i[1], i[2] });
-		MFCPP::setIndexTilemapCollision(i[1], i[2], true);
-		MFCPP::setIndexTilemapID(i[1], i[2], ID_list[posTextureIndex][3]);
-		MFCPP::setIndexTilemapFloorY(i[1], i[2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
+		MFCPP::Tilemap::setIndexTilemapCollision(i[1], i[2], true);
+		MFCPP::Tilemap::setIndexTilemapID(i[1], i[2], ID_list[posTextureIndex][3]);
+		MFCPP::Tilemap::setIndexTilemapFloorY(i[1], i[2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
 		ObstacleRTexture.draw(obstaclesRender);
 	}
 	ObstacleRTexture.display();
@@ -260,6 +260,7 @@ void Objectbuilding() {
 	MusicManager::StopAllMusic();
 	MusicManager::SetLoop(MusicData, true);
 	MusicManager::PlayMusic(MusicData);
+
 	SoundManager::setEnvironmentID(LevelEnvironment);
 	MFCPP::AutoScroll::AutoScrollInit();
 	MFCPP::AutoScroll::resetPosition();
@@ -272,16 +273,14 @@ void Objectbuilding() {
 
 	Scroll::setWindowView();
 	Scroll::updateView();
-	//Delete Effects
-	GameScene::effectManager.DeleteAll();
-	//Delete Objects
+	// Delete things
 	DeleteAllCoin();
-	//Delete Platform
 	GameScene::enemyManager.DeleteAll();
 	GameScene::customTileManager.DeleteAll();
 	GameScene::projectileManager.DeleteAll();
 	GameScene::movingBlockManager.DeleteAll();
 	GameScene::sceneryManager.DeleteAll();
+	GameScene::effectManager.DeleteAll();
 	//(Re)build Objects
 	if (!SceneryData.empty()) {
 		for (const auto& i : SceneryData) {
@@ -295,20 +294,19 @@ void Objectbuilding() {
 	}
 	if (!BonusData.empty()) {
 		for (const auto& i : BonusData) {
-			if (i[0] == 1) {
-				AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
-				MFCPP::setIndexCollectableMapID(i[3], i[4], 0);
-				MFCPP::setIndexCollectableMapCollision(i[3], i[4], true);
-			}
-			else if (i[0] == 2) {
-				// MFCPP::setIndexTilemapCollision(i[3], i[4], true);
-				// MFCPP::setIndexTilemapID(i[3], i[4], 1);
-				AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
-			}
-			else if (i[0] == 3) {
-				MFCPP::setIndexTilemapCollision(i[3], i[4], true);
-				MFCPP::setIndexTilemapID(i[3], i[4], 2);
-				AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+			switch (static_cast<int32_t>(i[0])) {
+				case 1:
+					AddCoin(static_cast<CoinID>(static_cast<int>(i[1])), static_cast<CoinAtt>(static_cast<int>(i[2])), i[3], i[4]);
+					MFCPP::Tilemap::setIndexCollectableMapID(i[3], i[4], 0);
+					MFCPP::Tilemap::setIndexCollectableMapCollision(i[3], i[4], true);
+					break;
+				case 2:
+					AddBrick(static_cast<BrickID>(static_cast<int>(i[1])), static_cast<BrickAtt>(static_cast<int>(i[2])), i[3], i[4]);
+					break;
+				case 3:
+					AddLuckyBlock(static_cast<LuckyBlockID>(static_cast<int>(i[1])), static_cast<LuckyBlockAtt>(static_cast<int>(i[2])), i[3], i[4]);
+					break;
+				default: ;
 			}
 		}
 	}

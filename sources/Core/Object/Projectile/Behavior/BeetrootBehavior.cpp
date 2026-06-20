@@ -60,7 +60,7 @@ BeetrootBehavior::BeetrootData BeetrootBehavior::BeetrootYCollision(const sf::Ve
     }
     float CurrPosYCollide, CurrPosXCollide;
     if (QuickCheckTopCollision(MFCPP::CollisionObject(data.position, origin, hitbox), CurrPosXCollide, CurrPosYCollide)) {
-        float ceilY = (MFCPP::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
+        float ceilY = (MFCPP::Tilemap::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3 ? 32.0f : MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second);
         data.position.y = CurrPosYCollide + (ceilY + origin.y);
         ++data.count;
         do_stuff = 2;

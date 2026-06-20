@@ -142,7 +142,7 @@ void GameScene::interpolatePosition(const float alpha) {
     effectManager.interpolateData(alpha);
 }
 void GameScene::draw(sf::RenderWindow &window) {
-    MFCPP::drawHitboxMap();
+    MFCPP::Tilemap::drawHitboxMap();
 
     BgGradientDraw();
 

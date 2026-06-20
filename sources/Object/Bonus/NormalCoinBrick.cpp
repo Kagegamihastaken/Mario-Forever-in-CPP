@@ -20,9 +20,9 @@ NormalCoinBrick::NormalCoinBrick(CustomTileManager &manager, const sf::Vector2f 
     m_animation.setTexture("NormalBrick");
     setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
     setOrigin(sf::Vector2f(0.f, 0.f));
-    MFCPP::setIndexTilemapCollision(position.x, position.y, true);
-    MFCPP::setIndexTilemapID(position.x, position.y, 1);
-    MFCPP::setIndexTilemapFloorY(position.x, position.y, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);
+    MFCPP::Tilemap::setIndexTilemapID(position.x, position.y, 1);
+    MFCPP::Tilemap::setIndexTilemapFloorY(position.x, position.y, {0, 32});
     setDrawingPriority(0);
     m_ypos = position.y;
     m_state = false;

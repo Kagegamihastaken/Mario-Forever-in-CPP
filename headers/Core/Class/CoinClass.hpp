@@ -14,14 +14,11 @@ namespace MFCPP {
     public:
         explicit Coin(CoinID id, CoinAtt att, const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);
         ~Coin() = default;
-        void setHitbox(const sf::FloatRect& val);
-        [[nodiscard]] sf::FloatRect getHitbox() const;
         void setID(CoinID val);
         [[nodiscard]] CoinID getID() const;
         void setAttribute(CoinAtt val);
         [[nodiscard]] CoinAtt getAttribute() const;
     private:
-        sf::FloatRect m_hitbox;
         CoinID        m_id;
         CoinAtt       m_att;
     };
