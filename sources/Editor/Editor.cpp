@@ -60,18 +60,18 @@ void EditorInit() {
     ImageManager::AddTexture("EDITOR_RotodiscRound", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Round.png");
     ImageManager::AddTexture("EDITOR_RotodiscFlower", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Flower.png");
 
-    SelectBox.setTexture(ImageManager::getTexture("EDITOR_SelectBox"), true);
+    SelectBox.setTexture(ImageManager::getReturnTexture("EDITOR_SelectBox"), true);
     if (ImageManager::getReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
     EDITOR_Mario.setTexture(ImageManager::getReturnTexture(TilePage[LevelTab][0].name), true);
     EDITOR_Mario.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[LevelTab][0].name)->getSize().y) - 32.0f));
 
     EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(256, 320));
-    EDITOR_ExitGateIndicator.setTexture(*ImageManager::getReturnTexture(TilePage[LevelTab][1].name), true);
+    EDITOR_ExitGateIndicator.setTexture(ImageManager::getReturnTexture(TilePage[LevelTab][1].name), true);
     EDITOR_ExitGateIndicator.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[LevelTab][1].name)->getSize().y) - 32.0f));
 
     EDITOR_ExitGate.setPosition(sf::Vector2f(384, 320));
-    EDITOR_ExitGate.setTexture(*ImageManager::getReturnTexture(TilePage[LevelTab][2].name), true);
+    EDITOR_ExitGate.setTexture(ImageManager::getReturnTexture(TilePage[LevelTab][2].name), true);
     EDITOR_ExitGate.setOrigin(sf::Vector2f(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[LevelTab][2].name)->getSize().y) - 32.0f));
 
     BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
@@ -440,7 +440,7 @@ void TilePosUpdate(const float dt) {
     AlphaUpdate(GridAlpha, GridAlphaState, GRIDALPHA_MIN, GRIDALPHA_MAX, GRIDALPHA_CHANGE, dt);
 
     if (PrevSelectTile != CurrSelectTile || PrevPage != CurrPage) {
-        SelectedBlock.setTexture(ImageManager::getTexture(TilePage[CurrPage][CurrSelectTile].name), true);
+        SelectedBlock.setTexture(ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name), true);
         SelectedBlock.setTextureRect(sf::IntRect(TilePage[CurrPage][CurrSelectTile].texPos, {std::min(static_cast<int>(SelectedBlock.getGlobalBounds().size.x - TilePage[CurrPage][CurrSelectTile].texPos.x), 32), std::min(static_cast<int>(SelectedBlock.getGlobalBounds().size.y - TilePage[CurrPage][CurrSelectTile].texPos.y), 32)}));
         PrevSelectTile = CurrSelectTile;
         PrevPage = CurrPage;
@@ -636,10 +636,10 @@ void EditorScreenMove(const float dt) {
     if (EDITOR_ShowProperty || EDITOR_OpenDialog || EDITOR_SaveDialog) return;
 
     if (!EDITOR_SELECTTILE) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) EditorPos.x += 8.0f * dt;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) EditorPos.x -= 8.0f * dt;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) EditorPos.y -= 8.0f * dt;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) EditorPos.y += 8.0f * dt;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) EditorPos.x += 8.0f * dt;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) EditorPos.x -= 8.0f * dt;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) EditorPos.y -= 8.0f * dt;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) EditorPos.y += 8.0f * dt;
         if (EditorPos.x <= -5 * 32.f) EditorPos.x = -5 * 32.f;
         else if (EditorPos.x >= LevelSize.getProperty<FloatProps>("Level Width")->val - WindowFrame::getGameSize().x + 5 * 32.f) EditorPos.x = LevelSize.getProperty<FloatProps>("Level Width")->val - WindowFrame::getGameSize().x + 5 * 32.f;
         if (EditorPos.y <= -5 * 32.f) EditorPos.y = -5 * 32.f;

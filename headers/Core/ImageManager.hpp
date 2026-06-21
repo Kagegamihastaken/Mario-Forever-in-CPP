@@ -8,8 +8,6 @@ namespace MFCPP {
 	class SimpleSprite;
 }
 
-extern sf::Texture tempTex;
-extern void InitTempTex();
 struct PreTexture {
 	std::filesystem::path path;
 	sf::IntRect rect;

@@ -40,7 +40,7 @@ inline sf::Vector2f EditorPrevPos;
 inline sf::Vector2f EditorInterpolatedPos;
 
 //Select Box
-static sf::Sprite SelectBox(tempTex);
+static MFCPP::SimpleSprite SelectBox;
 static float SelectBoxAlpha = 100.0f;
 static bool SelectBoxAlphaState = true;
 constexpr float SELECTBOXALPHA_MAX = 160.0f;
@@ -55,7 +55,7 @@ constexpr float GRIDALPHA_MAX = 255.0f;
 constexpr float GRIDALPHA_MIN = 0.0f;
 constexpr float GRIDALPHA_CHANGE = 1.0f;
 //Selected Block HUD
-static sf::Sprite SelectedBlock(tempTex);
+static MFCPP::SimpleSprite SelectedBlock;
 
 //Tile
 inline std::unordered_set<RenderTile, RenderTileHash, RenderTileEqual> Tile;
@@ -65,8 +65,8 @@ static float TileY;
 // NOTE: Object below only have 1 at a time
 // Mario
 static MFCPP::SimpleSprite EDITOR_Mario; // 128, 320
-static sf::Sprite EDITOR_ExitGateIndicator(tempTex); // 256, 320
-static sf::Sprite EDITOR_ExitGate(tempTex); // 384, 320
+static MFCPP::SimpleSprite EDITOR_ExitGateIndicator; // 256, 320
+static MFCPP::SimpleSprite EDITOR_ExitGate; // 384, 320
 
 //Read file purpose only
 static sf::Vector2f ExitGateData{};

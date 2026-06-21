@@ -45,6 +45,7 @@ void EditorScene::loadResources() {
     BroAIEffectInit();
     CoinEffectInit();
     CoinInit();
+    ForceLoadCoinTexture();
     ScoreEffectInit();
     GoombaAIEffectInit();
     PiranhaAIInit();

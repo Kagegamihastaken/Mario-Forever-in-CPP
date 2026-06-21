@@ -17,7 +17,7 @@ static float SELECT_TILE_GRID_ALPHA_MIN = 0.0f;
 static float SELECT_TILE_GRID_ALPHA_MAX = 255.0f;
 static float SELECT_TILE_GRID_ALPHA_CHANGE = 1.0f;
 
-static sf::Sprite SelectTileBox(tempTex);
+static MFCPP::SimpleSprite SelectTileBox;
 static int SelectTileWidth, SelectTileHeight;
 static float SelectTileX, SelectTileY;
 static float SelectTileAlpha = 0.0f;
@@ -218,7 +218,7 @@ void SelectTileInit() {
     SelectTileGrid[2].texCoords = SelectTileRenderVA[2].texCoords = sf::Vector2f(0.0f, 352.0f);
     SelectTileGrid[3].texCoords = SelectTileRenderVA[3].texCoords = sf::Vector2f(480.0f, 352.0f);
 
-    SelectTileBox.setTexture(ImageManager::getTexture("EDITOR_SelectTileBox"), true);
+    SelectTileBox.setTexture(ImageManager::getReturnTexture("EDITOR_SelectTileBox"), true);
 }
 
 void SelectTilePosUpdate() {

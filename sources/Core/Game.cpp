@@ -13,7 +13,6 @@ SceneManager Game::sceneManager;
 
 void Game::Init() {
     //Essential
-    InitTempTex();
     WindowFrame::Init();
     SoundInit();
     loadFontRes();

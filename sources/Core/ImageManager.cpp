@@ -12,11 +12,6 @@ std::unordered_map<std::string, std::unique_ptr<sf::Texture>> ImageManager::m_te
 std::unordered_map<std::string, PreTexture> ImageManager::m_pre_textures;
 std::unordered_map<std::string, MFCPP::SimpleSprite> ImageManager::m_pre_compute_render;
 
-sf::Texture tempTex;
-
-void InitTempTex() {
-	LoadTexture(tempTex, "data/resources/placeholder.png");
-}
 void ImageManager::Cleanup() {
 	MFCPP::Log::InfoPrint("ImageManager cleanup...");
 	m_textures.clear();
