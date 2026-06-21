@@ -3,7 +3,7 @@
 
 #include "soloud.h"
 
-class AudioEngine {
+class AudioEngine final {
 public:
     AudioEngine() = delete;
     AudioEngine(const AudioEngine&) = delete;

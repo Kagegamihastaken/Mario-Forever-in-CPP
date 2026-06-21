@@ -12,7 +12,7 @@
 class SceneryManager {
 public:
     using SceneryIntrusiveList = boost::intrusive::list<MFCPP::Scenery, boost::intrusive::constant_time_size<false>>;
-    SceneryManager();
+    SceneryManager() = default;
     template<typename T, typename... Args>
     void addScenery(Args&&... args) {
         auto newScenery = std::make_unique<T>(*this, std::forward<Args>(args)...);

@@ -13,7 +13,7 @@
 class EffectManager {
 public:
     using EffectIntrusiveList = boost::intrusive::list<MFCPP::Effect, boost::intrusive::constant_time_size<false>>;
-    EffectManager();
+    EffectManager() = default;
     template <typename T, typename... Args>
     void addEffect(Args&&... args) {
         auto newEffect = std::make_unique<T>(*this, std::forward<Args>(args)...);

@@ -1,6 +1,5 @@
 #include "Core/Object/EffectManager.hpp"
 
-EffectManager::EffectManager() {}
 
 bool EffectManager::getDeletionFlag() const {
     return m_EffectDeletionFlag;

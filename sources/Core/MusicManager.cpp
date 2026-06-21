@@ -9,7 +9,7 @@
 
 std::unordered_map<std::string, std::unique_ptr<SoLoud::AudioSource>> MusicManager::m_musics;
 std::unordered_map<std::string, SoLoud::handle> MusicManager::m_musics_handle;
-std::unordered_map<std::string, PreMusic> MusicManager::m_pre_musics;
+std::unordered_map<std::string, MusicManager::PreMusic> MusicManager::m_pre_musics;
 //false for OGG, true for MOD
 bool MusicManager::CheckValidWavType(const std::string_view& str) {
 	return str == ".flac" || str == ".mp3" || str == ".ogg" || str == ".wav";

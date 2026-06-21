@@ -8,34 +8,33 @@
 #include "cpptrace/utils.hpp"
 
 namespace MFCPP {
-    void SIGHandler (const int signum) {
-        //cpptrace::generate_trace().print();
+    void Handler::SIGHandler(int signum) {
         switch (signum) {
             case SIGFPE:
-                MFCPP::Log::FatalPrint("Floating-point Exception");
+                Log::FatalPrint("Floating-point Exception");
                 break;
             case SIGILL:
-                MFCPP::Log::FatalPrint("Illegal instruction Exception");
+                Log::FatalPrint("Illegal instruction Exception");
                 break;
             case SIGSEGV:
-                MFCPP::Log::FatalPrint("Invalid memory access (Segmentation Fault)");
+                Log::FatalPrint("Invalid memory access (Segmentation Fault)");
                 break;
             case SIGINT:
-                MFCPP::Log::FatalPrint("External Interrupted");
+                Log::FatalPrint("External Interrupted");
                 break;
             case SIGTERM:
-                MFCPP::Log::FatalPrint("Termination Request");
+                Log::FatalPrint("Termination Request");
                 break;
             case SIGABRT:
-                MFCPP::Log::FatalPrint("Abort Request");
+                Log::FatalPrint("Abort Request");
                 break;
             default:
-                MFCPP::Log::FatalPrint(fmt::format("Signal Code {} received.", signum));
+                Log::FatalPrint(fmt::format("Signal Code {} received.", signum));
                 break;
         }
-        MFCPP::Log::printSigTrace();
+        Log::printSigTrace();
     }
-    void HandlerInit() {
+    void Handler::HandlerInit() {
         cpptrace::register_terminate_handler();
         std::signal(SIGSEGV, SIGHandler);
         std::signal(SIGFPE, SIGHandler);

@@ -10,6 +10,9 @@ class MovingBlockManager;
 
 namespace MFCPP {
     class MovingBlock : public MovingBlockIntrusiveHook, public ActiveObject<float> {
+        enum Flag : uint8_t {
+            CanCollision = 0
+        };
     public:
         explicit MovingBlock(MovingBlockManager& manager) : m_movingBlockManager(manager) {};
 
@@ -20,8 +23,8 @@ namespace MFCPP {
         virtual void draw() = 0;
         virtual void animationUpdate(float deltaTime) = 0;
 
-        void setCanCollision(const bool val) { m_option[0] = val;}
-        [[nodiscard]] bool canCollision() const { return m_option[0]; }
+        void setCanCollision(const bool val) { m_option[CanCollision] = val;}
+        [[nodiscard]] bool canCollision() const { return m_option[CanCollision]; }
     protected:
         std::bitset<1> m_option;
         MovingBlockManager& m_movingBlockManager;

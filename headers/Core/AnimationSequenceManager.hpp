@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace MFCPP {
-    class AnimationSequenceManager {
+    class AnimationSequenceManager final {
         static std::unordered_map<std::string, std::vector<std::string>> m_data;
     public:
         AnimationSequenceManager() = delete;

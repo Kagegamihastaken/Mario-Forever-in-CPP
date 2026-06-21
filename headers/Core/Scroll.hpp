@@ -4,7 +4,7 @@
 #define SCROLL_HPP
 #include "Class/CollisionObjectClass.hpp"
 
-class Scroll {
+class Scroll final {
 public:
     Scroll() = delete;
     Scroll(const Scroll&) = delete;

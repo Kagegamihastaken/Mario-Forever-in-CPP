@@ -12,7 +12,7 @@
 class MovingBlockManager {
 public:
     using MovingBlockIntrusiveList = boost::intrusive::list<MFCPP::MovingBlock, boost::intrusive::constant_time_size<false>>;
-    MovingBlockManager();
+    MovingBlockManager() = default;
     template<typename T, typename... Args>
     void addMovingBlock(Args&&... args) {
         auto newMovingBlock = std::make_unique<T>(*this, std::forward<Args>(args)...);

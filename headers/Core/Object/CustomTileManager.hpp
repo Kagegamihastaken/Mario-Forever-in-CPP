@@ -14,7 +14,7 @@
 class CustomTileManager {
 public:
     using CustomTileIntrusiveList = boost::intrusive::list<MFCPP::CustomTile, boost::intrusive::constant_time_size<false>>;
-    CustomTileManager();
+    CustomTileManager() = default;
     template <typename T, typename... Args>
     void addCustomTile(Args&&... args) {
         auto newCustomTile = std::make_unique<T>(*this, std::forward<Args>(args)...);

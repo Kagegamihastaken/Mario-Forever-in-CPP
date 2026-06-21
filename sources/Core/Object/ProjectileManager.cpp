@@ -1,6 +1,5 @@
 #include "Core/Object/ProjectileManager.hpp"
 
-ProjectileManager::ProjectileManager() {}
 
 void ProjectileManager::setPreviousData() const {
     for (const auto &i : m_projectile) {

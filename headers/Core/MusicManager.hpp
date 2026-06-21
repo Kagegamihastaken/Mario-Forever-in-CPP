@@ -5,13 +5,14 @@
 
 #include "soloud_wav.h"
 
-struct PreMusic {
-	std::filesystem::path path;
-	bool isLoop = false;
-	float volume = 1.f;
-};
 
-class MusicManager {
+class MusicManager final {
+	struct PreMusic {
+		std::filesystem::path path;
+		bool isLoop = false;
+		float volume = 1.f;
+	};
+
 	static std::unordered_map<std::string, std::unique_ptr<SoLoud::AudioSource>> m_musics;
 	static std::unordered_map<std::string, SoLoud::handle> m_musics_handle;
 	static std::unordered_map<std::string, PreMusic> m_pre_musics;

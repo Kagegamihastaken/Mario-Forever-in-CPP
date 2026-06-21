@@ -9,6 +9,10 @@ class ProjectileManager;
 
 namespace MFCPP {
     class Projectile : public ProjectileIntrusiveHook, public ActiveObject<float> {
+        enum Flag : uint8_t {
+            DrawingPriorityLow = 0,
+            DrawingPriorityHigh = 1
+        };
     public:
         explicit Projectile(ProjectileManager& manager) : m_manager(manager) {};
 
@@ -21,11 +25,11 @@ namespace MFCPP {
         virtual void animationUpdate(float deltaTime) = 0;
 
         void setDrawingPriority(const int val) {
-            m_option[0] = val & 1;
-            m_option[1] = (val >> 1) & 1;
+            m_option[DrawingPriorityLow] = val & 1;
+            m_option[DrawingPriorityHigh] = (val >> 1) & 1;
         }
         [[nodiscard]] int getDrawingPriority() const {
-            return m_option[0] + (m_option[1] << 1);
+            return m_option[DrawingPriorityLow] + (m_option[DrawingPriorityHigh] << 1);
         }
     protected:
         ProjectileManager& m_manager;

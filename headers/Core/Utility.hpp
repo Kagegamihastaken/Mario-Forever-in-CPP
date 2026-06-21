@@ -1,7 +1,7 @@
 #ifndef MFCPP_UTILITY_HPP
 #define MFCPP_UTILITY_HPP
 
-class Utility {
+class Utility final {
 public:
     Utility() = delete;
     Utility(const Utility&) = delete;

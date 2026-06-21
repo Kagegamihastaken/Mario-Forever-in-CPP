@@ -10,6 +10,10 @@ class CustomTileManager;
 
 namespace MFCPP {
     class CustomTile : public CustomTileIntrusiveHook, public ActiveObject<float> {
+        enum Flag : uint8_t {
+            DrawingPriorityLow = 0,
+            DrawingPriorityHigh = 1
+        };
     public:
         explicit CustomTile(CustomTileManager& manager) : m_customTileManager(manager) {};
 
@@ -21,12 +25,12 @@ namespace MFCPP {
         virtual void draw() = 0;
         virtual void animationUpdate(float deltaTime) = 0;
 
-        void setDrawingPriority(const int val) {
-            m_option[0] = val & 1;
-            m_option[1] = (val >> 1) & 1;
+        void setDrawingPriority(int val) {
+            m_option[DrawingPriorityLow] = val & 1;
+            m_option[DrawingPriorityHigh] = (val >> 1) & 1;
         }
         [[nodiscard]] int getDrawingPriority() const {
-            return m_option[0] + (m_option[1] << 1);
+            return m_option[DrawingPriorityLow] + (m_option[DrawingPriorityHigh] << 1);
         }
     protected:
         CustomTileManager& m_customTileManager;

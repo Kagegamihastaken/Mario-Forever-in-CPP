@@ -4,7 +4,6 @@
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
-EnemyManager::EnemyManager(){}
 void EnemyManager::setPreviousData() const {
     for (const auto &i : m_enemies) {
         if (i) i->setPreviousData();

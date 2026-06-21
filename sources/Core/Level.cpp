@@ -114,7 +114,7 @@ void RotodiscDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos,
 }
 void ReadData(const std::filesystem::path& path) {
 	std::string LevelDataText;
-	LoadLvl(LevelDataText, path.string());
+	MFCPP::IO::LoadLvl(LevelDataText, path.string());
 
 	nlohmann::json levelJson;
 	try {

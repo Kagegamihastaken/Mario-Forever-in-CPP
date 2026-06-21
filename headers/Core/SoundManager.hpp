@@ -8,7 +8,7 @@
 #include "soloud_wav.h"
 #include "Core/Loading/enum.hpp"
 
-class SoundManager {
+class SoundManager final {
 	struct QueueData {
 		std::string path = "";
 		bool changeEnv = true;

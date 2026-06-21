@@ -13,7 +13,7 @@
 class ProjectileManager {
 public:
     using ProjectileIntrusiveList = boost::intrusive::list<MFCPP::Projectile, boost::intrusive::constant_time_size<false>>;
-    ProjectileManager();
+    ProjectileManager() = default;
     template <typename T, typename... Args>
     void addProjectile(Args&&... args) {
         auto newProjectile = std::make_unique<T>(*this, std::forward<Args>(args)...);

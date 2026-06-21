@@ -1,6 +1,5 @@
 #include "Core/Object/SceneryManager.hpp"
 
-SceneryManager::SceneryManager() {}
 
 bool SceneryManager::getDeletionFlag() const {
     return m_SceneryDeletionFlag;

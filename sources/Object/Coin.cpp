@@ -10,6 +10,7 @@
 #include "Effect/MarioEffect.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Logging.hpp"
+#include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
 
 plf::colony<MFCPP::Coin> CoinList;

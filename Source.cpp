@@ -19,7 +19,7 @@ int main() {
 #else
 int WinMain() {
 #endif
-	MFCPP::HandlerInit();
+	MFCPP::Handler::HandlerInit();
 	CPPTRACE_TRY {
 #if DEVELOPMENT_BUILD
 		MFCPP::Log::InfoPrint("Current build in Development Mode");
@@ -29,7 +29,7 @@ int WinMain() {
 		MFCPP::Log::InfoPrint(fmt::format("Version: {}", PROJECT_VERSION));
 		AudioEngine::Init();
 		SoundManager::SoundManagerInit();
-		IOInit();
+		MFCPP::IO::Init();
 		Game::Init();
 		if (!ImGui::SFML::Init(WindowFrame::getWindow())) throw std::runtime_error("Cannot Load ImGui");
 		sf::Clock deltaClock;
@@ -84,7 +84,7 @@ int WinMain() {
 		MFCPP::Log::printCurrentTrace();
 		std::exit(EXIT_FAILURE);
 	}
-	IODeinit();
+	MFCPP::IO::Deinit();
 	AudioEngine::DeInit();
 	SoundManager::CleanUp();
 	ImageManager::Cleanup();

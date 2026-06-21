@@ -9,7 +9,7 @@
 
 class WindowFrame {
 public:
-    class Window {
+    class Window final {
     public:
         Window() = delete;
         Window(const Window&) = delete;

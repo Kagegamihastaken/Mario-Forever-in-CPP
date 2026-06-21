@@ -6,7 +6,6 @@
 namespace MFCPP {
     namespace Exception {
         class AlreadyExistElement final : public std::exception {
-        private:
             std::string messange;
         public:
             explicit AlreadyExistElement(const std::string_view msg) : messange(msg) {};
@@ -16,7 +15,6 @@ namespace MFCPP {
         };
 
         class NonExistElement final : public std::exception {
-        private:
             std::string messange;
         public:
             explicit NonExistElement(const std::string_view msg) : messange(msg) {};
@@ -26,7 +24,6 @@ namespace MFCPP {
         };
 
         class WhichIdentity final : public std::exception {
-        private:
             std::string messange;
         public:
             explicit WhichIdentity(const std::string_view msg) : messange(msg) {};

@@ -19,7 +19,7 @@
 class EnemyManager {
 public:
     using EnemyIntrusiveList = boost::intrusive::list<MFCPP::Enemy, boost::intrusive::constant_time_size<false>>;
-    EnemyManager();
+    EnemyManager() = default;
     template <typename T, typename... Args>
     void addEnemy(Args&&... args) {
         auto newEnemy = std::make_unique<T>(*this, std::forward<Args>(args)...);

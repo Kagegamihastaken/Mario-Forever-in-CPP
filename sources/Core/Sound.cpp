@@ -1,4 +1,5 @@
 #include "Core/Sound.hpp"
+#include "Core/SoundManager.hpp"
 
 void SoundInit() {
 	SoundManager::AddSound("Jump", "data/sounds/jump.ogg", true);

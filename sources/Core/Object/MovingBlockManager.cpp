@@ -1,6 +1,5 @@
 #include "Core/Object/MovingBlockManager.hpp"
 
-MovingBlockManager::MovingBlockManager() {}
 
 bool MovingBlockManager::getDeletionFlag() const {
     return m_MovingBLockDeletionFlag;

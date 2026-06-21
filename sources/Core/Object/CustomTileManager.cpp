@@ -2,7 +2,6 @@
 
 #include "Core/Tilemap.hpp"
 
-CustomTileManager::CustomTileManager() {}
 void CustomTileManager::setPreviousData() const {
     for (const auto &i : m_customTiles) {
         if (i) i->setPreviousData();

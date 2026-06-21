@@ -2,17 +2,17 @@
 #define TILEMAP_HPP
 
 namespace MFCPP {
-    class Tilemap {
+    class Tilemap final {
         struct Tile {
             bool collide = false;
-            unsigned id = 0;
+            uint32_t id = 0;
             std::pair<float, float> floorY = {0.f, 0.f};
         };
         struct Collectable {
             bool collide = false;
-            unsigned id = 0;
+            uint32_t id = 0;
         };
-        static constexpr int TILEMAP_MAX = 5;
+        static constexpr int32_t TILEMAP_MAX = 5;
         static std::unordered_map<int32_t, Tile> ObstaclesTilemap;
         static std::unordered_map<int32_t, Collectable> CollectableMap;
         static int32_t tileMapSizeX, tileMapSizeY;

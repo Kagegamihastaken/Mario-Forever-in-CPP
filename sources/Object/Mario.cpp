@@ -13,6 +13,7 @@
 #include "Effect/MarioEffect.hpp"
 #include "Object/ExitGate.hpp"
 #include "Core/Interpolation.hpp"
+#include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 

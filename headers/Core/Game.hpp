@@ -2,7 +2,7 @@
 #define GAME_HPP
 #include "SceneManager.hpp"
 
-class Game {
+class Game final {
 public:
     Game() = delete;
     Game(const Game&) = delete;
