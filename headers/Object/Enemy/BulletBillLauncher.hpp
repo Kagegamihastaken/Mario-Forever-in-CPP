@@ -7,6 +7,7 @@
 class BulletBillLauncher final : public MFCPP::CustomTile, public MFCPP::SolidType {
 public:
     explicit BulletBillLauncher(CustomTileManager& manager, const sf::Vector2f& position);
+    ~BulletBillLauncher() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

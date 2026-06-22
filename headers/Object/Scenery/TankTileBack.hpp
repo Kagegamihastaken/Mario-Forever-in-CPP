@@ -7,6 +7,7 @@
 class TankTileBack final : public MFCPP::Scenery, public MFCPP::GenericSceneryType {
 public:
     explicit TankTileBack(SceneryManager& manager, const sf::Vector2f& position);
+    ~TankTileBack() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void draw() override;

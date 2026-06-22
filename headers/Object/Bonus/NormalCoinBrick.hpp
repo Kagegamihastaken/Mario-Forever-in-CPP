@@ -9,6 +9,7 @@
 class NormalCoinBrick final : public MFCPP::CustomTile, public MFCPP::BonusType {
 public:
     explicit NormalCoinBrick(CustomTileManager& manager, const sf::Vector2f& position);
+    ~NormalCoinBrick() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

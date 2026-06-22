@@ -9,6 +9,7 @@
 class GreenPiranhaUp final : public MFCPP::Enemy, public MFCPP::PiranhaAIType {
 public:
     explicit GreenPiranhaUp(EnemyManager& manager, const sf::Vector2f& position);
+    ~GreenPiranhaUp() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

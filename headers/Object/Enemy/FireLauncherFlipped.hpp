@@ -7,6 +7,7 @@
 class FireLauncherFlipped final : public MFCPP::CustomTile, public MFCPP::SolidType {
 public:
     explicit FireLauncherFlipped(CustomTileManager& manager, const sf::Vector2f& position);
+    ~FireLauncherFlipped() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

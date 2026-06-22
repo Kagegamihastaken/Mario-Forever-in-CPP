@@ -8,6 +8,7 @@
 class BroHammer final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
     explicit BroHammer(ProjectileManager& manager, bool direction, const sf::Vector2f& position);
+    ~BroHammer() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

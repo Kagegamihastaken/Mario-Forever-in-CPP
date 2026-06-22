@@ -8,6 +8,7 @@
 class RedSpiny final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit RedSpiny(EnemyManager& manager, const sf::Vector2f& position);
+    ~RedSpiny() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

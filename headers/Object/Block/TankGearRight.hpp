@@ -7,6 +7,7 @@
 class TankGearRight final : public MFCPP::CustomTile, public MFCPP::SolidType {
 public:
     explicit TankGearRight(CustomTileManager& manager, const sf::Vector2f& position);
+    ~TankGearRight() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

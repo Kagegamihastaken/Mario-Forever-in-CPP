@@ -8,6 +8,7 @@
 class GearProjectileEffect final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
     explicit GearProjectileEffect(ProjectileManager& manager, const sf::Vector2f& position, const sf::Angle& angle, bool dir);
+    ~GearProjectileEffect() override = default;
     void FireballEffect() const;
     void setPreviousData() override;
     void interpolateData(float alpha) override;

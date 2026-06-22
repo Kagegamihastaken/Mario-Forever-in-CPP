@@ -8,6 +8,7 @@
 class BroFireball final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
     explicit BroFireball(ProjectileManager& manager, bool direction, const sf::Vector2f& position);
+    ~BroFireball() override = default;
     void FireballEffect() const;
     void setPreviousData() override;
     void interpolateData(float alpha) override;

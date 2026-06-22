@@ -25,6 +25,8 @@ namespace MFCPP {
 
         void setCanCollision(const bool val) { m_option[CanCollision] = val;}
         [[nodiscard]] bool canCollision() const { return m_option[CanCollision]; }
+
+        virtual ~MovingBlock() = default;
     protected:
         std::bitset<1> m_option;
         MovingBlockManager& m_movingBlockManager;

@@ -9,6 +9,7 @@
 class GreenPiranhaGround final : public MFCPP::Enemy, public MFCPP::SpikeAIType {
 public:
     explicit GreenPiranhaGround(EnemyManager& manager, const sf::Vector2f& position);
+    ~GreenPiranhaGround() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

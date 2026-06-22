@@ -9,6 +9,7 @@
 class CastleSpikeUp final : public MFCPP::Enemy, public MFCPP::SpikeAIType {
 public:
     explicit CastleSpikeUp(EnemyManager& manager, const sf::Vector2f& position);
+    ~CastleSpikeUp() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

@@ -9,6 +9,7 @@
 class NormalBrick final : public MFCPP::CustomTile, public MFCPP::BonusType {
 public:
     explicit NormalBrick(CustomTileManager& manager, const sf::Vector2f& position);
+    ~NormalBrick() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

@@ -9,6 +9,7 @@
 class LuckyBlockBeetroot final : public MFCPP::CustomTile, public MFCPP::BonusType {
 public:
     explicit LuckyBlockBeetroot(CustomTileManager& manager, const sf::Vector2f& position);
+    ~LuckyBlockBeetroot() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

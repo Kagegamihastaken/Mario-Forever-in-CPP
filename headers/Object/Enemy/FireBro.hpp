@@ -9,6 +9,7 @@
 class FireBro final : public MFCPP::Enemy, public MFCPP::BroAIType {
 public:
     explicit FireBro(EnemyManager& manager, const sf::Vector2f& position);
+    ~FireBro() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

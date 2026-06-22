@@ -9,6 +9,7 @@
 class NormalBrickParticle final : public MFCPP::Effect, public MFCPP::GenericEffectType {
 public:
     explicit NormalBrickParticle(EffectManager& manager, const sf::Vector2f& velocity, const sf::Vector2f& position);
+    ~NormalBrickParticle() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

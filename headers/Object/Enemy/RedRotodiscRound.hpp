@@ -10,6 +10,7 @@
 class RedRotodiscRound final : public MFCPP::Enemy, public MFCPP::RotodiscAIType {
 public:
     explicit RedRotodiscRound(EnemyManager& manager, const sf::Vector2f& position, unsigned int arrange_mode, float radius, float speed, float angle);
+    ~RedRotodiscRound() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

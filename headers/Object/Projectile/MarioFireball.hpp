@@ -8,6 +8,7 @@
 class MarioFireball final : public MFCPP::Projectile, public MFCPP::MarioProjectileType {
 public:
     explicit MarioFireball(ProjectileManager& manager, bool direction, const sf::Vector2f& position);
+    ~MarioFireball() override = default;
     void FireballEffect();
     void setPreviousData() override;
     void interpolateData(float alpha) override;

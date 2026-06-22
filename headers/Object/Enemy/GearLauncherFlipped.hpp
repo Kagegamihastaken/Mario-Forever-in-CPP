@@ -7,6 +7,7 @@
 class GearLauncherFlipped final : public MFCPP::CustomTile, public MFCPP::SolidType {
 public:
     explicit GearLauncherFlipped(CustomTileManager& manager, const sf::Vector2f& position);
+    ~GearLauncherFlipped() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

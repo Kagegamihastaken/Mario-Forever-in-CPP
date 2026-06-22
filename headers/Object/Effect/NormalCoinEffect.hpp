@@ -8,6 +8,7 @@
 class NormalCoinEffect final : public MFCPP::Effect, public MFCPP::GenericEffectType {
 public:
     explicit NormalCoinEffect(EffectManager& manager, const sf::Vector2f& position);
+    ~NormalCoinEffect() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

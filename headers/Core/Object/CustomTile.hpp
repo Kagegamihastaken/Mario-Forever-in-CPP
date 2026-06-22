@@ -32,6 +32,7 @@ namespace MFCPP {
         [[nodiscard]] int getDrawingPriority() const {
             return m_option[DrawingPriorityLow] + (m_option[DrawingPriorityHigh] << 1);
         }
+        virtual ~CustomTile() = default;
     protected:
         CustomTileManager& m_customTileManager;
         std::bitset<2> m_option = 0;

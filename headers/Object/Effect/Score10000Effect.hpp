@@ -8,6 +8,7 @@
 class Score10000Effect : public MFCPP::Effect, public MFCPP::ScrollBasedEffectType {
 public:
     explicit Score10000Effect(EffectManager& manager, const sf::Vector2f& position);
+    ~Score10000Effect() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

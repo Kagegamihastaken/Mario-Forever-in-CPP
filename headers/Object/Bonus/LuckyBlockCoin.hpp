@@ -9,6 +9,7 @@
 class LuckyBlockCoin final : public MFCPP::CustomTile, public MFCPP::BonusType {
 public:
     explicit LuckyBlockCoin(CustomTileManager& manager, const sf::Vector2f& position);
+    ~LuckyBlockCoin() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

@@ -9,6 +9,7 @@
 class BluePlatform final : public MFCPP::MovingBlock, public MFCPP::PlatformType {
 public:
     explicit BluePlatform(MovingBlockManager& manager, const sf::Vector2f& start, const sf::Vector2f& end, float speed, bool smooth, bool fall, bool wait, bool small);
+    ~BluePlatform() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

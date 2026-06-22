@@ -9,6 +9,7 @@
 class FireLauncherProjectile final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
     explicit FireLauncherProjectile(ProjectileManager& manager, const sf::Vector2f& position, const sf::Vector2f& velocity);
+    ~FireLauncherProjectile() override = default;
     void FireballEffect() const;
     void setPreviousData() override;
     void interpolateData(float alpha) override;

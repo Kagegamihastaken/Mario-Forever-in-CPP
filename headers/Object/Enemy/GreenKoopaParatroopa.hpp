@@ -10,6 +10,7 @@
 class GreenKoopaParatroopa final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit GreenKoopaParatroopa(EnemyManager& manager, const sf::Vector2f& position, float angle);
+    ~GreenKoopaParatroopa() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

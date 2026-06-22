@@ -10,6 +10,7 @@
 class RedKoopa final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit RedKoopa(EnemyManager& manager, const sf::Vector2f& position, bool isShell);
+    ~RedKoopa() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

@@ -7,6 +7,7 @@
 class BlueCloud final : public MFCPP::Scenery, public MFCPP::GenericSceneryType {
 public:
     explicit BlueCloud(SceneryManager& manager, const sf::Vector2f& position);
+    ~BlueCloud() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void draw() override;

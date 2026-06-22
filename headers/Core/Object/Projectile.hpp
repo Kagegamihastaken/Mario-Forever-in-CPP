@@ -31,6 +31,7 @@ namespace MFCPP {
         [[nodiscard]] int getDrawingPriority() const {
             return m_option[DrawingPriorityLow] + (m_option[DrawingPriorityHigh] << 1);
         }
+        virtual ~Projectile() = default;
     protected:
         ProjectileManager& m_manager;
         std::bitset<2> m_option = 0;

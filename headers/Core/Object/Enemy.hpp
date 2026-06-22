@@ -54,7 +54,7 @@ namespace MFCPP {
             return m_option[DrawingPriorityLow] + (m_option[DrawingPriorityHigh] << 1);
         }
         virtual void Destroy() = 0;
-        ~Enemy() override = default;
+        virtual ~Enemy() = default;
     protected:
         EnemyManager& m_enemyManager;
         std::bitset<7> m_option = 0;

@@ -9,6 +9,7 @@
 class RedPlatform final : public MFCPP::MovingBlock, public MFCPP::PlatformType {
 public:
     explicit RedPlatform(MovingBlockManager& manager, const sf::Vector2f& start, const sf::Vector2f& end, float speed, bool smooth, bool fall, bool wait, bool small);
+    ~RedPlatform() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

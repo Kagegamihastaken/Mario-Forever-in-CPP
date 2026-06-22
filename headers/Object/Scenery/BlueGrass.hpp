@@ -7,6 +7,7 @@
 class BlueGrass final : public MFCPP::Scenery, public MFCPP::GenericSceneryType {
 public:
     explicit BlueGrass(SceneryManager& manager, const sf::Vector2f& position);
+    ~BlueGrass() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void draw() override;

@@ -10,6 +10,7 @@
 class FireFlower final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit FireFlower(EnemyManager& manager, const sf::Vector2f& position);
+    ~FireFlower() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

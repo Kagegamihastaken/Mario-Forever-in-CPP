@@ -8,6 +8,7 @@
 class GreenSpiny final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit GreenSpiny(EnemyManager& manager, const sf::Vector2f& position);
+    ~GreenSpiny() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

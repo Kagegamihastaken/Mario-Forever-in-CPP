@@ -8,6 +8,7 @@
 class MarioBeetroot final : public MFCPP::Projectile, public MFCPP::MarioProjectileType {
 public:
     explicit MarioBeetroot(ProjectileManager& manager, bool direction, const sf::Vector2f& position);
+    ~MarioBeetroot() override = default;
     void spin(bool flip, bool sound);
     void setPreviousData() override;
     void interpolateData(float alpha) override;

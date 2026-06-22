@@ -11,6 +11,7 @@
 class FireballExplosionEffect final : public MFCPP::Effect, public MFCPP::GenericEffectType {
 public:
     explicit FireballExplosionEffect(EffectManager& manager, const sf::Vector2f& position);
+    ~FireballExplosionEffect() override = default;
     void setPreviousData() override;
     void interpolateData(const float alpha) override;
     void statusUpdate(const float deltaTime) override;

@@ -9,6 +9,7 @@
 class LuckyBlockMushroom final : public MFCPP::CustomTile, public MFCPP::BonusType {
 public:
     explicit LuckyBlockMushroom(CustomTileManager& manager, const sf::Vector2f& position);
+    ~LuckyBlockMushroom() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

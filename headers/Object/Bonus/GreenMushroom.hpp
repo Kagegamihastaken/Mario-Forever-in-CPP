@@ -10,6 +10,7 @@
 class GreenMushroom final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit GreenMushroom(EnemyManager& manager, const sf::Vector2f& position);
+    ~GreenMushroom() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

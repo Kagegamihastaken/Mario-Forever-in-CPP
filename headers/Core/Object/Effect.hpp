@@ -17,6 +17,7 @@ namespace MFCPP {
         virtual void statusUpdate(float deltaTime) = 0;
         virtual void draw() = 0;
         virtual void animationUpdate(float deltaTime) = 0;
+        virtual ~Effect() = default;
     protected:
         EffectManager& m_effectManager;
     };

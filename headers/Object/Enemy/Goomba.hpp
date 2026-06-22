@@ -8,6 +8,7 @@
 class Goomba final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit Goomba(EnemyManager& manager, const sf::Vector2f& position);
+    ~Goomba() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

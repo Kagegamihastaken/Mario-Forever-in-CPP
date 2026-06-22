@@ -7,6 +7,7 @@
 class FireLauncherStand final : public MFCPP::CustomTile, public MFCPP::SolidType {
 public:
     explicit FireLauncherStand(CustomTileManager& manager, const sf::Vector2f& position);
+    ~FireLauncherStand() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

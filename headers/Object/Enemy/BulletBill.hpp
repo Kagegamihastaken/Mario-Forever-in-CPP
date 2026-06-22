@@ -8,6 +8,7 @@
 class BulletBill final : public MFCPP::Enemy, public MFCPP::BulletBillAIType {
 public:
     explicit BulletBill(EnemyManager& manager, const sf::Vector2f& position, float speed, bool direction);
+    ~BulletBill() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

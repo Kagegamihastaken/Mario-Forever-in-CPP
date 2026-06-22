@@ -9,6 +9,7 @@
 class PinkPiranhaRight final : public MFCPP::Enemy, public MFCPP::PiranhaAIType {
 public:
     explicit PinkPiranhaRight(EnemyManager& manager, const sf::Vector2f& position);
+    ~PinkPiranhaRight() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;

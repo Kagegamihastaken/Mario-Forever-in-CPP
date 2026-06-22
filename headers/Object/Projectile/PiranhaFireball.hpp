@@ -9,6 +9,7 @@
 class PiranhaFireball final : public MFCPP::Projectile, public MFCPP::EnemyProjectileType {
 public:
     explicit PiranhaFireball(ProjectileManager& manager, PiranhaDirection direction, const sf::Vector2f& position);
+    ~PiranhaFireball() override = default;
     void FireballEffect() const;
     void setPreviousData() override;
     void interpolateData(float alpha) override;

@@ -15,6 +15,7 @@ namespace MFCPP {
         virtual void interpolateData(float alpha) = 0;
         virtual void draw() = 0;
         virtual void animationUpdate(float deltaTime) = 0;
+        virtual ~Scenery() = default;
     protected:
         SceneryManager& m_manager;
     };

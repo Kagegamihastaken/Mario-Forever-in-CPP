@@ -9,6 +9,7 @@
 class HammerBro final : public MFCPP::Enemy, public MFCPP::BroAIType {
 public:
     explicit HammerBro(EnemyManager& manager, const sf::Vector2f& position);
+    ~HammerBro() override = default;
     void setPreviousData() override;
     void interpolateData(float alpha) override;
     void statusUpdate(float deltaTime) override;
