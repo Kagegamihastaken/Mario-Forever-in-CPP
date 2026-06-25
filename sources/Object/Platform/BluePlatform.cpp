@@ -6,18 +6,15 @@
 #include "Core/Object/MovingBlockManager.hpp"
 #include "Core/Object/MovingBlock/Behavior/PlatformBehavior.hpp"
 
-BluePlatform::BluePlatform(MovingBlockManager &manager, const sf::Vector2f &start, const sf::Vector2f &end, float speed, bool smooth, bool fall, bool wait, bool small) : MovingBlock(manager) {
-    setCurrentPosition(start);
-    setInterpolatedPosition(start);
-    setPreviousPosition(start);
-
-    setOrigin(sf::Vector2f(0.f, 0.f));
+BluePlatform::BluePlatform(MovingBlockManager &manager, const sf::Vector2f &start, const sf::Vector2f &end, float speed, bool smooth, bool fall, bool wait, bool small)
+    : MovingBlock(manager),
+    m_transform(start, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     if (!small) {
-        setHitbox(sf::FloatRect({0.f, 0.f}, {95.f, 8.f}));
+        m_hitbox = sf::FloatRect({0.f, 0.f}, {95.f, 8.f});
         m_animation.setTexture("BluePlatform");
     }
     else {
-        setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 8.f}));
+        m_hitbox = sf::FloatRect({0.f, 0.f}, {31.f, 8.f});
         m_animation.setTexture("BlueSmallPlatform");
     }
 
@@ -38,28 +35,21 @@ BluePlatform::BluePlatform(MovingBlockManager &manager, const sf::Vector2f &star
     setCanCollision(false);
 }
 
-void BluePlatform::setPreviousData() {
+void BluePlatform::updatePreviousData() {
     if (isDestroyed()) return;
-
-    setPreviousPosition(getCurrentPosition());
-}
-
-void BluePlatform::interpolateData(float alpha) {
-    if (isDestroyed()) return;
-
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void BluePlatform::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 64) && m_willFall) {
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 64) && m_willFall) {
         Destroy();
         return;
     }
 
-    const auto data = PlatformBehavior::PlatformStatusUpdate(PlatformBehavior::PlatformData(getCurrentPosition(), m_smooth, m_wait, m_fall, m_start, m_end, m_speed, m_y_velocity, m_smoothStore, m_maxSpeed, m_movingToEnd, m_willFall, m_waitState), deltaTime);
-    setCurrentPosition(data.position);
+    const auto data = PlatformBehavior::PlatformStatusUpdate(PlatformBehavior::PlatformData(m_transform.getCurrentPosition(), m_smooth, m_wait, m_fall, m_start, m_end, m_speed, m_y_velocity, m_smoothStore, m_maxSpeed, m_movingToEnd, m_willFall, m_waitState), deltaTime);
+    m_transform.setCurrentPosition(data.position);
     m_speed = data.speed;
     m_smoothStore = data.smoothStore;
     m_movingToEnd = data.movingToEnd;
@@ -71,7 +61,7 @@ void BluePlatform::statusUpdate(float deltaTime) {
 
 void BluePlatform::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_movingBlockManager.setDeletionFlag(true);
     }
 }
@@ -81,12 +71,32 @@ void BluePlatform::activate() {
     if (m_wait && m_waitState == 0) m_waitState = 1;
 }
 
-void BluePlatform::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+void BluePlatform::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 
 void BluePlatform::animationUpdate(float deltaTime) {}
+
+sf::Vector2f BluePlatform::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f BluePlatform::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect BluePlatform::getHitbox() {
+    return m_hitbox;
+}
+
+bool BluePlatform::isDestroyed() {
+    return m_transform.isDestroyed();
+}
+
+sf::Vector2f BluePlatform::getPreviousPosition() {
+    return m_transform.getPreviousPosition();
+}

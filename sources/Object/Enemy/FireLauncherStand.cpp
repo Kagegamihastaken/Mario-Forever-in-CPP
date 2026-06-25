@@ -1,6 +1,5 @@
 #include "Object/Enemy/FireLauncherStand.hpp"
 
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
@@ -11,13 +10,11 @@
 #include "Object/Enemy/BulletBill.hpp"
 #include "Object/Projectile/FireLauncherProjectile.hpp"
 
-FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vector2f &position) : CustomTile(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vector2f &position)
+    : CustomTile(manager),
+    m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     m_animation.setTexture("FireLauncherStand");
-    setHitbox(sf::FloatRect({0.f, 0.f}, {96.f, 64.f}));
-    setOrigin(sf::Vector2f(0.f, 0.f));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {96.f, 64.f});
 
     const sf::Vector2f original_pos = position - getOrigin();
 
@@ -48,14 +45,9 @@ FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vecto
     m_playSound = false;
 }
 
-void FireLauncherStand::setPreviousData() {
+void FireLauncherStand::updatePreviousData() {
     if (isDestroyed()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-
-void FireLauncherStand::interpolateData(float alpha) {
-    if (isDestroyed()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void FireLauncherStand::KickEvent() {}
@@ -63,23 +55,39 @@ void FireLauncherStand::HitEvent() {}
 
 void FireLauncherStand::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     bool launch = false, sound = false;
     auto data = FireLauncherBehavior::FireLauncherStatusUpdate(FireLauncherBehavior::FireLauncherData(m_FireInterval, m_FireIntervalCounting, m_ProjectileCount, m_ProjectileCounting, m_FireBetweenInterval, m_FireBetweenIntervalCounting, m_playSound), launch, sound, deltaTime);
     if (sound)
         SoundManager::PlaySound("Volcano");
     if (launch)
-        GameScene::projectileManager.addProjectile<FireLauncherProjectile>(getCurrentPosition() + sf::Vector2f(19.f, 38.f), sf::Vector2f(-5.f, -8.5f));
+        GameScene::projectileManager.addProjectile<FireLauncherProjectile>(m_transform.getCurrentPosition() + sf::Vector2f(19.f, 38.f), sf::Vector2f(-5.f, -8.5f));
     m_FireBetweenIntervalCounting = data.FireBetweenIntervalCounting;
     m_ProjectileCounting = data.ProjectileCounting;
     m_FireIntervalCounting = data.FireIntervalCounting;
     m_playSound = data.PlaySound;
 }
-void FireLauncherStand::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+void FireLauncherStand::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) return;
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
+}
+
+sf::Vector2f FireLauncherStand::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f FireLauncherStand::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect FireLauncherStand::getHitbox() {
+    return m_hitbox;
+}
+
+bool FireLauncherStand::isDestroyed() {
+    return m_transform.isDestroyed();
 }
 
 void FireLauncherStand::animationUpdate(float deltaTime) {}

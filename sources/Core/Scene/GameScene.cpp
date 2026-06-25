@@ -123,49 +123,41 @@ void GameScene::setPreviousPosition() {
     Mario::SetPrevMarioPos();
     SetPrevMarioEffectPos();
     SetPrevExitGatePos();
-    enemyManager.setPreviousData();
-    customTileManager.setPreviousData();
-    projectileManager.setPreviousData();
-    movingBlockManager.setPreviousData();
-    sceneryManager.setPreviousData();
-    effectManager.setPreviousData();
+    enemyManager.updatePreviousData();
+    customTileManager.updatePreviousData();
+    projectileManager.updatePreviousData();
+    movingBlockManager.updatePreviousData();
+    sceneryManager.updatePreviousData();
+    effectManager.updatePreviousData();
 }
 void GameScene::interpolatePosition(const float alpha) {
-    Mario::InterpolateMarioPos(alpha);
-    InterpolateMarioEffectPos(alpha);
-    InterpolateExitGatePos(alpha);
-    enemyManager.interpolateData(alpha);
-    customTileManager.interpolateData(alpha);
-    projectileManager.interpolateData(alpha);
-    movingBlockManager.interpolateData(alpha);
-    sceneryManager.interpolateData(alpha);
-    effectManager.interpolateData(alpha);
+    Mario::storeAlpha(alpha);
 }
-void GameScene::draw(sf::RenderWindow &window) {
+void GameScene::draw(sf::RenderWindow &window, float alpha) {
     MFCPP::Tilemap::drawHitboxMap();
 
     BgGradientDraw();
 
     BgDraw();
-    sceneryManager.draw();
-    ExitGateDraw();
-    CheckpointDraw();
-    enemyManager.DrawPriority(0);
-    Mario::MarioDraw();
+    sceneryManager.draw(alpha);
+    ExitGateDraw(alpha);
+    CheckpointDraw(alpha);
+    enemyManager.DrawPriority(0, alpha);
+    Mario::MarioDraw(alpha);
     ObstaclesDraw();
-    enemyManager.DrawPriority(1);
-    movingBlockManager.draw();
-    customTileManager.DrawPriority(0);
-    CoinDraw();
-    enemyManager.DrawPriority(2);
-    projectileManager.DrawPriority(0);
-    customTileManager.DrawPriority(1);
-    enemyManager.DrawPriority(3);
-    projectileManager.DrawPriority(1);
-    projectileManager.DrawPriority(2);
-    MarioEffectDraw();
-    ExitGateEffectDraw();
-    effectManager.Draw();
+    enemyManager.DrawPriority(1, alpha);
+    movingBlockManager.draw(alpha);
+    customTileManager.DrawPriority(0, alpha);
+    CoinDraw(alpha);
+    enemyManager.DrawPriority(2, alpha);
+    projectileManager.DrawPriority(0, alpha);
+    customTileManager.DrawPriority(1, alpha);
+    enemyManager.DrawPriority(3, alpha);
+    projectileManager.DrawPriority(1, alpha);
+    projectileManager.DrawPriority(2, alpha);
+    MarioEffectDraw(alpha);
+    ExitGateEffectDraw(alpha);
+    effectManager.Draw(alpha);
     WindowFrame::FrameDraw();
 
     HitboxUtils::drawHitbox();
@@ -250,11 +242,11 @@ void GameScene::loadResources() {
         AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    //ReadData("data/levels/onedashthree.json");
+    ReadData("data/levels/onedashthree.json");
     //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
     //ReadData("data/levels/gearuptest.json");
-    ReadData("data/levels/sevendashone.json");
+    //ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

@@ -5,23 +5,19 @@
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "../../../headers/Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
+#include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Object/GoombaAI.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Object/Mario.hpp"
 
-GreenSpiny::GreenSpiny(EnemyManager &manager, const sf::Vector2f& position) : Enemy(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+GreenSpiny::GreenSpiny(EnemyManager &manager, const sf::Vector2f& position)
+    : Enemy(manager),
+    m_transform(position, sf::Vector2f(16.f, 31.f), sf::degrees(0.f)) {
     m_animation.setAnimation(0, 1, 14, true);
     m_animation.setAnimationSequence("GreenSpinyAnimName");
-    setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-    setOrigin(sf::Vector2f(16.f, 31.f));
     m_velocity = sf::Vector2f(1.f, 0.f);
     setDirection(false);
     setDisabled(true);
@@ -31,13 +27,9 @@ GreenSpiny::GreenSpiny(EnemyManager &manager, const sf::Vector2f& position) : En
     setShellBlocker(false);
     setDrawingPriority(0);
 }
-void GreenSpiny::setPreviousData() {
+void GreenSpiny::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-void GreenSpiny::interpolateData(const float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 void GreenSpiny::EnemyCollision() {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
@@ -52,51 +44,51 @@ void GreenSpiny::EnemyCollision() {
 }
 void GreenSpiny::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.0f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario))
+    if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario))
         Mario::PowerDown();
 }
 void GreenSpiny::statusUpdate(const float deltaTime) {
     if (isDestroyed()) return;
 
     if (m_state == 0) {
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0))
             Destroy();
-        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
+        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
             if (isDisabled()) setDisabled(false);
         }
     }
     if (m_state == 1)
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
 }
 void GreenSpiny::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
     data = GoombaAIBehavior::GoombaAIXCollision(data, getHitbox(), m_wall_hitbox, getOrigin());
-    setCurrentPosition(data.position);
+    m_transform.setCurrentPosition(data.position);
     m_velocity = data.velocity;
     setDirection(data.direction);
 }
 void GreenSpiny::YUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
     if (m_state < 1) {
-        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
-        data = GoombaAIBehavior::GoombaAIYCollision(data, getHitbox(), getOrigin(), true, getPreviousPosition().x);
-        setCurrentPosition(data.position);
+        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        data = GoombaAIBehavior::GoombaAIYCollision(data, getHitbox(), getOrigin(), true, m_transform.getPreviousPosition().x);
+        m_transform.setCurrentPosition(data.position);
         m_velocity = data.velocity;
         setDirection(data.direction);
     }
     else {
-        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         m_velocity = data.velocity;
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
     }
 }
 
 void GreenSpiny::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(1);
 }
@@ -108,21 +100,21 @@ void GreenSpiny::ShellHit() {
 
 void GreenSpiny::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
 
-void GreenSpiny::draw() {
+void GreenSpiny::draw(float alpha) {
     m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
         m_animation.frameUpdate();
         return;
     }
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 void GreenSpiny::Death(unsigned int state) {
     setCollideEachOther(false);
@@ -147,4 +139,20 @@ bool GreenSpiny::isDeath() {
 
 void GreenSpiny::animationUpdate(float deltaTime) {
     m_animation.frameTimeAccumulate(deltaTime);
+}
+
+sf::Vector2f GreenSpiny::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f GreenSpiny::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect GreenSpiny::getHitbox() {
+    return m_hitbox;
+}
+
+bool GreenSpiny::isDestroyed() {
+    return m_transform.isDestroyed();
 }

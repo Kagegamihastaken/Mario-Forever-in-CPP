@@ -81,7 +81,7 @@ auto GoombaAIBehavior::ShellXCollision(const GoombaAIData& data, const sf::Float
     auto dataOutput = GoombaAIData(EnemyPlatformXCollision(data, hitbox, origin), data.velocity, data.direction);
     float CurrPosXCollide = 0, CurrPosYCollide = 0;;
     for (auto& bonus : GameScene::customTileManager.getBonusList()) {
-        if (const sf::FloatRect BonusHitbox = getGlobalHitbox(bonus.getHitbox(), bonus.getCurrentPosition(), bonus.getOrigin()); isCollide(BonusHitbox, getGlobalHitbox(hitbox, dataOutput.position, origin)))
+        if (const sf::FloatRect BonusHitbox = getGlobalHitbox(bonus.getHitbox(), bonus.getPosition(), bonus.getOrigin()); isCollide(BonusHitbox, getGlobalHitbox(hitbox, dataOutput.position, origin)))
             bonus.KickEvent();
     }
 
@@ -108,11 +108,11 @@ auto GoombaAIBehavior::BulletBillEffectYMove(const GoombaAIData& data, const flo
 }
 auto GoombaAIBehavior::GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* EnemyB) -> void {
     if (!EnemyB->isCollideEachOther() || !EnemyA->isCollideEachOther()) return;
-    if (const sf::FloatRect r1 = getGlobalHitbox(EnemyA->getHitbox(), EnemyA->getCurrentPosition(), EnemyA->getOrigin()); isCollide(r1, getGlobalHitbox(EnemyB->getHitbox(), EnemyB->getCurrentPosition(), EnemyB->getOrigin()))) {
-        if (EnemyA->getCurrentPosition().x > EnemyB->getCurrentPosition().x) {
+    if (const sf::FloatRect r1 = getGlobalHitbox(EnemyA->getHitbox(), EnemyA->getPosition(), EnemyA->getOrigin()); isCollide(r1, getGlobalHitbox(EnemyB->getHitbox(), EnemyB->getPosition(), EnemyB->getOrigin()))) {
+        if (EnemyA->getPosition().x > EnemyB->getPosition().x) {
             EnemyA->setDirection(true);
             EnemyB->setDirection(false);
-        } else if (EnemyA->getCurrentPosition().x < EnemyB->getCurrentPosition().x) {
+        } else if (EnemyA->getPosition().x < EnemyB->getPosition().x) {
             EnemyA->setDirection(false);
             EnemyB->setDirection(true);
         }
@@ -121,24 +121,24 @@ auto GoombaAIBehavior::GoombaAICollision(MFCPP::Enemy* EnemyA, MFCPP::Enemy* Ene
 
 auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* Other, unsigned short& val) -> void {
     if (!Shell->isShellKicking() || !Shell->isShellBlocker()) return;
-    if (const sf::FloatRect r1 = getGlobalHitbox(Shell->getHitbox(), Shell->getCurrentPosition(), Shell->getOrigin()); isCollide(r1, getGlobalHitbox(Other->getHitbox(), Other->getCurrentPosition(), Other->getOrigin()))) {
+    if (const sf::FloatRect r1 = getGlobalHitbox(Shell->getHitbox(), Shell->getPosition(), Shell->getOrigin()); isCollide(r1, getGlobalHitbox(Other->getHitbox(), Other->getPosition(), Other->getOrigin()))) {
         if (!Other->isShellKicking()) {
             if (Other->isShellBlocker()) {
                 SoundManager::PlaySound("Kick2");
-                AddScoreEffect(ScoreID::SCORE_100, Shell->getCurrentPosition().x, Shell->getCurrentPosition().y - Shell->getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y);
                 Shell->ShellHit();
             }
             return;
         }
 
         if (!Other->isShellBlocker()) {
-            val = Kicking(Other->getCurrentPosition(), Other->getOrigin(), val);
+            val = Kicking(Other->getPosition(), Other->getOrigin(), val);
             Other->ShellHit();
         }
         else if (Other->isShellBlocker()){
             SoundManager::PlaySound("Kick2");
-            AddScoreEffect(ScoreID::SCORE_100, Shell->getCurrentPosition().x, Shell->getCurrentPosition().y - Shell->getOrigin().y);
-            AddScoreEffect(ScoreID::SCORE_100, Other->getCurrentPosition().x, Other->getCurrentPosition().y - Other->getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, Other->getPosition().x, Other->getPosition().y - Other->getOrigin().y);
             Shell->ShellHit();
             Other->ShellHit();
         }

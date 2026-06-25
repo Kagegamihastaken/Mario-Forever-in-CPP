@@ -75,7 +75,7 @@ int WinMain() {
 			ImGui::SFML::Update(WindowFrame::getWindow(), deltaClock.restart());
 			//draw
 			WindowFrame::getWindow().clear(sf::Color::Black);
-			Game::Draw();
+			Game::Draw(alpha);
 			ImGui::SFML::Render(WindowFrame::getWindow());
 			WindowFrame::getWindow().display();
 		}

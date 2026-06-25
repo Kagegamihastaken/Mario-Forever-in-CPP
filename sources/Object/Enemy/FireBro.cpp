@@ -1,5 +1,4 @@
 #include "Object/Enemy/FireBro.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
@@ -15,15 +14,13 @@
 #include "Object/Mario.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 
-FireBro::FireBro(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+FireBro::FireBro(EnemyManager &manager, const sf::Vector2f &position)
+    : Enemy(manager),
+    m_transform(position, sf::Vector2f(24.f, 63.f), sf::degrees(0.f)){
     m_animation.setAnimation(0, 1, 14, true);
     m_animation.setAnimationSequence("FireBroAnimName");
-    setHitbox(sf::FloatRect({7.f, 16.f}, {32.f, 48.f}));
+    m_hitbox = sf::FloatRect({7.f, 16.f}, {32.f, 48.f});
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-    setOrigin(sf::Vector2f(24.f, 63.f));
     m_velocity = sf::Vector2f(2.f, 0.f);
     setDirection(false);
     setDisabled(true);
@@ -60,28 +57,23 @@ FireBro::FireBro(EnemyManager &manager, const sf::Vector2f &position) : Enemy(ma
     m_lastIsLaunching = m_IsLaunching;
 }
 
-void FireBro::setPreviousData() {
+void FireBro::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
+    m_transform.Update();
 }
-void FireBro::interpolateData(float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
-}
-
 void FireBro::EnemyCollision() {}
 void FireBro::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state != 0) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
-        if (getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
+    if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
+        if (m_transform.getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }
-        if (getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
+        if (m_transform.getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
             Mario::PowerDown();
     }
 }
@@ -90,27 +82,27 @@ void FireBro::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     // Status Update
     if (m_state == 0) {
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0))
             Destroy();
-        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
+        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0))
             if (isDisabled()) {
                 setDisabled(false);
                 return;
             }
         if (!EffectActive) {
-            if (getCurrentPosition().x > Mario::getCurrentPosition().x) m_animation.setAnimationDirection(ANIM_LEFT);
+            if (m_transform.getCurrentPosition().x > Mario::getCurrentPosition().x) m_animation.setAnimationDirection(ANIM_LEFT);
             else m_animation.setAnimationDirection(ANIM_RIGHT);
         }
         else m_animation.setAnimationDirection(ANIM_LEFT);
     }
     else {
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
     }
 
     // Shooting Update
     if (isDisabled() || m_state != 0) return;
     BroAIBehavior::BroAIShootData data(m_launchTickingTime, m_LaunchInterval, m_launchIntervalTicking, m_launchRNG, m_launchWaitTime, m_launchCount, m_launchCounting, m_launchIntervalBetween, m_launchIntervalBetweenTicking);
-    const BroAIBehavior::BroAIShootingData ShootingData = BroAIBehavior::ShootUpdate(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), data, getOrigin(), getHitbox(), m_IsLaunching, deltaTime);
+    const BroAIBehavior::BroAIShootingData ShootingData = BroAIBehavior::ShootUpdate(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), data, getOrigin(), getHitbox(), m_IsLaunching, deltaTime);
 
     m_launchTickingTime = data.launchTickingTime;
     m_launchIntervalTicking = data.launchIntervalTicking;
@@ -124,9 +116,9 @@ void FireBro::statusUpdate(float deltaTime) {
     }
     if (ShootingData.isFire) {
         if (m_animation.getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, getCurrentPosition().x + 6.f, getCurrentPosition().y - 21.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, m_transform.getCurrentPosition().x + 6.f, m_transform.getCurrentPosition().y - 21.f);
         else
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, getCurrentPosition().x - 6.f, getCurrentPosition().y - 21.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, m_transform.getCurrentPosition().x - 6.f, m_transform.getCurrentPosition().y - 21.f);
         SoundManager::PlaySound("Fireball");
     }
 }
@@ -141,7 +133,7 @@ void FireBro::AnimationUpdate(const bool val) {
 void FireBro::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state != 0) return;
 
-    BroAIBehavior::BroAIData data = {getCurrentPosition(), m_movingValue, m_timeTicking, m_tickingValue, m_velocity.x, m_stop_duration, m_randomWalking, getDirection(), m_WalkingState};
+    BroAIBehavior::BroAIData data = {m_transform.getCurrentPosition(), m_movingValue, m_timeTicking, m_tickingValue, m_velocity.x, m_stop_duration, m_randomWalking, getDirection(), m_WalkingState};
     data = BroAIBehavior::BroAIXUpdate(data, m_RNG_walking_range, m_RNG_ticking_range, deltaTime);
     m_movingValue = data.movingValue;
     m_timeTicking = data.timeTicking;
@@ -150,28 +142,28 @@ void FireBro::XUpdate(const float deltaTime) {
     m_randomWalking = data.randomWalking;
     setDirection(data.directionMoving);
     m_WalkingState = data.state;
-    setCurrentPosition(data.position);
+    m_transform.setCurrentPosition(data.position);
     m_velocity.x = data.speed;
-    const auto CollisionData = BroAIBehavior::BroAIXCollision(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), sf::Vector2f(0.f, 0.f), getDirection()), getHitbox(), m_wall_hitbox, getOrigin());
-    setCurrentPosition(CollisionData);
+    const auto CollisionData = BroAIBehavior::BroAIXCollision(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), sf::Vector2f(0.f, 0.f), getDirection()), getHitbox(), m_wall_hitbox, getOrigin());
+    m_transform.setCurrentPosition(CollisionData);
 }
 void FireBro::YUpdate(float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
     if (m_state == 0) {
-        GoombaAIBehavior::GoombaAIData data = BroAIBehavior::BroAIYUpdateMovement(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        GoombaAIBehavior::GoombaAIData data = BroAIBehavior::BroAIYUpdateMovement(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         data = BroAIBehavior::BroAIYCollision(data, getHitbox(), getOrigin(), m_timeCounter, m_isFalling, m_lastY, true, deltaTime);
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
         m_velocity.y = data.velocity.y;
     }
     else {
-        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         m_velocity = data.velocity;
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
     }
 }
 void FireBro::BlockHit() {
     if (m_state != 0) return;
-    AddScoreEffect(ScoreID::SCORE_200, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(1);
 }
@@ -183,26 +175,26 @@ void FireBro::Death(unsigned int state) {
     setShellKicking(false);
     setShellBlocker(false);
     setDrawingPriority(3);
-    if (getCurrentPosition().x > Mario::getCurrentPosition().x) m_animation.setAnimationDirection(ANIM_LEFT);
+    if (m_transform.getCurrentPosition().x > Mario::getCurrentPosition().x) m_animation.setAnimationDirection(ANIM_LEFT);
     else m_animation.setAnimationDirection(ANIM_RIGHT);
     setDisabled(false);
 }
 
 void FireBro::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
 
-void FireBro::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+void FireBro::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
         m_animation.frameUpdate();
         return;
     }
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 bool FireBro::isDeath() {
     return m_state != 0;
@@ -210,6 +202,22 @@ bool FireBro::isDeath() {
 void FireBro::ShellHit() {
     if (m_state != 0) return;
     Death(1);
+}
+
+sf::Vector2f FireBro::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f FireBro::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect FireBro::getHitbox() {
+    return m_hitbox;
+}
+
+bool FireBro::isDestroyed() {
+    return m_transform.isDestroyed();
 }
 
 void FireBro::animationUpdate(float deltaTime) {

@@ -4,15 +4,9 @@
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
-void EnemyManager::setPreviousData() const {
+void EnemyManager::updatePreviousData() const {
     for (const auto &i : m_enemies) {
-        if (i) i->setPreviousData();
-    }
-}
-
-void EnemyManager::interpolateData(const float alpha) const {
-    for (const auto &i : m_enemies) {
-        if (i) i->interpolateData(alpha);
+        if (i) i->updatePreviousData();
     }
 }
 
@@ -49,9 +43,9 @@ void EnemyManager::MarioCollision() const {
             i->MarioCollision(MarioYVelocityBefore);
     }
 }
-void EnemyManager::DrawPriority(const int index) const {
+void EnemyManager::DrawPriority(int index, float alpha) const {
     for (auto &i : m_enemies) {
-        if (i && i->getDrawingPriority() == index) i->draw();
+        if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }
 }
 EnemyManager::EnemyIntrusiveList &EnemyManager::getGoombaAIList() {

@@ -1,4 +1,3 @@
-#include "Core/ImageManager.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Sound.hpp"
 #include "Core/Music.hpp"
@@ -9,7 +8,7 @@
 #include "Core/Scene/EditorScene.hpp"
 #include "Core/Scene/GameScene.hpp"
 
-SceneManager Game::sceneManager;
+SceneManager g_sceneManager;
 
 void Game::Init() {
     //Essential
@@ -19,43 +18,47 @@ void Game::Init() {
     MusicInit();
     Scroll::Init();
     //Scene
-    sceneManager.addScene<GameScene>("Game");
-    sceneManager.addScene<EditorScene>("Editor");
-    sceneManager.changeScene("Game");
+    g_sceneManager.addScene<GameScene>(SceneManager::SceneState::GAMEPLAY);
+    g_sceneManager.addScene<EditorScene>(SceneManager::SceneState::EDITOR);
+    g_sceneManager.changeScene(SceneManager::SceneState::GAMEPLAY);
 }
 void Game::EditText() {
-    sceneManager.textUpdate();
+    g_sceneManager.textUpdate();
 }
 void Game::SetPrev() {
-    sceneManager.setPreviousPosition();
+    g_sceneManager.setPreviousPosition();
 }
 void Game::DeltaMovement(const float dt) {
-    sceneManager.update(dt);
+    g_sceneManager.update(dt);
 }
 void Game::RetrieveEvent(const std::optional<sf::Event>& event) {
     WindowFrame::Window::WindowEventUpdate(event);
-    sceneManager.handleInput(event);
+    g_sceneManager.handleInput(event);
 }
-void Game::InterpolateMovement(const float alpha) {
-    sceneManager.interpolatePosition(alpha);
+void Game::InterpolateMovement(float alpha) {
+    g_sceneManager.interpolatePosition(alpha);
 }
 void Game::Collision() {
-    sceneManager.postUpdate();
+    g_sceneManager.postUpdate();
 }
 void Game::UpdateView() {
-    sceneManager.setView();
+    g_sceneManager.setView();
 }
 void Game::MiscUpdate() {
     Scroll::setWindowView();
-    sceneManager.setView();
     WindowFrame::updateFrame();
+    g_sceneManager.setView();
     Scroll::updateView();
     UpdatePositionCharacter();
-    sceneManager.HUDPositionUpdate();
+    g_sceneManager.HUDPositionUpdate();
 }
-void Game::Draw() {
-    sceneManager.draw(WindowFrame::getWindow());
+void Game::Draw(float alpha) {
+    g_sceneManager.draw(WindowFrame::getWindow(), alpha);
 }
 void Game::Cleanup() {
-    sceneManager.objectCleanup();
+    g_sceneManager.objectCleanup();
+}
+void Game::Deinit() {
+    MFCPP::Log::InfoPrint("Game Deinit...");
+    g_sceneManager.unload();
 }

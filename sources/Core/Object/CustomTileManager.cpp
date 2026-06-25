@@ -2,15 +2,9 @@
 
 #include "Core/Tilemap.hpp"
 
-void CustomTileManager::setPreviousData() const {
+void CustomTileManager::updatePreviousData() const {
     for (const auto &i : m_customTiles) {
-        if (i) i->setPreviousData();
-    }
-}
-
-void CustomTileManager::interpolateData(float alpha) const {
-    for (const auto &i : m_customTiles) {
-        if (i) i->interpolateData(alpha);
+        if (i) i->updatePreviousData();
     }
 }
 
@@ -56,9 +50,9 @@ void CustomTileManager::setDeletionFlag(bool val) {
     m_CustomTileDeletionFlag = val;
 }
 
-void CustomTileManager::DrawPriority(const int index) const {
+void CustomTileManager::DrawPriority(int index, float alpha) const {
     for (const auto &i : m_customTiles) {
-        if (i && i->getDrawingPriority() == index) i->draw();
+        if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }
 }
 

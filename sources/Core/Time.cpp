@@ -19,8 +19,7 @@ static float TimeRanCountingSound = 0.f; //for "ticking" sound only
 void TimeUpdate(const float deltaTime) {
     if (EffectActive || LevelCompleteEffect) return;
     if (TimeCount < 1) {
-        Mario::setCanControl(false);
-        ActiveMarioEffect();
+        Mario::MarioEffectActivate();
         TimeCount = 0;
         return;
     }

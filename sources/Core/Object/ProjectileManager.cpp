@@ -1,15 +1,9 @@
 #include "Core/Object/ProjectileManager.hpp"
 
 
-void ProjectileManager::setPreviousData() const {
+void ProjectileManager::updatePreviousData() const {
     for (const auto &i : m_projectile) {
-        if (i) i->setPreviousData();
-    }
-}
-
-void ProjectileManager::interpolateData(float alpha) const {
-    for (const auto &i : m_projectile) {
-        if (i) i->interpolateData(alpha);
+        if (i) i->updatePreviousData();
     }
 }
 
@@ -25,9 +19,9 @@ void ProjectileManager::statusUpdate(float deltaTime) const {
     }
 }
 
-void ProjectileManager::DrawPriority(int index) const {
+void ProjectileManager::DrawPriority(int index, float alpha) const {
     for (const auto &i : m_projectile) {
-        if (i && i->getDrawingPriority() == index) i->draw();
+        if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }
 }
 

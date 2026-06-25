@@ -1,6 +1,6 @@
 #ifndef MFCPP_AUTOSCROLL_HPP
 #define MFCPP_AUTOSCROLL_HPP
-#include "Class/ActiveObjectClass.hpp"
+#include "Object/ActiveObject.hpp"
 
 namespace MFCPP {
     class AutoScroll final {

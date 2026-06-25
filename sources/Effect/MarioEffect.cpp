@@ -7,10 +7,10 @@
 #include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
-#include "Core/Class/ActiveObjectClass.hpp"
+#include "Core/Object/ActiveObject.hpp"
 
 static MFCPP::StaticAnimationObject playerEffect;
-static MFCPP::ActiveObject<float> playerPos;
+static MFCPP::ActiveObject<float> playerPos(sf::Vector2f(0.f, 0.f), sf::Vector2f(0.f, 0.f), sf::degrees(0.f));
 bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
@@ -19,13 +19,10 @@ void MarioEffectInit() {
 	playerEffect.setTexture("DEADMario");
 }
 void SetPrevMarioEffectPos() {
-	playerPos.setPreviousPosition(playerPos.getCurrentPosition());
-}
-void InterpolateMarioEffectPos(const float alpha) {
-	playerPos.setInterpolatedPosition(linearInterpolation(playerPos.getPreviousPosition(), playerPos.getCurrentPosition(), alpha));
+	playerPos.Update();
 }
 void MoveMarioEffect(const sf::Vector2f& pos) {
-	playerPos.forceSetPosition(playerPos.getCurrentPosition() + pos);
+	playerPos.teleport(playerPos.getCurrentPosition() + pos);
 }
 void MarioEffectStatusUpdate(const float deltaTime) {
 	if (EffectActive) {
@@ -40,23 +37,21 @@ void MarioEffectStatusUpdate(const float deltaTime) {
 		}
 	}
 }
-void ActiveMarioEffect() {
+void ActiveMarioEffect(float alpha) {
 	if (!EffectActive) {
 		MusicManager::StopAllMusic();
 		MusicManager::PlayMusic("MarioDeath");
 		EffectActive = true;
-		playerPos.setCurrentPosition({ Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f });
-		playerPos.setPreviousPosition(playerPos.getCurrentPosition());
-		playerPos.setInterpolatedPosition(playerPos.getCurrentPosition());
+		playerPos.teleport({ Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f });
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;
 		resetExitGateClock();
 	}
 }
-void MarioEffectDraw() {
+void MarioEffectDraw(float alpha) {
 	if (EffectActive) {
-		if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 32.f)) {
-			playerEffect.animationUpdate(playerPos.getInterpolatedPosition(), sf::Vector2f(0.f, 0.f));
+		if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(playerPos.getInterpolatedPosition(alpha), playerPos.getOrigin(), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 32.f)) {
+			playerEffect.animationUpdate(playerPos.getInterpolatedPosition(alpha), playerPos.getOrigin());
 			playerEffect.animationDraw();
 		}
 	}

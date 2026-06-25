@@ -9,15 +9,9 @@ void MovingBlockManager::setDeletionFlag(bool val) {
     m_MovingBLockDeletionFlag = val;
 }
 
-void MovingBlockManager::setPreviousData() const {
+void MovingBlockManager::updatePreviousData() const {
     for (const auto &i : m_movingblocks) {
-        if (i) i->setPreviousData();
-    }
-}
-
-void MovingBlockManager::interpolateData(float alpha) const {
-    for (const auto &i : m_movingblocks) {
-        if (i) i->interpolateData(alpha);
+        if (i) i->updatePreviousData();
     }
 }
 
@@ -27,9 +21,9 @@ void MovingBlockManager::statusUpdate(float deltaTime) const {
     }
 }
 
-void MovingBlockManager::draw() const {
+void MovingBlockManager::draw(float alpha) const {
     for (const auto &i : m_movingblocks) {
-        if (i) i->draw();
+        if (i) i->draw(alpha);
     }
 }
 

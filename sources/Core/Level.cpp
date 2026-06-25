@@ -248,9 +248,7 @@ void Bgbuilding() {
 void ExitGateBuilding() {
 	ExitGateBack.setCurrentPosition(ExitGate);
 	ExitGateIndicator.setCurrentPosition(ExitIndicator);
-	ExitGateFore.setCurrentPosition(sf::Vector2f(ExitGateBack.getCurrentPosition().x + 43.0f, ExitGateBack.getCurrentPosition().y - 250.0f));
-	ExitGateFore.setPreviousPosition(ExitGateFore.getCurrentPosition());
-	ExitGateFore.setInterpolatedPosition(ExitGateFore.getCurrentPosition());
+	ExitGateFore.teleport(sf::Vector2f(ExitGateBack.getCurrentPosition().x + 43.0f, ExitGateBack.getCurrentPosition().y - 250.0f));
 }
 void Objectbuilding() {
 	//std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; }); ?

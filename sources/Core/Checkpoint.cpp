@@ -44,18 +44,18 @@ void CheckpointCollision() {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
         if (it->getTouch()) continue;
 
-        if (sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getInterpolatedPosition(), it->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
+        if (sf::FloatRect loopHitbox = getGlobalHitbox(it->getHitbox(), it->getPosition(), it->getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             it->setTouch(true);
-            StartPos = it->getCurrentPosition();
-            MFCPP::AutoScroll::setOriginPosition(it->getCurrentPosition());
+            StartPos = it->getPosition();
+            MFCPP::AutoScroll::setOriginPosition(it->getPosition());
             SoundManager::PlaySound("Vine");
         }
     }
 }
-void CheckpointDraw() {
+void CheckpointDraw(float alpha) {
     for (auto it = CheckpointList.begin(); it != CheckpointList.end(); ++it) {
-        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(it->getInterpolatedPosition(), it->getOrigin(), it->getHitbox()), 0.f)) {
-            it->animationUpdate(it->getInterpolatedPosition(), it->getOrigin());
+        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(it->getInterpolatedPosition(alpha), it->getOrigin(), it->getHitbox()), 0.f)) {
+            it->animationUpdate(it->getInterpolatedPosition(alpha), it->getOrigin());
             it->animationDraw();
         }
     }

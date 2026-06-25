@@ -9,14 +9,20 @@ class Score2000Effect : public MFCPP::Effect, public MFCPP::ScrollBasedEffectTyp
 public:
     explicit Score2000Effect(EffectManager& manager, const sf::Vector2f& position);
     ~Score2000Effect() override = default;
-    void setPreviousData() override;
-    void interpolateData(float alpha) override;
+    void updatePreviousData() override;
     void statusUpdate(float deltaTime) override;
-    void draw() override;
+    void draw(float alpha) override;
     void Destroy();
     void animationUpdate(float deltaTime) override;
+    [[nodiscard]] sf::Vector2f getPosition() override;
+    [[nodiscard]] sf::Vector2f getOrigin() override;
+    [[nodiscard]] sf::FloatRect getHitbox() override;
+    [[nodiscard]] bool isDestroyed() override;
+    void teleport(sf::Vector2f val) override;
 private:
     MFCPP::StaticAnimationObject m_animation;
+    MFCPP::ActiveObject<float> m_transform;
+    sf::FloatRect m_hitbox;
     sf::Vector2f m_velocity;
     float m_alpha;
 };

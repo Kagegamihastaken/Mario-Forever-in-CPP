@@ -45,8 +45,7 @@ public:
     [[nodiscard]] EnemyIntrusiveList& getPiranhaAIList();
     [[nodiscard]] bool getDeletionFlag() const;
     void setDeletionFlag(bool val);
-    void setPreviousData() const;
-    void interpolateData(float alpha) const;
+    void updatePreviousData() const;
     void statusUpdate(float deltaTime) const;
     void MarioCollision() const;
     void XUpdate(float deltaTime) const;
@@ -54,7 +53,7 @@ public:
     void EnemyCollision();
     void EnemyCleanup();
     void DeleteAll();
-    void DrawPriority(int index) const;
+    void DrawPriority(int index, float alpha) const;
     void animationUpdate(float deltaTime) const;
 private:
     // For EnemyType Only

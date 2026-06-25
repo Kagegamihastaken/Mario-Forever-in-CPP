@@ -88,7 +88,7 @@ void EditorScene::HUDPositionUpdate() {
     SelectedTilePosUpdate();
     SelectTilePosUpdate();
 }
-void EditorScene::draw(sf::RenderWindow &window) {
+void EditorScene::draw(sf::RenderWindow &window, float alpha) {
     BgGradientDraw();
     DrawTile();
     SelectTileDraw();

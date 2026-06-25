@@ -1,7 +1,6 @@
 #include "Object/Enemy/GearLauncher.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
@@ -11,13 +10,11 @@
 #include "Effect/FireballExplosion.hpp"
 #include "Object/Projectile/GearProjectile.hpp"
 
-GearLauncher::GearLauncher(CustomTileManager &manager, const sf::Vector2f &position) : CustomTile(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+GearLauncher::GearLauncher(CustomTileManager &manager, const sf::Vector2f &position)
+    : CustomTile(manager),
+    m_transform(position, sf::Vector2f(32.f, 22.f), sf::degrees(0.f)){
     m_animation.setTexture("GearLauncherUp");
-    setHitbox(sf::FloatRect({0.f, 0.f}, {64.f, 64.f}));
-    setOrigin(sf::Vector2f(32.f, 22.f));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {64.f, 64.f});
 
     m_timePass = 0.f;
     m_timePassLimit = 150.f; //Will change later depend on usage
@@ -45,14 +42,9 @@ GearLauncher::GearLauncher(CustomTileManager &manager, const sf::Vector2f &posit
     MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 32.f, {0, 32});
 }
 
-void GearLauncher::setPreviousData() {
+void GearLauncher::updatePreviousData() {
     if (isDestroyed()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-
-void GearLauncher::interpolateData(float alpha) {
-    if (isDestroyed()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void GearLauncher::KickEvent() {}
@@ -62,20 +54,36 @@ void GearLauncher::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
     //Update before checking if outside screen
     m_timePass += deltaTime;
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), -32.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), -32.f)) return;
 
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;
-        GameScene::projectileManager.addProjectile<GearProjectile>(getCurrentPosition(), sf::Vector2f(Utility::RandomFloatNumberGenerator(0.f, 2.f) - Utility::RandomFloatNumberGenerator(0, 4), (8.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 2))) * -1.f));
-        AddFireballExplosion(getCurrentPosition().x, getCurrentPosition().y);
+        GameScene::projectileManager.addProjectile<GearProjectile>(m_transform.getCurrentPosition(), sf::Vector2f(Utility::RandomFloatNumberGenerator(0.f, 2.f) - Utility::RandomFloatNumberGenerator(0, 4), (8.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 2))) * -1.f));
+        AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y);
         SoundManager::PlaySound("Chilun");
     }
 }
-void GearLauncher::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+void GearLauncher::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) return;
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Blue));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Blue));
+}
+
+sf::Vector2f GearLauncher::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f GearLauncher::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect GearLauncher::getHitbox() {
+    return m_hitbox;
+}
+
+bool GearLauncher::isDestroyed() {
+    return m_transform.isDestroyed();
 }
 
 void GearLauncher::animationUpdate(float deltaTime) {}

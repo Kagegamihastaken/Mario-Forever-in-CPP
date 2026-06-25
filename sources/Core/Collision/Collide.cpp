@@ -409,7 +409,7 @@ bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut
 					if (ActivatePlatform) {
 						it.activate();
 					}
-					YPosOut = it.getCurrentPosition().y;
+					YPosOut = it.getPosition().y;
 					return true;
 				}
 			}
@@ -426,7 +426,7 @@ bool PlatformXCollision(const MFCPP::CollisionObject& CollideObj, float& XDistan
 			//Only Bottom allowed to collide
 			if (Yvelo >= 0.f) {
 				if (CollideHitbox.position.y + CollideHitbox.size.y >= PlatformHitbox.position.y && CollideHitbox.position.y + CollideHitbox.size.y <= PlatformHitbox.position.y + PlatformHitbox.size.y) {
-					XDistance = it.getCurrentPosition().x - it.getPreviousPosition().x;
+					XDistance = it.getPosition().x - it.getPreviousPosition().x;
 					return true;
 				}
 			}

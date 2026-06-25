@@ -30,13 +30,15 @@ public:
     [[nodiscard]] EffectIntrusiveList& getScrollBasedList();
     void setDeletionFlag(bool val);
     [[nodiscard]] bool getDeletionFlag() const;
-    void setPreviousData() const;
-    void interpolateData(float alpha) const;
+    void updatePreviousData() const;
     void statusUpdate(float deltaTime) const;
     void DeleteAll();
-    void Draw() const;
+    void Draw(float alpha) const;
     void EffectCleanup();
     void animationUpdate(float deltaTime) const;
+
+    //Tank Autoscroll
+    void teleportWithScroll(sf::Vector2f pos);
 
 private:
     EffectIntrusiveList m_GenericEffect;

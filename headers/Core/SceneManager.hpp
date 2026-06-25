@@ -2,32 +2,34 @@
 #define SCENEMANAGER_HPP
 
 #include "Core/Scene.hpp"
-#include <string>
 #include <unordered_map>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class SceneManager {
 public:
-    SceneManager();
+    enum class SceneState {
+        GAMEPLAY,
+        EDITOR
+    };
+    explicit SceneManager();
     template <typename T, typename... Args>
-    void addScene(const std::string& name, Args&&... args) {
-        m_scenes[name] = std::make_unique<T>(*this, std::forward<Args>(args)...);
+    void addScene(SceneState state, Args&&... args) {
+        m_scenes[state] = std::make_unique<T>(*this, std::forward<Args>(args)...);
     }
-    void changeScene(const std::string& name);
+    void changeScene(SceneState state);
     void handleInput(const std::optional<sf::Event>& event) const;
     void update(float deltaTime) const;
-    //Interpolate position
     void setPreviousPosition() const;
     void interpolatePosition(float alpha) const;
-    //Draw Scene
-    void draw(sf::RenderWindow& window) const;
+    void draw(sf::RenderWindow& window, float alpha) const;
     void objectCleanup() const;
     void postUpdate() const;
     void HUDPositionUpdate() const;
     void textUpdate() const;
     void setView() const;
+    void unload();
 private:
-    std::unordered_map<std::string, std::unique_ptr<Scene>> m_scenes;
+    std::unordered_map<SceneState, std::unique_ptr<Scene>> m_scenes;
     Scene* m_currentScene;
 };
 

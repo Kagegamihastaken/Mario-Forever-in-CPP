@@ -25,10 +25,9 @@ public:
     [[nodiscard]] MovingBlockIntrusiveList& getPlatformList();
     [[nodiscard]] bool getDeletionFlag() const;
     void setDeletionFlag(bool val);
-    void setPreviousData() const;
-    void interpolateData(float alpha) const;
+    void updatePreviousData() const;
     void statusUpdate(float deltaTime) const;
-    void draw() const;
+    void draw(float alpha) const;
     void DeleteAll();
     void MovingBlockCleanup();
     void activate() const;

@@ -11,7 +11,7 @@ public:
     virtual void update(float deltaTime) = 0;
     virtual void setPreviousPosition() = 0;
     virtual void interpolatePosition(float alpha) = 0;
-    virtual void draw(sf::RenderWindow& window) = 0;
+    virtual void draw(sf::RenderWindow& window, float alpha) = 0;
     virtual void postUpdate() = 0;
     virtual void objectCleanup() = 0;
     virtual void HUDPositionUpdate() = 0;

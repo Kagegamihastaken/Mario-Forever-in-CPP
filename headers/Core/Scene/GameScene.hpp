@@ -26,7 +26,7 @@ public:
     void update(float deltaTime) override;
     void setPreviousPosition() override;
     void interpolatePosition(float alpha) override;
-    void draw(sf::RenderWindow& window) override;
+    void draw(sf::RenderWindow& window, float alpha) override;
     void objectCleanup() override;
     void postUpdate() override;
     void HUDPositionUpdate() override;

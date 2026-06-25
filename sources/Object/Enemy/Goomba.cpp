@@ -1,6 +1,5 @@
 #include "Object/Enemy/Goomba.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
@@ -9,19 +8,15 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Effect/ScoreEffect.hpp"
-#include "Object/GoombaAI.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Object/Mario.hpp"
 
-Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position) : Enemy(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position)
+    : Enemy(manager),
+    m_transform(position, sf::Vector2f(15.f, 31.f), sf::degrees(0.f)){
     m_animation.setAnimation(0, 1, 11, true);
     m_animation.setAnimationSequence("GoombaAnimName");
-    setHitbox(sf::FloatRect({0.f, 0.f}, {31.f, 32.f}));
-    m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-    setOrigin(sf::Vector2f(15.f, 31.f));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {31.f, 32.f});
+    m_wall_hitbox = sf::FloatRect(m_hitbox.position, m_hitbox.size - sf::Vector2f(0.f, 6.f));
     m_velocity = sf::Vector2f(1.f, 0.f);
     setDirection(false);
     setDisabled(true);
@@ -33,13 +28,9 @@ Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position) : Enemy(mana
     setShellBlocker(false);
     setDrawingPriority(0);
 }
-void Goomba::setPreviousData() {
+void Goomba::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-void Goomba::interpolateData(const float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 void Goomba::EnemyCollision() {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
@@ -54,16 +45,16 @@ void Goomba::EnemyCollision() {
 }
 void Goomba::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.0f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
-        if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
+    if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
+        if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+            AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
             Death(1);
             return;
         }
-        if (getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
+        if (m_transform.getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
             Mario::PowerDown();
     }
 }
@@ -71,9 +62,9 @@ void Goomba::statusUpdate(const float deltaTime) {
     if (isDestroyed()) return;
 
     if (m_state == 0) {
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0))
             Destroy();
-        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
+        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
             if (isDisabled()) setDisabled(false);
         }
     }
@@ -82,35 +73,35 @@ void Goomba::statusUpdate(const float deltaTime) {
             Destroy();
     }
     if (m_state == 2)
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
 }
 void Goomba::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state > 0) return;
-    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
     data = GoombaAIBehavior::GoombaAIXCollision(data, getHitbox(), m_wall_hitbox, getOrigin());
-    setCurrentPosition(data.position);
+    m_transform.setCurrentPosition(data.position);
     m_velocity = data.velocity;
     setDirection(data.direction);
 }
 void Goomba::YUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
     if (m_state < 2) {
-        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         data = GoombaAIBehavior::GoombaAIYCollision(data, getHitbox(), getOrigin());
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
         m_velocity = data.velocity;
         setDirection(data.direction);
     }
     else {
-        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         m_velocity = data.velocity;
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
     }
 }
 
 void Goomba::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(2);
 }
@@ -122,20 +113,20 @@ void Goomba::ShellHit() {
 
 void Goomba::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
 
-void Goomba::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+void Goomba::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
         m_animation.frameUpdate();
         return;
     }
     m_animation.setColor(sf::Color(255, 255, 255, m_alpha));
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 void Goomba::Death(unsigned int state) {
     setCollideEachOther(false);
@@ -164,6 +155,22 @@ void Goomba::Death(unsigned int state) {
 
 bool Goomba::isDeath() {
     return m_state > 0;
+}
+
+sf::Vector2f Goomba::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f Goomba::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect Goomba::getHitbox() {
+    return m_hitbox;
+}
+
+bool Goomba::isDestroyed() {
+    return m_transform.isDestroyed();
 }
 
 void Goomba::animationUpdate(float deltaTime) {

@@ -1,6 +1,5 @@
 #include "Object/Enemy/FireLauncherFLipped.hpp"
 
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
@@ -10,13 +9,11 @@
 #include "Object/Enemy/BulletBill.hpp"
 #include "Object/Projectile/FireLauncherProjectile.hpp"
 
-FireLauncherFlipped::FireLauncherFlipped(CustomTileManager &manager, const sf::Vector2f &position) : CustomTile(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+FireLauncherFlipped::FireLauncherFlipped(CustomTileManager &manager, const sf::Vector2f &position)
+    : CustomTile(manager),
+    m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     m_animation.setTexture("FireLauncherFlipped");
-    setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
-    setOrigin(sf::Vector2f(0.f, 0.f));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x - getOrigin().x, position.y - getOrigin().y, true);
     MFCPP::Tilemap::setIndexTilemapID(position.x - getOrigin().x, position.y - getOrigin().y, 0);
     MFCPP::Tilemap::setIndexTilemapFloorY(position.x - getOrigin().x, position.y - getOrigin().y, {0, 32});
@@ -30,14 +27,9 @@ FireLauncherFlipped::FireLauncherFlipped(CustomTileManager &manager, const sf::V
     m_playSound = false;
 }
 
-void FireLauncherFlipped::setPreviousData() {
+void FireLauncherFlipped::updatePreviousData() {
     if (isDestroyed()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-
-void FireLauncherFlipped::interpolateData(float alpha) {
-    if (isDestroyed()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void FireLauncherFlipped::KickEvent() {}
@@ -45,23 +37,39 @@ void FireLauncherFlipped::HitEvent() {}
 
 void FireLauncherFlipped::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) return;
 
     bool launch = false, sound = false;
     auto data = FireLauncherBehavior::FireLauncherStatusUpdate(FireLauncherBehavior::FireLauncherData(m_FireInterval, m_FireIntervalCounting, m_ProjectileCount, m_ProjectileCounting, m_FireBetweenInterval, m_FireBetweenIntervalCounting, m_playSound), launch, sound, deltaTime);
     if (sound)
         SoundManager::PlaySound("Volcano");
     if (launch)
-        GameScene::projectileManager.addProjectile<FireLauncherProjectile>(getCurrentPosition() + sf::Vector2f(16.f, 16.f), sf::Vector2f(-8.5f, 0.f));
+        GameScene::projectileManager.addProjectile<FireLauncherProjectile>(m_transform.getCurrentPosition() + sf::Vector2f(16.f, 16.f), sf::Vector2f(-8.5f, 0.f));
     m_FireBetweenIntervalCounting = data.FireBetweenIntervalCounting;
     m_ProjectileCounting = data.ProjectileCounting;
     m_FireIntervalCounting = data.FireIntervalCounting;
     m_playSound = data.PlaySound;
 }
-void FireLauncherFlipped::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+void FireLauncherFlipped::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) return;
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
+}
+
+sf::Vector2f FireLauncherFlipped::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f FireLauncherFlipped::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect FireLauncherFlipped::getHitbox() {
+    return m_hitbox;
+}
+
+bool FireLauncherFlipped::isDestroyed() {
+    return m_transform.isDestroyed();
 }
 
 void FireLauncherFlipped::animationUpdate(float deltaTime) {}

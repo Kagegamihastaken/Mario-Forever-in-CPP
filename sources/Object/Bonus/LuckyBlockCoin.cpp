@@ -1,7 +1,6 @@
 #include "Object/Bonus/LuckyBlockCoin.hpp"
 
 #include "Block/LuckyBlock.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
@@ -15,14 +14,12 @@
 #include "Object/Coin.hpp"
 #include "Object/Mario.hpp"
 
-LuckyBlockCoin::LuckyBlockCoin(CustomTileManager &manager, const sf::Vector2f &position) : CustomTile(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+LuckyBlockCoin::LuckyBlockCoin(CustomTileManager &manager, const sf::Vector2f &position)
+    : CustomTile(manager),
+    m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     m_animation.setAnimationSequence("NormLuckyBlockAnimName");
     m_animation.setAnimation(0, 2, 9, true);
-    setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 32.f}));
-    setOrigin(sf::Vector2f(0.f, 0.f));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);
     MFCPP::Tilemap::setIndexTilemapID(position.x, position.y, 1);
     MFCPP::Tilemap::setIndexTilemapFloorY(position.x, position.y, {0, 32});
@@ -34,22 +31,17 @@ LuckyBlockCoin::LuckyBlockCoin(CustomTileManager &manager, const sf::Vector2f &p
     m_disabled = false;
 }
 
-void LuckyBlockCoin::setPreviousData() {
+void LuckyBlockCoin::updatePreviousData() {
     if (isDestroyed()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-
-void LuckyBlockCoin::interpolateData(float alpha) {
-    if (isDestroyed()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void LuckyBlockCoin::Break() {
-    AddBrickParticle(BrickID::BRICK_NORMAL, getCurrentPosition().x, m_ypos);
+    AddBrickParticle(BrickID::BRICK_NORMAL, m_transform.getCurrentPosition().x, m_ypos);
     SoundManager::PlaySound("Break");
-    m_customTileManager.setCollision(sf::Vector2f(getCurrentPosition().x, m_ypos), false);
+    m_customTileManager.setCollision(sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
-    setDestroyed(true);
+    m_transform.destroy();
     m_customTileManager.setDeletionFlag(true);
 }
 void LuckyBlockCoin::Hit() {
@@ -59,12 +51,12 @@ void LuckyBlockCoin::Hit() {
     m_updown = false;
     m_state_count = 0.f;
     m_animation.setAnimation(3, 3, 9);
-    AddCoinEffect(CoinID::COIN_NORMAL, CoinAtt::ONE_COIN, getCurrentPosition().x + 15.0f, getCurrentPosition().y);
+    AddCoinEffect(CoinID::COIN_NORMAL, CoinAtt::ONE_COIN, m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y);
     ++CoinCount;
     SoundManager::PlaySound("Coin");
 
     //Hit Event
-    HitBehavior::HitDetection(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()));
+    HitBehavior::HitDetection(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), m_hitbox));
 }
 
 void LuckyBlockCoin::KickEvent() {
@@ -74,28 +66,44 @@ void LuckyBlockCoin::KickEvent() {
 void LuckyBlockCoin::HitEvent() {
     if (isDestroyed() || m_disabled) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitboxWall(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect BrickHitbox = getGlobalHitbox(getHitbox(), sf::Vector2f(getCurrentPosition().x, m_ypos), getOrigin()); isCollide(BrickHitbox, hitbox_mario)) {
+    if (const sf::FloatRect BrickHitbox = getGlobalHitbox(m_hitbox, sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), getOrigin()); isCollide(BrickHitbox, hitbox_mario)) {
         Hit();
     }
 }
 
 void LuckyBlockCoin::statusUpdate(float deltaTime) {
-    const BumpBehavior::BumpData newData = BumpBehavior::BumpCoinUpdate(BumpBehavior::BumpData(getCurrentPosition(), m_state_count, m_state, m_updown), m_ypos, deltaTime);
+    const BumpBehavior::BumpData newData = BumpBehavior::BumpCoinUpdate(BumpBehavior::BumpData(m_transform.getCurrentPosition(), m_state_count, m_state, m_updown), m_ypos, deltaTime);
     m_state_count = newData.state_count;
     m_state = newData.state;
     m_updown = newData.updown;
-    setCurrentPosition(newData.pos);
+    m_transform.setCurrentPosition(newData.pos);
 }
 
-void LuckyBlockCoin::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+void LuckyBlockCoin::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), m_hitbox), 0.f)) {
         m_animation.frameUpdate();
         return;
     }
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
 }
 
 void LuckyBlockCoin::animationUpdate(float deltaTime) {
     m_animation.frameTimeAccumulate(deltaTime);
+}
+
+sf::Vector2f LuckyBlockCoin::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f LuckyBlockCoin::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect LuckyBlockCoin::getHitbox() {
+    return m_hitbox;
+}
+
+bool LuckyBlockCoin::isDestroyed() {
+    return m_transform.isDestroyed();
 }

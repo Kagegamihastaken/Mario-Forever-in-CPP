@@ -1,7 +1,7 @@
 #pragma once
 #ifndef EXITGATE_HPP
 #define EXITGATE_HPP
-#include "Core/Class/ActiveObjectClass.hpp"
+#include "../Core/Object/ActiveObject.hpp"
 
 extern bool LevelCompleteEffect;
 extern bool ExitGateForeActive;
@@ -11,11 +11,10 @@ extern MFCPP::ActiveObject<float> ExitGateFore;
 extern MFCPP::ActiveObject<float> ExitGateIndicator;
 extern void ExitGateClockUpdate(float deltaTime);
 extern void SetPrevExitGatePos();
-extern void InterpolateExitGatePos(float alpha);
 extern void ExitGateInit();
-extern void ExitGateDraw();
+extern void ExitGateDraw(float alpha);
 extern void ExitGateStatusUpdate(float deltaTime);
-extern void ExitGateEffectDraw();
+extern void ExitGateEffectDraw(float alpha);
 extern void ExitGateEffectReset();
 extern void resetExitGateClock();
 extern void ExitGateAnimationUpdate(float deltaTime);

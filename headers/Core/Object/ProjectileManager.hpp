@@ -30,14 +30,13 @@ public:
     [[nodiscard]] ProjectileIntrusiveList& getEnemyProjectileList();
 
     void setDeletionFlag(bool val);
-    bool getDeletionFlag() const;
-    void setPreviousData() const;
-    void interpolateData(float alpha) const;
+    [[nodiscard]] bool getDeletionFlag() const;
+    void updatePreviousData() const;
     void statusUpdate(float deltaTime) const;
     void CollisionUpdate() const;
     void ProjectileCleanup();
     void DeleteAll();
-    void DrawPriority(int index) const;
+    void DrawPriority(int index, float alpha) const;
     void animationUpdate(float deltaTime) const;
 private:
     ProjectileIntrusiveList m_Mario;

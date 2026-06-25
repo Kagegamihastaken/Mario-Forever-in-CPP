@@ -19,15 +19,9 @@ void SceneryManager::SceneryCleanup() {
     setDeletionFlag(false);
 }
 
-void SceneryManager::setPreviousData() const {
+void SceneryManager::updatePreviousData() const {
     for (const auto &i : m_scenery) {
-        if (i) i->setPreviousData();
-    }
-}
-
-void SceneryManager::interpolateData(float alpha) const {
-    for (const auto &i : m_scenery) {
-        if (i) i->interpolateData(alpha);
+        if (i) i->updatePreviousData();
     }
 }
 
@@ -39,9 +33,9 @@ void SceneryManager::setDeletionFlag(bool val) {
     m_SceneryDeletionFlag = val;
 }
 
-void SceneryManager::draw() const {
+void SceneryManager::draw(float alpha) const {
     for (const auto &i : m_scenery) {
-        if (i) i->draw();
+        if (i) i->draw(alpha);
     }
 }
 

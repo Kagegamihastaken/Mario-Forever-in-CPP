@@ -8,11 +8,9 @@
 #include "Core/ImageManager.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Core/Sound.hpp"
 #include "Core/Level.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/ExitGate.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
@@ -24,11 +22,10 @@
 #include "Object/Projectile/MarioFireball.hpp"
 
 sf::FloatRect Mario::m_hitboxFloor;
-sf::FloatRect Mario::m_hitboxTop;
 sf::FloatRect Mario::m_hitboxWall;
 
 MFCPP::SingleAnimationObject Mario::m_MarioAnimation;
-MFCPP::ActiveObject<float> Mario::m_player;
+MFCPP::ActiveObject<float> Mario::m_player(sf::Vector2f(0.f, 0.f), sf::Vector2f(15.f, 61.f), sf::degrees(0.f));
 sf::Vector2f Mario::m_velocity(0.f, 0.f);
 bool Mario::m_FirstMarioDirection = false;
 bool Mario::m_MarioDirection = Mario::m_FirstMarioDirection;
@@ -56,6 +53,9 @@ float Mario::m_FireTimeCounting = m_FireTime;
 bool Mario::m_isFireHolding = false;
 bool Mario::m_CanControlMario = true;
 
+//Storing for future
+float Mario::m_temp_alpha = 0.f;
+
 //texture loading
 void Mario::UpdateSequenceAnimation() {
 	switch (m_PowerState) {
@@ -76,7 +76,7 @@ void Mario::UpdateSequenceAnimation() {
 }
 
 void Mario::MarioEffectActivate() {
-	ActiveMarioEffect();
+	ActiveMarioEffect(m_temp_alpha);
 	m_CanControlMario = false;
 }
 
@@ -88,7 +88,6 @@ void Mario::loadMarioRes() {
 	m_AppearingTimer.restart();
 	// Resources Loader;
 	m_MarioAnimation.setAnimation(0, 0, 0, true);
-	m_player.setOrigin({ 15, 61 });
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("SmallMario_{}", i), "data/resources/SmallMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
 		SmallMario.push_back(fmt::format("SmallMario_{}", i));
@@ -107,10 +106,7 @@ void Mario::loadMarioRes() {
 }
 //sprite function
 void Mario::SetPrevMarioPos() {
-	m_player.setPreviousPosition(m_player.getCurrentPosition());
-}
-void Mario::InterpolateMarioPos(const float alpha) {
-	m_player.setInterpolatedPosition(linearInterpolation(m_player.getPreviousPosition(), m_player.getCurrentPosition(), alpha));
+	m_player.Update();
 }
 void Mario::MarioOutSideScreen() {
 	float temp = 0;
@@ -118,7 +114,7 @@ void Mario::MarioOutSideScreen() {
 			MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), extendHitbox(m_hitboxWall, 1.f)), m_MarioDirection, temp, temp);
 	if (m_player.getCurrentPosition().x <= m_player.getOrigin().x + Scroll::getViewPosition().x) {
 		if (!snd)
-			m_player.forceSetPosition({m_player.getOrigin().x + Scroll::getViewPosition().x, m_player.getCurrentPosition().y});
+			m_player.teleport({m_player.getOrigin().x + Scroll::getViewPosition().x, m_player.getCurrentPosition().y});
 		//if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 		m_OutsideWallLeft = true;
 	}
@@ -127,7 +123,7 @@ void Mario::MarioOutSideScreen() {
 	if (!LevelCompleteEffect) {
 		if (m_player.getCurrentPosition().x > Scroll::getViewPosition().x - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x) {
 			if (!fst)
-				m_player.forceSetPosition({Scroll::getViewPosition().x - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x, m_player.getCurrentPosition().y});
+				m_player.teleport({Scroll::getViewPosition().x - (MARIO_WIDTH - m_player.getOrigin().x) + WindowFrame::getGameSize().x, m_player.getCurrentPosition().y});
 			if (m_velocity.x > 0.f) m_velocity.x = 0.f;
 			m_OutsideWallRight = true;
 		}
@@ -331,12 +327,10 @@ void Mario::MarioVertYTopUpdate() {
 }
 void Mario::MarioUpdateHitbox() {
 	if (m_PowerState > 0 && !m_MarioCrouchDown) {
-		m_player.setHitbox(sf::FloatRect({ 0.0f + 4.f, 0.f + 10.f }, { 23.0f, 52.0f }));
 		m_hitboxWall = sf::FloatRect({ 0.0f + 4.f, 0.f + 10.f}, { 23.0f, 46.0f });
 		m_hitboxFloor = sf::FloatRect({ 0.0f + 4.f, 0.f + 10.f }, { 23.0f, 52.0f });
 	}
 	else if ((m_PowerState > 0 && m_MarioCrouchDown) || (m_PowerState == 0 && m_MarioAppearing) || (m_PowerState == 0 && !m_MarioCrouchDown)) {
-		m_player.setHitbox(sf::FloatRect({ 0.0f + 4.f, 0.0f + 10.f + 23.0f }, { 23.0f, 29.0f })); // 30
 		m_hitboxWall = sf::FloatRect({ 0.0f + 4.f, 0.0f + 10.f + 23.0f }, { 23.0f, 23.0f });
 		m_hitboxFloor = sf::FloatRect({ 0.0f + 4.f, 0.0f + 10.f + 23.0f }, { 23.0f, 29.0f }); // 30
 	}
@@ -442,9 +436,9 @@ void Mario::Death() {
 	ExitGateEffectReset();
 }
 void Mario::CheckForDeath() {
-	if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_player.getHitbox()), 16.f)) {
+	if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), 16.f)) {
 		m_CanControlMario = false;
-		ActiveMarioEffect();
+		ActiveMarioEffect(m_temp_alpha);
 	}
 }
 
@@ -452,9 +446,9 @@ void Mario::MarioAnimationUpdate(const float deltaTime) {
 	m_MarioAnimation.frameTimeAccumulate(deltaTime);
 }
 
-void Mario::MarioDraw() {
+void Mario::MarioDraw(float alpha) {
 	// check power state
-	HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(m_player.getHitbox(), m_player.getCurrentPosition() - m_player.getOrigin(), sf::Color::Blue));
+	HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(m_hitboxFloor, m_player.getCurrentPosition() - m_player.getOrigin(), sf::Color::Blue));
 	if (static_cast<float>(m_AppearingTimer.getElapsedTime().asMilliseconds()) > (3000.0f / 91.0f) * 15.0f) m_MarioAppearing = false;
 	if (m_PowerState != m_lastPowerState) {
 		m_MarioAppearing = true;
@@ -462,7 +456,7 @@ void Mario::MarioDraw() {
 		m_lastPowerState = m_PowerState;
 	}
 	//draw
-	m_MarioAnimation.animationUpdate(m_player.getInterpolatedPosition(), m_player.getOrigin());
+	m_MarioAnimation.animationUpdate(m_player.getInterpolatedPosition(alpha), m_player.getOrigin());
 	if (m_InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) m_Invincible = false;
 	if (!m_Invincible) {
 		if (m_CanControlMario) m_MarioAnimation.animationDraw();
@@ -491,7 +485,7 @@ float Mario::getYvelocity() {
 	return m_velocity.y;
 }
 sf::FloatRect Mario::getHitbox() {
-	return m_player.getHitbox();
+	return m_hitboxFloor;
 }
 
 sf::Vector2f Mario::getOrigin() {
@@ -505,13 +499,11 @@ sf::Vector2f Mario::getCurrentPosition() {
 	return m_player.getCurrentPosition();
 }
 void Mario::resetPreviousPosition() {
-	m_player.setPreviousPosition(m_player.getCurrentPosition());
-	m_player.setInterpolatedPosition(m_player.getCurrentPosition());
+	m_player.Update();
 }
 
 void Mario::forceSetPosition(const sf::Vector2f &val) {
-	m_player.setCurrentPosition(val);
-	m_player.setPreviousPosition(val);
+	m_player.teleport(val);
 }
 
 void Mario::setDirection(bool val) {
@@ -570,7 +562,7 @@ bool Mario::getCanControl() {
 }
 
 sf::Vector2f Mario::getInterpolatedPosition() {
-	return m_player.getInterpolatedPosition();
+	return m_player.getInterpolatedPosition(m_temp_alpha);
 }
 
 void Mario::setHolding(bool val) {
@@ -583,4 +575,8 @@ bool Mario::getHolding() {
 
 bool Mario::getCurrentFalling() {
 	return m_MarioCurrentFalling;
+}
+
+void Mario::storeAlpha(float alpha) {
+	m_temp_alpha = alpha;
 }

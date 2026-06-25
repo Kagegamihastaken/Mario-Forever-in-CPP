@@ -12,14 +12,20 @@ class FireballExplosionEffect final : public MFCPP::Effect, public MFCPP::Generi
 public:
     explicit FireballExplosionEffect(EffectManager& manager, const sf::Vector2f& position);
     ~FireballExplosionEffect() override = default;
-    void setPreviousData() override;
-    void interpolateData(const float alpha) override;
-    void statusUpdate(const float deltaTime) override;
-    void draw() override;
+    void updatePreviousData() override;
+    void statusUpdate(float deltaTime) override;
+    void draw(float alpha) override;
     void Destroy();
     void animationUpdate(float deltaTime) override;
+    [[nodiscard]] sf::Vector2f getPosition() override;
+    [[nodiscard]] sf::Vector2f getOrigin() override;
+    [[nodiscard]] sf::FloatRect getHitbox() override;
+    [[nodiscard]] bool isDestroyed() override;
+    void teleport(sf::Vector2f val) override;
 private:
     MFCPP::SingleAnimationObject m_animation;
+    MFCPP::ActiveObject<float> m_transform;
+    sf::FloatRect m_hitbox;
 };
 
 #endif //MFCPP_FIREBALLEXPLOSIONEFFECT_HPP

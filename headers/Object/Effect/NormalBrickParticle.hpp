@@ -10,14 +10,20 @@ class NormalBrickParticle final : public MFCPP::Effect, public MFCPP::GenericEff
 public:
     explicit NormalBrickParticle(EffectManager& manager, const sf::Vector2f& velocity, const sf::Vector2f& position);
     ~NormalBrickParticle() override = default;
-    void setPreviousData() override;
-    void interpolateData(float alpha) override;
+    void updatePreviousData() override;
     void statusUpdate(float deltaTime) override;
-    void draw() override;
+    void draw(float alpha) override;
     void Destroy();
     void animationUpdate(float deltaTime) override;
+    [[nodiscard]] sf::Vector2f getPosition() override;
+    [[nodiscard]] sf::Vector2f getOrigin() override;
+    [[nodiscard]] sf::FloatRect getHitbox() override;
+    [[nodiscard]] bool isDestroyed() override;
+    void teleport(sf::Vector2f val) override;
 private:
     MFCPP::StaticAnimationObject m_animation;
+    MFCPP::ActiveObject<float> m_transform;
+    sf::FloatRect m_hitbox;
     sf::Vector2f m_velocity;
     bool m_direction;
 };

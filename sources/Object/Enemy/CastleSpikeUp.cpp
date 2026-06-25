@@ -10,13 +10,12 @@
 #include "Object/Mario.hpp"
 #include "Object/PiranhaAI.hpp"
 
-CastleSpikeUp::CastleSpikeUp(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(getCurrentPosition());
-    setInterpolatedPosition(getCurrentPosition());
+CastleSpikeUp::CastleSpikeUp(EnemyManager &manager, const sf::Vector2f &position)
+    : Enemy(manager),
+    m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     m_animation.setTexture("CastleSpikeUp");
-    setHitbox(sf::FloatRect({9.f, 7.f}, {13.f, 25.f}));
-    setOrigin(sf::Vector2f(0.f, 0.f));
+
+    m_hitbox = sf::FloatRect({9.f, 7.f}, {13.f, 25.f});
 
     setDirection(false);
     setDisabled(true);
@@ -27,28 +26,23 @@ CastleSpikeUp::CastleSpikeUp(EnemyManager &manager, const sf::Vector2f &position
     setDrawingPriority(0);
 }
 
-void CastleSpikeUp::setPreviousData() {
+void CastleSpikeUp::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-
-void CastleSpikeUp::interpolateData(float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void CastleSpikeUp::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
+    if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0))
         if (isDisabled()) setDisabled(false);
 }
 
 void CastleSpikeUp::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled()) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect PiranhaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(PiranhaAIHitbox, hitbox_mario)) {
+    if (const sf::FloatRect PiranhaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(PiranhaAIHitbox, hitbox_mario)) {
         Mario::PowerDown();
     }
 }
@@ -57,17 +51,17 @@ void CastleSpikeUp::XUpdate(float deltaTime) {}
 void CastleSpikeUp::YUpdate(float deltaTime) {}
 void CastleSpikeUp::EnemyCollision() {}
 
-void CastleSpikeUp::draw() {
+void CastleSpikeUp::draw(float alpha) {
     m_animation.setAnimationDirection(static_cast<AnimationDirection>(getDirection()));
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) return;
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition(), sf::Color::Red));
 }
 void CastleSpikeUp::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
@@ -78,6 +72,22 @@ void CastleSpikeUp::BlockHit() {}
 void CastleSpikeUp::ShellHit() {}
 bool CastleSpikeUp::isDeath() {
     return false;
+}
+
+sf::Vector2f CastleSpikeUp::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f CastleSpikeUp::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect CastleSpikeUp::getHitbox() {
+    return m_hitbox;
+}
+
+bool CastleSpikeUp::isDestroyed() {
+    return m_transform.isDestroyed();
 }
 
 void CastleSpikeUp::animationUpdate(float deltaTime) {}

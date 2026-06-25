@@ -9,7 +9,6 @@
 #include "Core/Collision/Collide.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Time.hpp"
 #include "Core/Utility.hpp"
@@ -23,10 +22,11 @@ static MFCPP::StaticAnimationObject ExitGateForeObject;
 static MFCPP::StaticAnimationObject ExitGateBackObject;
 static MFCPP::StaticAnimationObject ExitGateForeEffectObject;
 
-MFCPP::ActiveObject<float> ExitGateForeEffect;
-MFCPP::ActiveObject<float> ExitGateIndicator;
-MFCPP::ActiveObject<float> ExitGateFore;
-MFCPP::ActiveObject<float> ExitGateBack;
+MFCPP::ActiveObject<float> ExitGateForeEffect(sf::Vector2f(0.f, 0.f), sf::Vector2f(21.0f, 7.0f), sf::degrees(0.f));
+MFCPP::ActiveObject<float> ExitGateIndicator(sf::Vector2f(0.f, 0.f), sf::Vector2f( 0.0f, 31.0f ), sf::degrees(0.f));
+MFCPP::ActiveObject<float> ExitGateFore(sf::Vector2f(0.f, 0.f), sf::Vector2f(23.0f, 0.0f), sf::degrees(0.f));
+MFCPP::ActiveObject<float> ExitGateBack(sf::Vector2f(0.f, 0.f), sf::Vector2f(0.0f, 287.0f), sf::degrees(0.f));
+static sf::FloatRect m_hitbox_fore;
 float ExitGateClock;
 
 static constexpr float ExitGateForeYLimit = 222.0f;
@@ -56,28 +56,19 @@ void ExitGateInit() {
 	}
 	MFCPP::AnimationSequenceManager::addData("ExitIndicatorAnimName", ExitIndicatorAnimName);
 	ExitGateBackObject.setTexture("ExitGateBack");
-	ExitGateBack.setOrigin(sf::Vector2f(0.0f, 287.0f));
 
 	ExitGateForeObject.setTexture("ExitGateFore");
-	ExitGateFore.setOrigin(sf::Vector2f(23.0f, 0.0f));
-	ExitGateFore.setHitbox(sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f }));
+	m_hitbox_fore = sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f });
 
 	ExitGateForeEffectObject.setTexture("ExitGateForeEffect", true);
-	ExitGateForeEffect.setOrigin({ 21.0f, 7.0f });
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50, true);
 	ExitGateIndicatorAnimation.setAnimationSequence("ExitIndicatorAnimName");
-	ExitGateIndicator.setOrigin(sf::Vector2f( 0.0f, 31.0f ));
 }
 void SetPrevExitGatePos() {
-	ExitGateFore.setPreviousPosition(ExitGateFore.getCurrentPosition());
-	ExitGateForeEffect.setPreviousPosition(ExitGateForeEffect.getCurrentPosition());
-	ExitGateForeEffect.setPreviousAngle(ExitGateForeEffect.getCurrentAngle());
-}
-void InterpolateExitGatePos(const float alpha) {
-	ExitGateFore.setInterpolatedPosition(linearInterpolation(ExitGateFore.getPreviousPosition(), ExitGateFore.getCurrentPosition(), alpha));
-	ExitGateForeEffect.setInterpolatedPosition(linearInterpolation(ExitGateForeEffect.getPreviousPosition(), ExitGateForeEffect.getCurrentPosition(), alpha));
-	ExitGateForeEffect.setInterpolatedAngle(linearInterpolation(ExitGateForeEffect.getPreviousAngle(), ExitGateForeEffect.getCurrentAngle(), alpha));
+	ExitGateFore.Update();
+	ExitGateForeEffect.Update();
+	ExitGateForeEffect.Update();
 }
 void ExitGateStatusUpdate(const float deltaTime) {
 	if (ExitGateForeActive) {
@@ -89,7 +80,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			ExitGateForeActive = false;
 			//LevelEndMarioProjectileCleanup();
 		}
-		if (isCollide(getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin()), getGlobalHitbox(ExitGateFore.getHitbox(), ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
+		if (isCollide(getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin()), getGlobalHitbox(m_hitbox_fore, ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
 			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) AddScoreEffect(ScoreID::SCORE_10000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
 			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f) AddScoreEffect(ScoreID::SCORE_5000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
 			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f) AddScoreEffect(ScoreID::SCORE_2000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
@@ -100,9 +91,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic("LevelComplete");
-			ExitGateForeEffect.setCurrentPosition(ExitGateFore.getCurrentPosition());
-			ExitGateForeEffect.setPreviousPosition(ExitGateForeEffect.getCurrentPosition());
-			ExitGateForeEffect.setInterpolatedPosition(ExitGateForeEffect.getCurrentPosition());
+			ExitGateForeEffect.teleport(ExitGateFore.getCurrentPosition());
 			//LevelEndMarioProjectileCleanup();
 
 			ExitGateForeEffectSpeed = Utility::RandomFloatNumberGenerator(123.75f, 146.25f) * M_PI / 180.0f;
@@ -153,9 +142,7 @@ void ExitGateClockUpdate(const float deltaTime) {
 }
 void ExitGateEffectReset() {
 	//reset behavior
-	ExitGateFore.setCurrentPosition(sf::Vector2f(ExitGateBack.getCurrentPosition().x + 43.0f, ExitGateBack.getCurrentPosition().y - 250.0f));
-	ExitGateFore.setPreviousPosition(ExitGateFore.getCurrentPosition());
-	ExitGateFore.setInterpolatedPosition(ExitGateFore.getCurrentPosition());
+	ExitGateFore.teleport(sf::Vector2f(ExitGateBack.getCurrentPosition().x + 43.0f, ExitGateBack.getCurrentPosition().y - 250.0f));
 
 	ExitGateForeY = 0.f;
 	ExitGateState = false;
@@ -163,7 +150,7 @@ void ExitGateEffectReset() {
 	ExitGateForeEffectSpeed = 0.0f;
 	ExitGateForeRender = true;
 }
-void ExitGateDraw() {
+void ExitGateDraw(float alpha) {
 	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin(), sf::FloatRect({0.f, 0.f}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT})), 0)) {
 		ExitGateIndicatorAnimation.animationUpdate(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin());
 		ExitGateIndicatorAnimation.animationDraw();
@@ -172,18 +159,18 @@ void ExitGateDraw() {
 		ExitGateBackObject.animationUpdate(ExitGateBack.getCurrentPosition(), ExitGateBack.getOrigin());
 		ExitGateBackObject.animationDraw();
 	}
-	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin(), ExitGateFore.getHitbox()), 0) && ExitGateForeRender) {
-		ExitGateForeObject.animationUpdate(ExitGateFore.getInterpolatedPosition(), ExitGateFore.getOrigin());
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateFore.getInterpolatedPosition(alpha), ExitGateFore.getOrigin(), m_hitbox_fore), 0) && ExitGateForeRender) {
+		ExitGateForeObject.animationUpdate(ExitGateFore.getInterpolatedPosition(alpha), ExitGateFore.getOrigin());
 		ExitGateForeObject.animationDraw();
 	}
 }
 void ExitGateAnimationUpdate(float deltaTime) {
 	ExitGateIndicatorAnimation.frameTimeAccumulate(deltaTime);
 }
-void ExitGateEffectDraw() {
-	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin(), sf::FloatRect({0.f, 0.f}, {44.f, 16.f})), 48) && !ExitGateForeRender) {
-		ExitGateForeEffectObject.setRotation(ExitGateForeEffect.getInterpolatedAngle());
-		ExitGateForeEffectObject.animationUpdate(ExitGateForeEffect.getInterpolatedPosition(), ExitGateForeEffect.getOrigin());
+void ExitGateEffectDraw(float alpha) {
+	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateForeEffect.getInterpolatedPosition(alpha), ExitGateForeEffect.getOrigin(), sf::FloatRect({0.f, 0.f}, {44.f, 16.f})), 48) && !ExitGateForeRender) {
+		ExitGateForeEffectObject.setRotation(ExitGateForeEffect.getInterpolatedAngle(alpha));
+		ExitGateForeEffectObject.animationUpdate(ExitGateForeEffect.getInterpolatedPosition(alpha), ExitGateForeEffect.getOrigin());
 		ExitGateForeEffectObject.animationDraw();
 	}
 }

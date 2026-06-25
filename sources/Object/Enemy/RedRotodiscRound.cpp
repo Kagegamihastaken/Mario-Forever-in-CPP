@@ -11,16 +11,14 @@
 #include "Object/Mario.hpp"
 #include "Object/RotodiscAI.hpp"
 
-RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed, float angle) : Enemy(manager) {
-    setCurrentPosition(RotodiscAIBehavior::RotodiscPositionAdjust(position, arrange_mode));
-    setPreviousPosition(getCurrentPosition());
-    setInterpolatedPosition(getCurrentPosition());
-    m_position_center = getCurrentPosition();
+RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &position, unsigned int arrange_mode, float radius, float speed, float angle)
+    : Enemy(manager),
+    m_transform(RotodiscAIBehavior::RotodiscPositionAdjust(position, arrange_mode), sf::Vector2f(17.f, 16.f), sf::degrees(0.f)){
+    m_position_center = m_transform.getCurrentPosition();
     m_animation.setAnimation(0, 25, 100, true);
     m_animation.setAnimationSequence("RotodiscAnimName");
     m_animation_base.setTexture("RotodiscBase");
-    setHitbox(sf::FloatRect({0.f, 0.f}, {34.f, 32.f}));
-    setOrigin(sf::Vector2f(17.f, 16.f));
+    m_hitbox = sf::FloatRect({0.f, 0.f}, {34.f, 32.f});
     setDirection(false);
     setDisabled(false);
     setCollideEachOther(false);
@@ -31,20 +29,16 @@ RedRotodiscRound::RedRotodiscRound(EnemyManager &manager, const sf::Vector2f &po
     setDrawingPriority(1);
     m_angle = angle;
 }
-void RedRotodiscRound::setPreviousData() {
+void RedRotodiscRound::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-void RedRotodiscRound::interpolateData(const float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 void RedRotodiscRound::EnemyCollision() {}
 void RedRotodiscRound::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled()) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect RotodiscHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(RotodiscHitbox, hitbox_mario)) {
+    if (const sf::FloatRect RotodiscHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(RotodiscHitbox, hitbox_mario)) {
         Mario::PowerDown();
     }
 }
@@ -56,15 +50,15 @@ void RedRotodiscRound::statusUpdate(const float deltaTime) {
 }
 void RedRotodiscRound::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
-    setCurrentPosition(RotodiscAIBehavior::RotodiscRoundXUpdate(getCurrentPosition(), m_position_center, m_angle, m_radius));
+    m_transform.setCurrentPosition(RotodiscAIBehavior::RotodiscRoundXUpdate(m_transform.getCurrentPosition(), m_position_center, m_angle, m_radius));
 }
 void RedRotodiscRound::YUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
-    setCurrentPosition(RotodiscAIBehavior::RotodiscRoundYUpdate(getCurrentPosition(), m_position_center, m_angle, m_radius));
+    m_transform.setCurrentPosition(RotodiscAIBehavior::RotodiscRoundYUpdate(m_transform.getCurrentPosition(), m_position_center, m_angle, m_radius));
 }
 void RedRotodiscRound::BlockHit() {}
 void RedRotodiscRound::ShellHit() {}
-void RedRotodiscRound::draw() {
+void RedRotodiscRound::draw(float alpha) {
     if (getDrawingPriority() == 1) {
         if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_position_center, sf::Vector2f(16.f, 16.f), sf::FloatRect({0.f, 0.f}, {32.f, 32.f})), 0.f)) {
             m_animation_base.animationUpdate(m_position_center, sf::Vector2f(16.f, 16.f));
@@ -74,10 +68,10 @@ void RedRotodiscRound::draw() {
         return;
     }
     if (getDrawingPriority() == 3) {
-        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
-            HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
+            HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
             m_animation.setColor(sf::Color(255, 255, 255));
-            m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+            m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
             m_animation.animationDraw();
         }
         else m_animation.frameUpdate();
@@ -86,7 +80,7 @@ void RedRotodiscRound::draw() {
 }
 void RedRotodiscRound::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
@@ -99,4 +93,20 @@ bool RedRotodiscRound::isDeath() {
 
 void RedRotodiscRound::animationUpdate(float deltaTime) {
     m_animation.frameTimeAccumulate(deltaTime);
+}
+
+sf::Vector2f RedRotodiscRound::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f RedRotodiscRound::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect RedRotodiscRound::getHitbox() {
+    return m_hitbox;
+}
+
+bool RedRotodiscRound::isDestroyed() {
+    return m_transform.isDestroyed();
 }

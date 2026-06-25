@@ -32,8 +32,7 @@ public:
 
     void setDeletionFlag(bool val);
     [[nodiscard]] bool getDeletionFlag() const;
-    void setPreviousData() const;
-    void interpolateData(float alpha) const;
+    void updatePreviousData() const;
     void statusUpdate(float deltaTime) const;
     void setCollision(const sf::Vector2f& pos, bool val);
     void animationUpdate(float deltaTime) const;
@@ -41,7 +40,7 @@ public:
     void HitEvent() const;
     void CustomTileCleanup();
     void DeleteAll();
-    void DrawPriority(int index) const;
+    void DrawPriority(int index, float alpha) const;
 private:
     struct QueueCustomTileData {
         sf::Vector2f pos;

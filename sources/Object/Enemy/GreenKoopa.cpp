@@ -1,6 +1,5 @@
 #include "Object/Enemy/GreenKoopa.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
@@ -11,27 +10,26 @@
 #include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
 
-GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isShell) : Enemy(manager) {
-    setCurrentPosition(position);
-    setPreviousPosition(position);
-    setInterpolatedPosition(position);
+GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isShell)
+    : Enemy(manager),
+    m_transform(position, sf::Vector2f(16.f, 46.f), sf::degrees(0.f)){
     setDirection(false);
     setDisabled(true);
     setCollideEachOther(true);
     setDrawingPriority(0);
     if (!isShell) {
-        setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 47.f}));
+        m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 47.f});
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-        setOrigin(sf::Vector2f(16.f, 46.f));
+        m_transform.setOrigin(sf::Vector2f(16.f, 46.f));
         m_velocity = sf::Vector2f(1.f, 0.f);
         m_animation.setAnimation(0, 1, 11, true);
         m_animation.setAnimationSequence("GreenKoopaAnimName");
         m_state = 0;
     }
     else {
-        setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
+        m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 28.f});
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-        setOrigin(sf::Vector2f(16,27));
+        m_transform.setOrigin(sf::Vector2f(16,27));
         m_velocity = sf::Vector2f(0.f, 0.f);
         m_animation.setAnimationSequence("GreenKoopaShellAnimName");
         m_animation.setAnimation(3,3,100, true);
@@ -42,13 +40,9 @@ GreenKoopa::GreenKoopa(EnemyManager &manager, const sf::Vector2f& position, bool
     setShellKicking(true);
     setShellBlocker(false);
 }
-void GreenKoopa::setPreviousData() {
+void GreenKoopa::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-void GreenKoopa::interpolateData(const float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 void GreenKoopa::EnemyCollision() {
     if (isDestroyed() || isDisabled() || m_state == 3) return;
@@ -81,23 +75,23 @@ void GreenKoopa::MarioCollision(const float MarioYVelocity) {
     if (isDestroyed() || isDisabled() || m_state == 3) return;
     if (m_invincibleTimer < 0.12f * 50 && m_state == 1) return;
     if (m_invincibleTimer < 0.6f * 50 && m_state == 2) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.0f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.0f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
+    if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         m_invincibleTimer = 0.f;
         if (m_state != 1) {
-            if (getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
+            if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
-                AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+                AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
                 Death(1);
                 return;
             }
-            if (getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
+            if (m_transform.getCurrentPosition().y - 16.f < Mario::getCurrentPosition().y)
                 Mario::PowerDown();
         }
         else if (m_state == 1) {
             SoundManager::PlaySound("Kick2");
-            if (getCurrentPosition().x >= Mario::getCurrentPosition().x) setDirection(true);
+            if (m_transform.getCurrentPosition().x >= Mario::getCurrentPosition().x) setDirection(true);
             else setDirection(false);
             m_state = 2;
             ChangeState();
@@ -112,27 +106,27 @@ void GreenKoopa::statusUpdate(const float deltaTime) {
 
 
     if (m_state != 3) {
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0))
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0))
             Destroy();
-        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
+        if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) {
             if (isDisabled()) setDisabled(false);
         }
     }
     else
-        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
+        if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0)) Destroy();
 }
 void GreenKoopa::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state == 3) return;
-    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
     if (m_state != 2) {
         data = GoombaAIBehavior::GoombaAIXCollision(data, getHitbox(), m_wall_hitbox, getOrigin());
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
         m_velocity = data.velocity;
         setDirection(data.direction);
     }
     else {
         data = GoombaAIBehavior::ShellXCollision(data, getHitbox(), m_wall_hitbox, getOrigin());
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
         m_velocity = data.velocity;
         setDirection(data.direction);
     }
@@ -140,51 +134,51 @@ void GreenKoopa::XUpdate(const float deltaTime) {
 void GreenKoopa::YUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
     if (m_state != 3) {
-        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        auto data = GoombaAIBehavior::GoombaAIYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         data = GoombaAIBehavior::GoombaAIYCollision(data, getHitbox(), getOrigin()); // true, getPreviousPosition().x
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
         m_velocity = data.velocity;
         setDirection(data.direction);
     }
     else {
-        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+        const auto data = GoombaAIBehavior::GoombaAIEffectYMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
         m_velocity = data.velocity;
-        setCurrentPosition(data.position);
+        m_transform.setCurrentPosition(data.position);
     }
 }
 
 void GreenKoopa::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(ScoreID::SCORE_100, getCurrentPosition().x, getCurrentPosition().y - getOrigin().y);
+    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
     SoundManager::PlaySound("Kick2");
     Death(3);
 }
 
 void GreenKoopa::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
 
-void GreenKoopa::draw() {
+void GreenKoopa::draw(float alpha) {
     if (m_state == 0) m_animation.setAnimationDirection(static_cast<AnimationDirection>(!getDirection()));
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
         m_animation.frameUpdate();
         return;
     }
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 
 void GreenKoopa::ChangeState() {
     switch (m_state) {
         case 1:
-            setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
+            m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 28.f});
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-            setOrigin(sf::Vector2f(16,27));
+            m_transform.setOrigin(sf::Vector2f(16,27));
             m_animation.setAnimationSequence("GreenKoopaShellAnimName");
             m_animation.setAnimation(3,3,100, true);
             setCollideEachOther(true);
@@ -196,9 +190,9 @@ void GreenKoopa::ChangeState() {
             setDisabled(false);
             break;
         case 2:
-            setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
+            m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 28.f});
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-            setOrigin(sf::Vector2f(16,27));
+            m_transform.setOrigin(sf::Vector2f(16,27));
             m_animation.setAnimationSequence("GreenKoopaShellAnimName");
             m_animation.setAnimation(0,3,54, true);
             setCollideEachOther(false);
@@ -210,9 +204,9 @@ void GreenKoopa::ChangeState() {
             setDisabled(false);
             break;
         case 3:
-            setHitbox(sf::FloatRect({0.f, 0.f}, {32.f, 28.f}));
+            m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 28.f});
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
-            setOrigin(sf::Vector2f(16,27));
+            m_transform.setOrigin(sf::Vector2f(16,27));
             m_velocity = sf::Vector2f(0.f, -3.f);
             m_hit_count = 0;
             m_animation.setAnimationSequence("GreenKoopaDeathEffect");
@@ -242,4 +236,20 @@ bool GreenKoopa::isDeath() {
 
 void GreenKoopa::animationUpdate(float deltaTime) {
     m_animation.frameTimeAccumulate(deltaTime);
+}
+
+sf::Vector2f GreenKoopa::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f GreenKoopa::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect GreenKoopa::getHitbox() {
+    return m_hitbox;
+}
+
+bool GreenKoopa::isDestroyed() {
+    return m_transform.isDestroyed();
 }

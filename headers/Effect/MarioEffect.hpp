@@ -2,10 +2,9 @@
 #define MARIO_EFFECT_HPP
 
 extern void SetPrevMarioEffectPos();
-extern void InterpolateMarioEffectPos(float alpha);
 extern void MarioEffectInit();
-extern void MarioEffectDraw();
-extern void ActiveMarioEffect();
+extern void MarioEffectDraw(float alpha);
+extern void ActiveMarioEffect(float alpha);
 extern void MarioEffectStatusUpdate(float deltaTime);
 extern void MoveMarioEffect(const sf::Vector2f& pos);
 

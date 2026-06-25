@@ -6,7 +6,7 @@
 #include <config.h>
 #include "Core/ImageManager.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
-#include "Core/Class/ActiveObjectClass.hpp"
+#include "Core/Object/ActiveObject.hpp"
 
 class Mario {
 public:
@@ -19,9 +19,8 @@ public:
 	static void MarioUpdateAnimation();
 
 	static void SetPrevMarioPos();
-	static void InterpolateMarioPos(float alpha);
 	static void KeyboardMovement(float deltaTime);
-	static void MarioDraw();
+	static void MarioDraw(float alpha);
 	static void PowerDown();
 	static void MarioPosYUpdate(float deltaTime);
 	static void MarioVertYBottomUpdate();
@@ -70,6 +69,8 @@ public:
 
 	static void MarioEffectActivate();
 
+	static void storeAlpha(float alpha);
+
 	// extern float player_speed;
 	// extern bool MarioCrouchDown;
 	// extern bool MarioAppearing;
@@ -80,7 +81,6 @@ private:
 	static void CheckXCollision();
 
 	static sf::FloatRect m_hitboxFloor;
-	static sf::FloatRect m_hitboxTop;
 	static sf::FloatRect m_hitboxWall;
 
 	static MFCPP::SingleAnimationObject m_MarioAnimation;
@@ -121,6 +121,8 @@ private:
 	static constexpr uint16_t MARIO_WIDTH = 31;
 	static constexpr uint16_t MARIO_HEIGHT = 62;
 	static constexpr uint16_t MARIO_OFFSET_X = 4;
+
+	static float m_temp_alpha;
 };
 
 static std::vector<std::string> SmallMario;

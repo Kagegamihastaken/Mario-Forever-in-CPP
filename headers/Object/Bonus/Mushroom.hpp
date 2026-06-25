@@ -11,22 +11,28 @@ class Mushroom final : public MFCPP::Enemy, public MFCPP::GoombaAIType {
 public:
     explicit Mushroom(EnemyManager& manager, const sf::Vector2f& position);
     ~Mushroom() override = default;
-    void setPreviousData() override;
-    void interpolateData(float alpha) override;
+    void updatePreviousData() override;
     void statusUpdate(float deltaTime) override;
     void MarioCollision(float MarioYVelocity) override;
     void XUpdate(float deltaTime) override;
     void YUpdate(float deltaTime) override;
     void EnemyCollision() override;
-    void draw() override;
+    void draw(float alpha) override;
     void Destroy() override;
     void Death(unsigned int state) override;
     void BlockHit() override;
     void ShellHit() override;
     [[nodiscard]] bool isDeath() override;
     void animationUpdate(float deltaTime) override;
+
+    [[nodiscard]] bool isDestroyed() override;
+    [[nodiscard]] sf::Vector2f getPosition() override;
+    [[nodiscard]] sf::Vector2f getOrigin() override;
+    [[nodiscard]] sf::FloatRect getHitbox() override;
 private:
     MFCPP::StaticAnimationObject m_animation;
+    MFCPP::ActiveObject<float> m_transform;
+    sf::FloatRect m_hitbox;
     sf::Vector2f m_velocity;
     sf::FloatRect m_wall_hitbox;
     float m_appearingSpeed;

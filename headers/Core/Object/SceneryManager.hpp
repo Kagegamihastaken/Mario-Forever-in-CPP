@@ -25,9 +25,8 @@ public:
     [[nodiscard]] SceneryIntrusiveList& getGenericScenery();
     [[nodiscard]] bool getDeletionFlag() const;
     void setDeletionFlag(bool val);
-    void setPreviousData() const;
-    void interpolateData(float alpha) const;
-    void draw() const;
+    void updatePreviousData() const;
+    void draw(float alpha) const;
     void DeleteAll();
     void SceneryCleanup();
     void animationUpdate(float deltaTime) const;

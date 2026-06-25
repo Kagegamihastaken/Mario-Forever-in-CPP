@@ -13,14 +13,12 @@
 #include "Object/PiranhaAI.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
 
-PinkPiranhaRight::PinkPiranhaRight(EnemyManager &manager, const sf::Vector2f &position) : Enemy(manager) {
-    setCurrentPosition(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_RIGHT, position));
-    setPreviousPosition(getCurrentPosition());
-    setInterpolatedPosition(getCurrentPosition());
+PinkPiranhaRight::PinkPiranhaRight(EnemyManager &manager, const sf::Vector2f &position)
+    : Enemy(manager),
+    m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_RIGHT, position), sf::Vector2f(63.f, 32.f), sf::degrees(0.f)){
     m_animation.setAnimationSequence("PinkPiranhaRightAnimName");
     m_animation.setAnimation(0, 1, 24, true);
-    setHitbox(sf::FloatRect({ 17.f, 17.f }, { 47.f, 31.f }));
-    setOrigin(sf::Vector2f(63.f, 32.f));
+    m_hitbox = sf::FloatRect({ 17.f, 17.f }, { 47.f, 31.f });
 
     m_speed = 1.f;
     m_stop_time = 70.f;
@@ -48,31 +46,26 @@ PinkPiranhaRight::PinkPiranhaRight(EnemyManager &manager, const sf::Vector2f &po
     setDrawingPriority(0);
 }
 
-void PinkPiranhaRight::setPreviousData() {
+void PinkPiranhaRight::updatePreviousData() {
     if (isDestroyed() || isDisabled()) return;
-    setPreviousPosition(getCurrentPosition());
-}
-
-void PinkPiranhaRight::interpolateData(float alpha) {
-    if (isDestroyed() || isDisabled()) return;
-    setInterpolatedPosition(linearInterpolation(getPreviousPosition(), getCurrentPosition(), alpha));
+    m_transform.Update();
 }
 
 void PinkPiranhaRight::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
+    if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
         if (isDisabled()) setDisabled(false);
 
     //Movement
     if (isDisabled()) return;
     PiranhaAIBehavior::PiranhaAIData data = PiranhaAIBehavior::PiranhaMovementUpdate(PiranhaAIBehavior::PiranhaAIData(
-        getCurrentPosition(), getOrigin(), getHitbox(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
+        m_transform.getCurrentPosition(), getOrigin(), getHitbox(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
         m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PiranhaDirection::PIRANHA_RIGHT, deltaTime
     );
     bool fire = false;
     data = PiranhaAIBehavior::PiranhaFireUpdate(fire, data, deltaTime);
-    setCurrentPosition(data.pos);
+    m_transform.setCurrentPosition(data.pos);
     m_position_moving = data.pos_temp;
     m_moving_stop = data.stop;
     m_moving_state = data.state;
@@ -82,15 +75,15 @@ void PinkPiranhaRight::statusUpdate(float deltaTime) {
     m_fire_ticking = data.fire_ticking;
     if (fire) {
         SoundManager::PlaySound("Fireball");
-        AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PiranhaDirection::PIRANHA_RIGHT, PiranhaProjectileType::PIRANHA_FIREBALL, getCurrentPosition().x - 51.f, getCurrentPosition().y);
+        AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PiranhaDirection::PIRANHA_RIGHT, PiranhaProjectileType::PIRANHA_FIREBALL, m_transform.getCurrentPosition().x - 51.f, m_transform.getCurrentPosition().y);
     }
 }
 
 void PinkPiranhaRight::MarioCollision(float MarioYVelocity) {
     if (isDestroyed() || isDisabled()) return;
-    if (Utility::f_abs(Mario::getCurrentPosition().x - getCurrentPosition().x) >= 80.f) return;
+    if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
-    if (const sf::FloatRect PiranhaAIHitbox = getGlobalHitbox(getHitbox(), getCurrentPosition(), getOrigin()); isCollide(PiranhaAIHitbox, hitbox_mario)) {
+    if (const sf::FloatRect PiranhaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(PiranhaAIHitbox, hitbox_mario)) {
         Mario::PowerDown();
     }
 }
@@ -99,19 +92,19 @@ void PinkPiranhaRight::XUpdate(float deltaTime) {}
 void PinkPiranhaRight::YUpdate(float deltaTime) {}
 void PinkPiranhaRight::EnemyCollision() {}
 
-void PinkPiranhaRight::draw() {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(getInterpolatedPosition(), getOrigin(), getHitbox()), 0.f)) {
+void PinkPiranhaRight::draw(float alpha) {
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
         m_animation.frameUpdate();
         return;
     }
     m_animation.setColor(sf::Color(255, 255, 255));
-    m_animation.animationUpdate(getInterpolatedPosition(), getOrigin());
+    m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());
     m_animation.animationDraw();
-    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), getCurrentPosition() - getOrigin(), sf::Color::Red));
+    HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(getHitbox(), m_transform.getCurrentPosition() - getOrigin(), sf::Color::Red));
 }
 void PinkPiranhaRight::Destroy() {
     if (!isDestroyed()) {
-        setDestroyed(true);
+        m_transform.destroy();
         m_enemyManager.setDeletionFlag(true);
     }
 }
@@ -127,3 +120,20 @@ bool PinkPiranhaRight::isDeath() {
 void PinkPiranhaRight::animationUpdate(float deltaTime) {
     m_animation.frameTimeAccumulate(deltaTime);
 }
+
+sf::Vector2f PinkPiranhaRight::getPosition() {
+    return m_transform.getCurrentPosition();
+}
+
+sf::Vector2f PinkPiranhaRight::getOrigin() {
+    return m_transform.getOrigin();
+}
+
+sf::FloatRect PinkPiranhaRight::getHitbox() {
+    return m_hitbox;
+}
+
+bool PinkPiranhaRight::isDestroyed() {
+    return m_transform.isDestroyed();
+}
+

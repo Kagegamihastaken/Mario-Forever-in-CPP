@@ -17,15 +17,9 @@ EffectManager::EffectIntrusiveList &EffectManager::getScrollBasedList() {
     return m_ScrollBasedEffect;
 }
 
-void EffectManager::setPreviousData() const {
+void EffectManager::updatePreviousData() const {
     for (const auto &i : m_effects) {
-        if (i) i->setPreviousData();
-    }
-}
-
-void EffectManager::interpolateData(float alpha) const {
-    for (const auto &i : m_effects) {
-        if (i) i->interpolateData(alpha);
+        if (i) i->updatePreviousData();
     }
 }
 
@@ -35,9 +29,9 @@ void EffectManager::statusUpdate(float deltaTime) const {
     }
 }
 
-void EffectManager::Draw() const {
+void EffectManager::Draw(float alpha) const {
     for (const auto &i : m_effects) {
-        if (i) i->draw();
+        if (i) i->draw(alpha);
     }
 }
 
@@ -58,5 +52,11 @@ void EffectManager::EffectCleanup() {
 void EffectManager::animationUpdate(float deltaTime) const {
     for (const auto &i : m_effects) {
         if (i) i->animationUpdate(deltaTime);
+    }
+}
+
+void EffectManager::teleportWithScroll(sf::Vector2f pos) {
+    for (auto &i : getScrollBasedList()) {
+        i.teleport(pos);
     }
 }

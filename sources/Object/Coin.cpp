@@ -5,7 +5,6 @@
 #include "Core/Scroll.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Core/Sound.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Core/ImageManager.hpp"
@@ -33,7 +32,7 @@ void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinList.emplace(ID, att, sf::FloatRect({6.f, 2.f}, {19.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
 }
 void DeleteIndexCoin(const plf::colony<MFCPP::Coin>::colony_iterator<false>& index) {
-	index->setDestroyed(true);
+	index->destroy();
 	CoinDeleteGate = true;
 }
 void ForceLoadCoinTexture() {
@@ -45,7 +44,7 @@ void ForceLoadCoinTexture() {
 }
 void DeleteCoin(const float x, const float y) {
 	for (auto it = CoinList.begin(); it != CoinList.end(); ++it)
-		if (it->getCurrentPosition().x == x && it->getCurrentPosition().y == y)
+		if (it->getPosition().x == x && it->getPosition().y == y)
 			DeleteIndexCoin(it);
 }
 void DeleteAllCoin() {
@@ -66,7 +65,7 @@ void CoinOnTouch() {
 void CoinAnimationUpdate(float deltaTime) {
 	CoinAnimation.frameTimeAccumulate(deltaTime);
 }
-void CoinDraw() {
+void CoinDraw(float alpha) {
 	if (CoinCount > 99) {
 		CoinCount = 0;
 		AddScoreEffect(ScoreID::SCORE_1UP, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
@@ -74,8 +73,8 @@ void CoinDraw() {
 	for (auto &i : CoinList) {
 		if (i.isDestroyed()) continue;
 
-		if (Scroll::isOutOfScreen(MFCPP::CollisionObject(i.getInterpolatedPosition(), i.getOrigin(), i.getHitbox()), 0)) continue;
-		CoinAnimation.animationUpdate(i.getInterpolatedPosition(), i.getOrigin());
+		if (Scroll::isOutOfScreen(MFCPP::CollisionObject(i.getInterpolatedPosition(alpha), i.getOrigin(), i.getHitbox()), 0)) continue;
+		CoinAnimation.animationUpdate(i.getInterpolatedPosition(alpha), i.getOrigin());
 		CoinAnimation.animationDraw();
 	}
 }
