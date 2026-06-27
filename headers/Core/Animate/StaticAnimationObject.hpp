@@ -7,7 +7,8 @@
 namespace MFCPP {
     class StaticAnimationObject {
         bool m_anim_flip = false;
-        std::string m_name;
+        //cache
+        SimpleSprite* m_precompute_cache = nullptr;
     public:
         void setTexture(const std::string& name, bool anim_flip = false);
         void animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);

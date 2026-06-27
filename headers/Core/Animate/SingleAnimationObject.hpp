@@ -1,11 +1,11 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
+#include "Core/SimpleSprite.hpp"
 #include "Core/Loading/enum.hpp"
 
 namespace MFCPP {
 	class SingleAnimationObject {
-		std::string m_sequenceName = "";
 		uint32_t m_indexAnimation = 0;
 		uint32_t m_startingIndexAnimation = 0;
 		uint32_t m_endingIndexAnimation = 0;
@@ -16,6 +16,10 @@ namespace MFCPP {
 		bool m_loop = true;
 		sf::Color m_color;
 		AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
+		//cache
+		bool m_precompute_update = false;
+		std::vector<std::string>* m_sequence_cache = nullptr;
+		SimpleSprite* m_precompute_cache = nullptr;
 	public:
 		void setAnimation(uint32_t startingIndexAnimation, uint32_t endingIndexAnimation, uint8_t frequency = 50, bool loop = false);
 		void setRangeIndexAnimation(uint32_t startingIndexAnimation, uint32_t endingIndexAnimation, uint8_t frequency = 50);
@@ -33,7 +37,7 @@ namespace MFCPP {
 		[[nodiscard]] bool isAnimationAtTheEnd() const;
 		[[nodiscard]] AnimationDirection getAnimationDirection() const;
 		[[nodiscard]] int32_t getFrequency() const;
-		void setAnimationSequence(std::string_view aName);
+		void setAnimationSequence(std::string_view val);
 		void setRotation(sf::Angle angle);
 		void setLoop(bool val);
 	};
