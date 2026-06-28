@@ -2,8 +2,8 @@
 #define MFCPP_MOVINGBLOCKMANAGER_HPP
 
 #include <memory>
-#include <vector>
 #include <boost/intrusive/list.hpp>
+#include <boost/container/small_vector.hpp>
 
 #include "MovingBlock.hpp"
 #include "Core/Exception.hpp"
@@ -35,7 +35,7 @@ public:
 private:
     MovingBlockIntrusiveList m_platforms;
     bool m_MovingBLockDeletionFlag = false;
-    std::vector<std::unique_ptr<MFCPP::MovingBlock>> m_movingblocks;
+    boost::container::small_vector<std::unique_ptr<MFCPP::MovingBlock>, 128> m_movingblocks;
 };
 
 #endif //MFCPP_MOVINGBLOCKMANAGER_HPP

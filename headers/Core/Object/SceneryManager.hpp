@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <boost/intrusive/list.hpp>
+#include <boost/container/small_vector.hpp>
 
 #include "Scenery.hpp"
 #include "Core/Exception.hpp"
@@ -33,7 +34,7 @@ public:
 private:
     SceneryIntrusiveList m_generic_scenery;
     bool m_SceneryDeletionFlag = false;
-    std::vector<std::unique_ptr<MFCPP::Scenery>> m_scenery;
+    boost::container::small_vector<std::unique_ptr<MFCPP::Scenery>, 256> m_scenery;
 };
 
 #endif //MFCPP_SCENERYMANAGER_HPP

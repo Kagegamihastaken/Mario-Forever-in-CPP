@@ -9,14 +9,14 @@
 #include "Editor/SelectTile.hpp"
 
 namespace sf {
-    extern void to_json(nlohmann::json& j, const Vector2f& v);
-    extern void from_json(const nlohmann::json& j, Vector2f& v);
+    void to_json(nlohmann::json& j, const Vector2f& v);
+    void from_json(const nlohmann::json& j, Vector2f& v);
 }
 namespace MFCPP {
-    extern void to_json(nlohmann::json& j, const Color& v);
-    extern void from_json(const nlohmann::json& j, Color& v);
+    void to_json(nlohmann::json& j, const Color& v);
+    void from_json(const nlohmann::json& j, Color& v);
 }
-extern void to_json(nlohmann::json& j, const TileProperty& prop);
-extern void from_json(const nlohmann::json& j, TileProperty& prop);
+void to_json(nlohmann::json& j, const TileProperty& prop);
+void from_json(const nlohmann::json& j, TileProperty& prop);
 
 #endif //JSONUTILS_HPP

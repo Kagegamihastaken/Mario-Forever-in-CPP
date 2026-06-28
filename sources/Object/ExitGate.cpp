@@ -41,7 +41,6 @@ float ExitGateForeEffectSpeed = 0.0f;
 float ExitGateForeEffectYSpeed = 0.0f;
 bool ExitGateForeRender = true;
 
-static std::vector<std::string> ExitIndicatorAnimName;
 static constexpr int EXIT_INDICATOR_IMAGE_WIDTH = 93;
 static constexpr int EXIT_INDICATOR_WIDTH = 31;
 static constexpr int EXIT_INDICATOR_HEIGHT = 32;
@@ -50,11 +49,12 @@ void ExitGateInit() {
 	ImageManager::AddTexture("ExitGateBack", "data/resources/ExitGateBack.png");
 	ImageManager::AddTexture("ExitGateFore", "data/resources/ExitGateFore.png");
 	ImageManager::AddTexture("ExitGateForeEffect", "data/resources/ExitGateForeEffect.png");
+
+	MFCPP::AnimationSequenceManager::newData("ExitIndicatorAnimName");
 	for (int i = 0; i < EXIT_INDICATOR_IMAGE_WIDTH / EXIT_INDICATOR_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("ExitGateIndicator_{}", i), "data/resources/ExitGateIndicator.png", sf::IntRect({i * EXIT_INDICATOR_WIDTH, 0}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT}));
-		ExitIndicatorAnimName.push_back(fmt::format("ExitGateIndicator_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("ExitIndicatorAnimName", fmt::format("ExitGateIndicator_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("ExitIndicatorAnimName", ExitIndicatorAnimName);
 	ExitGateBackObject.setTexture("ExitGateBack");
 
 	ExitGateForeObject.setTexture("ExitGateFore");

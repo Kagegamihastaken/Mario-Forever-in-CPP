@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <queue>
-#include <vector>
+#include <boost/container/small_vector.hpp>
 
 #include "CustomTile.hpp"
 #include "Core/Exception.hpp"
@@ -48,7 +48,7 @@ private:
     };
     CustomTileIntrusiveList m_Bonus;
     CustomTileIntrusiveList m_Solid;
-    std::vector<std::unique_ptr<MFCPP::CustomTile>> m_customTiles;
+    boost::container::small_vector<std::unique_ptr<MFCPP::CustomTile>, 256> m_customTiles;
     bool m_CustomTileDeletionFlag = false;
     std::queue<QueueCustomTileData> m_queue_data;
 };

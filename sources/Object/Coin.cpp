@@ -16,15 +16,14 @@ plf::colony<MFCPP::Coin> CoinList;
 static bool CoinDeleteGate = false;
 MFCPP::SingleAnimationObject CoinAnimation;
 int CoinCount = 0;
-static std::vector<std::string> CoinAnimName;
 static constexpr int COIN_IMAGE_WIDTH = 96;
 static constexpr int COIN_WIDTH_HEIGHT = 32;
 void CoinInit() {
+	MFCPP::AnimationSequenceManager::newData("CoinAnimName");
 	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i) {
 		ImageManager::PreloadTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
-		CoinAnimName.emplace_back(fmt::format("Coin_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("CoinAnimName", fmt::format("Coin_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("CoinAnimName", CoinAnimName);
 	CoinAnimation.setAnimation(0, 2, 20, true);
 	CoinAnimation.setAnimationSequence("CoinAnimName");
 }

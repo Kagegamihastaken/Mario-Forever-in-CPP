@@ -3,19 +3,10 @@
 
 #include "soloud.h"
 
-class AudioEngine final {
-public:
-    AudioEngine() = delete;
-    AudioEngine(const AudioEngine&) = delete;
-    AudioEngine(AudioEngine&&) = delete;
-    AudioEngine& operator=(const AudioEngine&) = delete;
-    AudioEngine& operator=(AudioEngine&&) = delete;
-
-    [[nodiscard]] static SoLoud::Soloud& getAudioEngine();
-    static void Init();
-    static void DeInit();
-    static void SoundManagerParamsInit();
-private:
-    static SoLoud::Soloud audioEngine;
+namespace AudioEngine {
+    [[nodiscard]] SoLoud::Soloud& getAudioEngine();
+    void Init();
+    void DeInit();
+    void SoundManagerParamsInit();
 };
 #endif //AUDIOENGINE_HPP

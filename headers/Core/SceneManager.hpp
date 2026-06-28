@@ -2,7 +2,7 @@
 #define SCENEMANAGER_HPP
 
 #include "Core/Scene.hpp"
-#include <unordered_map>
+#include <boost/unordered/unordered_flat_map.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class SceneManager {
@@ -29,7 +29,7 @@ public:
     void setView() const;
     void unload();
 private:
-    std::unordered_map<SceneState, std::unique_ptr<Scene>> m_scenes;
+    boost::unordered::unordered_flat_map<SceneState, std::unique_ptr<Scene>> m_scenes;
     Scene* m_currentScene;
 };
 

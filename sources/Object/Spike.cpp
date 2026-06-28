@@ -7,14 +7,13 @@
 #include "Object/Enemy/CastleSpikeUp.hpp"
 #include "Object/Enemy/GreenPiranhaGround.hpp"
 
-static std::vector<std::string> PiranhaGroundAnimName;
 void SpikeInit() {
 	ImageManager::AddTexture("CastleSpikeUp", "data/resources/Spike/Spike.png");
+	MFCPP::AnimationSequenceManager::newData("PiranhaGroundAnimName");
 	for (int i = 0; i < 4; ++i) {
 		ImageManager::AddTexture(fmt::format("PiranhaGreenGround_{}", i), "data/resources/Spike/PiranhaGround.png", sf::IntRect({i * 32, 0}, {32, 32}));
-		PiranhaGroundAnimName.emplace_back(fmt::format("PiranhaGreenGround_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("PiranhaGroundAnimName", fmt::format("PiranhaGreenGround_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("PiranhaGroundAnimName", PiranhaGroundAnimName);
 }
 void AddSpike(const SpikeID ID, const float x, const float y) {
 	switch (ID) {

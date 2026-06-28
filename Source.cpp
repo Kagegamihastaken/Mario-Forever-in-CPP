@@ -65,7 +65,7 @@ int WinMain() {
 				Game::Collision();
 				Mario::InvincibleStateUpdate();
 			}
-			if (isInterpolation) alpha = WindowFrame::getTimestep().getInterpolationAlphaAsFloat();
+			if (MFCPP::Interpolation::isInterpolation) alpha = WindowFrame::getTimestep().getInterpolationAlphaAsFloat();
 			else alpha = 1.0f;
 			Game::InterpolateMovement(alpha);
 			//ImGui::ShowDemoWindow();

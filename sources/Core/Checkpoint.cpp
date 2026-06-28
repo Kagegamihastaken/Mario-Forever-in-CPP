@@ -14,15 +14,14 @@ static plf::colony<MFCPP::Checkpoint> CheckpointList;
 static constexpr int CHECKPOINT_IMAGE_WIDTH = 321;
 static constexpr int CHECKPOINT_HEIGHT = 112;
 static constexpr int CHECKPOINT_WIDTH = 107;
-static std::vector<std::string> CheckpointAnimName;
 static sf::Vector2f StartPos(0.f, 0.f);
 
 void CheckpointInit() {
+    MFCPP::AnimationSequenceManager::newData("CheckpointAnimName");
     for (int i = 0; i < CHECKPOINT_IMAGE_WIDTH / CHECKPOINT_WIDTH; ++i) {
         ImageManager::AddTexture(fmt::format("Checkpoint_{}", i), "data/resources/Checkpoint.png", sf::IntRect({ CHECKPOINT_WIDTH * i, 0}, {CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT}));
-        CheckpointAnimName.emplace_back(fmt::format("Checkpoint_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("CheckpointAnimName", fmt::format("Checkpoint_{}", i));
     }
-    MFCPP::AnimationSequenceManager::addData("CheckpointAnimName", CheckpointAnimName);
 }
 void AddCheckpoint(const sf::Vector2f& pos) {
     auto it = CheckpointList.emplace(sf::FloatRect({0.f, 0.f}, {CHECKPOINT_WIDTH, CHECKPOINT_HEIGHT}), pos, sf::Vector2f(45.f, 112.f));

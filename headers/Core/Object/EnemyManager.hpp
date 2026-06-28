@@ -5,13 +5,13 @@
 #include <type_traits>
 #include <typeinfo>
 
+#include <boost/container/small_vector.hpp>
 #include "Enemy/Identity/BroAIType.hpp"
 #include "Enemy/Identity/BulletBillAIType.hpp"
 #include "Enemy/Identity/PiranhaAIType.hpp"
 #include "Enemy/Identity/RotodiscAIType.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
-#include "Core/ExternalHeaders/plf_colony.h"
 #include "Core/Object/Enemy.hpp"
 #include "Enemy/Identity/GoombaAIType.hpp"
 #include "Enemy/Identity/SpikeAIType.hpp"
@@ -64,7 +64,7 @@ private:
     EnemyIntrusiveList m_PiranhaAI;
     EnemyIntrusiveList m_SpikeAI;
     bool m_EnemyDeletionFlag = false;
-    std::vector<std::unique_ptr<MFCPP::Enemy>> m_enemies;
+    boost::container::small_vector<std::unique_ptr<MFCPP::Enemy>, 128> m_enemies;
 
 };
 

@@ -4,7 +4,6 @@
 #define COMMON_HPP
 
 namespace MFCPP {
-
     struct Color {
         float r, g, b, a;
         constexpr Color() : r(1.f), g(1.f), b(1.f), a(1.f) {};

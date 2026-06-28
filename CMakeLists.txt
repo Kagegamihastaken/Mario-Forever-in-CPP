@@ -145,7 +145,7 @@ FetchContent_MakeAvailable(imgui-sfml)
 FetchContent_MakeAvailable(ImGuiFileDialog)
 target_include_directories(ImGuiFileDialog PRIVATE ${imgui_SOURCE_DIR})
 
-set(BOOST_INCLUDE_LIBRARIES container_hash uuid type_index intrusive)
+set(BOOST_INCLUDE_LIBRARIES container_hash uuid type_index intrusive unordered container)
 set(BOOST_ENABLE_CMAKE ON)
 FetchContent_MakeAvailable(Boost)
 
@@ -226,6 +226,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Graphics SFML::System SFML::Window
     physfs-static ImGui-SFML::ImGui-SFML
     Boost::container_hash Boost::uuid Boost::type_index
+    Boost::unordered Boost::container
     fmt::fmt cpptrace::cpptrace SoLoud::soloud Boost::intrusive
     nlohmann_json::nlohmann_json
     ImGuiFileDialog

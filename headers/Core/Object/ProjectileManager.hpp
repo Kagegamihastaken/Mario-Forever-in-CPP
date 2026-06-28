@@ -1,8 +1,8 @@
 #ifndef MFCPP_PROJECTILEMANAGER_HPP
 #define MFCPP_PROJECTILEMANAGER_HPP
 #include <memory>
-#include <vector>
 #include <boost/intrusive/list.hpp>
+#include <boost/container/small_vector.hpp>
 #include "Projectile.hpp"
 #include "Core/Exception.hpp"
 #include "fmt/format.h"
@@ -41,7 +41,7 @@ public:
 private:
     ProjectileIntrusiveList m_Mario;
     ProjectileIntrusiveList m_Enemy;
-    std::vector<std::unique_ptr<MFCPP::Projectile>> m_projectile;
+    boost::container::small_vector<std::unique_ptr<MFCPP::Projectile>, 256> m_projectile;
     bool m_ProjectileDeletionFlag = false;
 };
 

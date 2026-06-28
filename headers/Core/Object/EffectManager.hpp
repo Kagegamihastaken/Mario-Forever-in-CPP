@@ -2,11 +2,10 @@
 #define MFCPP_EFFECTMANAGER_HPP
 
 #include <memory>
-#include <vector>
 #include <boost/intrusive/list.hpp>
+#include <boost/container/small_vector.hpp>
 #include "Effect.hpp"
 #include "Core/Exception.hpp"
-#include "Core/ExternalHeaders/plf_colony.h"
 #include "Effect/Identity/GenericEffectType.hpp"
 #include "Effect/Identity/ScrollBasedEffectType.hpp"
 
@@ -43,7 +42,7 @@ public:
 private:
     EffectIntrusiveList m_GenericEffect;
     EffectIntrusiveList m_ScrollBasedEffect;
-    std::vector<std::unique_ptr<MFCPP::Effect>> m_effects;
+    boost::container::small_vector<std::unique_ptr<MFCPP::Effect>, 256> m_effects;
     bool m_EffectDeletionFlag = false;
 };
 

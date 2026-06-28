@@ -1,6 +1,7 @@
 #pragma once
 #ifndef LOCALANIMATIONMANAGER_HPP
 #define LOCALANIMATIONMANAGER_HPP
+#include "Core/AnimationSequenceManager.hpp"
 #include "Core/SimpleSprite.hpp"
 #include "Core/Loading/enum.hpp"
 
@@ -18,7 +19,7 @@ namespace MFCPP {
 		AnimationDirection m_direction = AnimationDirection::ANIM_LEFT;
 		//cache
 		bool m_precompute_update = false;
-		std::vector<std::string>* m_sequence_cache = nullptr;
+		AnimationSequence* m_sequence_cache = nullptr;
 		SimpleSprite* m_precompute_cache = nullptr;
 	public:
 		void setAnimation(uint32_t startingIndexAnimation, uint32_t endingIndexAnimation, uint8_t frequency = 50, bool loop = false);

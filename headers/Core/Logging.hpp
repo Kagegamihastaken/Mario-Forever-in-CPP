@@ -4,16 +4,16 @@
 
 namespace MFCPP {
     namespace Log {
-        extern void ExceptionPrint(const std::exception* exp);
-        extern void ErrorColorPrint(std::string_view str);
-        extern void InfoPrint(std::string_view str);
-        extern void WarningPrint(std::string_view str);
-        extern void ErrorPrint(std::string_view str);
-        extern void SuccessPrint(std::string_view str);
+        void ExceptionPrint(const std::exception* exp);
+        void ErrorColorPrint(std::string_view str);
+        void InfoPrint(std::string_view str);
+        void WarningPrint(std::string_view str);
+        void ErrorPrint(std::string_view str);
+        void SuccessPrint(std::string_view str);
 
         void printSigTrace();
         void printCurrentTrace();
-        extern void FatalPrint(std::string_view str);
+        void FatalPrint(std::string_view str);
     }
 }
 

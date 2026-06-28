@@ -3,28 +3,20 @@
 #include "Object/ActiveObject.hpp"
 
 namespace MFCPP {
-    class AutoScroll final {
-    public:
-        static void UpdateSpeed(float deltaTime);
-        static void resetPosition();
-        [[nodiscard]] static sf::Vector2f getPosition();
-        static void setOriginPosition(const sf::Vector2f& pos);
-        static void setAutoScrollMode(bool val);
-        static void setTankMode(bool val);
-        static void setAutoScrollSpeed(float val);
-        [[nodiscard]] static bool getAutoScrollMode();
-        [[nodiscard]] static float getSpeed();
-        [[nodiscard]] static bool getTankMode();
-        [[nodiscard]] static bool getTankAnimationStop();
-        static void AutoScrollBuild();
-        static void AutoScrollInit();
-    private:
-        static sf::Vector2f m_position;
-        static sf::Vector2f m_origin_pos;
-        static bool m_tankAnimationStop;
-        static float m_speed;
-        static bool m_autoScrollMode;
-        static bool m_tankMode;
+    namespace AutoScroll {
+        void UpdateSpeed(float deltaTime);
+        void resetPosition();
+        [[nodiscard]] sf::Vector2f getPosition();
+        void setOriginPosition(const sf::Vector2f& pos);
+        void setAutoScrollMode(bool val);
+        void setTankMode(bool val);
+        void setAutoScrollSpeed(float val);
+        [[nodiscard]] bool getAutoScrollMode();
+        [[nodiscard]] float getSpeed();
+        [[nodiscard]] bool getTankMode();
+        [[nodiscard]] bool getTankAnimationStop();
+        void AutoScrollBuild();
+        void AutoScrollInit();
     };
 }
 

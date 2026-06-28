@@ -1,6 +1,6 @@
 #include "Core/Utility.hpp"
 
-std::random_device Utility::seed;
+std::random_device seed;
 
 int32_t Utility::RandomIntNumberGenerator(const int32_t a, const int32_t b) {
     std::uniform_int_distribution dis(a, b);

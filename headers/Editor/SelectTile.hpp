@@ -2,7 +2,7 @@
 #define SELECTTILE_HPP
 
 #include <cstdarg>
-
+#include <boost/container/static_vector.hpp>
 #include "Editor/TileProperty.hpp"
 #include "Core/Logging.hpp"
 #include "Editor/TabButton.hpp"
@@ -20,7 +20,7 @@ public:
     }
     template<typename PropType>
     [[nodiscard]] const PropType* getProperty(const std::string& name) const {
-        for (size_t i = 0; i < m_prop_size; ++i) {
+        for (size_t i = 0; i < m_prop.size(); ++i) {
             const auto& prop_variant = m_prop[i];
             if (std::holds_alternative<PropType>(prop_variant)) {
                 const auto& prop = std::get<PropType>(prop_variant);
@@ -33,7 +33,7 @@ public:
     }
     template<typename PropType>
     [[nodiscard]] PropType* getProperty(const std::string& name) {
-        for (size_t i = 0; i < m_prop_size; ++i) {
+        for (size_t i = 0; i < m_prop.size(); ++i) {
             auto& prop_variant = m_prop[i];
             // Check if the variant holds the correct type
             if (std::holds_alternative<PropType>(prop_variant)) {
@@ -47,7 +47,7 @@ public:
         return nullptr;
     }
     [[nodiscard]] size_t getPropertyCount() const {
-        return m_prop_size;
+        return m_prop.size();
     }
     [[nodiscard]] const TileProperty* at(const size_t index) const {
         return &m_prop.at(index);
@@ -58,11 +58,10 @@ public:
     ~CustomTileProperty() = default;
 private:
     void PushProperty(const TileProperty& arg) {
-        if (m_prop_size >= m_prop.size()) return;
-        m_prop[m_prop_size++] = arg;
+        m_prop.emplace_back(arg);
     }
-    std::array<TileProperty, 10> m_prop;
-    size_t                      m_prop_size = 0;
+    boost::container::static_vector<TileProperty, 10> m_prop;
+    //std::array<TileProperty, 10> m_prop;
 };
 struct SelectTileData {
     std::string name;
@@ -78,7 +77,7 @@ struct SelectTileData {
 };
 extern bool EDITOR_SELECTTILE;
 extern sf::Clock EDITOR_SELECTILE_CLOCK;
-extern const std::array<std::vector<SelectTileData>, 6> TilePage;
+extern const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePage;
 extern std::array<MFCPP::TabButton, 6> TabList;
 extern MFCPP::TabButton SettingButton;
 

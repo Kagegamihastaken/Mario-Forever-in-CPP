@@ -1,7 +1,5 @@
 #include "Core/WindowFrame.hpp"
 
-#include <config.h>
-
 #include "Core/AnimationSequenceManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
@@ -10,40 +8,6 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Interpolation.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
-
-#if defined _DEBUG
-bool WindowFrame::_Debug = true;
-#else
-bool WindowFrame::_Debug = false;
-#endif
-
-sf::Vector2f WindowFrame::GameSize(GAME_WIDTH, GAME_HEIGHT);
-sf::VideoMode WindowFrame::Window::x1({ static_cast<uint32_t>(GameSize.x), static_cast<uint32_t>(GameSize.y) });
-sf::VideoMode WindowFrame::Window::x15({ static_cast<uint32_t>(GameSize.x * 1.5f), static_cast<uint32_t>(GameSize.y * 1.5f) });
-sf::VideoMode WindowFrame::Window::x2({ static_cast<uint32_t>(GameSize.x * 2.0f), static_cast<uint32_t>(GameSize.y * 2.0f) });
-const std::vector<sf::VideoMode> WindowFrame::Window::Resolutions = sf::VideoMode::getFullscreenModes();
-
-bool WindowFrame::Window::OPTION_SMOOTH = false;
-bool WindowFrame::Window::OPTION_VSYNC = false;
-bool WindowFrame::Window::OPTION_FULLSCREEN = false;
-bool WindowFrame::Window::PREV_OPTION_FULLSCREEN = OPTION_FULLSCREEN;
-const std::string WindowFrame::Window::PROGRAM_NAME = "Mario Forever - Test";
-uint8_t WindowFrame::Window::OPTION_SCALE = 0;
-sf::RenderWindow WindowFrame::window;
-sf::Image WindowFrame::icon;
-
-kairos::Timestep WindowFrame::timestep;
-kairos::FpsLite WindowFrame::fpsLite;
-sf::Vector2f WindowFrame::MousePosition;
-
-static std::vector<std::string> CoinHUDAnimName;
-static constexpr uint16_t COINHUD_IMAGE_WIDTH = 86;
-static constexpr uint16_t COINHUD_WIDTH = 28;
-static constexpr uint16_t COINHUD_HEIGHT = 16;
-
-MFCPP::StaticAnimationObject WindowFrame::MarioHUD;
-MFCPP::SingleAnimationObject WindowFrame::CoinHUD;
-MFCPP::StaticAnimationObject WindowFrame::TimeHUD;
 
 static sf::ContextSettings setting;
 sf::VideoMode WindowFrame::Window::WindowGetVideoMode() {
@@ -130,7 +94,7 @@ void WindowFrame::Window::WindowEventUpdate(const std::optional<sf::Event>& even
 			ChangeScreenMode(2);
 		}
 		else if (keyPressed->code == sf::Keyboard::Key::F9) {
-			isInterpolation = !isInterpolation;
+			MFCPP::Interpolation::isInterpolation = !MFCPP::Interpolation::isInterpolation;
 		}
 	}
 }
@@ -169,11 +133,11 @@ void WindowFrame::Init() {
 void WindowFrame::GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");
 	ImageManager::AddTexture("TimeHUD", "data/resources/TimeHUD.png");
+	MFCPP::AnimationSequenceManager::newData("CoinHUDAnimName");
 	for (int i = 0; i < COINHUD_IMAGE_WIDTH / COINHUD_WIDTH; i++) {
 		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
-		CoinHUDAnimName.emplace_back(fmt::format("CoinHUD_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("CoinHUDAnimName", fmt::format("CoinHUD_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("CoinHUDAnimName", CoinHUDAnimName);
 	CoinHUD.setAnimation(0, 2, 16, true);
 	CoinHUD.setAnimationSequence("CoinHUDAnimName");
 	MarioHUD.setTexture("MarioHUD");

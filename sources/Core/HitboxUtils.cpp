@@ -1,12 +1,10 @@
 #include "Core/HitboxUtils.hpp"
 #include <config.h>
-
-#include "Core/Logging.hpp"
+#include <queue>
 #include "Core/Scroll.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
-#include "Core/WindowFrame.hpp"
 
-std::queue<HitboxUtils::HitboxDetail> HitboxUtils::m_hitboxDebug;
+std::queue<HitboxUtils::HitboxDetail> m_hitboxDebug;
 void HitboxUtils::addHitboxDebug(const HitboxDetail &obj) {
 #if HITBOX_DEBUG
     m_hitboxDebug.push(obj);

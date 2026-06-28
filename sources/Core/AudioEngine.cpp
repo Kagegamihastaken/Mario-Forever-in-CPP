@@ -3,7 +3,7 @@
 
 #include "Core/Logging.hpp"
 #include "Core/SoundManager.hpp"
-SoLoud::Soloud AudioEngine::audioEngine;
+SoLoud::Soloud audioEngine;
 void AudioEngine::Init() {
     if (audioEngine.init() != 0) throw std::runtime_error("AudioEngine: Failed to Init");
     MFCPP::Log::InfoPrint("AudioEngine Successfully Initialized.");

@@ -16,7 +16,7 @@ namespace MFCPP {
             m_curr_angle(angle),
             m_prev_angle(angle),
             m_destroy(false) {}
-        virtual ~ActiveObject() = default;
+        ~ActiveObject() = default;
         void setCurrentPosition(sf::Vector2<T> position) noexcept {
             m_curr = position;
         }
@@ -37,7 +37,7 @@ namespace MFCPP {
             return m_prev;
         }
         [[nodiscard]] sf::Vector2<T> getInterpolatedPosition(float alpha) const noexcept {
-            return linearInterpolation(m_prev, m_curr, alpha);
+            return Interpolation::linearInterpolation(m_prev, m_curr, alpha);
         }
         [[nodiscard]] sf::Vector2<T> getOrigin() const noexcept {
             return m_origin;
@@ -59,7 +59,7 @@ namespace MFCPP {
             m_curr_angle += angle;
         }
         [[nodiscard]] sf::Angle getInterpolatedAngle(float alpha) const noexcept {
-            return linearInterpolation(m_prev_angle, m_curr_angle, alpha);
+            return Interpolation::linearInterpolation(m_prev_angle, m_curr_angle, alpha);
         }
         void destroy() noexcept {
             m_destroy = true;
@@ -73,10 +73,10 @@ namespace MFCPP {
         }
     private:
         sf::Vector2<T> m_curr{};
-        sf::Vector2<T> m_prev{};
-        sf::Vector2<T> m_origin{};
-        sf::Angle    m_curr_angle{};
-        sf::Angle    m_prev_angle{};
+        sf::Vector2<T> m_prev;
+        sf::Vector2<T> m_origin;
+        sf::Angle    m_curr_angle;
+        sf::Angle    m_prev_angle;
         bool         m_destroy;
     };
 

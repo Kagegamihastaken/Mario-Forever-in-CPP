@@ -12,48 +12,39 @@
 #include "Object/Enemy/PinkPiranhaLeft.hpp"
 #include "Object/Enemy/PinkPiranhaRight.hpp"
 #include "Object/Enemy/PinkPiranhaUp.hpp"
-static std::vector<std::string> GreenPiranhaUpAnimName;
-static std::vector<std::string> GreenPiranhaDownAnimName;
-static std::vector<std::string> GreenPiranhaRightAnimName;
-static std::vector<std::string> GreenPiranhaLeftAnimName;
-
-static std::vector<std::string> PinkPiranhaUpAnimName;
-static std::vector<std::string> PinkPiranhaDownAnimName;
-static std::vector<std::string> PinkPiranhaRightAnimName;
-static std::vector<std::string> PinkPiranhaLeftAnimName;
 static constexpr int PIRANHA_IMAGE_WIDTH = 256;
 static constexpr int PIRANHA_FIRE_IMAGE_WIDTH = 128;
 static constexpr int PIRANHA_WIDTH = 64;
 static constexpr int PIRANHA_HEIGHT = 64;
 void PiranhaAIInit() {
+	MFCPP::AnimationSequenceManager::newData("GreenPiranhaUpAnimName");
+	MFCPP::AnimationSequenceManager::newData("GreenPiranhaDownAnimName");
+	MFCPP::AnimationSequenceManager::newData("GreenPiranhaRightAnimName");
+	MFCPP::AnimationSequenceManager::newData("GreenPiranhaLeftAnimName");
 	for (int i = 0; i < PIRANHA_IMAGE_WIDTH / PIRANHA_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("GreenPiranhaUp_{}", i), "data/resources/Piranha/GreenPiranhaUp.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		GreenPiranhaUpAnimName.emplace_back(fmt::format("GreenPiranhaUp_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("GreenPiranhaUpAnimName", fmt::format("GreenPiranhaUp_{}", i));
 		ImageManager::AddTexture(fmt::format("GreenPiranhaDown_{}", i), "data/resources/Piranha/GreenPiranhaDown.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		GreenPiranhaDownAnimName.emplace_back(fmt::format("GreenPiranhaDown_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("GreenPiranhaDownAnimName", fmt::format("GreenPiranhaDown_{}", i));
 		ImageManager::AddTexture(fmt::format("GreenPiranhaRight_{}", i), "data/resources/Piranha/GreenPiranhaRight.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		GreenPiranhaRightAnimName.emplace_back(fmt::format("GreenPiranhaRight_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("GreenPiranhaRightAnimName", fmt::format("GreenPiranhaRight_{}", i));
 		ImageManager::AddTexture(fmt::format("GreenPiranhaLeft_{}", i), "data/resources/Piranha/GreenPiranhaLeft.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		GreenPiranhaLeftAnimName.emplace_back(fmt::format("GreenPiranhaLeft_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("GreenPiranhaLeftAnimName", fmt::format("GreenPiranhaLeft_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("GreenPiranhaUpAnimName", GreenPiranhaUpAnimName);
-	MFCPP::AnimationSequenceManager::addData("GreenPiranhaDownAnimName", GreenPiranhaDownAnimName);
-	MFCPP::AnimationSequenceManager::addData("GreenPiranhaRightAnimName", GreenPiranhaRightAnimName);
-	MFCPP::AnimationSequenceManager::addData("GreenPiranhaLeftAnimName", GreenPiranhaLeftAnimName);
+	MFCPP::AnimationSequenceManager::newData("PinkPiranhaUpAnimName");
+	MFCPP::AnimationSequenceManager::newData("PinkPiranhaDownAnimName");
+	MFCPP::AnimationSequenceManager::newData("PinkPiranhaRightAnimName");
+	MFCPP::AnimationSequenceManager::newData("PinkPiranhaLeftAnimName");
 	for (int i = 0; i < PIRANHA_FIRE_IMAGE_WIDTH / PIRANHA_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("PinkPiranhaUp_{}", i), "data/resources/Piranha/PinkPiranhaUp.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		PinkPiranhaUpAnimName.emplace_back(fmt::format("PinkPiranhaUp_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("PinkPiranhaUpAnimName", fmt::format("PinkPiranhaUp_{}", i));
 		ImageManager::AddTexture(fmt::format("PinkPiranhaDown_{}", i), "data/resources/Piranha/PinkPiranhaDown.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		PinkPiranhaDownAnimName.emplace_back(fmt::format("PinkPiranhaDown_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("PinkPiranhaDownAnimName", fmt::format("PinkPiranhaDown_{}", i));
 		ImageManager::AddTexture(fmt::format("PinkPiranhaRight_{}", i), "data/resources/Piranha/PinkPiranhaRight.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		PinkPiranhaRightAnimName.emplace_back(fmt::format("PinkPiranhaRight_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("PinkPiranhaRightAnimName", fmt::format("PinkPiranhaRight_{}", i));
 		ImageManager::AddTexture(fmt::format("PinkPiranhaLeft_{}", i), "data/resources/Piranha/PinkPiranhaLeft.png", sf::IntRect({i * PIRANHA_WIDTH, 0}, {PIRANHA_WIDTH, PIRANHA_HEIGHT}));
-		PinkPiranhaLeftAnimName.emplace_back(fmt::format("PinkPiranhaLeft_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("PinkPiranhaLeftAnimName", fmt::format("PinkPiranhaLeft_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("PinkPiranhaUpAnimName", PinkPiranhaUpAnimName);
-	MFCPP::AnimationSequenceManager::addData("PinkPiranhaDownAnimName", PinkPiranhaDownAnimName);
-	MFCPP::AnimationSequenceManager::addData("PinkPiranhaRightAnimName", PinkPiranhaRightAnimName);
-	MFCPP::AnimationSequenceManager::addData("PinkPiranhaLeftAnimName", PinkPiranhaLeftAnimName);
 }
 void AddPiranha(const PiranhaID ID, const PiranhaDirection dir, const float x, const float y) {
 	switch (ID) {

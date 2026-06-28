@@ -2,15 +2,18 @@
 
 #include <ranges>
 
-#include "Core/Loading/Loading.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Exception.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
-
-std::unordered_map<std::string, std::unique_ptr<sf::Texture>> ImageManager::m_textures;
-std::unordered_map<std::string, PreTexture> ImageManager::m_pre_textures;
-std::unordered_map<std::string, MFCPP::SimpleSprite> ImageManager::m_pre_compute_render;
+struct PreTexture {
+	std::filesystem::path path;
+	sf::IntRect rect;
+	bool isRepeat;
+};
+boost::unordered_flat_map<std::string, std::unique_ptr<sf::Texture>> m_textures;
+boost::unordered_flat_map<std::string, PreTexture> m_pre_textures;
+boost::unordered_flat_map<std::string, std::unique_ptr<MFCPP::SimpleSprite>> m_pre_compute_render;
 
 void ImageManager::Cleanup() {
 	MFCPP::Log::InfoPrint("ImageManager cleanup...");
@@ -39,7 +42,7 @@ void ImageManager::LoadTexture(std::string_view name_tex, const std::filesystem:
 	if (PhysFsStream loadFile(path.string().c_str()); !tex->loadFromStream(loadFile, false, tex_rect)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
 	tex->setRepeated(isRepeated);
 	m_textures[name_tex.data()] = std::move(tex);
-	m_pre_compute_render[name_tex.data()] = MFCPP::SimpleSprite(m_textures[name_tex.data()].get());
+	m_pre_compute_render[name_tex.data()] = std::make_unique<MFCPP::SimpleSprite>(m_textures[name_tex.data()].get());
 	MFCPP::Log::InfoPrint(fmt::format("ImageManager: Loaded Texture {}", name_tex));
 }
 void ImageManager::LoadTexture(std::string_view name_tex) {
@@ -49,7 +52,7 @@ void ImageManager::LoadTexture(std::string_view name_tex) {
 	if (PhysFsStream loadFile(m_pre_textures[name_tex.data()].path.string().c_str()); !tex->loadFromStream(loadFile, false, m_pre_textures[name_tex.data()].rect)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", m_pre_textures[name_tex.data()].path.string()));
 	tex->setRepeated(m_pre_textures[name_tex.data()].isRepeat);
 	m_textures[name_tex.data()] = std::move(tex);
-	m_pre_compute_render[name_tex.data()] = MFCPP::SimpleSprite(m_textures[name_tex.data()].get());
+	m_pre_compute_render[name_tex.data()] = std::make_unique<MFCPP::SimpleSprite>(m_textures[name_tex.data()].get());
 	MFCPP::Log::InfoPrint(fmt::format("ImageManager: Loaded Texture {}", name_tex));
 }
 sf::Texture& ImageManager::getTexture(std::string_view name)
@@ -67,6 +70,6 @@ sf::Texture* ImageManager::getReturnTexture(std::string_view name)
 	return m_textures[name.data()].get();
 }
 
-MFCPP::SimpleSprite &ImageManager::getSpritePreCompute(std::string_view name) {
-	return m_pre_compute_render[name.data()];
+MFCPP::SimpleSprite* ImageManager::getSpritePreCompute(std::string_view name) {
+	return m_pre_compute_render[name.data()].get();
 }

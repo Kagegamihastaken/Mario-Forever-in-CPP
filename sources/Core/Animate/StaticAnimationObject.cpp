@@ -3,9 +3,9 @@
 #include "Core/WindowFrame.hpp"
 
 namespace MFCPP {
-    void StaticAnimationObject::setTexture(const std::string& name, bool anim_flip) {
+    void StaticAnimationObject::setTexture(std::string_view name, bool anim_flip) {
         m_anim_flip = anim_flip;
-        m_precompute_cache = &ImageManager::getSpritePreCompute(name);
+        m_precompute_cache = ImageManager::getSpritePreCompute(name);
     }
     void StaticAnimationObject::animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin) {
         if (!m_precompute_cache) throw std::bad_alloc();

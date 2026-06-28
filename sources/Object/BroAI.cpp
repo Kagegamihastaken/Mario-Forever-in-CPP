@@ -7,30 +7,26 @@
 #include "Object/Enemy/FireBro.hpp"
 #include "Object/Enemy/HammerBro.hpp"
 
-static std::vector<std::string> HammerBroAnimName;
-static std::vector<std::string> HammerBroLaunchAnimName;
-static std::vector<std::string> FireBroAnimName;
-static std::vector<std::string> FireBroLaunchAnimName;
 static constexpr int HAMMER_BRO_IMAGE_WIDTH = 96;
 static constexpr int HAMMER_BRO_WIDTH = 48;
 static constexpr int HAMMER_BRO_HEIGHT = 64;
 
 void BroAILoadRes() {
+    MFCPP::AnimationSequenceManager::newData("HammerBroAnimName");
+    MFCPP::AnimationSequenceManager::newData("FireBroAnimName");
+    MFCPP::AnimationSequenceManager::newData("HammerBroLaunchAnimName");
+    MFCPP::AnimationSequenceManager::newData("FireBroLaunchAnimName");
     for (int i = 0; i < HAMMER_BRO_IMAGE_WIDTH / HAMMER_BRO_WIDTH; i++) {
         ImageManager::AddTexture(fmt::format("HammerBro_{}", i), "data/resources/Bro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
-        HammerBroAnimName.push_back(fmt::format("HammerBro_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("HammerBroAnimName", fmt::format("HammerBro_{}", i));
         ImageManager::AddTexture(fmt::format("FireBro_{}", i), "data/resources/Bro/FireBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, 0}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
-        FireBroAnimName.push_back(fmt::format("FireBro_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("FireBroAnimName", fmt::format("FireBro_{}", i));
 
         ImageManager::AddTexture(fmt::format("HammerBroLaunch_{}", i), "data/resources/Bro/HammerBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
-        HammerBroLaunchAnimName.push_back(fmt::format("HammerBroLaunch_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("HammerBroLaunchAnimName", fmt::format("HammerBroLaunch_{}", i));
         ImageManager::AddTexture(fmt::format("FireBroLaunch_{}", i), "data/resources/Bro/FireBro.png", sf::IntRect({i * HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}, {HAMMER_BRO_WIDTH, HAMMER_BRO_HEIGHT}));
-        FireBroLaunchAnimName.push_back(fmt::format("FireBroLaunch_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("FireBroLaunchAnimName", fmt::format("FireBroLaunch_{}", i));
     }
-    MFCPP::AnimationSequenceManager::addData("HammerBroAnimName", HammerBroAnimName);
-    MFCPP::AnimationSequenceManager::addData("FireBroAnimName", FireBroAnimName);
-    MFCPP::AnimationSequenceManager::addData("HammerBroLaunchAnimName", HammerBroLaunchAnimName);
-    MFCPP::AnimationSequenceManager::addData("FireBroLaunchAnimName", FireBroLaunchAnimName);
 }
 void AddBroAI(const BroAIType type, const BroAIMovementType movementType, const float x, const float y) {
     switch (type) {

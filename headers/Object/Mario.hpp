@@ -125,11 +125,6 @@ private:
 	static float m_temp_alpha;
 };
 
-static std::vector<std::string> SmallMario;
-static std::vector<std::string> BigMario;
-static std::vector<std::string> FireMario;
-static std::vector<std::string> BeetrootMario;
-
 // 0 for right; 1 for left
 
 #endif //MARIO_HPP

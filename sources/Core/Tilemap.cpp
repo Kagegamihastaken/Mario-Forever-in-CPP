@@ -1,11 +1,24 @@
 #include "Core/Tilemap.hpp"
 
+#include <boost/unordered/unordered_flat_map.hpp>
 #include "Core/HitboxUtils.hpp"
 #include "Core/Logging.hpp"
 namespace MFCPP {
-    std::unordered_map<int32_t, Tilemap::Tile> Tilemap::ObstaclesTilemap;
-    std::unordered_map<int32_t, Tilemap::Collectable> Tilemap::CollectableMap;
-    int32_t Tilemap::tileMapSizeX, Tilemap::tileMapSizeY;
+    struct Tile {
+        bool collide = false;
+        uint32_t id = 0;
+        std::pair<float, float> floorY = {0.f, 0.f};
+    };
+    struct Collectable {
+        bool collide = false;
+        uint32_t id = 0;
+    };
+    boost::unordered_flat_map<int32_t, Tile> ObstaclesTilemap;
+    boost::unordered_flat_map<int32_t, Collectable> CollectableMap;
+    int32_t tileMapSizeX, tileMapSizeY;
+    constexpr float tileSize = 32.f;
+    constexpr int32_t TILEMAP_MAX = 5;
+
     void Tilemap::setTileMapSize(const float LevelX, const float LevelY) {
         ObstaclesTilemap.clear();
         CollectableMap.clear();

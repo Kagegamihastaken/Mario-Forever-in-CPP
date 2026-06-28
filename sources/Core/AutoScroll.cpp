@@ -5,13 +5,13 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Platform/TankGround.hpp"
 
-sf::Vector2f MFCPP::AutoScroll::m_position = sf::Vector2f(0.f,0.f);
-sf::Vector2f MFCPP::AutoScroll::m_origin_pos = sf::Vector2f(0.f, 0.f);
-bool MFCPP::AutoScroll::m_autoScrollMode = false;
-bool MFCPP::AutoScroll::m_tankMode = false;
-float MFCPP::AutoScroll::m_speed = 1.f;
+sf::Vector2f m_position = sf::Vector2f(0.f,0.f);
+sf::Vector2f m_origin_pos = sf::Vector2f(0.f, 0.f);
+bool m_autoScrollMode = false;
+bool m_tankMode = false;
+float m_speed = 1.f;
 //Dont touch
-bool MFCPP::AutoScroll::m_tankAnimationStop = false;
+bool m_tankAnimationStop = false;
 
 void MFCPP::AutoScroll::AutoScrollBuild() {
     if (!m_autoScrollMode) return;

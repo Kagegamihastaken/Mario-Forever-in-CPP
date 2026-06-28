@@ -10,7 +10,7 @@ namespace MFCPP {
         //cache
         SimpleSprite* m_precompute_cache = nullptr;
     public:
-        void setTexture(const std::string& name, bool anim_flip = false);
+        void setTexture(std::string_view name, bool anim_flip = false);
         void animationUpdate(const sf::Vector2f& pos, const sf::Vector2f& origin);
         void animationDraw() const;
         void setColor(const sf::Color& color);

@@ -2,7 +2,6 @@
 #include "Core/Animate/SingleAnimationObject.hpp"
 
 #include "Core/AnimationSequenceManager.hpp"
-#include "Core/Exception.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Loading/enum.hpp"
@@ -20,7 +19,7 @@ namespace MFCPP {
 		m_precompute_update = true;
 	}
 	void SingleAnimationObject::setAnimationSequence(std::string_view val) {
-		m_sequence_cache = &AnimationSequenceManager::getData(val);
+		m_sequence_cache = AnimationSequenceManager::getData(val);
 		m_precompute_update = true;
 	}
 	void SingleAnimationObject::setRangeIndexAnimation(const uint32_t startingIndexAnimation, const uint32_t endingIndexAnimation, const uint8_t frequency) {
@@ -72,7 +71,7 @@ namespace MFCPP {
 	void SingleAnimationObject::animationUpdate(sf::Vector2f pos, sf::Vector2f origin) {
 		frameUpdate();
 		if (m_precompute_update) {
-			m_precompute_cache = &ImageManager::getSpritePreCompute(m_sequence_cache->operator[](m_indexAnimation));
+			m_precompute_cache = ImageManager::getSpritePreCompute(m_sequence_cache->operator[](m_indexAnimation));
 			m_precompute_update = false;
 		}
 		if (!m_precompute_cache) throw std::bad_alloc();
@@ -88,6 +87,7 @@ namespace MFCPP {
 	}
 	void SingleAnimationObject::animationDraw() const {
 		//ImageManager::AddToVertex(m_AnimName[m_indexAnimation], m_Index[m_indexAnimation].getTextureRect(), m_Index[m_indexAnimation].getTransform(), m_Index[m_indexAnimation].getColor());
+		if (!m_precompute_cache) throw std::bad_alloc();
 		WindowFrame::getWindow().draw(*m_precompute_cache);
 	}
 	void SingleAnimationObject::setAnimationDirection(AnimationDirection dir) {
@@ -106,7 +106,6 @@ namespace MFCPP {
 	int32_t SingleAnimationObject::getFrequency() const {
 		return m_frequency;
 	}
-
 	void SingleAnimationObject::setLoop(bool val) {
 		m_loop = val;
 	}

@@ -6,26 +6,25 @@
 #include "Object/Scenery/BlueGrass.hpp"
 #include "Object/Scenery/TankTileBack.hpp"
 
-static std::vector<std::string> BlueCloudAnimName;
 static constexpr int CLOUD_IMAGE_WIDTH = 192;
 static constexpr int CLOUD_WIDTH = 64;
 static constexpr int CLOUD_HEIGHT = 64;
-static std::vector<std::string> BlueGrassAnimName;
+
 static constexpr int GRASS_IMAGE_WIDTH = 192;
 static constexpr int GRASS_WIDTH = 64;
 static constexpr int GRASS_HEIGHT = 32;
 void SceneryInit() {
     ImageManager::AddTexture("TankTileBack", "data/resources/Scenery/TankTileBack.png");
+    MFCPP::AnimationSequenceManager::newData("BlueCloudAnimName");
     for (int i = 0; i < CLOUD_IMAGE_WIDTH / CLOUD_WIDTH; i++) {
         ImageManager::AddTexture(fmt::format("BlueCloud_{}", i), "data/resources/Scenery/BlueCloud.png", sf::IntRect({i * CLOUD_WIDTH, 0}, {CLOUD_WIDTH, CLOUD_HEIGHT}));
-        BlueCloudAnimName.push_back(fmt::format("BlueCloud_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("BlueCloudAnimName", fmt::format("BlueCloud_{}", i));
     }
-    MFCPP::AnimationSequenceManager::addData("BlueCloudAnimName", BlueCloudAnimName);
+    MFCPP::AnimationSequenceManager::newData("BlueGrassAnimName");
     for (int i = 0; i < GRASS_IMAGE_WIDTH / GRASS_WIDTH; i++) {
         ImageManager::AddTexture(fmt::format("BlueGrass_{}", i), "data/resources/Scenery/BlueGrass.png", sf::IntRect({i * GRASS_WIDTH, 0}, {GRASS_WIDTH, GRASS_HEIGHT}));
-        BlueGrassAnimName.push_back(fmt::format("BlueGrass_{}", i));
+        MFCPP::AnimationSequenceManager::addSingleFrame("BlueGrassAnimName", fmt::format("BlueGrass_{}", i));
     }
-    MFCPP::AnimationSequenceManager::addData("BlueGrassAnimName", BlueGrassAnimName);
 }
 void AddScenery(const int id, const sf::Vector2f& pos) {
     switch (id) {

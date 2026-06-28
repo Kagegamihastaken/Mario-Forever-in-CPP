@@ -30,7 +30,7 @@ static float TilePosX, TilePosY;
 
 static sf::RenderTexture SelectTileRender(sf::Vector2u(480, 352));
 static sf::VertexArray SelectTileRenderVA(sf::PrimitiveType::TriangleStrip, 4);
-const std::array<std::vector<SelectTileData>, 6> TilePage = {{
+const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePage = {{
     { // PAGE 1
         {"Tile_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 0},
         {"Tile_1", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 1},

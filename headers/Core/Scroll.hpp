@@ -4,32 +4,19 @@
 #define SCROLL_HPP
 #include "Class/CollisionObjectClass.hpp"
 
-class Scroll final {
-public:
-    Scroll() = delete;
-    Scroll(const Scroll&) = delete;
-    Scroll(Scroll&&) = delete;
-    Scroll& operator=(const Scroll&) = delete;
-    Scroll& operator=(Scroll&&) = delete;
+namespace Scroll {
+    void Init();
+    void setWindowView();
+    void moveView(const sf::Vector2f& pos);
+    void updateView();
+    [[nodiscard]] bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset);
+    [[nodiscard]] bool isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, const float offset);
+    [[nodiscard]] bool isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset);
+    [[nodiscard]] bool isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset);
 
-    static void Init();
-    static void setWindowView();
-    static void moveView(const sf::Vector2f& pos);
-    static void updateView();
-    [[nodiscard]] static bool isOutOfScreen(const MFCPP::CollisionObject& obj, const float offset);
-    [[nodiscard]] static bool isOutOfScreenYBottom(const MFCPP::CollisionObject& obj, const float offset);
-    [[nodiscard]] static bool isOutOfScreenXLeft(const MFCPP::CollisionObject& obj, const float offset);
-    [[nodiscard]] static bool isOutOfScreenXRight(const MFCPP::CollisionObject& obj, const float offset);
-
-    [[nodiscard]] static sf::View& getView();
-    [[nodiscard]] static const sf::Vector2f& getViewPosition();
-    [[nodiscard]] static const sf::Vector2f& getViewPositionOff();
-private:
-    static sf::View View;
-    static sf::Vector2f ViewPosition;
-    static sf::Vector2f ViewPositionOff;
-
-    static void setLetterboxView(sf::View& viewVal, const sf::Vector2u& windowSize);
+    [[nodiscard]] sf::View& getView();
+    [[nodiscard]] const sf::Vector2f& getViewPosition();
+    [[nodiscard]] const sf::Vector2f& getViewPositionOff();
 };
 
 #endif // SCROLL_HPP

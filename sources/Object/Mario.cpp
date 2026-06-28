@@ -88,20 +88,20 @@ void Mario::loadMarioRes() {
 	m_AppearingTimer.restart();
 	// Resources Loader;
 	m_MarioAnimation.setAnimation(0, 0, 0, true);
+	MFCPP::AnimationSequenceManager::newData("SmallMario");
+	MFCPP::AnimationSequenceManager::newData("BigMario");
+	MFCPP::AnimationSequenceManager::newData("FireMario");
+	MFCPP::AnimationSequenceManager::newData("BeetrootMario");
 	for (int i = 0; i < MARIO_IMAGE_WIDTH / MARIO_WIDTH; ++i) {
 		ImageManager::AddTexture(fmt::format("SmallMario_{}", i), "data/resources/SmallMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
-		SmallMario.push_back(fmt::format("SmallMario_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("SmallMario", fmt::format("SmallMario_{}", i));
 		ImageManager::AddTexture(fmt::format("BigMario_{}", i), "data/resources/BigMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
-		BigMario.push_back(fmt::format("BigMario_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("BigMario", fmt::format("BigMario_{}", i));
 		ImageManager::AddTexture(fmt::format("FireMario_{}", i), "data/resources/FireMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
-		FireMario.push_back(fmt::format("FireMario_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("FireMario", fmt::format("FireMario_{}", i));
 		ImageManager::AddTexture(fmt::format("BeetrootMario_{}", i), "data/resources/BeetrootMario.png", sf::IntRect({MARIO_WIDTH*i, 0}, {MARIO_WIDTH, MARIO_HEIGHT}));
-		BeetrootMario.push_back(fmt::format("BeetrootMario_{}", i));
+		MFCPP::AnimationSequenceManager::addSingleFrame("BeetrootMario", fmt::format("BeetrootMario_{}", i));
 	}
-	MFCPP::AnimationSequenceManager::addData("SmallMario", SmallMario);
-	MFCPP::AnimationSequenceManager::addData("BigMario", BigMario);
-	MFCPP::AnimationSequenceManager::addData("FireMario", FireMario);
-	MFCPP::AnimationSequenceManager::addData("BeetrootMario", BeetrootMario);
 	UpdateSequenceAnimation();
 }
 //sprite function

@@ -23,7 +23,7 @@ void SetPrevEditor() {
     EditorPrevPos = EditorPos;
 }
 void InterpolateEditorPos(const float alpha) {
-    EditorInterpolatedPos = linearInterpolation(EditorPrevPos, EditorPos, alpha);
+    EditorInterpolatedPos = MFCPP::Interpolation::linearInterpolation(EditorPrevPos, EditorPos, alpha);
 }
 
 void AlphaUpdate(float& alpha, bool& state, const float min, const float max, const float change, const float dt) {
