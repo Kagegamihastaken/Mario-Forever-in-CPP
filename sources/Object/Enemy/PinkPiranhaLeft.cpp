@@ -1,7 +1,6 @@
 #include "Object/Enemy/PinkPiranhaLeft.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Utility.hpp"
@@ -72,7 +71,7 @@ void PinkPiranhaLeft::statusUpdate(float deltaTime) {
     m_fire_counting = data.fire_counting;
     m_fire_ticking = data.fire_ticking;
     if (fire) {
-        SoundManager::PlaySound("Fireball");
+        SoundManager::PlaySound(SoundID::GAME_FIREBALL);
         AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PiranhaDirection::PIRANHA_LEFT, PiranhaProjectileType::PIRANHA_FIREBALL, m_transform.getCurrentPosition().x + 51.f, m_transform.getCurrentPosition().y);
     }
 }

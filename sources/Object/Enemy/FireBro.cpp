@@ -119,7 +119,7 @@ void FireBro::statusUpdate(float deltaTime) {
             AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, m_transform.getCurrentPosition().x + 6.f, m_transform.getCurrentPosition().y - 21.f);
         else
             AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, m_transform.getCurrentPosition().x - 6.f, m_transform.getCurrentPosition().y - 21.f);
-        SoundManager::PlaySound("Fireball");
+        SoundManager::PlaySound(SoundID::GAME_FIREBALL);
     }
 }
 
@@ -164,7 +164,7 @@ void FireBro::YUpdate(float deltaTime) {
 void FireBro::BlockHit() {
     if (m_state != 0) return;
     AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
-    SoundManager::PlaySound("Kick2");
+    SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(1);
 }
 void FireBro::Death(unsigned int state) {

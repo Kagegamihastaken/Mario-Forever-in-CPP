@@ -1,4 +1,4 @@
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Effect/ScoreEffect.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Scene/GameScene.hpp"

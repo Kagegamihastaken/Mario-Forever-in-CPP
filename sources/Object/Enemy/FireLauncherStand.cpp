@@ -60,7 +60,7 @@ void FireLauncherStand::statusUpdate(float deltaTime) {
     bool launch = false, sound = false;
     auto data = FireLauncherBehavior::FireLauncherStatusUpdate(FireLauncherBehavior::FireLauncherData(m_FireInterval, m_FireIntervalCounting, m_ProjectileCount, m_ProjectileCounting, m_FireBetweenInterval, m_FireBetweenIntervalCounting, m_playSound), launch, sound, deltaTime);
     if (sound)
-        SoundManager::PlaySound("Volcano");
+        SoundManager::PlaySound(SoundID::GAME_VOLCANO);
     if (launch)
         GameScene::projectileManager.addProjectile<FireLauncherProjectile>(m_transform.getCurrentPosition() + sf::Vector2f(19.f, 38.f), sf::Vector2f(-5.f, -8.5f));
     m_FireBetweenIntervalCounting = data.FireBetweenIntervalCounting;

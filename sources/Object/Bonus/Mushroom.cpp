@@ -40,7 +40,7 @@ void Mushroom::MarioCollision(const float MarioYVelocity) {
     if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.0f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(m_hitbox, m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
-        SoundManager::PlaySound("Powerup");
+        SoundManager::PlaySound(SoundID::GAME_POWERUP);
         AddScoreEffect(ScoreID::SCORE_1000, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
         if (Mario::getPowerState() == 0) Mario::SetPowerState(1);
         Destroy();

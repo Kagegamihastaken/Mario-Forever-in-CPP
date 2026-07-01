@@ -1,6 +1,5 @@
 #include "Object/Enemy/HammerBro.hpp"
 
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
@@ -122,7 +121,7 @@ void HammerBro::statusUpdate(float deltaTime) {
             AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_HAMMER, m_transform.getCurrentPosition().x + 5.f, m_transform.getCurrentPosition().y - 31.f);
         else
             AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_HAMMER, m_transform.getCurrentPosition().x - 5.f, m_transform.getCurrentPosition().y - 31.f);
-        SoundManager::PlaySound("Hammer");
+        SoundManager::PlaySound(SoundID::GAME_HAMMER);
     }
 }
 
@@ -167,7 +166,7 @@ void HammerBro::YUpdate(float deltaTime) {
 void HammerBro::BlockHit() {
     if (m_state != 0) return;
     AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
-    SoundManager::PlaySound("Kick2");
+    SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(1);
 }
 void HammerBro::Death(unsigned int state) {

@@ -96,9 +96,16 @@ FetchContent_Declare(ImGuiFileDialog
         GIT_PROGRESS ON
         SYSTEM
 )
+FetchContent_Declare(magic_enum
+        GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
+        GIT_TAG v0.9.8
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
 #sfml
 message("Making dependencies available...")
-FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON)
+FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum)
 #soloud
 FetchContent_MakeAvailable(soloud)
 file(GLOB_RECURSE SOLOUD_SOURCES CONFIGURE_DEPENDS
@@ -173,7 +180,7 @@ target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <string> <set> <array> <iostream> <algorithm>
     <random> <utility> <physfs.h> <fstream>
     <unordered_map> <fmt/core.h> <fmt/base.h> <fmt/color.h> <exception>
-    <fmt/format.h>
+    <fmt/format.h> <magic_enum/magic_enum.hpp>
     #Boost category
     <boost/container_hash/hash.hpp> <boost/uuid.hpp> <boost/type_index.hpp>
 )
@@ -229,7 +236,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     Boost::unordered Boost::container
     fmt::fmt cpptrace::cpptrace SoLoud::soloud Boost::intrusive
     nlohmann_json::nlohmann_json
-    ImGuiFileDialog
+    ImGuiFileDialog magic_enum::magic_enum
 )
 
 # Link platform-specific system libraries

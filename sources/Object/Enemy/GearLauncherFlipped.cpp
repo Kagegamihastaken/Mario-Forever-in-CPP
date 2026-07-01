@@ -61,7 +61,7 @@ void GearLauncherFlipped::statusUpdate(float deltaTime) {
         m_timePass = 0.f;
         GameScene::projectileManager.addProjectile<GearProjectile>(m_transform.getCurrentPosition(), sf::Vector2f(Utility::RandomFloatNumberGenerator(0.f, 2.f) - Utility::RandomFloatNumberGenerator(0, 4), 4.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 1))));
         AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y);
-        SoundManager::PlaySound("Chilun");
+        SoundManager::PlaySound(SoundID::GAME_CHILUN);
     }
 }
 void GearLauncherFlipped::draw(float alpha) {

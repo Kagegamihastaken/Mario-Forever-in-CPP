@@ -192,11 +192,11 @@ void Mario::KeyboardMovement(const float deltaTime) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !m_MarioCurrentFalling && WindowFrame::getWindow().
             hasFocus()) {
             if (!m_PreJump && !m_Holding) {
-                SoundManager::PlaySound("Jump");
+                SoundManager::PlaySound(SoundID::GAME_JUMP);
                 m_velocity.y = -13.0f;
                 m_Holding = true;
             } else if (m_PreJump) {
-                SoundManager::PlaySound("Jump");
+                SoundManager::PlaySound(SoundID::GAME_JUMP);
                 m_velocity.y = -13.0f;
                 m_PreJump = false;
                 m_Holding = true;
@@ -230,7 +230,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
         m_CanControlMario && !LevelCompleteEffect) {
         if (m_FireTimeCounting >= m_FireTime && m_PowerState > 1 && GameScene::projectileManager.
             getMarioProjectileList().size() < 2 && !m_MarioCrouchDown) {
-            SoundManager::PlaySound("Fireball");
+            SoundManager::PlaySound(SoundID::GAME_FIREBALL);
             m_FireTimeCounting = 0.f;
             switch (m_PowerState) {
                 case 2:
@@ -473,13 +473,13 @@ void Mario::PowerDown() {
 
     if (!m_Invincible) {
         if (m_PowerState > 1) {
-            SoundManager::PlaySound("Pipe");
+            SoundManager::PlaySound(SoundID::GAME_PIPE);
             SetPowerState(1);
             m_Invincible = true;
             m_InvincibleTimer.restart();
             m_InvincibleState = false;
         } else if (m_PowerState == 1) {
-            SoundManager::PlaySound("Pipe");
+            SoundManager::PlaySound(SoundID::GAME_PIPE);
             SetPowerState(0);
             m_Invincible = true;
             m_InvincibleTimer.restart();

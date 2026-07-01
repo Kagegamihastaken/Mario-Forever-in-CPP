@@ -3,7 +3,7 @@
 #ifndef Coin_HPP
 #define Coin_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../Core/Enumeration/enum.hpp"
 #include "Core/Class/CoinClass.hpp"
 #include "Core/ExternalHeaders/plf_colony.h"
 

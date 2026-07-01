@@ -56,7 +56,7 @@ void CoinOnTouch() {
 	for (const auto &i : CoinPos) {
 		MFCPP::Tilemap::setIndexCollectableMapCollision(i.x, i.y, false);
 		Mario::setScore(Mario::getScore() + 200);
-		SoundManager::PlaySound("Coin");
+		SoundManager::PlaySound(SoundID::GAME_COIN);
 		++CoinCount;
 		DeleteCoin(i.x, i.y);
 	}

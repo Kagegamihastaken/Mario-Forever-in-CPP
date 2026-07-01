@@ -1,7 +1,7 @@
 #ifndef TEXTCLASS_HPP
 #define TEXTCLASS_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../Enumeration/enum.hpp"
 #include "Text/Font.hpp"
 
 namespace MFCPP {

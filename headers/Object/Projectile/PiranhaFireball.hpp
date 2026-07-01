@@ -1,7 +1,7 @@
 #ifndef MFCPP_PIRANHAFIREBALL_HPP
 #define MFCPP_PIRANHAFIREBALL_HPP
 #include "Core/Animate/StaticAnimationObject.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../Core/Enumeration/enum.hpp"
 #include "Core/Object/Projectile.hpp"
 #include "Core/Object/Projectile/Identity/EnemyProjectileType.hpp"
 #include "SFML/System/Vector2.hpp"

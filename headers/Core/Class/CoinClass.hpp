@@ -5,7 +5,7 @@
 #ifndef COINCLASS_HPP
 #define COINCLASS_HPP
 #include "../Object/ActiveObject.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../Enumeration/enum.hpp"
 #include "SFML/Graphics/Rect.hpp"
 #include "SFML/System/Vector2.hpp"
 

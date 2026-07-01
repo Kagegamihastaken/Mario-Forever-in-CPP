@@ -3,7 +3,7 @@
 #define LOCALANIMATIONMANAGER_HPP
 #include "Core/AnimationSequenceManager.hpp"
 #include "Core/SimpleSprite.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../Enumeration/enum.hpp"
 
 namespace MFCPP {
     class SingleAnimationObject {

@@ -1,12 +1,14 @@
 #include "Core/SoundManager.hpp"
 
 #include <ranges>
+#include <magic_enum/magic_enum.hpp>
 #include <boost/unordered/unordered_flat_map.hpp>
 #include "soloud_echofilter.h"
 #include "soloud_freeverbfilter.h"
 #include "Core/AudioEngine.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
+#include "Core/Enumeration/SoundEnum.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
 
 struct QueueData {
@@ -18,15 +20,15 @@ struct PlayData {
 	bool changeEnv = true;
 };
 
-boost::unordered_flat_map<std::string, std::unique_ptr<PlayData>> g_sounds;
-boost::unordered_flat_map<std::string, QueueData> g_queue;
+boost::unordered_flat_map<SoundID, std::unique_ptr<PlayData>> g_sounds;
+boost::unordered_flat_map<SoundID, QueueData> g_queue;
 
 SoLoud::EchoFilter g_echo_filter;
 SoLoud::FreeverbFilter g_reverb_filter;
 SoundEnvironment g_env = SoundEnvironment::UNDERGROUND;
 
-void UpdateSoundEnvironment(std::string_view name) {
-	PlayData* dat = g_sounds[name.data()].get();
+void UpdateSoundEnvironment(SoundID name) {
+	PlayData* dat = g_sounds[name].get();
 	if (!dat->changeEnv) {
 		dat->sound.setFilter(0, nullptr);
 		dat->sound.setFilter(1, nullptr);
@@ -45,15 +47,15 @@ void UpdateSoundEnvironment(std::string_view name) {
 		default: ;
 	}
 }
-void AddPlaySound(std::string_view name, const std::filesystem::path& path, bool changeEnv) {
-	if (g_sounds.contains(name.data())) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", name));
+void AddPlaySound(SoundID name, const std::filesystem::path& path, bool changeEnv) {
+	if (g_sounds.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", magic_enum::enum_name(name)));
 	auto wav = std::make_unique<PlayData>();
 	PhysFsSoLoudStream file;
 	if (!file.open(path.string().c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path.string()));
 	if (wav->sound.loadFile(&file) != SoLoud::SO_NO_ERROR) throw std::runtime_error(fmt::format("SoundManager: Cannot load sound {}", path.string()));
 	wav->changeEnv = changeEnv;
-	g_sounds[name.data()] = std::move(wav);
-	UpdateSoundEnvironment(name.data());
+	g_sounds[name] = std::move(wav);
+	UpdateSoundEnvironment(name);
 }
 
 void SoundManager::setEnvironmentID(uint8_t val) {
@@ -74,14 +76,14 @@ void SoundManager::SoundManagerInit() {
 	g_echo_filter.setParams(0.04f, 0.5f);
 	g_reverb_filter.setParams(0, 0.45f, 0.5f, 0.86f);
 }
-void SoundManager::AddSound(std::string_view name, const std::filesystem::path& path, const bool changeEnv) {
-	if (g_queue.contains(name.data())) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", name));
-	QueueData& dat = g_queue[name.data()];
+void SoundManager::AddSound(SoundID name, const std::filesystem::path& path, const bool changeEnv) {
+	if (g_queue.contains(name))  throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", magic_enum::enum_name(name)));
+	QueueData& dat = g_queue[name];
 	dat.path = path;
 	dat.changeEnv = changeEnv;
 }
-SoLoud::Wav SoundManager::GetSound(std::string_view name) {
-	return g_sounds[name.data()]->sound;
+SoLoud::Wav SoundManager::GetSound(SoundID name) {
+	return g_sounds[name]->sound;
 }
 void SoundManager::SetEnvironment(const SoundEnvironment val) {
 	g_env = val;
@@ -92,14 +94,14 @@ void SoundManager::SetEnvironment(const SoundEnvironment val) {
 SoundEnvironment SoundManager::GetEnvironment() {
 	return g_env;
 }
-void SoundManager::SetLoop(std::string_view name, const bool loop) {
-	auto it = g_sounds.find(name.data());
-	if (it == g_sounds.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", name));
+void SoundManager::SetLoop(SoundID name, const bool loop) {
+	auto it = g_sounds.find(name);
+	if (it == g_sounds.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", magic_enum::enum_name(name)));
 	it->second->sound.setLooping(loop);
 }
-void SoundManager::StopSound(std::string_view name) {
-	auto it = g_sounds.find(name.data());
-	if (it == g_sounds.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", name));
+void SoundManager::StopSound(SoundID name) {
+	auto it = g_sounds.find(name);
+	if (it == g_sounds.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", magic_enum::enum_name(name)));
 	it->second->sound.stop();
 }
 void SoundManager::StopAllSound() {
@@ -107,17 +109,17 @@ void SoundManager::StopAllSound() {
 		val->sound.stop();
 	}
 }
-void SoundManager::PlaySound(std::string_view name) {
-	if (!g_sounds.contains(name.data())) {
-		QueueData& dat = g_queue[name.data()];
+void SoundManager::PlaySound(SoundID name) {
+	if (!g_sounds.contains(name)) {
+		QueueData& dat = g_queue[name];
 		AddPlaySound(name, dat.path.string(), dat.changeEnv);
 	}
 	//throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", name));
 	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 80) return;
-	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 48) g_sounds[name.data()]->sound.stop();
-	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(g_sounds[name.data()]->sound);
+	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 48) g_sounds[name]->sound.stop();
+	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(g_sounds[name]->sound);
 	AudioEngine::getAudioEngine().setInaudibleBehavior(handle,false, false);
-	if (!g_sounds[name.data()]->changeEnv) {
+	if (!g_sounds[name]->changeEnv) {
 		AudioEngine::getAudioEngine().setVolume(handle, 1.6f);
 		return;
 	}

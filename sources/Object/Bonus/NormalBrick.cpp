@@ -32,7 +32,7 @@ void NormalBrick::updatePreviousData() {
 
 void NormalBrick::Break() {
     AddBrickParticle(BrickID::BRICK_NORMAL, m_transform.getCurrentPosition().x, m_ypos);
-    SoundManager::PlaySound("Break");
+    SoundManager::PlaySound(SoundID::GAME_BREAK);
     m_customTileManager.setCollision(sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
     m_transform.destroy();
@@ -55,7 +55,7 @@ void NormalBrick::HitEvent() {
             m_state = true;
             m_updown = false;
             m_state_count = 0.f;
-            SoundManager::PlaySound("Bump");
+            SoundManager::PlaySound(SoundID::GAME_BUMP);
             //Hit Event
             HitBehavior::HitDetection(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()));
         }

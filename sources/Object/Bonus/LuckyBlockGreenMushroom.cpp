@@ -37,7 +37,7 @@ void LuckyBlockGreenMushroom::updatePreviousData() {
 
 void LuckyBlockGreenMushroom::Break() {
     AddBrickParticle(BrickID::BRICK_NORMAL, m_transform.getCurrentPosition().x, m_ypos);
-    SoundManager::PlaySound("Break");
+    SoundManager::PlaySound(SoundID::GAME_BREAK);
     m_customTileManager.setCollision(sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
     m_transform.destroy();
@@ -51,7 +51,7 @@ void LuckyBlockGreenMushroom::Hit() {
     m_state_count = 0.f;
     m_animation.setAnimation(3, 3, 9);
     GameScene::enemyManager.addEnemy<GreenMushroom>(m_transform.getCurrentPosition() + sf::Vector2f(16.f, 0.f));
-    SoundManager::PlaySound("Vine");
+    SoundManager::PlaySound(SoundID::GAME_VINE);
 
     //Hit Event
     HitBehavior::HitDetection(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()));

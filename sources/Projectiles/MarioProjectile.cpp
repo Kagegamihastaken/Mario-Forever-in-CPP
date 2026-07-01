@@ -1,4 +1,4 @@
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Projectiles/MarioProjectile.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Projectile/MarioFireball.hpp"

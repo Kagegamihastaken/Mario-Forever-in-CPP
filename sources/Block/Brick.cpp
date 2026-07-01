@@ -1,6 +1,6 @@
 #include "Block/Brick.hpp"
 #include "Object/Coin.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Bonus/NormalBrick.hpp"

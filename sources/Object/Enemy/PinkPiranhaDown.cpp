@@ -72,7 +72,7 @@ void PinkPiranhaDown::statusUpdate(float deltaTime) {
     m_fire_counting = data.fire_counting;
     m_fire_ticking = data.fire_ticking;
     if (fire) {
-        SoundManager::PlaySound("Fireball");
+        SoundManager::PlaySound(SoundID::GAME_FIREBALL);
         AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PiranhaDirection::PIRANHA_DOWN, PiranhaProjectileType::PIRANHA_FIREBALL, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y + 51.f);
     }
 }

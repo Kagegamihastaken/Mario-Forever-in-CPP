@@ -53,7 +53,18 @@ void BulletBillLauncherFlipped::statusUpdate(float deltaTime) {
     m_timing = data.timing;
 
     if (shoot) {
-        SoundManager::PlaySound(fmt::format("Bullet{}", Utility::RandomIntNumberGenerator(1, 3)));
+        switch (Utility::RandomIntNumberGenerator(1, 3)) {
+            case 1:
+                SoundManager::PlaySound(SoundID::GAME_BULLET1);
+                break;
+            case 2:
+                SoundManager::PlaySound(SoundID::GAME_BULLET2);
+                break;
+            case 3:
+                SoundManager::PlaySound(SoundID::GAME_BULLET3);
+                break;
+            default: ;
+        }
         const auto dir = (m_transform.getCurrentPosition().x > Mario::getCurrentPosition().x ? false : !EffectActive);
         AddFireballExplosion(m_transform.getCurrentPosition().x - getOrigin().x * (dir ? -1.f : 1.f), m_transform.getCurrentPosition().y - 32.f / 2.f + 1.f);
         GameScene::enemyManager.addEnemy<BulletBill>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y), 3.75f, dir);

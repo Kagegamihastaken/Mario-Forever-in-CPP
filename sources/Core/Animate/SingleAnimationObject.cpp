@@ -4,7 +4,7 @@
 #include "Core/AnimationSequenceManager.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Logging.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../../headers/Core/Enumeration/enum.hpp"
 
 namespace MFCPP {
 	void SingleAnimationObject::setAnimation(const uint32_t startingIndexAnimation, const uint32_t endingIndexAnimation, const uint8_t frequency, const bool loop) {

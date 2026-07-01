@@ -39,7 +39,7 @@ void NormalCoinBrick::updatePreviousData() {
 
 void NormalCoinBrick::Break() {
     AddBrickParticle(BrickID::BRICK_NORMAL, m_transform.getCurrentPosition().x, m_ypos);
-    SoundManager::PlaySound("Break");
+    SoundManager::PlaySound(SoundID::GAME_BREAK);
     m_customTileManager.setCollision(sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
     m_transform.destroy();
@@ -63,7 +63,7 @@ void NormalCoinBrick::Hit() {
     m_state_count = 0.f;
     AddCoinEffect(CoinID::COIN_NORMAL, CoinAtt::ONE_COIN, m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y);
     ++CoinCount;
-    SoundManager::PlaySound("Coin");
+    SoundManager::PlaySound(SoundID::GAME_COIN);
 
     //Hit Event
     HitBehavior::HitDetection(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()));

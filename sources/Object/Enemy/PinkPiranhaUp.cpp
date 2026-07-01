@@ -1,7 +1,6 @@
 #include "Object/Enemy/PinkPiranhaUp.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Utility.hpp"
@@ -10,7 +9,6 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
 #include "Projectiles/PiranhaProjectile.hpp"
 
 PinkPiranhaUp::PinkPiranhaUp(EnemyManager &manager, const sf::Vector2f &position)
@@ -74,7 +72,7 @@ void PinkPiranhaUp::statusUpdate(float deltaTime) {
     m_fire_counting = data.fire_counting;
     m_fire_ticking = data.fire_ticking;
     if (fire) {
-        SoundManager::PlaySound("Fireball");
+        SoundManager::PlaySound(SoundID::GAME_FIREBALL);
         AddPiranhaAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), PiranhaDirection::PIRANHA_UP, PiranhaProjectileType::PIRANHA_FIREBALL, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 51.f);
     }
 }

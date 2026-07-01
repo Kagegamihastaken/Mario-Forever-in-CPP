@@ -1,6 +1,5 @@
 #include "Object/Enemy/GreenSpiny.hpp"
 #include "Core/Object/EnemyManager.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/WindowFrame.hpp"
@@ -89,7 +88,7 @@ void GreenSpiny::YUpdate(const float deltaTime) {
 void GreenSpiny::BlockHit() {
     if (m_state > 0) return;
     AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
-    SoundManager::PlaySound("Kick2");
+    SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(1);
 }
 

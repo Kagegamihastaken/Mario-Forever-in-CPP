@@ -3,7 +3,7 @@
 #ifndef COINEFFECT_HPP
 #define COINEFFECT_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../Core/Enumeration/enum.hpp"
 extern void CoinEffectInit();
 extern void AddCoinEffect(CoinID ID, CoinAtt att, float x, float y);
 

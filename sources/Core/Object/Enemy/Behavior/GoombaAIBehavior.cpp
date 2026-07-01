@@ -124,7 +124,7 @@ auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
     if (const sf::FloatRect r1 = getGlobalHitbox(Shell->getHitbox(), Shell->getPosition(), Shell->getOrigin()); isCollide(r1, getGlobalHitbox(Other->getHitbox(), Other->getPosition(), Other->getOrigin()))) {
         if (!Other->isShellKicking()) {
             if (Other->isShellBlocker()) {
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 AddScoreEffect(ScoreID::SCORE_100, Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y);
                 Shell->ShellHit();
             }
@@ -136,7 +136,7 @@ auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
             Other->ShellHit();
         }
         else if (Other->isShellBlocker()){
-            SoundManager::PlaySound("Kick2");
+            SoundManager::PlaySound(SoundID::GAME_KICK2);
             AddScoreEffect(ScoreID::SCORE_100, Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y);
             AddScoreEffect(ScoreID::SCORE_100, Other->getPosition().x, Other->getPosition().y - Other->getOrigin().y);
             Shell->ShellHit();
@@ -147,7 +147,7 @@ auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
 auto GoombaAIBehavior::GoombaAIStomping() -> void {
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Mario::setYvelocity(-8.f);
     else Mario::setYvelocity(-13.f);
-    SoundManager::PlaySound("Stomp");
+    SoundManager::PlaySound(SoundID::GAME_STOMP);
     if (!Mario::getHolding()) Mario::setHolding(true);
 }
 
@@ -186,37 +186,37 @@ auto GoombaAIBehavior::Kicking(const sf::Vector2f& pos, const sf::Vector2f& orig
     auto output = val;
     switch (val) {
         case 0:
-            SoundManager::PlaySound("Kick2");
+            SoundManager::PlaySound(SoundID::GAME_KICK2);
             AddScoreEffect(ScoreID::SCORE_100, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 1:
-            SoundManager::PlaySound("Kick3");
+            SoundManager::PlaySound(SoundID::GAME_KICK3);
             AddScoreEffect(ScoreID::SCORE_200, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 2:
-            SoundManager::PlaySound("Kick4");
+            SoundManager::PlaySound(SoundID::GAME_KICK4);
             AddScoreEffect(ScoreID::SCORE_500, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 3:
-            SoundManager::PlaySound("Kick5");
+            SoundManager::PlaySound(SoundID::GAME_KICK5);
             AddScoreEffect(ScoreID::SCORE_1000, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 4:
-            SoundManager::PlaySound("Kick6");
+            SoundManager::PlaySound(SoundID::GAME_KICK6);
             AddScoreEffect(ScoreID::SCORE_2000, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 5:
-            SoundManager::PlaySound("Kick7");
+            SoundManager::PlaySound(SoundID::GAME_KICK7);
             AddScoreEffect(ScoreID::SCORE_5000, pos.x, pos.y - origin.y);
             output += 1;
             break;
         case 6:
-            SoundManager::PlaySound("Kick8");
+            SoundManager::PlaySound(SoundID::GAME_KICK8);
             AddScoreEffect(ScoreID::SCORE_1UP, pos.x, pos.y - origin.y);
             output = 0;
             break;

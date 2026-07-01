@@ -1,7 +1,7 @@
 #include "Object/GoombaAI.hpp"
 
 #include "Core/AnimationSequenceManager.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Logging.hpp"
 #include "Core/Scene/GameScene.hpp"

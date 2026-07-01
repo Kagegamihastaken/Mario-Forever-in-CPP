@@ -47,7 +47,7 @@ void TimeCounting(const float deltaTime) {
     //Ticking purpose
     TimeRanCountingSound += deltaTime;
     if (TimeRanCountingSound >= 5.f) {
-        SoundManager::PlaySound("Throw");
+        SoundManager::PlaySound(SoundID::GAME_THROW);
         TimeRanCountingSound = Utility::f_mod(TimeRanCountingSound, 5.f);
     }
 }
@@ -59,7 +59,7 @@ void TimeRingBehavior() {
     if (TimeCount > TimeRangThreshold) TimeRang = false;
     if (TimeRang) return;
     if (TimeCount <= TimeRangThreshold) {
-        SoundManager::PlaySound("Timeout");
+        SoundManager::PlaySound(SoundID::GAME_TIMEOUT);
         TimeRang = true;
     }
 }

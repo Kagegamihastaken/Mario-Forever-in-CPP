@@ -1,7 +1,7 @@
 #ifndef SPIKE_HPP
 #define SPIKE_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../Core/Enumeration/enum.hpp"
 
 extern void SpikeInit();
 extern void AddSpike(SpikeID ID, float x, float y);

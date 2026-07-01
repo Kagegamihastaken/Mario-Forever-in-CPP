@@ -2,7 +2,7 @@
 #ifndef LUCKYBLOCK_HPP
 #define LUCKYBLOCK_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../Core/Enumeration/enum.hpp"
 
 extern void LuckyBLockTemp();
 extern void ForceLoadLuckyBlockTexture(LuckyBlockID ID);

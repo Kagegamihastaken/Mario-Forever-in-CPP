@@ -13,7 +13,7 @@
 #include "Core/Time.hpp"
 #include "Core/Utility.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 

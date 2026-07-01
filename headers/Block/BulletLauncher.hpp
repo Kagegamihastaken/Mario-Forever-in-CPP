@@ -2,7 +2,7 @@
 
 #ifndef BULLETLAUNCHER_HPP
 #define BULLETLAUNCHER_HPP
-#include "Core/Loading/enum.hpp"
+#include "../Core/Enumeration/enum.hpp"
 
 extern void AddBulletLauncher(BulletType type, float x, float y);
 

@@ -14,8 +14,8 @@
 
 MarioBeetroot::MarioBeetroot(ProjectileManager &manager, const bool direction, const sf::Vector2f &position)
     : Projectile(manager),
-    m_direction(direction),
-    m_transform(position, sf::Vector2f(11.f, 31.f), sf::degrees(0.f)){
+    m_transform(position, sf::Vector2f(11.f, 31.f), sf::degrees(0.f)),
+    m_direction(direction) {
     m_animation.setTexture("Beetroot_Projectile");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {23.f, 32.f});
     m_velocity = {2.125f, -5.f};
@@ -41,7 +41,7 @@ void MarioBeetroot::spin(const bool flip, const bool sound = true) {
         m_velocity.y = -8.f;
     }
     if (sound)
-        SoundManager::PlaySound("Stun");
+        SoundManager::PlaySound(SoundID::GAME_STUN);
 }
 
 void MarioBeetroot::updatePreviousData() {
@@ -93,7 +93,7 @@ void MarioBeetroot::CollisionUpdate() {
             if (!jt.isDeath()) {
                 jt.ShellHit();
                 AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 spin(false, false);
                 ++m_hit_count;
                 break;
@@ -107,7 +107,7 @@ void MarioBeetroot::CollisionUpdate() {
             if (!jt.isDeath()) {
                 jt.ShellHit();
                 AddScoreEffect(ScoreID::SCORE_200, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 spin(false, false);
                 ++m_hit_count;
                 break;
@@ -121,7 +121,7 @@ void MarioBeetroot::CollisionUpdate() {
             if (!jt.isDeath()) {
                 jt.Death(0);
                 AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 spin(false, false);
                 ++m_hit_count;
                 break;

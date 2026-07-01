@@ -8,7 +8,7 @@
 #include "Block/CustomBlock.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/AutoScroll.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Object/PiranhaAI.hpp"

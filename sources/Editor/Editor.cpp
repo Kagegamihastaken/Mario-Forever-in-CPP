@@ -459,7 +459,7 @@ void EditorEvent(const std::optional<sf::Event>& event) {
             case sf::Keyboard::Key::Space:
                 if (EDITOR_Setting) return;
                 if (!EDITOR_ShowProperty && EDITOR_BuildMode) {
-                    SoundManager::PlaySound("EDITOR_MENU");
+                    SoundManager::PlaySound(SoundID::EDITOR_MENU);
                     EDITOR_SELECTTILE = !EDITOR_SELECTTILE;
                     if (EDITOR_SELECTTILE) PreviewPage = CurrPage;
                     SelectTileDisplayUpdate();
@@ -501,11 +501,11 @@ void EditorEvent(const std::optional<sf::Event>& event) {
                     }
                     if (isClickedTab) {
                         SelectTileDisplayUpdate();
-                        SoundManager::PlaySound("EDITOR_TAB_SELECT");
+                        SoundManager::PlaySound(SoundID::EDITOR_TAB_SELECT);
                     }
                 }
                 if (const int exist = CheckExistPos(); EDITOR_SELECTTILE && exist != -1) {
-                    SoundManager::PlaySound("EDITOR_CLOSE");
+                    SoundManager::PlaySound(SoundID::EDITOR_CLOSE);
                     CurrSelectTile = exist;
 
                     CurrPage = PreviewPage;
@@ -529,7 +529,7 @@ void PlaceTile() {
             if (EDITOR_BuildMode) {
                 if (CurrPage != LevelTab || (CurrPage == LevelTab && CurrSelectTile > 2)) {
                     if (Tile.contains(RenderTile(sf::Vector2f(TileX, TileY), CurrPage))) {
-                        SoundManager::PlaySound("EDITOR_DELETE");
+                        SoundManager::PlaySound(SoundID::EDITOR_DELETE);
                         Tile.erase(RenderTile(sf::Vector2f(TileX, TileY), CurrPage));
                         if (!EDITOR_CanPlace) EDITOR_CanPlace = true;
                         lastDeleteX = TileX;
@@ -583,7 +583,7 @@ void PlaceTile() {
                 }
 
                 if (!Tile.contains(RenderTile(sf::Vector2f(TileX, TileY), CurrPage))) {
-                    SoundManager::PlaySound("EDITOR_PLACE");
+                    SoundManager::PlaySound(SoundID::EDITOR_PLACE);
                     RenderTile tile(TilePage[CurrPage][CurrSelectTile].prop, *ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name), sf::Vector2f(TileX, TileY), CurrPage, CurrSelectTile);
                     tile.setOrigin(sf::Vector2f(0.0f, ImageManager::getReturnTexture(TilePage[CurrPage][CurrSelectTile].name)->getSize().y - 32.0f));
                     Tile.insert(tile);

@@ -1,7 +1,7 @@
 #ifndef MFCPP_PIRANHAAIBEHAVIOR_HPP
 #define MFCPP_PIRANHAAIBEHAVIOR_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../../../Enumeration/enum.hpp"
 #include "SFML/System/Vector2.hpp"
 
 class PiranhaAIBehavior {

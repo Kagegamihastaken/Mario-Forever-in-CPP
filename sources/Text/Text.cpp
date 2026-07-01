@@ -2,7 +2,7 @@
 #include "Text/Text.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Class/TextClass.hpp"
 

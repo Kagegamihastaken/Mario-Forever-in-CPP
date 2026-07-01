@@ -38,7 +38,7 @@ void LuckyBlockFlower::updatePreviousData() {
 
 void LuckyBlockFlower::Break() {
     AddBrickParticle(BrickID::BRICK_NORMAL, m_transform.getCurrentPosition().x, m_ypos);
-    SoundManager::PlaySound("Break");
+    SoundManager::PlaySound(SoundID::GAME_BREAK);
     m_customTileManager.setCollision(sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
     m_transform.destroy();
@@ -55,7 +55,7 @@ void LuckyBlockFlower::Hit() {
         GameScene::enemyManager.addEnemy<Mushroom>(m_transform.getCurrentPosition() + sf::Vector2f(16.f, 0.f));
     else
         GameScene::enemyManager.addEnemy<FireFlower>(m_transform.getCurrentPosition() + sf::Vector2f(16.f, 0.f));
-    SoundManager::PlaySound("Vine");
+    SoundManager::PlaySound(SoundID::GAME_VINE);
 
     //Hit Event
     HitBehavior::HitDetection(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()));

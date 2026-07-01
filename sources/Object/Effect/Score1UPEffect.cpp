@@ -13,7 +13,7 @@ Score1UPEffect::Score1UPEffect(EffectManager &manager, const sf::Vector2f &posit
     m_alpha = 255.f;
     m_velocity = {0.f, -1.5f};
     Mario::setLives(Mario::getLives() + 1);
-    SoundManager::PlaySound("1UP");
+    SoundManager::PlaySound(SoundID::GAME_1UP);
 }
 
 void Score1UPEffect::updatePreviousData() {

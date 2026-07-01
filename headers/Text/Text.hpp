@@ -3,7 +3,7 @@
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
-#include "Core/Loading/enum.hpp"
+#include "../Core/Enumeration/enum.hpp"
 
 extern void loadFontRes();
 extern void AddText(const std::string &id, const std::string &text, TextMarginID margin, float x, float y);

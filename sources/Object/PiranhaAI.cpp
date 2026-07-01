@@ -2,7 +2,7 @@
 
 #include "Core/AnimationSequenceManager.hpp"
 #include "Core/ImageManager.hpp"
-#include "Core/Loading/enum.hpp"
+#include "../../headers/Core/Enumeration/enum.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/GreenPiranhaDown.hpp"
 #include "Object/Enemy/GreenPiranhaLeft.hpp"

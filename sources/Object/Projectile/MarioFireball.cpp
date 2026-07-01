@@ -1,7 +1,6 @@
 #include "Object/Projectile/MarioFireball.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Collision/Collide.hpp"
@@ -73,7 +72,7 @@ void MarioFireball::CollisionUpdate() {
             if (!jt.isDeath()) {
                 jt.ShellHit();
                 AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 FireballEffect();
                 Destroy();
                 return;
@@ -87,7 +86,7 @@ void MarioFireball::CollisionUpdate() {
             if (!jt.isDeath()) {
                 jt.ShellHit();
                 AddScoreEffect(ScoreID::SCORE_200, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 FireballEffect();
                 Destroy();
                 return;
@@ -101,7 +100,7 @@ void MarioFireball::CollisionUpdate() {
             if (!jt.isDeath()) {
                 jt.Death(0);
                 AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
-                SoundManager::PlaySound("Kick2");
+                SoundManager::PlaySound(SoundID::GAME_KICK2);
                 FireballEffect();
                 Destroy();
                 return;

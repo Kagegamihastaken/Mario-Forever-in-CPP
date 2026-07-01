@@ -47,7 +47,7 @@ void CheckpointCollision() {
             it->setTouch(true);
             StartPos = it->getPosition();
             MFCPP::AutoScroll::setOriginPosition(it->getPosition());
-            SoundManager::PlaySound("Vine");
+            SoundManager::PlaySound(SoundID::GAME_VINE);
         }
     }
 }

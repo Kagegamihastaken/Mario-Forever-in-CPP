@@ -13,7 +13,7 @@ void HitBehavior::HitDetection(const MFCPP::CollisionObject &obj) {
         if (sf::FloatRect CoinCollide = getGlobalHitbox(jt->getHitbox(), jt->getPosition(), jt->getOrigin()); isCollide(CoinCollide, hitbox)) {
             AddCoinEffect(jt->getID(), jt->getAttribute(), jt->getPosition().x + 15.0f, jt->getPosition().y + 32.0f);
             DeleteIndexCoin(jt);
-            SoundManager::PlaySound("Coin");
+            SoundManager::PlaySound(SoundID::GAME_COIN);
             ++CoinCount;
         }
     }

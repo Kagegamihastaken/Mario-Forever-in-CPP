@@ -92,7 +92,7 @@ void RedKoopa::MarioCollision(const float MarioYVelocity) {
                 Mario::PowerDown();
         }
         else if (m_state == 1) {
-            SoundManager::PlaySound("Kick2");
+            SoundManager::PlaySound(SoundID::GAME_KICK2);
             if (m_transform.getCurrentPosition().x >= Mario::getCurrentPosition().x) setDirection(true);
             else setDirection(false);
             m_state = 2;
@@ -152,7 +152,7 @@ void RedKoopa::YUpdate(const float deltaTime) {
 void RedKoopa::BlockHit() {
     if (m_state > 0) return;
     AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
-    SoundManager::PlaySound("Kick2");
+    SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(3);
 }
 
