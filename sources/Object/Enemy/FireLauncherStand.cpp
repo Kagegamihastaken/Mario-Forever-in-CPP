@@ -39,7 +39,7 @@ FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vecto
     m_FireInterval = 200.f;
     m_FireIntervalCounting = 0.f;
     m_ProjectileCount = 20;
-    m_ProjectileCounting = 0;;
+    m_ProjectileCounting = 0;
     m_FireBetweenInterval = 3.5f;
     m_FireBetweenIntervalCounting = 0.f;
     m_playSound = false;

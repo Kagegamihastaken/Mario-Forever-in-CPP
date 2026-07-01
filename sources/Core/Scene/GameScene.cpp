@@ -49,24 +49,24 @@ SceneryManager GameScene::sceneryManager;
 EffectManager GameScene::effectManager;
 
 GameScene::GameScene(SceneManager &manager)
-    : Scene(manager) {}
+    : Scene(manager) {
+}
 
-void GameScene::handleInput(const std::optional<sf::Event>& event) {
-    if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+void GameScene::handleInput(const std::optional<sf::Event> &event) {
+    if (const auto *mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         if (mousePressed->button == sf::Mouse::Button::Left) {
             //projectileManager.addProjectile<FireLauncherProjectile>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), sf::Vector2f(-8.5f, 0.f));
             //enemyManager.addEnemy<GreenKoopaParatroopa>(sf::Vector2f(MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f), 0.f);
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
-        }
-        else if (mousePressed->button == sf::Mouse::Button::Middle) {
+        } else if (mousePressed->button == sf::Mouse::Button::Middle) {
             Mario::SetPowerState(3);
-        }
-        else if (mousePressed->button == sf::Mouse::Button::Right) {
+        } else if (mousePressed->button == sf::Mouse::Button::Right) {
             //AddBroAI(BroAIType::FIRE_BRO, BroAIMovementType::CAN_JUMP, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f);
             //AddGoombaAI(GoombaAIType::SPINY, 1, MouseX + view.getCenter().x - Width / 2.f, MouseY + view.getCenter().y - Height / 2.f, GoombaAIDirection::LEFT);
         }
     }
 }
+
 void GameScene::update(const float deltaTime) {
     // UI Update
     TimeUpdate(deltaTime);
@@ -117,8 +117,8 @@ void GameScene::update(const float deltaTime) {
 
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
-
 }
+
 void GameScene::setPreviousPosition() {
     Mario::SetPrevMarioPos();
     SetPrevMarioEffectPos();
@@ -130,9 +130,11 @@ void GameScene::setPreviousPosition() {
     sceneryManager.updatePreviousData();
     effectManager.updatePreviousData();
 }
+
 void GameScene::interpolatePosition(const float alpha) {
     Mario::storeAlpha(alpha);
 }
+
 void GameScene::draw(sf::RenderWindow &window, float alpha) {
     MFCPP::Tilemap::drawHitboxMap();
 
@@ -163,6 +165,7 @@ void GameScene::draw(sf::RenderWindow &window, float alpha) {
     HitboxUtils::drawHitbox();
     TextDraw();
 }
+
 void GameScene::objectCleanup() {
     CoinCleanup();
     movingBlockManager.MovingBlockCleanup();
@@ -172,6 +175,7 @@ void GameScene::objectCleanup() {
     sceneryManager.SceneryCleanup();
     effectManager.EffectCleanup();
 }
+
 void GameScene::postUpdate() {
     enemyManager.MarioCollision();
     enemyManager.EnemyCollision();
@@ -181,24 +185,37 @@ void GameScene::postUpdate() {
 
     Mario::MarioUpdateAnimation();
 }
+
 void GameScene::HUDPositionUpdate() {
     BgUpdatePos();
 }
+
 void GameScene::textUpdate() {
     EditText(fmt::format("{}", Mario::getLives()), "_LIVE");
     EditText(fmt::format("FPS: {}", static_cast<int32_t>(std::round(WindowFrame::getFpsLite().getFps()))), "_FPS");
     if (WindowFrame::isDebug()) {
-        EditText(std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
-        EditText(std::to_string(static_cast<int32_t>(Scroll::getViewPosition().x)) + "/" + std::to_string(static_cast<int32_t>(Scroll::getViewPosition().y)) + "  V", "_VIEWXY");
+        EditText(std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(
+                     static_cast<int32_t>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
+        EditText(std::to_string(static_cast<int32_t>(Scroll::getViewPosition().x)) + "/" + std::to_string(
+                     static_cast<int32_t>(Scroll::getViewPosition().y)) + "  V", "_VIEWXY");
     }
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Mario::getScore()), "_SCORE");
     EditText(fmt::format("{}", getTime()), "_TIME");
 }
+
 void GameScene::setView() {
-    const sf::Vector2f ScrollPos = (MFCPP::AutoScroll::getAutoScrollMode() ? MFCPP::AutoScroll::getPosition() : Mario::getInterpolatedPosition());
-    Scroll::getView().setCenter({ std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x), LevelWidth - WindowFrame::getGameSize().x / 2.f), std::min(std::max(WindowFrame::getGameSize().y / 2.0f, ScrollPos.y), LevelHeight - WindowFrame::getGameSize().y / 2.f) });
+    const sf::Vector2f ScrollPos = (MFCPP::AutoScroll::getAutoScrollMode()
+                                        ? MFCPP::AutoScroll::getPosition()
+                                        : Mario::getInterpolatedPosition());
+    Scroll::getView().setCenter({
+        std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x),
+                 LevelWidth - WindowFrame::getGameSize().x / 2.f),
+        std::min(std::max(WindowFrame::getGameSize().y / 2.0f, ScrollPos.y),
+                 LevelHeight - WindowFrame::getGameSize().y / 2.f)
+    });
 }
+
 void GameScene::loadResources() {
     //Load Resources
     WindowFrame::GameSceneInit();
@@ -253,13 +270,7 @@ void GameScene::loadResources() {
     Objectbuilding();
     ExitGateBuilding();
 }
+
 void GameScene::unloadResources() {
     //implement later
 }
-
-
-
-
-
-
-

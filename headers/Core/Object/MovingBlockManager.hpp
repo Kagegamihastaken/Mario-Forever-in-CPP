@@ -12,17 +12,20 @@
 class MovingBlockManager {
 public:
     using MovingBlockIntrusiveList = boost::intrusive::list<MFCPP::MovingBlock, boost::intrusive::constant_time_size<false>>;
+
     MovingBlockManager() = default;
     template<typename T, typename... Args>
-    void addMovingBlock(Args&&... args) {
+    void addMovingBlock(Args &&... args) {
         auto newMovingBlock = std::make_unique<T>(*this, std::forward<Args>(args)...);
 
         if constexpr (std::is_base_of_v<MFCPP::PlatformType, T>)
             m_platforms.push_back(*newMovingBlock);
-        else throw MFCPP::Exception::WhichIdentity(fmt::format("Class {} doesn't have any identity.", typeid(*newMovingBlock).name()));
+        else throw MFCPP::Exception::WhichIdentity(
+            fmt::format("Class {} doesn't have any identity.", typeid(*newMovingBlock).name()));
         m_movingblocks.emplace_back(std::move(newMovingBlock));
     }
-    [[nodiscard]] MovingBlockIntrusiveList& getPlatformList();
+
+    [[nodiscard]] MovingBlockIntrusiveList &getPlatformList();
     [[nodiscard]] bool getDeletionFlag() const;
     void setDeletionFlag(bool val);
     void updatePreviousData() const;
