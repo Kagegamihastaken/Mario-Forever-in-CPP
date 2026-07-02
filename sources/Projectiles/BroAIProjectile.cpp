@@ -5,10 +5,10 @@
 
 void AddBroAIProjectile(const bool direction, const BroAIProjectileType type, const float x, const float y) {
     switch (type) {
-        case BroAIProjectileType::BROAI_HAMMER:
+        case BroAIProjectileType::HAMMER:
             GameScene::projectileManager.addProjectile<BroHammer>(direction, sf::Vector2f(x, y));
             break;
-        case BroAIProjectileType::BROAI_FIREBALL:
+        case BroAIProjectileType::FIREBALL:
             GameScene::projectileManager.addProjectile<BroFireball>(direction, sf::Vector2f(x, y));
             break;
         default: ;

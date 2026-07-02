@@ -118,9 +118,9 @@ void HammerBro::statusUpdate(float deltaTime) {
     }
     if (ShootingData.isFire) {
         if (m_animation.getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_HAMMER, m_transform.getCurrentPosition().x + 5.f, m_transform.getCurrentPosition().y - 31.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::HAMMER, m_transform.getCurrentPosition().x + 5.f, m_transform.getCurrentPosition().y - 31.f);
         else
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_HAMMER, m_transform.getCurrentPosition().x - 5.f, m_transform.getCurrentPosition().y - 31.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::HAMMER, m_transform.getCurrentPosition().x - 5.f, m_transform.getCurrentPosition().y - 31.f);
         SoundManager::PlaySound(SoundID::GAME_HAMMER);
     }
 }

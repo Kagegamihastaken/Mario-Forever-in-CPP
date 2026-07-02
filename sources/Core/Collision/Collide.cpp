@@ -5,9 +5,6 @@
 #include "Core/Utility.hpp"
 #include "Core/Scene/GameScene.hpp"
 
-void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox) {
-	hitbox = Sethitbox;
-}
 sf::FloatRect HitboxExtend(const sf::FloatRect& hitbox, const float val) {
 	return {{hitbox.position.x - val, hitbox.position.y - val}, {hitbox.size.x + val * 2.f, hitbox.size.y + val * 2.f}};
 }

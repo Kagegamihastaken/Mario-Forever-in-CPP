@@ -76,7 +76,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			AddScoreEffect(ScoreID::SCORE_100, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
-			MusicManager::PlayMusic("LevelComplete");
+			MusicManager::PlayMusic(MusicID::LEVEL_COMPLETE);
 			ExitGateForeActive = false;
 			//LevelEndMarioProjectileCleanup();
 		}
@@ -90,7 +90,7 @@ void ExitGateStatusUpdate(const float deltaTime) {
 
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
-			MusicManager::PlayMusic("LevelComplete");
+			MusicManager::PlayMusic(MusicID::LEVEL_COMPLETE);
 			ExitGateForeEffect.teleport(ExitGateFore.getCurrentPosition());
 			//LevelEndMarioProjectileCleanup();
 

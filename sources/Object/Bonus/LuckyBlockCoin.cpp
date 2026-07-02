@@ -37,7 +37,7 @@ void LuckyBlockCoin::updatePreviousData() {
 }
 
 void LuckyBlockCoin::Break() {
-    AddBrickParticle(BrickID::BRICK_NORMAL, m_transform.getCurrentPosition().x, m_ypos);
+    AddBrickParticle(BrickID::NORMAL, m_transform.getCurrentPosition().x, m_ypos);
     SoundManager::PlaySound(SoundID::GAME_BREAK);
     m_customTileManager.setCollision(sf::Vector2f(m_transform.getCurrentPosition().x, m_ypos), false);
     Mario::setScore(Mario::getScore() + 50);
@@ -51,7 +51,7 @@ void LuckyBlockCoin::Hit() {
     m_updown = false;
     m_state_count = 0.f;
     m_animation.setAnimation(3, 3, 9);
-    AddCoinEffect(CoinID::COIN_NORMAL, CoinAtt::ONE_COIN, m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y);
+    AddCoinEffect(CoinID::NORMAL, CoinAtt::ONE_COIN, m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y);
     ++CoinCount;
     SoundManager::PlaySound(SoundID::GAME_COIN);
 

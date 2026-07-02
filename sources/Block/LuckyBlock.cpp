@@ -30,12 +30,12 @@ void LuckyBLockTemp() {
 
 void ForceLoadLuckyBlockTexture(const LuckyBlockID ID) {
     switch (ID) {
-        case LuckyBlockID::LUCKY_BLOCK:
+        case LuckyBlockID::NORMAL:
             for (int i = 0; i < 3; ++i)
                 ImageManager::LoadTexture(fmt::format("NormalLuckyBlock_{}", i));
             ImageManager::LoadTexture("NormalLuckyBlockHit");
             break;
-        case LuckyBlockID::TREE_LUCKY_BLOCK:
+        case LuckyBlockID::TREE:
             ImageManager::LoadTexture("TreeLuckyBlock");
             ImageManager::LoadTexture("TreeLuckyBlockHit");
             break;
@@ -63,19 +63,19 @@ void LoadLuckyBlock() {
 
 void AddLuckyBlock(const LuckyBlockID ID, const LuckyBlockAtt Att, float x, float y) {
     switch (Att) {
-        case LuckyBlockAtt::LUCKY_GREEN_MUSHROOM:
+        case LuckyBlockAtt::GREEN_MUSHROOM:
             GameScene::customTileManager.addCustomTile<LuckyBlockGreenMushroom>(sf::Vector2f(x, y));
             break;
-        case LuckyBlockAtt::LUCKY_MUSHROOM:
+        case LuckyBlockAtt::MUSHROOM:
             GameScene::customTileManager.addCustomTile<LuckyBlockMushroom>(sf::Vector2f(x, y));
             break;
-        case LuckyBlockAtt::LUCKY_FIRE_FLOWER:
+        case LuckyBlockAtt::FIRE_FLOWER:
             GameScene::customTileManager.addCustomTile<LuckyBlockFlower>(sf::Vector2f(x, y));
             break;
-        case LuckyBlockAtt::LUCKY_COIN:
+        case LuckyBlockAtt::COIN:
             GameScene::customTileManager.addCustomTile<LuckyBlockCoin>(sf::Vector2f(x, y));
             break;
-        case LuckyBlockAtt::LUCKY_BEETROOT:
+        case LuckyBlockAtt::BEETROOT:
             GameScene::customTileManager.addCustomTile<LuckyBlockBeetroot>(sf::Vector2f(x, y));
             break;
         default: ;

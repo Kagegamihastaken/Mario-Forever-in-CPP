@@ -13,7 +13,7 @@
 
 GreenPiranhaDown::GreenPiranhaDown(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
-    m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::PIRANHA_DOWN, position), sf::Vector2f(32.f, 0.f), sf::degrees(0.f)){
+    m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::DOWN, position), sf::Vector2f(32.f, 0.f), sf::degrees(0.f)){
     m_animation.setAnimationSequence("GreenPiranhaDownAnimName");
     m_animation.setAnimation(0, 3, 24, true);
     m_hitbox = sf::FloatRect({16.f, 0.f}, {31.f, 47.f});
@@ -59,7 +59,7 @@ void GreenPiranhaDown::statusUpdate(float deltaTime) {
     if (isDisabled()) return;
     PiranhaAIBehavior::PiranhaAIData data = PiranhaAIBehavior::PiranhaMovementUpdate(PiranhaAIBehavior::PiranhaAIData(
         m_transform.getCurrentPosition(), getOrigin(), getHitbox(), m_moving_stop, m_moving_state, m_speed, m_position_moving, m_position_limit,
-        m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PiranhaDirection::PIRANHA_DOWN, deltaTime
+        m_stop_clock, m_stop_time, m_distance_appear, m_fire_counting, m_fire_count, m_fire_ticking, m_fire_interval), PiranhaDirection::DOWN, deltaTime
     );
     m_transform.setCurrentPosition(data.pos);
     m_position_moving = data.pos_temp;

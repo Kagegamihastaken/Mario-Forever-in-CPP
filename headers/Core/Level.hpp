@@ -4,6 +4,7 @@
 #define LEVEL_HPP
 
 #include "Editor/SelectTile.hpp"
+#include "Enumeration/MusicEnum.hpp"
 
 struct PlatformData {
     sf::Vector2f start;
@@ -25,6 +26,6 @@ extern void Slopebuilding();
 extern void ExitGateBuilding();
 extern void ReadData(const std::filesystem::path& path);
 extern float LevelWidth, LevelHeight;
-extern std::string getMusicLevelName();
+extern MusicID getMusicLevelName();
 
 #endif // !LEVEL_HPP

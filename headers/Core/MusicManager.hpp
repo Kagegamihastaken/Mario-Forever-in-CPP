@@ -2,22 +2,23 @@
 
 #ifndef MUSIC_MANAGER_HPP
 #define MUSIC_MANAGER_HPP
+#include "Enumeration/MusicEnum.hpp"
 
 namespace MusicManager {
-	void ForceLoadMusic(std::string_view name);
-	void AddMusic(std::string_view name, const std::filesystem::path &path);
-	void AddPlayMusic(std::string_view name, const std::filesystem::path &path);
-	void PlayMusic(std::string_view name);
-	void PauseMusic(std::string_view name);
+	void ForceLoadMusic(MusicID name);
+	void AddMusic(MusicID name, const std::filesystem::path &path);
+	void AddPlayMusic(MusicID name, const std::filesystem::path &path);
+	void PlayMusic(MusicID name);
+	void PauseMusic(MusicID name);
 	void CleanUp();
-	void SetLoop(std::string_view name, bool loop);
-	void StopMusic(std::string_view name);
+	void SetLoop(MusicID name, bool loop);
+	void StopMusic(MusicID name);
 	void StopAllMusic();
-	void SetMusicVolume(std::string_view name, float volume);
+	void SetMusicVolume(MusicID name, float volume);
 
-	bool IsMusicPlaying(std::string_view name);
-	bool IsMusicStopped(std::string_view name);
-	bool IsMusicPaused(std::string_view name);
+	bool IsMusicPlaying(MusicID name);
+	bool IsMusicStopped(MusicID name);
+	bool IsMusicPaused(MusicID name);
 };
 
 #endif

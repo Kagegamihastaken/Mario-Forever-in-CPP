@@ -40,7 +40,7 @@ void MarioEffectStatusUpdate(const float deltaTime) {
 void ActiveMarioEffect(float alpha) {
 	if (!EffectActive) {
 		MusicManager::StopAllMusic();
-		MusicManager::PlayMusic("MarioDeath");
+		MusicManager::PlayMusic(MusicID::MARIO_DEATH);
 		EffectActive = true;
 		playerPos.teleport({ Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f });
 		MarioEffectTimer.restart();

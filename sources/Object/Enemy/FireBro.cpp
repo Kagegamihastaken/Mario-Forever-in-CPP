@@ -116,9 +116,9 @@ void FireBro::statusUpdate(float deltaTime) {
     }
     if (ShootingData.isFire) {
         if (m_animation.getAnimationDirection() == AnimationDirection::ANIM_RIGHT)
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, m_transform.getCurrentPosition().x + 6.f, m_transform.getCurrentPosition().y - 21.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::FIREBALL, m_transform.getCurrentPosition().x + 6.f, m_transform.getCurrentPosition().y - 21.f);
         else
-            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::BROAI_FIREBALL, m_transform.getCurrentPosition().x - 6.f, m_transform.getCurrentPosition().y - 21.f);
+            AddBroAIProjectile(static_cast<bool>(m_animation.getAnimationDirection()), BroAIProjectileType::FIREBALL, m_transform.getCurrentPosition().x - 6.f, m_transform.getCurrentPosition().y - 21.f);
         SoundManager::PlaySound(SoundID::GAME_FIREBALL);
     }
 }

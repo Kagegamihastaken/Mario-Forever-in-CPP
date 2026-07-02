@@ -13,12 +13,12 @@ void BricksInitTemp() {
 }
 void ForceLoadBricksTexture(const BrickID ID) {
 	switch (ID) {
-		case BrickID::BRICK_NORMAL:
+		case BrickID::NORMAL:
 			ImageManager::LoadTexture(R"(NormalBrick)");
 			ImageManager::LoadTexture(R"(NormalHittedBrick)");
 			ImageManager::LoadTexture(R"(NormalBrickParticle)");
 			break;
-		case BrickID::BRICK_GRAY:
+		case BrickID::GRAY:
 			ImageManager::LoadTexture("GrayBrick");
 			ImageManager::LoadTexture("GrayHittedBrick");
 			ImageManager::LoadTexture("GrayBrickParticle");

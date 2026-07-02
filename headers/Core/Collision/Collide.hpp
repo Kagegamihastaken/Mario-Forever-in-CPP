@@ -5,7 +5,6 @@
 
 #include "Core/Class/CollisionObjectClass.hpp"
 
-extern void setHitbox(sf::FloatRect& hitbox, const sf::FloatRect& Sethitbox);
 extern sf::FloatRect HitboxExtend(const sf::FloatRect& hitbox, float val);
 extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Sprite& sprite);
 extern sf::FloatRect getGlobalHitbox(const sf::FloatRect& hitbox, const sf::Vector2f& pos, const sf::Vector2f& origin);

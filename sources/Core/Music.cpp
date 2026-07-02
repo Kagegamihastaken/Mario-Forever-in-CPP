@@ -2,12 +2,12 @@
 #include "Core/MusicManager.hpp"
 
 void MusicInit() {
-	MusicManager::AddMusic("night", "data/musics/night.ogg");
-	MusicManager::AddMusic("yky", "data/musics/yky.ogg");
-	MusicManager::AddMusic("underground", "data/musics/underground1.ogg");
-	MusicManager::AddMusic("apoplexy", "data/musics/apoplexy.ogg");
-	MusicManager::AddMusic("MarioDeath", "data/musics/1-Music-Die.ogg");
+	MusicManager::AddMusic(MusicID::NIGHT, "data/musics/night.ogg");
+	MusicManager::AddMusic(MusicID::YKY, "data/musics/yky.ogg");
+	MusicManager::AddMusic(MusicID::UNDERGROUND, "data/musics/underground1.ogg");
+	MusicManager::AddMusic(MusicID::APOPLEXY, "data/musics/apoplexy.ogg");
+	MusicManager::AddMusic(MusicID::MARIO_DEATH, "data/musics/1-Music-Die.ogg");
 	//MusicManager::AddMusic("MainMusicOGG", "data/musics/The_Worst_Goodbye.ogg");
-	MusicManager::AddMusic("default", "data/musics/Rigit_Medium.ogg");
-	MusicManager::AddMusic("LevelComplete", "data/musics/Level_Complete.ogg");
+	MusicManager::AddMusic(MusicID::DEFAULT, "data/musics/Rigit_Medium.ogg");
+	MusicManager::AddMusic(MusicID::LEVEL_COMPLETE, "data/musics/Level_Complete.ogg");
 }

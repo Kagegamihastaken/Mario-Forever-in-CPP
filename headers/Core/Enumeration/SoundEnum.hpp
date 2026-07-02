@@ -1,7 +1,7 @@
 #ifndef MFCPP_SOUNDENUM_HPP
 #define MFCPP_SOUNDENUM_HPP
 
-enum class SoundID {
+enum class SoundID : uint8_t {
     //GAME
     GAME_JUMP,
     GAME_BUMP,

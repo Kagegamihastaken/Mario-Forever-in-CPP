@@ -20,24 +20,24 @@ PiranhaFireball::PiranhaFireball(ProjectileManager &manager, const PiranhaDirect
     m_hitbox = sf::FloatRect({0.f, 0.f}, {15.f, 16.f});
     setDrawingPriority(2);
     switch (direction) {
-        case PiranhaDirection::PIRANHA_UP:
+        case PiranhaDirection::UP:
             m_velocity = {static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)),
     (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 8))) * -1.f
             };
             break;
-        case PiranhaDirection::PIRANHA_DOWN:
+        case PiranhaDirection::DOWN:
             m_velocity = {
             static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)),
             (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 3)))
         };
             break;
-        case PiranhaDirection::PIRANHA_RIGHT:
+        case PiranhaDirection::RIGHT:
             m_velocity = {
             (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 3))) * -1.f,
             static_cast<float>(Utility::RandomIntNumberGenerator(0, 9)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 9))
         };
             break;
-        case PiranhaDirection::PIRANHA_LEFT:
+        case PiranhaDirection::LEFT:
             m_velocity = {
             (3.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 3))),
             static_cast<float>(Utility::RandomIntNumberGenerator(0, 9)) - static_cast<float>(Utility::RandomIntNumberGenerator(0, 9))

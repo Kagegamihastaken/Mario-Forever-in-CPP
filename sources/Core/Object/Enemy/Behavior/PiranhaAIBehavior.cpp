@@ -7,16 +7,16 @@
 sf::Vector2f PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection dir, const sf::Vector2f& pos) {
     sf::Vector2f output = pos;
     switch (dir) {
-        case PiranhaDirection::PIRANHA_UP:
+        case PiranhaDirection::UP:
             output += sf::Vector2f(0.f, 64.f);
             break;
-        case PiranhaDirection::PIRANHA_DOWN:
+        case PiranhaDirection::DOWN:
             output -= sf::Vector2f(0.f, 64.f);
             break;
-        case PiranhaDirection::PIRANHA_RIGHT:
+        case PiranhaDirection::RIGHT:
             output += sf::Vector2f(64.f, 0.f);
             break;
-        case PiranhaDirection::PIRANHA_LEFT:
+        case PiranhaDirection::LEFT:
             output -= sf::Vector2f(64.f, 0.f);
             break;
         default: ;
@@ -43,16 +43,16 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 		if (!dataOutput.state) {
 			if (dataOutput.pos_temp <= dataOutput.pos_limit) {
 				switch (dir) {
-					case PiranhaDirection::PIRANHA_UP:
+					case PiranhaDirection::UP:
 						dataOutput.pos.y += dataOutput.speed * deltaTime;
 						break;
-					case PiranhaDirection::PIRANHA_DOWN:
+					case PiranhaDirection::DOWN:
 						dataOutput.pos.y -= dataOutput.speed * deltaTime;
 						break;
-					case PiranhaDirection::PIRANHA_RIGHT:
+					case PiranhaDirection::RIGHT:
 						dataOutput.pos.x += dataOutput.speed * deltaTime;
 						break;
-					case PiranhaDirection::PIRANHA_LEFT:
+					case PiranhaDirection::LEFT:
 						dataOutput.pos.x -= dataOutput.speed * deltaTime;
 						break;
 					default: ;
@@ -62,7 +62,7 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 			else {
 				dataOutput.state = true;
 				//Set back to original
-				dataOutput.pos += sf::Vector2f((dataOutput.pos_limit - dataOutput.pos_temp) * static_cast<float>(dir == PiranhaDirection::PIRANHA_RIGHT || dir == PiranhaDirection::PIRANHA_LEFT), (dataOutput.pos_limit - dataOutput.pos_temp) * static_cast<float>(dir == PiranhaDirection::PIRANHA_UP || dir == PiranhaDirection::PIRANHA_DOWN));
+				dataOutput.pos += sf::Vector2f((dataOutput.pos_limit - dataOutput.pos_temp) * static_cast<float>(dir == PiranhaDirection::RIGHT || dir == PiranhaDirection::LEFT), (dataOutput.pos_limit - dataOutput.pos_temp) * static_cast<float>(dir == PiranhaDirection::UP || dir == PiranhaDirection::DOWN));
 				dataOutput.pos_temp = dataOutput.pos_limit;
 				dataOutput.stop = true;
 				dataOutput.stop_clock = 0.f;
@@ -71,16 +71,16 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 		else {
 			if (dataOutput.pos_temp >= 0.0f) {
 				switch (dir) {
-					case PiranhaDirection::PIRANHA_UP:
+					case PiranhaDirection::UP:
 						dataOutput.pos.y -= dataOutput.speed * deltaTime;
 						break;
-					case PiranhaDirection::PIRANHA_DOWN:
+					case PiranhaDirection::DOWN:
 						dataOutput.pos.y += dataOutput.speed * deltaTime;
 						break;
-					case PiranhaDirection::PIRANHA_RIGHT:
+					case PiranhaDirection::RIGHT:
 						dataOutput.pos.x -= dataOutput.speed * deltaTime;
 						break;
-					case PiranhaDirection::PIRANHA_LEFT:
+					case PiranhaDirection::LEFT:
 						dataOutput.pos.x += dataOutput.speed * deltaTime;
 						break;
 					default: ;
@@ -92,7 +92,7 @@ PiranhaAIBehavior::PiranhaAIData PiranhaAIBehavior::PiranhaMovementUpdate(Piranh
 				//Set back to normal
 				if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(dataOutput.pos, dataOutput.origin, dataOutput.hitbox), 32.f))
 					dataOutput.fire_counting = dataOutput.fire_count;
-				dataOutput.pos -= sf::Vector2f(dataOutput.pos_temp * static_cast<float>(dir == PiranhaDirection::PIRANHA_RIGHT || dir == PiranhaDirection::PIRANHA_LEFT), dataOutput.pos_temp * static_cast<float>(dir == PiranhaDirection::PIRANHA_UP || dir == PiranhaDirection::PIRANHA_DOWN));
+				dataOutput.pos -= sf::Vector2f(dataOutput.pos_temp * static_cast<float>(dir == PiranhaDirection::RIGHT || dir == PiranhaDirection::LEFT), dataOutput.pos_temp * static_cast<float>(dir == PiranhaDirection::UP || dir == PiranhaDirection::DOWN));
 				dataOutput.pos_temp = 0.f;
 				dataOutput.stop = true;
 				dataOutput.stop_clock = 0.f;

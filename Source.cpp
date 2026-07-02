@@ -33,8 +33,8 @@ int WinMain() {
 		Game::Init();
 		if (!ImGui::SFML::Init(WindowFrame::getWindow())) throw std::runtime_error("Cannot Load ImGui");
 		sf::Clock deltaClock;
-		MusicManager::ForceLoadMusic("MarioDeath");
-		MusicManager::ForceLoadMusic("LevelComplete");
+		MusicManager::ForceLoadMusic(MusicID::MARIO_DEATH);
+		MusicManager::ForceLoadMusic(MusicID::LEVEL_COMPLETE);
 
 		AudioEngine::SoundManagerParamsInit();
 		while (WindowFrame::getWindow().isOpen()) {

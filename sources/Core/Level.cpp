@@ -8,7 +8,7 @@
 #include "Block/CustomBlock.hpp"
 #include "Block/LuckyBlock.hpp"
 #include "Core/AutoScroll.hpp"
-#include "../../headers/Core/Enumeration/enum.hpp"
+#include "Core/Enumeration/enum.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Object/GoombaAI.hpp"
 #include "Object/PiranhaAI.hpp"
@@ -47,7 +47,7 @@ static std::vector<RotodiscData> RotodiscDataList;
 static sf::Vector2f ExitIndicator;
 static sf::Vector2f ExitGate;
 static sf::Vector2f PlayerData;
-static std::string MusicData;
+static MusicID MusicData;
 static MFCPP::Color BGFirstColor;
 static MFCPP::Color BGSecondColor;
 uint8_t LevelEnvironment = 0;
@@ -113,6 +113,7 @@ void RotodiscDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos,
 	}
 }
 void ReadData(const std::filesystem::path& path) {
+	std::string MusicNameTemp;
 	std::string LevelDataText;
 	MFCPP::IO::LoadLvl(LevelDataText, path.string());
 
@@ -136,7 +137,7 @@ void ReadData(const std::filesystem::path& path) {
 
 	BGFirstColor = levelJson["level_properties"].value("background_first_color", MFCPP::Color::LevelDefaultFirst);
 	BGSecondColor = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
-	MusicData = levelJson["level_properties"].value("music", "DansLaRue");
+	MusicNameTemp = levelJson["level_properties"].value("music", "DansLaRue");
 	const nlohmann::json& bgJson = levelJson["backgrounds"];
 	for (const auto& bgObj : bgJson)
 		BgData.emplace_back(bgObj.at("name").get<std::string>(), bgObj.value("parallax", sf::Vector2f(1.f, 1.f)));
@@ -192,6 +193,10 @@ void ReadData(const std::filesystem::path& path) {
 	}
 	setStartPosition(PlayerData + sf::Vector2f(0.f, 7.f));
 	//Build necessary things
+	if (auto cst = magic_enum::enum_cast<MusicID>(MusicNameTemp, magic_enum::case_insensitive); cst.has_value()) {
+		MusicData = cst.value();
+	}
+	else MFCPP::Log::WarningPrint(fmt::format("Cannot find music named {}, maybe you wrote wrong name?", MusicNameTemp));
 	MFCPP::AutoScroll::setAutoScrollSpeed(AutoScrollSpeed);
 	MFCPP::AutoScroll::setAutoScrollMode(AutoScrollMode);
 	MFCPP::AutoScroll::setTankMode(TankMode);
@@ -254,7 +259,6 @@ void Objectbuilding() {
 	//std::ranges::sort(BonusData, [](const std::array<float, 5>& a, const std::array<float, 5>& b) {return a[3] < b[3]; }); ?
 
 	//Music
-
 	MusicManager::StopAllMusic();
 	MusicManager::SetLoop(MusicData, true);
 	MusicManager::PlayMusic(MusicData);
@@ -361,6 +365,6 @@ void Objectbuilding() {
 	}
 	MFCPP::AutoScroll::AutoScrollBuild();
 }
-std::string getMusicLevelName() {
+MusicID getMusicLevelName() {
 	return MusicData;
 }

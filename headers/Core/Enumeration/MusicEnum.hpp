@@ -1,0 +1,14 @@
+#ifndef MFCPP_MUSICENUM_HPP
+#define MFCPP_MUSICENUM_HPP
+
+enum class MusicID : uint8_t {
+    DEFAULT,
+    NIGHT,
+    YKY,
+    UNDERGROUND,
+    APOPLEXY,
+    MARIO_DEATH,
+    LEVEL_COMPLETE
+};
+
+#endif //MFCPP_MUSICENUM_HPP

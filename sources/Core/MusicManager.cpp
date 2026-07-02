@@ -7,6 +7,7 @@
 #include "Core/AudioEngine.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
+#include "Core/Enumeration/MusicEnum.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
 
 struct PreMusic {
@@ -14,24 +15,24 @@ struct PreMusic {
 	bool isLoop = false;
 	float volume = 1.f;
 };
-boost::unordered_flat_map<std::string, std::unique_ptr<SoLoud::AudioSource>> g_musics;
-boost::unordered_flat_map<std::string, SoLoud::handle> g_musics_handle;
-boost::unordered_flat_map<std::string, PreMusic> g_pre_musics;
+boost::unordered_flat_map<MusicID, std::unique_ptr<SoLoud::AudioSource>> g_musics;
+boost::unordered_flat_map<MusicID, SoLoud::handle> g_musics_handle;
+boost::unordered_flat_map<MusicID, PreMusic> g_pre_musics;
 bool CheckValidWavType(std::string_view str) {
 	return str == ".flac" || str == ".mp3" || str == ".ogg" || str == ".wav";
 }
-void MusicManager::ForceLoadMusic(std::string_view name) {
-	auto it = g_pre_musics.find(name.data());
-	if (it == g_pre_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	AddPlayMusic(name.data(), it->second.path);
+void MusicManager::ForceLoadMusic(MusicID name) {
+	auto it = g_pre_musics.find(name);
+	if (it == g_pre_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
+	AddPlayMusic(name, it->second.path);
 }
-void MusicManager::AddMusic(std::string_view name, const std::filesystem::path &path) {
-	if (g_pre_musics.contains(name.data())) throw MFCPP::Exception::AlreadyExistElement(fmt::format("MusicManager: Already exist music with this name {}", name));
-	g_pre_musics[name.data()] = PreMusic(path, false, 1.f);
+void MusicManager::AddMusic(MusicID name, const std::filesystem::path &path) {
+	if (g_pre_musics.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("MusicManager: Already exist music with this name {}", magic_enum::enum_name(name)));
+	g_pre_musics[name] = PreMusic(path, false, 1.f);
 }
-void MusicManager::AddPlayMusic(std::string_view name, const std::filesystem::path &path) {
+void MusicManager::AddPlayMusic(MusicID name, const std::filesystem::path &path) {
 	const std::string extension = path.extension().string();
-	if (g_musics.contains(name.data())) throw MFCPP::Exception::AlreadyExistElement(fmt::format("MusicManager: Already exist music with this name {}", name));
+	if (g_musics.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("MusicManager: Already exist music with this name {}", magic_enum::enum_name(name)));
 
 	PhysFsSoLoudStream file;
 	if (!file.open(path.string().c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path.string()));
@@ -41,24 +42,24 @@ void MusicManager::AddPlayMusic(std::string_view name, const std::filesystem::pa
 			throw std::runtime_error(fmt::format("MusicManager: Cannot detected {} is music file supported or not.", path.string()));
 		MFCPP::Log::InfoPrint(fmt::format("MusicManager: Loaded Music File: {}", path.string()));
 		ogg->setSingleInstance(true);
-		g_musics[name.data()] = std::move(ogg);
+		g_musics[name] = std::move(ogg);
 		return;
 	}
 	throw std::format_error(fmt::format("MusicManager: Cannot detected {} is music file supported or not.", path.string()));
 }
-void MusicManager::SetLoop(std::string_view name, bool loop) {
-	auto it = g_pre_musics.find(name.data());
-	if (it == g_pre_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
+void MusicManager::SetLoop(MusicID name, bool loop) {
+	auto it = g_pre_musics.find(name);
+	if (it == g_pre_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
 	it->second.isLoop = loop;
 }
-void MusicManager::StopMusic(std::string_view name) {
-	auto it = g_musics.find(name.data());
-	if (it == g_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
+void MusicManager::StopMusic(MusicID name) {
+	auto it = g_musics.find(name);
+	if (it == g_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
 	AudioEngine::getAudioEngine().stopAudioSource(*it->second);
-	g_musics_handle.erase(name.data());
+	g_musics_handle.erase(name);
 }
 void MusicManager::StopAllMusic() {
-	std::set<std::string> keys;
+	std::set<MusicID> keys;
 	for (const auto &fst: g_musics | std::views::keys) {
 		AudioEngine::getAudioEngine().stopAudioSource(*g_musics[fst]);
 		keys.insert(fst);
@@ -67,26 +68,26 @@ void MusicManager::StopAllMusic() {
 		g_musics_handle.erase(i);
 	}
 }
-void MusicManager::PlayMusic(std::string_view name) {
-	auto pre_it = g_pre_musics.find(name.data());
+void MusicManager::PlayMusic(MusicID name) {
+	auto pre_it = g_pre_musics.find(name);
 	if (pre_it == g_pre_musics.end())
-		throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: {} doesnt preloaded yet.", name));
-	if (!g_musics.contains(name.data()))
+		throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: {} doesnt preloaded yet.", magic_enum::enum_name(name)));
+	if (!g_musics.contains(name))
 		AddPlayMusic(name, pre_it->second.path);
 
 		//throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(*g_musics[name.data()]);
+	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(*g_musics[name]);
 	AudioEngine::getAudioEngine().setProtectVoice(handle, true);
 	AudioEngine::getAudioEngine().setLooping(handle, pre_it->second.isLoop);
 	AudioEngine::getAudioEngine().setVolume(handle, pre_it->second.volume);
 	if (AudioEngine::getAudioEngine().isValidVoiceHandle(handle))
-		g_musics_handle[name.data()] = handle;
+		g_musics_handle[name] = handle;
 }
-void MusicManager::PauseMusic(std::string_view name) {
-	if (!g_pre_musics.contains(name.data())) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	auto it = g_musics_handle.find(name.data());
+void MusicManager::PauseMusic(MusicID name) {
+	if (!g_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
+	auto it = g_musics_handle.find(name);
 	if (!AudioEngine::getAudioEngine().isValidVoiceHandle(it->second)) {
-		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", name));
+		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", magic_enum::enum_name(name)));
 		return;
 	}
 	AudioEngine::getAudioEngine().setPause(it->second, !AudioEngine::getAudioEngine().getPause(it->second));
@@ -96,25 +97,25 @@ void MusicManager::CleanUp() {
 	g_musics.clear();
 	g_musics_handle.clear();
 }
-void MusicManager::SetMusicVolume(std::string_view name, float volume) {
-	auto it = g_pre_musics.find(name.data());
-	if (it == g_pre_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
+void MusicManager::SetMusicVolume(MusicID name, float volume) {
+	auto it = g_pre_musics.find(name);
+	if (it == g_pre_musics.end()) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
 	it->second.volume = volume;
 }
-bool MusicManager::IsMusicPlaying(std::string_view name) {
-	if (!g_pre_musics.contains(name.data())) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	return AudioEngine::getAudioEngine().isValidVoiceHandle(g_musics_handle[name.data()]);
+bool MusicManager::IsMusicPlaying(MusicID name) {
+	if (!g_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
+	return AudioEngine::getAudioEngine().isValidVoiceHandle(g_musics_handle[name]);
 }
-bool MusicManager::IsMusicStopped(std::string_view name) {
-	if (!g_pre_musics.contains(name.data())) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
-	return !AudioEngine::getAudioEngine().isValidVoiceHandle(g_musics_handle[name.data()]);
+bool MusicManager::IsMusicStopped(MusicID name) {
+	if (!g_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
+	return !AudioEngine::getAudioEngine().isValidVoiceHandle(g_musics_handle[name]);
 }
-bool MusicManager::IsMusicPaused(std::string_view name) {
-	if (!g_pre_musics.contains(name.data())) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", name));
+bool MusicManager::IsMusicPaused(MusicID name) {
+	if (!g_pre_musics.contains(name)) throw MFCPP::Exception::NonExistElement(fmt::format("MusicManager: Cannot find {}", magic_enum::enum_name(name)));
 
-	if (!AudioEngine::getAudioEngine().isValidVoiceHandle(g_musics_handle[name.data()])) {
-		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", name));
+	if (!AudioEngine::getAudioEngine().isValidVoiceHandle(g_musics_handle[name])) {
+		MFCPP::Log::WarningPrint(fmt::format("MusicManager: {} is not play yet.", magic_enum::enum_name(name)));
 		return false;
 	}
-	return AudioEngine::getAudioEngine().getPause(g_musics_handle[name.data()]);
+	return AudioEngine::getAudioEngine().getPause(g_musics_handle[name]);
 }
