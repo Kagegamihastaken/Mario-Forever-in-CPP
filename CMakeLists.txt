@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.1.2)
+project(MFCPP VERSION 0.0.1.3)
 
 # --- Global Project Settings ---
 set(CMAKE_CXX_STANDARD 20)
@@ -13,8 +13,8 @@ endif()
 #GAME SETTING
 set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
-
 set(HITBOX_DEBUG OFF)
+set(USE_TRACY OFF)
 
 #Game Config
 set(PLAYER_LIVES 4)
@@ -103,9 +103,28 @@ FetchContent_Declare(magic_enum
         GIT_PROGRESS ON
         SYSTEM
 )
+FetchContent_Declare(tracy
+        GIT_REPOSITORY https://github.com/wolfpld/tracy.git
+        GIT_TAG v0.13.1
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
 #sfml
 message("Making dependencies available...")
-FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum)
+
+if(USE_TRACY)
+    set(TRACY_ENABLE ON CACHE BOOL "Tracy Enable" FORCE)
+    set(TRACY_ON_DEMAND ON CACHE BOOL "Tracy Demand" FORCE)
+else()
+    set(TRACY_ENABLE OFF CACHE BOOL "Tracy Enable" FORCE)
+    set(TRACY_ON_DEMAND OFF CACHE BOOL "Tracy Demand" FORCE)
+endif()
+
+FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy)
+# Ensure the tracy_SOURCE_DIR is accessible for include paths
+FetchContent_GetProperties(tracy)
+
 #soloud
 FetchContent_MakeAvailable(soloud)
 file(GLOB_RECURSE SOLOUD_SOURCES CONFIGURE_DEPENDS
@@ -224,11 +243,13 @@ if(MSVC)
     endif()
 endif()
 
-target_include_directories("${CMAKE_PROJECT_NAME}" PRIVATE
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_CURRENT_SOURCE_DIR}/headers"
         "${CMAKE_CURRENT_BINARY_DIR}/config"
+        $<$<BOOL:${USE_TRACY}>:${tracy_SOURCE_DIR}/public>
 )
+
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Graphics SFML::System SFML::Window
     physfs-static ImGui-SFML::ImGui-SFML
@@ -237,6 +258,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     fmt::fmt cpptrace::cpptrace SoLoud::soloud Boost::intrusive
     nlohmann_json::nlohmann_json
     ImGuiFileDialog magic_enum::magic_enum
+    $<$<BOOL:${USE_TRACY}>:Tracy::TracyClient>
 )
 
 # Link platform-specific system libraries

@@ -11,6 +11,7 @@
 #include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
 #include <imgui-SFML.h>
+#include "Core/Profiler.hpp"
 float alpha = 1.0f;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
@@ -38,21 +39,12 @@ int WinMain() {
 
 		AudioEngine::SoundManagerParamsInit();
 		while (WindowFrame::getWindow().isOpen()) {
+			FrameMark;
 			while (const std::optional event = WindowFrame::getWindow().pollEvent()) {
 				ImGui::SFML::ProcessEvent(WindowFrame::getWindow(), *event);
 				if (event->is<sf::Event::Closed>()) {
 					MFCPP::Log::InfoPrint("Closing Game...");
 					WindowFrame::getWindow().close();
-				}
-				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-					/*
-					else if (keyPressed->code == sf::Keyboard::Key::P) {
-						MusicManager::PauseMusic(getMusicLevelName());
-					}
-					else if (keyPressed->code == sf::Keyboard::Key::L) {
-						MusicManager::PlayMusic(getMusicLevelName());
-					}
-					*/
 				}
 				Game::RetrieveEvent(event);
 			}
@@ -65,8 +57,7 @@ int WinMain() {
 				Game::Collision();
 				Mario::InvincibleStateUpdate();
 			}
-			if (MFCPP::Interpolation::isInterpolation) alpha = WindowFrame::getTimestep().getInterpolationAlphaAsFloat();
-			else alpha = 1.0f;
+			alpha = (MFCPP::Interpolation::isInterpolation ? WindowFrame::getTimestep().getInterpolationAlphaAsFloat() : 1.f);
 			Game::InterpolateMovement(alpha);
 			//ImGui::ShowDemoWindow();
 			Game::MiscUpdate();

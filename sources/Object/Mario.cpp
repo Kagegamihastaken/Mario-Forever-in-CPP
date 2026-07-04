@@ -16,10 +16,10 @@
 #include "Core/Class/CollisionObjectClass.hpp"
 
 #include "Core/Time.hpp"
-#include "Core/Utility.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Projectile/MarioBeetroot.hpp"
 #include "Object/Projectile/MarioFireball.hpp"
+#include "Core/Profiler.hpp"
 
 sf::FloatRect Mario::m_hitboxFloor;
 sf::FloatRect Mario::m_hitboxWall;
@@ -146,40 +146,40 @@ void Mario::MarioOutSideScreen() {
 
 //false: right, true: left
 void Mario::KeyboardMovement(const float deltaTime) {
+    ZoneScopedNC("Mario::KeyboardMovement", 0xFF0000);
+    const bool winFocus = WindowFrame::getWindow().hasFocus();
     if (m_CanControlMario && !LevelCompleteEffect) {
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !
-             sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && (
-                (!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) && WindowFrame::getWindow().
-            hasFocus()) {
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) && (
+                (!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) && winFocus) {
             if (m_velocity.x == 0) m_MarioDirection = true;
             else if (!m_MarioDirection) {
                 m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.375f * deltaTime);
-                if (m_velocity.x < 0.f) m_velocity.x = 0.f;
+                m_velocity.x = m_velocity.x < 0.f ? 0.f : m_velocity.x;
             }
             //init speed
             if (m_velocity.x < 1.0f && m_MarioDirection) m_velocity.x = 1.0f;
             if (m_MarioDirection) {
                 m_velocity.x += (m_velocity.x > m_player_speed ? 0.0f : 0.125f * deltaTime);
-                if (m_velocity.x > 7.5f) m_velocity.x = 7.5f;
+                m_velocity.x = m_velocity.x > 7.5f ? 7.5f : m_velocity.x;
             }
         } else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) && (
                        (!m_MarioCrouchDown && !m_MarioCurrentFalling) || m_MarioCurrentFalling) &&
-                   WindowFrame::getWindow().hasFocus()) {
+                   winFocus) {
             if (m_velocity.x == 0) m_MarioDirection = false;
             else if (m_MarioDirection) {
                 m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.375f * deltaTime);
-                if (m_velocity.x < 0.f) m_velocity.x = 0.f;
+                m_velocity.x = m_velocity.x < 0.f ? 0.f : m_velocity.x;
             }
             if (m_velocity.x < 1.0f && !m_MarioDirection) m_velocity.x = 1.0f;
             if (!m_MarioDirection) {
                 m_velocity.x += (m_velocity.x > m_player_speed ? 0.0f : 0.125f * deltaTime);
-                if (m_velocity.x > 7.5f) m_velocity.x = 7.5f;
+                m_velocity.x = m_velocity.x > 7.5f ? 7.5f : m_velocity.x;
             }
-        } else if ((((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !
+        } else if (((!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !
                       sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) || ((
                          sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) &&
-                         sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))) && (
+                         sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))) && (
                         !m_MarioCrouchDown || m_MarioCurrentFalling)) || (
                        m_MarioCrouchDown && !m_MarioCurrentFalling)) {
             if (!(m_MarioCrouchDown && !m_MarioCurrentFalling))
@@ -188,32 +188,26 @@ void Mario::KeyboardMovement(const float deltaTime) {
                                      : 0.125f * deltaTime);
             else m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.25f * deltaTime);
         }
-        if (m_velocity.x < 0.0f) m_velocity.x = 0.0f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !m_MarioCurrentFalling && WindowFrame::getWindow().
-            hasFocus()) {
-            if (!m_PreJump && !m_Holding) {
+        m_velocity.x = m_velocity.x < 0.0f ? 0.0f : m_velocity.x;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && !m_MarioCurrentFalling && winFocus) {
+            if ((!m_PreJump && !m_Holding) || m_PreJump) {
                 SoundManager::PlaySound(SoundID::GAME_JUMP);
                 m_velocity.y = -13.0f;
-                m_Holding = true;
-            } else if (m_PreJump) {
-                SoundManager::PlaySound(SoundID::GAME_JUMP);
-                m_velocity.y = -13.0f;
-                m_PreJump = false;
+                m_PreJump = (m_PreJump ? !m_PreJump : m_PreJump);
                 m_Holding = true;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && !m_MarioCurrentFalling && m_PowerState > 0 &&
-            WindowFrame::getWindow().hasFocus()) {
+            winFocus) {
             m_MarioCrouchDown = true;
         } else if (!m_MarioCurrentFalling) m_MarioCrouchDown = false;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && WindowFrame::getWindow().hasFocus()) {
-            if (m_velocity.x < 0.625f && m_velocity.y < 0.0f) m_velocity.y -= 0.4f * deltaTime;
-            if (m_velocity.x >= 0.625f && m_velocity.y < 0.0f) m_velocity.y -= 0.5f * deltaTime;
-            if (m_velocity.y >= 0.0f && !m_Holding) m_PreJump = true;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && winFocus) {
+            if (m_velocity.y < 0.f)
+                m_velocity.y -= (m_velocity.x < 0.625f ? 0.4f : 0.5f) * deltaTime;
+            else if (m_velocity.y >= 0 && !m_Holding) m_PreJump = true;
         }
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && WindowFrame::getWindow().hasFocus()) m_Holding = false;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !m_MarioCrouchDown && WindowFrame::getWindow().
-            hasFocus())
+        m_Holding = !(!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && winFocus);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && !m_MarioCrouchDown && winFocus)
             m_player_speed = 7.5f;
         else m_player_speed = 4.375f;
         if ((!m_MarioCurrentFalling || m_velocity.y < 0.f) && m_PreJump) m_PreJump = false;
@@ -225,8 +219,9 @@ void Mario::KeyboardMovement(const float deltaTime) {
         m_velocity.x -= (m_velocity.x <= 0.0f ? 0.0f : 0.625f * deltaTime);
         if (m_velocity.x < 0.0f) m_velocity.x = 0.0f;
     }
-    if (m_FireTimeCounting < m_FireTime) m_FireTimeCounting += 1.f * deltaTime;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && WindowFrame::getWindow().hasFocus() && !m_isFireHolding &&
+
+    m_FireTimeCounting += (m_FireTimeCounting < m_FireTime ? 1.f * deltaTime : 0.f);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X) && winFocus && !m_isFireHolding &&
         m_CanControlMario && !LevelCompleteEffect) {
         if (m_FireTimeCounting >= m_FireTime && m_PowerState > 1 && GameScene::projectileManager.
             getMarioProjectileList().size() < 2 && !m_MarioCrouchDown) {
@@ -235,15 +230,13 @@ void Mario::KeyboardMovement(const float deltaTime) {
             switch (m_PowerState) {
                 case 2:
                     GameScene::projectileManager.addProjectile<MarioFireball>(
-                        m_MarioDirection,
-                        sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)),
-                                     m_player.getCurrentPosition().y - 23.f));
+                        m_MarioDirection, m_player.getCurrentPosition() +
+                        sf::Vector2f(4.f * (m_MarioDirection ? -1.f : 1.f), -23.f));
                     break;
                 case 3:
                     GameScene::projectileManager.addProjectile<MarioBeetroot>(
-                        m_MarioDirection,
-                        sf::Vector2f(m_player.getCurrentPosition().x + (4.f * (m_MarioDirection ? -1.f : 1.f)),
-                                     m_player.getCurrentPosition().y - 11.f));
+                        m_MarioDirection, m_player.getCurrentPosition() +
+                        sf::Vector2f((4.f * (m_MarioDirection ? -1.f : 1.f)),- 11.f));
                     break;
                 default: ;
             }
@@ -445,7 +438,7 @@ void Mario::MarioUpdateAnimation() {
                     }
                     m_MarioAnimation.setAnimationDirection(static_cast<AnimationDirection>(m_MarioDirection));
                     m_MarioAnimation.setFrequencyAnimation(
-                        Utility::f_max(12.0f, Utility::f_min(m_velocity.x * 8.0f, 45.0f)));
+                        std::max(12.0f, std::min(m_velocity.x * 8.0f, 45.0f)));
                     //MarioAnimation.setAnimationFrequency("RunSmallLeft", f_max(24.0f, f_min(Xvelo * 8.0f, 75.0f)));
                 } else if (m_FireTimeCounting < m_FireTime && m_PowerState > 1) {
                     m_MarioState = 5;

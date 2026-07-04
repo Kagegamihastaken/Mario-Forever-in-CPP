@@ -47,9 +47,9 @@ namespace WindowFrame {
         static sf::VideoMode x2({ static_cast<uint32_t>(GameSize.x * 2.0f), static_cast<uint32_t>(GameSize.y * 2.0f) });
         const static std::vector Resolutions{sf::VideoMode::getFullscreenModes()};
 
-        static bool OPTION_SMOOTH{false};
+        static bool OPTION_SMOOTH{true};
         static bool OPTION_VSYNC{false};
-        static bool OPTION_FULLSCREEN{false};
+        static bool OPTION_FULLSCREEN{true};
 
         static bool PREV_OPTION_FULLSCREEN{OPTION_FULLSCREEN};
         const static std::string PROGRAM_NAME{"MFCPP::Mario-Forever"};

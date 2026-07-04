@@ -3,6 +3,7 @@
 #include "Core/ImageManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Level.hpp"
+#include "Core/Profiler.hpp"
 struct BgLayer {
 	sf::VertexArray vertices;
 	sf::Texture* texture;
@@ -54,6 +55,7 @@ void DeleteAllBg() {
 	BgList.clear();
 }
 void BgDraw() {
+	ZoneScopedNC("BgDraw", 0x6DB0C9);
 	for (const auto &i : BgList) {
 		WindowFrame::getWindow().draw(i.vertices, i.texture);
 	}

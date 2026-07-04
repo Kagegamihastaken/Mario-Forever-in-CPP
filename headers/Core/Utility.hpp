@@ -5,8 +5,6 @@ namespace Utility {
     int32_t RandomIntNumberGenerator(int32_t a, int32_t b);
     float RandomFloatNumberGenerator(float a, float b);
     float f_mod(float a, float b);
-    float f_min(float a, float b);
-    float f_max(float a, float b);
     float f_abs(float a);
     float f_round(float val);
     float VectorGetLength(const sf::Vector2f& val);

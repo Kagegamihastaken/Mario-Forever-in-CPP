@@ -11,8 +11,6 @@ float Utility::RandomFloatNumberGenerator(const float a, const float b) {
     return dis(seed);
 }
 float Utility::f_mod(const float a, const float b) { return a - std::floor(a / b) * b;}
-float Utility::f_min(const float a, const float b) { return a < b ? a : b; }
-float Utility::f_max(const float a, const float b) { return a > b ? a : b; }
 float Utility::f_abs(const float a) { return a < 0 ? -a : a; }
 float Utility::f_round(const float val) {
     if (const float fl = std::trunc(val); val - fl < 0.5f) return fl;

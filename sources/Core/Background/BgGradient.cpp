@@ -2,6 +2,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Level.hpp"
+#include "Core/Profiler.hpp"
 
 // NOTE: Cannot change to auto, will found way to work
 sf::VertexArray bgGradient(sf::PrimitiveType::TriangleStrip, 4);
@@ -16,5 +17,6 @@ void BgGradientInitPos(const float Width, const float Height) {
 	bgGradient[3].position = sf::Vector2f(Width, Height);
 }
 void BgGradientDraw() {
+	ZoneScopedNC("BgGradientDraw", 0x1EAEE3);
 	WindowFrame::getWindow().draw(bgGradient);
 }

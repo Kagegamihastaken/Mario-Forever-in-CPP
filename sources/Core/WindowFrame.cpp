@@ -6,8 +6,8 @@
 #include "Core/ImageManager.hpp"
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
+#include "Core/Profiler.hpp"
 
 static sf::ContextSettings setting;
 sf::VideoMode WindowFrame::Window::WindowGetVideoMode() {
@@ -80,21 +80,18 @@ void WindowFrame::Window::ChangeScreenMode(const uint8_t mode) {
 	}
 }
 void WindowFrame::Window::WindowEventUpdate(const std::optional<sf::Event>& event) {
+	ZoneScopedNC("WindowFrame::Window::WindowEventUpdate", 0x97DBB4);
 	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-		if (keyPressed->code == sf::Keyboard::Key::F11) {
-			WindowToggleFullscreen();
-			ChangeScreenMode();
-		}
-		else if (keyPressed->code == sf::Keyboard::Key::F12) {
-			WindowToggleSmooth();
-			ChangeScreenMode();
-		}
-		else if (keyPressed->code == sf::Keyboard::Key::F10) {
-			WindowSetScale(WindowGetScale() + 1);
-			ChangeScreenMode(2);
-		}
-		else if (keyPressed->code == sf::Keyboard::Key::F9) {
-			MFCPP::Interpolation::isInterpolation = !MFCPP::Interpolation::isInterpolation;
+		switch (keyPressed->code) {
+			case sf::Keyboard::Key::F11:
+				WindowToggleFullscreen();
+				ChangeScreenMode();
+				break;
+			case sf::Keyboard::Key::F12:
+				WindowToggleSmooth();
+				ChangeScreenMode();
+				break;
+			default: ;
 		}
 	}
 }

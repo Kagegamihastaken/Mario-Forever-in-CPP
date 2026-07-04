@@ -1,8 +1,8 @@
 #include "Core/Object/EnemyManager.hpp"
 
-#include <queue>
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Core/Profiler.hpp"
 
 void EnemyManager::updatePreviousData() const {
     for (const auto &i : m_enemies) {
@@ -23,6 +23,7 @@ void EnemyManager::YUpdate(float deltaTime) const {
 }
 
 void EnemyManager::statusUpdate(const float deltaTime) const {
+    ZoneScopedNC("EnemyManager::statusUpdate", 0x8A4A3E);
     for (const auto &i : m_enemies) {
         if (i) i->statusUpdate(deltaTime);
     }
@@ -30,12 +31,14 @@ void EnemyManager::statusUpdate(const float deltaTime) const {
 
 void EnemyManager::EnemyCollision() {
     // GoombaAI-Only Collision
+    ZoneScopedNC("EnemyManager::EnemyCollision", 0xE3ACA1);
     for (auto & enemyFirst : m_GoombaAI) {
         enemyFirst.EnemyCollision();
     }
 }
 
 void EnemyManager::MarioCollision() const {
+    ZoneScopedNC("EnemyManager::MarioCollision", 0x948F8E);
     if (EffectActive) return;
     const float MarioYVelocityBefore = Mario::getYvelocity();
     for (const auto &i : m_enemies) {
@@ -44,6 +47,7 @@ void EnemyManager::MarioCollision() const {
     }
 }
 void EnemyManager::DrawPriority(int index, float alpha) const {
+    ZoneScopedNC("EnemyManager::DrawPriority", 0xCFA49B);
     for (auto &i : m_enemies) {
         if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }
