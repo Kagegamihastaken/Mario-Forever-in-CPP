@@ -36,7 +36,6 @@ void Game::DeltaMovement(const float dt) {
 }
 void Game::RetrieveEvent(const std::optional<sf::Event>& event) {
     ZoneScopedNC("Game::RetrieveEvent", 0xa600ff);
-    WindowFrame::Window::WindowEventUpdate(event);
     g_sceneManager.handleInput(event);
 }
 void Game::InterpolateMovement(float alpha) {

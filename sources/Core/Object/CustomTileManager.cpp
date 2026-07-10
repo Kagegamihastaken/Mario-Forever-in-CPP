@@ -1,4 +1,5 @@
 #include "Core/Object/CustomTileManager.hpp"
+#include "Core/Profiler.hpp"
 
 #include "Core/Tilemap.hpp"
 
@@ -51,6 +52,7 @@ void CustomTileManager::setDeletionFlag(bool val) {
 }
 
 void CustomTileManager::DrawPriority(int index, float alpha) const {
+    ZoneScopedNC("CustomTileManager::DrawPriority", 0xa76fde);
     for (const auto &i : m_customTiles) {
         if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }

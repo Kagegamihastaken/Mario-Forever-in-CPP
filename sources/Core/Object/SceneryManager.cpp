@@ -1,4 +1,5 @@
 #include "Core/Object/SceneryManager.hpp"
+#include "Core/Profiler.hpp"
 
 
 bool SceneryManager::getDeletionFlag() const {
@@ -34,6 +35,7 @@ void SceneryManager::setDeletionFlag(bool val) {
 }
 
 void SceneryManager::draw(float alpha) const {
+    ZoneScopedNC("SceneryManager::draw", 0x6fdea5);
     for (const auto &i : m_scenery) {
         if (i) i->draw(alpha);
     }

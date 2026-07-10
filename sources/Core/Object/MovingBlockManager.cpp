@@ -1,5 +1,5 @@
 #include "Core/Object/MovingBlockManager.hpp"
-
+#include "Core/Profiler.hpp"
 
 bool MovingBlockManager::getDeletionFlag() const {
     return m_MovingBLockDeletionFlag;
@@ -22,6 +22,7 @@ void MovingBlockManager::statusUpdate(float deltaTime) const {
 }
 
 void MovingBlockManager::draw(float alpha) const {
+    ZoneScopedNC("MovingBlockManager::draw", 0x73ded0);
     for (const auto &i : m_movingblocks) {
         if (i) i->draw(alpha);
     }

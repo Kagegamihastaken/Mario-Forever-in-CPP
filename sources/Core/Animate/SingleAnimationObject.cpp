@@ -54,18 +54,17 @@ namespace MFCPP {
 		m_TimeRan += deltaTime;
 	}
 	void SingleAnimationObject::frameUpdate() {
-		if (m_frequency != 0) {
-			if (const float FrameTime = 100.0f / static_cast<float>(m_frequency); m_TimeRan >= FrameTime) {
-				m_precompute_update = true;
-				const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
-				if (m_indexAnimation - m_startingIndexAnimation + FrameCount >= m_endingIndexAnimation - m_startingIndexAnimation + 1 && !m_reached_the_end) m_reached_the_end = true;
-				if (m_loop)
-					m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
-				else
-					m_indexAnimation = m_startingIndexAnimation + std::min((m_indexAnimation - m_startingIndexAnimation + FrameCount),(m_endingIndexAnimation - m_startingIndexAnimation));
+		if (m_frequency == 0) return;
+		if (const float FrameTime = 100.0f / static_cast<float>(m_frequency); m_TimeRan >= FrameTime) {
+			m_precompute_update = true;
+			const auto FrameCount = static_cast<int>(m_TimeRan / FrameTime);
+			if (m_indexAnimation - m_startingIndexAnimation + FrameCount >= m_endingIndexAnimation - m_startingIndexAnimation + 1 && !m_reached_the_end) m_reached_the_end = true;
+			if (m_loop)
+				m_indexAnimation = m_startingIndexAnimation + (m_indexAnimation - m_startingIndexAnimation + FrameCount) % (m_endingIndexAnimation - m_startingIndexAnimation + 1);
+			else
+				m_indexAnimation = m_startingIndexAnimation + std::min((m_indexAnimation - m_startingIndexAnimation + FrameCount),(m_endingIndexAnimation - m_startingIndexAnimation));
 
-				m_TimeRan -= static_cast<float>(FrameCount) * FrameTime;
-			}
+			m_TimeRan -= static_cast<float>(FrameCount) * FrameTime;
 		}
 	}
 	void SingleAnimationObject::animationUpdate(sf::Vector2f pos, sf::Vector2f origin) {

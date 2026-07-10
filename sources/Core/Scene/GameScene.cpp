@@ -187,13 +187,13 @@ void GameScene::HUDPositionUpdate() {
 
 void GameScene::textUpdate() {
     EditText(fmt::format("{}", Mario::getLives()), "_LIVE");
-    EditText(fmt::format("FPS: {}", static_cast<int32_t>(std::round(WindowFrame::getFpsLite().getFps()))), "_FPS");
     if (WindowFrame::isDebug()) {
         EditText(std::to_string(static_cast<int32_t>(WindowFrame::getMousePosition().x)) + "/" + std::to_string(
                      static_cast<int32_t>(WindowFrame::getMousePosition().y)) + "  R", "_MOUSEXY");
         EditText(std::to_string(static_cast<int32_t>(Scroll::getViewPosition().x)) + "/" + std::to_string(
                      static_cast<int32_t>(Scroll::getViewPosition().y)) + "  V", "_VIEWXY");
     }
+    EditText(fmt::format("FPS: {}", static_cast<int64_t>(WindowFrame::getFpsLite().getFps())), "_FPS");
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Mario::getScore()), "_SCORE");
     EditText(fmt::format("{}", getTime()), "_TIME");

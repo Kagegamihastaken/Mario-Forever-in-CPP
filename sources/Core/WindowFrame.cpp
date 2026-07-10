@@ -4,6 +4,7 @@
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
 #include "Core/ImageManager.hpp"
+#include "Core/Logging.hpp"
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
@@ -47,9 +48,8 @@ void WindowFrame::Window::WindowSetFullscreen(const bool val) {
 void WindowFrame::Window::WindowSetScale(const uint8_t val) {
 	OPTION_SCALE = val % 4;
 }
-void WindowFrame::Window::ChangeScreenMode(const uint8_t mode) {
+void WindowFrame::Window::ChangeScreenMode(uint8_t mode) {
 	// 0: native, 1: x1, 2: x1.5, 3: x2
-
 	/*
 	 * MODE
 	 * 0: normal
@@ -71,7 +71,7 @@ void WindowFrame::Window::ChangeScreenMode(const uint8_t mode) {
 	window.setVerticalSyncEnabled(OPTION_VSYNC);
 	window.setIcon(icon);
 	if (!OPTION_SMOOTH) {
-		window.setFramerateLimit(240);
+		window.setFramerateLimit(60);
 		//window.setVerticalSyncEnabled(false);
 	}
 	else {
@@ -123,9 +123,10 @@ sf::Vector2f WindowFrame::getGameSize() {
 void WindowFrame::Init() {
 	MFCPP::IO::LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);
+	running = true;
 	//timestep.setTimeSpeed(0.5);
 	timestep.setStep(1.0f / 500.0f);
-	timestep.setMaxAccumulation(1.0f / 30.0f);
+	//timestep.setMaxAccumulation(1.0f / 30.0f);
 }
 void WindowFrame::GameSceneInit() {
 	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");

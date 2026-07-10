@@ -1,5 +1,5 @@
 #include "Core/Object/ProjectileManager.hpp"
-
+#include "Core/Profiler.hpp"
 
 void ProjectileManager::updatePreviousData() const {
     for (const auto &i : m_projectile) {
@@ -20,6 +20,7 @@ void ProjectileManager::statusUpdate(float deltaTime) const {
 }
 
 void ProjectileManager::DrawPriority(int index, float alpha) const {
+    ZoneScopedNC("ProjectileManager::DrawPriority", 0xde6fac);
     for (const auto &i : m_projectile) {
         if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }

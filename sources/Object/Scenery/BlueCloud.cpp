@@ -1,8 +1,6 @@
 #include "Object/Scenery/BlueCloud.hpp"
 
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
-#include "Object/SceneryHelper.hpp"
 
 BlueCloud::BlueCloud(SceneryManager &manager, const sf::Vector2f &position)
     : Scenery(manager),

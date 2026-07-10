@@ -31,7 +31,10 @@ namespace WindowFrame {
     static MFCPP::SingleAnimationObject CoinHUD;
     static MFCPP::StaticAnimationObject TimeHUD;
 
+    inline std::atomic running = true;
+
     namespace Window {
+
         uint8_t WindowGetScale();
         void WindowToggleFullscreen();
         void WindowToggleSmooth();

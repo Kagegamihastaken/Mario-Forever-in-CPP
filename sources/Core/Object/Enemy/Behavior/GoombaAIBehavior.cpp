@@ -1,6 +1,7 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include <algorithm>
 
+#include "Core/Input.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Collision/Collide.hpp"
@@ -145,7 +146,7 @@ auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
     }
 }
 auto GoombaAIBehavior::GoombaAIStomping() -> void {
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)) Mario::setYvelocity(-8.f);
+    if (!MFCPP::Input::isJumpKeyPressed()) Mario::setYvelocity(-8.f);
     else Mario::setYvelocity(-13.f);
     SoundManager::PlaySound(SoundID::GAME_STOMP);
     if (!Mario::getHolding()) Mario::setHolding(true);
