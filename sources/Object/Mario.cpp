@@ -247,6 +247,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
 }
 
 void Mario::MarioPosXUpdate(const float deltaTime) {
+    ZoneScopedNC("Mario::MarioPosXUpdate", 0x877951);
     if (m_CanControlMario) {
         if (float PlatDistance; PlatformXCollision(
             MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), PlatDistance,
@@ -288,10 +289,7 @@ void Mario::MarioPosXUpdate(const float deltaTime) {
 }
 
 void Mario::MarioVertXUpdate() {
-    CheckXCollision();
-}
-
-void Mario::CheckXCollision() {
+    ZoneScopedNC("Mario::MarioVertXUpdate", 0xfcba03);
     if (m_CanControlMario) {
         float CurrPosXCollide = 0, CurrPosYCollide = 0;
         const auto [fst, snd] = QuickCheckSideCollision(
@@ -326,7 +324,8 @@ void Mario::CheckXCollision() {
     }
 }
 
-void Mario::MarioPosYUpdate(const float deltaTime) {
+void Mario::MarioPosYUpdate(float deltaTime) {
+    ZoneScopedNC("Mario::MarioPosYUpdate", 0x422F00);
     if (m_CanControlMario) {
         m_MarioCurrentFalling = true;
         m_player.setCurrentPosition({
@@ -338,6 +337,7 @@ void Mario::MarioPosYUpdate(const float deltaTime) {
 }
 
 void Mario::MarioVertYBottomUpdate() {
+    ZoneScopedNC("Mario::MarioVertYBottomUpdate", 0x001FB0);
     if (m_CanControlMario) {
         float CurrPosYCollide, CurrPosXCollide;
         //Collision With Platform
@@ -392,6 +392,7 @@ void Mario::MarioVertYTopUpdate() {
 }
 
 void Mario::MarioUpdateHitbox() {
+    ZoneScopedNC("Mario::MarioUpdateHitbox", 0x805e00);
     if (m_PowerState > 0 && !m_MarioCrouchDown) {
         m_hitboxWall = sf::FloatRect({0.0f + 4.f, 0.f + 10.f}, {23.0f, 46.0f});
         m_hitboxFloor = sf::FloatRect({0.0f + 4.f, 0.f + 10.f}, {23.0f, 52.0f});

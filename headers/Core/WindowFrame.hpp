@@ -4,6 +4,7 @@
 #define WINDOWFRAME_HPP
 
 #include <config.h>
+#include <future>
 
 #include "Animate/SingleAnimationObject.hpp"
 #include "Animate/StaticAnimationObject.hpp"
@@ -31,7 +32,7 @@ namespace WindowFrame {
     static MFCPP::SingleAnimationObject CoinHUD;
     static MFCPP::StaticAnimationObject TimeHUD;
 
-    inline std::atomic running = true;
+    inline std::atomic<bool> running;
 
     namespace Window {
 

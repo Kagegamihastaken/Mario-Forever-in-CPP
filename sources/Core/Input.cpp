@@ -7,7 +7,6 @@
 
 void MFCPP::Input::inputHandling() {
     while (WindowFrame::running) {
-        ZoneScopedNC("Input::inputHandling", 0xffeeff);
         if (WindowFrame::getWindow().hasFocus()) {
             up = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up);
             down = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down);
@@ -20,25 +19,21 @@ void MFCPP::Input::inputHandling() {
     }
 }
 
-std::atomic<bool>& MFCPP::Input::isJumpKeyPressed() {
+const std::atomic<bool>& MFCPP::Input::isJumpKeyPressed() {
     return jump;
 }
-
-std::atomic<bool> &MFCPP::Input::isLeftKeyPressed() {
+const std::atomic<bool> &MFCPP::Input::isLeftKeyPressed() {
     return left;
 }
-
-std::atomic<bool> &MFCPP::Input::isRightKeyPressed() {
+const std::atomic<bool> &MFCPP::Input::isRightKeyPressed() {
     return right;
 }
-std::atomic<bool>& MFCPP::Input::isDownKeyPressed() {
+const std::atomic<bool>& MFCPP::Input::isDownKeyPressed() {
     return down;
 }
-
-std::atomic<bool> &MFCPP::Input::isUpKeyPressed() {
+const std::atomic<bool> &MFCPP::Input::isUpKeyPressed() {
     return up;
 }
-
-std::atomic<bool> &MFCPP::Input::isFireKeyPressed() {
+const std::atomic<bool> &MFCPP::Input::isFireKeyPressed() {
     return fire;
 }

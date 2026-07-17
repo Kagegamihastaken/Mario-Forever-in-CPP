@@ -10,6 +10,7 @@
 #include "Core/AudioEngine.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
+#include "Core/ImageManager.hpp"
 #include <imgui-SFML.h>
 #include <thread>
 
@@ -18,6 +19,14 @@
 float alpha = 1.0f;
 // TODO: Implement DEBUG in Engine
 // TODO: ImGUI for better debug
+void deinit() {
+	MFCPP::IO::Deinit();
+	AudioEngine::DeInit();
+	SoundManager::CleanUp();
+	ImageManager::Cleanup();
+	MusicManager::CleanUp();
+	ImGui::SFML::Shutdown();
+}
 #if DEVELOPMENT_BUILD
 int main() {
 #else
@@ -65,16 +74,17 @@ int WinMain() {
 				Game::DeltaMovement(WindowFrame::getTimestep().getStepAsFloat() * 50);
 				Game::Collision();
 				Mario::InvincibleStateUpdate();
+
+				Game::Cleanup();
 			}
 			alpha = (MFCPP::Interpolation::isInterpolation ? WindowFrame::getTimestep().getInterpolationAlphaAsFloat() : 1.f);
 			Game::InterpolateMovement(alpha);
-			Game::Cleanup();
 			Game::MiscUpdate();
-			//ImGui::SFML::Update(WindowFrame::getWindow(), deltaClock.restart());
+			ImGui::SFML::Update(WindowFrame::getWindow(), deltaClock.restart());
 			WindowFrame::getWindow().clear(sf::Color::Black);
 			Game::Draw(alpha);
 			//ImGui::ShowDemoWindow();
-			//ImGui::SFML::Render(WindowFrame::getWindow());
+			ImGui::SFML::Render(WindowFrame::getWindow());
 			WindowFrame::getWindow().display();
 		}
 		if (inputThread.joinable()) {
@@ -83,14 +93,10 @@ int WinMain() {
 	} CPPTRACE_CATCH (std::exception& e) {
 		MFCPP::Log::ExceptionPrint(&e);
 		MFCPP::Log::printCurrentTrace();
+		deinit();
 		std::exit(EXIT_FAILURE);
 	}
-	MFCPP::IO::Deinit();
-	AudioEngine::DeInit();
-	SoundManager::CleanUp();
-	ImageManager::Cleanup();
-	MusicManager::CleanUp();
-	ImGui::SFML::Shutdown();
+	deinit();
 	std::exit(EXIT_SUCCESS);
 
 }

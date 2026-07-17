@@ -3,6 +3,12 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
 project(MFCPP VERSION 0.0.1.3)
 
+if(MINGW)
+    add_compile_definitions(__USE_MINGW_ANSI_STDIO=1)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D__USE_MINGW_ANSI_STDIO=1")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__USE_MINGW_ANSI_STDIO=1")
+endif()
+
 # --- Global Project Settings ---
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,10 +17,10 @@ if(MSVC)
 endif()
 
 #GAME SETTING
-set(DEVELOPMENT_BUILD OFF)
+set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
 set(HITBOX_DEBUG OFF)
-set(USE_TRACY OFF)
+set(USE_TRACY ON)
 
 #Game Config
 set(PLAYER_LIVES 4)
@@ -23,6 +29,7 @@ set(GAME_HEIGHT 480)
 
 #lib include
 include(FetchContent)
+set(FETCHCONTENT_QUIET OFF CACHE BOOL "Show download progress" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
 set(SFML_STATIC_LIBRARIES TRUE)
 #dependency
@@ -265,7 +272,14 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
 if(WIN32)
     target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE winmm gdi32 user32 shell32 ole32 uuid)
     if(MINGW)
-        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++ -flto)
+        target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
+                -static
+                -static-libgcc
+                -static-libstdc++
+                # Force the linker to alias the undefined MSVC symbols to their MinGW alternatives
+                -Wl,--defsym,__ms_vsnprintf=__mingw_vsnprintf
+                -Wl,--defsym,__intrinsic_setjmpex=setjmp
+        )
         if (NOT DEVELOPMENT_BUILD)
             target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -Wl,-subsystem,windows)
         endif()

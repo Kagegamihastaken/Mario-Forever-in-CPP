@@ -10,12 +10,12 @@ namespace MFCPP {
         static std::atomic jump = false;
         static std::atomic fire = false;
         void inputHandling();
-        [[nodiscard]] std::atomic<bool>& isUpKeyPressed();
-        [[nodiscard]] std::atomic<bool>& isDownKeyPressed();
-        [[nodiscard]] std::atomic<bool>& isLeftKeyPressed();
-        [[nodiscard]] std::atomic<bool>& isRightKeyPressed();
-        [[nodiscard]] std::atomic<bool>& isJumpKeyPressed();
-        [[nodiscard]] std::atomic<bool>& isFireKeyPressed();
+        [[nodiscard]] const std::atomic<bool>& isUpKeyPressed();
+        [[nodiscard]] const std::atomic<bool>& isDownKeyPressed();
+        [[nodiscard]] const std::atomic<bool>& isLeftKeyPressed();
+        [[nodiscard]] const std::atomic<bool>& isRightKeyPressed();
+        [[nodiscard]] const std::atomic<bool>& isJumpKeyPressed();
+        [[nodiscard]] const std::atomic<bool>& isFireKeyPressed();
     }
 }
 

@@ -3,6 +3,7 @@
 #include "Editor/Editor.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Collision/Collide.hpp"
+#include "Core/Profiler.hpp"
 
 sf::View View;
 sf::Vector2f ViewPosition;
@@ -41,6 +42,7 @@ void Scroll::Init() {
 	View = sf::View(sf::FloatRect({ 0, 0 }, { WindowFrame::getGameSize().x, WindowFrame::getGameSize().y}));
 }
 void Scroll::setWindowView() {
+	ZoneScopedNC("Scroll::setWindowView", 0x5161B5);
 	setLetterboxView(View, WindowFrame::getWindow().getSize());
 }
 void Scroll::moveView(const sf::Vector2f& pos) {

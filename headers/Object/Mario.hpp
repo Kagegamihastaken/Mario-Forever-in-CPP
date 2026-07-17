@@ -4,7 +4,6 @@
 #define MARIO_HPP
 
 #include <config.h>
-#include "Core/ImageManager.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Object/ActiveObject.hpp"
 
@@ -77,8 +76,6 @@ public:
 	// extern bool Holding;
 private:
 	static auto UpdateSequenceAnimation() -> void;
-
-	static void CheckXCollision();
 
 	static sf::FloatRect m_hitboxFloor;
 	static sf::FloatRect m_hitboxWall;
