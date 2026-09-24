@@ -13,7 +13,7 @@
 FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
-    m_animation.setTexture("FireLauncherStand");
+    m_animation.setTexture("FIRE_LAUNCHER_STAND");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {96.f, 64.f});
 
     const sf::Vector2f original_pos = position - getOrigin();

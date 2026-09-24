@@ -6,7 +6,7 @@
 TankTileBack::TankTileBack(SceneryManager &manager, const sf::Vector2f &position)
     : Scenery(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
-    m_animation.setTexture("TankTileBack");
+    m_animation.setTexture("TANK_TILE_BACK");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {64.f, 32.f});
 }
 

@@ -11,11 +11,11 @@ BluePlatform::BluePlatform(MovingBlockManager &manager, const sf::Vector2f &star
     m_transform(start, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     if (!small) {
         m_hitbox = sf::FloatRect({0.f, 0.f}, {95.f, 8.f});
-        m_animation.setTexture("BluePlatform");
+        m_animation.setTexture("BLUE_PLATFORM");
     }
     else {
         m_hitbox = sf::FloatRect({0.f, 0.f}, {31.f, 8.f});
-        m_animation.setTexture("BlueSmallPlatform");
+        m_animation.setTexture("BLUE_SMALL_PLATFORM");
     }
 
     m_start = start;

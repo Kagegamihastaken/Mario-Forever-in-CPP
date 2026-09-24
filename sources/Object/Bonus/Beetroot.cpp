@@ -7,14 +7,15 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score1000Effect.hpp"
 
 Beetroot::Beetroot(EnemyManager &manager, const sf::Vector2f& position)
     : Enemy(manager),
     m_transform(position + sf::Vector2f(0.f, 31.f), sf::Vector2f(16.f, 31.f), sf::degrees(0.f)) {
     m_animation.setAnimation(0, 3, 8);
-    m_animation.setAnimationSequence("BeetrootAnimName");
+    m_animation.setAnimationSequence("BEETROOT");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {31.f, 32.f});
     m_wall_hitbox = sf::FloatRect(m_hitbox.position, m_hitbox.size - sf::Vector2f(0.f, 6.f));
     m_velocity = sf::Vector2f(0.f, 0.f);
@@ -41,7 +42,7 @@ void Beetroot::MarioCollision(const float MarioYVelocity) {
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(m_hitbox, m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         SoundManager::PlaySound(SoundID::GAME_POWERUP);
-        AddScoreEffect(ScoreID::SCORE_1000, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+        GameScene::effectManager.addEffect<Score1000Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
         if (Mario::getPowerState() > 0) Mario::SetPowerState(3);
         else if (Mario::getPowerState() == 0) Mario::SetPowerState(1);
         Destroy();

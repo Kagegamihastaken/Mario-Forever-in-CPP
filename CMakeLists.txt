@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.1.3)
+project(MFCPP VERSION 0.0.1.4)
 
 if(MINGW)
     add_compile_definitions(__USE_MINGW_ANSI_STDIO=1)
@@ -20,10 +20,10 @@ endif()
 set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
 set(HITBOX_DEBUG OFF)
-set(USE_TRACY ON)
+set(USE_TRACY OFF)
 
 #Game Config
-set(PLAYER_LIVES 4)
+set(PLAYER_LIVES 6)
 set(GAME_WIDTH 640)
 set(GAME_HEIGHT 480)
 
@@ -117,6 +117,13 @@ FetchContent_Declare(tracy
         GIT_PROGRESS ON
         SYSTEM
 )
+FetchContent_Declare(tomlplusplus
+        GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
+        GIT_TAG v3.4.0
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
 #sfml
 message("Making dependencies available...")
 
@@ -128,7 +135,7 @@ else()
     set(TRACY_ON_DEMAND OFF CACHE BOOL "Tracy Demand" FORCE)
 endif()
 
-FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy)
+FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy tomlplusplus)
 # Ensure the tracy_SOURCE_DIR is accessible for include paths
 FetchContent_GetProperties(tracy)
 
@@ -264,7 +271,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     Boost::unordered Boost::container
     fmt::fmt cpptrace::cpptrace SoLoud::soloud Boost::intrusive
     nlohmann_json::nlohmann_json
-    ImGuiFileDialog magic_enum::magic_enum
+    ImGuiFileDialog magic_enum::magic_enum tomlplusplus::tomlplusplus
     $<$<BOOL:${USE_TRACY}>:Tracy::TracyClient>
 )
 

@@ -11,7 +11,7 @@
 GreenPiranhaGround::GreenPiranhaGround(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("PiranhaGroundAnimName");
+    m_animation.setAnimationSequence("PIRANHA_GROUND");
     m_animation.setAnimation(0, 3, 24, true);
     m_hitbox = sf::FloatRect({9.f, 7.f}, {13.f, 25.f});
 

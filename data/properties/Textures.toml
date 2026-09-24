@@ -1,0 +1,687 @@
+[[textures]]
+id = "GOOMBA"
+path = "data/resources/Goomba/Goomba.png"
+animated = true
+width = 31
+height = 32
+image_width = 62
+
+[[textures]]
+id = "GREEN_MUSHROOM"
+path = "data/resources/GreenMushroom.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "MUSHROOM"
+path = "data/resources/Mushroom.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "GREEN_KOOPA"
+path = "data/resources/Koopa/GreenKoopa.png"
+animated = true
+width = 32
+height = 47
+image_width = 64
+
+[[textures]]
+id = "RED_KOOPA"
+path = "data/resources/Koopa/RedKoopa.png"
+animated = true
+width = 32
+height = 47
+image_width = 64
+
+[[textures]]
+id = "GREEN_KOOPA_SHELL"
+path = "data/resources/Koopa/GreenKoopaShell.png"
+animated = true
+width = 33
+height = 28
+image_width = 132
+
+[[textures]]
+id = "RED_KOOPA_SHELL"
+path = "data/resources/Koopa/RedKoopaShell.png"
+animated = true
+width = 33
+height = 28
+image_width = 132
+
+[[textures]]
+id = "GREEN_KOOPA_PARATROOPA"
+path = "data/resources/Koopa/GreenKoopaParatroopa.png"
+animated = true
+width = 33
+height = 47
+image_width = 66
+
+[[textures]]
+id = "RED_SPINY"
+path = "data/resources/Spiny/RedSpiny.png"
+animated = true
+width = 33
+height = 32
+image_width = 66
+
+[[textures]]
+id = "GREEN_SPINY"
+path = "data/resources/Spiny/GreenSpiny.png"
+animated = true
+width = 33
+height = 32
+image_width = 66
+
+[[textures]]
+id = "FIRE_FLOWER"
+path = "data/resources/FireFlower.png"
+animated = true
+width = 32
+height = 32
+image_width = 128
+
+[[textures]]
+id = "BEETROOT"
+path = "data/resources/Beetroot.png"
+animated = true
+width = 32
+height = 33
+image_width = 128
+
+[[textures]]
+id = "THWOMP"
+path = "data/resources/Thwomp/Thwomp.png"
+animated = true
+width = 64
+height = 66
+image_width = 64
+
+[[textures]]
+id = "DEAD_GOOMBA"
+path = "data/resources/Goomba/DEAD_Goomba.png"
+animated = true
+width = 31
+height = 32
+image_width = 62
+
+[[textures]]
+id = "DEAD_GREEN_KOOPA"
+path = "data/resources/Koopa/DEAD_GreenKoopa.png"
+animated = true
+width = 33
+height = 28
+image_width = 33
+
+[[textures]]
+id = "DEAD_RED_KOOPA"
+path = "data/resources/Koopa/DEAD_RedKoopa.png"
+animated = true
+width = 33
+height = 28
+image_width = 33
+
+[[textures]]
+id = "DEAD_RED_SPINY"
+path = "data/resources/Spiny/DEAD_RedSpiny.png"
+animated = true
+width = 33
+height = 32
+image_width = 33
+
+[[textures]]
+id = "DEAD_GREEN_SPINY"
+path = "data/resources/Spiny/DEAD_GreenSpiny.png"
+animated = true
+width = 33
+height = 32
+image_width = 33
+
+[[textures]]
+id = "BULLET_BILL"
+path = "data/resources/BulletBill/BulletBillNormal.png"
+animated = false
+width = 34
+height = 28
+
+[[textures]]
+id = "COIN_EFFECT"
+path = "data/resources/CoinEffect.png"
+animated = true
+width = 37
+height = 32
+image_width = 296
+custom_animated = [0, 1, 2, 2, 2, 1, 3, 0, 1, 2, 2, 2, 1, 3, 4, 4, 5, 5, 6, 6, 7]
+
+[[textures]]
+id = "SCORE_100"
+path = "data/resources/Score.png"
+animated = false
+width = 26
+height = 16
+
+[[textures]]
+id = "SCORE_200"
+path = "data/resources/Score.png"
+animated = false
+y = 16
+width = 28
+height = 16
+
+[[textures]]
+id = "SCORE_500"
+path = "data/resources/Score.png"
+animated = false
+y = 32
+width = 28
+height = 16
+
+[[textures]]
+id = "SCORE_1000"
+path = "data/resources/Score.png"
+animated = false
+y = 48
+width = 34
+height = 16
+
+[[textures]]
+id = "SCORE_2000"
+path = "data/resources/Score.png"
+animated = false
+y = 64
+width = 35
+height = 16
+
+[[textures]]
+id = "SCORE_5000"
+path = "data/resources/Score.png"
+animated = false
+y = 80
+width = 36
+height = 16
+
+[[textures]]
+id = "SCORE_10000"
+path = "data/resources/Score.png"
+animated = false
+y = 96
+width = 42
+height = 16
+
+[[textures]]
+id = "SCORE_1UP"
+path = "data/resources/Score.png"
+animated = false
+y = 112
+width = 32
+height = 16
+
+[[textures]]
+id = "BLUE_CLOUD"
+path = "data/resources/Scenery/BlueCloud.png"
+animated = true
+width = 64
+height = 64
+image_width = 192
+
+[[textures]]
+id = "BLUE_GRASS"
+path = "data/resources/Scenery/BlueGrass.png"
+animated = true
+width = 64
+height = 32
+image_width = 192
+
+[[textures]]
+id = "TANK_TILE_BACK"
+path = "data/resources/Scenery/TankTileBack.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "HAMMER_BRO_NORMAL"
+path = "data/resources/Bro/HammerBro.png"
+animated = true
+width = 48
+height = 64
+image_width = 96
+
+[[textures]]
+id = "FIRE_BRO_NORMAL"
+path = "data/resources/Bro/FireBro.png"
+animated = true
+width = 48
+height = 64
+image_width = 96
+
+[[textures]]
+id = "HAMMER_BRO_LAUNCH"
+path = "data/resources/Bro/HammerBro.png"
+animated = true
+y = 64
+width = 48
+height = 64
+image_width = 96
+
+[[textures]]
+id = "FIRE_BRO_LAUNCH"
+path = "data/resources/Bro/FireBro.png"
+animated = true
+y = 64
+width = 48
+height = 64
+image_width = 96
+
+[[textures]]
+id = "DEAD_HAMMER_BRO"
+path = "data/resources/Bro/DEAD_HammerBro.png"
+animated = true
+width = 48
+height = 64
+image_width = 48
+
+[[textures]]
+id = "DEAD_FIRE_BRO"
+path = "data/resources/Bro/DEAD_FireBro.png"
+animated = true
+width = 48
+height = 64
+image_width = 48
+
+[[textures]]
+id = "ROTODISC"
+path = "data/resources/Rotodisc.png"
+animated = true
+width = 34
+height = 32
+image_width = 884
+
+[[textures]]
+id = "ROTODISC_BASE"
+path = "data/resources/RotodiscBase.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "SMALL_MARIO"
+path = "data/resources/SmallMario.png"
+animated = true
+width = 31
+height = 62
+image_width = 310
+
+[[textures]]
+id = "BIG_MARIO"
+path = "data/resources/BigMario.png"
+animated = true
+width = 31
+height = 62
+image_width = 310
+
+[[textures]]
+id = "FIRE_MARIO"
+path = "data/resources/FireMario.png"
+animated = true
+width = 31
+height = 62
+image_width = 310
+
+[[textures]]
+id = "BEETROOT_MARIO"
+path = "data/resources/BeetrootMario.png"
+animated = true
+width = 31
+height = 62
+image_width = 310
+
+[[textures]]
+id = "RED_PLATFORM"
+path = "data/resources/Platform/RedPlatform.png"
+animated = false
+width = 95
+height = 32
+
+[[textures]]
+id = "RED_SMALL_PLATFORM"
+path = "data/resources/Platform/RedPlatform.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "BLUE_PLATFORM"
+path = "data/resources/Platform/BluePlatform.png"
+animated = false
+width = 95
+height = 32
+
+[[textures]]
+id = "BLUE_SMALL_PLATFORM"
+path = "data/resources/Platform/BluePlatform.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "TANK_GROUND"
+path = "data/resources/TankGround.png"
+animated = false
+width = 672
+height = 64
+
+[[textures]]
+id = "GREEN_PIRANHA_UP"
+path = "data/resources/Piranha/GreenPiranhaUp.png"
+animated = true
+width = 64
+height = 64
+image_width = 256
+
+[[textures]]
+id = "GREEN_PIRANHA_DOWN"
+path = "data/resources/Piranha/GreenPiranhaDown.png"
+animated = true
+width = 64
+height = 64
+image_width = 256
+
+[[textures]]
+id = "GREEN_PIRANHA_RIGHT"
+path = "data/resources/Piranha/GreenPiranhaRight.png"
+animated = true
+width = 64
+height = 64
+image_width = 256
+
+[[textures]]
+id = "GREEN_PIRANHA_LEFT"
+path = "data/resources/Piranha/GreenPiranhaLeft.png"
+animated = true
+width = 64
+height = 64
+image_width = 256
+
+[[textures]]
+id = "PINK_PIRANHA_UP"
+path = "data/resources/Piranha/PinkPiranhaUp.png"
+animated = true
+width = 64
+height = 64
+image_width = 128
+
+[[textures]]
+id = "PINK_PIRANHA_DOWN"
+path = "data/resources/Piranha/PinkPiranhaDown.png"
+animated = true
+width = 64
+height = 64
+image_width = 128
+
+[[textures]]
+id = "PINK_PIRANHA_RIGHT"
+path = "data/resources/Piranha/PinkPiranhaRight.png"
+animated = true
+width = 64
+height = 64
+image_width = 128
+
+[[textures]]
+id = "PINK_PIRANHA_LEFT"
+path = "data/resources/Piranha/PinkPiranhaLeft.png"
+animated = true
+width = 64
+height = 64
+image_width = 128
+
+[[textures]]
+id = "COIN_NORMAL"
+path = "data/resources/Coin.png"
+animated = true
+width = 32
+height = 32
+image_width = 96
+
+[[textures]]
+id = "CASTLE_SPIKE_UP"
+path = "data/resources/Spike/Spike.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "PIRANHA_GROUND"
+path = "data/resources/Spike/PiranhaGround.png"
+animated = true
+width = 32
+height = 32
+image_width = 128
+
+[[textures]]
+id = "EXIT_GATE_BACK"
+path = "data/resources/ExitGateBack.png"
+animated = false
+width = 95
+height = 288
+
+[[textures]]
+id = "EXIT_GATE_FORE"
+path = "data/resources/ExitGateFore.png"
+animated = false
+width = 44
+height = 16
+
+[[textures]]
+id = "EXIT_GATE_FORE_EFFECT"
+path = "data/resources/ExitGateForeEffect.png"
+animated = false
+width = 44
+height = 16
+
+[[textures]]
+id = "EXIT_INDICATOR"
+path = "data/resources/ExitGateIndicator.png"
+animated = true
+width = 31
+height = 32
+image_width = 93
+
+[[textures]]
+id = "FIREBALL_EXPLOSION"
+path = "data/resources/FireballExplosion.png"
+animated = true
+width = 33
+height = 30
+image_width = 99
+
+[[textures]]
+id = "DEAD_MARIO"
+path = "data/resources/MarioDead.png"
+animated = false
+width = 31
+height = 31
+
+[[textures]]
+id = "BRICK_PARTICLE"
+path = "data/resources/BrickParticle.png"
+animated = false
+width = 16
+height = 16
+
+[[textures]]
+id = "GRAY_BRICK_PARTICLE"
+path = "data/resources/BrickParticle.png"
+animated = false
+x = 16
+width = 16
+height = 16
+
+[[textures]]
+id = "BRICK"
+path = "data/resources/Brick.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "BRICK_HIT"
+path = "data/resources/Brick.png"
+animated = false
+y = 32
+width = 32
+height = 32
+
+[[textures]]
+id = "GRAY_BRICK"
+path = "data/resources/Brick.png"
+animated = false
+x = 32
+width = 32
+height = 32
+
+[[textures]]
+id = "GRAY_BRICK_HIT"
+path = "data/resources/Brick.png"
+animated = false
+x = 32
+y = 32
+width = 32
+height = 32
+
+[[textures]]
+id = "LUCKY_BLOCK"
+path = "data/resources/luckyblock.png"
+animated = true
+width = 32
+height = 32
+image_width = 128
+
+[[textures]]
+id = "TREE_LUCKY_BLOCK"
+path = "data/resources/luckyblock.png"
+animated = true
+x = 64
+y = 32
+width = 32
+height = 32
+image_width = 64
+
+[[textures]]
+id = "BULLET_LAUNCHER"
+path = "data/resources/BulletLauncher.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "BULLET_LAUNCHER_FLIPPED"
+path = "data/resources/BulletLauncherFlipped.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "GEAR_LAUNCHER"
+path = "data/resources/GearLauncherUp.png"
+animated = false
+width = 64
+height = 64
+
+[[textures]]
+id = "GEAR_LAUNCHER_FLIPPED"
+path = "data/resources/GearLauncherDown.png"
+animated = false
+width = 64
+height = 64
+
+[[textures]]
+id = "FIRE_LAUNCHER"
+path = "data/resources/FireLauncher.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "FIRE_LAUNCHER_FLIPPED"
+path = "data/resources/FireLauncherFlipped.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "FIRE_LAUNCHER_STAND"
+path = "data/resources/FireLauncherStand.png"
+animated = false
+width = 64
+height = 96
+
+[[textures]]
+id = "TANK_GEAR_LEFT"
+path = "data/resources/TankGearLeft.png"
+animated = true
+width = 32
+height = 32
+image_width = 96
+
+[[textures]]
+id = "TANK_GEAR_MIDDLE"
+path = "data/resources/TankGearMiddle.png"
+animated = true
+width = 32
+height = 32
+image_width = 96
+
+[[textures]]
+id = "TANK_GEAR_RIGHT"
+path = "data/resources/TankGearRight.png"
+animated = true
+width = 32
+height = 32
+image_width = 96
+
+[[textures]]
+id = "CHECKPOINT"
+path = "data/resources/Checkpoint.png"
+animated = true
+width = 107
+height = 112
+image_width = 321
+
+[[textures]]
+id = "PROJECTILE_HAMMER"
+path = "data/resources/Projectiles/Hammer.png"
+animated = false
+width = 24
+height = 32
+
+[[textures]]
+id = "PROJECTILE_FIREBALL"
+path = "data/resources/Projectiles/Fireball.png"
+animated = false
+width = 15
+height = 16
+
+[[textures]]
+id = "PROJECTILE_BEETROOT"
+path = "data/resources/Projectiles/Beetroot_Projectile.png"
+animated = false
+width = 23
+height = 32
+
+[[textures]]
+id = "PROJECTILE_GEAR"
+path = "data/resources/Projectiles/GearProjectile.png"
+animated = false
+width = 40
+height = 40
+
+[[textures]]
+id = "PROJECTILE_FIRE_LAUNCHER"
+path = "data/resources/Projectiles/FireLauncherProjectile.png"
+animated = false
+width = 25
+height = 26

@@ -2,6 +2,7 @@
 #include <config.h>
 #include <queue>
 #include "Core/Scroll.hpp"
+#include "Core/WindowFrame.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
 
 std::queue<HitboxUtils::HitboxDetail> m_hitboxDebug;
@@ -17,7 +18,7 @@ void HitboxUtils::drawHitbox() {
     hitbox.setOutlineThickness(1.f);
     const sf::Vector2f outlineOffset(hitbox.getOutlineThickness(), hitbox.getOutlineThickness());
     while (!m_hitboxDebug.empty()) {
-        if (isOutOfScreen(MFCPP::CollisionObject(m_hitboxDebug.front().position, sf::Vector2f(0.f, 0.f), m_hitboxDebug.front().hitbox), 0.f)) {
+        if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_hitboxDebug.front().position, sf::Vector2f(0.f, 0.f), m_hitboxDebug.front().hitbox), 0.f)) {
             m_hitboxDebug.pop();
             continue;
         }
@@ -25,7 +26,7 @@ void HitboxUtils::drawHitbox() {
         hitbox.setPosition(m_hitboxDebug.front().position + m_hitboxDebug.front().hitbox.position + outlineOffset);
         hitbox.setOutlineColor(m_hitboxDebug.front().color);
         m_hitboxDebug.pop();
-        window.draw(hitbox);
+        WindowFrame::getWindow().draw(hitbox);
     }
 #endif
 }

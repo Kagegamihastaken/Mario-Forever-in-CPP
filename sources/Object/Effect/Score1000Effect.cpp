@@ -8,7 +8,7 @@ Score1000Effect::Score1000Effect(EffectManager &manager, const sf::Vector2f &pos
     : Effect(manager),
     m_transform(position, sf::Vector2f(17.f, 15.f), sf::degrees(0.f)){
     m_hitbox = sf::FloatRect({0.f, 0.f}, {34.f, 16.f});
-    m_animation.setTexture("Score_1000");
+    m_animation.setTexture("SCORE_1000");
     m_alpha = 255.f;
     m_velocity = {0.f, -1.5f};
     Mario::setScore(Mario::getScore() + 1000);

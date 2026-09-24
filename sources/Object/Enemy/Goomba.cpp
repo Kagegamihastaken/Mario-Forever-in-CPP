@@ -7,14 +7,15 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 Goomba::Goomba(EnemyManager &manager, const sf::Vector2f& position)
     : Enemy(manager),
     m_transform(position, sf::Vector2f(15.f, 31.f), sf::degrees(0.f)){
     m_animation.setAnimation(0, 1, 11, true);
-    m_animation.setAnimationSequence("GoombaAnimName");
+    m_animation.setAnimationSequence("GOOMBA");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {31.f, 32.f});
     m_wall_hitbox = sf::FloatRect(m_hitbox.position, m_hitbox.size - sf::Vector2f(0.f, 6.f));
     m_velocity = sf::Vector2f(1.f, 0.f);
@@ -50,7 +51,7 @@ void Goomba::MarioCollision(const float MarioYVelocity) {
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+            GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
             Death(1);
             return;
         }
@@ -101,7 +102,7 @@ void Goomba::YUpdate(const float deltaTime) {
 
 void Goomba::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(2);
 }
@@ -133,7 +134,7 @@ void Goomba::Death(unsigned int state) {
     m_state = state;
     switch (m_state) {
         case 1:
-            m_animation.setAnimationSequence("GoombaDeathEffectFirst");
+            m_animation.setAnimationSequence("DEAD_GOOMBA");
             m_animation.setAnimation(0,0,100);
             setShellKicking(false);
             setShellBlocker(false);
@@ -142,8 +143,8 @@ void Goomba::Death(unsigned int state) {
             break;
         case 2:
             m_velocity = sf::Vector2f(0.f, -3.f);
-            m_animation.setAnimationSequence("GoombaDeathEffectSecond");
-            m_animation.setAnimation(0,0,100);
+            m_animation.setAnimationSequence("DEAD_GOOMBA");
+            m_animation.setAnimation(1,1,100);
             setShellKicking(false);
             setShellBlocker(false);
             setDrawingPriority(3);

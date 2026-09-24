@@ -1,6 +1,5 @@
 #include "Object/Enemy/BulletBillLauncher.hpp"
 
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
@@ -8,15 +7,15 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Object/CustomTile/Behavior/BulletBillLauncherBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
 #include "Object/Enemy/BulletBill.hpp"
 
 BulletBillLauncher::BulletBillLauncher(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(16.f, 31.f), sf::degrees(0.f)){
-    m_animation.setTexture("BulletLauncher");
+    m_animation.setTexture("BULLET_LAUNCHER");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x - getOrigin().x, position.y - getOrigin().y, true);
     MFCPP::Tilemap::setIndexTilemapID(position.x - getOrigin().x, position.y - getOrigin().y, 0);
@@ -66,7 +65,7 @@ void BulletBillLauncher::statusUpdate(float deltaTime) {
             default: ;
         }
         const auto dir = (m_transform.getCurrentPosition().x > Mario::getCurrentPosition().x ? false : !EffectActive);
-        AddFireballExplosion(m_transform.getCurrentPosition().x - getOrigin().x * (dir ? -1.f : 1.f), m_transform.getCurrentPosition().y - 32.f / 2.f + 1.f);
+        GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x - getOrigin().x * (dir ? -1.f : 1.f), m_transform.getCurrentPosition().y - 32.f / 2.f + 1.f));
         GameScene::enemyManager.addEnemy<BulletBill>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y), 3.75f, dir);
     }
 }

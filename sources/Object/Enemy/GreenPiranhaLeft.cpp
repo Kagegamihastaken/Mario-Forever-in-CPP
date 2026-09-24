@@ -13,7 +13,7 @@
 GreenPiranhaLeft::GreenPiranhaLeft(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::LEFT, position), sf::Vector2f(0.f, 32.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("GreenPiranhaLeftAnimName");
+    m_animation.setAnimationSequence("GREEN_PIRANHA_LEFT");
     m_animation.setAnimation(0, 3, 24, true);
     m_hitbox = sf::FloatRect({ 0.f, 17.f }, { 47.f, 31.f });
 

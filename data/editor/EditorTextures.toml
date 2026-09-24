@@ -1,0 +1,168 @@
+[[textures]]
+id = "EDITOR_SELECT_BOX"
+path = "data/editor/EDITOR_SelectBox.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_GRID"
+path = "data/editor/EDITOR_Grid.png"
+animated = false
+is_repeated = true
+width = 64
+height = 64
+
+[[textures]]
+id = "EDITOR_MUSHROOM_LUCKY_BLOCK"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Mushroom_Luckyblock.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_COIN_LUCKY_BLOCK"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Coin_Luckyblock.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_COIN_BRICK"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Coin_Brick.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_HAMMER_BRO_CAN_MOVE"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Hammer_CanMove.png"
+animated = false
+width = 48
+height = 64
+
+[[textures]]
+id = "EDITOR_HAMMER_BRO_CANNOT_MOVE"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Hammer_CannotMove.png"
+animated = false
+width = 48
+height = 64
+
+[[textures]]
+id = "EDITOR_FIRE_BRO_CAN_MOVE"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Fire_CanMove.png"
+animated = false
+width = 48
+height = 64
+
+[[textures]]
+id = "EDITOR_FIRE_BRO_CANNOT_MOVE"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Fire_CannotMove.png"
+animated = false
+width = 48
+height = 64
+
+[[textures]]
+id = "EDITOR_FIRE_FLOWER_LUCKY_BLOCK"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_FireFlower_Luckyblock.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_BEETROOT_LUCKY_BLOCK"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Beetroot_LuckyBlock.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_GREEN_MUSHROOM_LUCKY_BLOCK"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_GreenMushroom_LuckyBlock.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_ROTODISC_ROUND"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Rotodisc_Round.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_ROTODISC_FLOWER"
+path = "data/editor/EDITOR_Select_Tile_Exclusive/EDITOR_Rotodisc_Flower.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_SELECT_TILE_BACKGROUND"
+path = "data/editor/EDITOR_TileSelectBackGround.png"
+animated = false
+width = 640
+height = 480
+
+[[textures]]
+id = "EDITOR_SELECT_TILE_GRID"
+path = "data/editor/EDITOR_SelectTileGrid.png"
+animated = false
+width = 480
+height = 352
+
+[[textures]]
+id = "EDITOR_SELECT_TILE_BOX"
+path = "data/editor/EDITOR_SelectTileBox.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "EDITOR_TILE_TAB"
+path = "data/editor/EDITOR_Tab/EDITOR_TileTab.png"
+animated = false
+width = 34
+height = 34
+
+[[textures]]
+id = "EDITOR_BONUS_TAB"
+path = "data/editor/EDITOR_Tab/EDITOR_BonusTab.png"
+animated = false
+width = 34
+height = 34
+
+[[textures]]
+id = "EDITOR_ENEMY_TAB"
+path = "data/editor/EDITOR_Tab/EDITOR_EnemyTab.png"
+animated = false
+width = 34
+height = 34
+
+[[textures]]
+id = "EDITOR_LEVEL_TAB"
+path = "data/editor/EDITOR_Tab/EDITOR_LevelTab.png"
+animated = false
+width = 34
+height = 34
+
+[[textures]]
+id = "EDITOR_SCENERY_TAB"
+path = "data/editor/EDITOR_Tab/EDITOR_SceneryTab.png"
+animated = false
+width = 34
+height = 34
+
+[[textures]]
+id = "EDITOR_PLATFORM_TAB"
+path = "data/editor/EDITOR_Tab/EDITOR_PlatformTab.png"
+animated = false
+width = 34
+height = 34
+
+[[textures]]
+id = "EDITOR_SETTING"
+path = "data/editor/EDITOR_Tab/EDITOR_Settings.png"
+animated = false
+width = 58
+height = 54

@@ -1,64 +1,28 @@
 #include "Core/Scene/EditorScene.hpp"
 
-#include "Block/Brick.hpp"
-#include "Block/BulletLauncher.hpp"
-#include "Block/CustomBlock.hpp"
-#include "Block/LuckyBlock.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/Bg.hpp"
 #include "Core/Background/BgGradient.hpp"
 #include "Editor/Editor.hpp"
-#include "Effect/BrickParticle.hpp"
-#include "Effect/BroAIEffect.hpp"
-#include "Effect/CoinEffect.hpp"
-#include "Effect/FireballExplosion.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Object/BroAI.hpp"
-#include "Object/BulletBillAI.hpp"
 #include "Object/Coin.hpp"
 #include "Object/ExitGate.hpp"
-#include "Object/GoombaAI.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
-#include "Object/Platform.hpp"
-#include "Object/Spike.hpp"
-#include "Projectiles/ProjectileHelper.hpp"
 #include "Text/Text.hpp"
-#include "Core/Checkpoint.hpp"
-#include "Effect/ScoreEffect.hpp"
-#include "Object/SceneryHelper.hpp"
 #include "Core/Scroll.hpp"
+#include "Core/TextureConfig.hpp"
 
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
     loadObstacleTemp();
-    Mario::loadMarioRes();
-
-    BrickParticleInit();
-    BricksInitTemp();
-    LuckyBLockTemp();
-    GoombaAIInit();
-    ProjectileInit();
-    BroAILoadRes();
-    BroAIEffectInit();
-    CoinEffectInit();
+    MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
+    MFCPP::TextureConfig::loadFile("data/editor/EditorTextures.toml");
     CoinInit();
     ForceLoadCoinTexture();
-    ScoreEffectInit();
-    GoombaAIEffectInit();
-    PiranhaAIInit();
-    SpikeInit();
     MarioEffectInit();
     BgInit();
     ExitGateInit();
-    FireballExplosionInit();
-    BulletBillInit();
-    PlatformInit();
-    CheckpointInit();
-    SceneryInit();
-    CustomBlockInit();
     //
     SelectTileInit();
     EditorInit();

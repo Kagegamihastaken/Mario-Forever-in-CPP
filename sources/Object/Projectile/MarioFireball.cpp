@@ -7,14 +7,15 @@
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Object/Projectile/Behavior/FireballBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
+#include "Object/Effect/Score100Effect.hpp"
+#include "Object/Effect/Score200Effect.hpp"
 
 MarioFireball::MarioFireball(ProjectileManager &manager, const bool direction, const sf::Vector2f &position)
     : Projectile(manager),
     m_direction(direction),
     m_transform(position, sf::Vector2f(7.f, 16.f), sf::degrees(0.f)){
-    m_animation.setTexture("Fireball", true);
+    m_animation.setTexture("PROJECTILE_FIREBALL", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {15.f, 16.f});
     m_velocity = {8.125f, 0.f};
     setDrawingPriority(2);
@@ -26,7 +27,7 @@ void MarioFireball::updatePreviousData() {
 }
 
 void MarioFireball::FireballEffect() {
-    AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f);
+    GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f));
 }
 
 void MarioFireball::statusUpdate(float deltaTime) {
@@ -71,7 +72,7 @@ void MarioFireball::CollisionUpdate() {
         if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt.getHitbox(), jt.getPosition(), jt.getOrigin()); isCollide(EnemyGoombaAICollide, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.ShellHit();
-                AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y));
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
                 FireballEffect();
                 Destroy();
@@ -85,7 +86,7 @@ void MarioFireball::CollisionUpdate() {
         if (sf::FloatRect loopHitbox = getGlobalHitbox(jt.getHitbox(), jt.getPosition(), jt.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.ShellHit();
-                AddScoreEffect(ScoreID::SCORE_200, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
+                GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y));
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
                 FireballEffect();
                 Destroy();
@@ -99,7 +100,7 @@ void MarioFireball::CollisionUpdate() {
         if (sf::FloatRect loopPiranhaHitbox = getGlobalHitbox(jt.getHitbox(), jt.getPosition(), jt.getOrigin()); isCollide(loopPiranhaHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.Death(0);
-                AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y));
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
                 FireballEffect();
                 Destroy();
@@ -124,7 +125,7 @@ void MarioFireball::Destroy() {
 }
 
 void MarioFireball::LevelEndCleanup() {
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     Destroy();
 }
 

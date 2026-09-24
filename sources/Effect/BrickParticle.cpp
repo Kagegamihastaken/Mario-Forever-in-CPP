@@ -1,14 +1,9 @@
-#include "../../headers/Core/Enumeration/enum.hpp"
+#include "Core/Enumeration/enum.hpp"
 #include "Effect/BrickParticle.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Effect/NormalBrickParticle.hpp"
 
-void BrickParticleInit() {
-	//Load with Brick
-	ImageManager::PreloadTexture("NormalBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({0, 0}, {16, 16}));
-	ImageManager::PreloadTexture("GrayBrickParticle", "data/resources/BrickParticle.png", sf::IntRect({16, 0}, {16, 16}));
-}
 void AddSubBrickParticle(const BrickID id, float Xvelo, float Yvelo, const float ori_x, const float ori_y) {
 	GameScene::effectManager.addEffect<NormalBrickParticle>(sf::Vector2f(Xvelo, Yvelo), sf::Vector2f(ori_x, ori_y));
 }

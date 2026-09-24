@@ -14,7 +14,7 @@
 GreenPiranhaDown::GreenPiranhaDown(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::DOWN, position), sf::Vector2f(32.f, 0.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("GreenPiranhaDownAnimName");
+    m_animation.setAnimationSequence("GREEN_PIRANHA_DOWN");
     m_animation.setAnimation(0, 3, 24, true);
     m_hitbox = sf::FloatRect({16.f, 0.f}, {31.f, 47.f});
 

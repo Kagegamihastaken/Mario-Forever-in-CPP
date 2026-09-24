@@ -7,15 +7,16 @@
 #include "Core/Object/CustomTileManager.hpp"
 #include "Core/Object/CustomTile/Behavior/BumpBehavior.hpp"
 #include "Core/Object/CustomTile/Behavior/HitBehavior.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/BrickParticle.hpp"
-#include "Effect/CoinEffect.hpp"
 #include "Object/Coin.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/NormalCoinEffect.hpp"
 
 NormalCoinBrick::NormalCoinBrick(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
-    m_animation.setTexture("NormalBrick");
+    m_animation.setTexture("BRICK");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);
     MFCPP::Tilemap::setIndexTilemapID(position.x, position.y, 1);
@@ -54,14 +55,14 @@ void NormalCoinBrick::Hit() {
     }
     else {
         if (m_time > m_time_limit) {
-            m_animation.setTexture("NormalHittedBrick");
+            m_animation.setTexture("BRICK_HIT");
             m_disabled = true;
         }
     }
     m_state = true;
     m_updown = false;
     m_state_count = 0.f;
-    AddCoinEffect(CoinID::NORMAL, CoinAtt::ONE_COIN, m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y);
+    GameScene::effectManager.addEffect<NormalCoinEffect>(sf::Vector2f(m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y));
     ++CoinCount;
     SoundManager::PlaySound(SoundID::GAME_COIN);
 

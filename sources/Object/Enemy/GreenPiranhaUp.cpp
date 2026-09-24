@@ -1,7 +1,6 @@
 #include "Object/Enemy/GreenPiranhaUp.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Utility.hpp"
@@ -10,12 +9,11 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
 
 GreenPiranhaUp::GreenPiranhaUp(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::UP, position), sf::Vector2f(32.f, 63.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("GreenPiranhaUpAnimName");
+    m_animation.setAnimationSequence("GREEN_PIRANHA_UP");
     m_animation.setAnimation(0, 3, 24, true);
     m_hitbox = sf::FloatRect({16.f, 17.f}, {31.f, 47.f});
 

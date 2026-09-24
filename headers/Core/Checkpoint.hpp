@@ -1,7 +1,6 @@
 #ifndef MFCPP_CHECKPOINT_HPP
 #define MFCPP_CHECKPOINT_HPP
 
-extern void CheckpointInit();
 extern void AddCheckpoint(const sf::Vector2f& pos);
 extern void CheckpointAnimationUpdate(float deltaTime);
 extern void CheckpointCollision();

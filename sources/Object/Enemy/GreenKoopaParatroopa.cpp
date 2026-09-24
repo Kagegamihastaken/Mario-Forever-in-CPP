@@ -8,9 +8,10 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
 #include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 #include "Object/Enemy/GreenKoopa.hpp"
 
 GreenKoopaParatroopa::GreenKoopaParatroopa(EnemyManager &manager, const sf::Vector2f& position, float angle)
@@ -28,7 +29,7 @@ GreenKoopaParatroopa::GreenKoopaParatroopa(EnemyManager &manager, const sf::Vect
     m_speed = 2.f;
     m_angle = angle;
     m_animation.setAnimation(0, 1, 11, true);
-    m_animation.setAnimationSequence("GreenKoopaParatroopaAnimName");
+    m_animation.setAnimationSequence("GREEN_KOOPA_PARATROOPA");
     m_state = 0;
     setShellKicking(true);
     setShellBlocker(false);
@@ -47,7 +48,7 @@ void GreenKoopaParatroopa::MarioCollision(const float MarioYVelocity) {
         if (m_state == 0) {
             if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
-                AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
                 m_enemyManager.addEnemy<GreenKoopa>(m_transform.getCurrentPosition(), false);
                 Destroy();
                 return;
@@ -128,7 +129,7 @@ void GreenKoopaParatroopa::ChangeState() {
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             m_transform.setOrigin(sf::Vector2f(16,27));
             m_velocity = sf::Vector2f(0.f, -3.f);
-            m_animation.setAnimationSequence("GreenKoopaDeathEffect");
+            m_animation.setAnimationSequence("DEAD_GREEN_KOOPA");
             m_animation.setAnimation(0,0,100);
             setCollideEachOther(false);
             setShellBlocker(false);

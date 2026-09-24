@@ -7,13 +7,14 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 BulletBill::BulletBill(EnemyManager &manager, const sf::Vector2f &position, const float speed, const bool direction)
     : Enemy(manager),
     m_transform(position, sf::Vector2f(16.f, 28.f), sf::degrees(0.f)){
-    m_animation.setTexture("BulletBillNormal_0");
+    m_animation.setTexture("BULLET_BILL");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {34.f, 28.f});
     m_velocity = sf::Vector2f(speed,0.f);
     setDirection(direction);
@@ -39,7 +40,7 @@ void BulletBill::MarioCollision(float MarioYVelocity) {
     if (const sf::FloatRect other = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(hitbox_mario, other)) {
         if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+            GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
             Death(1);
             return;
         }

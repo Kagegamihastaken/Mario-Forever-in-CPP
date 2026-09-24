@@ -9,14 +9,14 @@
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 #include "Object/Projectile/GearProjectileEffect.hpp"
 
 GearProjectile::GearProjectile(ProjectileManager &manager, const sf::Vector2f &position, const sf::Vector2f& velocity)
     : Projectile(manager),
     m_transform(position, sf::Vector2f(20.f, 20.f), sf::degrees(0.f)){
-    m_animation.setTexture("GearProjectile", true);
+    m_animation.setTexture("PROJECTILE_GEAR", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {40.f, 40.f});
     m_timeEffect = 0.f;
     m_timeEffectMax = 2.5f;
@@ -75,7 +75,7 @@ void GearProjectile::Destroy() {
 }
 
 void GearProjectile::LevelEndCleanup() {
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     Destroy();
 }
 

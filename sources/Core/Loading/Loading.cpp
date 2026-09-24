@@ -33,7 +33,7 @@ namespace MFCPP {
 		//if (!texture.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));
 		//vec.clear();
 	}
-	void IO::LoadLvl(std::string& lvl, const std::filesystem::path &path) {
+	void IO::LoadRaw(std::string& lvl, const std::filesystem::path &path) {
 		std::vector<uint8_t> vec = Loadbyte(path);
 		lvl.assign(vec.begin(), vec.end());
 		vec.clear();

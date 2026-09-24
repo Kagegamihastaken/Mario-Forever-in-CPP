@@ -2,7 +2,6 @@
 
 #include "Core/AutoScroll.hpp"
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/MovingBlockManager.hpp"
@@ -14,7 +13,7 @@ TankGround::TankGround(MovingBlockManager &manager, const sf::Vector2f &pos)
     : MovingBlock(manager),
     m_transform(pos, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     m_hitbox = sf::FloatRect({0.f, 0.f}, {1920.f, 64.f});
-    m_animation.setTexture("TankGround");
+    m_animation.setTexture("TANK_GROUND");
     m_prev_ViewX = MFCPP::AutoScroll::getPosition().x;
     m_step = false;
     setCanCollision(true);

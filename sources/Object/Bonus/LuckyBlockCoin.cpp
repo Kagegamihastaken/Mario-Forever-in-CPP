@@ -10,14 +10,14 @@
 #include "Core/Object/CustomTile/Behavior/HitBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Effect/BrickParticle.hpp"
-#include "Effect/CoinEffect.hpp"
 #include "Object/Coin.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/NormalCoinEffect.hpp"
 
 LuckyBlockCoin::LuckyBlockCoin(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("NormLuckyBlockAnimName");
+    m_animation.setAnimationSequence("LUCKY_BLOCK");
     m_animation.setAnimation(0, 2, 9, true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);
@@ -51,7 +51,7 @@ void LuckyBlockCoin::Hit() {
     m_updown = false;
     m_state_count = 0.f;
     m_animation.setAnimation(3, 3, 9);
-    AddCoinEffect(CoinID::NORMAL, CoinAtt::ONE_COIN, m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y);
+    GameScene::effectManager.addEffect<NormalCoinEffect>(sf::Vector2f(m_transform.getCurrentPosition().x + 15.0f, m_transform.getCurrentPosition().y));
     ++CoinCount;
     SoundManager::PlaySound(SoundID::GAME_COIN);
 

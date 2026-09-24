@@ -7,14 +7,14 @@
 #include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
 #include "Object/Enemy/GearLauncher.hpp"
 #include "Object/Projectile/GearProjectile.hpp"
 
 GearLauncherFlipped::GearLauncherFlipped(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(32.f, 41.f), sf::degrees(0.f)){
-    m_animation.setTexture("GearLauncherDown");
+    m_animation.setTexture("GEAR_LAUNCHER_FLIPPED");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {64.f, 64.f});
 
     m_timePass = 0.f;
@@ -60,7 +60,7 @@ void GearLauncherFlipped::statusUpdate(float deltaTime) {
     if (m_timePass > m_timePassLimit) {
         m_timePass = 0.f;
         GameScene::projectileManager.addProjectile<GearProjectile>(m_transform.getCurrentPosition(), sf::Vector2f(Utility::RandomFloatNumberGenerator(0.f, 2.f) - Utility::RandomFloatNumberGenerator(0, 4), 4.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 1))));
-        AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y);
+        GameScene::effectManager.addEffect<FireballExplosionEffect>(m_transform.getCurrentPosition());
         SoundManager::PlaySound(SoundID::GAME_CHILUN);
     }
 }

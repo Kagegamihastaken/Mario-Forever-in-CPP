@@ -9,7 +9,7 @@ Score1UPEffect::Score1UPEffect(EffectManager &manager, const sf::Vector2f &posit
     : Effect(manager),
     m_transform(position, sf::Vector2f(16.f, 15.f), sf::degrees(0.f)){
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 16.f});
-    m_animation.setTexture("Score_1UP");
+    m_animation.setTexture("SCORE_1UP");
     m_alpha = 255.f;
     m_velocity = {0.f, -1.5f};
     Mario::setLives(Mario::getLives() + 1);

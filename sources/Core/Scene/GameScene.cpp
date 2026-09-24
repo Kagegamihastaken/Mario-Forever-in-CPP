@@ -1,45 +1,28 @@
 #include <fmt/format.h>
 
 #include "Core/Scene/GameScene.hpp"
-#include "Block/Brick.hpp"
-#include "Block/BulletLauncher.hpp"
-#include "Block/LuckyBlock.hpp"
 #include "Core/SceneManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/Bg.hpp"
 #include "Core/Background/BgGradient.hpp"
-#include "Effect/BrickParticle.hpp"
-#include "Effect/BroAIEffect.hpp"
-#include "Effect/CoinEffect.hpp"
-#include "Effect/FireballExplosion.hpp"
-#include "Effect/GoombaAIEffect.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
-#include "Object/BroAI.hpp"
-#include "Object/BulletBillAI.hpp"
 #include "Object/Coin.hpp"
 #include "Object/ExitGate.hpp"
-#include "Object/GoombaAI.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
-#include "Object/Platform.hpp"
-#include "Object/Spike.hpp"
 #include "Text/Text.hpp"
 
-#include "Block/CustomBlock.hpp"
 #include "Core/Level.hpp"
 #include "Core/Time.hpp"
-#include "Projectiles/ProjectileHelper.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/HitboxUtils.hpp"
+#include "Core/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
-#include "Object/RotodiscAI.hpp"
-#include "Object/SceneryHelper.hpp"
+#include "Object/Enemy/Thwomp.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -57,6 +40,9 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
         switch (mousePressed->button) {
             case sf::Mouse::Button::Middle:
                 Mario::SetPowerState(3);
+                break;
+            case sf::Mouse::Button::Left:
+                //enemyManager.addEnemy<Thwomp>(WindowFrame::getMousePosition());
                 break;
             default: ;
         }
@@ -215,33 +201,14 @@ void GameScene::loadResources() {
     //Load Resources
     WindowFrame::GameSceneInit();
     //Preload
+    MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
     loadObstacleRes();
-    //Init Projectile Texture First then anything else
-    ProjectileInit();
     //Force Load
-    SceneryInit();
     Mario::loadMarioRes();
-    BrickParticleInit();
-    BricksInit();
-    GoombaAIInit();
-    LoadLuckyBlock();
-    BroAILoadRes();
-    BroAIEffectInit();
-    CoinEffectInit();
     CoinInit();
-    ScoreEffectInit();
-    GoombaAIEffectInit();
-    PiranhaAIInit();
-    SpikeInit();
     MarioEffectInit();
     BgInit();
     ExitGateInit();
-    FireballExplosionInit();
-    BulletBillInit();
-    PlatformInit();
-    CheckpointInit();
-    RotodiscInit();
-    CustomBlockInit();
 
     AddText("_COIN", "", TextMarginID::RIGHT_MARGIN, 287.0f, 15.0f);
     AddText("_LIVE", "", TextMarginID::LEFT_MARGIN, 138.0f, 15.0f);

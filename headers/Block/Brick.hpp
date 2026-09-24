@@ -3,11 +3,8 @@
 #ifndef BRICK_HPP
 #define BRICK_HPP
 
-#include "../Core/Enumeration/enum.hpp"
+#include "Core/Enumeration/enum.hpp"
 
 extern void AddBrick(BrickID ID, BrickAtt att, float x, float y);
-extern void BricksInit();
-extern void BricksInitTemp();
-extern void ForceLoadBricksTexture(BrickID ID);
 
 #endif // BRICK_HPP

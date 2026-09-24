@@ -9,17 +9,17 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
-#include "Object/BroAI.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score200Effect.hpp"
 #include "Projectiles/BroAIProjectile.hpp"
 
 HammerBro::HammerBro(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(position, sf::Vector2f(24.f, 63.f), sf::degrees(0.f)) {
     m_animation.setAnimation(0, 1, 14, true);
-    m_animation.setAnimationSequence("HammerBroAnimName");
+    m_animation.setAnimationSequence("HAMMER_BRO_NORMAL");
     m_hitbox = sf::FloatRect({7.f, 16.f}, {32.f, 48.f});
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     m_velocity = sf::Vector2f(2.f, 0.f);
@@ -71,7 +71,7 @@ void HammerBro::MarioCollision(const float MarioYVelocity) {
     if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
         if (m_transform.getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
-            AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+            GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
             Death(1);
             return;
         }
@@ -127,9 +127,9 @@ void HammerBro::statusUpdate(float deltaTime) {
 
 void HammerBro::AnimationUpdate(const bool val) {
     if (val)
-        m_animation.setAnimationSequence("HammerBroLaunchAnimName");
+        m_animation.setAnimationSequence("HAMMER_BRO_LAUNCH");
     else
-        m_animation.setAnimationSequence("HammerBroAnimName");
+        m_animation.setAnimationSequence("HAMMER_BRO_NORMAL");
 }
 
 void HammerBro::XUpdate(const float deltaTime) {
@@ -165,14 +165,14 @@ void HammerBro::YUpdate(float deltaTime) {
 }
 void HammerBro::BlockHit() {
     if (m_state != 0) return;
-    AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(1);
 }
 void HammerBro::Death(unsigned int state) {
     m_state = state;
     m_velocity = sf::Vector2f(0.f, 0.f);
-    m_animation.setAnimationSequence("HammerBroDeath");
+    m_animation.setAnimationSequence("DEAD_HAMMER_BRO");
     m_animation.setAnimation(0, 0, 100, true);
     setShellKicking(false);
     setShellBlocker(false);

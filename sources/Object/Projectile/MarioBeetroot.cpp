@@ -9,14 +9,15 @@
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Object/Projectile/Behavior/BeetrootBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
+#include "Object/Effect/Score100Effect.hpp"
+#include "Object/Effect/Score200Effect.hpp"
 
 MarioBeetroot::MarioBeetroot(ProjectileManager &manager, const bool direction, const sf::Vector2f &position)
     : Projectile(manager),
     m_transform(position, sf::Vector2f(11.f, 31.f), sf::degrees(0.f)),
     m_direction(direction) {
-    m_animation.setTexture("Beetroot_Projectile");
+    m_animation.setTexture("PROJECTILE_BEETROOT");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {23.f, 32.f});
     m_velocity = {2.125f, -5.f};
     m_hit_count = 0.f;
@@ -31,11 +32,11 @@ void MarioBeetroot::spin(const bool flip, const bool sound = true) {
     }
     //spin & change
     if (flip) {
-        AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+        GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
         m_velocity.y = 4.f;
     }
     else {
-        AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y);
+        GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y));
         m_velocity.x = (10 + Utility::RandomIntNumberGenerator(0, 31)) / 8.f;
         m_direction = !m_direction;
         m_velocity.y = -8.f;
@@ -92,7 +93,7 @@ void MarioBeetroot::CollisionUpdate() {
         if (sf::FloatRect EnemyGoombaAICollide = getGlobalHitbox(jt.getHitbox(), jt.getPosition(), jt.getOrigin()); isCollide(EnemyGoombaAICollide, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.ShellHit();
-                AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y));
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
                 spin(false, false);
                 ++m_hit_count;
@@ -106,7 +107,7 @@ void MarioBeetroot::CollisionUpdate() {
         if (sf::FloatRect loopHitbox = getGlobalHitbox(jt.getHitbox(), jt.getPosition(), jt.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.ShellHit();
-                AddScoreEffect(ScoreID::SCORE_200, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
+                GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y));
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
                 spin(false, false);
                 ++m_hit_count;
@@ -120,7 +121,7 @@ void MarioBeetroot::CollisionUpdate() {
         if (sf::FloatRect loopHitbox = getGlobalHitbox(jt.getHitbox(), jt.getPosition(), jt.getOrigin()); isCollide(loopHitbox, playerHitbox)) {
             if (!jt.isDeath()) {
                 jt.Death(0);
-                AddScoreEffect(ScoreID::SCORE_100, jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(jt.getPosition().x, jt.getPosition().y - jt.getOrigin().y));
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
                 spin(false, false);
                 ++m_hit_count;
@@ -143,7 +144,7 @@ void MarioBeetroot::Destroy() {
 }
 
 void MarioBeetroot::LevelEndCleanup() {
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     Destroy();
 }
 

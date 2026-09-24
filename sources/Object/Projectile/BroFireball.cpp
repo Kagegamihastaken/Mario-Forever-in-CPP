@@ -1,22 +1,21 @@
 #include "Object/Projectile/BroFireball.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Object/Projectile/Behavior/FireballBehavior.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 BroFireball::BroFireball(ProjectileManager &manager, const bool direction, const sf::Vector2f &position)
     : Projectile(manager),
     m_direction(direction),
     m_transform(position, sf::Vector2f(7.f, 16.f), sf::degrees(0.f)){
-    m_animation.setTexture("Fireball", true);
+    m_animation.setTexture("PROJECTILE_FIREBALL", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {15.f, 16.f});
     m_velocity = {8.125f, 0.f};
     setDrawingPriority(2);
@@ -28,7 +27,7 @@ void BroFireball::updatePreviousData() {
 }
 
 void BroFireball::FireballEffect() const {
-    AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f);
+    GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f));
 }
 
 void BroFireball::statusUpdate(float deltaTime) {
@@ -91,7 +90,7 @@ void BroFireball::Destroy() {
 }
 
 void BroFireball::LevelEndCleanup() {
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     Destroy();
 }
 

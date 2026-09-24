@@ -8,7 +8,7 @@ NormalBrickParticle::NormalBrickParticle(EffectManager &manager, const sf::Vecto
     m_transform(position, sf::Vector2f(8.f, 8.f), sf::degrees(0.f)){
     m_velocity = velocity;
     m_hitbox = sf::FloatRect({0.f, 0.f}, {16.f, 16.f});
-    m_animation.setTexture("NormalBrickParticle");
+    m_animation.setTexture("BRICK_PARTICLE");
     m_direction = true;
 }
 

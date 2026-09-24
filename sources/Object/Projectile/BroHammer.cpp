@@ -6,15 +6,16 @@
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 BroHammer::BroHammer(ProjectileManager &manager, const bool direction, const sf::Vector2f &position)
     : Projectile(manager),
     m_direction(direction),
     m_transform(position, sf::Vector2f(13.f, 18.f), sf::degrees(0.f)){
-    m_animation.setTexture("Hammer", true);
+    m_animation.setTexture("PROJECTILE_HAMMER", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {24.f, 24.f});
     m_velocity = {1.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 4)), (6.f + static_cast<float>(Utility::RandomIntNumberGenerator(0, 4))) * -1.f};
     setDrawingPriority(2);
@@ -64,7 +65,7 @@ void BroHammer::Destroy() {
 }
 
 void BroHammer::LevelEndCleanup() {
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     Destroy();
 }
 

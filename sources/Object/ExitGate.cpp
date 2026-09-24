@@ -7,15 +7,22 @@
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Time.hpp"
 #include "Core/Utility.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
-#include "../../headers/Core/Enumeration/enum.hpp"
+#include "Core/Enumeration/enum.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score10000Effect.hpp"
+#include "Object/Effect/Score1000Effect.hpp"
+#include "Object/Effect/Score100Effect.hpp"
+#include "Object/Effect/Score2000Effect.hpp"
+#include "Object/Effect/Score200Effect.hpp"
+#include "Object/Effect/Score5000Effect.hpp"
+#include "Object/Effect/Score500Effect.hpp"
 
 static MFCPP::SingleAnimationObject ExitGateIndicatorAnimation;
 static MFCPP::StaticAnimationObject ExitGateForeObject;
@@ -41,29 +48,19 @@ float ExitGateForeEffectSpeed = 0.0f;
 float ExitGateForeEffectYSpeed = 0.0f;
 bool ExitGateForeRender = true;
 
-static constexpr int EXIT_INDICATOR_IMAGE_WIDTH = 93;
 static constexpr int EXIT_INDICATOR_WIDTH = 31;
 static constexpr int EXIT_INDICATOR_HEIGHT = 32;
 
 void ExitGateInit() {
-	ImageManager::AddTexture("ExitGateBack", "data/resources/ExitGateBack.png");
-	ImageManager::AddTexture("ExitGateFore", "data/resources/ExitGateFore.png");
-	ImageManager::AddTexture("ExitGateForeEffect", "data/resources/ExitGateForeEffect.png");
+	ExitGateBackObject.setTexture("EXIT_GATE_BACK");
 
-	MFCPP::AnimationSequenceManager::newData("ExitIndicatorAnimName");
-	for (int i = 0; i < EXIT_INDICATOR_IMAGE_WIDTH / EXIT_INDICATOR_WIDTH; i++) {
-		ImageManager::AddTexture(fmt::format("ExitGateIndicator_{}", i), "data/resources/ExitGateIndicator.png", sf::IntRect({i * EXIT_INDICATOR_WIDTH, 0}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT}));
-		MFCPP::AnimationSequenceManager::addSingleFrame("ExitIndicatorAnimName", fmt::format("ExitGateIndicator_{}", i));
-	}
-	ExitGateBackObject.setTexture("ExitGateBack");
-
-	ExitGateForeObject.setTexture("ExitGateFore");
+	ExitGateForeObject.setTexture("EXIT_GATE_FORE");
 	m_hitbox_fore = sf::FloatRect({ 0.0f, 0.0f }, { 44.0f, 16.0f });
 
-	ExitGateForeEffectObject.setTexture("ExitGateForeEffect", true);
+	ExitGateForeEffectObject.setTexture("EXIT_GATE_FORE_EFFECT", true);
 
 	ExitGateIndicatorAnimation.setAnimation(0, 2, 50, true);
-	ExitGateIndicatorAnimation.setAnimationSequence("ExitIndicatorAnimName");
+	ExitGateIndicatorAnimation.setAnimationSequence("EXIT_INDICATOR");
 }
 void SetPrevExitGatePos() {
 	ExitGateFore.Update();
@@ -73,7 +70,7 @@ void SetPrevExitGatePos() {
 void ExitGateStatusUpdate(const float deltaTime) {
 	if (ExitGateForeActive) {
 		if (ExitGateIndicator.getCurrentPosition().x <= Mario::getCurrentPosition().x - 24.0f && !Mario::isPrejump() && !Mario::isFalling()) {
-			AddScoreEffect(ScoreID::SCORE_100, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
+			GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(Mario::getCurrentPosition().x, Mario::getCurrentPosition().y));
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();
 			MusicManager::PlayMusic(MusicID::LEVEL_COMPLETE);
@@ -81,12 +78,12 @@ void ExitGateStatusUpdate(const float deltaTime) {
 			//LevelEndMarioProjectileCleanup();
 		}
 		if (isCollide(getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin()), getGlobalHitbox(m_hitbox_fore, ExitGateFore.getCurrentPosition(), ExitGateFore.getOrigin()))) {
-			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) AddScoreEffect(ScoreID::SCORE_10000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f) AddScoreEffect(ScoreID::SCORE_5000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f) AddScoreEffect(ScoreID::SCORE_2000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f) AddScoreEffect(ScoreID::SCORE_1000, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) AddScoreEffect(ScoreID::SCORE_500, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
-			else if (ExitGateFore.getCurrentPosition().y > ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) AddScoreEffect(ScoreID::SCORE_200, ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y);
+			if (ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f) GameScene::effectManager.addEffect<Score10000Effect>(sf::Vector2f(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y));
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 30.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f) GameScene::effectManager.addEffect<Score5000Effect>(sf::Vector2f(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y));
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 60.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f) GameScene::effectManager.addEffect<Score2000Effect>(sf::Vector2f(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y));
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 100.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f) GameScene::effectManager.addEffect<Score1000Effect>(sf::Vector2f(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y));
+			else if (ExitGateFore.getCurrentPosition().y >= ExitGateBack.getCurrentPosition().y - 266.0f + 150.0f && ExitGateFore.getCurrentPosition().y <= ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) GameScene::effectManager.addEffect<Score500Effect>(sf::Vector2f(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y));
+			else if (ExitGateFore.getCurrentPosition().y > ExitGateBack.getCurrentPosition().y - 266.0f + 200.0f) GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(ExitGateFore.getCurrentPosition().x, ExitGateFore.getCurrentPosition().y));
 
 			LevelCompleteEffect = true;
 			MusicManager::StopAllMusic();

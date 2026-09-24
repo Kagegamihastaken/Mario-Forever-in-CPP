@@ -7,14 +7,14 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
 
 FireLauncherProjectile::FireLauncherProjectile(ProjectileManager &manager, const sf::Vector2f &position, const sf::Vector2f& velocity)
     : Projectile(manager),
     m_transform(position, sf::Vector2f(12.f, 13.f), sf::degrees(Utility::RandomFloatNumberGenerator(0, 359.9f))){
-    m_animation.setTexture("FireLauncherProjectile", true);
+    m_animation.setTexture("PROJECTILE_FIRE_LAUNCHER", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {25.f, 26.f});
     setDrawingPriority(0);
     m_velocity = velocity;
@@ -28,7 +28,7 @@ void FireLauncherProjectile::updatePreviousData() {
 }
 
 void FireLauncherProjectile::FireballEffect() const {
-    AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f);
+    GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f));
 }
 
 void FireLauncherProjectile::statusUpdate(float deltaTime) {

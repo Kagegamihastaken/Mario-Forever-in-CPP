@@ -17,7 +17,7 @@
 LuckyBlockFlower::LuckyBlockFlower(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)) {
-    m_animation.setAnimationSequence("NormLuckyBlockAnimName");
+    m_animation.setAnimationSequence("LUCKY_BLOCK");
     m_animation.setAnimation(0, 2, 9, true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);

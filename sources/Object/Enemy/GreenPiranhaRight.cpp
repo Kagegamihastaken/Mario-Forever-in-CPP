@@ -10,13 +10,11 @@
 #include "Core/Object/EnemyManager.hpp"
 #include "Core/Object/Enemy/Behavior/PiranhaAIBehavior.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
-#include "Projectiles/PiranhaProjectile.hpp"
 
 GreenPiranhaRight::GreenPiranhaRight(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::RIGHT, position), sf::Vector2f(63.f, 32.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("GreenPiranhaRightAnimName");
+    m_animation.setAnimationSequence("GREEN_PIRANHA_RIGHT");
     m_animation.setAnimation(0, 3, 24, true);
     m_hitbox = sf::FloatRect({ 17.f, 17.f }, { 47.f, 31.f });
 

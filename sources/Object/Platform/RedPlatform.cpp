@@ -12,11 +12,11 @@ RedPlatform::RedPlatform(MovingBlockManager &manager, const sf::Vector2f &start,
     m_transform(start, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
     if (!small) {
         m_hitbox = sf::FloatRect({0.f, 0.f}, {95.f, 8.f});
-        m_animation.setTexture("RedPlatform");
+        m_animation.setTexture("RED_PLATFORM");
     }
     else {
         m_hitbox = sf::FloatRect({0.f, 0.f}, {31.f, 8.f});
-        m_animation.setTexture("RedSmallPlatform");
+        m_animation.setTexture("RED_SMALL_PLATFORM");
     }
 
     m_start = start;

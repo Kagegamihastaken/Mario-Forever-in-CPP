@@ -8,7 +8,7 @@
 FireballExplosionEffect::FireballExplosionEffect(EffectManager &manager, const sf::Vector2f &position)
     : Effect(manager),
     m_transform(position, sf::Vector2f(16.f, 15.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("FireballExplosionAnimName");
+    m_animation.setAnimationSequence("FIREBALL_EXPLOSION");
     m_animation.setAnimation(0, 2, 24, false);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {33.f, 30.f});
 }

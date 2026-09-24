@@ -6,11 +6,13 @@
 #include "Core/Exception.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
-struct PreTexture {
-	std::filesystem::path path;
-	sf::IntRect rect;
-	bool isRepeat;
-};
+namespace {
+	struct PreTexture {
+		std::filesystem::path path;
+		sf::IntRect rect;
+		bool isRepeat{};
+	};
+}
 boost::unordered_flat_map<std::string, std::unique_ptr<sf::Texture>> m_textures;
 boost::unordered_flat_map<std::string, PreTexture> m_pre_textures;
 boost::unordered_flat_map<std::string, std::unique_ptr<MFCPP::SimpleSprite>> m_pre_compute_render;

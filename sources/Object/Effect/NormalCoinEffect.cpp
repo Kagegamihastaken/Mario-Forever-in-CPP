@@ -3,15 +3,15 @@
 #include "Core/Scroll.hpp"
 #include "Core/Class/CollisionObjectClass.hpp"
 #include "Core/Object/EffectManager.hpp"
-#include "Effect/CoinEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
+#include "Object/Effect/Score200Effect.hpp"
 
 NormalCoinEffect::NormalCoinEffect(EffectManager &manager, const sf::Vector2f &position)
     : Effect(manager),
     m_transform(position, sf::Vector2f(18.f, 31.f), sf::degrees(0.f)){
     m_hitbox = sf::FloatRect({0.f, 0.f}, {37.f, 32.f});
     m_velocity = sf::Vector2f(0.f, -3.5f);
-    m_animation.setAnimationSequence("CoinEffectAnimName");
+    m_animation.setAnimationSequence("COIN_EFFECT");
     m_animation.setAnimation(0, 20, 70, false);
 }
 
@@ -33,7 +33,7 @@ void NormalCoinEffect::statusUpdate(float deltaTime) {
 
 void NormalCoinEffect::Destroy() {
     if (!isDestroyed()) {
-        AddScoreEffect(ScoreID::SCORE_200, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y);
+        GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y));
         m_transform.destroy();
         m_effectManager.setDeletionFlag(true);
     }

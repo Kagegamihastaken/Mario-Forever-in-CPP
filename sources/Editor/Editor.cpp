@@ -44,23 +44,23 @@ void AlphaUpdate(float& alpha, bool& state, const float min, const float max, co
 }
 
 void EditorInit() {
-    ImageManager::AddTexture("EDITOR_SelectBox", "data/resources/Editor/EDITOR_SelectBox.png");
-    ImageManager::AddTexture("EDITOR_Grid", "data/resources/Editor/EDITOR_Grid.png", {}, true);
+    //ImageManager::AddTexture("EDITOR_SelectBox", "data/resources/Editor/EDITOR_SelectBox.png");
+    //ImageManager::AddTexture("EDITOR_Grid", "data/resources/Editor/EDITOR_Grid.png", {}, true);
 
-    ImageManager::AddTexture("EDITOR_MushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
-    ImageManager::AddTexture("EDITOR_CoinLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Luckyblock.png");
-    ImageManager::AddTexture("EDITOR_CoinBrick", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
-    ImageManager::AddTexture("EDITOR_HammerBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
-    ImageManager::AddTexture("EDITOR_HammerBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
-    ImageManager::AddTexture("EDITOR_FireFlowerLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
-    ImageManager::AddTexture("EDITOR_BeetrootLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Beetroot_LuckyBlock.png");
-    ImageManager::AddTexture("EDITOR_GreenMushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_GreenMushroom_LuckyBlock.png");
-    ImageManager::AddTexture("EDITOR_FireBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Fire_CanMove.png");
-    ImageManager::AddTexture("EDITOR_FireBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Fire_CannotMove.png");
-    ImageManager::AddTexture("EDITOR_RotodiscRound", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Round.png");
-    ImageManager::AddTexture("EDITOR_RotodiscFlower", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Flower.png");
+    //ImageManager::AddTexture("EDITOR_MushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
+    //ImageManager::AddTexture("EDITOR_CoinLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Luckyblock.png");
+    //ImageManager::AddTexture("EDITOR_CoinBrick", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
+    //ImageManager::AddTexture("EDITOR_HammerBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
+    //ImageManager::AddTexture("EDITOR_HammerBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
+    //ImageManager::AddTexture("EDITOR_FireFlowerLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
+    //ImageManager::AddTexture("EDITOR_BeetrootLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Beetroot_LuckyBlock.png");
+    //ImageManager::AddTexture("EDITOR_GreenMushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_GreenMushroom_LuckyBlock.png");
+    //ImageManager::AddTexture("EDITOR_FireBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Fire_CanMove.png");
+    //ImageManager::AddTexture("EDITOR_FireBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Fire_CannotMove.png");
+    //ImageManager::AddTexture("EDITOR_RotodiscRound", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Round.png");
+    //ImageManager::AddTexture("EDITOR_RotodiscFlower", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Flower.png");
 
-    SelectBox.setTexture(ImageManager::getReturnTexture("EDITOR_SelectBox"), true);
+    SelectBox.setTexture(ImageManager::getReturnTexture("EDITOR_SELECT_BOX"), true);
     if (ImageManager::getReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
     EDITOR_Mario.setTexture(ImageManager::getReturnTexture(TilePage[LevelTab][0].name), true);
@@ -690,6 +690,6 @@ void DrawTile() {
     WindowFrame::getWindow().draw(EDITOR_Mario);
     WindowFrame::getWindow().draw(EDITOR_ExitGateIndicator);
     if (EDITOR_BuildMode) WindowFrame::getWindow().draw(SelectBox);
-    WindowFrame::getWindow().draw(Grid, ImageManager::getReturnTexture("EDITOR_Grid"));
+    WindowFrame::getWindow().draw(Grid, ImageManager::getReturnTexture("EDITOR_GRID"));
     WindowFrame::getWindow().draw(SelectedBlock);
 }

@@ -124,7 +124,7 @@ void WindowFrame::Init() {
 	MFCPP::IO::LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);
 	running = true;
-	//timestep.setTimeSpeed(0.5);
+	//timestep.setTimeSpeed(1.0f);
 	timestep.setStep(1.0f / 500.0f);
 	//timestep.setMaxAccumulation(1.0f / 30.0f);
 }

@@ -114,7 +114,6 @@ private:
 
 	static bool m_CanControlMario;
 
-	static constexpr uint16_t MARIO_IMAGE_WIDTH = 310;
 	static constexpr uint16_t MARIO_WIDTH = 31;
 	static constexpr uint16_t MARIO_HEIGHT = 62;
 	static constexpr uint16_t MARIO_OFFSET_X = 4;

@@ -7,8 +7,9 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 RedKoopa::RedKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isShell)
     : Enemy(manager),
@@ -23,7 +24,7 @@ RedKoopa::RedKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isS
         m_transform.setOrigin(sf::Vector2f(16.f, 46.f));
         m_velocity = sf::Vector2f(2.f, 0.f);
         m_animation.setAnimation(0, 1, 11, true);
-        m_animation.setAnimationSequence("RedKoopaAnimName");
+        m_animation.setAnimationSequence("RED_KOOPA");
         m_state = 0;
         m_turnback = true;
     }
@@ -32,7 +33,7 @@ RedKoopa::RedKoopa(EnemyManager &manager, const sf::Vector2f& position, bool isS
         m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
         m_transform.setOrigin(sf::Vector2f(16,27));
         m_velocity = sf::Vector2f(0.f, 0.f);
-        m_animation.setAnimationSequence("RedKoopaShellAnimName");
+        m_animation.setAnimationSequence("RED_KOOPA_SHELL");
         m_animation.setAnimation(3,3,100, true);
         m_state = 1;
         m_turnback = false;
@@ -84,7 +85,7 @@ void RedKoopa::MarioCollision(const float MarioYVelocity) {
         if (m_state != 1) {
             if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
-                AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
                 Death(1);
                 return;
             }
@@ -151,7 +152,7 @@ void RedKoopa::YUpdate(const float deltaTime) {
 
 void RedKoopa::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(3);
 }
@@ -181,7 +182,7 @@ void RedKoopa::ChangeState() {
             m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 28.f});
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             m_transform.setOrigin(sf::Vector2f(16,27));
-            m_animation.setAnimationSequence("RedKoopaShellAnimName");
+            m_animation.setAnimationSequence("RED_KOOPA_SHELL");
             m_animation.setAnimation(3,3,100, true);
             setCollideEachOther(true);
             m_hit_count = 0;
@@ -196,7 +197,7 @@ void RedKoopa::ChangeState() {
             m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 28.f});
             m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
             m_transform.setOrigin(sf::Vector2f(16,27));
-            m_animation.setAnimationSequence("RedKoopaShellAnimName");
+            m_animation.setAnimationSequence("RED_KOOPA_SHELL");
             m_animation.setAnimation(0,3,54, true);
             setCollideEachOther(false);
             m_hit_count = 0;
@@ -213,7 +214,7 @@ void RedKoopa::ChangeState() {
             m_transform.setOrigin(sf::Vector2f(16,27));
             m_hit_count = 0;
             m_velocity = sf::Vector2f(0.f, -3.f);
-            m_animation.setAnimationSequence("RedKoopaDeathEffect");
+            m_animation.setAnimationSequence("DEAD_RED_KOOPA");
             m_animation.setAnimation(0,0,100, true);
             setCollideEachOther(false);
             setShellBlocker(false);

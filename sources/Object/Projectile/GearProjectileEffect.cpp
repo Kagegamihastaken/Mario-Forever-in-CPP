@@ -11,7 +11,7 @@ GearProjectileEffect::GearProjectileEffect(ProjectileManager &manager, const sf:
     : Projectile(manager),
     m_transform(position, sf::Vector2f(20.f, 20.f), angle){
     m_alpha = 255.f;
-    m_animation.setTexture("GearProjectile", true);
+    m_animation.setTexture("PROJECTILE_GEAR", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {40.f, 40.f});
     setDrawingPriority(1);
 }

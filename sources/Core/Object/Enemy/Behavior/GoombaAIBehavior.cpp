@@ -6,8 +6,14 @@
 #include "Core/Tilemap.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score1000Effect.hpp"
+#include "Object/Effect/Score100Effect.hpp"
+#include "Object/Effect/Score1UPEffect.hpp"
+#include "Object/Effect/Score2000Effect.hpp"
+#include "Object/Effect/Score200Effect.hpp"
+#include "Object/Effect/Score5000Effect.hpp"
+#include "Object/Effect/Score500Effect.hpp"
 #include "SFML/Graphics/Rect.hpp"
 
 auto GoombaAIBehavior::GoombaAIYMove(const GoombaAIData& data, const float deltaTime) -> GoombaAIData {
@@ -126,7 +132,7 @@ auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
         if (!Other->isShellKicking()) {
             if (Other->isShellBlocker()) {
                 SoundManager::PlaySound(SoundID::GAME_KICK2);
-                AddScoreEffect(ScoreID::SCORE_100, Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y);
+                GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y));
                 Shell->ShellHit();
             }
             return;
@@ -138,8 +144,8 @@ auto GoombaAIBehavior::ShellMovingCollision(MFCPP::Enemy* Shell, MFCPP::Enemy* O
         }
         else if (Other->isShellBlocker()){
             SoundManager::PlaySound(SoundID::GAME_KICK2);
-            AddScoreEffect(ScoreID::SCORE_100, Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y);
-            AddScoreEffect(ScoreID::SCORE_100, Other->getPosition().x, Other->getPosition().y - Other->getOrigin().y);
+            GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(Shell->getPosition().x, Shell->getPosition().y - Shell->getOrigin().y));
+            GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(Other->getPosition().x, Other->getPosition().y - Other->getOrigin().y));
             Shell->ShellHit();
             Other->ShellHit();
         }
@@ -188,37 +194,37 @@ auto GoombaAIBehavior::Kicking(const sf::Vector2f& pos, const sf::Vector2f& orig
     switch (val) {
         case 0:
             SoundManager::PlaySound(SoundID::GAME_KICK2);
-            AddScoreEffect(ScoreID::SCORE_100, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output += 1;
             break;
         case 1:
             SoundManager::PlaySound(SoundID::GAME_KICK3);
-            AddScoreEffect(ScoreID::SCORE_200, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output += 1;
             break;
         case 2:
             SoundManager::PlaySound(SoundID::GAME_KICK4);
-            AddScoreEffect(ScoreID::SCORE_500, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score500Effect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output += 1;
             break;
         case 3:
             SoundManager::PlaySound(SoundID::GAME_KICK5);
-            AddScoreEffect(ScoreID::SCORE_1000, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score1000Effect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output += 1;
             break;
         case 4:
             SoundManager::PlaySound(SoundID::GAME_KICK6);
-            AddScoreEffect(ScoreID::SCORE_2000, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score2000Effect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output += 1;
             break;
         case 5:
             SoundManager::PlaySound(SoundID::GAME_KICK7);
-            AddScoreEffect(ScoreID::SCORE_5000, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score5000Effect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output += 1;
             break;
         case 6:
             SoundManager::PlaySound(SoundID::GAME_KICK8);
-            AddScoreEffect(ScoreID::SCORE_1UP, pos.x, pos.y - origin.y);
+            GameScene::effectManager.addEffect<Score1UPEffect>(sf::Vector2f(pos.x, pos.y - origin.y));
             output = 0;
             break;
         default: ;

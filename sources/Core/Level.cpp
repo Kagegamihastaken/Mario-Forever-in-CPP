@@ -10,25 +10,26 @@
 #include "Core/AutoScroll.hpp"
 #include "Core/Enumeration/enum.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "Object/GoombaAI.hpp"
-#include "Object/PiranhaAI.hpp"
-#include "Object/Spike.hpp"
+#include "../../headers/Core/Loading/PiranhaAILoading.hpp"
+#include "../../headers/Core/Loading/SpikeLoading.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Background/Bg.hpp"
 #include "Object/ExitGate.hpp"
 #include "Editor/SelectTile.hpp"
 #include "Core/Background/BgGradient.hpp"
-#include "Object/BroAI.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Time.hpp"
 #include "Object/Mario.hpp"
-#include "Object/Platform.hpp"
+#include "../../headers/Core/Loading/PlatformLoading.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Game.hpp"
 #include "Core/SoundManager.hpp"
+#include "Core/Loading/GoombaAILoading.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Object/SceneryHelper.hpp"
+#include "../../headers/Core/Loading/SceneryLoading.hpp"
+#include "Core/ImageManager.hpp"
+#include "Core/Loading/BroAILoading.hpp"
 #include "Object/Enemy/GearLauncher.hpp"
 #include "Object/Enemy/GearLauncherFlipped.hpp"
 #include "Object/Enemy/RedRotodiscFlower.hpp"
@@ -59,63 +60,62 @@ static std::set<std::string> ObstacleTexture;
 static std::set<BrickID> BricksTexture;
 static std::set<LuckyBlockID> LuckyBlockTexture;
 static bool CoinTexture = false;
-//Texture Loading
-void ObstaclesTextureBuild() {
-	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Obstacles Texture", ObstacleTexture.size()));
-	for (const auto &i : ObstacleTexture) {
-		ImageManager::LoadTexture(i);
-	}
-}
-void BricksTextureBuild() {
-	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Bricks Texture", BricksTexture.size()));
-	for (const auto &i : BricksTexture) {
-		ForceLoadBricksTexture(i);
-	}
-}
-void LuckyBlockTextureBuild() {
-	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} LuckyBlock Texture", LuckyBlockTexture.size()));
-	for (const auto &i : LuckyBlockTexture) {
-		ForceLoadLuckyBlockTexture(i);
-	}
-}
-void BackgroundTextureBuild() {
-	MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Background Texture", BgData.size()));
-	for (const auto &key: BgData | std::views::keys) {
-		ImageManager::LoadTexture(key);
-	}
-}
-void CoinTextureBuild() {
-	MFCPP::Log::InfoPrint("Build Coin Texture");
-	if (CoinTexture) ForceLoadCoinTexture();
-}
-void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id) {
-	sf::Vector2f endPos = tileObj.value("end_position", pos);
-	if (endPos == sf::Vector2f(-1.f, -1.f)) endPos = pos;
-	if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
-		CustomTileProperty custom_props = TilePage[page][id].prop;
-		const nlohmann::json& propsJson = tileObj.at("properties");
-		for (int i = 0; i < TilePage[page][id].prop.getPropertyCount(); ++i) {
-			TileProperty* prop = custom_props.at(i);
-			from_json(propsJson, *prop);
+
+namespace {
+	//Texture Loading
+	void ObstaclesTextureBuild() {
+		MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Obstacles Texture", ObstacleTexture.size()));
+		for (const auto &i : ObstacleTexture) {
+			ImageManager::LoadTexture(i);
 		}
-		PlatformDataList.push_back({pos, endPos, TilePage[page][id].customID1, custom_props});
 	}
 }
-void RotodiscDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id, const int objID) {
-	if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
-		CustomTileProperty custom_props = TilePage[page][id].prop;
-		const nlohmann::json& propsJson = tileObj.at("properties");
-		for (int i = 0; i < TilePage[page][id].prop.getPropertyCount(); ++i) {
-			TileProperty* prop = custom_props.at(i);
-			from_json(propsJson, *prop);
+namespace {
+	void BackgroundTextureBuild() {
+		MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Background Texture", BgData.size()));
+		for (const auto &key: BgData | std::views::keys) {
+			ImageManager::LoadTexture(key);
 		}
-		RotodiscDataList.emplace_back(objID, pos, custom_props);
+	}
+}
+namespace {
+	void CoinTextureBuild() {
+		MFCPP::Log::InfoPrint("Build Coin Texture");
+		if (CoinTexture) ForceLoadCoinTexture();
+	}
+}
+namespace {
+	void PlatformDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id) {
+		sf::Vector2f endPos = tileObj.value("end_position", pos);
+		if (endPos == sf::Vector2f(-1.f, -1.f)) endPos = pos;
+		if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
+			CustomTileProperty custom_props = TilePage[page][id].prop;
+			const nlohmann::json& propsJson = tileObj.at("properties");
+			for (int i = 0; i < TilePage[page][id].prop.getPropertyCount(); ++i) {
+				TileProperty* prop = custom_props.at(i);
+				from_json(propsJson, *prop);
+			}
+			PlatformDataList.push_back({pos, endPos, TilePage[page][id].customID1, custom_props});
+		}
+	}
+}
+namespace {
+	void RotodiscDataProcess(const nlohmann::json& tileObj, const sf::Vector2f& pos, const int page, const int id, const int objID) {
+		if (tileObj.contains("properties") && TilePage[page][id].prop.getPropertyCount() > 0) {
+			CustomTileProperty custom_props = TilePage[page][id].prop;
+			const nlohmann::json& propsJson = tileObj.at("properties");
+			for (int i = 0; i < TilePage[page][id].prop.getPropertyCount(); ++i) {
+				TileProperty* prop = custom_props.at(i);
+				from_json(propsJson, *prop);
+			}
+			RotodiscDataList.emplace_back(objID, pos, custom_props);
+		}
 	}
 }
 void ReadData(const std::filesystem::path& path) {
 	std::string MusicNameTemp;
 	std::string LevelDataText;
-	MFCPP::IO::LoadLvl(LevelDataText, path.string());
+	MFCPP::IO::LoadRaw(LevelDataText, path.string());
 
 	nlohmann::json levelJson;
 	try {
@@ -201,8 +201,8 @@ void ReadData(const std::filesystem::path& path) {
 	MFCPP::AutoScroll::setAutoScrollMode(AutoScrollMode);
 	MFCPP::AutoScroll::setTankMode(TankMode);
 	ObstaclesTextureBuild();
-	BricksTextureBuild();
-	LuckyBlockTextureBuild();
+	//BricksTextureBuild();
+	//LuckyBlockTextureBuild();
 	BackgroundTextureBuild();
 	CoinTextureBuild();
 	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", path.string()));
@@ -286,7 +286,7 @@ void Objectbuilding() {
 	//(Re)build Objects
 	if (!SceneryData.empty()) {
 		for (const auto& i : SceneryData) {
-			AddScenery(i[0], sf::Vector2f(i[1], i[2]));
+			MFCPP::AddScenery(i[0], sf::Vector2f(i[1], i[2]));
 		}
 	}
 	if (!CustomTileData.empty()) {
@@ -316,16 +316,16 @@ void Objectbuilding() {
 		for (const auto& i : EnemyData) {
 			switch (static_cast<int>(i[0])) {
 				case 0:
-					AddGoombaAI(static_cast<GoombaAIType>(i[1]), static_cast<int>(i[2]), i[3], i[4], GoombaAIDirection::LEFT);
+					MFCPP::AddGoombaAI(static_cast<GoombaAIID>(i[1]), static_cast<int>(i[2]), i[3], i[4], GoombaAIDirection::LEFT);
 					break;
 				case 1:
-					AddPiranha(static_cast<PiranhaID>(i[1]), static_cast<PiranhaDirection>(i[2]), i[3], i[4]);
+					MFCPP::AddPiranha(static_cast<PiranhaID>(i[1]), static_cast<PiranhaDirection>(i[2]), i[3], i[4]);
 					break;
 				case 2:
-					AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);
+					MFCPP::AddSpike(static_cast<SpikeID>(i[1]), i[3], i[4]);
 					break;
 				case 3:
-					AddBroAI(static_cast<BroAIType>(i[1]), static_cast<BroAIMovementType>(i[2]), i[3], i[4]);
+					MFCPP::AddBroAI(static_cast<BroAIID>(i[1]), static_cast<BroAIMovementType>(i[2]), i[3], i[4]);
 					break;
 				case 4:
 					AddBulletLauncher(static_cast<BulletType>(i[1]), i[3], i[4]);
@@ -360,7 +360,7 @@ void Objectbuilding() {
 	}
 	if (!PlatformDataList.empty()) {
 		for (auto &i : PlatformDataList) {
-			AddPlatform(i.start, i.end, i.SkinID, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("is Smooth")->val, i.props.getProperty<BoolProps>("is Fall")->val, i.props.getProperty<BoolProps>("is Wait")->val, (i.props.getProperty<BoolProps>("is Small") != nullptr ? i.props.getProperty<BoolProps>("is Small")->val : false));
+			MFCPP::AddPlatform(i.start, i.end, i.SkinID, i.props.getProperty<IntProps>("Speed")->val, i.props.getProperty<BoolProps>("is Smooth")->val, i.props.getProperty<BoolProps>("is Fall")->val, i.props.getProperty<BoolProps>("is Wait")->val, (i.props.getProperty<BoolProps>("is Small") != nullptr ? i.props.getProperty<BoolProps>("is Small")->val : false));
 		}
 	}
 	MFCPP::AutoScroll::AutoScrollBuild();

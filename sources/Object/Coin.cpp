@@ -5,12 +5,13 @@
 #include "Core/Scroll.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Collision/Collide.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Effect/MarioEffect.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Logging.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Scene/GameScene.hpp"
+#include "Object/Effect/Score1UPEffect.hpp"
 
 plf::colony<MFCPP::Coin> CoinList;
 static bool CoinDeleteGate = false;
@@ -19,13 +20,8 @@ int CoinCount = 0;
 static constexpr int COIN_IMAGE_WIDTH = 96;
 static constexpr int COIN_WIDTH_HEIGHT = 32;
 void CoinInit() {
-	MFCPP::AnimationSequenceManager::newData("CoinAnimName");
-	for (int i = 0; i < COIN_IMAGE_WIDTH / COIN_WIDTH_HEIGHT; ++i) {
-		ImageManager::PreloadTexture(fmt::format("Coin_{}", i), "data/resources/Coin.png", sf::IntRect({COIN_WIDTH_HEIGHT * i, 0}, {COIN_WIDTH_HEIGHT, COIN_WIDTH_HEIGHT}));
-		MFCPP::AnimationSequenceManager::addSingleFrame("CoinAnimName", fmt::format("Coin_{}", i));
-	}
 	CoinAnimation.setAnimation(0, 2, 20, true);
-	CoinAnimation.setAnimationSequence("CoinAnimName");
+	CoinAnimation.setAnimationSequence("COIN_NORMAL");
 }
 void AddCoin(const CoinID ID, const CoinAtt att, const float x, const float y) {
 	CoinList.emplace(ID, att, sf::FloatRect({6.f, 2.f}, {19.f, 28.f}), sf::Vector2f(x, y), sf::Vector2f(0.f, 0.f));
@@ -67,7 +63,7 @@ void CoinAnimationUpdate(float deltaTime) {
 void CoinDraw(float alpha) {
 	if (CoinCount > 99) {
 		CoinCount = 0;
-		AddScoreEffect(ScoreID::SCORE_1UP, Mario::getCurrentPosition().x, Mario::getCurrentPosition().y);
+		GameScene::effectManager.addEffect<Score1UPEffect>(sf::Vector2f(Mario::getCurrentPosition().x, Mario::getCurrentPosition().y - Mario::getOrigin().y));
 	}
 	for (auto &i : CoinList) {
 		if (i.isDestroyed()) continue;

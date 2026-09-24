@@ -13,8 +13,8 @@ RedRotodiscFlower::RedRotodiscFlower(EnemyManager &manager, const sf::Vector2f &
     m_transform(RotodiscAIBehavior::RotodiscPositionAdjust(position, arrange_mode), sf::Vector2f(17.f, 16.f), sf::degrees(0.f)){
     m_position_center = m_transform.getCurrentPosition();
     m_animation.setAnimation(0, 25, 100, true);
-    m_animation.setAnimationSequence("RotodiscAnimName");
-    m_animation_base.setTexture("RotodiscBase");
+    m_animation.setAnimationSequence("ROTODISC");
+    m_animation_base.setTexture("ROTODISC_BASE");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {34.f, 32.f});
     setDirection(false);
     setDisabled(false);

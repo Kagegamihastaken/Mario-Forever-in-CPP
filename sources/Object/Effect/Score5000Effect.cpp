@@ -8,7 +8,7 @@ Score5000Effect::Score5000Effect(EffectManager &manager, const sf::Vector2f &pos
     : Effect(manager),
     m_transform(position, sf::Vector2f(18.f, 15.f), sf::degrees(0.f)){
     m_hitbox = sf::FloatRect({0.f, 0.f}, {36.f, 16.f});
-    m_animation.setTexture("Score_5000");
+    m_animation.setTexture("SCORE_5000");
     m_alpha = 255.f;
     m_velocity = {0.f, -1.5f};
     Mario::setScore(Mario::getScore() + 5000);

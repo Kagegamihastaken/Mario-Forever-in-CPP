@@ -3,15 +3,15 @@
 #include "Core/SoundManager.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/CoinEffect.hpp"
 #include "Object/Coin.hpp"
+#include "Object/Effect/NormalCoinEffect.hpp"
 
 void HitBehavior::HitDetection(const MFCPP::CollisionObject &obj) {
     sf::FloatRect hitbox = getGlobalHitbox(obj.GetLeftHitbox(), obj.GetPosition() - sf::Vector2f(0.f, 16.f), obj.GetOrigin());
     for (auto jt = CoinList.begin(); jt != CoinList.end(); ++jt) {
         if (jt->isDestroyed()) continue;
         if (sf::FloatRect CoinCollide = getGlobalHitbox(jt->getHitbox(), jt->getPosition(), jt->getOrigin()); isCollide(CoinCollide, hitbox)) {
-            AddCoinEffect(jt->getID(), jt->getAttribute(), jt->getPosition().x + 15.0f, jt->getPosition().y + 32.0f);
+            GameScene::effectManager.addEffect<NormalCoinEffect>(sf::Vector2f(jt->getPosition().x + 15.0f, jt->getPosition().y + 32.0f));
             DeleteIndexCoin(jt);
             SoundManager::PlaySound(SoundID::GAME_COIN);
             ++CoinCount;

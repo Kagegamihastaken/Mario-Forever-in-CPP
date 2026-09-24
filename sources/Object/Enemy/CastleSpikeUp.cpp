@@ -8,12 +8,12 @@
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/EnemyManager.hpp"
 #include "Object/Mario.hpp"
-#include "Object/PiranhaAI.hpp"
+#include "Core/Loading/PiranhaAILoading.hpp"
 
 CastleSpikeUp::CastleSpikeUp(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)){
-    m_animation.setTexture("CastleSpikeUp");
+    m_animation.setTexture("CASTLE_SPIKE_UP");
 
     m_hitbox = sf::FloatRect({9.f, 7.f}, {13.f, 25.f});
 

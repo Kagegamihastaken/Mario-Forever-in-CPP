@@ -19,7 +19,7 @@ enum class TextMarginID : uint8_t { LEFT_MARGIN, RIGHT_MARGIN };
 enum AnimationDirection {ANIM_RIGHT, ANIM_LEFT};
 
 //enum for GoombsAI
-enum class GoombaAIType : uint8_t { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER, KOOPA_PARATROOPA };
+enum class GoombaAIID : uint8_t { GOOMBA, MUSHROOM, KOOPA, SHELL, SHELL_MOVING, SPINY, FIRE_FLOWER, KOOPA_PARATROOPA };
 enum class GoombaAIDirection : uint8_t { RIGHT, LEFT };
 enum class GoombaAICollisionType : uint8_t { STOMP, SPIKE, FULL };
 enum class GoombaAIBehaviour : uint8_t {NORMAL, REDKOOPA};
@@ -32,7 +32,7 @@ enum class PiranhaProjectileType : uint8_t {FIREBALL};
 //enum for Spike
 enum class SpikeID : uint8_t {PIRANHA_GROUND, SPIKE_NORMAL};
 //enum for BroAI
-enum class BroAIType : uint8_t {HAMMER_BRO, FIRE_BRO};
+enum class BroAIID : uint8_t {HAMMER_BRO, FIRE_BRO};
 enum class BroAIMovementType : uint8_t {CAN_JUMP, CANNOT_JUMP};
 enum class BroAIProjectileType : uint8_t {HAMMER, FIREBALL};
 enum class BroAIProjectileBehavior : uint8_t {HAMMER, FIREBALL};

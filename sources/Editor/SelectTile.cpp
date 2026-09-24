@@ -3,7 +3,6 @@
 #include "Core/WindowFrame.hpp"
 #include "Editor/SelectTile.hpp"
 
-#include "Core/Logging.hpp"
 #include "Core/Utility.hpp"
 #include "Editor/TabButton.hpp"
 
@@ -113,65 +112,65 @@ const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePa
         {"Tile_78", CustomTileProperty(), sf::Vector2f(256, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 78},
     },
     { // PAGE 2
-        {"BlueCloud_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 0},
-        {"BlueGrass_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 1},
-        {"TankTileBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 2},
+        {"BLUE_CLOUD_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 0},
+        {"BLUE_GRASS_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 1},
+        {"TANK_TILE_BACK", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 2},
     },
     { // PAGE 3
-        {"Coin_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
-        {"EDITOR_CoinLuckyblock", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
-        {"EDITOR_MushroomLuckyblock", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
-        {"NormalBrick", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
-        {"EDITOR_CoinBrick", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
-        {"EDITOR_FireFlowerLuckyblock", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
-        {"EDITOR_GreenMushroomLuckyblock", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 3},
-        {"EDITOR_BeetrootLuckyblock", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 4},
-        {"TankGearLeft_0", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 0},
-        {"TankGearMiddle_0", CustomTileProperty(), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 1},
-        {"TankGearRight_0", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 2},
+        {"COIN_NORMAL_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 1, 0, 0},
+        {"EDITOR_COIN_LUCKY_BLOCK", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 0},
+        {"EDITOR_MUSHROOM_LUCKY_BLOCK", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 1},
+        {"BRICK", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 0},
+        {"EDITOR_COIN_BRICK", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 2, 0, 1},
+        {"EDITOR_FIRE_FLOWER_LUCKY_BLOCK", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 2},
+        {"EDITOR_GREEN_MUSHROOM_LUCKY_BLOCK", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 3},
+        {"EDITOR_BEETROOT_LUCKY_BLOCK", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 1, 3, 0, 4},
+        {"TANK_GEAR_LEFT_0", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 0},
+        {"TANK_GEAR_MIDDLE_0", CustomTileProperty(), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 1},
+        {"TANK_GEAR_RIGHT_0", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 6, 2},
     },
     { // PAGE 4
-        {"Goomba_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
-        {"GreenKoopa_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 0},
-        {"RedSpiny_0", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
-        {"GreenKoopaShell_3", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
-        {"GreenPiranhaUp_0", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
-        {"PiranhaGreenGround_0", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
-        {"CastleSpikeUp", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
-        {"EDITOR_HammerBroCanMove", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
-        {"EDITOR_HammerBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
-        {"BulletLauncher", CustomTileProperty(), sf::Vector2f(160, 128), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},
-        {"RedKoopa_0", CustomTileProperty(), sf::Vector2f(192, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 1},
-        {"RedKoopaShell_3", CustomTileProperty(), sf::Vector2f(224, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 1},
-        {"GreenSpiny_0", CustomTileProperty(), sf::Vector2f(256, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 1},
-        {"GreenPiranhaDown_0", CustomTileProperty(), sf::Vector2f(128, 32), sf::Vector2i(16, 10), sf::Vector2f(32.0f, 0.f), 2, 1, 0, 1},
-        {"GreenPiranhaRight_0", CustomTileProperty(), sf::Vector2f(128, 64), sf::Vector2i(22, 16), sf::Vector2f(63.0f, 32.0f), 2, 1, 0, 2},
-        {"GreenPiranhaLeft_0", CustomTileProperty(), sf::Vector2f(128, 96), sf::Vector2i(10, 16), sf::Vector2f(0.0f, 32.f), 2, 1, 0, 3},
-        {"PinkPiranhaUp_0", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 1, 0},
-        {"PinkPiranhaDown_0", CustomTileProperty(), sf::Vector2f(160, 32), sf::Vector2i(16, 10), sf::Vector2f(32.0f, 0.f), 2, 1, 1, 1},
-        {"PinkPiranhaRight_0", CustomTileProperty(), sf::Vector2f(160, 64), sf::Vector2i(22, 16), sf::Vector2f(63.0f, 32.0f), 2, 1, 1, 2},
-        {"PinkPiranhaLeft_0", CustomTileProperty(), sf::Vector2f(160, 96), sf::Vector2i(10, 16), sf::Vector2f(0.0f, 32.f), 2, 1, 1, 3},
-        {"EDITOR_FireBroCanMove", CustomTileProperty(), sf::Vector2f(0, 128), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 0},
-        {"EDITOR_FireBroCannotMove", CustomTileProperty(), sf::Vector2f(0, 160), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 1},
-        {"EDITOR_RotodiscRound", CustomTileProperty(FloatProps("Radius", 150.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 5, 0, 0},
-        {"EDITOR_RotodiscFlower", CustomTileProperty(FloatProps("Max Radius", 200.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), FloatProps("Radius Change Rate", 5.f, 0.f, 30.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 6, 0, 0},
-        {"GreenKoopaParatroopa_0", CustomTileProperty(), sf::Vector2f(96, 32), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 7, 0},
-        {"BulletLauncherFlipped", CustomTileProperty(), sf::Vector2f(160, 160), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 1, 0},
-        {"GearLauncherUp", CustomTileProperty(), sf::Vector2f(64, 32), sf::Vector2i(0, 32), sf::Vector2f(32.0f, 22.0f), 2, 6, 0, 0},
-        {"FireLauncher", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 2, 0},
-        {"FireLauncherFlipped", CustomTileProperty(), sf::Vector2f(64, 96), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 3, 0},
-        {"GearLauncherDown", CustomTileProperty(), sf::Vector2f(64, 128), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 41.0f), 2, 6, 1, 0},
-        {"FireLauncherStand", CustomTileProperty(), sf::Vector2f(64, 160), sf::Vector2i(2, 27), sf::Vector2f(0.f, 0.f), 2, 4, 4, 0},
+        {"GOOMBA_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(15.0f, 31.0f), 2, 0, 0, 0},
+        {"GREEN_KOOPA_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 0},
+        {"RED_SPINY_0", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 0},
+        {"GREEN_KOOPA_SHELL_3", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 0},
+        {"GREEN_PIRANHA_UP_0", CustomTileProperty(), sf::Vector2f(128, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 0, 0},
+        {"PIRANHA_GROUND_0", CustomTileProperty(), sf::Vector2f(0, 32), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 2, 2, 0, 0},
+        {"CASTLE_SPIKE_UP", CustomTileProperty(), sf::Vector2f(32, 32), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 1, 0},
+        {"EDITOR_FIRE_BRO_CAN_MOVE", CustomTileProperty(), sf::Vector2f(0, 64), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 0},
+        {"EDITOR_FIRE_BRO_CANNOT_MOVE", CustomTileProperty(), sf::Vector2f(0, 96), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 0, 1},
+        {"BULLET_LAUNCHER", CustomTileProperty(), sf::Vector2f(160, 128), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 0, 0},
+        {"RED_KOOPA_0", CustomTileProperty(), sf::Vector2f(192, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 2, 1},
+        {"RED_KOOPA_SHELL_3", CustomTileProperty(), sf::Vector2f(224, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 27.0f), 2, 0, 3, 1},
+        {"GREEN_SPINY_0", CustomTileProperty(), sf::Vector2f(256, 0), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 29.0f), 2, 0, 5, 1},
+        {"GREEN_PIRANHA_DOWN_0", CustomTileProperty(), sf::Vector2f(128, 32), sf::Vector2i(16, 10), sf::Vector2f(32.0f, 0.f), 2, 1, 0, 1},
+        {"GREEN_PIRANHA_RIGHT_0", CustomTileProperty(), sf::Vector2f(128, 64), sf::Vector2i(22, 16), sf::Vector2f(63.0f, 32.0f), 2, 1, 0, 2},
+        {"GREEN_PIRANHA_LEFT_0", CustomTileProperty(), sf::Vector2f(128, 96), sf::Vector2i(10, 16), sf::Vector2f(0.0f, 32.f), 2, 1, 0, 3},
+        {"PINK_PIRANHA_UP_0", CustomTileProperty(), sf::Vector2f(160, 0), sf::Vector2i(16, 22), sf::Vector2f(32.0f, 63.0f), 2, 1, 1, 0},
+        {"PINK_PIRANHA_DOWN_0", CustomTileProperty(), sf::Vector2f(160, 32), sf::Vector2i(16, 10), sf::Vector2f(32.0f, 0.f), 2, 1, 1, 1},
+        {"PINK_PIRANHA_RIGHT_0", CustomTileProperty(), sf::Vector2f(160, 64), sf::Vector2i(22, 16), sf::Vector2f(63.0f, 32.0f), 2, 1, 1, 2},
+        {"PINK_PIRANHA_LEFT_0", CustomTileProperty(), sf::Vector2f(160, 96), sf::Vector2i(10, 16), sf::Vector2f(0.0f, 32.f), 2, 1, 1, 3},
+        {"EDITOR_FIRE_BRO_CAN_MOVE", CustomTileProperty(), sf::Vector2f(0, 128), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 0},
+        {"EDITOR_FIRE_BRO_CANNOT_MOVE", CustomTileProperty(), sf::Vector2f(0, 160), sf::Vector2i(7, 16), sf::Vector2f(24.0f, 64.0f), 2, 3, 1, 1},
+        {"EDITOR_ROTODISC_ROUND", CustomTileProperty(FloatProps("Radius", 150.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 96), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 5, 0, 0},
+        {"EDITOR_ROTODISC_FLOWER", CustomTileProperty(FloatProps("Max Radius", 200.f, 0.f, 9999.f), FloatProps("Angle", 0.f, 0.f, 360.f), FloatProps("Radius Change Rate", 5.f, 0.f, 30.f), IntProps("Speed", 1, 0, 10), IntProps("Position State", 0, 0, 3)), sf::Vector2f(32, 64), sf::Vector2i(0, 0), sf::Vector2f(16.f, 16.f), 2, 6, 0, 0},
+        {"GREEN_KOOPA_PARATROOPA_0", CustomTileProperty(), sf::Vector2f(96, 32), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 47.0f), 2, 0, 7, 0},
+        {"BULLET_LAUNCHER_FLIPPED", CustomTileProperty(), sf::Vector2f(160, 160), sf::Vector2i(0, 0), sf::Vector2f(16.0f, 31.0f), 2, 4, 1, 0},
+        {"GEAR_LAUNCHER", CustomTileProperty(), sf::Vector2f(64, 32), sf::Vector2i(0, 32), sf::Vector2f(32.0f, 22.0f), 2, 6, 0, 0},
+        {"FIRE_LAUNCHER", CustomTileProperty(), sf::Vector2f(64, 64), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 2, 0},
+        {"FIRE_LAUNCHER_FLIPPED", CustomTileProperty(), sf::Vector2f(64, 96), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 3, 0},
+        {"GEAR_LAUNCHER_FLIPPED", CustomTileProperty(), sf::Vector2f(64, 128), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 41.0f), 2, 6, 1, 0},
+        {"FIRE_LAUNCHER_STAND", CustomTileProperty(), sf::Vector2f(64, 160), sf::Vector2i(2, 27), sf::Vector2f(0.f, 0.f), 2, 4, 4, 0},
     },
     { // PAGE 5
-        {"SmallMario_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 28), sf::Vector2f(11.0f, 51.0f)},
-        {"ExitGateIndicator_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
-        {"ExitGateBack", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)},
-        {"Checkpoint_0", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(32, 0), sf::Vector2f(45.f, 112.f), 4, 0, 0, 0}
+        {"SMALL_MARIO_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 31), sf::Vector2f(11.0f, 51.0f)},
+        {"EXIT_INDICATOR_0", CustomTileProperty(), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 31.0f)},
+        {"EXIT_GATE_BACK", CustomTileProperty(), sf::Vector2f(64, 0), sf::Vector2i(64, 0), sf::Vector2f(0.0f, 287.0f)},
+        {"CHECKPOINT_0", CustomTileProperty(), sf::Vector2f(96, 0), sf::Vector2i(32, 0), sf::Vector2f(45.f, 112.f), 4, 0, 0, 0}
     },
     { // PAGE 6
-        {"RedPlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
-        {"BluePlatform", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 1, 0},
+        {"RED_PLATFORM", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 0, 0},
+        {"BLUE_PLATFORM", CustomTileProperty(IntProps("Speed", 0, 0, 6), BoolProps("is Smooth", false), BoolProps("is Fall", false), BoolProps("is Wait", false), BoolProps("is Small", false)), sf::Vector2f(32, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 3, 0, 1, 0},
     }
 }};
 std::array<MFCPP::TabButton, 6> TabList{};
@@ -184,29 +183,29 @@ int PrevPage = -1;
 int PreviewPage = CurrPage;
 
 void SelectTileInit() {
-    ImageManager::AddTexture("EDITOR_SelectTileBackground", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
-    ImageManager::AddTexture("EDITOR_SelectTileGrid", "data/resources/Editor/EDITOR_SelectTileGrid.png");
-    ImageManager::AddTexture("EDITOR_SelectTileBox", "data/resources/Editor/EDITOR_SelectTileBox.png");
+    //ImageManager::AddTexture("EDITOR_SelectTileBackground", "data/resources/Editor/EDITOR_TileSelectBackGround.png");
+    //ImageManager::AddTexture("EDITOR_SelectTileGrid", "data/resources/Editor/EDITOR_SelectTileGrid.png");
+    //ImageManager::AddTexture("EDITOR_SelectTileBox", "data/resources/Editor/EDITOR_SelectTileBox.png");
     //TAB
-    ImageManager::AddTexture("EDITOR_TileTab", "data/resources/Editor/EDITOR_TAB/EDITOR_TileTab.png");
-    ImageManager::AddTexture("EDITOR_BonusTab", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
-    ImageManager::AddTexture("EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
-    ImageManager::AddTexture("EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
-    ImageManager::AddTexture("EDITOR_SceneryTab", "data/resources/Editor/EDITOR_TAB/EDITOR_SceneryTab.png");
-    ImageManager::AddTexture("EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
-    ImageManager::AddTexture("EDITOR_SettingButton", "data/resources/Editor/EDITOR_TAB/EDITOR_Settings.png");
+    //ImageManager::AddTexture("EDITOR_TileTab", "data/resources/Editor/EDITOR_TAB/EDITOR_TileTab.png");
+    //ImageManager::AddTexture("EDITOR_BonusTab", "data/resources/Editor/EDITOR_TAB/EDITOR_BonusTab.png");
+    //ImageManager::AddTexture("EDITOR_EnemyTab", "data/resources/Editor/EDITOR_TAB/EDITOR_EnemyTab.png");
+    //ImageManager::AddTexture("EDITOR_LevelTab", "data/resources/Editor/EDITOR_TAB/EDITOR_LevelTab.png");
+    //ImageManager::AddTexture("EDITOR_SceneryTab", "data/resources/Editor/EDITOR_TAB/EDITOR_SceneryTab.png");
+    //ImageManager::AddTexture("EDITOR_PlatformTab", "data/resources/Editor/EDITOR_TAB/EDITOR_PlatformTab.png");
+    //ImageManager::AddTexture("EDITOR_SettingButton", "data/resources/Editor/EDITOR_TAB/EDITOR_Settings.png");
 
-    TabList[0].setTexture(*ImageManager::getReturnTexture("EDITOR_TileTab"));
-    TabList[1].setTexture(*ImageManager::getReturnTexture("EDITOR_SceneryTab"));
-    TabList[2].setTexture(*ImageManager::getReturnTexture("EDITOR_BonusTab"));
-    TabList[3].setTexture(*ImageManager::getReturnTexture("EDITOR_EnemyTab"));
-    TabList[4].setTexture(*ImageManager::getReturnTexture("EDITOR_LevelTab"));
-    TabList[5].setTexture(*ImageManager::getReturnTexture("EDITOR_PlatformTab"));
+    TabList[0].setTexture(*ImageManager::getReturnTexture("EDITOR_TILE_TAB"));
+    TabList[1].setTexture(*ImageManager::getReturnTexture("EDITOR_SCENERY_TAB"));
+    TabList[2].setTexture(*ImageManager::getReturnTexture("EDITOR_BONUS_TAB"));
+    TabList[3].setTexture(*ImageManager::getReturnTexture("EDITOR_ENEMY_TAB"));
+    TabList[4].setTexture(*ImageManager::getReturnTexture("EDITOR_LEVEL_TAB"));
+    TabList[5].setTexture(*ImageManager::getReturnTexture("EDITOR_PLATFORM_TAB"));
 
-    SettingButton.setTexture(*ImageManager::getReturnTexture("EDITOR_SettingButton"));
+    SettingButton.setTexture(*ImageManager::getReturnTexture("EDITOR_SETTING"));
 
-    SelectTileWidth = ImageManager::getReturnTexture("EDITOR_SelectTileGrid")->getSize().x;
-    SelectTileHeight = ImageManager::getReturnTexture("EDITOR_SelectTileGrid")->getSize().y;
+    SelectTileWidth = ImageManager::getReturnTexture("EDITOR_SELECT_TILE_GRID")->getSize().x;
+    SelectTileHeight = ImageManager::getReturnTexture("EDITOR_SELECT_TILE_GRID")->getSize().y;
 
     SelectTileBackground[0].texCoords = sf::Vector2f(0.0f, 0.0f);
     SelectTileBackground[1].texCoords = sf::Vector2f(640.0f, 0.0f);
@@ -218,7 +217,7 @@ void SelectTileInit() {
     SelectTileGrid[2].texCoords = SelectTileRenderVA[2].texCoords = sf::Vector2f(0.0f, 352.0f);
     SelectTileGrid[3].texCoords = SelectTileRenderVA[3].texCoords = sf::Vector2f(480.0f, 352.0f);
 
-    SelectTileBox.setTexture(ImageManager::getReturnTexture("EDITOR_SelectTileBox"), true);
+    SelectTileBox.setTexture(ImageManager::getReturnTexture("EDITOR_SELECT_TILE_BOX"), true);
 }
 
 void SelectTilePosUpdate() {
@@ -261,9 +260,9 @@ void SelectTilePosUpdate() {
 void SelectTileDraw() {
     if (!EDITOR_SELECTTILE) return;
 
-    WindowFrame::getWindow().draw(SelectTileBackground, ImageManager::getReturnTexture("EDITOR_SelectTileBackground"));
+    WindowFrame::getWindow().draw(SelectTileBackground, ImageManager::getReturnTexture("EDITOR_SELECT_TILE_BACKGROUND"));
     WindowFrame::getWindow().draw(SelectTileRenderVA, &SelectTileRender.getTexture());
-    WindowFrame::getWindow().draw(SelectTileGrid, ImageManager::getReturnTexture("EDITOR_SelectTileGrid"));
+    WindowFrame::getWindow().draw(SelectTileGrid, ImageManager::getReturnTexture("EDITOR_SELECT_TILE_GRID"));
     WindowFrame::getWindow().draw(SettingButton);
 
     for (const auto &i : TabList)

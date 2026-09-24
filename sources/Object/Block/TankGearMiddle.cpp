@@ -10,7 +10,7 @@
 TankGearMiddle::TankGearMiddle(CustomTileManager &manager, const sf::Vector2f &position)
     : CustomTile(manager),
     m_transform(position, sf::Vector2f(0.f, 0.f), sf::degrees(0.f)) {
-    m_animation.setAnimationSequence("TankGearMiddleAnimName");
+    m_animation.setAnimationSequence("TANK_GEAR_MIDDLE");
     m_animation.setAnimation(0, 2, 50, true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     MFCPP::Tilemap::setIndexTilemapCollision(position.x, position.y, true);

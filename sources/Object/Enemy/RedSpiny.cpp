@@ -7,14 +7,15 @@
 #include "Core/Object/Enemy/Behavior/GoombaAIBehavior.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/Utility.hpp"
-#include "Effect/ScoreEffect.hpp"
+#include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 RedSpiny::RedSpiny(EnemyManager &manager, const sf::Vector2f& position)
     : Enemy(manager),
     m_transform(position, sf::Vector2f(16.f, 31.f), sf::degrees(0.f)){
     m_animation.setAnimation(0, 1, 14, true);
-    m_animation.setAnimationSequence("RedSpinyAnimName");
+    m_animation.setAnimationSequence("RED_SPINY");
     m_hitbox = sf::FloatRect({0.f, 0.f}, {32.f, 32.f});
     m_wall_hitbox = sf::FloatRect(getHitbox().position, getHitbox().size - sf::Vector2f(0.f, 6.f));
     m_velocity = sf::Vector2f(1.f, 0.f);
@@ -87,7 +88,7 @@ void RedSpiny::YUpdate(const float deltaTime) {
 
 void RedSpiny::BlockHit() {
     if (m_state > 0) return;
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     SoundManager::PlaySound(SoundID::GAME_KICK2);
     Death(1);
 }
@@ -122,7 +123,7 @@ void RedSpiny::Death(unsigned int state) {
         case 1:
             setDisabled(false);
             m_velocity = sf::Vector2f(0.f, -3.f);
-            m_animation.setAnimationSequence("RedSpinyDeathEffect");
+            m_animation.setAnimationSequence("DEAD_RED_SPINY");
             m_animation.setAnimation(0,0,100, true);
             setShellKicking(false);
             setShellBlocker(false);

@@ -14,7 +14,7 @@
 PinkPiranhaUp::PinkPiranhaUp(EnemyManager &manager, const sf::Vector2f &position)
     : Enemy(manager),
     m_transform(PiranhaAIBehavior::PiranhaPositionAdjust(PiranhaDirection::UP, position), sf::Vector2f(32.f, 63.f), sf::degrees(0.f)){
-    m_animation.setAnimationSequence("PinkPiranhaUpAnimName");
+    m_animation.setAnimationSequence("PINK_PIRANHA_UP");
     m_animation.setAnimation(0, 1, 24, true);
     m_hitbox = sf::FloatRect({16.f, 17.f}, {31.f, 47.f});
 

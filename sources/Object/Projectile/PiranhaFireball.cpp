@@ -1,22 +1,21 @@
 #include "Object/Projectile/PiranhaFireball.hpp"
 
 #include "Core/HitboxUtils.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Utility.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Object/ProjectileManager.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "Effect/FireballExplosion.hpp"
 #include "Effect/MarioEffect.hpp"
-#include "Effect/ScoreEffect.hpp"
 #include "Object/Mario.hpp"
+#include "Object/Effect/FireballExplosionEffect.hpp"
+#include "Object/Effect/Score100Effect.hpp"
 
 PiranhaFireball::PiranhaFireball(ProjectileManager &manager, const PiranhaDirection direction, const sf::Vector2f &position)
     : Projectile(manager),
     m_transform(position, sf::Vector2f(7.f, 16.f), sf::degrees(0.f)){
-    m_animation.setTexture("Fireball", true);
+    m_animation.setTexture("PROJECTILE_FIREBALL", true);
     m_hitbox = sf::FloatRect({0.f, 0.f}, {15.f, 16.f});
     setDrawingPriority(2);
     switch (direction) {
@@ -55,7 +54,7 @@ void PiranhaFireball::updatePreviousData() {
 }
 
 void PiranhaFireball::FireballEffect() const {
-    AddFireballExplosion(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f);
+    GameScene::effectManager.addEffect<FireballExplosionEffect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - 7.f));
 }
 
 void PiranhaFireball::statusUpdate(float deltaTime) {
@@ -99,7 +98,7 @@ void PiranhaFireball::Destroy() {
 }
 
 void PiranhaFireball::LevelEndCleanup() {
-    AddScoreEffect(ScoreID::SCORE_100, m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y);
+    GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
     Destroy();
 }
 
