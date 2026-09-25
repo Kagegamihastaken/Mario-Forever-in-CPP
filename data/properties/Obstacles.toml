@@ -1,0 +1,631 @@
+[[obstacles]]
+id = 0
+texture_x = 0
+texture_y = 0
+collision_id = 0 #Obstacle Collision
+y_high = 0 #Maximum Y Collision (0: top)
+y_low = 32 #Minimum Y Collision (32: bottom)
+
+[[obstacles]]
+id = 1
+texture_x = 32
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 2
+texture_x = 64
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 3
+texture_x = 0
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 4
+texture_x = 32
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 5
+texture_x = 64
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 6
+texture_x = 96
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 7
+texture_x = 128
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 8
+texture_x = 160
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 9
+texture_x = 128
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 10
+texture_x = 160
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 11
+texture_x = 0
+texture_y = 96
+collision_id = 3 #Slope Collision
+y_high = 0 #Slope Y Begin
+y_low = 32 #Slope Y End
+
+[[obstacles]]
+id = 12
+texture_x = 32
+texture_y = 96
+collision_id = 3
+y_high = 16
+y_low = 32
+
+[[obstacles]]
+id = 13
+texture_x = 64
+texture_y = 96
+collision_id = 3
+y_high = 0
+y_low = 16
+
+[[obstacles]]
+id = 14
+texture_x = 0
+texture_y = 64
+collision_id = 3
+y_high = 32
+y_low = 0
+
+[[obstacles]]
+id = 15
+texture_x = 32
+texture_y = 64
+collision_id = 3
+y_high = 16
+y_low = 0
+
+[[obstacles]]
+id = 16
+texture_x = 64
+texture_y = 64
+collision_id = 3
+y_high = 32
+y_low = 16
+
+[[obstacles]]
+id = 17
+texture_x = 128
+texture_y = 64
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 18
+texture_x = 160
+texture_y = 64
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 19
+texture_x = 192
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 20
+texture_x = 192
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 21
+texture_x = 224
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 22
+texture_x = 224
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 23
+texture_x = 256
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 24
+texture_x = 256
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 25
+texture_x = 0
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 26
+texture_x = 32
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 27
+texture_x = 64
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 28
+texture_x = 0
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 29
+texture_x = 32
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 30
+texture_x = 64
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 31
+texture_x = 0
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 32
+texture_x = 32
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 33
+texture_x = 64
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 34
+texture_x = 96
+texture_y = 32
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 35
+texture_x = 128
+texture_y = 96
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 36
+texture_x = 160
+texture_y = 96
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 37
+texture_x = 128
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 38
+texture_x = 160
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 39
+texture_x = 128
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 40
+texture_x = 160
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 41
+texture_x = 192
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 42
+texture_x = 192
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 43
+texture_x = 224
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 44
+texture_x = 224
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 45
+texture_x = 256
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 46
+texture_x = 256
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 47
+texture_x = 96
+texture_y = 64
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 48
+texture_x = 96
+texture_y = 96
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 49
+texture_x = 128
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 50
+texture_x = 160
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 51
+texture_x = 192
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 52
+texture_x = 128
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 53
+texture_x = 160
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 54
+texture_x = 192
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 55
+texture_x = 128
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 56
+texture_x = 160
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 57
+texture_x = 192
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 58
+texture_x = 96
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 59
+texture_x = 64
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 60
+texture_x = 96
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 61
+texture_x = 64
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 62
+texture_x = 96
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 63
+texture_x = 96
+texture_y = 160
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 64
+texture_x = 96
+texture_y = 128
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 65
+texture_x = 192
+texture_y = 64
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 66
+texture_x = 224
+texture_y = 64
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 67
+texture_x = 256
+texture_y = 64
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 68
+texture_x = 192
+texture_y = 96
+collision_id = 3
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 69
+texture_x = 224
+texture_y = 96
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 70
+texture_x = 256
+texture_y = 96
+collision_id = 3
+y_high = 32
+y_low = 0
+
+[[obstacles]]
+id = 71
+texture_x = 0
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 72
+texture_x = 32
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 13
+
+[[obstacles]]
+id = 73
+texture_x = 224
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 74
+texture_x = 256
+texture_y = 192
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 75
+texture_x = 224
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 76
+texture_x = 256
+texture_y = 224
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 77
+texture_x = 224
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32
+
+[[obstacles]]
+id = 78
+texture_x = 256
+texture_y = 256
+collision_id = 0
+y_high = 0
+y_low = 32

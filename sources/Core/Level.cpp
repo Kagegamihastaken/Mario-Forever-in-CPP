@@ -29,6 +29,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "../../headers/Core/Loading/SceneryLoading.hpp"
 #include "Core/ImageManager.hpp"
+#include "Core/Config/ObstaclesConfig.hpp"
 #include "Core/Loading/BroAILoading.hpp"
 #include "Object/Enemy/GearLauncher.hpp"
 #include "Object/Enemy/GearLauncherFlipped.hpp"
@@ -61,8 +62,8 @@ static std::set<BrickID> BricksTexture;
 static std::set<LuckyBlockID> LuckyBlockTexture;
 static bool CoinTexture = false;
 
+//Texture Loading
 namespace {
-	//Texture Loading
 	void ObstaclesTextureBuild() {
 		MFCPP::Log::InfoPrint(fmt::format("Level: Load {} Obstacles Texture", ObstacleTexture.size()));
 		for (const auto &i : ObstacleTexture) {
@@ -148,7 +149,7 @@ void ReadData(const std::filesystem::path& path) {
 		const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
 		switch (const SelectTileData* ReadTile = &TilePage[page][id]; ReadTile->categoryID) {
 			case 0:
-				ObstacleTexture.insert(fmt::format("Tile_{}", ReadTile->objectID));
+				ObstacleTexture.insert(fmt::format("TILE_{}", ReadTile->objectID));
 				LevelData.push_back({static_cast<float>(ReadTile->objectID), pos.x, pos.y});
 				break;
 			case 1:
@@ -231,14 +232,12 @@ void Obstaclebuilding() {
 	ObstaclesVA[3].texCoords = sf::Vector2f(LevelWidth, LevelHeight);
 
 	for (auto & i : LevelData) {
-		const int posTextureIndex = std::ranges::find_if(ID_list, [&i](const std::array<int, 6> &compare) {
-			return compare[0] == static_cast<int>(i[0]);
-		}) - (ID_list.begin());
-		sf::Sprite obstaclesRender(ImageManager::getTexture(fmt::format("Tile_{}", posTextureIndex)));
+		auto obstacleData = MFCPP::ObstacleConfig::getData(static_cast<int32_t>(i[0]));
+		sf::Sprite obstaclesRender(ImageManager::getTexture(fmt::format("TILE_{}", static_cast<int32_t>(i[0]))));
 		obstaclesRender.setPosition({ i[1], i[2] });
 		MFCPP::Tilemap::setIndexTilemapCollision(i[1], i[2], true);
-		MFCPP::Tilemap::setIndexTilemapID(i[1], i[2], ID_list[posTextureIndex][3]);
-		MFCPP::Tilemap::setIndexTilemapFloorY(i[1], i[2], {static_cast<float>(ID_list[posTextureIndex][4]), static_cast<float>(ID_list[posTextureIndex][5])});
+		MFCPP::Tilemap::setIndexTilemapID(i[1], i[2], obstacleData.collision_id);
+		MFCPP::Tilemap::setIndexTilemapFloorY(i[1], i[2], {obstacleData.y_high, obstacleData.y_low});
 		ObstacleRTexture.draw(obstaclesRender);
 	}
 	ObstacleRTexture.display();

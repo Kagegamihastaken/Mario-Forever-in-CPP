@@ -20,8 +20,9 @@
 #include "Block/Obstacles.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/HitboxUtils.hpp"
-#include "Core/TextureConfig.hpp"
+#include "../../../headers/Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Config/ObstaclesConfig.hpp"
 #include "Object/Enemy/Thwomp.hpp"
 
 EnemyManager GameScene::enemyManager;
@@ -201,13 +202,14 @@ void GameScene::loadResources() {
     //Load Resources
     WindowFrame::GameSceneInit();
     //Preload
+    MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml");
     MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
-    loadObstacleRes();
+    MFCPP::TextureConfig::loadFile("data/properties/Backgrounds.toml", true);
     //Force Load
     Mario::loadMarioRes();
     CoinInit();
     MarioEffectInit();
-    BgInit();
+    //BgInit();
     ExitGateInit();
 
     AddText("_COIN", "", TextMarginID::RIGHT_MARGIN, 287.0f, 15.0f);
@@ -222,10 +224,10 @@ void GameScene::loadResources() {
     }
     //Load Level
     //ReadData("data/levels/onedashthree.json");
-    //ReadData("data/levels/twodashone.json");
+    ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
     //ReadData("data/levels/gearuptest.json");
-    ReadData("data/levels/sevendashone.json");
+    //ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

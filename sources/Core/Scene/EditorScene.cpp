@@ -11,18 +11,16 @@
 #include "Object/Mario.hpp"
 #include "Text/Text.hpp"
 #include "Core/Scroll.hpp"
-#include "Core/TextureConfig.hpp"
+#include "../../../headers/Core/Config/TextureConfig.hpp"
+#include "Core/Config/ObstaclesConfig.hpp"
 
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
-    loadObstacleTemp();
+    //loadObstacleTemp();
+    MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml", false);
     MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
-    MFCPP::TextureConfig::loadFile("data/editor/EditorTextures.toml");
-    CoinInit();
-    ForceLoadCoinTexture();
-    MarioEffectInit();
-    BgInit();
-    ExitGateInit();
+    MFCPP::TextureConfig::loadFile("data/editor/properties/EditorTextures.toml");
+    MFCPP::TextureConfig::loadFile("data/properties/Backgrounds.toml", true);
     //
     SelectTileInit();
     EditorInit();

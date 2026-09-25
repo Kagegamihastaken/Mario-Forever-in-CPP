@@ -1,0 +1,23 @@
+[[textures]]
+id = "BLUE_BACKGROUND"
+path = "data/resources/Background/BlueBackground.png"
+animated = false
+is_repeated = true
+width = 512
+height = 480
+
+[[textures]]
+id = "BLUE_FOREGROUND"
+path = "data/resources/Background/BlueForeground.png"
+animated = false
+is_repeated = true
+width = 1528
+height = 480
+
+[[textures]]
+id = "CAVE"
+path = "data/resources/Background/Cave.png"
+animated = false
+is_repeated = true
+width = 511
+height = 480

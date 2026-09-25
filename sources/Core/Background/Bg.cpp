@@ -12,14 +12,6 @@ struct BgLayer {
 std::vector<BgLayer> BgList;
 
 void BgInit() {
-	ImageManager::PreloadTexture("BlueBackground", "data/resources/Background/BlueBackground.png", {}, true);
-	ImageManager::PreloadTexture("BlueForeground", "data/resources/Background/BlueForeground.png", {}, true);
-	ImageManager::PreloadTexture("GreenBackground", "data/resources/Background/GreenBackground.png", {}, true);
-	ImageManager::PreloadTexture("GreenFore", "data/resources/Background/GreenFore.png", {}, true);
-	ImageManager::PreloadTexture("GreenMid", "data/resources/Background/GreenMid.png", {}, true);
-	ImageManager::PreloadTexture("GreenMid2", "data/resources/Background/GreenMid2.png", {}, true);
-	ImageManager::PreloadTexture("GreenBack", "data/resources/Background/GreenBack.png", {}, true);
-	ImageManager::PreloadTexture("Cave", "data/resources/Background/Cave.png", {}, true);
 }
 void AddBg(std::string_view name, sf::Vector2f parallax) {
 	BgLayer dat;
