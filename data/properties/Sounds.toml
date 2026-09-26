@@ -1,0 +1,160 @@
+[[sounds]]
+id = "GAME_JUMP"
+path = "data/sounds/jump.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_BUMP"
+path = "data/sounds/bump.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_BREAK"
+path = "data/sounds/break.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_COIN"
+path = "data/sounds/coin.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_STOMP"
+path = "data/sounds/stomp.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_POWERUP"
+path = "data/sounds/powerup.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_VINE"
+path = "data/sounds/vine.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK2"
+path = "data/sounds/kick2.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_PIPE"
+path = "data/sounds/pipe.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK3"
+path = "data/sounds/kick3.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK4"
+path = "data/sounds/kick4.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK5"
+path = "data/sounds/kick5.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK6"
+path = "data/sounds/kick6.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK7"
+path = "data/sounds/kick7.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_KICK8"
+path = "data/sounds/kick8.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_1UP"
+path = "data/sounds/1up.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_HAMMER"
+path = "data/sounds/hammer.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_FIREBALL"
+path = "data/sounds/fireball.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_BULLET1"
+path = "data/sounds/bullet1.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_BULLET2"
+path = "data/sounds/bullet2.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_BULLET3"
+path = "data/sounds/bullet3.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_TIMEOUT"
+path = "data/sounds/timeout.ogg"
+change_environment = false
+
+[[sounds]]
+id = "GAME_THROW"
+path = "data/sounds/throw.ogg"
+change_environment = false
+
+[[sounds]]
+id = "GAME_STUN"
+path = "data/sounds/stun.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_CHILUN"
+path = "data/sounds/chilun.ogg"
+change_environment = true
+
+[[sounds]]
+id = "GAME_VOLCANO"
+path = "data/sounds/volcano.ogg"
+change_environment = true
+
+#Editor
+[[sounds]]
+id = "EDITOR_PLACE"
+path = "data/sounds/Editor/EDITOR_place.ogg"
+change_environment = false
+
+[[sounds]]
+id = "EDITOR_DELETE"
+path = "data/sounds/Editor/EDITOR_delete.ogg"
+change_environment = false
+
+[[sounds]]
+id = "EDITOR_SWITCH"
+path = "data/sounds/Editor/EDITOR_switch.ogg"
+change_environment = false
+
+[[sounds]]
+id = "EDITOR_MENU"
+path = "data/sounds/Editor/EDITOR_menu.ogg"
+change_environment = false
+
+[[sounds]]
+id = "EDITOR_CLOSE"
+path = "data/sounds/Editor/EDITOR_close.ogg"
+change_environment = false
+
+[[sounds]]
+id = "EDITOR_TAB_SELECT"
+path = "data/sounds/Editor/EDITOR_tab_select.ogg"
+change_environment = false

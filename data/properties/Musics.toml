@@ -1,0 +1,27 @@
+[[musics]]
+id = "NIGHT"
+path = "data/musics/night.ogg"
+
+[[musics]]
+id = "YKY"
+path = "data/musics/yky.ogg"
+
+[[musics]]
+id = "UNDERGROUND"
+path = "data/musics/underground1.ogg"
+
+[[musics]]
+id = "APOPLEXY"
+path = "data/musics/apoplexy.ogg"
+
+[[musics]]
+id = "MARIO_DEATH"
+path = "data/musics/1-Music-Die.ogg"
+
+[[musics]]
+id = "DEFAULT"
+path = "data/musics/Rigit_Medium.ogg"
+
+[[musics]]
+id = "LEVEL_COMPLETE"
+path = "data/musics/Level_Complete.ogg"

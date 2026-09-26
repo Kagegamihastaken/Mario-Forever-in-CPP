@@ -8,15 +8,19 @@
 #include "Core/Scene/EditorScene.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Core/Profiler.hpp"
+#include "Core/Config/SoundsConfig.hpp"
+#include "Core/Config/MusicsConfig.hpp"
 
 SceneManager g_sceneManager;
 
 void Game::Init() {
     //Essential
     WindowFrame::Init();
-    SoundInit();
+    MFCPP::SoundsConfig::loadFile("data/properties/Sounds.toml");
+    MFCPP::MusicsConfig::loadFile("data/properties/Musics.toml");
+    //SoundInit();
     loadFontRes();
-    MusicInit();
+    //MusicInit();
     Scroll::Init();
     //Scene
     g_sceneManager.addScene<GameScene>(SceneManager::SceneState::GAMEPLAY);

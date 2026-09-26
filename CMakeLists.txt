@@ -134,7 +134,7 @@ else()
     set(TRACY_ENABLE OFF CACHE BOOL "Tracy Enable" FORCE)
     set(TRACY_ON_DEMAND OFF CACHE BOOL "Tracy Demand" FORCE)
 endif()
-
+#https://github.com/batterycenter/embed
 FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy tomlplusplus)
 # Ensure the tracy_SOURCE_DIR is accessible for include paths
 FetchContent_GetProperties(tracy)
