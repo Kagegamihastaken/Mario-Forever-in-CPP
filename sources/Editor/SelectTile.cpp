@@ -162,6 +162,8 @@ const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePa
         {"GEAR_LAUNCHER_FLIPPED", CustomTileProperty(), sf::Vector2f(64, 128), sf::Vector2i(0, 0), sf::Vector2f(32.0f, 41.0f), 2, 6, 1, 0},
         {"FIRE_LAUNCHER_STAND", CustomTileProperty(), sf::Vector2f(64, 160), sf::Vector2i(2, 27), sf::Vector2f(0.f, 0.f), 2, 4, 4, 0},
         {"THWOMP_0", CustomTileProperty(), sf::Vector2f(192, 32), sf::Vector2i(6, 0), sf::Vector2f(32.f, 65.f), 2, 7, 0, 0},
+        {"TANK_SPIKE_LEFT", CustomTileProperty(), sf::Vector2f(192, 64), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 2, 0},
+        {"TANK_SPIKE_RIGHT", CustomTileProperty(), sf::Vector2f(192, 96), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 3, 0},
     },
     { // PAGE 5
         {"SMALL_MARIO_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 31), sf::Vector2f(11.0f, 51.0f)},

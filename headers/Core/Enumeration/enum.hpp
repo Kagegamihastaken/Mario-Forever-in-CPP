@@ -30,7 +30,7 @@ enum class PiranhaID : uint8_t { GREEN, PINK };
 enum class PiranhaDirection : uint8_t {UP, DOWN, RIGHT, LEFT};
 enum class PiranhaProjectileType : uint8_t {FIREBALL};
 //enum for Spike
-enum class SpikeID : uint8_t {PIRANHA_GROUND, SPIKE_NORMAL};
+enum class SpikeID : uint8_t {PIRANHA_GROUND, CASTLE_SPIKE_UP, TANK_SPIKE_LEFT, TANK_SPIKE_RIGHT};
 //enum for BroAI
 enum class BroAIID : uint8_t {HAMMER_BRO, FIRE_BRO};
 enum class BroAIMovementType : uint8_t {CAN_JUMP, CANNOT_JUMP};

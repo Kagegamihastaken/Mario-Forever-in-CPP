@@ -686,3 +686,18 @@ path = "data/resources/Projectiles/FireLauncherProjectile.png"
 animated = false
 width = 25
 height = 26
+
+[[textures]]
+id = "TANK_SPIKE_LEFT"
+path = "data/resources/Spike/TankSpike.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "TANK_SPIKE_RIGHT"
+path = "data/resources/Spike/TankSpike.png"
+animated = false
+x = 32
+width = 32
+height = 32
