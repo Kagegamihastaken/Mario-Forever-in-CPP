@@ -128,6 +128,11 @@ id = "GAME_VOLCANO"
 path = "data/sounds/volcano.ogg"
 change_environment = true
 
+[[sounds]]
+id = "GAME_THWOMP"
+path = "data/sounds/thwomp.ogg"
+change_environment = true
+
 #Editor
 [[sounds]]
 id = "EDITOR_PLACE"

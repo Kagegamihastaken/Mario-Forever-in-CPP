@@ -21,6 +21,7 @@ public:
     void Death(unsigned int state) override;
     void BlockHit() override;
     void ShellHit() override;
+    void ChangeAnimation();
     [[nodiscard]] bool isDeath() override;
     void animationUpdate(float deltaTime) override;
     [[nodiscard]] sf::Vector2f getPosition() override;
@@ -32,6 +33,12 @@ private:
     MFCPP::ActiveObject<float> m_transform;
     sf::FloatRect m_hitbox;
     sf::Vector2f m_velocity;
+    float m_yStore, m_triggerRange;
+    float m_countingBeforeRise, m_rise, m_y_velocity_rise;
+    bool m_decending, m_hitGround;
+    //animation
+    bool m_AnimationSmile, m_AnimationBlink;
+    float m_AnimationBlinkTime;
 };
 
 #endif //MFCPP_THWOMP_HPP

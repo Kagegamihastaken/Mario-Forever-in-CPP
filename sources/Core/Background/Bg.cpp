@@ -25,10 +25,10 @@ void AddBg(std::string_view name, sf::Vector2f parallax) {
 	dat.vertices[2].texCoords = sf::Vector2f(0, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
 	dat.vertices[3].texCoords = sf::Vector2f(LevelWidth, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
 
-	dat.vertices[0].position = sf::Vector2f(0, 0);
-	dat.vertices[1].position = sf::Vector2f(LevelWidth, 0);
-	dat.vertices[2].position = sf::Vector2f(0, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
-	dat.vertices[3].position = sf::Vector2f(LevelWidth, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y));
+	dat.vertices[0].position = sf::Vector2f(-32.f, -32.f);
+	dat.vertices[1].position = sf::Vector2f(LevelWidth + 32.f, -32.f);
+	dat.vertices[2].position = sf::Vector2f(-32.f, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y) + 32.f);
+	dat.vertices[3].position = sf::Vector2f(LevelWidth + 32.f, static_cast<float>(ImageManager::getReturnTexture(name)->getSize().y) + 32.f);
 	dat.parallax = {parallax.x > 1.f ? 1.f : parallax.x, parallax.y > 1.f ? 1.f : parallax.y};
 	BgList.emplace_back(dat);
 }

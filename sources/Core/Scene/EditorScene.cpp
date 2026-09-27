@@ -1,17 +1,13 @@
 #include "Core/Scene/EditorScene.hpp"
 
-#include "Block/Obstacles.hpp"
 #include "Core/WindowFrame.hpp"
-#include "Core/Background/Bg.hpp"
 #include "Core/Background/BgGradient.hpp"
 #include "Editor/Editor.hpp"
-#include "Effect/MarioEffect.hpp"
 #include "Object/Coin.hpp"
-#include "Object/ExitGate.hpp"
 #include "Object/Mario.hpp"
 #include "Text/Text.hpp"
 #include "Core/Scroll.hpp"
-#include "../../../headers/Core/Config/TextureConfig.hpp"
+#include "Core/Config/TextureConfig.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
 
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}

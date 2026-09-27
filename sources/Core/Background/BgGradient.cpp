@@ -11,10 +11,10 @@ void BgGradientSetColor(const sf::Color& firstC, const sf::Color& secondC) {
 	bgGradient[2].color = bgGradient[3].color = secondC;
 }
 void BgGradientInitPos(const float Width, const float Height) {
-	bgGradient[0].position = sf::Vector2f(0, 0);
-	bgGradient[1].position = sf::Vector2f(Width, 0);
-	bgGradient[2].position = sf::Vector2f(0, Height);
-	bgGradient[3].position = sf::Vector2f(Width, Height);
+	bgGradient[0].position = sf::Vector2f(-32.f, -32.f);
+	bgGradient[1].position = sf::Vector2f(Width + 32.f, -32.f);
+	bgGradient[2].position = sf::Vector2f(-32.f, Height + 32.f);
+	bgGradient[3].position = sf::Vector2f(Width + 32.f, Height + 32.f);
 }
 void BgGradientDraw() {
 	ZoneScopedNC("BgGradientDraw", 0x1EAEE3);

@@ -20,7 +20,8 @@
 #include "Block/Obstacles.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/HitboxUtils.hpp"
-#include "../../../headers/Core/Config/TextureConfig.hpp"
+#include "Core/ShakeView.hpp"
+#include "Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
 #include "Object/Enemy/Thwomp.hpp"
@@ -40,10 +41,7 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
     if (const auto *mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         switch (mousePressed->button) {
             case sf::Mouse::Button::Middle:
-                Mario::SetPowerState(3);
-                break;
-            case sf::Mouse::Button::Left:
-                //enemyManager.addEnemy<Thwomp>(WindowFrame::getMousePosition());
+                //Mario::SetPowerState(3);
                 break;
             default: ;
         }
@@ -51,6 +49,7 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
 }
 
 void GameScene::update(const float deltaTime) {
+    MFCPP::ShakeView::update(deltaTime);
     // UI Update
     TimeUpdate(deltaTime);
     TimeRingBehavior();
@@ -190,12 +189,12 @@ void GameScene::setView() {
     const sf::Vector2f ScrollPos = (MFCPP::AutoScroll::getAutoScrollMode()
                                         ? MFCPP::AutoScroll::getPosition()
                                         : Mario::getInterpolatedPosition());
-    Scroll::getView().setCenter({
+    Scroll::getView().setCenter(sf::Vector2f(
         std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x),
                  LevelWidth - WindowFrame::getGameSize().x / 2.f),
         std::min(std::max(WindowFrame::getGameSize().y / 2.0f, ScrollPos.y),
                  LevelHeight - WindowFrame::getGameSize().y / 2.f)
-    });
+    ) + MFCPP::ShakeView::getOffset());
 }
 
 void GameScene::loadResources() {

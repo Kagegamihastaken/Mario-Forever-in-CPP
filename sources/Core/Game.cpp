@@ -1,6 +1,4 @@
 #include "Core/WindowFrame.hpp"
-#include "Core/Sound.hpp"
-#include "Core/Music.hpp"
 #include "Core/Scroll.hpp"
 #include "Text/Text.hpp"
 #include "Editor/Editor.hpp"

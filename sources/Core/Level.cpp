@@ -35,6 +35,7 @@
 #include "Object/Enemy/GearLauncherFlipped.hpp"
 #include "Object/Enemy/RedRotodiscFlower.hpp"
 #include "Object/Enemy/RedRotodiscRound.hpp"
+#include "Object/Enemy/Thwomp.hpp"
 // Level data
 float LevelWidth, LevelHeight;
 static std::vector<std::pair<std::string, sf::Vector2f>> BgData;
@@ -336,6 +337,14 @@ void Objectbuilding() {
 						break;
 					case 1:
 						GameScene::customTileManager.addCustomTile<GearLauncherFlipped>(sf::Vector2f(i[3], i[4]));
+						break;
+					default: ;
+					}
+					break;
+				case 7:
+					switch (static_cast<int>(i[1])) {
+					case 0:
+						GameScene::enemyManager.addEnemy<Thwomp>(sf::Vector2f(i[3], i[4]));
 						break;
 					default: ;
 					}
