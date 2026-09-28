@@ -42,6 +42,6 @@ enum class MarioProjectileBehavior : uint8_t {FIREBALL};
 //enum for Sound
 enum class SoundEnvironment : uint8_t {OVERWORLD, UNDERGROUND};
 //enum for Bullet
-enum class BulletType : uint8_t {BULLET_NORMAL, BULLET_NORMAL_FLIPPED, FIRE_LAUNCHER, FIRE_LAUNCHER_FLIPPED, FIRE_LAUNCHER_STAND};
+enum class BulletType : uint8_t {BULLET_NORMAL, BULLET_NORMAL_FLIPPED, FIRE_LAUNCHER, FIRE_LAUNCHER_FLIPPED, FIRE_LAUNCHER_STAND, CANNON_LAUNCHER_UP_LEFT, CANNON_LAUNCHER_UP_RIGHT};
 
 #endif // ENUM_HPP

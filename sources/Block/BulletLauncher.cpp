@@ -4,6 +4,8 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/BulletBillLauncher.hpp"
 #include "Object/Enemy/BulletBillLauncherFlipped.hpp"
+#include "Object/Enemy/CannonLauncherUpLeft.hpp"
+#include "Object/Enemy/CannonLauncherUpRight.hpp"
 #include "Object/Enemy/FireLauncher.hpp"
 #include "Object/Enemy/FireLauncherFLipped.hpp"
 #include "Object/Enemy/FireLauncherStand.hpp"
@@ -24,6 +26,12 @@ void AddBulletLauncher(const BulletType type, const float x, const float y) {
             break;
         case BulletType::FIRE_LAUNCHER_STAND:
             GameScene::customTileManager.addCustomTile<FireLauncherStand>(sf::Vector2f(x, y));
+            break;
+        case BulletType::CANNON_LAUNCHER_UP_LEFT:
+            GameScene::customTileManager.addCustomTile<CannonLauncherUpLeft>(sf::Vector2f(x, y));
+            break;
+        case BulletType::CANNON_LAUNCHER_UP_RIGHT:
+            GameScene::customTileManager.addCustomTile<CannonLauncherUpRight>(sf::Vector2f(x, y));
             break;
         default: ;
     }

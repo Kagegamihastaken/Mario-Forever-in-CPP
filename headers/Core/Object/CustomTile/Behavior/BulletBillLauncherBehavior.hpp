@@ -9,7 +9,7 @@ public:
         float timing, launch_interval, first_time_shot;
         int random_fire_interval;
     };
-    static BulletBillLauncherData BulletBillLauncherUpdate(const BulletBillLauncherData& data, bool& output, float deltaTime);
+    static BulletBillLauncherData BulletBillLauncherUpdate(const BulletBillLauncherData& data, bool& output, float deltaTime, bool disableCheckClose = false);
 };
 
 #endif //MFCPP_BULLETBILLLAUNCHERBEHAVIOR_HPP

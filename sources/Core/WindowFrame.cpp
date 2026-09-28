@@ -129,18 +129,16 @@ void WindowFrame::Init() {
 	//timestep.setMaxAccumulation(1.0f / 30.0f);
 }
 void WindowFrame::GameSceneInit() {
-	ImageManager::AddTexture("MarioHUD", "data/resources/MarioHUD.png");
-	ImageManager::AddTexture("TimeHUD", "data/resources/TimeHUD.png");
-	MFCPP::AnimationSequenceManager::newData("CoinHUDAnimName");
-	for (int i = 0; i < COINHUD_IMAGE_WIDTH / COINHUD_WIDTH; i++) {
-		ImageManager::AddTexture(fmt::format("CoinHUD_{}", i), "data/resources/CoinHUD.png", sf::IntRect({ i * COINHUD_WIDTH, 0 }, { COINHUD_WIDTH, COINHUD_HEIGHT }));
-		MFCPP::AnimationSequenceManager::addSingleFrame("CoinHUDAnimName", fmt::format("CoinHUD_{}", i));
-	}
 	CoinHUD.setAnimation(0, 2, 16, true);
-	CoinHUD.setAnimationSequence("CoinHUDAnimName");
-	MarioHUD.setTexture("MarioHUD");
-	TimeHUD.setTexture("TimeHUD");
+	CoinHUD.setAnimationSequence("HUD_COIN");
+	MarioHUD.setTexture("HUD_MARIO");
+	TimeHUD.setTexture("HUD_TIME");
 }
+
+void WindowFrame::AnimationUpdate(float deltaTime) {
+	CoinHUD.frameTimeAccumulate(deltaTime);
+}
+
 void WindowFrame::FrameDraw() {
 	CoinHUD.animationUpdate(sf::Vector2f(236.0f + Scroll::getViewPosition().x, 15.0f + Scroll::getViewPosition().y), sf::Vector2f(0.f, 0.f));
 	CoinHUD.animationDraw();

@@ -76,6 +76,7 @@ void Mario::UpdateSequenceAnimation() {
 
 void Mario::MarioEffectActivate() {
     ActiveMarioEffect(m_temp_alpha);
+    setCurrentPosition(sf::Vector2f(-1.f, -1.f));
     m_CanControlMario = false;
 }
 

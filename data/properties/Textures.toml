@@ -580,8 +580,9 @@ height = 32
 
 [[textures]]
 id = "BULLET_LAUNCHER_FLIPPED"
-path = "data/resources/BulletLauncherFlipped.png"
+path = "data/resources/BulletLauncher.png"
 animated = false
+y = 32
 width = 32
 height = 32
 
@@ -697,6 +698,50 @@ height = 32
 [[textures]]
 id = "TANK_SPIKE_RIGHT"
 path = "data/resources/Spike/TankSpike.png"
+animated = false
+x = 32
+width = 32
+height = 32
+
+[[textures]]
+id = "CANNON_BULLET"
+path = "data/resources/BulletBill/Cannon.png"
+animated = false
+width = 28
+height = 28
+
+[[textures]]
+id = "HUD_MARIO"
+path = "data/resources/MarioHUD.png"
+animated = false
+width = 97
+height = 16
+
+[[textures]]
+id = "HUD_TIME"
+path = "data/resources/TimeHUD.png"
+animated = false
+width = 63
+height = 16
+
+[[textures]]
+id = "HUD_COIN"
+path = "data/resources/CoinHUD.png"
+animated = true
+width = 28
+height = 16
+image_width = 86
+
+[[textures]]
+id = "CANNON_LAUNCHER_UP_LEFT"
+path = "data/resources/CannonLauncher.png"
+animated = false
+width = 32
+height = 32
+
+[[textures]]
+id = "CANNON_LAUNCHER_UP_RIGHT"
+path = "data/resources/CannonLauncher.png"
 animated = false
 x = 32
 width = 32

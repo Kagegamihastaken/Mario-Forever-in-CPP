@@ -16,10 +16,6 @@ namespace WindowFrame {
 #else
     static bool _Debug = false;
 #endif
-    //Animation Define
-    static constexpr uint16_t COINHUD_IMAGE_WIDTH = 86;
-    static constexpr uint16_t COINHUD_WIDTH = 28;
-    static constexpr uint16_t COINHUD_HEIGHT = 16;
 
     static kairos::FpsLite fpsLite;
     static kairos::Timestep timestep;
@@ -63,6 +59,7 @@ namespace WindowFrame {
     void GameSceneInit();
     void FrameDraw();
     void updateFrame();
+    void AnimationUpdate(float deltaTime);
     [[nodiscard]] sf::RenderWindow& getWindow();
     [[nodiscard]] kairos::Timestep& getTimestep();
     [[nodiscard]] kairos::FpsLite& getFpsLite();

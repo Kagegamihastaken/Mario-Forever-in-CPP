@@ -24,7 +24,7 @@
 #include "Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
-#include "Object/Enemy/Thwomp.hpp"
+#include "Object/Enemy/CannonBullet.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -43,6 +43,9 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
             case sf::Mouse::Button::Middle:
                 //Mario::SetPowerState(3);
                 break;
+            case sf::Mouse::Button::Left:
+                enemyManager.addEnemy<CannonBullet>(WindowFrame::getMousePosition() + Scroll::getViewPosition(), sf::Vector2f(2.75f, -2.75f), false);
+                break;
             default: ;
         }
     }
@@ -60,6 +63,7 @@ void GameScene::update(const float deltaTime) {
     movingBlockManager.animationUpdate(deltaTime);
     sceneryManager.animationUpdate(deltaTime);
     effectManager.animationUpdate(deltaTime);
+    WindowFrame::AnimationUpdate(deltaTime);
 
     Mario::MarioAnimationUpdate(deltaTime);
     CoinAnimationUpdate(deltaTime);
@@ -199,12 +203,12 @@ void GameScene::setView() {
 
 void GameScene::loadResources() {
     //Load Resources
-    WindowFrame::GameSceneInit();
     //Preload
     MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml");
     MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
     MFCPP::TextureConfig::loadFile("data/properties/Backgrounds.toml", true);
     //Force Load
+    WindowFrame::GameSceneInit();
     Mario::loadMarioRes();
     CoinInit();
     MarioEffectInit();

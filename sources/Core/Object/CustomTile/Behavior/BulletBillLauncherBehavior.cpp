@@ -3,10 +3,10 @@
 #include "Effect/MarioEffect.hpp"
 #include "Object/Mario.hpp"
 
-BulletBillLauncherBehavior::BulletBillLauncherData BulletBillLauncherBehavior::BulletBillLauncherUpdate(const BulletBillLauncherData& data, bool& output, float deltaTime) {
+BulletBillLauncherBehavior::BulletBillLauncherData BulletBillLauncherBehavior::BulletBillLauncherUpdate(const BulletBillLauncherData& data, bool& output, float deltaTime, bool disableCheckClose) {
     BulletBillLauncherData newData = data;
     output = false;
-    if (!EffectActive) {
+    if (!EffectActive && !disableCheckClose) {
         if (Utility::f_abs(newData.position.x - Mario::getCurrentPosition().x) > 80.f) newData.disabled = false;
         else newData.disabled = true;
     }
