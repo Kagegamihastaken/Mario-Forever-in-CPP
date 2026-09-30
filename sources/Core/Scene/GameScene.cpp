@@ -22,7 +22,9 @@
 #include "Core/Game.hpp"
 #include "Core/HitboxUtils.hpp"
 #include "Core/ImageManager.hpp"
+#include "Core/MusicManager.hpp"
 #include "Core/ShakeView.hpp"
+#include "Core/SoundManager.hpp"
 #include "Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
@@ -190,7 +192,8 @@ void GameScene::textUpdate() {
 void GameScene::setView() {
     const sf::Vector2f ScrollPos = (MFCPP::AutoScroll::getAutoScrollMode()
                                         ? MFCPP::AutoScroll::getPosition()
-                                        : Mario::getInterpolatedPosition());
+                                        : (EffectActive ? getMarioEffectPosition()
+                                            : Mario::getInterpolatedPosition()));
     Scroll::getView().setCenter(sf::Vector2f(
         std::min(std::max(WindowFrame::getGameSize().x / 2.0f, ScrollPos.x),
                  LevelWidth - WindowFrame::getGameSize().x / 2.f),
@@ -200,7 +203,6 @@ void GameScene::setView() {
 }
 
 void GameScene::loadResources() {
-    MFCPP::Log::SuccessPrint("Loading Scene!");
     //Load Resources
     //Preload
     MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml");
@@ -226,15 +228,21 @@ void GameScene::loadResources() {
         AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    //ReadData("data/levels/twodashone.json");
+    //ReadData("data/levels/onedashthree.json");
     switch (Game::levelId) {
-          case 0:
-              ReadData("data/levels/twodashone.json");
-              break;
-          case 1:
-              ReadData("data/levels/sevendashthree.json");
-              break;
-          default: ;
+        case 0:
+            ReadData("data/levels/onedashthree.json");
+            break;
+        case 1:
+            ReadData("data/levels/twodashone.json");
+            break;
+        case 2:
+            ReadData("data/levels/sevendashone.json");
+            break;
+        case 3:
+            ReadData("data/levels/sevendashthree.json");
+            break;
+        default: ;
     }
     //ReadData("data/levels/sevendashthree.json");
     //ReadData("data/levels/twodashone.json");
@@ -247,7 +255,6 @@ void GameScene::loadResources() {
     Objectbuilding();
     ExitGateBuilding();
     postBuild();
-    MFCPP::Log::SuccessPrint("Loaded Scene!");
 }
 
 void GameScene::unloadResources() {
@@ -264,8 +271,10 @@ void GameScene::unloadResources() {
     ClearAllCheckpoint();
     MFCPP::AnimationSequenceManager::clearAll();
     ImageManager::Cleanup();
+    MusicManager::CleanUp();
+    SoundManager::CleanUp();
     MFCPP::ObstacleConfig::clearAllData();
     DeleteAllBg();
     MarioEffectResetState();
-    MFCPP::Log::SuccessPrint("Unloaded Scene!");
+    MFCPP::AutoScroll::resetAutoScroll();
 }

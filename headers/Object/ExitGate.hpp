@@ -15,7 +15,7 @@ extern void ExitGateInit();
 extern void ExitGateDraw(float alpha);
 extern void ExitGateStatusUpdate(float deltaTime);
 extern void ExitGateEffectDraw(float alpha);
-extern void ExitGateEffectReset();
+extern void ExitGateEffectReset(bool resetPosition);
 extern void resetExitGateClock();
 extern void ExitGateAnimationUpdate(float deltaTime);
 #endif

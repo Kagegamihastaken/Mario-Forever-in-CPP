@@ -3,6 +3,7 @@
 #include "Object/ExitGate.hpp"
 
 #include "Core/AnimationSequenceManager.hpp"
+#include "Core/Game.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/ImageManager.hpp"
@@ -134,20 +135,21 @@ void ExitGateClockUpdate(const float deltaTime) {
 
 	if (ExitGateClock >= 9.f * 50) {
 		//win behavior, but implement later
-		WindowFrame::running = false;
-		WindowFrame::getWindow().close();
-
+		Game::LevelAdvance();
 	}
 }
-void ExitGateEffectReset() {
+void ExitGateEffectReset(bool resetPosition) {
 	//reset behavior
-	ExitGateFore.teleport(sf::Vector2f(ExitGateBack.getCurrentPosition().x + 43.0f, ExitGateBack.getCurrentPosition().y - 250.0f));
+	if (resetPosition)
+		ExitGateFore.teleport(sf::Vector2f(ExitGateBack.getCurrentPosition().x + 43.0f, ExitGateBack.getCurrentPosition().y - 250.0f));
 
 	ExitGateForeY = 0.f;
 	ExitGateState = false;
 	ExitGateForeEffectYSpeed = 0.0f;
 	ExitGateForeEffectSpeed = 0.0f;
 	ExitGateForeRender = true;
+	LevelCompleteEffect = false;
+	resetExitGateClock();
 }
 void ExitGateDraw(float alpha) {
 	if (!Scroll::isOutOfScreen(MFCPP::CollisionObject(ExitGateIndicator.getCurrentPosition(), ExitGateIndicator.getOrigin(), sf::FloatRect({0.f, 0.f}, {EXIT_INDICATOR_WIDTH, EXIT_INDICATOR_HEIGHT})), 0)) {

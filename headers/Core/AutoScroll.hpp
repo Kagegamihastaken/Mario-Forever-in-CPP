@@ -17,6 +17,7 @@ namespace MFCPP {
         [[nodiscard]] bool getTankAnimationStop();
         void AutoScrollBuild();
         void AutoScrollInit();
+        void resetAutoScroll();
     };
 }
 

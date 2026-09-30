@@ -8,7 +8,8 @@ enum class MusicID : uint8_t {
     UNDERGROUND,
     APOPLEXY,
     MARIO_DEATH,
-    LEVEL_COMPLETE
+    LEVEL_COMPLETE,
+    SUPERTANK
 };
 
 #endif //MFCPP_MUSICENUM_HPP

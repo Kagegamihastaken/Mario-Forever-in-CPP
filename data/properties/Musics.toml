@@ -15,6 +15,10 @@ id = "APOPLEXY"
 path = "data/musics/apoplexy.ogg"
 
 [[musics]]
+id = "SUPERTANK"
+path = "data/musics/supertank.ogg"
+
+[[musics]]
 id = "MARIO_DEATH"
 path = "data/musics/1-Music-Die.ogg"
 

@@ -471,12 +471,12 @@ void Mario::Death(bool resetState) {
         }
         else --m_Lives;
         Objectbuilding();
-        TimeReset();
-        ExitGateEffectReset();
         SetPowerState(0);
+        m_lastPowerState = 0;
     }
+    TimeReset();
+    ExitGateEffectReset(!resetState);
     m_velocity = {0.f, 0.f};
-    m_lastPowerState = 0;
     LevelCompleteEffect = false;
     m_MarioDirection = m_FirstMarioDirection;
     ExitGateForeActive = true;

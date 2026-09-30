@@ -73,3 +73,11 @@ void MFCPP::AutoScroll::setAutoScrollSpeed(const float val) {
 void MFCPP::AutoScroll::setTankMode(const bool val) {
     m_tankMode = val;
 }
+void MFCPP::AutoScroll::resetAutoScroll() {
+    m_autoScrollMode = false;
+    m_tankMode = false;
+    m_speed = 1.f;
+    m_tankAnimationStop = false;
+    m_position = sf::Vector2f(0.f,0.f);
+    m_origin_pos = sf::Vector2f(0.f, 0.f);
+}

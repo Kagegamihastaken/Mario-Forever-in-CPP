@@ -39,8 +39,8 @@ void ActiveMarioEffect(float alpha) {
 		MusicManager::StopAllMusic();
 		MusicManager::PlayMusic(MusicID::MARIO_DEATH);
 		EffectActive = true;
-		posFirstDeath = { Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f };
-		playerPos.teleport(posFirstDeath);
+		posFirstDeath = Mario::getInterpolatedPosition();
+		playerPos.teleport(posFirstDeath - sf::Vector2f(14.f, 30.f));
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;
 		resetExitGateClock();

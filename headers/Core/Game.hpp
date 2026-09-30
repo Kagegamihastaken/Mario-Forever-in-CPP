@@ -17,6 +17,8 @@ namespace Game {
     void Cleanup();
     void UpdateView();
     void Deinit();
+
+    void LevelAdvance();
 };
 
 #endif //GAME_HPP
