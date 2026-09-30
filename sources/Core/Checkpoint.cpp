@@ -55,3 +55,6 @@ void setStartPosition(const sf::Vector2f& pos) {
 sf::Vector2f getStartPosition() {
     return StartPos;
 }
+void ClearAllCheckpoint() {
+    CheckpointList.clear();
+}

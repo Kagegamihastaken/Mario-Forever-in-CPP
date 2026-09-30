@@ -1,10 +1,7 @@
 #include "Effect/MarioEffect.hpp"
-#include "Core/ImageManager.hpp"
-#include "Core/WindowFrame.hpp"
 #include "Object/Mario.hpp"
 #include "Core/Scroll.hpp"
 #include "Object/ExitGate.hpp"
-#include "Core/Interpolation.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
 #include "Core/Object/ActiveObject.hpp"
@@ -14,6 +11,7 @@ static MFCPP::ActiveObject<float> playerPos(sf::Vector2f(0.f, 0.f), sf::Vector2f
 bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
+sf::Vector2f posFirstDeath;
 void MarioEffectInit() {
 	playerEffect.setTexture("DEAD_MARIO");
 }
@@ -28,7 +26,7 @@ void MarioEffectStatusUpdate(const float deltaTime) {
 		if (MarioEffectTimer.getElapsedTime().asSeconds() >= 4.0f) {
 			Mario::setCanControl(true);
 			EffectActive = false;
-			Mario::Death();
+			Mario::Death(false);
 		}
 		else if (MarioEffectTimer.getElapsedTime().asSeconds() >= 0.5f && MarioEffectTimer.getElapsedTime().asSeconds() < 4.0f) {
 			MarioEffectYVelo += (MarioEffectYVelo >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f);
@@ -41,7 +39,8 @@ void ActiveMarioEffect(float alpha) {
 		MusicManager::StopAllMusic();
 		MusicManager::PlayMusic(MusicID::MARIO_DEATH);
 		EffectActive = true;
-		playerPos.teleport({ Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f });
+		posFirstDeath = { Mario::getInterpolatedPosition().x - 14.0f, Mario::getInterpolatedPosition().y - 30.0f };
+		playerPos.teleport(posFirstDeath);
 		MarioEffectTimer.restart();
 		MarioEffectYVelo = -10.0f;
 		resetExitGateClock();
@@ -54,4 +53,12 @@ void MarioEffectDraw(float alpha) {
 			playerEffect.animationDraw();
 		}
 	}
+}
+sf::Vector2f getMarioEffectPosition() {
+	return posFirstDeath;
+}
+void MarioEffectResetState() {
+	Mario::setCanControl(true);
+	EffectActive = false;
+	Mario::Death(true);
 }

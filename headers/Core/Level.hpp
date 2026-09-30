@@ -27,5 +27,7 @@ extern void ExitGateBuilding();
 extern void ReadData(const std::filesystem::path& path);
 extern float LevelWidth, LevelHeight;
 extern MusicID getMusicLevelName();
+extern void postBuild();
+extern void LevelDeleteAll();
 
 #endif // !LEVEL_HPP

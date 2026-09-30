@@ -19,12 +19,13 @@
 #include "Core/Object/Enemy/Behavior/RotodiscAIBehavior.hpp"
 #include "Block/Obstacles.hpp"
 #include "Core/AutoScroll.hpp"
+#include "Core/Game.hpp"
 #include "Core/HitboxUtils.hpp"
+#include "Core/ImageManager.hpp"
 #include "Core/ShakeView.hpp"
 #include "Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
-#include "Object/Enemy/CannonBullet.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -42,9 +43,6 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
         switch (mousePressed->button) {
             case sf::Mouse::Button::Middle:
                 //Mario::SetPowerState(3);
-                break;
-            case sf::Mouse::Button::Left:
-                enemyManager.addEnemy<CannonBullet>(WindowFrame::getMousePosition() + Scroll::getViewPosition(), sf::Vector2f(2.75f, -2.75f), false);
                 break;
             default: ;
         }
@@ -202,6 +200,7 @@ void GameScene::setView() {
 }
 
 void GameScene::loadResources() {
+    MFCPP::Log::SuccessPrint("Loading Scene!");
     //Load Resources
     //Preload
     MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml");
@@ -210,6 +209,7 @@ void GameScene::loadResources() {
     //Force Load
     WindowFrame::GameSceneInit();
     Mario::loadMarioRes();
+    loadFontRes();
     CoinInit();
     MarioEffectInit();
     //BgInit();
@@ -226,7 +226,17 @@ void GameScene::loadResources() {
         AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
     }
     //Load Level
-    ReadData("data/levels/sevendashthree.json");
+    //ReadData("data/levels/twodashone.json");
+    switch (Game::levelId) {
+          case 0:
+              ReadData("data/levels/twodashone.json");
+              break;
+          case 1:
+              ReadData("data/levels/sevendashthree.json");
+              break;
+          default: ;
+    }
+    //ReadData("data/levels/sevendashthree.json");
     //ReadData("data/levels/twodashone.json");
     //ReadData("data/levels/untitled.json");
     //ReadData("data/levels/gearuptest.json");
@@ -236,8 +246,26 @@ void GameScene::loadResources() {
     Obstaclebuilding();
     Objectbuilding();
     ExitGateBuilding();
+    postBuild();
+    MFCPP::Log::SuccessPrint("Loaded Scene!");
 }
 
 void GameScene::unloadResources() {
-    //implement later
+    DeleteAllText();
+    ObstacleRTexture.clear();
+    enemyManager.DeleteAll();
+    customTileManager.DeleteAll();
+    projectileManager.DeleteAll();
+    movingBlockManager.DeleteAll();
+    sceneryManager.DeleteAll();
+    effectManager.DeleteAll();
+    MFCPP::Tilemap::deleteAll();
+    LevelDeleteAll();
+    ClearAllCheckpoint();
+    MFCPP::AnimationSequenceManager::clearAll();
+    ImageManager::Cleanup();
+    MFCPP::ObstacleConfig::clearAllData();
+    DeleteAllBg();
+    MarioEffectResetState();
+    MFCPP::Log::SuccessPrint("Unloaded Scene!");
 }

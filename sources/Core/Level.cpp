@@ -10,8 +10,8 @@
 #include "Core/AutoScroll.hpp"
 #include "Core/Enumeration/enum.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "../../headers/Core/Loading/PiranhaAILoading.hpp"
-#include "../../headers/Core/Loading/SpikeLoading.hpp"
+#include "Core/Loading/PiranhaAILoading.hpp"
+#include "Core/Loading/SpikeLoading.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/MusicManager.hpp"
 #include "Core/Background/Bg.hpp"
@@ -21,13 +21,13 @@
 #include "Core/Tilemap.hpp"
 #include "Core/Time.hpp"
 #include "Object/Mario.hpp"
-#include "../../headers/Core/Loading/PlatformLoading.hpp"
+#include "Core/Loading/PlatformLoading.hpp"
 #include "Core/Checkpoint.hpp"
 #include "Core/Game.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Loading/GoombaAILoading.hpp"
 #include "Core/Scene/GameScene.hpp"
-#include "../../headers/Core/Loading/SceneryLoading.hpp"
+#include "Core/Loading/SceneryLoading.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
 #include "Core/Loading/BroAILoading.hpp"
@@ -375,4 +375,23 @@ void Objectbuilding() {
 }
 MusicID getMusicLevelName() {
 	return MusicData;
+}
+void postBuild() {
+	LevelData.clear();
+	BgData.clear();
+}
+void LevelDeleteAll() {
+	BgData.clear();
+	LevelData.clear();
+	SceneryData.clear();
+	CustomTileData.clear();
+	BonusData.clear();
+	EnemyData.clear();
+	CheckpointData.clear();
+	PlatformDataList.clear();
+	RotodiscDataList.clear();
+
+	ObstacleTexture.clear();
+	BricksTexture.clear();
+	LuckyBlockTexture.clear();
 }

@@ -158,10 +158,7 @@ void Mario::KeyboardMovement(const float deltaTime) {
                 m_velocity.x += (m_velocity.x > m_player_speed ? 0.0f : 0.125f * deltaTime);
                 m_velocity.x = m_velocity.x > 7.5f ? 7.5f : m_velocity.x;
             }
-        } else if (((!MFCPP::Input::isLeftKeyPressed() && !
-                      MFCPP::Input::isRightKeyPressed()) || ((
-                         MFCPP::Input::isLeftKeyPressed() &&
-                         MFCPP::Input::isRightKeyPressed())) && (
+        } else if ((!(MFCPP::Input::isLeftKeyPressed() ^ MFCPP::Input::isRightKeyPressed()) && (
                         !m_MarioCrouchDown || m_MarioCurrentFalling)) || (
                        m_MarioCrouchDown && !m_MarioCurrentFalling)) {
             if (!(m_MarioCrouchDown && !m_MarioCurrentFalling))
@@ -466,22 +463,24 @@ void Mario::PowerDown() {
     }
 }
 
-void Mario::Death() {
-    if (m_Lives <= 0) {
-        WindowFrame::getWindow().close();
-        WindowFrame::running = false;
+void Mario::Death(bool resetState) {
+    if (!resetState) {
+        if (m_Lives <= 0) {
+            WindowFrame::getWindow().close();
+            WindowFrame::running = false;
+        }
+        else --m_Lives;
+        Objectbuilding();
+        TimeReset();
+        ExitGateEffectReset();
+        SetPowerState(0);
     }
-    else --m_Lives;
-    Objectbuilding();
     m_velocity = {0.f, 0.f};
-    SetPowerState(0);
     m_lastPowerState = 0;
     LevelCompleteEffect = false;
     m_MarioDirection = m_FirstMarioDirection;
     ExitGateForeActive = true;
     if (m_MarioCrouchDown) m_MarioCrouchDown = false;
-    TimeReset();
-    ExitGateEffectReset();
 }
 
 void Mario::CheckForDeath() {

@@ -88,4 +88,8 @@ namespace MFCPP {
                 HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({0.f, i.second.id != 3 ? i.second.floorY.first : 0.f}, {32.f, i.second.id != 3 ? i.second.floorY.second - i.second.floorY.first : 32.f}), getTilemap(i.first), sf::Color::Green));
         }
     }
+    void Tilemap::deleteAll() {
+        ObstaclesTilemap.clear();
+        CollectableMap.clear();
+    }
 }

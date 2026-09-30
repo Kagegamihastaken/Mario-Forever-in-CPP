@@ -7,6 +7,7 @@ extern void MarioEffectDraw(float alpha);
 extern void ActiveMarioEffect(float alpha);
 extern void MarioEffectStatusUpdate(float deltaTime);
 extern void MoveMarioEffect(const sf::Vector2f& pos);
+extern void MarioEffectResetState();
 
 extern bool EffectActive;
 

@@ -17,6 +17,12 @@ void SceneManager::changeScene(SceneState state) {
         MFCPP::Log::ErrorPrint("SceneManager: An Error Occurred While Changing Scene");
     }
 }
+
+void SceneManager::reloadCurrentScene() const {
+    m_currentScene->unloadResources();
+    m_currentScene->loadResources();
+}
+
 void SceneManager::handleInput(const std::optional<sf::Event>& event) const {
     if (m_currentScene) {
         m_currentScene->handleInput(event);

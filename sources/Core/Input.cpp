@@ -1,6 +1,5 @@
 #include "Core/Input.hpp"
 #include <SFML/Window/Keyboard.hpp>
-#include "Core/Profiler.hpp"
 #include "Core/WindowFrame.hpp"
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Time.hpp>

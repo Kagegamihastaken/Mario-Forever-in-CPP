@@ -8,6 +8,7 @@ namespace MFCPP {
         };
         void loadFile(const std::filesystem::path& path, bool force_preload = true);
         ObstacleData getData(int32_t id);
+        void clearAllData();
     }
 }
 

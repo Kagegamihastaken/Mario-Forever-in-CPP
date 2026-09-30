@@ -20,6 +20,7 @@ void EditorScene::loadResources() {
     //
     SelectTileInit();
     EditorInit();
+    loadFontRes();
     AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
     AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
 }

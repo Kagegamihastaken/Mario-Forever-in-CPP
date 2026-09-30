@@ -17,7 +17,6 @@ void Game::Init() {
     MFCPP::SoundsConfig::loadFile("data/properties/Sounds.toml");
     MFCPP::MusicsConfig::loadFile("data/properties/Musics.toml");
     //SoundInit();
-    loadFontRes();
     //MusicInit();
     Scroll::Init();
     //Scene
@@ -39,6 +38,16 @@ void Game::DeltaMovement(const float dt) {
 void Game::RetrieveEvent(const std::optional<sf::Event>& event) {
     ZoneScopedNC("Game::RetrieveEvent", 0xa600ff);
     g_sceneManager.handleInput(event);
+    if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+        switch (keyPressed->code) {
+            case sf::Keyboard::Key::P:
+                if (levelId == 0) levelId = 1;
+                else if (levelId == 1) levelId = 0;
+                g_sceneManager.reloadCurrentScene();
+                break;
+            default: ;
+        }
+    }
 }
 void Game::InterpolateMovement(float alpha) {
     ZoneScopedNC("Game::InterpolateMovement", 0x00FF6B);

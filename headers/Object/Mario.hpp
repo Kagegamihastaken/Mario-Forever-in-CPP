@@ -28,7 +28,7 @@ public:
 	static void MarioVertXUpdate();
 	static void CheckForDeath();
 	static void loadMarioRes();
-	static void Death();
+	static void Death(bool resetState);
 	static void SetPowerState(int ps);
 	static void InvincibleStateUpdate();
 	static void MarioUpdateHitbox();

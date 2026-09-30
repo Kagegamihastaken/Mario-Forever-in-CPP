@@ -52,3 +52,6 @@ MFCPP::ObstacleConfig::ObstacleData MFCPP::ObstacleConfig::getData(int32_t id) {
         throw std::runtime_error("ObstaclesConfig: Obstacle data not found.");
     return it->second;
 }
+void MFCPP::ObstacleConfig::clearAllData() {
+    g_obstaclesData.clear();
+}

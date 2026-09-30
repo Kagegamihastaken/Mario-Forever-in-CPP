@@ -17,6 +17,7 @@ public:
         m_scenes[state] = std::make_unique<T>(*this, std::forward<Args>(args)...);
     }
     void changeScene(SceneState state);
+    void reloadCurrentScene() const;
     void handleInput(const std::optional<sf::Event>& event) const;
     void update(float deltaTime) const;
     void setPreviousPosition() const;

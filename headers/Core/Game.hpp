@@ -3,6 +3,8 @@
 #include "SceneManager.hpp"
 
 namespace Game {
+    inline int32_t levelId = 0;
+
     void Init();
     void EditText();
     void SetPrev();

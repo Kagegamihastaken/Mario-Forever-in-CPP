@@ -25,6 +25,7 @@ namespace MFCPP {
         std::pair<float, float> getIndexTilemapFloorY(int32_t x, int32_t y);
         float getTileSize();
         void drawHitboxMap();
+        void deleteAll();
     };
 }
 #endif //TILEMAP_HPP

@@ -24,3 +24,7 @@ MFCPP::AnimationSequence* MFCPP::AnimationSequenceManager::getData(std::string_v
         throw Exception::NonExistElement(fmt::format("AnimationSequenceManager: cannot find {}", name));
     return m_data[name.data()].get();
 }
+void MFCPP::AnimationSequenceManager::clearAll() {
+    m_data.clear();
+}
+

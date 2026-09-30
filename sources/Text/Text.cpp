@@ -2,7 +2,7 @@
 #include "Text/Text.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
-#include "../../headers/Core/Enumeration/enum.hpp"
+#include "Core/Enumeration/enum.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Class/TextClass.hpp"
 
@@ -120,4 +120,7 @@ int getSizeText(const std::string &id) {
 		std::cout << "Cannot get text ID " << id << " (Not existed ID)" << "\n";
 		return -1;
 	}
+}
+void DeleteAllText() {
+	MFText.List.clear();
 }

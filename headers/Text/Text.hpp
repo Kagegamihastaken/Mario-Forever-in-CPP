@@ -3,7 +3,7 @@
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
-#include "../Core/Enumeration/enum.hpp"
+#include "Core/Enumeration/enum.hpp"
 
 extern void loadFontRes();
 extern void AddText(const std::string &id, const std::string &text, TextMarginID margin, float x, float y);
@@ -12,5 +12,6 @@ extern void EditPosition(float NewX, float NewY, const std::string &id);
 extern void TextDraw();
 extern void UpdatePositionCharacter();
 extern int getSizeText(const std::string &id);
+extern void DeleteAllText();
 
 #endif // !TEXT_HPP

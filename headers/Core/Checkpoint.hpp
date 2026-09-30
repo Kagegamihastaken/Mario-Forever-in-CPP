@@ -7,5 +7,6 @@ extern void CheckpointCollision();
 extern void CheckpointDraw(float alpha);
 extern void setStartPosition(const sf::Vector2f& pos);
 extern sf::Vector2f getStartPosition();
+extern void ClearAllCheckpoint();
 
 #endif //MFCPP_CHECKPOINT_HPP
