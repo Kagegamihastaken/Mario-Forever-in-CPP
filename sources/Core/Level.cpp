@@ -29,6 +29,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Core/Loading/SceneryLoading.hpp"
 #include "Core/ImageManager.hpp"
+#include "Core/WeatherController.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
 #include "Core/Loading/BroAILoading.hpp"
 #include "Object/Enemy/GearLauncher.hpp"
@@ -51,6 +52,9 @@ static sf::Vector2f ExitIndicator;
 static sf::Vector2f ExitGate;
 static sf::Vector2f PlayerData;
 static MusicID MusicData;
+
+static bool EnableWeather;
+static WeatherID WeatherData;
 static MFCPP::Color BGFirstColor;
 static MFCPP::Color BGSecondColor;
 uint8_t LevelEnvironment = 0;
@@ -137,6 +141,8 @@ void ReadData(const std::filesystem::path& path) {
 	ExitGate = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384.f, 320.f));
 	ExitIndicator = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
 
+	EnableWeather = levelJson["level_properties"].value("enable_weather", false);
+	WeatherData = levelJson["level_properties"].value("weather_id", WeatherID::RAIN);
 	BGFirstColor = levelJson["level_properties"].value("background_first_color", MFCPP::Color::LevelDefaultFirst);
 	BGSecondColor = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
 	MusicNameTemp = levelJson["level_properties"].value("music", "DansLaRue");
@@ -264,6 +270,11 @@ void Objectbuilding() {
 	MusicManager::PlayMusic(MusicData);
 
 	SoundManager::setEnvironmentID(LevelEnvironment);
+	SoundManager::StopAllSound();
+	WeatherController::setWeather(WeatherData);
+	WeatherController::setWeatherActive(EnableWeather);
+	WeatherController::playWeatherSound();
+
 	MFCPP::AutoScroll::AutoScrollInit();
 	MFCPP::AutoScroll::resetPosition();
 

@@ -27,7 +27,9 @@
 #include "Core/SoundManager.hpp"
 #include "Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/WeatherController.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
+#include "Object/Effect/RainEffect.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -103,6 +105,8 @@ void GameScene::update(const float deltaTime) {
 
     MarioEffectStatusUpdate(deltaTime);
     ExitGateStatusUpdate(deltaTime);
+
+    WeatherController::updateWeather(deltaTime);
 }
 
 void GameScene::setPreviousPosition() {

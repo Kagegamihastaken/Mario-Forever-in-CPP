@@ -51,7 +51,6 @@ float Mario::m_FireTime = 4.f;
 float Mario::m_FireTimeCounting = m_FireTime;
 bool Mario::m_isFireHolding = false;
 bool Mario::m_CanControlMario = true;
-
 //Storing for future
 float Mario::m_temp_alpha = 0.f;
 

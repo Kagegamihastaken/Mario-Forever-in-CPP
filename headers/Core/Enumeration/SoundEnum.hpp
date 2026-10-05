@@ -31,6 +31,7 @@ enum class SoundID : uint8_t {
     GAME_VOLCANO,
     GAME_THWOMP,
     GAME_CANNON,
+    GAME_RAIN,
     //EDITOR
     EDITOR_PLACE,
     EDITOR_DELETE,

@@ -44,22 +44,6 @@ void AlphaUpdate(float& alpha, bool& state, const float min, const float max, co
 }
 
 void EditorInit() {
-    //ImageManager::AddTexture("EDITOR_SelectBox", "data/resources/Editor/EDITOR_SelectBox.png");
-    //ImageManager::AddTexture("EDITOR_Grid", "data/resources/Editor/EDITOR_Grid.png", {}, true);
-
-    //ImageManager::AddTexture("EDITOR_MushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Mushroom_Luckyblock.png");
-    //ImageManager::AddTexture("EDITOR_CoinLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Luckyblock.png");
-    //ImageManager::AddTexture("EDITOR_CoinBrick", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Coin_Brick.png");
-    //ImageManager::AddTexture("EDITOR_HammerBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CanMove.png");
-    //ImageManager::AddTexture("EDITOR_HammerBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Hammer_CannotMove.png");
-    //ImageManager::AddTexture("EDITOR_FireFlowerLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_FireFlower_Luckyblock.png");
-    //ImageManager::AddTexture("EDITOR_BeetrootLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Beetroot_LuckyBlock.png");
-    //ImageManager::AddTexture("EDITOR_GreenMushroomLuckyblock", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_GreenMushroom_LuckyBlock.png");
-    //ImageManager::AddTexture("EDITOR_FireBroCanMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Fire_CanMove.png");
-    //ImageManager::AddTexture("EDITOR_FireBroCannotMove", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Fire_CannotMove.png");
-    //ImageManager::AddTexture("EDITOR_RotodiscRound", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Round.png");
-    //ImageManager::AddTexture("EDITOR_RotodiscFlower", "data/resources/Editor/EDITOR_SELECT_TILE_EXCLUSIVE/EDITOR_Rotodisc_Flower.png");
-
     SelectBox.setTexture(ImageManager::getReturnTexture("EDITOR_SELECT_BOX"), true);
     if (ImageManager::getReturnTexture(TilePage[LevelTab][0].name) == nullptr) throw std::runtime_error("NULLPTR");
     EDITOR_Mario.setPosition(sf::Vector2f(128, 320));
@@ -225,6 +209,12 @@ void SettingDialog() {
                         EditPropertyHelper(*AutoScrollSetting.at(i));
                     }
                 }
+                if (ImGui::CollapsingHeader("Weather")) {
+                    ImGui::SeparatorText("Weather");
+                    for (int i = 0; i < WeatherSetting.getPropertyCount(); ++i) {
+                        EditPropertyHelper(*WeatherSetting.at(i));
+                    }
+                }
                 ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
@@ -273,6 +263,8 @@ void FileSave(const std::filesystem::path& path) {
     levelJson["level_properties"]["autoscroll"] = AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val;
     levelJson["level_properties"]["tank_mode"] = AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val;
     levelJson["level_properties"]["autoscroll_speed"] = AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val;
+    levelJson["level_properties"]["enable_weather"] = WeatherSetting.getProperty<BoolProps>("Enable Weather")->val;
+    levelJson["level_properties"]["weather_id"] = WeatherSetting.getProperty<IntProps>("Weather ID")->val;
     levelJson["level_properties"]["env_id"] = LevelEnvironment.getProperty<IntProps>("Environment ID")->val;
     levelJson["level_properties"]["music"] = LevelMusic.getProperty<StringProps>("Music Name")->val;
     levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
@@ -341,6 +333,8 @@ void FileLoad(const std::filesystem::path& path) {
     AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val = levelJson["level_properties"].value("autoscroll", false);
     AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val = levelJson["level_properties"].value("tank_mode", false);
     AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val = levelJson["level_properties"].value("autoscroll_speed", 1.f);
+    WeatherSetting.getProperty<BoolProps>("Enable Weather")->val = levelJson["level_properties"].value("enable_weather", false);
+    WeatherSetting.getProperty<IntProps>("Weather ID")->val = levelJson["level_properties"].value("weather_id", 0);
     LevelEnvironment.getProperty<IntProps>("Environment ID")->val = levelJson["level_properties"].value("env_id", 0);
     //set value for music
     const std::string val = levelJson["level_properties"].value("music", "default");

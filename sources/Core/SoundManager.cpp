@@ -14,6 +14,8 @@
 struct QueueData {
 	std::filesystem::path path;
 	bool changeEnv = true;
+	float volume = 1.f;
+	bool looping = false;
 };
 struct PlayData {
 	SoLoud::Wav sound;
@@ -54,8 +56,11 @@ void AddPlaySound(SoundID name, const std::filesystem::path& path, bool changeEn
 	if (!file.open(path.string().c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path.string()));
 	if (wav->sound.loadFile(&file) != SoLoud::SO_NO_ERROR) throw std::runtime_error(fmt::format("SoundManager: Cannot load sound {}", path.string()));
 	wav->changeEnv = changeEnv;
+	wav->sound.mVolume = g_queue[name].volume;
+	wav->sound.setLooping(g_queue[name].looping);
 	g_sounds[name] = std::move(wav);
 	UpdateSoundEnvironment(name);
+
 }
 
 void SoundManager::setEnvironmentID(uint8_t val) {
@@ -77,10 +82,12 @@ void SoundManager::SoundManagerInit() {
 	g_reverb_filter.setParams(0, 0.45f, 0.5f, 0.86f);
 }
 void SoundManager::AddSound(SoundID name, const std::filesystem::path& path, const bool changeEnv) {
-	if (g_queue.contains(name))  throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", magic_enum::enum_name(name)));
+	if (g_queue.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", magic_enum::enum_name(name)));
 	QueueData& dat = g_queue[name];
 	dat.path = path;
 	dat.changeEnv = changeEnv;
+	dat.volume = 1.f;
+	dat.looping = false;
 }
 SoLoud::Wav SoundManager::GetSound(SoundID name) {
 	return g_sounds[name]->sound;
@@ -94,10 +101,15 @@ void SoundManager::SetEnvironment(const SoundEnvironment val) {
 SoundEnvironment SoundManager::GetEnvironment() {
 	return g_env;
 }
-void SoundManager::SetLoop(SoundID name, const bool loop) {
-	auto it = g_sounds.find(name);
-	if (it == g_sounds.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Cannot find {}", magic_enum::enum_name(name)));
-	it->second->sound.setLooping(loop);
+void SoundManager::SetLoop(SoundID name, bool loop) {
+	auto it = g_queue.find(name);
+	if (it == g_queue.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Sound {} doesnt preloaded yet.", magic_enum::enum_name(name)));
+	it->second.looping = loop;
+}
+void SoundManager::SetVolume(SoundID name, float val) {
+	auto it = g_queue.find(name);
+	if (it == g_queue.end()) throw MFCPP::Exception::NonExistElement(fmt::format("SoundManager: Sound {} doesnt preloaded yet.", magic_enum::enum_name(name)));
+	it->second.volume = val;
 }
 void SoundManager::StopSound(SoundID name) {
 	auto it = g_sounds.find(name);
@@ -120,16 +132,16 @@ void SoundManager::PlaySound(SoundID name) {
 	const SoLoud::handle handle = AudioEngine::getAudioEngine().play(g_sounds[name]->sound);
 	AudioEngine::getAudioEngine().setInaudibleBehavior(handle,false, false);
 	if (!g_sounds[name]->changeEnv) {
-		AudioEngine::getAudioEngine().setVolume(handle, 1.6f);
+		AudioEngine::getAudioEngine().setVolume(handle, 1.6f * g_sounds[name]->sound.mVolume);
 		return;
 	}
 	switch (g_env) {
 		case SoundEnvironment::UNDERGROUND:
 			AudioEngine::getAudioEngine().setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
-			AudioEngine::getAudioEngine().setVolume(handle, 0.8f);
+			AudioEngine::getAudioEngine().setVolume(handle, 0.8f * g_sounds[name]->sound.mVolume);
 			break;
 		case SoundEnvironment::OVERWORLD:
-			AudioEngine::getAudioEngine().setVolume(handle, 1.6f);
+			AudioEngine::getAudioEngine().setVolume(handle, 1.6f * g_sounds[name]->sound.mVolume);
 			break;
 		default: ;
 	}

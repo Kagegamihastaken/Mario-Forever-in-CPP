@@ -15,6 +15,7 @@ namespace SoundManager {
 	void PlaySound(SoundID name);
 	void CleanUp();
 	void SetLoop(SoundID name, bool loop);
+	void SetVolume(SoundID name, float val);
 	void StopSound(SoundID name);
 	void StopAllSound();
 	void SetEnvironment(SoundEnvironment val);

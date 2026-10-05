@@ -138,6 +138,11 @@ id = "GAME_CANNON"
 path = "data/sounds/cannon.ogg"
 change_environment = true
 
+[[sounds]]
+id = "GAME_RAIN"
+path = "data/sounds/rain.ogg"
+change_environment = false
+
 #Editor
 [[sounds]]
 id = "EDITOR_PLACE"
