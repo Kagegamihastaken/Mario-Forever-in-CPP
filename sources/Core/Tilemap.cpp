@@ -8,6 +8,7 @@ namespace MFCPP {
         bool collide = false;
         uint32_t id = 0;
         std::pair<float, float> floorY = {0.f, 0.f};
+        std::pair<float, float> xBounds = {0.f, 0.f};
     };
     struct Collectable {
         bool collide = false;
@@ -64,11 +65,17 @@ namespace MFCPP {
     void Tilemap::setIndexTilemapFloorY(const float x, const float y, const std::pair<float, float> &val) {
         ObstaclesTilemap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].floorY = val;
     }
+    void Tilemap::setIndexTilemapXBound(const float x, const float y, const std::pair<float, float> &val) {
+        ObstaclesTilemap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].xBounds = val;
+    }
     std::pair<float, float> Tilemap::getIndexTilemapFloorY(const int32_t x, const int32_t y) {
         return ObstaclesTilemap[getTilemap(x, y)].floorY;
     }
     std::pair<float, float> Tilemap::getIndexTilemapFloorY(const float x, const float y) {
         return ObstaclesTilemap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].floorY;
+    }
+    std::pair<float, float> Tilemap::getIndexTilemapXBound(const float x, const float y) {
+        return ObstaclesTilemap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].xBounds;
     }
     uint32_t Tilemap::getIndexTilemapID(const int32_t x, const int32_t y) {
         return ObstaclesTilemap[getTilemap(x, y)].id;
@@ -85,7 +92,7 @@ namespace MFCPP {
     void Tilemap::drawHitboxMap() {
         for (const auto &i : ObstaclesTilemap) {
             if (i.second.collide)
-                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({0.f, i.second.id != 3 ? i.second.floorY.first : 0.f}, {32.f, i.second.id != 3 ? i.second.floorY.second - i.second.floorY.first : 32.f}), getTilemap(i.first), sf::Color::Green));
+                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({i.second.xBounds.first, i.second.id != 3 ? i.second.floorY.first : 0.f}, {i.second.xBounds.second - i.second.xBounds.first, i.second.id != 3 ? i.second.floorY.second - i.second.floorY.first : 32.f}), getTilemap(i.first), sf::Color::Green));
         }
     }
     void Tilemap::deleteAll() {

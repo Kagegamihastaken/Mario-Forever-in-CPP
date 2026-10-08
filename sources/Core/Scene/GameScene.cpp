@@ -245,6 +245,7 @@ void GameScene::loadResources() {
             break;
         case 3:
             ReadData("data/levels/sevendashthree.json");
+            //ReadData("data/levels/testlevel.json");
             break;
         default: ;
     }

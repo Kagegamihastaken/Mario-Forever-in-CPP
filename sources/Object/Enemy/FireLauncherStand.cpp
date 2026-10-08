@@ -19,20 +19,23 @@ FireLauncherStand::FireLauncherStand(CustomTileManager &manager, const sf::Vecto
     const sf::Vector2f original_pos = position - getOrigin();
 
     MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x, original_pos.y + 32.f, true);
-    MFCPP::Tilemap::setIndexTilemapID(original_pos.x, original_pos.y + 32.f, 0);
-    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x, original_pos.y + 32.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x, original_pos.y + 32.f, 3);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x, original_pos.y + 32.f, {0, 10});
+    MFCPP::Tilemap::setIndexTilemapXBound(original_pos.x, original_pos.y + 32.f, {0, 18});
 
     MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x + 32.f, original_pos.y + 32.f, true);
-    MFCPP::Tilemap::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 32.f, 0);
-    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 32.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 32.f, 3);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 32.f, {32, 0});
+    MFCPP::Tilemap::setIndexTilemapXBound(original_pos.x + 32.f, original_pos.y + 32.f, {0, 16});
 
     MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x, original_pos.y + 64.f, true);
     MFCPP::Tilemap::setIndexTilemapID(original_pos.x, original_pos.y + 64.f, 0);
     MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x, original_pos.y + 64.f, {0, 32});
 
     MFCPP::Tilemap::setIndexTilemapCollision(original_pos.x + 32.f, original_pos.y + 64.f, true);
-    MFCPP::Tilemap::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 64.f, 0);
-    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 64.f, {0, 32});
+    MFCPP::Tilemap::setIndexTilemapID(original_pos.x + 32.f, original_pos.y + 64.f, 3);
+    MFCPP::Tilemap::setIndexTilemapFloorY(original_pos.x + 32.f, original_pos.y + 64.f, {32, 0});
+    MFCPP::Tilemap::setIndexTilemapXBound(original_pos.x + 32.f, original_pos.y + 64.f, {16, 32});
 
 
     setDrawingPriority(1);

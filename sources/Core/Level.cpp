@@ -245,6 +245,7 @@ void Obstaclebuilding() {
 		MFCPP::Tilemap::setIndexTilemapCollision(i[1], i[2], true);
 		MFCPP::Tilemap::setIndexTilemapID(i[1], i[2], obstacleData.collision_id);
 		MFCPP::Tilemap::setIndexTilemapFloorY(i[1], i[2], {obstacleData.y_high, obstacleData.y_low});
+		MFCPP::Tilemap::setIndexTilemapXBound(i[1], i[2], {obstacleData.x_left, obstacleData.x_right});
 		ObstacleRTexture.draw(obstaclesRender);
 	}
 	ObstacleRTexture.display();

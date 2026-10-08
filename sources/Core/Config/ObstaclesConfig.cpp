@@ -21,8 +21,10 @@ void MFCPP::ObstacleConfig::loadFile(const std::filesystem::path& path, const bo
         const toml::node* collisionIdNode = currentObstacle->get("collision_id");
         const toml::node* yLowNode = currentObstacle->get("y_low");
         const toml::node* yHighNode = currentObstacle->get("y_high");
+        const toml::node* xLeftNode = currentObstacle->get("x_left");
+        const toml::node* xRightNode = currentObstacle->get("x_right");
 
-        if (!idNode || !texXNode || !texYNode || !collisionIdNode || !yLowNode || !yHighNode)
+        if (!idNode || !texXNode || !texYNode || !collisionIdNode || !yLowNode || !yHighNode || !xLeftNode || !xRightNode)
             throw std::runtime_error("ObstaclesConfig: Missing required fields in obstacle configuration.");
         int32_t idNodeCheckValue = idNode->value_or(-1);
 
@@ -37,7 +39,9 @@ void MFCPP::ObstacleConfig::loadFile(const std::filesystem::path& path, const bo
             texYNode->value_or(0),
             collisionIdNode->value_or(0),
             yLowNode->value_or(0),
-            yHighNode->value_or(32)
+            yHighNode->value_or(32),
+            xLeftNode->value_or(0),
+            xRightNode->value_or(32)
         };
         g_obstaclesData[idNodeCheckValue] = data;
         if (force_preload)

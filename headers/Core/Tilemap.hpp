@@ -21,7 +21,9 @@ namespace MFCPP {
         uint32_t getIndexTilemapID(int32_t x, int32_t y);
         uint32_t getIndexTilemapID(float x, float y);
         void setIndexTilemapFloorY(float x, float y, const std::pair<float, float> &val);
+        void setIndexTilemapXBound(float x, float y, const std::pair<float, float> &val);
         std::pair<float, float> getIndexTilemapFloorY(float x, float y);
+        std::pair<float, float> getIndexTilemapXBound(float x, float y);
         std::pair<float, float> getIndexTilemapFloorY(int32_t x, int32_t y);
         float getTileSize();
         void drawHitboxMap();

@@ -13,6 +13,7 @@
 #include "Core/ImageManager.hpp"
 #include <imgui-SFML.h>
 #include <thread>
+#include <cmake-build-reldeb/_deps/sfml-src/extlibs/headers/vulkan/vulkan_core.h>
 
 #include "Core/Input.hpp"
 #include "Core/Profiler.hpp"

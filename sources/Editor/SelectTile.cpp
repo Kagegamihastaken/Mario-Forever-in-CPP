@@ -110,6 +110,8 @@ const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePa
         {"TILE_76", CustomTileProperty(), sf::Vector2f(256, 224), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 76},
         {"TILE_77", CustomTileProperty(), sf::Vector2f(224, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 77},
         {"TILE_78", CustomTileProperty(), sf::Vector2f(256, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 78},
+        {"TILE_79", CustomTileProperty(), sf::Vector2f(0, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 79},
+        {"TILE_80", CustomTileProperty(), sf::Vector2f(32, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 80},
     },
     { // PAGE 2
         {"BLUE_CLOUD_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 0},

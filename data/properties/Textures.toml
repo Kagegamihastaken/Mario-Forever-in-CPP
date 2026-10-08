@@ -748,6 +748,14 @@ width = 32
 height = 32
 
 [[textures]]
+id = "CANNON_LAUNCHER_DOWN_LEFT"
+path = "data/resources/CannonLauncher.png"
+animated = false
+y = 64
+width = 32
+height = 32
+
+[[textures]]
 id = "RAIN_EFFECT"
 path = "data/resources/RainEffect.png"
 animated = true
