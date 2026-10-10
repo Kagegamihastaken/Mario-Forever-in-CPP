@@ -32,19 +32,19 @@ void RainEffect::updatePreviousData() {
 void RainEffect::statusUpdate(float deltaTime) {
     if (isDestroyed()) return;
 
-    float CurrPosXCollide, CurrPosYCollide;
+    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 0.f))
+        Destroy();
+
     if (!state) {
+        float CurrPosYCollide, CurrPosXCollide;
         m_transform.move(m_velocity * deltaTime);
-    }
-    if (!state) {
+
         auto sideCollision = QuickCheckSideCollision(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), true, CurrPosXCollide, CurrPosYCollide);
         if (sideCollision.first || sideCollision.second) {
             state = true;
             updateState();
         }
-    }
-    // Bottom check
-    if (!state) {
+        // Bottom check
         if (float PlatPosY; PlatformYCollision(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), PlatPosY, m_velocity.y, false)) {
             state = true;
             m_platform_collided = true;
@@ -61,12 +61,9 @@ void RainEffect::statusUpdate(float deltaTime) {
             }
         }
     }
-    if (state)
+    else
         if (m_animation.isAnimationAtTheEnd())
             Destroy();
-
-    if (Scroll::isOutOfScreenYBottom(MFCPP::CollisionObject(m_transform.getCurrentPosition(), getOrigin(), getHitbox()), 32.f))
-        Destroy();
 }
 
 void RainEffect::Destroy() {
@@ -77,7 +74,10 @@ void RainEffect::Destroy() {
 }
 
 void RainEffect::draw(float alpha) {
-    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 16.f)) return;
+    if (Scroll::isOutOfScreen(MFCPP::CollisionObject(m_transform.getInterpolatedPosition(alpha), getOrigin(), getHitbox()), 0.f)) {
+        m_animation.frameUpdate();
+        return;
+    }
     m_animation.setRotation(m_transform.getInterpolatedAngle(alpha));
     m_animation.setColor(sf::Color(255, 255, 255));
     m_animation.animationUpdate(m_transform.getInterpolatedPosition(alpha), getOrigin());

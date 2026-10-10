@@ -234,6 +234,28 @@ void Mario::MarioPosXUpdate(const float deltaTime) {
             });
         }
     }
+    //Nerf Speed
+    // float CurrPosXCollide = 0, CurrPosYCollide = 0;
+    // const float offset = std::min(m_velocity.x + 1.f, 3.f);
+    // float spd_nerf = 1.f;
+    // if (QuickCheckBotCollision(
+    //         MFCPP::CollisionObject({m_player.getCurrentPosition().x, m_player.getCurrentPosition().y},
+    //                                m_player.getOrigin(), m_hitboxFloor), offset, CurrPosXCollide, CurrPosYCollide)) {
+    //     if (m_velocity.y >= -m_velocity.x) {
+    //         const float floorY = GetCurrFloorY(m_player.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
+    //         if (m_player.getCurrentPosition().y >= CurrPosYCollide + floorY - offset) {
+    //             if (MFCPP::Tilemap::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3) {
+    //                 bool BlockDirection = MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).first <
+    //                                       MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second;
+    //                 if (BlockDirection ^ m_MarioDirection) {
+    //                     std::pair<float, float> CurrentfloorY = MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide);
+    //                     std::pair<float, float> CurrentboundX = MFCPP::Tilemap::getIndexTilemapXBound(CurrPosXCollide, CurrPosYCollide);
+    //                     spd_nerf = std::abs(std::cos(std::atan((CurrentfloorY.second - CurrentfloorY.first) / (CurrentboundX.second - CurrentboundX.first))));
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     if (!EffectActive) {
         if (!m_MarioDirection)

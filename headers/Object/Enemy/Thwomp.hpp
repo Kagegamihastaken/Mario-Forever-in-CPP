@@ -35,9 +35,9 @@ private:
     sf::Vector2f m_velocity;
     float m_yStore, m_triggerRange;
     float m_countingBeforeRise, m_rise, m_y_velocity_rise;
-    bool m_decending, m_hitGround;
+    bool m_decending : 1, m_hitGround : 1;
     //animation
-    bool m_AnimationSmile, m_AnimationBlink;
+    bool m_AnimationSmile : 1, m_AnimationBlink : 1;
     float m_AnimationBlinkTime;
 };
 

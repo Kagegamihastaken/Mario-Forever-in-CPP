@@ -2,25 +2,28 @@
 #include "Core/Profiler.hpp"
 
 void ProjectileManager::updatePreviousData() const {
+    ZoneScopedNC("ProjectileManager::updatePreviousData", 0xC90387);
     for (const auto &i : m_projectile) {
         if (i) i->updatePreviousData();
     }
 }
 
 void ProjectileManager::CollisionUpdate() const {
+    ZoneScopedNC("ProjectileManager::CollisionUpdate", 0xC90387);
     for (const auto &i : m_projectile) {
         if (i) i->CollisionUpdate();
     }
 }
 
 void ProjectileManager::statusUpdate(float deltaTime) const {
+    ZoneScopedNC("ProjectileManager::statusUpdate", 0xC90387);
     for (const auto &i : m_projectile) {
         if (i) i->statusUpdate(deltaTime);
     }
 }
 
 void ProjectileManager::DrawPriority(int index, float alpha) const {
-    ZoneScopedNC("ProjectileManager::DrawPriority", 0xde6fac);
+    ZoneScopedNC("ProjectileManager::DrawPriority", 0xC90387);
     for (const auto &i : m_projectile) {
         if (i && i->getDrawingPriority() == index) i->draw(alpha);
     }
@@ -56,6 +59,7 @@ void ProjectileManager::ProjectileCleanup() {
 }
 
 void ProjectileManager::animationUpdate(float deltaTime) const {
+    ZoneScopedNC("ProjectileManager::animationUpdate", 0xC90387);
     for (const auto &i : m_projectile) {
         if (i) i->animationUpdate(deltaTime);
     }

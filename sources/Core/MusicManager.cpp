@@ -1,7 +1,7 @@
 #include "Core/MusicManager.hpp"
 
 #include <ranges>
-#include <soloud_wav.h>
+#include <soloud_wavstream.h>
 #include <boost/unordered/unordered_flat_map.hpp>
 
 #include "Core/AudioEngine.hpp"
@@ -37,8 +37,8 @@ void MusicManager::AddPlayMusic(MusicID name, const std::filesystem::path &path)
 	PhysFsSoLoudStream file;
 	if (!file.open(path.string().c_str())) throw std::runtime_error(fmt::format("PhysFS Error: Cannot open {}", path.string()));
 	if (CheckValidWavType(extension)) {
-		auto ogg = std::make_unique<SoLoud::Wav>();
-		if (ogg->loadFile(&file) != SoLoud::SO_NO_ERROR)
+		auto ogg = std::make_unique<SoLoud::WavStream>();
+		if (ogg->loadFileToMem(&file) != SoLoud::SO_NO_ERROR)
 			throw std::runtime_error(fmt::format("MusicManager: Cannot detected {} is music file supported or not.", path.string()));
 		MFCPP::Log::InfoPrint(fmt::format("MusicManager: Loaded Music File: {}", path.string()));
 		ogg->setSingleInstance(true);

@@ -9,7 +9,7 @@ void MFCPP::AnimationSequenceManager::clearData(std::string_view name) {
     m_data[name.data()].reset();
 }
 void MFCPP::AnimationSequenceManager::newData(std::string_view name) {
-    m_data[name.data()] = std::make_unique<MFCPP::AnimationSequence>();
+    m_data[name.data()] = std::make_unique<AnimationSequence>();
 }
 void MFCPP::AnimationSequenceManager::addSingleFrame(std::string_view name, std::string_view val) {
     if (!m_data.contains(name.data())) {

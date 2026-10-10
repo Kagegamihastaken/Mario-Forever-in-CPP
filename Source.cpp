@@ -42,14 +42,13 @@ int WinMain() {
 #endif
 		MFCPP::Log::InfoPrint(fmt::format("Version: {}", PROJECT_VERSION));
 		AudioEngine::Init();
-		SoundManager::SoundManagerInit();
+		AudioEngine::SoundManagerParamsInit();
 		MFCPP::IO::Init();
 		Game::Init();
 		if (!ImGui::SFML::Init(WindowFrame::getWindow())) throw std::runtime_error("Cannot Load ImGui");
 		MusicManager::ForceLoadMusic(MusicID::MARIO_DEATH);
 		MusicManager::ForceLoadMusic(MusicID::LEVEL_COMPLETE);
 
-		AudioEngine::SoundManagerParamsInit();
 		//ImGui Things
 		sf::Clock deltaClock;
 		//hard coded thread

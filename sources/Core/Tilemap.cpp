@@ -7,8 +7,8 @@ namespace MFCPP {
     struct Tile {
         bool collide = false;
         uint32_t id = 0;
-        std::pair<float, float> floorY = {0.f, 0.f};
-        std::pair<float, float> xBounds = {0.f, 0.f};
+        std::pair<uint8_t, uint8_t> floorY = {0.f, 0.f};
+        std::pair<uint8_t, uint8_t> xBounds = {0.f, 0.f};
     };
     struct Collectable {
         bool collide = false;
@@ -20,7 +20,7 @@ namespace MFCPP {
     constexpr float tileSize = 32.f;
     constexpr int32_t TILEMAP_MAX = 5;
 
-    void Tilemap::setTileMapSize(const float LevelX, const float LevelY) {
+    void Tilemap::setTileMapSize(float LevelX, float LevelY) {
         ObstaclesTilemap.clear();
         CollectableMap.clear();
         tileMapSizeX = static_cast<int>(LevelX / tileSize) + TILEMAP_MAX;
@@ -30,7 +30,7 @@ namespace MFCPP {
         return std::max(-TILEMAP_MAX, std::min(x, tileMapSizeX)) + std::max(-TILEMAP_MAX, std::min(y, tileMapSizeY)) * (tileMapSizeX + TILEMAP_MAX + 1);
     }
     sf::Vector2f Tilemap::getTilemap(const int32_t id) {
-        return {static_cast<float>((id + TILEMAP_MAX) % (tileMapSizeX + TILEMAP_MAX + 1) - TILEMAP_MAX) * tileSize, static_cast<float>((id + TILEMAP_MAX) / (tileMapSizeX + TILEMAP_MAX + 1)) * tileSize};
+        return {static_cast<float>((id + TILEMAP_MAX) % (tileMapSizeX + TILEMAP_MAX + 1) - TILEMAP_MAX) * tileSize, (static_cast<float>(id + TILEMAP_MAX) / static_cast<float>(tileMapSizeX + TILEMAP_MAX + 1)) * tileSize};
     }
     void Tilemap::setIndexCollectableMapID(const float x, const float y, const uint32_t val) {
         CollectableMap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].id = val;
@@ -42,7 +42,7 @@ namespace MFCPP {
         return CollectableMap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].id;
     }
     void Tilemap::setIndexCollectableMapCollision(const float x, const float y, const bool val) {
-        CollectableMap[getTilemap(static_cast<int>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].collide = val;
+        CollectableMap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].collide = val;
     }
     bool Tilemap::getIndexCollectableMapCollision(const int32_t x, const int32_t y) {
         return CollectableMap[getTilemap(x, y)].collide;
@@ -92,7 +92,7 @@ namespace MFCPP {
     void Tilemap::drawHitboxMap() {
         for (const auto &i : ObstaclesTilemap) {
             if (i.second.collide)
-                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({i.second.xBounds.first, i.second.id != 3 ? i.second.floorY.first : 0.f}, {i.second.xBounds.second - i.second.xBounds.first, i.second.id != 3 ? i.second.floorY.second - i.second.floorY.first : 32.f}), getTilemap(i.first), sf::Color::Green));
+                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({static_cast<float>(i.second.xBounds.first), i.second.id != 3 ? static_cast<float>(i.second.floorY.first) : 0.f}, {static_cast<float>(i.second.xBounds.second - i.second.xBounds.first), i.second.id != 3 ? static_cast<float>(i.second.floorY.second - i.second.floorY.first) : 32.f}), getTilemap(i.first), sf::Color::Green));
         }
     }
     void Tilemap::deleteAll() {

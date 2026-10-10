@@ -42,6 +42,7 @@ void SceneryManager::draw(float alpha) const {
 }
 
 void SceneryManager::animationUpdate(float deltaTime) const {
+    ZoneScopedNC("SceneryManager::animationUpdate", 0x6fdea5);
     for (const auto &i : m_scenery) {
         if (i) i->animationUpdate(deltaTime);
     }

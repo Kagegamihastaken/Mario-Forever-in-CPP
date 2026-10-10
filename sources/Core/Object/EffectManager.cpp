@@ -1,5 +1,7 @@
 #include "Core/Object/EffectManager.hpp"
 
+#include "Core/Profiler.hpp"
+
 
 bool EffectManager::getDeletionFlag() const {
     return m_EffectDeletionFlag;
@@ -50,6 +52,7 @@ void EffectManager::EffectCleanup() {
 }
 
 void EffectManager::animationUpdate(float deltaTime) const {
+    ZoneScopedNC("EffectManager::animationUpdate", 0x625FAE);
     for (const auto &i : m_effects) {
         if (i) i->animationUpdate(deltaTime);
     }

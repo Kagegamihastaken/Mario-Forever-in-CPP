@@ -125,7 +125,7 @@ void WindowFrame::Init() {
 	Window::ChangeScreenMode(1);
 	running = true;
 	//timestep.setTimeSpeed(1.0f);
-	timestep.setStep(1.0f / 500.0f);
+	timestep.setStep(1.0f / 5000.0f);
 	//timestep.setMaxAccumulation(1.0f / 30.0f);
 }
 void WindowFrame::GameSceneInit() {

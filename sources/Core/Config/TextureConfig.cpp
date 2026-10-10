@@ -68,14 +68,14 @@ namespace MFCPP {
                 int32_t image_width = imageWidthNode->value_or(0);
                 for (int i = 0; i < image_width / width; ++i) {
                     if (!force_preload)
-                        ImageManager::AddTexture(fmt::format("{}_{}", name, i), filePath, sf::IntRect({i * width + x, y}, {width, height}), isRepeated);
+                        ImageManager::PreloadTexture(fmt::format("{}_{}", name, i), filePath, sf::IntRect({i * width + x, y}, {width, height}), isRepeated);
                     else
                         ImageManager::PreloadTexture(fmt::format("{}_{}", name, i), filePath, sf::IntRect({i * width + x, y}, {width, height}), isRepeated);
                     if (!customAnimated) AnimationSequenceManager::addSingleFrame(name, fmt::format("{}_{}", name, i));
                 }
             } else {
                 if (!force_preload)
-                    ImageManager::AddTexture(name, filePath, sf::IntRect({x, y}, {width, height}), isRepeated);
+                    ImageManager::PreloadTexture(name, filePath, sf::IntRect({x, y}, {width, height}), isRepeated);
                 else
                     ImageManager::PreloadTexture(name, filePath, sf::IntRect({x, y}, {width, height}), isRepeated);
             }

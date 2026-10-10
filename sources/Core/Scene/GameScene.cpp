@@ -107,6 +107,8 @@ void GameScene::update(const float deltaTime) {
     ExitGateStatusUpdate(deltaTime);
 
     WeatherController::updateWeather(deltaTime);
+
+    //MFCPP::Log::InfoPrint(fmt::format("{}", effectManager.getScrollBasedList().size()));
 }
 
 void GameScene::setPreviousPosition() {

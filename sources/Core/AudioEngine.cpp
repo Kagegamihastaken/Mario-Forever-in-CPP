@@ -10,8 +10,6 @@ void AudioEngine::Init() {
     audioEngine.setMaxActiveVoiceCount(85);
 }
 void AudioEngine::SoundManagerParamsInit() {
-    //SoundManager
-    //SoundManager::getBuffer().
     SoundManager::SoundManagerInit();
     //audio_engine.setVolume(i, 1.5f);
 }

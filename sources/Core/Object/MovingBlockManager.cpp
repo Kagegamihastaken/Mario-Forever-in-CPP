@@ -53,6 +53,7 @@ void MovingBlockManager::activate() const {
 }
 
 void MovingBlockManager::animationUpdate(float deltaTime) const {
+    ZoneScopedNC("MovingBlockManager::animationUpdate", 0xB4C73C);
     for (const auto &i : m_movingblocks) {
         if (i) i->animationUpdate(deltaTime);
     }

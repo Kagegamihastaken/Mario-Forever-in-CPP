@@ -69,6 +69,7 @@ void CustomTileManager::CustomTileCleanup() {
 }
 
 void CustomTileManager::animationUpdate(float deltaTime) const {
+    ZoneScopedNC("CustomTileManager::animationUpdate", 0x2DEBA9);
     for (const auto &i : m_customTiles) {
         if (i) i->animationUpdate(deltaTime);
     }

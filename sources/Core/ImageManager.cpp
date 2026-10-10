@@ -60,8 +60,8 @@ void ImageManager::LoadTexture(std::string_view name_tex) {
 sf::Texture& ImageManager::getTexture(std::string_view name)
 {
 	if (!m_textures.contains(name.data()))
-		//LoadTexture(name, m_pre_textures[name].path, m_pre_textures[name].rect, m_pre_textures[name].isRepeat);
-		throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: cannot find {}", name));
+		LoadTexture(name, m_pre_textures[name.data()].path, m_pre_textures[name.data()].rect, m_pre_textures[name.data()].isRepeat);
+		//throw MFCPP::Exception::NonExistElement(fmt::format("ImageManager: cannot find {}", name));
 	return *m_textures[name.data()];
 }
 sf::Texture* ImageManager::getReturnTexture(std::string_view name)
@@ -73,5 +73,7 @@ sf::Texture* ImageManager::getReturnTexture(std::string_view name)
 }
 
 MFCPP::SimpleSprite* ImageManager::getSpritePreCompute(std::string_view name) {
+	if (!m_textures.contains(name.data()))
+		LoadTexture(name, m_pre_textures[name.data()].path, m_pre_textures[name.data()].rect, m_pre_textures[name.data()].isRepeat);
 	return m_pre_compute_render[name.data()].get();
 }
