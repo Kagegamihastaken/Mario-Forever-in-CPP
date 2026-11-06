@@ -4,7 +4,7 @@
 
 namespace MFCPP {
     namespace SoundsConfig {
-        void loadFile(const std::filesystem::path& path);
+        void loadFile(const char* raw);
     }
 }
 

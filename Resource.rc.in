@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "resource.h"
 
-IDI_ICON1 ICON "data/resources/Icon/GameICON.ico"
+IDI_ICON1 ICON "embeds/images/Icon/GameICON.ico"
 
 // The version is now managed by CMake
 #define VERSION_MAJOR @PROJECT_VERSION_MAJOR@
@@ -20,13 +20,13 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",      "MFCPP"
+            VALUE "CompanyName",      "Kagegami"
             VALUE "FileDescription",  "MFCPP Game"
             VALUE "FileVersion",      "@PROJECT_VERSION@"
             VALUE "InternalName",     "@PROJECT_NAME@"
-            VALUE "LegalCopyright",   "Copyright (C) 6969"
+            VALUE "LegalCopyright",   "Copyright (C) 2026 Kagegami"
             VALUE "OriginalFilename", "@PROJECT_NAME@.exe"
-            VALUE "ProductName",      "Your Game Name Here"
+            VALUE "ProductName",      "MFCPP"
             VALUE "ProductVersion",   "@PROJECT_VERSION@"
         END
     END

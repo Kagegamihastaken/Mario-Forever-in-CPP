@@ -3,10 +3,8 @@
 #include "Core/Loading/Loading.hpp"
 #include "Core/MusicManager.hpp"
 
-void MFCPP::MusicsConfig::loadFile(const std::filesystem::path& path) {
-    std::string TOMLFileRaw;
-    IO::LoadRaw(TOMLFileRaw, path.string());
-    toml::table TOMLFile = toml::parse(TOMLFileRaw);
+void MFCPP::MusicsConfig::loadFile(const char* raw) {
+    toml::table TOMLFile = toml::parse(raw);
 
     toml::array* musicsArray = TOMLFile["musics"].as_array();
     for (auto& musicNode : *musicsArray) {

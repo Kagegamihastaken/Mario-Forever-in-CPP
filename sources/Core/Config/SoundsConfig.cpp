@@ -3,12 +3,9 @@
 
 #include "Core/SoundManager.hpp"
 #include "Core/Enumeration/SoundEnum.hpp"
-#include "Core/Loading/Loading.hpp"
 
-void MFCPP::SoundsConfig::loadFile(const std::filesystem::path& path) {
-    std::string TOMLFileRaw;
-    IO::LoadRaw(TOMLFileRaw, path.string());
-    toml::table TOMLFile = toml::parse(TOMLFileRaw);
+void MFCPP::SoundsConfig::loadFile(const char* raw) {
+    toml::table TOMLFile = toml::parse(raw);
 
     toml::array* soundsArray = TOMLFile["sounds"].as_array();
     for (auto& soundNode : *soundsArray) {

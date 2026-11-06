@@ -6,7 +6,7 @@ namespace MFCPP {
         struct ObstacleData {
             int32_t tex_x, tex_y, collision_id, y_low, y_high, x_left, x_right;
         };
-        void loadFile(const std::filesystem::path& path, bool force_preload = true);
+        void loadFile(const char* raw, bool force_preload = true);
         ObstacleData getData(int32_t id);
         void clearAllData();
     }

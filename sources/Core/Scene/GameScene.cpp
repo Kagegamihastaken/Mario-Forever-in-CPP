@@ -1,6 +1,8 @@
 #include <fmt/format.h>
 
 #include "Core/Scene/GameScene.hpp"
+
+#include "battery/embed.hpp"
 #include "Core/SceneManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/WindowFrame.hpp"
@@ -218,9 +220,9 @@ void GameScene::setView() {
 void GameScene::loadResources() {
     //Load Resources
     //Preload
-    MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml");
-    MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
-    MFCPP::TextureConfig::loadFile("data/properties/Backgrounds.toml", true);
+    MFCPP::ObstacleConfig::loadFile(b::embed<"embeds/properties/Obstacles.toml">().data());
+    MFCPP::TextureConfig::loadFile(b::embed<"embeds/properties/Textures.toml">().data());
+    MFCPP::TextureConfig::loadFile(b::embed<"embeds/properties/Backgrounds.toml">().data(), true);
     //Force Load
     WindowFrame::GameSceneInit();
     Mario::loadMarioRes();
@@ -253,8 +255,8 @@ void GameScene::loadResources() {
             ReadData("data/levels/sevendashone.json");
             break;
         case 3:
-            //ReadData("data/levels/sevendashthree.json");
-            ReadData("data/levels/testlevel.json");
+            ReadData("data/levels/sevendashthree.json");
+            //ReadData("data/levels/testlevel.json");
             break;
         default: ;
     }

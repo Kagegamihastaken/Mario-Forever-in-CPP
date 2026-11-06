@@ -1,5 +1,6 @@
 #include "Core/Scene/EditorScene.hpp"
 
+#include "battery/embed.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Background/BgGradient.hpp"
 #include "Editor/Editor.hpp"
@@ -13,10 +14,10 @@
 EditorScene::EditorScene(SceneManager &manager) : Scene(manager) {}
 void EditorScene::loadResources() {
     //loadObstacleTemp();
-    MFCPP::ObstacleConfig::loadFile("data/properties/Obstacles.toml", false);
-    MFCPP::TextureConfig::loadFile("data/properties/Textures.toml");
-    MFCPP::TextureConfig::loadFile("data/editor/properties/EditorTextures.toml");
-    MFCPP::TextureConfig::loadFile("data/properties/Backgrounds.toml", true);
+    MFCPP::ObstacleConfig::loadFile(b::embed<"embeds/properties/Obstacles.toml">().data(), false);
+    MFCPP::TextureConfig::loadFile(b::embed<"embeds/properties/Textures.toml">().data());
+    MFCPP::TextureConfig::loadFile(b::embed<"embeds/properties/EditorTextures.toml">().data());
+    MFCPP::TextureConfig::loadFile(b::embed<"embeds/properties/Backgrounds.toml">().data(), true);
     //
     SelectTileInit();
     EditorInit();

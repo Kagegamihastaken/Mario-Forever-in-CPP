@@ -121,7 +121,8 @@ sf::Vector2f WindowFrame::getGameSize() {
 }
 
 void WindowFrame::Init() {
-	MFCPP::IO::LoadImageFile(icon, "data/resources/Icon/GameICON.png");
+	MFCPP::IO::LoadIcon(icon);
+	//MFCPP::IO::LoadImageFile(icon, "data/resources/Icon/GameICON.png");
 	Window::ChangeScreenMode(1);
 	running = true;
 	//timestep.setTimeSpeed(1.0f);

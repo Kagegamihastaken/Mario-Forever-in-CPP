@@ -4,7 +4,7 @@
 
 namespace MFCPP {
     namespace MusicsConfig {
-        void loadFile(const std::filesystem::path& path);
+        void loadFile(const char* raw);
     }
 }
 

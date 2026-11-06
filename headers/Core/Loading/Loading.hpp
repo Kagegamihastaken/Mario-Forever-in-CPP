@@ -11,6 +11,9 @@ namespace MFCPP {
         void LoadRaw(std::string& lvl, const std::filesystem::path &path);
         std::vector<uint8_t> GetFileDataInByte(const std::filesystem::path &path);
         void LoadImageFile(sf::Image& image, const std::filesystem::path &path);
+
+        //icon
+        void LoadIcon(sf::Image& image);
     }
 }
 #endif

@@ -1,5 +1,6 @@
 #include "Core/Loading/Loading.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
+#include "battery/embed.hpp"
 
 #include <fmt/core.h>
 namespace MFCPP {
@@ -49,5 +50,9 @@ namespace MFCPP {
 		if (PhysFsStream loadFile(path.string().c_str()); !image.loadFromStream(loadFile)) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));;
 		//if (!image.loadFromMemory(vec.data(), vec.size())) throw std::runtime_error(fmt::format("Loading: Unexpected Error when trying to load {}", path.string()));;
 		//vec.clear();
+	}
+
+	void IO::LoadIcon(sf::Image &image) {
+		if (!image.loadFromMemory(b::embed<"embeds/images/Icon/GameICON.png">().data(), b::embed<"embeds/images/Icon/GameICON.png">().size())) throw std::runtime_error("Loading: Unexpected Error when trying to load GameICON.png");
 	}
 }

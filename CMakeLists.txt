@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.1.4)
+project(MFCPP VERSION 0.0.1.5)
 
 if(MINGW)
     add_compile_definitions(__USE_MINGW_ANSI_STDIO=1)
@@ -124,7 +124,13 @@ FetchContent_Declare(tomlplusplus
         GIT_PROGRESS ON
         SYSTEM
 )
-#sfml
+FetchContent_Declare(battery-embed
+        GIT_REPOSITORY https://github.com/batterycenter/embed.git
+        GIT_TAG v1.2.19
+        GIT_SHALLOW ON
+        GIT_PROGRESS ON
+        SYSTEM
+)
 message("Making dependencies available...")
 
 if(USE_TRACY)
@@ -135,7 +141,7 @@ else()
     set(TRACY_ON_DEMAND OFF CACHE BOOL "Tracy Demand" FORCE)
 endif()
 #https://github.com/batterycenter/embed
-FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy tomlplusplus)
+FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy tomlplusplus battery-embed)
 # Ensure the tracy_SOURCE_DIR is accessible for include paths
 FetchContent_GetProperties(tracy)
 
@@ -207,6 +213,18 @@ file(GLOB_RECURSE MY_HEADERS CONFIGURE_DEPENDS
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES} ${MY_HEADERS})
+
+#embed file
+file(GLOB_RECURSE TOML_CONFIG_FILE
+        "embeds/properties/*.toml"
+)
+foreach(ABS_FILE ${TOML_CONFIG_FILE})
+    file(RELATIVE_PATH REL_FILE ${CMAKE_CURRENT_SOURCE_DIR} ${ABS_FILE})
+    b_embed(${CMAKE_PROJECT_NAME} ${REL_FILE})
+endforeach()
+message("Embedding TOML files: ${TOML_CONFIG_FILE}")
+b_embed(${CMAKE_PROJECT_NAME} embeds/images/Icon/GameICON.png)
+
 # Using precompiled headers
 target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE
     <SFML/Audio.hpp> <SFML/Graphics.hpp> <vector> <map> <optional>

@@ -4,13 +4,10 @@
 #include "Core/AnimationSequenceManager.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Logging.hpp"
-#include "Core/Loading/Loading.hpp"
 
 namespace MFCPP {
-    void TextureConfig::loadFile(const std::filesystem::path& path, const bool force_preload) {
-        std::string TOMLFileRaw;
-        IO::LoadRaw(TOMLFileRaw, path);
-        toml::table TOMLFile = toml::parse(TOMLFileRaw);
+    void TextureConfig::loadFile(const char* raw, const bool force_preload) {
+        toml::table TOMLFile = toml::parse(raw);
 
         toml::array* textureArray = TOMLFile["textures"].as_array();
         for (auto& textureNode : *textureArray) {
@@ -21,13 +18,13 @@ namespace MFCPP {
             const toml::node* pathNode = CurrentTexture->get("path");
 
             if (!idNode || !pathNode)
-                throw std::runtime_error("TextureConfig: Missing 'id' or 'path' in texture configuration in TOML file: " + path.string());
+                throw std::runtime_error("TextureConfig: Missing 'id' or 'path' in texture configuration");
 
             std::string name = idNode->value_or("__NULL");
             std::string filePath = pathNode->value_or("");
 
             if (name == "__NULL" || filePath.empty())
-                throw std::runtime_error("TextureConfig: Invalid texture configuration in TOML file: " + path.string());
+                throw std::runtime_error("TextureConfig: Invalid texture configuration");
 
             //Check valid size & is Animated
             const toml::node* animatedNode = CurrentTexture->get("animated");
@@ -35,7 +32,7 @@ namespace MFCPP {
             const toml::node* heightNode = CurrentTexture->get("height");
 
             if (!animatedNode || !widthNode || !heightNode)
-                throw std::runtime_error("TextureConfig: Missing 'animated', 'width', or 'height' in texture configuration for texture '" + name + "' in TOML file: " + path.string());
+                throw std::runtime_error("TextureConfig: Missing 'animated', 'width', or 'height' in texture configuration for texture '" + name + "'");
 
             bool animated = animatedNode->value_or(false);
             int32_t width = widthNode->value_or(0);
@@ -64,7 +61,7 @@ namespace MFCPP {
                 // If animated, check image_width and create frames based on width
                 const toml::node* imageWidthNode = CurrentTexture->get("image_width");
                 if (!imageWidthNode)
-                    throw std::runtime_error("TextureConfig: Missing 'image_width' in texture configuration for texture with animated enabled '" + name + "' in TOML file: " + path.string());
+                    throw std::runtime_error("TextureConfig: Missing 'image_width' in texture configuration for texture with animated enabled '" + name + "'");
                 int32_t image_width = imageWidthNode->value_or(0);
                 for (int i = 0; i < image_width / width; ++i) {
                     if (!force_preload)

@@ -5,7 +5,7 @@
 
 namespace MFCPP {
     namespace TextureConfig {
-        void loadFile(const std::filesystem::path& path, bool force_preload = false);
+        void loadFile(const char* raw, bool force_preload = false);
     }
 }
 #endif //MFCPP_TEXTURECONFIG_HPP

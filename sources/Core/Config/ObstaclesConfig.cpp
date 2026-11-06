@@ -6,10 +6,8 @@
 #include "Core/ImageManager.hpp"
 
 boost::unordered_flat_map<int32_t, MFCPP::ObstacleConfig::ObstacleData> g_obstaclesData;
-void MFCPP::ObstacleConfig::loadFile(const std::filesystem::path& path, const bool force_preload) {
-    std::string TOMLFileRaw;
-    IO::LoadRaw(TOMLFileRaw, path.string());
-    toml::table TOMLFile = toml::parse(TOMLFileRaw);
+void MFCPP::ObstacleConfig::loadFile(const char* raw, const bool force_preload) {
+    toml::table TOMLFile = toml::parse(raw);
 
     toml::array* obstaclesArray = TOMLFile["obstacles"].as_array();
     for (auto& obstacleNode : *obstaclesArray) {

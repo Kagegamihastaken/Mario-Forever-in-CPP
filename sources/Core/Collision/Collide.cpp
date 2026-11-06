@@ -404,7 +404,6 @@ float GetCurrFloorY(const sf::Vector2f& pos, const float CurrX, const float Curr
 			}
 		}
 	}
-	MFCPP::Log::InfoPrint(fmt::format("Up: {}, Down: {}, t: {}, X: {}, Y: {}", SlopeRelaUp, SlopeRelaDown, t, CurrX, CurrY));
 	const float floorY = (MFCPP::Tilemap::getIndexTilemapID(CurrX, CurrY) == 3 ? t * MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY).first + (1 - t) * MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY).second
 		: MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY).first);
 	return floorY;

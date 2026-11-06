@@ -3,6 +3,8 @@
 #include "Text/Text.hpp"
 #include "Editor/Editor.hpp"
 #include "Core/Game.hpp"
+
+#include "battery/embed.hpp"
 #include "Core/Scene/EditorScene.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Core/Profiler.hpp"
@@ -14,8 +16,8 @@ SceneManager g_sceneManager;
 void Game::Init() {
     //Essential
     WindowFrame::Init();
-    MFCPP::SoundsConfig::loadFile("data/properties/Sounds.toml");
-    MFCPP::MusicsConfig::loadFile("data/properties/Musics.toml");
+    MFCPP::SoundsConfig::loadFile(b::embed<"embeds/properties/Sounds.toml">().data());
+    MFCPP::MusicsConfig::loadFile(b::embed<"embeds/properties/Musics.toml">().data());
     //SoundInit();
     //MusicInit();
     Scroll::Init();
