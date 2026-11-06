@@ -183,7 +183,7 @@ bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, const float 
 	const int SizeX = static_cast<int>(std::floor((hitbox_intersect.position.x + hitbox_intersect.size.x) / 32.f));
 	const int SizeY = static_cast<int>(std::floor((hitbox_intersect.position.y + hitbox_intersect.size.y) / 32.f));
 	for (int i = SizeX; i >= static_cast<int>(std::floor(hitbox_intersect.position.x / 32.f)); --i) {
-		for (int j = static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); j <= SizeY; ++j) {
+		for (int j = SizeY; j >= static_cast<int>(std::floor(hitbox_intersect.position.y / 32.f)); --j) {
 			if (!MFCPP::Tilemap::getIndexTilemapCollision(i, j) || MFCPP::Tilemap::getIndexTilemapID(i, j) != ID) continue;
 			if (const sf::FloatRect hitbox_loop = getGlobalHitbox(sf::FloatRect({0.f, (MFCPP::Tilemap::getIndexTilemapID(i, j) != 3 ? MFCPP::Tilemap::getIndexTilemapFloorY(i, j).first : 0.f)}, {MFCPP::Tilemap::getTileSize(), (MFCPP::Tilemap::getIndexTilemapID(i, j) != 3 ? MFCPP::Tilemap::getIndexTilemapFloorY(i, j).second - MFCPP::Tilemap::getIndexTilemapFloorY(i, j).first : MFCPP::Tilemap::getTileSize())}), sf::Vector2f(static_cast<float>(i) * MFCPP::Tilemap::getTileSize(),  static_cast<float>(j) * MFCPP::Tilemap::getTileSize()), {0,0}); isCollide(hitbox_intersect, hitbox_loop)) {
 				if (((CollideObj.GetPosition().x - i * MFCPP::Tilemap::getTileSize()) / MFCPP::Tilemap::getTileSize() < 0.f
@@ -193,7 +193,8 @@ bool isAccurateCollideBot(const MFCPP::CollisionObject& CollideObj, const float 
 				if ((hitbox_intersect.position.y + hitbox_intersect.size.y < hitbox_loop.position.y + hitbox_loop.size.y / 2.f && MFCPP::Tilemap::getIndexTilemapID(i, j) != 3) || MFCPP::Tilemap::getIndexTilemapID(i, j) == 3) {
 					if (MFCPP::Tilemap::getIndexTilemapID(i, j) == 3) {
 						bool BlockDirection = MFCPP::Tilemap::getIndexTilemapFloorY(i, j).first < MFCPP::Tilemap::getIndexTilemapFloorY(i, j).second;
-						if (MFCPP::Tilemap::getIndexTilemapID(i - (BlockDirection ? 1 : -1), j) != 3 && MFCPP::Tilemap::getIndexTilemapCollision(i - (BlockDirection ? 1 : -1), j)) {
+						if ((MFCPP::Tilemap::getIndexTilemapID(i - (BlockDirection ? 1 : -1), j) != 3 && MFCPP::Tilemap::getIndexTilemapCollision(i - (BlockDirection ? 1 : -1), j))
+							|| (MFCPP::Tilemap::getIndexTilemapID(i, j + 1) != 3 && MFCPP::Tilemap::getIndexTilemapCollision(i, j + 1))) {
 							const float floorY = GetCurrFloorY(CollideObj.GetPosition(), i * MFCPP::Tilemap::getTileSize(), j * MFCPP::Tilemap::getTileSize());
 							if (CollideObj.GetPosition().y < j * MFCPP::Tilemap::getTileSize() + floorY - offset) continue;
 						}
@@ -373,29 +374,37 @@ bool QuickCheckMainCollision(const MFCPP::CollisionObject& CollideObj) {
 }
 
 float GetCurrFloorY(const sf::Vector2f& pos, const float CurrX, const float CurrY) {
-	float t;
 	const bool SlopeRelaUp = GetRelativeTilemapSlopeUp(CurrX, CurrY);
 	const bool SlopeRelaDown = GetRelativeTilemapSlopeDown(CurrX, CurrY);
 	const std::pair<float, float> CurrFloorY = MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY);
 	const std::pair<float, float> CurrXBounds = MFCPP::Tilemap::getIndexTilemapXBound(CurrX, CurrY);
 	const bool CurrCondition = CurrFloorY.first - CurrFloorY.second < 0;
-	if (!SlopeRelaUp)
-		if (!SlopeRelaDown)
-			//t = (std::max(std::min(pos.x, CurrX + MFCPP::Tilemap::getTileSize()), CurrX) - CurrX) / MFCPP::Tilemap::getTileSize();
-			t = (std::max(std::min(pos.x - CurrXBounds.first, CurrX + (CurrXBounds.second - CurrXBounds.first)), CurrX) - CurrX) / (CurrXBounds.second - CurrXBounds.first);
+	const float Xsize = std::abs(CurrXBounds.second - CurrXBounds.first);
+	float t = (pos.x - CurrXBounds.first - CurrX) / Xsize;
+	if (!SlopeRelaUp) {
+		if (!SlopeRelaDown) {
+			if (t < 0.f) t = 0.f;
+			if (t > 1.f) t = 1.f;
+		}
 		else
-			if (CurrCondition)
-				t = (std::min(pos.x - CurrXBounds.first, CurrX + (CurrXBounds.second - CurrXBounds.first)) - CurrX) / (CurrXBounds.second - CurrXBounds.first);
-			else
-				t = (std::max(pos.x - CurrXBounds.first, CurrX) - CurrX) / (CurrXBounds.second - CurrXBounds.first);
-	else
-		if (!SlopeRelaDown)
-			if (CurrCondition)
-				t = (std::max(pos.x - CurrXBounds.first, CurrX) - CurrX) / (CurrXBounds.second - CurrXBounds.first);
-			else
-				t = (std::min(pos.x - CurrXBounds.first, CurrX + (CurrXBounds.second - CurrXBounds.first)) - CurrX) / (CurrXBounds.second - CurrXBounds.first);
-		else
-			t = (pos.x - CurrXBounds.first - CurrX) / (CurrXBounds.second - CurrXBounds.first);
+			if (CurrCondition) {
+				if (t > 1.f) t = 1.f;
+			}
+			else {
+				if (t < 0.f) t = 0.f;
+			}
+	}
+	else {
+		if (!SlopeRelaDown) {
+			if (CurrCondition) {
+				if (t < 0.f) t = 0.f;
+			}
+			else {
+				if (t > 1.f) t = 1.f;
+			}
+		}
+	}
+	MFCPP::Log::InfoPrint(fmt::format("Up: {}, Down: {}, t: {}, X: {}, Y: {}", SlopeRelaUp, SlopeRelaDown, t, CurrX, CurrY));
 	const float floorY = (MFCPP::Tilemap::getIndexTilemapID(CurrX, CurrY) == 3 ? t * MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY).first + (1 - t) * MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY).second
 		: MFCPP::Tilemap::getIndexTilemapFloorY(CurrX, CurrY).first);
 	return floorY;

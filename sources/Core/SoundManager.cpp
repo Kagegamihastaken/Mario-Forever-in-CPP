@@ -1,6 +1,7 @@
 #include "Core/SoundManager.hpp"
 
 #include <ranges>
+#include <soloud_biquadresonantfilter.h>
 #include <magic_enum/magic_enum.hpp>
 #include <boost/unordered/unordered_flat_map.hpp>
 #include "soloud_echofilter.h"
@@ -29,6 +30,7 @@ SoLoud::Bus g_cave_bus;
 SoLoud::Bus g_normal_bus;
 SoLoud::EchoFilter g_echo_filter;
 SoLoud::FreeverbFilter g_reverb_filter;
+SoLoud::BiquadResonantFilter g_biquad_filter;
 SoundEnvironment g_env;
 bool g_play = false;
 
@@ -59,12 +61,14 @@ void SoundManager::setEnvironmentID(uint8_t val) {
 }
 
 void SoundManager::SoundManagerInit() {
-	g_echo_filter.setParams(0.1f, 0.35f, 0.25f);
-	g_reverb_filter.setParams(0.f, 0.72f, 0.45f, 0.80f);
+	g_echo_filter.setParams(0.14f, 0.22f, 0.35f);
+	g_reverb_filter.setParams(0.65f, 0.7f, 0.8f, 0.f);
+	g_biquad_filter.setParams(SoLoud::BiquadResonantFilter::LOWPASS, 6800.f, 0.85f);
 
 	g_cave_bus.setFilter(0, &g_echo_filter);
 	g_cave_bus.setFilter(1, &g_reverb_filter);
-	const auto handle = AudioEngine::getAudioEngine().play(g_cave_bus, 0.8f);
+	g_cave_bus.setFilter(2, &g_biquad_filter);
+	const auto handle = AudioEngine::getAudioEngine().play(g_cave_bus, 1.0f);
 	AudioEngine::getAudioEngine().setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
 	AudioEngine::getAudioEngine().play(g_normal_bus, 1.6f);
 

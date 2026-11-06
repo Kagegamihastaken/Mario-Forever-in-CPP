@@ -13,9 +13,10 @@ namespace {
 		bool isRepeat{};
 	};
 }
-boost::unordered_flat_map<std::string, std::unique_ptr<sf::Texture>> m_textures;
-boost::unordered_flat_map<std::string, PreTexture> m_pre_textures;
-boost::unordered_flat_map<std::string, std::unique_ptr<MFCPP::SimpleSprite>> m_pre_compute_render;
+
+static boost::unordered_flat_map<std::string, std::unique_ptr<sf::Texture>> m_textures;
+static boost::unordered_flat_map<std::string, PreTexture> m_pre_textures;
+static boost::unordered_flat_map<std::string, std::unique_ptr<MFCPP::SimpleSprite>> m_pre_compute_render;
 
 void ImageManager::Cleanup() {
 	MFCPP::Log::InfoPrint("ImageManager cleanup...");

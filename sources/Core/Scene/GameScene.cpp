@@ -46,7 +46,14 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
     if (const auto *mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         switch (mousePressed->button) {
             case sf::Mouse::Button::Middle:
-                //Mario::SetPowerState(3);
+                switch (Mario::getPowerState()) {
+                    case 3:
+                        Mario::SetPowerState(0);
+                        break;
+                    default:
+                        Mario::SetPowerState(3);
+                        break;
+                }
                 break;
             default: ;
         }
@@ -246,8 +253,8 @@ void GameScene::loadResources() {
             ReadData("data/levels/sevendashone.json");
             break;
         case 3:
-            ReadData("data/levels/sevendashthree.json");
-            //ReadData("data/levels/testlevel.json");
+            //ReadData("data/levels/sevendashthree.json");
+            ReadData("data/levels/testlevel.json");
             break;
         default: ;
     }

@@ -2,6 +2,7 @@
 #include "Core/AudioEngine.hpp"
 
 #include "Core/Logging.hpp"
+#include "Core/MusicManager.hpp"
 #include "Core/SoundManager.hpp"
 SoLoud::Soloud audioEngine;
 void AudioEngine::Init() {
@@ -11,6 +12,7 @@ void AudioEngine::Init() {
 }
 void AudioEngine::SoundManagerParamsInit() {
     SoundManager::SoundManagerInit();
+    MusicManager::MusicManagerInit();
     //audio_engine.setVolume(i, 1.5f);
 }
 void AudioEngine::DeInit() {

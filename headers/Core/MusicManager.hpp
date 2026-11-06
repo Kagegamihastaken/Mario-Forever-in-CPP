@@ -1,10 +1,8 @@
 #pragma once
-
-#ifndef MUSIC_MANAGER_HPP
-#define MUSIC_MANAGER_HPP
 #include "Enumeration/MusicEnum.hpp"
 
 namespace MusicManager {
+	void MusicManagerInit();
 	void ForceLoadMusic(MusicID name);
 	void AddMusic(MusicID name, const std::filesystem::path &path);
 	void AddPlayMusic(MusicID name, const std::filesystem::path &path);
@@ -20,5 +18,3 @@ namespace MusicManager {
 	bool IsMusicStopped(MusicID name);
 	bool IsMusicPaused(MusicID name);
 };
-
-#endif
