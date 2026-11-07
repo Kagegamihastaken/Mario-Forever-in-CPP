@@ -118,14 +118,12 @@ namespace {
 		}
 	}
 }
-void ReadData(const std::filesystem::path& path) {
+void ReadData(const char* raw) {
 	std::string MusicNameTemp;
-	std::string LevelDataText;
-	MFCPP::IO::LoadRaw(LevelDataText, path.string());
 
 	nlohmann::json levelJson;
 	try {
-		levelJson = nlohmann::json::parse(LevelDataText);
+		levelJson = nlohmann::json::parse(raw);
 	}
 	catch (nlohmann::json::parse_error& e) {
 		throw std::runtime_error(fmt::format("Level: Failed to parse level file: {}", e.what()));
@@ -213,7 +211,7 @@ void ReadData(const std::filesystem::path& path) {
 	//LuckyBlockTextureBuild();
 	BackgroundTextureBuild();
 	CoinTextureBuild();
-	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", path.string()));
+	MFCPP::Log::SuccessPrint(fmt::format("Successfully Loaded {}", " Level Data"));
 }
 void CheckpointBuilding() {
 	for (const auto &i : CheckpointData) {

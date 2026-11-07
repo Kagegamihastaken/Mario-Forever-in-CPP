@@ -215,6 +215,7 @@ file(GLOB_RECURSE MY_HEADERS CONFIGURE_DEPENDS
 add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES} ${MY_HEADERS})
 
 #embed file
+#toml
 file(GLOB_RECURSE TOML_CONFIG_FILE
         "embeds/properties/*.toml"
 )
@@ -222,7 +223,18 @@ foreach(ABS_FILE ${TOML_CONFIG_FILE})
     file(RELATIVE_PATH REL_FILE ${CMAKE_CURRENT_SOURCE_DIR} ${ABS_FILE})
     b_embed(${CMAKE_PROJECT_NAME} ${REL_FILE})
 endforeach()
+
 message("Embedding TOML files: ${TOML_CONFIG_FILE}")
+#level
+file(GLOB_RECURSE LEVEL_FILE
+        "embeds/levels/*.json"
+)
+foreach(ABS_FILE ${LEVEL_FILE})
+    file(RELATIVE_PATH REL_FILE ${CMAKE_CURRENT_SOURCE_DIR} ${ABS_FILE})
+    b_embed(${CMAKE_PROJECT_NAME} ${REL_FILE})
+endforeach()
+message("Embedding LEVEL files: ${LEVEL_FILE}")
+#icon
 b_embed(${CMAKE_PROJECT_NAME} embeds/images/Icon/GameICON.png)
 
 # Using precompiled headers

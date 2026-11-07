@@ -1,6 +1,5 @@
 #include "Core/Config/MusicsConfig.hpp"
 #include <toml++/toml.hpp>
-#include "Core/Loading/Loading.hpp"
 #include "Core/MusicManager.hpp"
 
 void MFCPP::MusicsConfig::loadFile(const char* raw) {

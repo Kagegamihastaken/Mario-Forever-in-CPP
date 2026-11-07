@@ -246,25 +246,20 @@ void GameScene::loadResources() {
     //ReadData("data/levels/onedashthree.json");
     switch (Game::levelId) {
         case 0:
-            ReadData("data/levels/onedashthree.json");
+            ReadData(b::embed<"embeds/levels/onedashthree.json">().data());
             break;
         case 1:
-            ReadData("data/levels/twodashone.json");
+            ReadData(b::embed<"embeds/levels/twodashone.json">().data());
             break;
         case 2:
-            ReadData("data/levels/sevendashone.json");
+            ReadData(b::embed<"embeds/levels/sevendashone.json">().data());
             break;
         case 3:
-            ReadData("data/levels/sevendashthree.json");
+            ReadData(b::embed<"embeds/levels/sevendashthree.json">().data());
             //ReadData("data/levels/testlevel.json");
             break;
         default: ;
     }
-    //ReadData("data/levels/sevendashthree.json");
-    //ReadData("data/levels/twodashone.json");
-    //ReadData("data/levels/untitled.json");
-    //ReadData("data/levels/gearuptest.json");
-    //ReadData("data/levels/sevendashone.json");
     Bgbuilding();
     CheckpointBuilding();
     Obstaclebuilding();

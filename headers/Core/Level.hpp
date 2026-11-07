@@ -24,7 +24,7 @@ extern void Obstaclebuilding();
 extern void Objectbuilding();
 extern void Slopebuilding();
 extern void ExitGateBuilding();
-extern void ReadData(const std::filesystem::path& path);
+extern void ReadData(const char* raw);
 extern float LevelWidth, LevelHeight;
 extern MusicID getMusicLevelName();
 extern void postBuild();
