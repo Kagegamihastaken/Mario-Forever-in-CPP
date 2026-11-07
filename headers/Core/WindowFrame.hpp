@@ -49,7 +49,7 @@ namespace WindowFrame {
 
         static bool OPTION_SMOOTH{true};
         static bool OPTION_VSYNC{false};
-        static bool OPTION_FULLSCREEN{true};
+        static bool OPTION_FULLSCREEN{false};
 
         static bool PREV_OPTION_FULLSCREEN{OPTION_FULLSCREEN};
         const static std::string PROGRAM_NAME{"MFCPP::Mario-Forever"};

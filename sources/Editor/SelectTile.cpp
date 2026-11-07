@@ -112,6 +112,7 @@ const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePa
         {"TILE_78", CustomTileProperty(), sf::Vector2f(256, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 78},
         {"TILE_79", CustomTileProperty(), sf::Vector2f(0, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 79},
         {"TILE_80", CustomTileProperty(), sf::Vector2f(32, 256), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 80},
+        {"TILE_81", CustomTileProperty(), sf::Vector2f(288, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 0, 81},
     },
     { // PAGE 2
         {"BLUE_CLOUD_0", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 0), sf::Vector2f(0.0f, 0.0f), 5, 0},
@@ -168,6 +169,10 @@ const std::array<boost::container::static_vector<SelectTileData, 128>, 6> TilePa
         {"TANK_SPIKE_RIGHT", CustomTileProperty(), sf::Vector2f(192, 96), sf::Vector2i(0, 0), sf ::Vector2f(0.0f, 0.0f), 2, 2, 3, 0},
         {"CANNON_LAUNCHER_UP_LEFT", CustomTileProperty(), sf::Vector2f(192, 128), sf::Vector2i(0, 0), sf::Vector2f(16.f, 31.f), 2, 4, 5, 0},
         {"CANNON_LAUNCHER_UP_RIGHT", CustomTileProperty(), sf::Vector2f(224, 128), sf::Vector2i(0, 0), sf::Vector2f(16.f, 31.f), 2, 4, 6, 0},
+        {"CANNON_LAUNCHER_DOWN_LEFT", CustomTileProperty(), sf::Vector2f(192, 160), sf::Vector2i(0, 0), sf::Vector2f(16.f, 31.f), 2, 4, 7, 0},
+        {"CANNON_LAUNCHER_DOWN_RIGHT", CustomTileProperty(), sf::Vector2f(224, 160), sf::Vector2i(0, 0), sf::Vector2f(16.f, 31.f), 2, 4, 8, 0},
+        {"FIRE_LAUNCHER_REVERSE", CustomTileProperty(), sf::Vector2f(96, 64), sf::Vector2i(0, 0), sf::Vector2f(0.f, 0.f), 2, 4, 9, 0},
+        {"FIRE_LAUNCHER_STAND_REVERSE", CustomTileProperty(), sf::Vector2f(96, 160), sf::Vector2i(30, 27), sf::Vector2f(0.f, 0.f), 2, 4, 10, 0},
     },
     { // PAGE 5
         {"SMALL_MARIO_2", CustomTileProperty(), sf::Vector2f(0, 0), sf::Vector2i(0, 31), sf::Vector2f(11.0f, 51.0f)},

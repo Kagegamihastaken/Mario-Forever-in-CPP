@@ -7,8 +7,10 @@
 namespace PauseEngine {
     static bool isPaused = false;
     static sf::VertexArray PauseBG(sf::PrimitiveType::TriangleStrip, 4);
+    static float PauseTimeElapsed = 0.f;
 
     void InitPauseEngine();
+    void PauseStatusUpdate(float deltaTime);
     void PauseEvent(const std::optional<sf::Event>& event);
     void PauseDraw();
     [[nodiscard]] bool isGamePaused();

@@ -3,8 +3,6 @@
 #include "Core/AnimationSequenceManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Loading/Loading.hpp"
-#include "Core/ImageManager.hpp"
-#include "Core/Logging.hpp"
 #include "Core/ExternalHeaders/Kairos.hpp"
 #include "Core/Animate/SingleAnimationObject.hpp"
 #include "Core/Animate/StaticAnimationObject.hpp"
@@ -87,10 +85,10 @@ void WindowFrame::Window::WindowEventUpdate(const std::optional<sf::Event>& even
 				WindowToggleFullscreen();
 				ChangeScreenMode();
 				break;
-			case sf::Keyboard::Key::F12:
-				WindowToggleSmooth();
-				ChangeScreenMode();
-				break;
+			//case sf::Keyboard::Key::F12:
+			//	WindowToggleSmooth();
+			//	ChangeScreenMode();
+			//	break;
 			default: ;
 		}
 	}

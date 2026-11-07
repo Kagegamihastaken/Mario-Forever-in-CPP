@@ -48,22 +48,13 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
     PauseEngine::PauseEvent(event);
     if (const auto *mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         switch (mousePressed->button) {
-            case sf::Mouse::Button::Middle:
-                switch (Mario::getPowerState()) {
-                    case 3:
-                        Mario::SetPowerState(0);
-                        break;
-                    default:
-                        Mario::SetPowerState(3);
-                        break;
-                }
-                break;
             default: ;
         }
     }
 }
 
 void GameScene::update(const float deltaTime) {
+    PauseEngine::PauseStatusUpdate(deltaTime);
     if (PauseEngine::isGamePaused())
         return;
 
@@ -260,7 +251,7 @@ void GameScene::loadResources() {
             break;
         case 3:
             ReadData(b::embed<"embeds/levels/sevendashthree.json">().data());
-            //ReadData("data/levels/testlevel.json");
+            //ReadData(b::embed<"embeds/levels/testlevel.json">().data());
             break;
         default: ;
     }

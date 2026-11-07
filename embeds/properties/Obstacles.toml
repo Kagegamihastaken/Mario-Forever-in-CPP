@@ -807,3 +807,13 @@ y_high = 32
 y_low = 0
 x_left = 16
 x_right = 32
+
+[[obstacles]]
+id = 81
+texture_x = 288
+texture_y = 0
+collision_id = 0
+y_high = 0
+y_low = 32
+x_left = 0
+x_right = 32

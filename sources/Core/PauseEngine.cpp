@@ -7,15 +7,20 @@
 #include "Text/Text.hpp"
 
 namespace PauseEngine {
+    constexpr float PAUSE_TIME_LIMIT = 3.f; // 3 seconds
+
     void PauseEvent(const std::optional<sf::Event>& event) {
         if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
             switch (keyPressed->code) {
                 case sf::Keyboard::Key::P:
+                    if (PauseTimeElapsed < PAUSE_TIME_LIMIT * 50.f) return;
                     MusicManager::PauseAllMusic();
                     if (!isPaused)
                         SoundManager::PlaySound(SoundID::GAME_PAUSE);
-                    else
+                    else {
+                        PauseTimeElapsed = 0.f;
                         SoundManager::PlaySound(SoundID::GAME_RESUME);
+                    }
                     isPaused = !isPaused;
                     SetTextVisible("_PAUSED_ONE", isPaused);
                     SetTextVisible("_PAUSED_TWO", isPaused);
@@ -27,12 +32,20 @@ namespace PauseEngine {
     bool isGamePaused() {
         return isPaused;
     }
+    void PauseStatusUpdate(float deltaTime) {
+        PauseTimeElapsed += deltaTime;
+        if (PauseTimeElapsed > PAUSE_TIME_LIMIT * 50.f) {
+            PauseTimeElapsed = PAUSE_TIME_LIMIT * 50.f;
+        }
+    }
     void InitPauseEngine() {
         PauseBG[0].color = PauseBG[1].color = sf::Color(0, 0, 0, 128);
         PauseBG[2].color = PauseBG[3].color = sf::Color(0, 0, 0, 128);
 
         AddText("_PAUSED_ONE", "GAME PAUSED", TextMarginID::LEFT_MARGIN, 233.0f, 445.0f, 1, false);
         AddText("_PAUSED_TWO", "PRESS \"P\" TO RESUME GAME", TextMarginID::LEFT_MARGIN, 129.0f, 462.0f, 1, false);
+
+        PauseTimeElapsed = 2.f * 50.f;
     }
     void PauseDraw() {
         if (!isPaused) return;

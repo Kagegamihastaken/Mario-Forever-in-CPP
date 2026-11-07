@@ -4,11 +4,15 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Enemy/BulletBillLauncher.hpp"
 #include "Object/Enemy/BulletBillLauncherFlipped.hpp"
+#include "Object/Enemy/CannonLauncherDownLeft.hpp"
+#include "Object/Enemy/CannonLauncherDownRight.hpp"
 #include "Object/Enemy/CannonLauncherUpLeft.hpp"
 #include "Object/Enemy/CannonLauncherUpRight.hpp"
 #include "Object/Enemy/FireLauncher.hpp"
 #include "Object/Enemy/FireLauncherFLipped.hpp"
+#include "Object/Enemy/FireLauncherReverse.hpp"
 #include "Object/Enemy/FireLauncherStand.hpp"
+#include "Object/Enemy/FireLauncherStandReverse.hpp"
 
 void AddBulletLauncher(const BulletType type, const float x, const float y) {
     switch (type) {
@@ -32,6 +36,18 @@ void AddBulletLauncher(const BulletType type, const float x, const float y) {
             break;
         case BulletType::CANNON_LAUNCHER_UP_RIGHT:
             GameScene::customTileManager.addCustomTile<CannonLauncherUpRight>(sf::Vector2f(x, y));
+            break;
+        case BulletType::CANNON_LAUNCHER_DOWN_LEFT:
+            GameScene::customTileManager.addCustomTile<CannonLauncherDownLeft>(sf::Vector2f(x, y));
+            break;
+        case BulletType::CANNON_LAUNCHER_DOWN_RIGHT:
+            GameScene::customTileManager.addCustomTile<CannonLauncherDownRight>(sf::Vector2f(x, y));
+            break;
+        case BulletType::FIRE_LAUNCHER_REVERSE:
+            GameScene::customTileManager.addCustomTile<FireLauncherReverse>(sf::Vector2f(x, y));
+            break;
+        case BulletType::FIRE_LAUNCHER_STAND_REVERSE:
+            GameScene::customTileManager.addCustomTile<FireLauncherStandReverse>(sf::Vector2f(x, y));
             break;
         default: ;
     }

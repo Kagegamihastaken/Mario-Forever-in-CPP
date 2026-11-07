@@ -615,8 +615,23 @@ width = 32
 height = 32
 
 [[textures]]
+id = "FIRE_LAUNCHER_REVERSE"
+path = "data/resources/FireLauncher.png"
+animated = false
+x = 32
+width = 32
+height = 32
+
+[[textures]]
 id = "FIRE_LAUNCHER_STAND"
 path = "data/resources/FireLauncherStand.png"
+animated = false
+width = 64
+height = 96
+
+[[textures]]
+id = "FIRE_LAUNCHER_STAND_REVERSE"
+path = "data/resources/FireLauncherStandReverse.png"
 animated = false
 width = 64
 height = 96
@@ -751,6 +766,15 @@ height = 32
 id = "CANNON_LAUNCHER_DOWN_LEFT"
 path = "data/resources/CannonLauncher.png"
 animated = false
+y = 64
+width = 32
+height = 32
+
+[[textures]]
+id = "CANNON_LAUNCHER_DOWN_RIGHT"
+path = "data/resources/CannonLauncher.png"
+animated = false
+x = 32
 y = 64
 width = 32
 height = 32
