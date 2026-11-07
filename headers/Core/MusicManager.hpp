@@ -8,6 +8,7 @@ namespace MusicManager {
 	void AddPlayMusic(MusicID name, const std::filesystem::path &path);
 	void PlayMusic(MusicID name);
 	void PauseMusic(MusicID name);
+	void PauseAllMusic();
 	void CleanUp();
 	void SetLoop(MusicID name, bool loop);
 	void StopMusic(MusicID name);

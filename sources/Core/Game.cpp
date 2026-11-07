@@ -5,6 +5,7 @@
 #include "Core/Game.hpp"
 
 #include "battery/embed.hpp"
+#include "Core/PauseEngine.hpp"
 #include "Core/Scene/EditorScene.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Core/Profiler.hpp"

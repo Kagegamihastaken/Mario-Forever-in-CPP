@@ -11,6 +11,7 @@ static MFCPP::ActiveObject<float> playerPos(sf::Vector2f(0.f, 0.f), sf::Vector2f
 bool EffectActive = false;
 sf::Clock MarioEffectTimer;
 float MarioEffectYVelo = 0.0f;
+float MarioEffectTimeElapsed = 0.f;
 sf::Vector2f posFirstDeath;
 void MarioEffectInit() {
 	playerEffect.setTexture("DEAD_MARIO");
@@ -22,13 +23,14 @@ void MoveMarioEffect(const sf::Vector2f& pos) {
 	playerPos.teleport(playerPos.getCurrentPosition() + pos);
 }
 void MarioEffectStatusUpdate(const float deltaTime) {
+	MarioEffectTimeElapsed += deltaTime;
 	if (EffectActive) {
-		if (MarioEffectTimer.getElapsedTime().asSeconds() >= 4.0f) {
+		if (MarioEffectTimeElapsed >= 4.0f * 50.f) {
 			Mario::setCanControl(true);
 			EffectActive = false;
 			Mario::Death(false);
 		}
-		else if (MarioEffectTimer.getElapsedTime().asSeconds() >= 0.5f && MarioEffectTimer.getElapsedTime().asSeconds() < 4.0f) {
+		else if (MarioEffectTimeElapsed >= 0.5f * 50.f && MarioEffectTimeElapsed < 4.0f * 50.f) {
 			MarioEffectYVelo += (MarioEffectYVelo >= 10.0f ? 0.0f : 1.f * deltaTime * 0.3f);
 			playerPos.move(sf::Vector2f(0.f, MarioEffectYVelo * deltaTime));
 		}
@@ -41,7 +43,7 @@ void ActiveMarioEffect(float alpha) {
 		EffectActive = true;
 		posFirstDeath = Mario::getInterpolatedPosition();
 		playerPos.teleport(posFirstDeath - sf::Vector2f(14.f, 30.f));
-		MarioEffectTimer.restart();
+		MarioEffectTimeElapsed = 0.f;
 		MarioEffectYVelo = -10.0f;
 		resetExitGateClock();
 	}

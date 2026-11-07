@@ -14,7 +14,7 @@ void loadFontRes() {
 		ImageManager::AddTexture(fmt::format("Font_{}", i), "data/resources/Font.png", sf::IntRect(MFText.GetFontTexture(i), { 15, 16 }));
 	//FontTextureList.Loadingtexture("data/resources/Font.png", "Font", 0, 0, 645, 32);
 }
-void AddText(const std::string &id, const std::string &text, const TextMarginID margin, const float x, float y) {
+void AddText(const std::string &id, const std::string &text, const TextMarginID margin, float x, float y, int32_t order, bool visible) {
 	//search for duplicates ID
 	bool isDuplicate = false;
 	for (const auto& i : MFText.List) {
@@ -29,6 +29,8 @@ void AddText(const std::string &id, const std::string &text, const TextMarginID 
 		MFText.List.back().setID(id);
 		MFText.List.back().setText(text);
 		MFText.List.back().setMargin(margin);
+		MFText.List.back().setOrder(order);
+		MFText.List.back().setVisible(visible);
 		int Counter = 0;
 		for (const auto& i : text) {
 			MFText.List.back().m_SpriteText.emplace_back(ImageManager::getTexture(fmt::format("Font_{}", i)));
@@ -38,6 +40,21 @@ void AddText(const std::string &id, const std::string &text, const TextMarginID 
 		}
 	}
 	else std::cout << "Cannot add text ID " << id << " (Duplicated ID)" << "\n";
+}
+void SetTextVisible(const std::string &id, bool visible) {
+	bool isFounded = false;
+	int IndexCounter = 0;
+	for (const auto& i : MFText.List) {
+		if (i.getID() == id) {
+			isFounded = true;
+			break;
+		}
+		++IndexCounter;
+	}
+	if (isFounded) {
+		MFText.List[IndexCounter].setVisible(visible);
+	}
+	else std::cout << "Cannot set visibility for text ID " << id << " (Not existed ID)" << "\n";
 }
 void EditText(const std::string &NewText, const std::string &id) {
 	bool isFounded = false;
@@ -96,8 +113,10 @@ void UpdatePositionCharacter() {
 		}
 	}
 }
-void TextDraw() {
+void TextDraw(int32_t order) {
 	for (const auto& i : MFText.List) {
+		if (i.getOrder() != order || !i.isVisible()) continue;
+
 		for (const auto& j : i.m_SpriteText) {
 			WindowFrame::getWindow().draw(j);
 		}

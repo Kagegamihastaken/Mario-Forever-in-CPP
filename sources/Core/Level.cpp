@@ -9,7 +9,6 @@
 #include "Block/LuckyBlock.hpp"
 #include "Core/AutoScroll.hpp"
 #include "Core/Enumeration/enum.hpp"
-#include "Core/Loading/Loading.hpp"
 #include "Core/Loading/PiranhaAILoading.hpp"
 #include "Core/Loading/SpikeLoading.hpp"
 #include "Core/Scroll.hpp"

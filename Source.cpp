@@ -16,6 +16,7 @@
 #include <cmake-build-reldeb/_deps/sfml-src/extlibs/headers/vulkan/vulkan_core.h>
 
 #include "Core/Input.hpp"
+#include "Core/PauseEngine.hpp"
 #include "Core/Profiler.hpp"
 float alpha = 1.0f;
 // TODO: Implement DEBUG in Engine

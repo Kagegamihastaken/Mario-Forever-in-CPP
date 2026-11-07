@@ -99,8 +99,8 @@ private:
 
 	static bool m_OverSpeed;
 	static uint64_t m_Score;
-	static sf::Clock m_AppearingTimer;
-	static sf::Clock m_InvincibleTimer;
+	static float m_AppearingTimer;
+	static float m_InvincibleTimer;
 	static bool m_Invincible;
 	static bool m_InvincibleState;
 	static bool m_MarioAppearing;

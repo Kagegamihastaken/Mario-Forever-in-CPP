@@ -95,6 +95,11 @@ void MusicManager::PauseMusic(MusicID name) {
 	}
 	AudioEngine::getAudioEngine().setPause(it->second, !AudioEngine::getAudioEngine().getPause(it->second));
 }
+void MusicManager::PauseAllMusic() {
+	for (const auto &[id, source] : g_musics) {
+		AudioEngine::getAudioEngine().setPause(g_musics_handle[id], !AudioEngine::getAudioEngine().getPause(g_musics_handle[id]));
+	}
+}
 void MusicManager::CleanUp() {
 	MFCPP::Log::InfoPrint("MusicManager cleanup...");
 	g_musics.clear();

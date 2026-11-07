@@ -9,6 +9,8 @@ namespace MFCPP {
         sf::Vector2f m_Position{};
         std::string m_text{};
         std::string m_Id{};
+        int32_t m_Order{};
+        bool m_Visible{};
         TextMarginID m_Margin{};
     public:
         std::vector<sf::Sprite> m_SpriteText{};
@@ -21,6 +23,10 @@ namespace MFCPP {
         [[nodiscard]] std::string getText() const;
         void setMargin(TextMarginID margin);
         [[nodiscard]] TextMarginID getMargin() const;
+        void setOrder(int32_t order);
+        [[nodiscard]] int32_t getOrder() const;
+        void setVisible(bool visible);
+        [[nodiscard]] bool isVisible() const;
     };
 
     class TextList final : public Font {

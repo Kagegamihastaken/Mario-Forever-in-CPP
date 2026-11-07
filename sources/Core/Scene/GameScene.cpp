@@ -25,13 +25,13 @@
 #include "Core/HitboxUtils.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/MusicManager.hpp"
+#include "Core/PauseEngine.hpp"
 #include "Core/ShakeView.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Config/TextureConfig.hpp"
 #include "Core/Tilemap.hpp"
 #include "Core/WeatherController.hpp"
 #include "Core/Config/ObstaclesConfig.hpp"
-#include "Object/Effect/RainEffect.hpp"
 
 EnemyManager GameScene::enemyManager;
 CustomTileManager GameScene::customTileManager;
@@ -45,6 +45,7 @@ GameScene::GameScene(SceneManager &manager)
 }
 
 void GameScene::handleInput(const std::optional<sf::Event> &event) {
+    PauseEngine::PauseEvent(event);
     if (const auto *mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
         switch (mousePressed->button) {
             case sf::Mouse::Button::Middle:
@@ -63,6 +64,9 @@ void GameScene::handleInput(const std::optional<sf::Event> &event) {
 }
 
 void GameScene::update(const float deltaTime) {
+    if (PauseEngine::isGamePaused())
+        return;
+
     MFCPP::ShakeView::update(deltaTime);
     // UI Update
     TimeUpdate(deltaTime);
@@ -163,7 +167,9 @@ void GameScene::draw(sf::RenderWindow &window, float alpha) {
     WindowFrame::FrameDraw();
 
     HitboxUtils::drawHitbox();
-    TextDraw();
+    TextDraw(0);
+    PauseEngine::PauseDraw();
+    TextDraw(1);
 }
 
 void GameScene::objectCleanup() {
@@ -177,6 +183,8 @@ void GameScene::objectCleanup() {
 }
 
 void GameScene::postUpdate() {
+    if (PauseEngine::isGamePaused())
+        return;
     enemyManager.MarioCollision();
     enemyManager.EnemyCollision();
 
@@ -231,17 +239,13 @@ void GameScene::loadResources() {
     MarioEffectInit();
     //BgInit();
     ExitGateInit();
+    PauseEngine::InitPauseEngine();
 
-    AddText("_COIN", "", TextMarginID::RIGHT_MARGIN, 287.0f, 15.0f);
-    AddText("_LIVE", "", TextMarginID::LEFT_MARGIN, 138.0f, 15.0f);
-    AddText("_SCORE", "", TextMarginID::RIGHT_MARGIN, 138.0f, 34.0f);
-    AddText("_TIME", "", TextMarginID::RIGHT_MARGIN, 562.0f, 35.0f);
-    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
-    if (WindowFrame::isDebug()) {
-        AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
-        AddText("_VIEWXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 432.0f);
-        AddText("_APPE", "", TextMarginID::LEFT_MARGIN, 0.0f, 64.0f);
-    }
+    AddText("_COIN", "", TextMarginID::RIGHT_MARGIN, 287.0f, 15.0f, 0);
+    AddText("_LIVE", "", TextMarginID::LEFT_MARGIN, 138.0f, 15.0f, 0);
+    AddText("_SCORE", "", TextMarginID::RIGHT_MARGIN, 138.0f, 34.0f, 0);
+    AddText("_TIME", "", TextMarginID::RIGHT_MARGIN, 562.0f, 35.0f, 0);
+    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 10.0f, 52.0f, 1);
     //Load Level
     //ReadData("data/levels/onedashthree.json");
     switch (Game::levelId) {

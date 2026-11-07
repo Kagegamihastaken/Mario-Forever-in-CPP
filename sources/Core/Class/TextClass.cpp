@@ -25,4 +25,16 @@ namespace MFCPP {
     TextMarginID Text::getMargin() const {
         return m_Margin;
     }
+    void Text::setOrder(int32_t order) {
+        m_Order = order;
+    }
+    int32_t Text::getOrder() const {
+        return m_Order;
+    }
+    void Text::setVisible(bool visible) {
+        m_Visible = visible;
+    }
+    bool Text::isVisible() const {
+        return m_Visible;
+    }
 }

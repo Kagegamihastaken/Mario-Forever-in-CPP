@@ -22,8 +22,8 @@ void EditorScene::loadResources() {
     SelectTileInit();
     EditorInit();
     loadFontRes();
-    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f);
-    AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f);
+    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 0.0f, 464.0f, 0);
+    AddText("_MOUSEXY", "", TextMarginID::RIGHT_MARGIN, 624.0f, 464.0f, 0);
 }
 void EditorScene::unloadResources() {}
 void EditorScene::handleInput(const std::optional<sf::Event> &event) {
@@ -52,7 +52,7 @@ void EditorScene::draw(sf::RenderWindow &window, float alpha) {
     BgGradientDraw();
     DrawTile();
     SelectTileDraw();
-    TextDraw();
+    TextDraw(0);
     //ImageManager::DrawAllVertex();
 }
 void EditorScene::postUpdate() {

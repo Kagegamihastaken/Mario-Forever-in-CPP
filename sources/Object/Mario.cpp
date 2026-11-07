@@ -40,8 +40,8 @@ int8_t Mario::m_lastPowerState = 0;
 uint16_t Mario::m_Lives = PLAYER_LIVES;
 bool Mario::m_OverSpeed = false;
 uint64_t Mario::m_Score = 0;
-sf::Clock Mario::m_AppearingTimer;
-sf::Clock Mario::m_InvincibleTimer;
+float Mario::m_AppearingTimer = 0.f;
+float Mario::m_InvincibleTimer = 0.f;
 bool Mario::m_Invincible = false;
 bool Mario::m_InvincibleState = false;
 bool Mario::m_MarioAppearing = false;
@@ -85,7 +85,8 @@ void Mario::SetPowerState(const int ps) {
 }
 
 void Mario::loadMarioRes() {
-    m_AppearingTimer.restart();
+    m_AppearingTimer = 0.f;
+    m_InvincibleTimer = 0.f;
     // Resources Loader;
     m_MarioAnimation.setAnimation(0, 0, 0, true);
     UpdateSequenceAnimation();
@@ -128,6 +129,8 @@ void Mario::MarioOutSideScreen() {
 //false: right, true: left
 void Mario::KeyboardMovement(const float deltaTime) {
     ZoneScopedNC("Mario::KeyboardMovement", 0xFF0000);
+    m_AppearingTimer += deltaTime;
+    m_InvincibleTimer += deltaTime;
     const bool winFocus = WindowFrame::getWindow().hasFocus();
     if (m_CanControlMario && !LevelCompleteEffect) {
         if ((MFCPP::Input::isLeftKeyPressed() && !MFCPP::Input::isRightKeyPressed()) && (
@@ -470,13 +473,13 @@ void Mario::PowerDown() {
             SoundManager::PlaySound(SoundID::GAME_PIPE);
             SetPowerState(1);
             m_Invincible = true;
-            m_InvincibleTimer.restart();
+            m_InvincibleTimer = 0.f;
             m_InvincibleState = false;
         } else if (m_PowerState == 1) {
             SoundManager::PlaySound(SoundID::GAME_PIPE);
             SetPowerState(0);
             m_Invincible = true;
-            m_InvincibleTimer.restart();
+            m_InvincibleTimer = 0.f;
             m_InvincibleState = false;
         } else if (m_PowerState == 0 && m_CanControlMario && !LevelCompleteEffect) {
             MarioEffectActivate();
@@ -521,16 +524,16 @@ void Mario::MarioDraw(float alpha) {
     HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(m_hitboxFloor,
                                                           m_player.getCurrentPosition() - m_player.getOrigin(),
                                                           sf::Color::Blue));
-    if (static_cast<float>(m_AppearingTimer.getElapsedTime().asMilliseconds()) > (3000.0f / 91.0f) * 15.0f)
+    if (m_AppearingTimer > (3.0f / 91.0f) * 15.0f * 50.f)
         m_MarioAppearing = false;
     if (m_PowerState != m_lastPowerState) {
         m_MarioAppearing = true;
-        m_AppearingTimer.restart();
+        m_AppearingTimer = 0.f;
         m_lastPowerState = m_PowerState;
     }
     //draw
     m_MarioAnimation.animationUpdate(m_player.getInterpolatedPosition(alpha), m_player.getOrigin());
-    if (m_InvincibleTimer.getElapsedTime().asSeconds() > 2.0f) m_Invincible = false;
+    if (m_InvincibleTimer > 2.0f * 50.f) m_Invincible = false;
     if (!m_Invincible) {
         if (m_CanControlMario) m_MarioAnimation.animationDraw();
     } else {
