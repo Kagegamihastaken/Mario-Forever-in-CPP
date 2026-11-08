@@ -7,6 +7,7 @@
 #include "Core/AudioEngine.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
+#include "Core/WindowFrame.hpp"
 #include "Core/Enumeration/MusicEnum.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
 
@@ -83,6 +84,7 @@ void MusicManager::PlayMusic(MusicID name) {
 	AudioEngine::getAudioEngine().setProtectVoice(handle, true);
 	AudioEngine::getAudioEngine().setLooping(handle, pre_it->second.isLoop);
 	AudioEngine::getAudioEngine().setVolume(handle, pre_it->second.volume);
+	AudioEngine::getAudioEngine().setSamplerate(handle, g_musics[name]->mBaseSamplerate * WindowFrame::getTimestep().getTimeSpeed());
 	if (AudioEngine::getAudioEngine().isValidVoiceHandle(handle))
 		g_musics_handle[name] = handle;
 }

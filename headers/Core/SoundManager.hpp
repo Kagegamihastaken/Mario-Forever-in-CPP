@@ -13,13 +13,14 @@ namespace SoundManager {
 	void SoundManagerInit();
 	void AddSound(SoundID name, const std::filesystem::path& path, bool changeEnv);
 	[[nodiscard]] SoLoud::WavStream GetSound(SoundID name);
-	void PlaySound(SoundID name);
+	void PlaySound(SoundID name, bool ignorePause = false);
 	void CleanUp();
 	void SetLoop(SoundID name, bool loop);
 	void SetVolume(SoundID name, float val);
 	void StopSound(SoundID name);
 	void StopAllSound();
 	void SetEnvironment(SoundEnvironment val);
+	void PauseAllSound();
 	[[nodiscard]] SoundEnvironment GetEnvironment();
 };
 

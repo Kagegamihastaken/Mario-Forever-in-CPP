@@ -9,6 +9,7 @@
 #include "Core/AudioEngine.hpp"
 #include "Core/Exception.hpp"
 #include "Core/Logging.hpp"
+#include "Core/WindowFrame.hpp"
 #include "Core/Enumeration/SoundEnum.hpp"
 #include "Core/Loading/PhysFsStream.hpp"
 
@@ -32,6 +33,8 @@ SoLoud::EchoFilter g_echo_filter;
 SoLoud::FreeverbFilter g_reverb_filter;
 SoLoud::BiquadResonantFilter g_biquad_filter;
 SoundEnvironment g_env;
+
+SoLoud::handle g_cave_handle, g_normal_handle;
 bool g_play = false;
 
 void AddPlaySound(SoundID name, const std::filesystem::path& path, bool changeEnv) {
@@ -68,11 +71,18 @@ void SoundManager::SoundManagerInit() {
 	g_cave_bus.setFilter(0, &g_echo_filter);
 	g_cave_bus.setFilter(1, &g_reverb_filter);
 	g_cave_bus.setFilter(2, &g_biquad_filter);
-	const auto handle = AudioEngine::getAudioEngine().play(g_cave_bus, 1.0f);
-	AudioEngine::getAudioEngine().setFilterParameter(handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
-	AudioEngine::getAudioEngine().play(g_normal_bus, 1.6f);
-
+	const auto cave_handle = AudioEngine::getAudioEngine().play(g_cave_bus, 1.0f);
+	AudioEngine::getAudioEngine().setFilterParameter(cave_handle, 1, SoLoud::FreeverbFilter::WET, 0.4f);
+	const auto normal_handle = AudioEngine::getAudioEngine().play(g_normal_bus, 1.6f);
+	g_cave_handle = cave_handle;
+	g_normal_handle = normal_handle;
 }
+
+void SoundManager::PauseAllSound() {
+	AudioEngine::getAudioEngine().setPause(g_normal_handle, !AudioEngine::getAudioEngine().getPause(g_normal_handle));
+	AudioEngine::getAudioEngine().setPause(g_cave_handle, !AudioEngine::getAudioEngine().getPause(g_cave_handle));
+}
+
 void SoundManager::AddSound(SoundID name, const std::filesystem::path& path, const bool changeEnv) {
 	if (g_queue.contains(name)) throw MFCPP::Exception::AlreadyExistElement(fmt::format("SoundManager: Already exist sound with this name {}", magic_enum::enum_name(name)));
 	QueueData& dat = g_queue[name];
@@ -110,7 +120,7 @@ void SoundManager::StopAllSound() {
 		val->sound.stop();
 	}
 }
-void SoundManager::PlaySound(SoundID name) {
+void SoundManager::PlaySound(SoundID name, bool ignorePause) {
 	if (!g_sounds.contains(name)) {
 		QueueData& dat = g_queue[name];
 		AddPlaySound(name, dat.path.string(), dat.changeEnv);
@@ -118,22 +128,28 @@ void SoundManager::PlaySound(SoundID name) {
 	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 80) return;
 	if (AudioEngine::getAudioEngine().getActiveVoiceCount() > 48) g_sounds[name]->sound.stop();
 	SoLoud::handle handle;
-	if (!g_sounds[name]->changeEnv) handle = AudioEngine::getAudioEngine().play(g_sounds[name]->sound);
+	if (ignorePause) {
+		handle = AudioEngine::getAudioEngine().play(g_sounds[name]->sound);
+	}
 	else {
-		switch (g_env) {
-			case SoundEnvironment::OVERWORLD:
-				handle = g_normal_bus.play(g_sounds[name]->sound);
-				break;
-			case SoundEnvironment::UNDERGROUND:
-				handle = g_cave_bus.play(g_sounds[name]->sound);
-				break;
-			default:
-				handle = g_normal_bus.play(g_sounds[name]->sound);
-				break;
+		if (!g_sounds[name]->changeEnv) handle = g_normal_bus.play(g_sounds[name]->sound);
+		else {
+			switch (g_env) {
+				case SoundEnvironment::OVERWORLD:
+					handle = g_normal_bus.play(g_sounds[name]->sound);
+					break;
+				case SoundEnvironment::UNDERGROUND:
+					handle = g_cave_bus.play(g_sounds[name]->sound);
+					break;
+				default:
+					handle = g_normal_bus.play(g_sounds[name]->sound);
+					break;
+			}
 		}
 	}
 	AudioEngine::getAudioEngine().setInaudibleBehavior(handle,false, false);
 	AudioEngine::getAudioEngine().setVolume(handle, g_sounds[name]->sound.mVolume);
+	AudioEngine::getAudioEngine().setSamplerate(handle, g_sounds[name]->sound.mBaseSamplerate * WindowFrame::getTimestep().getTimeSpeed());
 }
 void SoundManager::CleanUp() {
 	MFCPP::Log::InfoPrint("SoundManager cleanup...");

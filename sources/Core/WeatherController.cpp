@@ -7,7 +7,7 @@
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Effect/RainEffect.hpp"
 
-bool g_enableWeather = true;
+bool g_enableWeather = false;
 WeatherID g_currentWeather = WeatherID::RAIN;
 //Range
 float g_YupperBound = 0.f;

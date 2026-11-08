@@ -15,11 +15,12 @@ namespace PauseEngine {
                 case sf::Keyboard::Key::P:
                     if (PauseTimeElapsed < PAUSE_TIME_LIMIT * 50.f) return;
                     MusicManager::PauseAllMusic();
+                    SoundManager::PauseAllSound();
                     if (!isPaused)
-                        SoundManager::PlaySound(SoundID::GAME_PAUSE);
+                        SoundManager::PlaySound(SoundID::GAME_PAUSE, true);
                     else {
                         PauseTimeElapsed = 0.f;
-                        SoundManager::PlaySound(SoundID::GAME_RESUME);
+                        SoundManager::PlaySound(SoundID::GAME_RESUME, true);
                     }
                     isPaused = !isPaused;
                     SetTextVisible("_PAUSED_ONE", isPaused);
