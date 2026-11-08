@@ -4,6 +4,7 @@
 #include "Core/Input.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Tilemap.hpp"
+#include "Core/Utility.hpp"
 #include "Core/Collision/Collide.hpp"
 #include "Core/Scene/GameScene.hpp"
 #include "Object/Mario.hpp"
@@ -61,9 +62,12 @@ auto GoombaAIBehavior::GoombaAIYCollision(const GoombaAIData& data, const sf::Fl
     return dataOutput;
 }
 
-auto GoombaAIBehavior::GoombaAIXMove(const GoombaAIData &data, const float deltaTime) -> GoombaAIData {
+auto GoombaAIBehavior::GoombaAIXMove(const GoombaAIData &data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, const float deltaTime, const bool checkSlope) -> GoombaAIData {
     auto dataOutput = data;
-    dataOutput.position.x += data.velocity.x * (data.direction ? 1.f : -1.f) * deltaTime;
+    const float offset = std::min(data.velocity.x + 1.f, 3.f);
+    float speed_nerf = Utility::speedNerf(MFCPP::CollisionObject(data.position, origin, hitbox), data.velocity, offset, !data.direction);
+    if (!checkSlope) speed_nerf = 1.f;
+    dataOutput.position.x += data.velocity.x * speed_nerf * (data.direction ? 1.f : -1.f) * deltaTime;
     return dataOutput;
 }
 

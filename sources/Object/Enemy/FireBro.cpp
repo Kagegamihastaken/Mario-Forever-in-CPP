@@ -67,7 +67,7 @@ void FireBro::MarioCollision(const float MarioYVelocity) {
     if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect BroAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(BroAIHitbox, hitbox_mario)) {
-        if (m_transform.getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
+        if (m_transform.getCurrentPosition().y - 16.f >= Mario::getCurrentPosition().y && MarioYVelocity >= 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
             GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
             Death(1);
@@ -134,7 +134,7 @@ void FireBro::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state != 0) return;
 
     BroAIBehavior::BroAIData data = {m_transform.getCurrentPosition(), m_movingValue, m_timeTicking, m_tickingValue, m_velocity.x, m_stop_duration, m_randomWalking, getDirection(), m_WalkingState};
-    data = BroAIBehavior::BroAIXUpdate(data, m_RNG_walking_range, m_RNG_ticking_range, deltaTime);
+    data = BroAIBehavior::BroAIXUpdate(data, m_hitbox, getOrigin(), m_velocity, m_RNG_walking_range, m_RNG_ticking_range, deltaTime);
     m_movingValue = data.movingValue;
     m_timeTicking = data.timeTicking;
     m_tickingValue = data.tickingValue;

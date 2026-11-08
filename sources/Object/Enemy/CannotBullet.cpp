@@ -38,7 +38,7 @@ void CannonBullet::MarioCollision(float MarioYVelocity) {
     if (Utility::f_abs(Mario::getCurrentPosition().x - m_transform.getCurrentPosition().x) >= 80.f) return;
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect other = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(hitbox_mario, other)) {
-        if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.f) {
+        if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity >= 0.f) {
             GoombaAIBehavior::GoombaAIStomping();
             GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
             Death(1);
@@ -69,7 +69,7 @@ void CannonBullet::statusUpdate(float deltaTime) {
 }
 void CannonBullet::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled()) return;
-    const auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+    const auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), m_hitbox, getOrigin(), deltaTime, false);
     m_transform.setCurrentPosition(data.position);
     m_velocity = data.velocity;
     setDirection(data.direction);

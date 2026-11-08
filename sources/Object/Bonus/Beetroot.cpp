@@ -59,7 +59,7 @@ void Beetroot::statusUpdate(const float deltaTime) {
 }
 void Beetroot::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_isappearing) return;
-    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), m_hitbox, getOrigin(), deltaTime);
     data = GoombaAIBehavior::GoombaAIXCollision(data, m_hitbox, m_wall_hitbox, getOrigin());
     m_transform.setCurrentPosition(data.position);
     m_velocity = data.velocity;

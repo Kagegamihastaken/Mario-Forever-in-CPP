@@ -30,7 +30,7 @@ namespace MFCPP {
         return std::max(-TILEMAP_MAX, std::min(x, tileMapSizeX)) + std::max(-TILEMAP_MAX, std::min(y, tileMapSizeY)) * (tileMapSizeX + TILEMAP_MAX + 1);
     }
     sf::Vector2f Tilemap::getTilemap(const int32_t id) {
-        return {static_cast<float>((id + TILEMAP_MAX) % (tileMapSizeX + TILEMAP_MAX + 1) - TILEMAP_MAX) * tileSize, (static_cast<float>(id + TILEMAP_MAX) / static_cast<float>(tileMapSizeX + TILEMAP_MAX + 1)) * tileSize};
+        return {static_cast<float>((id + TILEMAP_MAX) % (tileMapSizeX + TILEMAP_MAX + 1) - TILEMAP_MAX) * tileSize, static_cast<float>((id + TILEMAP_MAX) / (tileMapSizeX + TILEMAP_MAX + 1)) * tileSize};
     }
     void Tilemap::setIndexCollectableMapID(const float x, const float y, const uint32_t val) {
         CollectableMap[getTilemap(static_cast<int32_t>(std::floor(x / tileSize)), static_cast<int32_t>(std::floor(y / tileSize)))].id = val;
@@ -91,8 +91,9 @@ namespace MFCPP {
     }
     void Tilemap::drawHitboxMap() {
         for (const auto &i : ObstaclesTilemap) {
-            if (i.second.collide)
-                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({static_cast<float>(i.second.xBounds.first), i.second.id != 3 ? static_cast<float>(i.second.floorY.first) : 0.f}, {static_cast<float>(i.second.xBounds.second - i.second.xBounds.first), i.second.id != 3 ? static_cast<float>(i.second.floorY.second - i.second.floorY.first) : 32.f}), getTilemap(i.first), sf::Color::Green));
+            if (i.second.collide) {
+                HitboxUtils::addHitboxDebug(HitboxUtils::HitboxDetail(sf::FloatRect({static_cast<float>(i.second.xBounds.first), i.second.id != 3 ? static_cast<float>(i.second.floorY.first) : 0.f}, {static_cast<float>(i.second.xBounds.second - i.second.xBounds.first == 0 ? 32.f : i.second.xBounds.second - i.second.xBounds.first), i.second.id != 3 ? static_cast<float>(i.second.floorY.second - i.second.floorY.first) : 32.f}), getTilemap(i.first), sf::Color::Green));
+            }
         }
     }
     void Tilemap::deleteAll() {

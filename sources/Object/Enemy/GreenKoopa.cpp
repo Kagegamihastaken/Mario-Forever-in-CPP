@@ -82,7 +82,7 @@ void GreenKoopa::MarioCollision(const float MarioYVelocity) {
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         m_invincibleTimer = 0.f;
         if (m_state != 1) {
-            if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
+            if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity >= 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
                 GameScene::effectManager.addEffect<Score200Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
                 Death(1);
@@ -119,7 +119,7 @@ void GreenKoopa::statusUpdate(const float deltaTime) {
 }
 void GreenKoopa::XUpdate(const float deltaTime) {
     if (isDestroyed() || isDisabled() || m_state == 3) return;
-    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), deltaTime);
+    auto data = GoombaAIBehavior::GoombaAIXMove(GoombaAIBehavior::GoombaAIData(m_transform.getCurrentPosition(), m_velocity, getDirection()), m_hitbox, getOrigin(), deltaTime);
     if (m_state != 2) {
         data = GoombaAIBehavior::GoombaAIXCollision(data, getHitbox(), m_wall_hitbox, getOrigin());
         m_transform.setCurrentPosition(data.position);

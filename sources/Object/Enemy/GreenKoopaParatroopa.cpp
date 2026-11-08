@@ -46,7 +46,7 @@ void GreenKoopaParatroopa::MarioCollision(const float MarioYVelocity) {
     const sf::FloatRect hitbox_mario = getGlobalHitbox(Mario::getHitbox(), Mario::getCurrentPosition(), Mario::getOrigin());
     if (const sf::FloatRect GoombaAIHitbox = getGlobalHitbox(getHitbox(), m_transform.getCurrentPosition(), getOrigin()); isCollide(GoombaAIHitbox, hitbox_mario)) {
         if (m_state == 0) {
-            if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity > 0.0f) {
+            if (m_transform.getCurrentPosition().y - 16.f > Mario::getCurrentPosition().y && MarioYVelocity >= 0.0f) {
                 GoombaAIBehavior::GoombaAIStomping();
                 GameScene::effectManager.addEffect<Score100Effect>(sf::Vector2f(m_transform.getCurrentPosition().x, m_transform.getCurrentPosition().y - getOrigin().y));
                 m_enemyManager.addEnemy<GreenKoopa>(m_transform.getCurrentPosition(), false);

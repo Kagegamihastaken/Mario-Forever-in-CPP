@@ -12,7 +12,7 @@ public:
     };
     static GoombaAIData GoombaAIYMove(const GoombaAIData& data, float deltaTime);
     static GoombaAIData GoombaAIYCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, bool RedKoopaAIEnabled = false, float prevX = 0.f);
-    static GoombaAIData GoombaAIXMove(const GoombaAIData& data, float deltaTime);
+    static GoombaAIData GoombaAIXMove(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, float deltaTime, bool checkSlope = true);
     static GoombaAIData GoombaAIXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin);
     static GoombaAIData ShellXCollision(const GoombaAIData& data, const sf::FloatRect& hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f& origin);
 

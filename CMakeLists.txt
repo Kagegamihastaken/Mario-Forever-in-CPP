@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.1.5)
+project(MFCPP VERSION 0.0.2.0)
 
 if(MINGW)
     add_compile_definitions(__USE_MINGW_ANSI_STDIO=1)
@@ -19,7 +19,7 @@ endif()
 #GAME SETTING
 set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
-set(HITBOX_DEBUG OFF)
+set(HITBOX_DEBUG ON)
 set(USE_TRACY OFF)
 
 #Game Config

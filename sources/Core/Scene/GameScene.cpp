@@ -197,7 +197,7 @@ void GameScene::textUpdate() {
         EditText(std::to_string(static_cast<int32_t>(Scroll::getViewPosition().x)) + "/" + std::to_string(
                      static_cast<int32_t>(Scroll::getViewPosition().y)) + "  V", "_VIEWXY");
     }
-    EditText(fmt::format("FPS: {}", static_cast<int64_t>(WindowFrame::getFpsLite().getFps())), "_FPS");
+    //EditText(fmt::format("FPS: {}", static_cast<int64_t>(WindowFrame::getFpsLite().getFps())), "_FPS");
     EditText(fmt::format("{}", CoinCount), "_COIN");
     EditText(fmt::format("{}", Mario::getScore()), "_SCORE");
     EditText(fmt::format("{}", getTime()), "_TIME");
@@ -236,7 +236,7 @@ void GameScene::loadResources() {
     AddText("_LIVE", "", TextMarginID::LEFT_MARGIN, 138.0f, 15.0f, 0);
     AddText("_SCORE", "", TextMarginID::RIGHT_MARGIN, 138.0f, 34.0f, 0);
     AddText("_TIME", "", TextMarginID::RIGHT_MARGIN, 562.0f, 35.0f, 0);
-    AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 10.0f, 52.0f, 1);
+    //AddText("_FPS", "", TextMarginID::LEFT_MARGIN, 10.0f, 52.0f, 1);
     //Load Level
     //ReadData("data/levels/onedashthree.json");
     switch (Game::levelId) {

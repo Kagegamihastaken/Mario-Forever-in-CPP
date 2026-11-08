@@ -19,6 +19,7 @@
 #include "Object/Projectile/MarioBeetroot.hpp"
 #include "Object/Projectile/MarioFireball.hpp"
 #include "Core/Profiler.hpp"
+#include "Core/Utility.hpp"
 
 sf::FloatRect Mario::m_hitboxFloor;
 sf::FloatRect Mario::m_hitboxWall;
@@ -237,38 +238,18 @@ void Mario::MarioPosXUpdate(const float deltaTime) {
             });
         }
     }
-    //Nerf Speed
-    // float CurrPosXCollide = 0, CurrPosYCollide = 0;
-    // const float offset = std::min(m_velocity.x + 1.f, 3.f);
-    // float spd_nerf = 1.f;
-    // if (QuickCheckBotCollision(
-    //         MFCPP::CollisionObject({m_player.getCurrentPosition().x, m_player.getCurrentPosition().y},
-    //                                m_player.getOrigin(), m_hitboxFloor), offset, CurrPosXCollide, CurrPosYCollide)) {
-    //     if (m_velocity.y >= -m_velocity.x) {
-    //         const float floorY = GetCurrFloorY(m_player.getCurrentPosition(), CurrPosXCollide, CurrPosYCollide);
-    //         if (m_player.getCurrentPosition().y >= CurrPosYCollide + floorY - offset) {
-    //             if (MFCPP::Tilemap::getIndexTilemapID(CurrPosXCollide, CurrPosYCollide) == 3) {
-    //                 bool BlockDirection = MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).first <
-    //                                       MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide).second;
-    //                 if (BlockDirection ^ m_MarioDirection) {
-    //                     std::pair<float, float> CurrentfloorY = MFCPP::Tilemap::getIndexTilemapFloorY(CurrPosXCollide, CurrPosYCollide);
-    //                     std::pair<float, float> CurrentboundX = MFCPP::Tilemap::getIndexTilemapXBound(CurrPosXCollide, CurrPosYCollide);
-    //                     spd_nerf = std::abs(std::cos(std::atan((CurrentfloorY.second - CurrentfloorY.first) / (CurrentboundX.second - CurrentboundX.first))));
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    const float offset = std::min(m_velocity.x + 1.f, 3.f);
+    const float speed_nerf = Utility::speedNerf(MFCPP::CollisionObject(m_player.getCurrentPosition(), m_player.getOrigin(), m_hitboxFloor), m_velocity, offset, m_MarioDirection);
 
     if (!EffectActive) {
         if (!m_MarioDirection)
             m_player.setCurrentPosition({
-                m_player.getCurrentPosition().x + m_velocity.x * deltaTime, m_player.getCurrentPosition().y
+                m_player.getCurrentPosition().x + m_velocity.x * deltaTime * speed_nerf, m_player.getCurrentPosition().y
             });
         else {
             if (!m_OutsideWallLeft && !m_OutsideWallRight)
                 m_player.setCurrentPosition({
-                    m_player.getCurrentPosition().x + (0 - m_velocity.x) * deltaTime, m_player.getCurrentPosition().y
+                    m_player.getCurrentPosition().x + (0 - m_velocity.x) * deltaTime * speed_nerf, m_player.getCurrentPosition().y
                 });
             else m_velocity.x = 0.f;
         }

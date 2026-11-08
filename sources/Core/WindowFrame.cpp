@@ -73,7 +73,7 @@ void WindowFrame::Window::ChangeScreenMode(uint8_t mode) {
 		//window.setVerticalSyncEnabled(false);
 	}
 	else {
-		window.setFramerateLimit(0);
+		window.setFramerateLimit(240);
 		//window.setVerticalSyncEnabled(false);
 	}
 }

@@ -1,4 +1,6 @@
 #include "Core/Object/Enemy/Behavior/BroAIBehavior.hpp"
+
+#include "Core/Logging.hpp"
 #include "Core/Utility.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/Tilemap.hpp"
@@ -16,15 +18,20 @@ bool BroAIBehavior::SetWalkingValue(const float randomWalkingValue, float& movin
     return true;
 }
 
-BroAIBehavior::BroAIData BroAIBehavior::BroAIXUpdate(const BroAIData& data, const float tickingRNGRange, const float walkingRNGRange, const float deltaTime) {
+BroAIBehavior::BroAIData BroAIBehavior::BroAIXUpdate(const BroAIData& data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, const sf::Vector2f& velocity, const float tickingRNGRange, const float walkingRNGRange, const float deltaTime, const bool checkSlope) {
     BroAIData dataOutput = data;
+
+    const float offset = std::min(velocity.x + 1.f, 3.f);
+    float speed_nerf = Utility::speedNerf(MFCPP::CollisionObject(data.position, origin, hitbox), velocity, offset, data.directionMoving);
+    if (!checkSlope) speed_nerf = 1.f;
+
     if (dataOutput.movingValue <= 0.f) {
         if (dataOutput.movingValue < 0.f) dataOutput.movingValue = 0.f;
         dataOutput.timeTicking += dataOutput.tickingValue * deltaTime;
     }
     else {
-        dataOutput.position.x += dataOutput.speed * deltaTime * (!dataOutput.directionMoving ? 1.f : -1.f);
-        dataOutput.movingValue -= 1.f * deltaTime;
+        dataOutput.position.x += dataOutput.speed * speed_nerf * deltaTime * (!dataOutput.directionMoving ? 1.f : -1.f);
+        dataOutput.movingValue -= speed_nerf * deltaTime;
     }
     switch (dataOutput.state) {
         case 1:

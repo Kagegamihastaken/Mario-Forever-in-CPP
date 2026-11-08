@@ -18,7 +18,7 @@ public:
     struct BroAIShootingData {
         bool willFire, isFire;
     };
-    static BroAIData BroAIXUpdate(const BroAIData& data, float tickingRNGRange, float walkingRNGRange, float deltaTime);
+    static BroAIData BroAIXUpdate(const BroAIData& data, const sf::FloatRect& hitbox, const sf::Vector2f& origin, const sf::Vector2f& velocity, float tickingRNGRange, float walkingRNGRange, float deltaTime, bool checkSlope = true);
     static sf::Vector2f BroAIXCollision(const GoombaAIBehavior::GoombaAIData& data, const sf::FloatRect &hitbox, const sf::FloatRect& hitbox_wall, const sf::Vector2f &origin);
     static GoombaAIBehavior::GoombaAIData BroAIYCollision(const GoombaAIBehavior::GoombaAIData& data, const sf::FloatRect &hitbox, const sf::Vector2f &origin, float& timeCounter, bool& isFalling, float& lastY, float canJump, float deltaTime);
     static GoombaAIBehavior::GoombaAIData BroAIYUpdateMovement(const GoombaAIBehavior::GoombaAIData& data, float deltaTime);

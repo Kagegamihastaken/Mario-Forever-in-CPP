@@ -45,6 +45,7 @@ extern bool QuickCheckBotCollision(const MFCPP::CollisionObject& CollideObj, flo
 extern bool QuickCheckTopCollision(const MFCPP::CollisionObject& CollideObj, float& CurrX, float& CurrY);
 extern bool QuickCheckMainCollision(const MFCPP::CollisionObject& CollideObj);
 
+extern float getInterpolationFloorY(const sf::Vector2f& pos, float CurrX, float CurrY);
 extern float GetCurrFloorY(const sf::Vector2f& pos, float CurrX, float CurrY);
 extern bool PlatformYCollision(const MFCPP::CollisionObject& CollideObj, float& YPosOut, float Yvelo, bool ActivatePlatform);
 extern bool PlatformXCollision(const MFCPP::CollisionObject& CollideObj, float& XDistance, float Yvelo);
