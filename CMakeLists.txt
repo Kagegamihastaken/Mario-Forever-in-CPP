@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0069 NEW)
-project(MFCPP VERSION 0.0.2.0)
+project(MFCPP VERSION 0.0.2.1)
 
 if(MINGW)
     add_compile_definitions(__USE_MINGW_ANSI_STDIO=1)
@@ -17,7 +17,7 @@ if(MSVC)
 endif()
 
 #GAME SETTING
-set(DEVELOPMENT_BUILD OFF)
+set(DEVELOPMENT_BUILD ON)
 set(LOGGING_ENABLE OFF)
 set(HITBOX_DEBUG OFF)
 set(USE_TRACY OFF)
@@ -140,7 +140,6 @@ else()
     set(TRACY_ENABLE OFF CACHE BOOL "Tracy Enable" FORCE)
     set(TRACY_ON_DEMAND OFF CACHE BOOL "Tracy Demand" FORCE)
 endif()
-#https://github.com/batterycenter/embed
 FetchContent_MakeAvailable(SFML physfs fmt cpptrace JSON magic_enum tracy tomlplusplus battery-embed)
 # Ensure the tracy_SOURCE_DIR is accessible for include paths
 FetchContent_GetProperties(tracy)

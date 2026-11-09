@@ -13,7 +13,6 @@ void AudioEngine::Init() {
 void AudioEngine::SoundManagerParamsInit() {
     SoundManager::SoundManagerInit();
     MusicManager::MusicManagerInit();
-    //audio_engine.setVolume(i, 1.5f);
 }
 void AudioEngine::DeInit() {
     audioEngine.deinit();

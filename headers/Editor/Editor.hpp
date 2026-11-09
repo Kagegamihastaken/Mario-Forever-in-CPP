@@ -27,7 +27,6 @@ extern void EditorEvent(const std::optional<sf::Event>& event);
 extern void TilePosUpdate(float dt);
 extern void SelectedTilePosUpdate();
 extern void EditorInit();
-extern void SettingDialog();
 
 static float lastPlaceX = -1.0f;
 static float lastPlaceY = -1.0f;
@@ -81,26 +80,26 @@ static bool EDITOR_isLeftHolding = false;
 static bool EDITOR_isRightHolding = false;
 
 //Edit Property
-static bool EDITOR_ShowProperty = false;
+inline bool EDITOR_ShowProperty = false;
 
 //Build Mode
-static bool EDITOR_BuildMode = ON;
+inline bool EDITOR_BuildMode = ON;
 
 //Save & Load
-static bool EDITOR_OpenDialog = false;
-static bool EDITOR_SaveDialog = false;
+inline bool EDITOR_OpenDialog = false;
+inline bool EDITOR_SaveDialog = false;
 
 //Setting
-static bool EDITOR_Setting = false;
-static CustomTileProperty BgColor(ColorProps("First Background Color", MFCPP::Color::LevelDefaultFirst), ColorProps("Second Background Color", MFCPP::Color::LevelDefaultSecond));
-static CustomTileProperty LevelSize(FloatProps("Level Width", 640.f, 640.f, 32000.f), FloatProps("Level Height", 480.f, 480.f, 32000.f));
-static CustomTileProperty TimeSetting(IntProps("Time", 360, 0, 99999));
-static CustomTileProperty AutoScrollSetting(BoolProps("AutoScroll Mode", false), BoolProps("Tank Mode", false), FloatProps("AutoScroll Speed", 1.f, 1.f, 5.f));
-static CustomTileProperty WeatherSetting(BoolProps("Enable Weather", false), IntProps("Weather ID", 0, 0, 1));
-static CustomTileProperty LevelEnvironment(IntProps("Environment ID", 0, 0, 1));
-static CustomTileProperty LevelMusic(StringProps("Music Name", "default"));
+inline bool EDITOR_Setting = false;
+inline CustomTileProperty BgColor(ColorProps("First Background Color", MFCPP::Color::LevelDefaultFirst), ColorProps("Second Background Color", MFCPP::Color::LevelDefaultSecond));
+inline CustomTileProperty LevelSize(FloatProps("Level Width", 640.f, 640.f, 32000.f), FloatProps("Level Height", 480.f, 480.f, 32000.f));
+inline CustomTileProperty TimeSetting(IntProps("Time", 360, 0, 99999));
+inline CustomTileProperty AutoScrollSetting(BoolProps("AutoScroll Mode", false), BoolProps("Tank Mode", false), FloatProps("AutoScroll Speed", 1.f, 1.f, 5.f));
+inline CustomTileProperty WeatherSetting(BoolProps("Enable Weather", false), IntProps("Weather ID", 0, 0, 1));
+inline CustomTileProperty LevelEnvironmentEditor(IntProps("Environment ID", 0, 0, 1));
+inline CustomTileProperty LevelMusic(StringProps("Music Name", "default"));
 
-static std::vector<BackgroundLayer> BackgroundLayers;
+inline std::vector<BackgroundLayer> BackgroundLayers;
 //SaveTile For Edit Property
 static RenderTile SaveTile;
 // getOffset for wider screen

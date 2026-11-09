@@ -34,7 +34,7 @@ namespace PauseEngine {
         return isPaused;
     }
     void PauseStatusUpdate(float deltaTime) {
-        PauseTimeElapsed += deltaTime;
+        PauseTimeElapsed += deltaTime * (1.f / WindowFrame::getTimestep().getTimeSpeed());
         if (PauseTimeElapsed > PAUSE_TIME_LIMIT * 50.f) {
             PauseTimeElapsed = PAUSE_TIME_LIMIT * 50.f;
         }

@@ -25,7 +25,7 @@ void Game::Init() {
     //Scene
     g_sceneManager.addScene<GameScene>(SceneManager::SceneState::GAMEPLAY);
     g_sceneManager.addScene<EditorScene>(SceneManager::SceneState::EDITOR);
-    g_sceneManager.changeScene(SceneManager::SceneState::GAMEPLAY);
+    g_sceneManager.changeScene(SceneManager::SceneState::EDITOR);
 }
 void Game::EditText() {
     ZoneScopedNC("Game::EditText", 0x00d0ff);

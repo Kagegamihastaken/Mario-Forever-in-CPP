@@ -1,20 +1,17 @@
-#include <nlohmann/json.hpp>
 #include "Editor/Editor.hpp"
 
 #include <imgui.h>
-#include <ImGuiFileDialog.h>
 #include "Editor/SelectTile.hpp"
 #include "Editor/TabButton.hpp"
 #include "Core/WindowFrame.hpp"
 #include "Core/Hash.hpp"
 #include "Core/ImageManager.hpp"
 #include "Core/Interpolation.hpp"
-#include "Core/Logging.hpp"
 #include "Core/SoundManager.hpp"
 #include "Core/Scroll.hpp"
 #include "Core/SimpleSprite.hpp"
-#include "Core/JsonUtils.hpp"
 #include "Core/Background/BgGradient.hpp"
+#include "Editor/UI/EditorImgui.hpp"
 
 sf::Vector2f getEditorPosOffset() {
     return sf::Vector2f((640.f - WindowFrame::getGameSize().x) / 2.f, (480.f - WindowFrame::getGameSize().y) / 2.f);
@@ -60,357 +57,6 @@ void EditorInit() {
 
     BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
     BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
-}
-static void EditPropertyHelper(TileProperty& prop) {
-    std::visit([&]<typename T0>(T0&& arg) {
-        using T = std::decay_t<T0>;
-        if constexpr (std::is_same_v<T, BoolProps>)
-            ImGui::Checkbox(arg.name.c_str(), &arg.val);
-        else if constexpr (std::is_same_v<T, IntProps>) {
-            ImGui::PushItemWidth(125);
-            ImGui::InputInt(arg.name.c_str(), &arg.val, 1, 100, ImGuiInputTextFlags_EscapeClearsAll);
-            ImGui::PopItemWidth();
-            if (arg.val > arg.max && arg.max > 0.f) arg.val = arg.max;
-            else if (arg.val < arg.min) arg.val = arg.min;
-        }
-        else if constexpr (std::is_same_v<T, StringProps>)
-            ImGui::InputText(arg.name.c_str(), arg.val, IM_ARRAYSIZE(arg.val), ImGuiInputTextFlags_EscapeClearsAll);
-        else if constexpr (std::is_same_v<T, FloatProps>) {
-            ImGui::PushItemWidth(125);
-            ImGui::InputFloat(arg.name.c_str(), &arg.val, 1, 100, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
-            ImGui::PopItemWidth();
-            if (arg.val > arg.max && arg.max > 0.f) arg.val = arg.max;
-            else if (arg.val < arg.min) arg.val = arg.min;
-        }
-        else if constexpr (std::is_same_v<T, Vector2fProps>) {
-            ImGui::PushItemWidth(125);
-            ImGui::InputFloat((arg.name+".x").c_str(), &arg.val.x, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
-            ImGui::InputFloat((arg.name+".y").c_str(), &arg.val.y, 0, 0, "%.2f", ImGuiInputTextFlags_EscapeClearsAll);
-            ImGui::PopItemWidth();
-        }
-        else if constexpr (std::is_same_v<T, ColorProps>)
-            ImGui::ColorEdit4(arg.name.c_str(), reinterpret_cast<float*>(&arg.val), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoSidePreview);
-        }, prop);
-}
-static void DialogPopup(const std::string& name) {
-    if (ImGui::BeginPopup("AddBGDoesntExist")) {
-        ImGui::Text("Cannot Add Texture %s", name.c_str());
-        ImGui::Separator();
-        if (ImGui::Button("Close"))
-            ImGui::CloseCurrentPopup();
-        ImGui::EndPopup();
-    }
-}
-static void AddBGPopup() {
-    if (ImGui::BeginPopup("AddBackgroundPopup")) {
-        ImGui::Text("Add New Background Layer");
-        ImGui::Separator();
-
-        static char BgName[256] = "";
-        ImGui::InputText("BG Name", BgName, IM_ARRAYSIZE(BgName));
-
-        if (ImGui::Button("Add")) {
-            if (strlen(BgName) > 0) {
-                if (ImageManager::isExist(BgName)) {
-                    bool isExist = false;
-                    for (const auto &i : BackgroundLayers) {
-                        if (i.name == BgName) {
-                            isExist = true;
-                            break;
-                        }
-                    }
-                    if (isExist)
-                        ImGui::OpenPopup("AddBGDoesntExist");
-                    else {
-                        BackgroundLayers.emplace_back(BgName);
-                        memset(BgName, 0, sizeof(BgName));
-                        ImGui::CloseCurrentPopup();
-                    }
-                }
-                else {
-                    ImGui::OpenPopup("AddBGDoesntExist");
-                }
-            }
-        }
-        DialogPopup(BgName);
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel"))
-            ImGui::CloseCurrentPopup();
-        ImGui::EndPopup();
-    }
-}
-void SettingDialog() {
-    if (EDITOR_Setting) {
-        ImGui::Begin("Setting", &EDITOR_Setting, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
-        ImGui::SetWindowPos(ImVec2(static_cast<float>(WindowFrame::getWindow().getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(WindowFrame::getWindow().getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
-        if (ImGui::BeginTabBar("SettingTab")) {
-            if (ImGui::BeginTabItem("BGGradient")) {
-                for (int i = 0; i < BgColor.getPropertyCount(); ++i) {
-                    EditPropertyHelper(*BgColor.at(i));
-                }
-                static int select = 0;
-
-                if (ImGui::BeginListBox("Background")) {
-                    for (int i = 0; i < BackgroundLayers.size(); ++i) {
-                        bool is_selected = (select == i);
-                        ImGuiSelectableFlags flags = (select == i) ? ImGuiSelectableFlags_Highlight : 0;
-                        if (ImGui::Selectable(BackgroundLayers[i].name.c_str(), is_selected, flags))
-                            select = i;
-                        if (is_selected)
-                            ImGui::SetItemDefaultFocus();
-                    }
-                    ImGui::EndListBox();
-                }
-                const bool DisabledBackground = BackgroundLayers.empty();
-                if (DisabledBackground)
-                    ImGui::BeginDisabled();
-                if (!DisabledBackground && select < BackgroundLayers.size()) {
-                    ImGui::PushItemWidth(150);
-                    // Use InputFloat2 for a compact X/Y editor
-                    ImGui::InputFloat2("Parallax Factor", &BackgroundLayers[select].parallaxFactor.x, "%.2f");
-                    ImGui::PopItemWidth();
-                }
-                if (ImGui::Button("Delete")) {
-                    BackgroundLayers.erase(BackgroundLayers.begin() + select);
-                    select = 0;
-                }
-                if (DisabledBackground)
-                    ImGui::EndDisabled();
-                ImGui::SameLine();
-                if (ImGui::Button("Add"))
-                    ImGui::OpenPopup("AddBackgroundPopup");
-                AddBGPopup();
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("Level Settings")) {
-                if (ImGui::CollapsingHeader("Level Data")) {
-                    ImGui::SeparatorText("Level Size");
-                    for (int i = 0; i < LevelSize.getPropertyCount(); ++i) {
-                        EditPropertyHelper(*LevelSize.at(i));
-                    }
-                    ImGui::SeparatorText("Time");
-                    for (int i = 0; i < TimeSetting.getPropertyCount(); ++i) {
-                        EditPropertyHelper(*TimeSetting.at(i));
-                    }
-                    ImGui::SeparatorText("Environment");
-                    for (int i = 0; i < LevelEnvironment.getPropertyCount(); ++i) {
-                        EditPropertyHelper(*LevelEnvironment.at(i));
-                    }
-                }
-                if (ImGui::CollapsingHeader("Music")) {
-                    ImGui::SeparatorText("Music");
-                    for (int i = 0; i < LevelMusic.getPropertyCount(); ++i) {
-                        EditPropertyHelper(*LevelMusic.at(i));
-                    }
-                }
-                if (ImGui::CollapsingHeader("AutoScroll")) {
-                    ImGui::SeparatorText("AutoScroll");
-                    for (int i = 0; i < AutoScrollSetting.getPropertyCount(); ++i) {
-                        EditPropertyHelper(*AutoScrollSetting.at(i));
-                    }
-                }
-                if (ImGui::CollapsingHeader("Weather")) {
-                    ImGui::SeparatorText("Weather");
-                    for (int i = 0; i < WeatherSetting.getPropertyCount(); ++i) {
-                        EditPropertyHelper(*WeatherSetting.at(i));
-                    }
-                }
-                ImGui::EndTabItem();
-            }
-            ImGui::EndTabBar();
-        }
-        ImGui::Separator();
-        if (ImGui::Button("Confirm")) {
-            BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
-            BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
-            EDITOR_Setting = false;
-        }
-        ImGui::SetItemTooltip("Confirm!");
-        ImGui::End();
-    }
-}
-void EditPropertyDialog() {
-    if (EDITOR_ShowProperty) {
-        ImGui::Begin("Edit Property", &EDITOR_ShowProperty, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize);
-        //ImGui::SetWindowSize("Edit Property", ImVec2(256.f, 256.f));
-        ImGui::SetWindowPos(ImVec2(static_cast<float>(WindowFrame::getWindow().getSize().x) / 2.f - ImGui::GetWindowSize().x / 2.f, static_cast<float>(WindowFrame::getWindow().getSize().y) / 2.f - ImGui::GetWindowSize().y / 2.f));
-        if (ImGui::BeginTabBar("EditPropertyTab")) {
-            if (ImGui::BeginTabItem("Property")) {
-                for (int i = 0; i < SaveTile.getProperty().getPropertyCount(); ++i) {
-                    EditPropertyHelper(*SaveTile.getProperty().at(i));
-                }
-                ImGui::EndTabItem();
-            }
-            ImGui::EndTabBar();
-        }
-        //ImGui::Checkbox("isSmooth", &smooth);
-        //ImGui::Checkbox("isFall", &fall);
-        //ImGui::Checkbox("isWait", &wait);
-        if (ImGui::Button("Confirm")) {
-            Tile.erase(SaveTile);
-            Tile.insert(SaveTile);
-            EDITOR_ShowProperty = false;
-        }
-        ImGui::End();
-    }
-}
-void FileSave(const std::filesystem::path& path) {
-    nlohmann::json levelJson;
-
-    levelJson["level_properties"]["width"] = LevelSize.getProperty<FloatProps>("Level Width")->val;
-    levelJson["level_properties"]["height"] = LevelSize.getProperty<FloatProps>("Level Height")->val;
-    levelJson["level_properties"]["time"] = TimeSetting.getProperty<IntProps>("Time")->val;
-    levelJson["level_properties"]["autoscroll"] = AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val;
-    levelJson["level_properties"]["tank_mode"] = AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val;
-    levelJson["level_properties"]["autoscroll_speed"] = AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val;
-    levelJson["level_properties"]["enable_weather"] = WeatherSetting.getProperty<BoolProps>("Enable Weather")->val;
-    levelJson["level_properties"]["weather_id"] = WeatherSetting.getProperty<IntProps>("Weather ID")->val;
-    levelJson["level_properties"]["env_id"] = LevelEnvironment.getProperty<IntProps>("Environment ID")->val;
-    levelJson["level_properties"]["music"] = LevelMusic.getProperty<StringProps>("Music Name")->val;
-    levelJson["level_properties"]["background_first_color"] = BgColor.getProperty<ColorProps>("First Background Color")->val;
-    levelJson["level_properties"]["background_second_color"] = BgColor.getProperty<ColorProps>("Second Background Color")->val;
-
-    levelJson["player_start"] = sf::Vector2f(EDITOR_Mario.getPosition().x - EDITOR_Mario.getOrigin().x + TilePage[LevelTab][0].origin.x, EDITOR_Mario.getPosition().y - EDITOR_Mario.getOrigin().y + TilePage[LevelTab][0].origin.y);
-
-    levelJson["exit_gate"]["indicator_pos"] = sf::Vector2f(EDITOR_ExitGateIndicator.getPosition().x - EDITOR_ExitGateIndicator.getOrigin().x + TilePage[LevelTab][1].origin.x, EDITOR_ExitGateIndicator.getPosition().y - EDITOR_ExitGateIndicator.getOrigin().y + TilePage[LevelTab][1].origin.y);
-    levelJson["exit_gate"]["gate_pos"] = sf::Vector2f(EDITOR_ExitGate.getPosition().x - EDITOR_ExitGate.getOrigin().x + TilePage[LevelTab][2].origin.x, EDITOR_ExitGate.getPosition().y - EDITOR_ExitGate.getOrigin().y + TilePage[LevelTab][2].origin.y);
-    nlohmann::json& bgJson = levelJson["backgrounds"];
-    bgJson = nlohmann::json::array();
-    for (const auto &bg : BackgroundLayers) {
-        nlohmann::json bgObj;
-        bgObj["name"] = bg.name;
-        bgObj["parallax"] = bg.parallaxFactor;
-        bgJson.push_back(bgObj);
-    }
-    nlohmann::json& tilesJson = levelJson["tiles"];
-    tilesJson = nlohmann::json::array();
-    for (const auto & tile: Tile) {
-        nlohmann::json tileObj;
-        tileObj["id"] = tile.getID();
-        tileObj["page"] = tile.getPage();
-        tileObj["position"] = tile.getPosition() - tile.getOrigin() + TilePage[tile.getPage()][tile.getID()].origin;
-        if (tile.getEndPos() != sf::Vector2f(-1.f, -1.f))
-            tileObj["end_position"] = tile.getEndPos();
-        for (int i = 0; i < tile.getProperty().getPropertyCount(); ++i)
-            to_json(tileObj["properties"], *tile.getProperty().at(i));
-        tilesJson.push_back(tileObj);
-    }
-    std::ofstream fooJson(path.string());
-    if (!fooJson.is_open()) {
-        MFCPP::Log::ErrorPrint(fmt::format("Editor: Cannot Open {}", path.string()));
-        return;
-    }
-    fooJson << levelJson.dump(4);
-    fooJson.close();
-    MFCPP::Log::SuccessPrint(fmt::format("Success Saved File {}", path.string()));
-}
-
-void FileLoad(const std::filesystem::path& path) {
-    std::ifstream foi(path.string());
-    if (!foi.is_open()) {
-        MFCPP::Log::ErrorPrint(fmt::format("Cannot open file {}", path.string()));
-        return;
-    }
-
-    nlohmann::json levelJson;
-    try {
-        foi >> levelJson;
-    }
-    catch (nlohmann::json::parse_error& e) {
-        MFCPP::Log::ErrorPrint(fmt::format("Failed to parse level file: {}", e.what()));
-        return;
-    }
-    BackgroundLayers.clear();
-    const nlohmann::json& bgJson = levelJson["backgrounds"];
-    for (const auto& bgObj : bgJson) {
-        const BackgroundLayer layer(bgObj.at("name").get<std::string>(), bgObj.value("parallax", sf::Vector2f(1.f, 1.f)));
-        BackgroundLayers.push_back(layer);
-    }
-    Tile.clear();
-    LevelSize.getProperty<FloatProps>("Level Width")->val = levelJson["level_properties"].value("width", 10016.f);
-    LevelSize.getProperty<FloatProps>("Level Height")->val = levelJson["level_properties"].value("height", 480.f);
-    TimeSetting.getProperty<IntProps>("Time")->val = levelJson["level_properties"].value("time", 360);
-    AutoScrollSetting.getProperty<BoolProps>("AutoScroll Mode")->val = levelJson["level_properties"].value("autoscroll", false);
-    AutoScrollSetting.getProperty<BoolProps>("Tank Mode")->val = levelJson["level_properties"].value("tank_mode", false);
-    AutoScrollSetting.getProperty<FloatProps>("AutoScroll Speed")->val = levelJson["level_properties"].value("autoscroll_speed", 1.f);
-    WeatherSetting.getProperty<BoolProps>("Enable Weather")->val = levelJson["level_properties"].value("enable_weather", false);
-    WeatherSetting.getProperty<IntProps>("Weather ID")->val = levelJson["level_properties"].value("weather_id", 0);
-    LevelEnvironment.getProperty<IntProps>("Environment ID")->val = levelJson["level_properties"].value("env_id", 0);
-    //set value for music
-    const std::string val = levelJson["level_properties"].value("music", "default");
-    std::memset(LevelMusic.getProperty<StringProps>("Music Name")->val, 0, sizeof(LevelMusic.getProperty<StringProps>("Music Name")->val));
-    val.copy(LevelMusic.getProperty<StringProps>("Music Name")->val, sizeof(LevelMusic.getProperty<StringProps>("Music Name")->val) - 1);
-    LevelMusic.getProperty<StringProps>("Music Name")->val[val.length()] = '\0';
-    PlayerData = levelJson.value("player_start", sf::Vector2f(128.f, 320.f));
-    ExitGateData = levelJson["exit_gate"].value("gate_pos", sf::Vector2f(384, 320));
-    ExitGateIndicatorData = levelJson["exit_gate"].value("indicator_pos", sf::Vector2f(256, 320));
-    //Color
-    BgColor.getProperty<ColorProps>("First Background Color")->val = levelJson["level_properties"].value("background_first_color",  MFCPP::Color::LevelDefaultFirst);
-    BgColor.getProperty<ColorProps>("Second Background Color")->val = levelJson["level_properties"].value("background_second_color", MFCPP::Color::LevelDefaultSecond);
-    BgGradientSetColor(BgColor.getProperty<ColorProps>("First Background Color")->val.ColorNormalize(), BgColor.getProperty<ColorProps>("Second Background Color")->val.ColorNormalize());
-    BgGradientInitPos(LevelSize.getProperty<FloatProps>("Level Width")->val, LevelSize.getProperty<FloatProps>("Level Height")->val);
-    //Music
-    const nlohmann::json& tilesJson = levelJson["tiles"];
-    for (const auto& tileObj : tilesJson) {
-        const int page = tileObj.at("page").get<int>();
-        const int id = tileObj.at("id").get<int>();
-        const sf::Vector2f pos = tileObj.at("position").get<sf::Vector2f>();
-        const sf::Vector2f endPos = tileObj.value("end_position", sf::Vector2f(-1.f, -1.f));
-
-        const sf::Vector2f origin_tile(0.0f, static_cast<float>(ImageManager::getReturnTexture(TilePage[page][id].name)->getSize().y) - 32.f);
-        RenderTile tile(TilePage[page][id].prop, *ImageManager::getReturnTexture(TilePage[page][id].name), pos - TilePage[page][id].origin + origin_tile, page, id, endPos);
-        tile.setOrigin(origin_tile);
-        if (tileObj.contains("properties")) {
-            const nlohmann::json& propsJson = tileObj.at("properties");
-            for (int i = 0; i < tile.getProperty().getPropertyCount(); ++i) {
-                TileProperty* prop = tile.getProperty().at(i);
-                from_json(propsJson, *prop);
-            }
-        }
-        Tile.insert(tile);
-    }
-    MFCPP::Log::SuccessPrint(fmt::format("Success Loaded File {}", path.string()));
-    lastPlaceX = -1.0f;
-    lastPlaceY = -1.0f;
-    lastDeleteX = -1.0f;
-    lastDeleteY = -1.0f;
-    EDITOR_Mario.setPosition(sf::Vector2f(PlayerData.x - TilePage[LevelTab][0].origin.x + EDITOR_Mario.getOrigin().x, PlayerData.y - TilePage[LevelTab][0].origin.y + EDITOR_Mario.getOrigin().y));
-    EDITOR_ExitGateIndicator.setPosition(sf::Vector2f(ExitGateIndicatorData.x - TilePage[LevelTab][1].origin.x + EDITOR_ExitGateIndicator.getOrigin().x, ExitGateIndicatorData.y - TilePage[LevelTab][1].origin.y + EDITOR_ExitGateIndicator.getOrigin().y));
-    EDITOR_ExitGate.setPosition(sf::Vector2f(ExitGateData.x - TilePage[LevelTab][2].origin.x + EDITOR_ExitGate.getOrigin().x, ExitGateData.y - TilePage[LevelTab][2].origin.y + EDITOR_ExitGate.getOrigin().y));
-}
-void OpenFileDialog() {
-    if (!EDITOR_OpenDialog) return;
-    if (!ImGuiFileDialog::Instance()->IsOpened("ChooseFileDlgKey")) {
-        if (EDITOR_ShowProperty) EDITOR_ShowProperty = false;
-        IGFD::FileDialogConfig config;
-        config.path = ".";
-        ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Open File", ".json", config);
-    }
-    if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(WindowFrame::getGameSize().x / 2.f, WindowFrame::getGameSize().y / 2.f))) {
-        if (ImGuiFileDialog::Instance()->IsOk())
-            FileLoad(ImGuiFileDialog::Instance()->GetFilePathName());
-        EDITOR_SELECTILE_CLOCK.restart();
-        EDITOR_OpenDialog = false;
-        ImGuiFileDialog::Instance()->Close();
-    }
-}
-void SaveFileDialog() {
-    if (!EDITOR_SaveDialog) return;
-    if (!ImGuiFileDialog::Instance()->IsOpened("SaveFileDlgKey")) {
-        if (EDITOR_ShowProperty) EDITOR_ShowProperty = false;
-        IGFD::FileDialogConfig config;
-        config.path = ".";
-        config.fileName = "untitled.json";
-        config.flags = ImGuiFileDialogFlags_ConfirmOverwrite;
-        ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save File As...", ".json", config);
-    }
-    if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey", ImGuiWindowFlags_NoCollapse, ImVec2(WindowFrame::getGameSize().x / 2.f, WindowFrame::getGameSize().y / 2.f))) {
-        if (ImGuiFileDialog::Instance()->IsOk())
-            FileSave(ImGuiFileDialog::Instance()->GetFilePathName());
-        EDITOR_SELECTILE_CLOCK.restart();
-        EDITOR_SaveDialog = false;
-        ImGuiFileDialog::Instance()->Close();
-    }
 }
 void SelectedTilePosUpdate() {
     SelectedBlock.setPosition(sf::Vector2f(EditorInterpolatedPos.x + 16, EditorInterpolatedPos.y + 16));
@@ -630,10 +276,10 @@ void EditorScreenMove(const float dt) {
     if (EDITOR_ShowProperty || EDITOR_OpenDialog || EDITOR_SaveDialog) return;
 
     if (!EDITOR_SELECTTILE) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) EditorPos.x += 8.0f * dt;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) EditorPos.x -= 8.0f * dt;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) EditorPos.y -= 8.0f * dt;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) EditorPos.y += 8.0f * dt;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) EditorPos.x += 8.0f * dt * (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) ? 2.0f : 1.0f);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) EditorPos.x -= 8.0f * dt * (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) ? 2.0f : 1.0f);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) EditorPos.y -= 8.0f * dt * (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) ? 2.0f : 1.0f);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) EditorPos.y += 8.0f * dt * (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) ? 2.0f : 1.0f);
         if (EditorPos.x <= -5 * 32.f) EditorPos.x = -5 * 32.f;
         else if (EditorPos.x >= LevelSize.getProperty<FloatProps>("Level Width")->val - WindowFrame::getGameSize().x + 5 * 32.f) EditorPos.x = LevelSize.getProperty<FloatProps>("Level Width")->val - WindowFrame::getGameSize().x + 5 * 32.f;
         if (EditorPos.y <= -5 * 32.f) EditorPos.y = -5 * 32.f;
@@ -643,9 +289,9 @@ void EditorScreenMove(const float dt) {
 
 void DrawTile() {
     if (EDITOR_SELECTTILE) return;
-    EditPropertyDialog();
-    OpenFileDialog();
-    SaveFileDialog();
+    MFCPP::EditorImgui::EditPropertyDialog();
+    MFCPP::EditorImgui::OpenFileDialog();
+    MFCPP::EditorImgui::SaveFileDialog();
     for (int j = 0; j < TilePage.size(); ++j) {
         for (const auto &i : Tile) {
             if (i.getPage() != j) continue;

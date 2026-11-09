@@ -5,6 +5,7 @@
 
 #include "Core/Utility.hpp"
 #include "Editor/TabButton.hpp"
+#include "Editor/UI/EditorImgui.hpp"
 
 static sf::VertexArray SelectTileBackground(sf::PrimitiveType::TriangleStrip, 4);
 bool EDITOR_SELECTTILE = false;
@@ -280,7 +281,7 @@ void SelectTileDraw() {
     for (const auto &i : TabList)
         WindowFrame::getWindow().draw(i);
     if (TilePosX >= 0 && TilePosY >= 0) WindowFrame::getWindow().draw(SelectTileBox);
-    SettingDialog();
+    MFCPP::EditorImgui::SettingDialog();
 }
 
 void SelectTileAlphaUpdate(const float dt) {
